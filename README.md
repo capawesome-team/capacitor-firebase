@@ -13,11 +13,16 @@
 | ---------- | ----------------------------------------- | --------------------------------------------- |
 | Robin Genz | [robingenz](https://github.com/robingenz) | [@robin_genz](https://twitter.com/robin_genz) |
 
+## Installation
+
+Each plugin has its own installation instructions.
+Click on the name of the desired plugin under the [`Plugins`](#plugins) section to get to the installation guide.
+
 ## Plugins
 
-| Package                   | Source                             | Version                                                                                                                                       | Downloads                                                                                                                                     |
-| ------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@capacitor-firebase/app` | [`./packages/app`](./packages/app) | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app) | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app) |
+| Name                                         | Package                   | Source                             | Version                                                                                                                                       | Downloads                                                                                                                                     |
+| -------------------------------------------- | ------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| [App](./packages/app/README.md#installation) | `@capacitor-firebase/app` | [`./packages/app`](./packages/app) | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app) | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app) |
 
 ## License
 
