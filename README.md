@@ -3,6 +3,7 @@
 [![maintenance badge](https://img.shields.io/maintenance/yes/2022?style=flat-square)](https://github.com/robingenz/capacitor-firebase)
 [![workflow badge](https://img.shields.io/github/workflow/status/robingenz/capacitor-firebase/CI/main?style=flat-square)](https://github.com/robingenz/capacitor-firebase/actions/workflows/ci.yml)
 [![license badge](https://img.shields.io/github/license/robingenz/capacitor-firebase?style=flat-square)](https://github.com/robingenz/capacitor-firebase)
+[![maintained badge](https://img.shields.io/badge/maintained%20with-turborepo-%237f6ab2?style=flat-square)](https://turborepo.org/)
 
 ⚡️ Firebase plugins for Capacitor. Supports Android, iOS and the web.
 
