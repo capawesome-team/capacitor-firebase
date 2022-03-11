@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@1.7.0/schema.json",
+  "changelog": [
+    "@robingenz/changelog-github",
+    { "repo": "robingenz/capacitor-firebase" }
+  ],
+  "commit": false,
+  "fixed": [["@capacitor-firebase/app"]],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}
