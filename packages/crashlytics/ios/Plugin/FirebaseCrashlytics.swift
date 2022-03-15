@@ -5,7 +5,7 @@ import FirebaseCrashlytics
 
 @objc public class FirebaseCrashlytics: NSObject {
     override init() {
-        if (FirebaseApp.app() == nil) {
+        if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
     }

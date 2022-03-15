@@ -7,14 +7,14 @@ import Capacitor
  */
 @objc(FirebaseCrashlyticsPlugin)
 public class FirebaseCrashlyticsPlugin: CAPPlugin {
-    public let errorMessageMissing = "message must be provided.";
-    public let errorKeyMissing = "key must be provided.";
-    public let errorValueMissing = "value must be provided.";
-    public let errorUserIdMissing = "userId must be provided.";
-    public let errorEnabledMissing = "enabled must be provided.";
+    public let errorMessageMissing = "message must be provided."
+    public let errorKeyMissing = "key must be provided."
+    public let errorValueMissing = "value must be provided."
+    public let errorUserIdMissing = "userId must be provided."
+    public let errorEnabledMissing = "enabled must be provided."
     private var implementation: FirebaseCrashlytics?
 
-    public override func load() {
+    override public func load() {
         implementation = FirebaseCrashlytics()
     }
 
@@ -26,12 +26,12 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
     @objc func setCustomKey(_ call: CAPPluginCall) {
         guard let key = call.getString("key") else {
             call.reject(errorKeyMissing)
-            return;
+            return
         }
         let hasValue = call.hasOption("value")
         if hasValue == false {
             call.reject(errorValueMissing)
-            return;
+            return
         }
         let type = call.getString("type") ?? "string"
         implementation?.setCustomKey(key, type, call)
@@ -41,7 +41,7 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
     @objc func log(_ call: CAPPluginCall) {
         guard let message = call.getString("message") else {
             call.reject(errorMessageMissing)
-            return;
+            return
         }
         implementation?.log(message)
         call.resolve()
@@ -50,7 +50,7 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
     @objc func setUserId(_ call: CAPPluginCall) {
         guard let userId = call.getString("userId") else {
             call.reject(errorUserIdMissing)
-            return;
+            return
         }
         implementation?.setUserID(userId)
         call.resolve()
@@ -59,7 +59,7 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
     @objc func setEnabled(_ call: CAPPluginCall) {
         guard let enabled = call.getBool("enabled") else {
             call.reject(errorEnabledMissing)
-            return;
+            return
         }
         implementation?.setEnabled(enabled)
         call.resolve()
@@ -92,7 +92,7 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
     @objc func recordException(_ call: CAPPluginCall) {
         guard let message = call.getString("message") else {
             call.reject(errorMessageMissing)
-            return;
+            return
         }
         let domain = call.getString("domain") ?? ""
         let code = call.getInt("code") ?? -1001
