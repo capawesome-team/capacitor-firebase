@@ -1,7 +1,7 @@
 {
-  "name": "@capacitor-firebase/app",
+  "name": "@capacitor-firebase/performance",
   "version": "0.0.0",
-  "description": "Capacitor plugin for Firebase App.",
+  "description": "Capacitor plugin for Firebase Performance Monitoring.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseApp.podspec"
+    "CapacitorFirebasePerformance.podspec"
   ],
   "author": "Robin Genz <mail@robingenz.dev>",
   "license": "Apache-2.0",
@@ -37,7 +37,7 @@
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
-    "docgen": "docgen --api FirebaseAppPlugin --output-readme README.md --output-json dist/docs.json",
+    "docgen": "docgen --api FirebasePerformancePlugin --output-readme README.md --output-json dist/docs.json",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
