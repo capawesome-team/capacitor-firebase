@@ -5,7 +5,7 @@
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/app
+npm install @capacitor-firebase/app firebase
 npx cap sync
 ```
 
@@ -90,3 +90,11 @@ Get the configuration options for this app.
 | **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          |
 
 </docgen-api>
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md).
+
+## License
+
+See [LICENSE](./LICENSE).

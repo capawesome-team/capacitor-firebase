@@ -4,10 +4,10 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseApp',
+      name: 'capacitorFirebasePerformance',
       globals: {
         '@capacitor/core': 'capacitorExports',
-        'firebase/app': 'firebaseAppExports',
+        'firebase/performance': 'firebasePerformanceExports',
       },
       sourcemap: true,
       inlineDynamicImports: true,
@@ -19,5 +19,5 @@ export default {
       inlineDynamicImports: true,
     },
   ],
-  external: ['@capacitor/core', 'firebase/app'],
+  external: ['@capacitor/core', 'firebase/performance'],
 };
