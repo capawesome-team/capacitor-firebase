@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build packages affected by changes
-        run: npm run affected:build
+        run: npm run affected:verify
   lint:
     name: Lint
     runs-on: macos-latest
