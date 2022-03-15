@@ -357,3 +357,8 @@ See [CHANGELOG.md](./CHANGELOG.md).
 ## License
 
 See [LICENSE](./LICENSE).
+
+## Credits
+
+This plugin is based on the [Capacitor Community Firebase Crashlytics plugin](https://github.com/capacitor-community/firebase-crashlytics).
+Thanks to everyone who contributed to the project!
