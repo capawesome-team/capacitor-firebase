@@ -38,7 +38,7 @@ export class FirebaseCrashlyticsWeb
     throw this.unimplemented('Not implemented on web.');
   }
 
-  public async didCrashDuringPreviousExecution(): Promise<DidCrashOnPreviousExecutionResult> {
+  public async didCrashOnPreviousExecution(): Promise<DidCrashOnPreviousExecutionResult> {
     throw this.unimplemented('Not implemented on web.');
   }
 
