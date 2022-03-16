@@ -19,7 +19,7 @@ See [Add the Firebase Crashlytics plugin to your app](https://firebase.google.co
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `18.1.0`)
+- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `20.1.0`)
 
 ### iOS
 

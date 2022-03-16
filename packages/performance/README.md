@@ -18,7 +18,8 @@ See [Add the Performance Monitoring plugin to your app](https://firebase.google.
 #### Variables
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
-- `$firebasePerfVersion` version of `com.google.firebase:firebase-perf` (default: `20.0.5`)
+
+- `$firebasePerfVersion` version of `com.google.firebase:firebase-perf` (default: `20.1.0`)
 
 ## Configuration
 
@@ -42,10 +43,10 @@ const stopTrace = async () => {
 };
 
 const incrementMetric = async () => {
-  await FirebasePerformance.incrementMetric({ 
-    traceName: 'test_trace', 
-    metricName: 'item_cache_hit', 
-    incrementBy: 1 
+  await FirebasePerformance.incrementMetric({
+    traceName: 'test_trace',
+    metricName: 'item_cache_hit',
+    incrementBy: 1,
   });
 };
 
