@@ -21,13 +21,13 @@ This plugin will use the following project variables (defined in your app’s `v
 
 ### iOS
 
-Add the `CapacitorFirebaseAnalytics/Firebase` pod to your `Podfile` (usually `ios/App/Podfile`):
+Add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
 
 ```diff
 target 'App' do
 capacitor_pods
 # Add your Pods here
-+  pod 'CapacitorFirebaseAnalytics/Firebase', :path => '../../node_modules/@capacitor-firebase/analytics'
++  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
 end
 ```
 
