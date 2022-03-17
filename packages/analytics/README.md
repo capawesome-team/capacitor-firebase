@@ -231,10 +231,10 @@ Only available for Android and iOS.
 
 #### SetCurrentScreenOptions
 
-| Prop                      | Type                        |
-| ------------------------- | --------------------------- |
-| **`screenName`**          | <code>string \| null</code> |
-| **`screenClassOverride`** | <code>string \| null</code> |
+| Prop                      | Type                        | Description                                         |
+| ------------------------- | --------------------------- | --------------------------------------------------- |
+| **`screenName`**          | <code>string \| null</code> |                                                     |
+| **`screenClassOverride`** | <code>string \| null</code> | Only available for Android and iOS. Default: `null` |
 
 
 #### LogEventOptions

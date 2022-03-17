@@ -3,6 +3,7 @@ import {
   getAnalytics,
   logEvent,
   setAnalyticsCollectionEnabled,
+  setCurrentScreen,
   setUserId,
   setUserProperties,
 } from 'firebase/analytics';
@@ -11,6 +12,7 @@ import type {
   FirebaseAnalyticsPlugin,
   IsEnabledResult,
   LogEventOptions,
+  SetCurrentScreenOptions,
   SetEnabledOptions,
   SetSessionTimeoutDurationOptions,
   SetUserIdOptions,
@@ -22,7 +24,7 @@ export class FirebaseAnalyticsWeb
   implements FirebaseAnalyticsPlugin {
   public async setUserId(options: SetUserIdOptions): Promise<void> {
     const analytics = getAnalytics();
-    setUserId(analytics, options.userId);
+    setUserId(analytics, options.userId || '');
   }
 
   public async setUserProperty(options: SetUserPropertyOptions): Promise<void> {
@@ -30,6 +32,13 @@ export class FirebaseAnalyticsWeb
     setUserProperties(analytics, {
       [options.key]: options.value,
     });
+  }
+
+  public async setCurrentScreen(
+    options: SetCurrentScreenOptions,
+  ): Promise<void> {
+    const analytics = getAnalytics();
+    setCurrentScreen(analytics, options.screenName || '');
   }
 
   public async logEvent(options: LogEventOptions): Promise<void> {

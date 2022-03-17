@@ -56,7 +56,12 @@ export interface SetUserPropertyOptions {
 
 export interface SetCurrentScreenOptions {
   screenName: string | null;
-  screenClassOverride: string | null;
+  /**
+   * Only available for Android and iOS.
+   *
+   * Default: `null`
+   */
+  screenClassOverride?: string | null;
 }
 
 export interface LogEventOptions {
