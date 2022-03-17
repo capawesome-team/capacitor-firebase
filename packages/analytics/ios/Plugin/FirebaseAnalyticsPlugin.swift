@@ -21,7 +21,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
     }
 
     @objc func setUserId(_ call: CAPPluginCall) {
-        let userId = call.getString("userId", nil)
+        let userId = call.getString("userId")
         implementation?.setUserId(userId)
         call.resolve()
     }
@@ -31,14 +31,14 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
             call.reject(errorKeyMissing)
             return
         }
-        let value = call.getString("value", nil)
+        let value = call.getString("value")
         implementation?.setUserProperty(key, value)
         call.resolve()
     }
-    
+
     @objc func setCurrentScreen(_ call: CAPPluginCall) {
-        let screenName = call.getString("screenName", nil)
-        let screenClass = call.getString("screenClassOverride", nil)
+        let screenName = call.getString("screenName")
+        let screenClass = call.getString("screenClassOverride")
         implementation?.setCurrentScreen(screenName, screenClass)
         call.resolve()
     }
@@ -48,7 +48,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
             call.reject(errorNameMissing)
             return
         }
-        let params = call.getObject("params", nil)
+        let params = call.getObject("params")
         implementation?.logEvent(name, params)
         call.resolve()
     }

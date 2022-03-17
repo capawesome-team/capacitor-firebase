@@ -2,13 +2,12 @@ package dev.robingenz.capacitorjs.plugins.firebase.analytics;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.json.JSONObject;
 
 public class FirebaseAnalytics {
+
     private final com.google.firebase.analytics.FirebaseAnalytics analyticsInstance;
 
     public FirebaseAnalytics(Context context) {

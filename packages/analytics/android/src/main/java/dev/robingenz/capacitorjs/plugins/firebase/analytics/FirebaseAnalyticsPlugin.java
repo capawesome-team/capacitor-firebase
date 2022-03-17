@@ -1,7 +1,6 @@
 package dev.robingenz.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;

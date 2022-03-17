@@ -1,5 +1,6 @@
 import Foundation
 
+import Capacitor
 import FirebaseCore
 import FirebaseAnalytics
 
@@ -11,22 +12,31 @@ import FirebaseAnalytics
         }
     }
 
-    @objc public func setUserId(_ userId: String) {
+    @objc public func setUserId(_ userId: String?) {
         Analytics.setUserID(userId)
     }
 
-    @objc public func setUserProperty(_ key: String, _ value: String) {
+    @objc public func setUserProperty(_ key: String, _ value: String?) {
         Analytics.setUserProperty(value, forName: key)
     }
-    
-    @objc public func setCurrentScreen(_ screenName: String, _ screenClass: String) {
+
+    @objc public func setCurrentScreen(_ screenName: String?, _ screenClass: String?) {
+        var params: [String: Any]?
+        if screenName != nil && screenClass != nil {
+            params = [:]
+        }
+        if screenName != nil {
+            params?[AnalyticsParameterScreenName] = screenName
+        }
+        if screenClass != nil {
+            params?[AnalyticsParameterScreenClass] = screenClass
+        }
         Analytics.logEvent(AnalyticsEventScreenView,
-                           parameters: [AnalyticsParameterScreenName: screenName,
-                                        AnalyticsParameterScreenClass: screenClass])
+                           parameters: params)
     }
 
-    @objc public func logEvent(_ name: String, _ value: [String: Any]?) {
-        Analytics.logEvent(name, parameters: value)
+    @objc public func logEvent(_ name: String, _ params: [String: Any]?) {
+        Analytics.logEvent(name, parameters: params)
     }
 
     @objc public func setSessionTimeoutDuration(_ duration: Int) {

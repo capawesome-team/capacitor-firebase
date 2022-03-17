@@ -16,7 +16,6 @@
 		50ADFFA82020EE4F00D50D53 /* FirebaseAnalyticsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseAnalyticsPlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseAnalyticsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseAnalyticsPlugin.swift */; };
 		7C7B6D8B27E1291F00CB649E /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B6D8A27E1291F00CB649E /* FirebaseAnalytics.swift */; };
-		7C7B6D8D27E1415000CB649E /* FirebaseAnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B6D8C27E1415000CB649E /* FirebaseAnalyticsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +41,6 @@
 		50E1A94720377CB70090CE1A /* FirebaseAnalyticsPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C7B6D8A27E1291F00CB649E /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalytics.swift; sourceTree = "<group>"; };
-		7C7B6D8C27E1415000CB649E /* FirebaseAnalyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsHelper.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 				50ADFF8B201F53D600D50D53 /* FirebaseAnalyticsPlugin.h */,
 				50ADFFA72020EE4F00D50D53 /* FirebaseAnalyticsPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
-				7C7B6D8C27E1415000CB649E /* FirebaseAnalyticsHelper.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -324,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C7B6D8B27E1291F00CB649E /* FirebaseAnalytics.swift in Sources */,
-				7C7B6D8D27E1415000CB649E /* FirebaseAnalyticsHelper.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseAnalyticsPlugin.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* FirebaseAnalyticsPlugin.m in Sources */,
 			);

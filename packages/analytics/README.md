@@ -216,25 +216,25 @@ Only available for Android and iOS.
 
 #### SetUserIdOptions
 
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`userId`** | <code>string</code> |
+| Prop         | Type                        |
+| ------------ | --------------------------- |
+| **`userId`** | <code>string \| null</code> |
 
 
 #### SetUserPropertyOptions
 
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`key`**   | <code>string</code> |
-| **`value`** | <code>string</code> |
+| Prop        | Type                        |
+| ----------- | --------------------------- |
+| **`key`**   | <code>string</code>         |
+| **`value`** | <code>string \| null</code> |
 
 
 #### SetCurrentScreenOptions
 
-| Prop                      | Type                |
-| ------------------------- | ------------------- |
-| **`screenName`**          | <code>string</code> |
-| **`screenClassOverride`** | <code>string</code> |
+| Prop                      | Type                        |
+| ------------------------- | --------------------------- |
+| **`screenName`**          | <code>string \| null</code> |
+| **`screenClassOverride`** | <code>string \| null</code> |
 
 
 #### LogEventOptions
