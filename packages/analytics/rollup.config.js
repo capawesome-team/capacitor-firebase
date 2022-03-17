@@ -7,7 +7,7 @@ export default {
       name: 'capacitorFirebaseAnalytics',
       globals: {
         '@capacitor/core': 'capacitorExports',
-        'firebase/app': 'firebaseAppExports',
+        'firebase/analytics': 'firebaseAnalyticsExports',
       },
       sourcemap: true,
       inlineDynamicImports: true,
@@ -19,5 +19,5 @@ export default {
       inlineDynamicImports: true,
     },
   ],
-  external: ['@capacitor/core', 'firebase/app'],
+  external: ['@capacitor/core', 'firebase/analytics'],
 };

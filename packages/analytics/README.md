@@ -60,11 +60,52 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ```typescript
 import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
 
+const setUserId = async () => {
+  await FirebaseAnalytics.setUserId({
+    userId: '123',
+  });
+};
+
+const setUserProperty = async () => {
+  await FirebaseAnalytics.setUserProperty({
+    key: 'language',
+    value: 'en',
+  });
+};
+
+const setCurrentScreen = async () => {
+  await FirebaseAnalytics.setCurrentScreen({
+    screenName: 'Login',
+    screenClassOverride: 'LoginPage',
+  });
+};
+
 const logEvent = async () => {
   await FirebaseAnalytics.logEvent({
     name: 'sign_up',
     params: { method: 'password' },
   });
+};
+
+const setSessionTimeoutDuration = async () => {
+  await FirebaseAnalytics.setSessionTimeoutDuration({
+    duration: '120',
+  });
+};
+
+const setEnabled = async () => {
+  await FirebaseAnalytics.setEnabled({
+    enabled: true,
+  });
+};
+
+const isEnabled = async () => {
+  const { enabled } = await FirebaseAnalytics.isEnabled();
+  return enabled;
+};
+
+const resetAnalyticsData = async () => {
+  await FirebaseAnalytics.resetAnalyticsData();
 };
 ```
 
