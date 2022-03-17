@@ -7,7 +7,7 @@ import FirebaseCore
  * Please read the Capacitor iOS Plugin Development Guide
  * here: https://capacitorjs.com/docs/plugins/ios
  */
-@objc(FirebaseAppPlugin)
+@objc(FirebaseAnalyticsPlugin)
 public class FirebaseAnalyticsPlugin: CAPPlugin {
     public let errorUserIdMissing = "userId must be provided."
     public let errorKeyMissing = "key must be provided."
