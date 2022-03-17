@@ -1,12 +1,10 @@
 package dev.robingenz.capacitorjs.plugins.firebase.crashlytics;
 
-import android.Manifest;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.getcapacitor.annotation.Permission;
 
 @CapacitorPlugin(name = "FirebaseCrashlytics")
 public class FirebaseCrashlyticsPlugin extends Plugin {

@@ -10,6 +10,10 @@ export interface FirebaseAnalyticsPlugin {
    */
   setUserProperty(options: SetUserPropertyOptions): Promise<void>;
   /**
+   * Sets the current screen name.
+   */
+  setCurrentScreen(options: SetCurrentScreenOptions): Promise<void>;
+  /**
    * Logs an app event.
    */
   logEvent(options: LogEventOptions): Promise<void>;
@@ -42,12 +46,17 @@ export interface FirebaseAnalyticsPlugin {
 }
 
 export interface SetUserIdOptions {
-  userId: string;
+  userId: string | null;
 }
 
 export interface SetUserPropertyOptions {
   key: string;
-  value: string;
+  value: string | null;
+}
+
+export interface SetCurrentScreenOptions {
+  screenName: string | null;
+  screenClassOverride: string | null;
 }
 
 export interface LogEventOptions {

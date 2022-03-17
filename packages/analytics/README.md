@@ -60,10 +60,10 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ```typescript
 import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
 
-const setScreenName = async () => {
+const logEvent = async () => {
   await FirebaseAnalytics.logEvent({
-    name: 'screen_view',
-    params: { firebase_screen: 'Login', firebase_screen_class: 'LoginPage' },
+    name: 'sign_up',
+    params: { method: 'password' },
   });
 };
 ```
@@ -74,6 +74,7 @@ const setScreenName = async () => {
 
 * [`setUserId(...)`](#setuserid)
 * [`setUserProperty(...)`](#setuserproperty)
+* [`setCurrentScreen(...)`](#setcurrentscreen)
 * [`logEvent(...)`](#logevent)
 * [`setSessionTimeoutDuration(...)`](#setsessiontimeoutduration)
 * [`setEnabled(...)`](#setenabled)
@@ -114,6 +115,21 @@ Sets a custom user property to a given value.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuserpropertyoptions">SetUserPropertyOptions</a></code> |
+
+--------------------
+
+
+### setCurrentScreen(...)
+
+```typescript
+setCurrentScreen(options: SetCurrentScreenOptions) => Promise<void>
+```
+
+Sets the current screen name.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setcurrentscreenoptions">SetCurrentScreenOptions</a></code> |
 
 --------------------
 
@@ -211,6 +227,14 @@ Only available for Android and iOS.
 | ----------- | ------------------- |
 | **`key`**   | <code>string</code> |
 | **`value`** | <code>string</code> |
+
+
+#### SetCurrentScreenOptions
+
+| Prop                      | Type                |
+| ------------------------- | ------------------- |
+| **`screenName`**          | <code>string</code> |
+| **`screenClassOverride`** | <code>string</code> |
 
 
 #### LogEventOptions

@@ -21,10 +21,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
     }
 
     @objc func setUserId(_ call: CAPPluginCall) {
-        guard let userId = call.getString("userId") else {
-            call.reject(errorUserIdMissing)
-            return
-        }
+        let userId = call.getString("userId", nil)
         implementation?.setUserId(userId)
         call.resolve()
     }
@@ -34,11 +31,15 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
             call.reject(errorKeyMissing)
             return
         }
-        guard let value = call.getString("value") else {
-            call.reject(errorValueMissing)
-            return
-        }
+        let value = call.getString("value", nil)
         implementation?.setUserProperty(key, value)
+        call.resolve()
+    }
+    
+    @objc func setCurrentScreen(_ call: CAPPluginCall) {
+        let screenName = call.getString("screenName", nil)
+        let screenClass = call.getString("screenClassOverride", nil)
+        implementation?.setCurrentScreen(screenName, screenClass)
         call.resolve()
     }
 
@@ -47,7 +48,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
             call.reject(errorNameMissing)
             return
         }
-        let params = call.getObject("params")
+        let params = call.getObject("params", nil)
         implementation?.logEvent(name, params)
         call.resolve()
     }
@@ -68,7 +69,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
     }
 
     @objc func isEnabled(_ call: CAPPluginCall) {
-        call.reject("Not implemented on iOS.")
+        call.unimplemented("Not implemented on iOS.")
     }
 
     @objc func resetAnalyticsData(_ call: CAPPluginCall) {

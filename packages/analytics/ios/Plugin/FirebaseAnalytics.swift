@@ -18,6 +18,12 @@ import FirebaseAnalytics
     @objc public func setUserProperty(_ key: String, _ value: String) {
         Analytics.setUserProperty(value, forName: key)
     }
+    
+    @objc public func setCurrentScreen(_ screenName: String, _ screenClass: String) {
+        Analytics.logEvent(AnalyticsEventScreenView,
+                           parameters: [AnalyticsParameterScreenName: screenName,
+                                        AnalyticsParameterScreenClass: screenClass])
+    }
 
     @objc public func logEvent(_ name: String, _ value: [String: Any]?) {
         Analytics.logEvent(name, parameters: value)
