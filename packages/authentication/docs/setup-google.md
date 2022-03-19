@@ -17,12 +17,12 @@
 
 ## iOS
 
-1.  Add the `RobingenzCapacitorFirebaseAuthentication/Google` pod to your `Podfile` (usually `ios/App/Podfile`):
+1.  Add the `CapacitorFirebaseAuthentication/Google` pod to your `Podfile` (usually `ios/App/Podfile`):
     ```diff
     target 'App' do
     capacitor_pods
     # Add your Pods here
-    +  pod 'RobingenzCapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@robingenz/capacitor-firebase-authentication'
+    +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@robingenz/capacitor-firebase-authentication'
     end
     ```
     Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
