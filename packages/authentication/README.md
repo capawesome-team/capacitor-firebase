@@ -617,3 +617,8 @@ See [CHANGELOG.md](./CHANGELOG.md).
 ## License
 
 See [LICENSE](./LICENSE).
+
+## Credits
+
+This plugin is based on the [Capacitor Firebase Authentication plugin](https://github.com/robingenz/capacitor-firebase-authentication).
+Thanks to everyone who contributed to the project!
