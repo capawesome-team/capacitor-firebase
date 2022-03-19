@@ -5,7 +5,15 @@
     { "repo": "robingenz/capacitor-firebase" }
   ],
   "commit": false,
-  "fixed": [["@capacitor-firebase/app"]],
+  "fixed": [
+    [
+      "@capacitor-firebase/analytics",
+      "@capacitor-firebase/app",
+      "@capacitor-firebase/authentication",
+      "@capacitor-firebase/crashlytics",
+      "@capacitor-firebase/performance"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
