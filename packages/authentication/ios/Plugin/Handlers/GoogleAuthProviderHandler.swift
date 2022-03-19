@@ -15,7 +15,7 @@ class GoogleAuthProviderHandler: NSObject {
     }
 
     func signIn(call: CAPPluginCall) {
-#if RGCFA_INCLUDE_GOOGLE
+        #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientId)
         guard let controller = self.pluginImplementation.getPlugin().bridge?.viewController else { return }
@@ -34,12 +34,12 @@ class GoogleAuthProviderHandler: NSObject {
                 self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil)
             }
         }
-#endif
+        #endif
     }
 
     func signOut() {
-#if RGCFA_INCLUDE_GOOGLE
+        #if RGCFA_INCLUDE_GOOGLE
         GIDSignIn.sharedInstance.signOut()
-#endif
+        #endif
     }
 }

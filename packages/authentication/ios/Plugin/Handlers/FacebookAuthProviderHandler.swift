@@ -8,20 +8,20 @@ import FBSDKLoginKit
 class FacebookAuthProviderHandler: NSObject {
     public let errorSignInCanceled = "Sign in canceled."
     private var pluginImplementation: FirebaseAuthentication
-#if RGCFA_INCLUDE_FACEBOOK
+    #if RGCFA_INCLUDE_FACEBOOK
     private var loginManager: LoginManager
-#endif
+    #endif
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
-#if RGCFA_INCLUDE_FACEBOOK
+        #if RGCFA_INCLUDE_FACEBOOK
         loginManager = LoginManager()
-#endif
+        #endif
         super.init()
     }
 
     func signIn(call: CAPPluginCall) {
-#if RGCFA_INCLUDE_FACEBOOK
+        #if RGCFA_INCLUDE_FACEBOOK
         DispatchQueue.main.async {
             self.loginManager.logIn(permissions: ["email", "public_profile"], from: self.pluginImplementation.getPlugin().bridge?.viewController) { result, error in
                 if let error = error {
@@ -39,12 +39,12 @@ class FacebookAuthProviderHandler: NSObject {
                 self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: token, nonce: nil)
             }
         }
-#endif
+        #endif
     }
 
     func signOut() {
-#if RGCFA_INCLUDE_FACEBOOK
+        #if RGCFA_INCLUDE_FACEBOOK
         loginManager.logOut()
-#endif
+        #endif
     }
 }

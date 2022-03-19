@@ -74,7 +74,7 @@ const config: CapacitorConfig = {
   plugins: {
     FirebaseAuthentication: {
       skipNativeAuth: false,
-      providers: ['apple.com', 'google.com'],
+      providers: ["apple.com", "google.com"],
     },
   },
 };
@@ -167,25 +167,25 @@ const useAppLanguage = async () => {
 
 <docgen-index>
 
-- [`getCurrentUser()`](#getcurrentuser)
-- [`getIdToken(...)`](#getidtoken)
-- [`setLanguageCode(...)`](#setlanguagecode)
-- [`signInWithApple(...)`](#signinwithapple)
-- [`signInWithFacebook(...)`](#signinwithfacebook)
-- [`signInWithGithub(...)`](#signinwithgithub)
-- [`signInWithGoogle(...)`](#signinwithgoogle)
-- [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
-- [`signInWithPlayGames(...)`](#signinwithplaygames)
-- [`signInWithTwitter(...)`](#signinwithtwitter)
-- [`signInWithYahoo(...)`](#signinwithyahoo)
-- [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
-- [`signInWithCustomToken(...)`](#signinwithcustomtoken)
-- [`signOut()`](#signout)
-- [`useAppLanguage()`](#useapplanguage)
-- [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
-- [`removeAllListeners()`](#removealllisteners)
-- [Interfaces](#interfaces)
-- [Type Aliases](#type-aliases)
+* [`getCurrentUser()`](#getcurrentuser)
+* [`getIdToken(...)`](#getidtoken)
+* [`setLanguageCode(...)`](#setlanguagecode)
+* [`signInWithApple(...)`](#signinwithapple)
+* [`signInWithFacebook(...)`](#signinwithfacebook)
+* [`signInWithGithub(...)`](#signinwithgithub)
+* [`signInWithGoogle(...)`](#signinwithgoogle)
+* [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
+* [`signInWithPlayGames(...)`](#signinwithplaygames)
+* [`signInWithTwitter(...)`](#signinwithtwitter)
+* [`signInWithYahoo(...)`](#signinwithyahoo)
+* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
+* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
+* [`signOut()`](#signout)
+* [`useAppLanguage()`](#useapplanguage)
+* [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
+* [`removeAllListeners()`](#removealllisteners)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -202,7 +202,8 @@ Fetches the currently signed-in user.
 
 **Returns:** <code>Promise&lt;<a href="#getcurrentuserresult">GetCurrentUserResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### getIdToken(...)
 
@@ -218,7 +219,8 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 
 **Returns:** <code>Promise&lt;<a href="#getidtokenresult">GetIdTokenResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### setLanguageCode(...)
 
@@ -232,7 +234,8 @@ Sets the user-facing language code for auth operations.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
 
----
+--------------------
+
 
 ### signInWithApple(...)
 
@@ -248,7 +251,8 @@ Starts the Apple sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithFacebook(...)
 
@@ -264,7 +268,8 @@ Starts the Facebook sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithGithub(...)
 
@@ -280,7 +285,8 @@ Starts the GitHub sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithGoogle(...)
 
@@ -296,7 +302,8 @@ Starts the Google sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithMicrosoft(...)
 
@@ -312,7 +319,8 @@ Starts the Microsoft sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithPlayGames(...)
 
@@ -328,7 +336,8 @@ Starts the Play Games sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithTwitter(...)
 
@@ -344,7 +353,8 @@ Starts the Twitter sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithYahoo(...)
 
@@ -360,7 +370,8 @@ Starts the Yahoo sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithPhoneNumber(...)
 
@@ -380,7 +391,8 @@ Only available for Android and iOS.
 
 **Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signInWithCustomToken(...)
 
@@ -399,7 +411,8 @@ In this case you have to use the `signInWithCustomToken` interface of the Fireba
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
----
+--------------------
+
 
 ### signOut()
 
@@ -409,7 +422,8 @@ signOut() => Promise<void>
 
 Starts the sign-out flow.
 
----
+--------------------
+
 
 ### useAppLanguage()
 
@@ -419,7 +433,8 @@ useAppLanguage() => Promise<void>
 
 Sets the user-facing language code to be the default app language.
 
----
+--------------------
+
 
 ### addListener('authStateChange', ...)
 
@@ -436,7 +451,8 @@ Listen for the user's sign-in state changes.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
----
+--------------------
+
 
 ### removeAllListeners()
 
@@ -446,15 +462,18 @@ removeAllListeners() => Promise<void>
 
 Remove all listeners for this plugin.
 
----
+--------------------
+
 
 ### Interfaces
+
 
 #### GetCurrentUserResult
 
 | Prop       | Type                                          | Description                                               |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
+
 
 #### User
 
@@ -470,11 +489,13 @@ Remove all listeners for this plugin.
 | **`tenantId`**      | <code>string \| null</code> |
 | **`uid`**           | <code>string</code>         |
 
+
 #### GetIdTokenResult
 
 | Prop        | Type                | Description                            |
 | ----------- | ------------------- | -------------------------------------- |
 | **`token`** | <code>string</code> | The Firebase Auth ID token JWT string. |
+
 
 #### GetIdTokenOptions
 
@@ -482,11 +503,13 @@ Remove all listeners for this plugin.
 | ------------------ | -------------------- | --------------------------------------------- |
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. |
 
+
 #### SetLanguageCodeOptions
 
 | Prop               | Type                | Description                             |
 | ------------------ | ------------------- | --------------------------------------- |
 | **`languageCode`** | <code>string</code> | BCP 47 language code. Example: `en-US`. |
+
 
 #### SignInResult
 
@@ -494,6 +517,7 @@ Remove all listeners for this plugin.
 | ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
 | **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. |
 | **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 |
+
 
 #### AuthCredential
 
@@ -505,11 +529,13 @@ Remove all listeners for this plugin.
 | **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     |
 | **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. |
 
+
 #### SignInOptions
 
 | Prop                   | Type                                 | Description                                                                                       |
 | ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- |
 | **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. |
+
 
 #### SignInCustomParameter
 
@@ -518,11 +544,13 @@ Remove all listeners for this plugin.
 | **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      |
 | **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). |
 
+
 #### SignInWithPhoneNumberResult
 
 | Prop                 | Type                | Description                                                             |
 | -------------------- | ------------------- | ----------------------------------------------------------------------- |
 | **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. |
+
 
 #### SignInWithPhoneNumberOptions
 
@@ -532,11 +560,13 @@ Remove all listeners for this plugin.
 | **`verificationId`**   | <code>string</code> | The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time. The `verificationCode` must also be provided. |
 | **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             |
 
+
 #### SignInWithCustomTokenOptions
 
 | Prop        | Type                | Description                       |
 | ----------- | ------------------- | --------------------------------- |
 | **`token`** | <code>string</code> | The custom token to sign in with. |
+
 
 #### PluginListenerHandle
 
@@ -544,13 +574,16 @@ Remove all listeners for this plugin.
 | ------------ | ----------------------------------------- |
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
+
 #### AuthStateChange
 
 | Prop       | Type                                          | Description                                               |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
 
+
 ### Type Aliases
+
 
 #### AuthStateChangeListener
 
