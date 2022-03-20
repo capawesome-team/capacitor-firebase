@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [`51fd609`](https://github.com/robingenz/capacitor-firebase/commit/51fd6092d0e47242f797be9209cc7f33ccc39e93) ([#17](https://github.com/robingenz/capacitor-firebase/pull/17)): fix(android): build error
+
 ## 0.1.0
 
 ### Minor Changes
