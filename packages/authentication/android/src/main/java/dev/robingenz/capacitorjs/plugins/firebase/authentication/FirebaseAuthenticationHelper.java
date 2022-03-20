@@ -1,12 +1,12 @@
 package dev.robingenz.capacitorjs.plugins.firebase.authentication;
 
 import com.getcapacitor.JSObject;
-import com.google.firebase.authentication.AuthCredential;
-import com.google.firebase.authentication.FirebaseUser;
-import com.google.firebase.authentication.GetTokenResult;
-import com.google.firebase.authentication.GoogleAuthCredential;
-import com.google.firebase.authentication.OAuthCredential;
-import com.google.firebase.authentication.PhoneAuthCredential;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.GoogleAuthCredential;
+import com.google.firebase.auth.OAuthCredential;
+import com.google.firebase.auth.PhoneAuthCredential;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.OAuthProviderHandler;
 

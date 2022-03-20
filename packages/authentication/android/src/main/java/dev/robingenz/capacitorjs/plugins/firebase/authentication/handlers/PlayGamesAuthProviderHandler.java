@@ -9,8 +9,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.authentication.AuthCredential;
-import com.google.firebase.authentication.PlayGamesAuthProvider;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.PlayGamesAuthProvider;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.R;
 
