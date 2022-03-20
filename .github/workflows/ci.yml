@@ -32,7 +32,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build packages affected by changes
+        if: github.ref != 'refs/heads/main'
         run: npm run affected:verify
+      - name: Build all packages
+        if: github.ref == 'refs/heads/main'
+        run: npm run verify
   lint:
     name: Lint
     runs-on: macos-latest
