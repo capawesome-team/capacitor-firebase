@@ -1,0 +1,4 @@
+<resources>
+    <!-- Will be overridden by google_services.json -->
+    <string name="default_web_client_id">WILL_BE_OVERRIDDEN</string>
+</resources>
