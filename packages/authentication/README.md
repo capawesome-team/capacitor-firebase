@@ -182,6 +182,7 @@ const useAppLanguage = async () => {
 * [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signOut()`](#signout)
 * [`useAppLanguage()`](#useapplanguage)
+* [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -436,6 +437,21 @@ Sets the user-facing language code to be the default app language.
 --------------------
 
 
+### useEmulator(...)
+
+```typescript
+useEmulator(options: UseEmulatorOptions) => Promise<void>
+```
+
+Instrument your app to talk to the Authentication emulator.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+--------------------
+
+
 ### addListener('authStateChange', ...)
 
 ```typescript
@@ -566,6 +582,14 @@ Remove all listeners for this plugin.
 | Prop        | Type                | Description                       |
 | ----------- | ------------------- | --------------------------------- |
 | **`token`** | <code>string</code> | The custom token to sign in with. |
+
+
+#### UseEmulatorOptions
+
+| Prop       | Type                | Description                                      |
+| ---------- | ------------------- | ------------------------------------------------ |
+| **`host`** | <code>string</code> | The emulator host (e.g. `10.0.2.2`).             |
+| **`port`** | <code>number</code> | The emulator host (e.g. `9099`). Default: `9099` |
 
 
 #### PluginListenerHandle

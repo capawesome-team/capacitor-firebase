@@ -10,6 +10,7 @@ import FirebaseAuth
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorPhoneNumberVerificationIdCodeMissing = "phoneNumber or verificationId and verificationCode must be provided."
+    public let errorHostMissing = "host must be provided."
     public let authStateChangeEvent = "authStateChange"
     private var implementation: FirebaseAuthentication?
 
@@ -104,6 +105,17 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func useAppLanguage(_ call: CAPPluginCall) {
         implementation?.useAppLanguage()
+        call.resolve()
+    }
+
+    @objc func useEmulator(_ call: CAPPluginCall) {
+        guard let host = call.getString("host") else {
+            call.reject(errorHostMissing)
+            return
+        }
+        let port = call.getInt("port") ?? 9099
+
+        implementation?.useEmulator(host, port)
         call.resolve()
     }
 

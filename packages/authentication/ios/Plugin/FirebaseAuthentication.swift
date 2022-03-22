@@ -128,6 +128,10 @@ public typealias AuthStateChangedObserver = () -> Void
         Auth.auth().useAppLanguage()
     }
 
+    @objc func useEmulator(_ host: String, _ port: Int) {
+        Auth.auth().useEmulator(withHost: host, port: port)
+    }
+
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?) {
         if config.skipNativeAuth == true {
             guard let savedCall = self.savedCall else {

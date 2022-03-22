@@ -16,6 +16,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
+    public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
@@ -132,6 +133,19 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void useAppLanguage(PluginCall call) {
         implementation.useAppLanguage();
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void useEmulator(PluginCall call) {
+        String host = call.getString("host");
+        if (host == null) {
+            call.reject(ERROR_HOST_MISSING);
+            return;
+        }
+        int port = call.getInt("port", 9099);
+
+        implementation.useEmulator(host, port);
         call.resolve();
     }
 

@@ -190,6 +190,10 @@ public class FirebaseAuthentication {
         firebaseAuthInstance.useAppLanguage();
     }
 
+    public void useEmulator(@NonNull String host, int port) {
+        firebaseAuthInstance.useEmulator(host, port);
+    }
+
     public void startActivityForResult(PluginCall call, Intent intent, String callbackName) {
         plugin.startActivityForResult(call, intent, callbackName);
     }
