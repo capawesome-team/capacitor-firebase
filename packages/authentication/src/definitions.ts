@@ -211,7 +211,7 @@ export interface UseEmulatorOptions {
    */
   host: string;
   /**
-   * The emulator host (e.g. `9099`).
+   * The emulator port (e.g. `9099`).
    *
    * Default: `9099`
    */

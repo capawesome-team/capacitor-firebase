@@ -596,7 +596,7 @@ Remove all listeners for this plugin.
 | Prop       | Type                | Description                                      |
 | ---------- | ------------------- | ------------------------------------------------ |
 | **`host`** | <code>string</code> | The emulator host (e.g. `10.0.2.2`).             |
-| **`port`** | <code>number</code> | The emulator host (e.g. `9099`). Default: `9099` |
+| **`port`** | <code>number</code> | The emulator port (e.g. `9099`). Default: `9099` |
 
 
 #### PluginListenerHandle
