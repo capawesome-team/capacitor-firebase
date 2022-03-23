@@ -161,6 +161,13 @@ const signOut = async () => {
 const useAppLanguage = async () => {
   await FirebaseAuthentication.useAppLanguage();
 };
+
+const useEmulator = async () => {
+  await FirebaseAuthentication.useEmulator({
+    host: '10.0.2.2',
+    port: 9099,
+  });
+};
 ```
 
 ## API
