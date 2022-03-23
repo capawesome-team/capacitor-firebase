@@ -106,6 +106,10 @@ export interface FirebaseAuthenticationPlugin {
    */
   useAppLanguage(): Promise<void>;
   /**
+   * Instrument your app to talk to the Authentication emulator.
+   */
+  useEmulator(options: UseEmulatorOptions): Promise<void>;
+  /**
    * Listen for the user's sign-in state changes.
    */
   addListener(
@@ -199,6 +203,19 @@ export interface SignInResult {
    * Credentials returned by an auth provider.
    */
   credential: AuthCredential | null;
+}
+
+export interface UseEmulatorOptions {
+  /**
+   * The emulator host (e.g. `10.0.2.2`).
+   */
+  host: string;
+  /**
+   * The emulator port (e.g. `9099`).
+   *
+   * Default: `9099`
+   */
+  port?: number;
 }
 
 export interface SignInWithPhoneNumberResult extends SignInResult {

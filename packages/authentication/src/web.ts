@@ -4,13 +4,14 @@ import type {
   User as FirebaseUser,
 } from 'firebase/auth';
 import {
+  connectAuthEmulator,
   FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
   OAuthCredential,
   OAuthProvider,
-  signInWithPopup,
   signInWithCustomToken,
+  signInWithPopup,
 } from 'firebase/auth';
 
 import type {
@@ -21,8 +22,9 @@ import type {
   GetIdTokenResult,
   SetLanguageCodeOptions,
   SignInResult,
-  SignInWithPhoneNumberOptions,
   SignInWithCustomTokenOptions,
+  SignInWithPhoneNumberOptions,
+  UseEmulatorOptions,
   User,
 } from './definitions';
 
@@ -140,6 +142,12 @@ export class FirebaseAuthenticationWeb
   public async useAppLanguage(): Promise<void> {
     const auth = getAuth();
     auth.useDeviceLanguage();
+  }
+
+  public async useEmulator(options: UseEmulatorOptions): Promise<void> {
+    const auth = getAuth();
+    const port = options.port || 9099;
+    connectAuthEmulator(auth, `${options.host}:${port}`);
   }
 
   private handleAuthStateChange(user: FirebaseUser | null): void {
