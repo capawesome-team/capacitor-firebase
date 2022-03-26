@@ -31,8 +31,10 @@ import FirebaseAnalytics
         if screenClass != nil {
             params?[AnalyticsParameterScreenClass] = screenClass
         }
-        Analytics.logEvent(AnalyticsEventScreenView,
-                           parameters: params)
+        DispatchQueue.main.async {
+            Analytics.logEvent(AnalyticsEventScreenView,
+                               parameters: params)
+        }
     }
 
     @objc public func logEvent(_ name: String, _ params: [String: Any]?) {

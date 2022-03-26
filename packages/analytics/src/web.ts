@@ -3,7 +3,6 @@ import {
   getAnalytics,
   logEvent,
   setAnalyticsCollectionEnabled,
-  setCurrentScreen,
   setUserId,
   setUserProperties,
 } from 'firebase/analytics';
@@ -38,7 +37,10 @@ export class FirebaseAnalyticsWeb
     options: SetCurrentScreenOptions,
   ): Promise<void> {
     const analytics = getAnalytics();
-    setCurrentScreen(analytics, options.screenName || '');
+    logEvent(analytics, 'screen_view', {
+      firebase_screen: options.screenName || undefined,
+      firebase_screen_class: options.screenClassOverride || undefined,
+    });
   }
 
   public async logEvent(options: LogEventOptions): Promise<void> {

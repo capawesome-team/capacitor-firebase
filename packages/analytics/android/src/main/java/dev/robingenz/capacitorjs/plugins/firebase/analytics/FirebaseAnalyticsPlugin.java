@@ -16,7 +16,7 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     private FirebaseAnalytics implementation;
 
     public void load() {
-        implementation = new FirebaseAnalytics(this.getContext());
+        implementation = new FirebaseAnalytics(this.getContext(), this.getBridge());
     }
 
     @PluginMethod
