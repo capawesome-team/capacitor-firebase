@@ -1,0 +1,74 @@
+name: Add package label
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  package-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add package-analytics label
+        if: contains(github.event.issue.body, '@capacitor-firebase/analytics')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: analytics"] }'
+      - name: Add package-app label
+        if: contains(github.event.issue.body, '@capacitor-firebase/app')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: app"] }'
+      - name: Add package-authentication label
+        if: contains(github.event.issue.body, '@capacitor-firebase/authentication')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: authentication"] }'
+      - name: Add package-cloud-messaging label
+        if: contains(github.event.issue.body, '@capacitor-firebase/cloud-messaging')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: cloud-messaging"] }'
+      - name: Add package-crashlytics label
+        if: contains(github.event.issue.body, '@capacitor-firebase/crashlytics')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: crashlytics"] }'
+      - name: Add package-performance label
+        if: contains(github.event.issue.body, '@capacitor-firebase/performance')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: performance"] }'
+      - name: Add package-remote-config label
+        if: contains(github.event.issue.body, '@capacitor-firebase/remote-config')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: remote-config"] }'
