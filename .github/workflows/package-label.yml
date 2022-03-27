@@ -36,15 +36,24 @@ jobs:
           --header 'Content-Type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data-raw '{ "labels": ["package: authentication"] }'
-      - name: Add package-cloud-messaging label
-        if: contains(github.event.issue.body, '@capacitor-firebase/cloud-messaging')
+      - name: Add package-firestore label
+        if: contains(github.event.issue.body, '@capacitor-firebase/firestore')
         run: |
           curl --request POST \
           --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
           --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
           --header 'Content-Type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
-          --data-raw '{ "labels": ["package: cloud-messaging"] }'
+          --data-raw '{ "labels": ["package: firestore"] }'
+      - name: Add package-messaging label
+        if: contains(github.event.issue.body, '@capacitor-firebase/messaging')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: messaging"] }'
       - name: Add package-crashlytics label
         if: contains(github.event.issue.body, '@capacitor-firebase/crashlytics')
         run: |
