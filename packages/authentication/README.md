@@ -66,7 +66,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor-firebase/authentication" />
+/// <reference types="@capacitor/firebase-authentication" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
