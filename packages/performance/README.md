@@ -32,7 +32,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebasePerformance } from '@robingenz/capacitor-firebase-performance';
+import { FirebasePerformance } from '@capacitor-firebase/performance';
 
 const startTrace = async () => {
   await FirebasePerformance.startTrace({ traceName: 'test_trace' });
