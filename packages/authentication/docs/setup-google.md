@@ -22,7 +22,7 @@
     target 'App' do
     capacitor_pods
     # Add your Pods here
-    +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@robingenz/capacitor-firebase-authentication'
+    +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@capacitor-firebase/authentication'
     end
     ```
     Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
