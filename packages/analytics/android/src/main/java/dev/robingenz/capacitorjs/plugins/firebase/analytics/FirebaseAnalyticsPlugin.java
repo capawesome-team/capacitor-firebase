@@ -41,7 +41,7 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     @PluginMethod
     public void setCurrentScreen(PluginCall call) {
         String screenName = call.getString("screenName", null);
-        String screenClassOverride = call.getString("screenName", null);
+        String screenClassOverride = call.getString("screenClassOverride", null);
         implementation.setCurrentScreen(screenName, screenClassOverride);
         call.resolve();
     }
