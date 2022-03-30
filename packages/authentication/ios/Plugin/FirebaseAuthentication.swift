@@ -108,7 +108,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
             savedCall.resolve(result)
         }
     }
@@ -132,12 +132,12 @@ public typealias AuthStateChangedObserver = () -> Void
         Auth.auth().useEmulator(withHost: host, port: port)
     }
 
-    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?) {
+    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
         if config.skipNativeAuth == true {
             guard let savedCall = self.savedCall else {
                 return
             }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce, accessToken: accessToken)
             savedCall.resolve(result)
             return
         }
@@ -150,7 +150,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken)
             savedCall.resolve(result)
         }
     }

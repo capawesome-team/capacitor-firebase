@@ -4,9 +4,9 @@ import FirebaseCore
 import FirebaseAuth
 
 public class FirebaseAuthenticationHelper {
-    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?) -> JSObject {
+    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?) -> JSObject {
         let userResult = self.createUserResult(user)
-        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce)
+        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken)
         var result = JSObject()
         result["user"] = userResult
         result["credential"] = credentialResult
@@ -30,8 +30,8 @@ public class FirebaseAuthenticationHelper {
         return result
     }
 
-    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?) -> JSObject? {
-        if credential == nil && idToken == nil && nonce == nil {
+    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?) -> JSObject? {
+        if credential == nil && idToken == nil && nonce == nil && accessToken == nil {
             return nil
         }
         var result = JSObject()
@@ -57,6 +57,9 @@ public class FirebaseAuthenticationHelper {
         }
         if let nonce = nonce {
             result["nonce"] = nonce
+        }
+        if let accessToken = accessToken {
+            result["accessToken"] = accessToken
         }
         return result
     }
