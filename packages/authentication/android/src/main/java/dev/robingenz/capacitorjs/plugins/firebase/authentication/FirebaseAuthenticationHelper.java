@@ -1,7 +1,6 @@
 package dev.robingenz.capacitorjs.plugins.firebase.authentication;
 
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,11 +13,22 @@ import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.OAuthP
 
 public class FirebaseAuthenticationHelper {
 
-    public static JSObject createSignInResult(@Nullable FirebaseUser user, @Nullable AuthCredential credential, @Nullable String idToken, @Nullable String accessToken) {
+    public static JSObject createSignInResult(
+        @Nullable FirebaseUser user,
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String accessToken
+    ) {
         return createSignInResult(user, credential, idToken, null, accessToken);
     }
 
-    public static JSObject createSignInResult(@Nullable FirebaseUser user, @Nullable AuthCredential credential, @Nullable String idToken, @Nullable String nonce, @Nullable String accessToken) {
+    public static JSObject createSignInResult(
+        @Nullable FirebaseUser user,
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
         JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(credential, idToken, nonce, accessToken);
         JSObject result = new JSObject();
@@ -44,7 +54,12 @@ public class FirebaseAuthenticationHelper {
         return result;
     }
 
-    public static JSObject createCredentialResult(@Nullable AuthCredential credential, @Nullable String idToken, @Nullable String nonce, @Nullable String accessToken) {
+    public static JSObject createCredentialResult(
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
         if (credential == null && idToken == null && nonce == null && accessToken == null) {
             return null;
         }

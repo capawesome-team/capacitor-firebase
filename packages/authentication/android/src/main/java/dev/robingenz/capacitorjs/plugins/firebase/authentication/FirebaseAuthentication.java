@@ -216,7 +216,13 @@ public class FirebaseAuthentication {
         handleSuccessfulSignIn(call, credential, idToken, null, null);
     }
 
-    public void handleSuccessfulSignIn(final PluginCall call, @Nullable AuthCredential credential, @Nullable String idToken, @Nullable String nonce, @Nullable String accessToken) {
+    public void handleSuccessfulSignIn(
+        final PluginCall call,
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
             JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce);
