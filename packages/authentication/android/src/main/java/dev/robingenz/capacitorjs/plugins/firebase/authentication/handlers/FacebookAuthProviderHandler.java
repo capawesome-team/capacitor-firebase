@@ -68,10 +68,10 @@ public class FacebookAuthProviderHandler {
     }
 
     private void handleSuccessCallback(LoginResult loginResult) {
-        AccessToken accessToken = loginResult.getAccessToken();
-        String token = accessToken.getToken();
-        AuthCredential credential = FacebookAuthProvider.getCredential(token);
-        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, token);
+        AccessToken _accessToken = loginResult.getAccessToken();
+        String accessToken = _accessToken.getToken();
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken);
+        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, accessToken, null, accessToken);
     }
 
     private void handleCancelCallback() {

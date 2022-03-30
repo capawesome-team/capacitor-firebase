@@ -151,7 +151,7 @@ public class FirebaseAuthentication {
                         if (task.isSuccessful()) {
                             Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
                             FirebaseUser user = getCurrentUser();
-                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null);
+                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null);
                             call.resolve(signInResult);
                         } else {
                             Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
@@ -213,10 +213,10 @@ public class FirebaseAuthentication {
     }
 
     public void handleSuccessfulSignIn(final PluginCall call, AuthCredential credential, String idToken) {
-        handleSuccessfulSignIn(call, credential, idToken, null);
+        handleSuccessfulSignIn(call, credential, idToken, null, null);
     }
 
-    public void handleSuccessfulSignIn(final PluginCall call, AuthCredential credential, String idToken, String nonce) {
+    public void handleSuccessfulSignIn(final PluginCall call, @Nullable AuthCredential credential, @Nullable String idToken, @Nullable String nonce, @Nullable String accessToken) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
             JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce);
