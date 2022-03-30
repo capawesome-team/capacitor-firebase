@@ -29,15 +29,14 @@ class FacebookAuthProviderHandler: NSObject {
                     return
                 }
 
-                guard let accessToken = result?.token else {
+                guard let _accessToken = result?.token else {
                     self.pluginImplementation.handleFailedSignIn(message: self.errorSignInCanceled, error: nil)
                     return
                 }
 
-                let token = AuthenticationToken.current?.tokenString
-                let accessToken = AccessToken.current?.tokenString
-                let credential = FacebookAuthProvider.credential(withAccessToken: token)
-                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: token, nonce: nil, accessToken: accessToken)
+                let accessToken = _accessToken.tokenString
+                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
+                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: accessToken, nonce: nil, accessToken: accessToken)
             }
         }
         #endif
