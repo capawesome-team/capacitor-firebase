@@ -151,7 +151,7 @@ public class FirebaseAuthentication {
                         if (task.isSuccessful()) {
                             Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
                             FirebaseUser user = getCurrentUser();
-                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null);
+                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
                             call.resolve(signInResult);
                         } else {
                             Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
@@ -225,7 +225,7 @@ public class FirebaseAuthentication {
     ) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
-            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce);
+            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce, accessToken);
             call.resolve(signInResult);
             return;
         }
@@ -239,7 +239,13 @@ public class FirebaseAuthentication {
                         if (task.isSuccessful()) {
                             Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCredential succeeded.");
                             FirebaseUser user = getCurrentUser();
-                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, credential, idToken, nonce);
+                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+                                user,
+                                credential,
+                                idToken,
+                                nonce,
+                                accessToken
+                            );
                             call.resolve(signInResult);
                         } else {
                             Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", task.getException());

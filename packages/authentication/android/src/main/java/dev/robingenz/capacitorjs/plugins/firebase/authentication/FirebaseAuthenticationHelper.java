@@ -4,23 +4,9 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.GoogleAuthCredential;
 import com.google.firebase.auth.OAuthCredential;
-import com.google.firebase.auth.PhoneAuthCredential;
-import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
-import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.OAuthProviderHandler;
 
 public class FirebaseAuthenticationHelper {
-
-    public static JSObject createSignInResult(
-        @Nullable FirebaseUser user,
-        @Nullable AuthCredential credential,
-        @Nullable String idToken,
-        @Nullable String accessToken
-    ) {
-        return createSignInResult(user, credential, idToken, null, accessToken);
-    }
 
     public static JSObject createSignInResult(
         @Nullable FirebaseUser user,

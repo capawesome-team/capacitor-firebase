@@ -61,7 +61,7 @@ public class PhoneAuthProviderHandler {
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null);
+                JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null, null);
                 result.put("verificationId", verificationId);
                 call.resolve(result);
             }
