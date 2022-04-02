@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- [`5c0f381`](https://github.com/robingenz/capacitor-firebase/commit/5c0f38164514dd38212cae8c4c7f28cfb8905416) ([#55](https://github.com/robingenz/capacitor-firebase/pull/55)): feat: provide access tokens for Google and Facebook
+
+* [`243011c`](https://github.com/robingenz/capacitor-firebase/commit/243011cd2ef6960c74800c6539eb735bcf15fc8b) ([#58](https://github.com/robingenz/capacitor-firebase/pull/58)): fix: `accessToken` was returned as `idToken`
+
 ## 0.2.0
 
 ### Minor Changes
