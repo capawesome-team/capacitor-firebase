@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- [`c64d02a`](https://github.com/robingenz/capacitor-firebase/commit/c64d02a60465461f0d85400adc679154b9462372) ([#52](https://github.com/robingenz/capacitor-firebase/pull/52)): fix(android): `screenClassOverride` has been ignored
+
 ## 0.2.0
 
 ### Patch Changes
