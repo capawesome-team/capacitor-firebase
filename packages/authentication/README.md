@@ -174,20 +174,28 @@ const useEmulator = async () => {
 
 <docgen-index>
 
+* [`applyActionCode(...)`](#applyactioncode)
+* [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
+* [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
+* [`sendEmailVerification(...)`](#sendemailverification)
+* [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
 * [`signInWithApple(...)`](#signinwithapple)
+* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
+* [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
 * [`signInWithFacebook(...)`](#signinwithfacebook)
 * [`signInWithGithub(...)`](#signinwithgithub)
 * [`signInWithGoogle(...)`](#signinwithgoogle)
 * [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
+* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
 * [`signInWithPlayGames(...)`](#signinwithplaygames)
 * [`signInWithTwitter(...)`](#signinwithtwitter)
 * [`signInWithYahoo(...)`](#signinwithyahoo)
-* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
-* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signOut()`](#signout)
+* [`updateEmail(...)`](#updateemail)
+* [`updatePassword(...)`](#updatepassword)
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
@@ -199,6 +207,54 @@ const useEmulator = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### applyActionCode(...)
+
+```typescript
+applyActionCode(options: ApplyActionCodeOptions) => Promise<void>
+```
+
+Applies a verification code sent to the user by email.
+
+| Param         | Type                                                                      |
+| ------------- | ------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#applyactioncodeoptions">ApplyActionCodeOptions</a></code> |
+
+--------------------
+
+
+### createUserWithEmailAndPassword(...)
+
+```typescript
+createUserWithEmailAndPassword(options: CreateUserWithEmailAndPasswordOptions) => Promise<SignInResult>
+```
+
+Creates a new user account with email and password.
+If the new account was created, the user is signed in automatically.
+
+| Param         | Type                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createuserwithemailandpasswordoptions">CreateUserWithEmailAndPasswordOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+--------------------
+
+
+### confirmPasswordReset(...)
+
+```typescript
+confirmPasswordReset(options: ConfirmPasswordResetOptions) => Promise<void>
+```
+
+Completes the password reset process
+
+| Param         | Type                                                                                |
+| ------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
+
+--------------------
+
 
 ### getCurrentUser()
 
@@ -230,6 +286,36 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 --------------------
 
 
+### sendEmailVerification(...)
+
+```typescript
+sendEmailVerification(options: SendEmailVerificationOptions) => Promise<void>
+```
+
+Sends a verification email to a user.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#sendemailverificationoptions">SendEmailVerificationOptions</a></code> |
+
+--------------------
+
+
+### sendPasswordResetEmail(...)
+
+```typescript
+sendPasswordResetEmail(options: SendPasswordResetEmailOptions) => Promise<void>
+```
+
+Sends a password reset email.
+
+| Param         | Type                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#sendpasswordresetemailoptions">SendPasswordResetEmailOptions</a></code> |
+
+--------------------
+
+
 ### setLanguageCode(...)
 
 ```typescript
@@ -256,6 +342,43 @@ Starts the Apple sign-in flow.
 | Param         | Type                                                    |
 | ------------- | ------------------------------------------------------- |
 | **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+--------------------
+
+
+### signInWithCustomToken(...)
+
+```typescript
+signInWithCustomToken(options: SignInWithCustomTokenOptions) => Promise<SignInResult>
+```
+
+Starts the Custom Token sign-in flow.
+
+This method cannot be used in combination with `skipNativeAuth` on Android and iOS.
+In this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithcustomtokenoptions">SignInWithCustomTokenOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+--------------------
+
+
+### signInWithEmailAndPassword(...)
+
+```typescript
+signInWithEmailAndPassword(options: SignInWithEmailAndPasswordOptions) => Promise<SignInResult>
+```
+
+Starts the sign-in flow using an email and password.
+
+| Param         | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithemailandpasswordoptions">SignInWithEmailAndPasswordOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -330,6 +453,27 @@ Starts the Microsoft sign-in flow.
 --------------------
 
 
+### signInWithPhoneNumber(...)
+
+```typescript
+signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<SignInWithPhoneNumberResult>
+```
+
+Starts the sign-in flow using a phone number.
+
+Either the phone number or the verification code and verification ID must be provided.
+
+Only available for Android and iOS.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
+
+--------------------
+
+
 ### signInWithPlayGames(...)
 
 ```typescript
@@ -381,47 +525,6 @@ Starts the Yahoo sign-in flow.
 --------------------
 
 
-### signInWithPhoneNumber(...)
-
-```typescript
-signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<SignInWithPhoneNumberResult>
-```
-
-Starts the sign-in flow using a phone number.
-
-Either the phone number or the verification code and verification ID must be provided.
-
-Only available for Android and iOS.
-
-| Param         | Type                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
-
---------------------
-
-
-### signInWithCustomToken(...)
-
-```typescript
-signInWithCustomToken(options: SignInWithCustomTokenOptions) => Promise<SignInResult>
-```
-
-Starts the Custom Token sign-in flow.
-
-This method cannot be used in combination with `skipNativeAuth` on Android and iOS.
-In this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.
-
-| Param         | Type                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithcustomtokenoptions">SignInWithCustomTokenOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
-
---------------------
-
-
 ### signOut()
 
 ```typescript
@@ -429,6 +532,36 @@ signOut() => Promise<void>
 ```
 
 Starts the sign-out flow.
+
+--------------------
+
+
+### updateEmail(...)
+
+```typescript
+updateEmail(options: UpdateEmailOptions) => Promise<void>
+```
+
+Updates the user's email address.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#updateemailoptions">UpdateEmailOptions</a></code> |
+
+--------------------
+
+
+### updatePassword(...)
+
+```typescript
+updatePassword(options: UpdatePasswordOptions) => Promise<void>
+```
+
+Updates the user's password.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#updatepasswordoptions">UpdatePasswordOptions</a></code> |
 
 --------------------
 
@@ -491,26 +624,127 @@ Remove all listeners for this plugin.
 ### Interfaces
 
 
+#### ApplyActionCodeOptions
+
+| Prop          | Type                | Description                           |
+| ------------- | ------------------- | ------------------------------------- |
+| **`oobCode`** | <code>string</code> | A verification code sent to the user. |
+
+
+#### SignInResult
+
+| Prop             | Type                                                              | Description                                               |
+| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
+| **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. |
+| **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 |
+
+
+#### User
+
+A user account.
+
+| Prop                | Type                                                  | Description                                                                                                                                                      |
+| ------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`emailVerified`** | <code>boolean</code>                                  | Whether the email has been verified with {@link sendEmailVerification} and {@link applyActionCode}.                                                              |
+| **`isAnonymous`**   | <code>boolean</code>                                  | Whether the user is authenticated using the {@link ProviderId}.ANONYMOUS provider.                                                                               |
+| **`metadata`**      | <code><a href="#usermetadata">UserMetadata</a></code> | Additional metadata around user creation and sign-in times.                                                                                                      |
+| **`providerData`**  | <code>UserInfo[]</code>                               | Additional per provider such as displayName and profile information.                                                                                             |
+| **`refreshToken`**  | <code>string</code>                                   | Refresh token used to reauthenticate the user. Avoid using this directly and prefer {@link <a href="#user">User.getIdToken</a>} to refresh the ID token instead. |
+| **`tenantId`**      | <code>string \| null</code>                           | The user's tenant ID.                                                                                                                                            |
+
+| Method               | Signature                                                                                             | Description                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **delete**           | () =&gt; Promise&lt;void&gt;                                                                          | Deletes and signs out the user.                                                               |
+| **getIdToken**       | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;string&gt;                                     | Returns a JSON Web Token (JWT) used to identify the user to a Firebase service.               |
+| **getIdTokenResult** | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;<a href="#idtokenresult">IdTokenResult</a>&gt; | Returns a deserialized JSON Web Token (JWT) used to identitfy the user to a Firebase service. |
+| **reload**           | () =&gt; Promise&lt;void&gt;                                                                          | Refreshes the user, if signed in.                                                             |
+| **toJSON**           | () =&gt; object                                                                                       | Returns a JSON-serializable representation of this object.                                    |
+
+
+#### IdTokenResult
+
+Interface representing ID token result obtained from {@link <a href="#user">User.getIdTokenResult</a>}.
+
+| Prop                     | Type                                                | Description                                                                                                                |
+| ------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **`authTime`**           | <code>string</code>                                 | The authentication time formatted as a UTC string.                                                                         |
+| **`expirationTime`**     | <code>string</code>                                 | The ID token expiration time formatted as a UTC string.                                                                    |
+| **`issuedAtTime`**       | <code>string</code>                                 | The ID token issuance time formatted as a UTC string.                                                                      |
+| **`signInProvider`**     | <code>string \| null</code>                         | The sign-in provider through which the ID token was obtained (anonymous, custom, phone, password, etc).                    |
+| **`signInSecondFactor`** | <code>string \| null</code>                         | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc). |
+| **`token`**              | <code>string</code>                                 | The Firebase Auth ID token JWT string.                                                                                     |
+| **`claims`**             | <code><a href="#parsedtoken">ParsedToken</a></code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.             |
+
+
+#### ParsedToken
+
+Interface representing a parsed ID token.
+
+| Prop              | Type                                                                        | Description                                                                         |
+| ----------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **`'exp'`**       | <code>string</code>                                                         | Expiration time of the token.                                                       |
+| **`'sub'`**       | <code>string</code>                                                         | UID of the user.                                                                    |
+| **`'auth_time'`** | <code>string</code>                                                         | Time at which authentication was performed.                                         |
+| **`'iat'`**       | <code>string</code>                                                         | Issuance time of the token.                                                         |
+| **`'firebase'`**  | <code>{ sign_in_provider?: string; sign_in_second_factor?: string; }</code> | Firebase specific claims, containing the provider(s) used to authenticate the user. |
+
+
+#### UserMetadata
+
+Interface representing a user's metadata.
+
+| Prop                 | Type                | Description                   |
+| -------------------- | ------------------- | ----------------------------- |
+| **`creationTime`**   | <code>string</code> | Time the user was created.    |
+| **`lastSignInTime`** | <code>string</code> | Time the user last signed in. |
+
+
+#### UserInfo
+
+<a href="#user">User</a> profile information, visible only to the Firebase project's apps.
+
+| Prop              | Type                        | Description                                                                               |
+| ----------------- | --------------------------- | ----------------------------------------------------------------------------------------- |
+| **`displayName`** | <code>string \| null</code> | The display name of the user.                                                             |
+| **`email`**       | <code>string \| null</code> | The email of the user.                                                                    |
+| **`phoneNumber`** | <code>string \| null</code> | The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user. |
+| **`photoURL`**    | <code>string \| null</code> | The profile photo URL of the user.                                                        |
+| **`providerId`**  | <code>string</code>         | The provider used to authenticate the user.                                               |
+| **`uid`**         | <code>string</code>         | The user's unique ID, scoped to the project.                                              |
+
+
+#### AuthCredential
+
+| Prop              | Type                | Description                                                                                                                              |
+| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential. Example: `google.com`.                                                                |
+| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                |
+| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     |
+| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     |
+| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. |
+
+
+#### CreateUserWithEmailAndPasswordOptions
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`email`**    | <code>string</code> |
+| **`password`** | <code>string</code> |
+
+
+#### ConfirmPasswordResetOptions
+
+| Prop              | Type                | Description                           |
+| ----------------- | ------------------- | ------------------------------------- |
+| **`oobCode`**     | <code>string</code> | A verification code sent to the user. |
+| **`newPassword`** | <code>string</code> | The new password.                     |
+
+
 #### GetCurrentUserResult
 
 | Prop       | Type                                          | Description                                               |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
-
-
-#### User
-
-| Prop                | Type                        |
-| ------------------- | --------------------------- |
-| **`displayName`**   | <code>string \| null</code> |
-| **`email`**         | <code>string \| null</code> |
-| **`emailVerified`** | <code>boolean</code>        |
-| **`isAnonymous`**   | <code>boolean</code>        |
-| **`phoneNumber`**   | <code>string \| null</code> |
-| **`photoUrl`**      | <code>string \| null</code> |
-| **`providerId`**    | <code>string</code>         |
-| **`tenantId`**      | <code>string \| null</code> |
-| **`uid`**           | <code>string</code>         |
 
 
 #### GetIdTokenResult
@@ -527,30 +761,41 @@ Remove all listeners for this plugin.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. |
 
 
+#### SendEmailVerificationOptions
+
+| Prop                     | Type                                                                      |
+| ------------------------ | ------------------------------------------------------------------------- |
+| **`user`**               | <code><a href="#user">User</a></code>                                     |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a> \| null</code> |
+
+
+#### ActionCodeSettings
+
+An interface that defines the required continue/state URL with optional Android and iOS
+bundle identifiers.
+
+| Prop                    | Type                                                                                 | Description                                                                                                                                                                                |
+| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                             |
+| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                 |
+| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
+| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
+| **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
+
+
+#### SendPasswordResetEmailOptions
+
+| Prop                     | Type                                                              |
+| ------------------------ | ----------------------------------------------------------------- |
+| **`email`**              | <code>string</code>                                               |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> |
+
+
 #### SetLanguageCodeOptions
 
 | Prop               | Type                | Description                             |
 | ------------------ | ------------------- | --------------------------------------- |
 | **`languageCode`** | <code>string</code> | BCP 47 language code. Example: `en-US`. |
-
-
-#### SignInResult
-
-| Prop             | Type                                                              | Description                                               |
-| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
-| **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. |
-| **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 |
-
-
-#### AuthCredential
-
-| Prop              | Type                | Description                                                                                                                              |
-| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential. Example: `google.com`.                                                                |
-| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                |
-| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     |
-| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     |
-| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. |
 
 
 #### SignInOptions
@@ -566,6 +811,21 @@ Remove all listeners for this plugin.
 | ----------- | ------------------- | ------------------------------------------------------------------ |
 | **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      |
 | **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). |
+
+
+#### SignInWithCustomTokenOptions
+
+| Prop        | Type                | Description                       |
+| ----------- | ------------------- | --------------------------------- |
+| **`token`** | <code>string</code> | The custom token to sign in with. |
+
+
+#### SignInWithEmailAndPasswordOptions
+
+| Prop           | Type                | Description              |
+| -------------- | ------------------- | ------------------------ |
+| **`email`**    | <code>string</code> | The users email address. |
+| **`password`** | <code>string</code> | The users password.      |
 
 
 #### SignInWithPhoneNumberResult
@@ -584,11 +844,20 @@ Remove all listeners for this plugin.
 | **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             |
 
 
-#### SignInWithCustomTokenOptions
+#### UpdateEmailOptions
 
-| Prop        | Type                | Description                       |
-| ----------- | ------------------- | --------------------------------- |
-| **`token`** | <code>string</code> | The custom token to sign in with. |
+| Prop           | Type                                  | Description            |
+| -------------- | ------------------------------------- | ---------------------- |
+| **`user`**     | <code><a href="#user">User</a></code> |                        |
+| **`newEmail`** | <code>string</code>                   | The new email address. |
+
+
+#### UpdatePasswordOptions
+
+| Prop              | Type                                  | Description       |
+| ----------------- | ------------------------------------- | ----------------- |
+| **`user`**        | <code><a href="#user">User</a></code> |                   |
+| **`newPassword`** | <code>string</code>                   | The new password. |
 
 
 #### UseEmulatorOptions

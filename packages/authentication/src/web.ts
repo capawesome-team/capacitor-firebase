@@ -1,9 +1,18 @@
 import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
-  User as FirebaseUser,
+  User,
+  UserCredential,
 } from 'firebase/auth';
 import {
+  applyActionCode,
+  confirmPasswordReset,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  updateEmail,
+  updatePassword,
   connectAuthEmulator,
   FacebookAuthProvider,
   getAuth,
@@ -15,17 +24,24 @@ import {
 } from 'firebase/auth';
 
 import type {
+  ApplyActionCodeOptions,
   AuthCredential,
   AuthStateChange,
+  ConfirmPasswordResetOptions,
+  CreateUserWithEmailAndPasswordOptions,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
   GetIdTokenResult,
+  SendEmailVerificationOptions,
+  SendPasswordResetEmailOptions,
   SetLanguageCodeOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
+  SignInWithEmailAndPasswordOptions,
   SignInWithPhoneNumberOptions,
+  UpdateEmailOptions,
+  UpdatePasswordOptions,
   UseEmulatorOptions,
-  User,
 } from './definitions';
 
 export class FirebaseAuthenticationWeb
@@ -37,11 +53,34 @@ export class FirebaseAuthenticationWeb
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
   }
 
+  public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
+    const auth = getAuth();
+    return applyActionCode(auth, options.oobCode);
+  }
+
+  public async createUserWithEmailAndPassword(
+    options: CreateUserWithEmailAndPasswordOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const credential = await createUserWithEmailAndPassword(
+      auth,
+      options.email,
+      options.password,
+    );
+    return this.createSignInResultFromUserCredential(credential);
+  }
+
+  public async confirmPasswordReset(
+    options: ConfirmPasswordResetOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return confirmPasswordReset(auth, options.oobCode, options.newPassword);
+  }
+
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
     const auth = getAuth();
-    const userResult = this.createUserResult(auth.currentUser);
     const result: GetCurrentUserResult = {
-      user: userResult,
+      user: auth.currentUser,
     };
     return result;
   }
@@ -55,6 +94,23 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
+  public async sendEmailVerification(
+    options: SendEmailVerificationOptions,
+  ): Promise<void> {
+    return sendEmailVerification(options.user, options.actionCodeSettings);
+  }
+
+  public async sendPasswordResetEmail(
+    options: SendPasswordResetEmailOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return sendPasswordResetEmail(
+      auth,
+      options.email,
+      options.actionCodeSettings,
+    );
+  }
+
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
     const auth = getAuth();
     auth.languageCode = options.languageCode;
@@ -65,7 +121,27 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
+  }
+
+  public async signInWithCustomToken(
+    options: SignInWithCustomTokenOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const result = await signInWithCustomToken(auth, options.token);
+    return this.createSignInResultFromAuthCredential(result.user, null);
+  }
+
+  public async signInWithEmailAndPassword(
+    options: SignInWithEmailAndPasswordOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const credential = await signInWithEmailAndPassword(
+      auth,
+      options.email,
+      options.password,
+    );
+    return this.createSignInResultFromUserCredential(credential);
   }
 
   public async signInWithFacebook(): Promise<SignInResult> {
@@ -73,7 +149,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithGithub(): Promise<SignInResult> {
@@ -81,7 +157,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithGoogle(): Promise<SignInResult> {
@@ -89,7 +165,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithMicrosoft(): Promise<SignInResult> {
@@ -97,7 +173,13 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
+  }
+
+  public async signInWithPhoneNumber(
+    _options: SignInWithPhoneNumberOptions,
+  ): Promise<SignInResult> {
+    throw new Error('Not implemented on web.');
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
@@ -109,7 +191,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithYahoo(): Promise<SignInResult> {
@@ -117,26 +199,20 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
-  }
-
-  public async signInWithPhoneNumber(
-    _options: SignInWithPhoneNumberOptions,
-  ): Promise<SignInResult> {
-    throw new Error('Not implemented on web.');
-  }
-
-  public async signInWithCustomToken(
-    options: SignInWithCustomTokenOptions,
-  ): Promise<SignInResult> {
-    const auth = getAuth();
-    const result = await signInWithCustomToken(auth, options.token);
-    return this.createSignInResult(result.user, null);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signOut(): Promise<void> {
     const auth = getAuth();
     await auth.signOut();
+  }
+
+  public async updateEmail(options: UpdateEmailOptions): Promise<void> {
+    return updateEmail(options.user, options.newEmail);
+  }
+
+  public async updatePassword(options: UpdatePasswordOptions): Promise<void> {
+    return updatePassword(options.user, options.newPassword);
   }
 
   public async useAppLanguage(): Promise<void> {
@@ -150,41 +226,31 @@ export class FirebaseAuthenticationWeb
     connectAuthEmulator(auth, `${options.host}:${port}`);
   }
 
-  private handleAuthStateChange(user: FirebaseUser | null): void {
-    const userResult = this.createUserResult(user);
+  private handleAuthStateChange(user: User | null): void {
     const change: AuthStateChange = {
-      user: userResult,
+      user,
     };
     this.notifyListeners('authStateChange', change);
   }
 
-  private createSignInResult(
-    user: FirebaseUser,
+  private createSignInResultFromAuthCredential(
+    user: User,
     credential: FirebaseAuthCredential | null,
   ): SignInResult {
-    const userResult = this.createUserResult(user);
     const credentialResult = this.createCredentialResult(credential);
     const result: SignInResult = {
-      user: userResult,
+      user,
       credential: credentialResult,
     };
     return result;
   }
 
-  private createUserResult(user: FirebaseUser | null): User | null {
-    if (!user) {
-      return null;
-    }
-    const result: User = {
-      displayName: user.displayName,
-      email: user.email,
-      emailVerified: user.emailVerified,
-      isAnonymous: user.isAnonymous,
-      phoneNumber: user.phoneNumber,
-      photoUrl: user.photoURL,
-      providerId: user.providerId,
-      tenantId: user.tenantId,
-      uid: user.uid,
+  private createSignInResultFromUserCredential(
+    credential: UserCredential,
+  ): SignInResult {
+    const result: SignInResult = {
+      user: credential.user,
+      credential: null,
     };
     return result;
   }
