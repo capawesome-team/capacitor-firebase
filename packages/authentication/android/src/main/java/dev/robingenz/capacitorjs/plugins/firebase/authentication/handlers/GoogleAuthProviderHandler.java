@@ -24,9 +24,9 @@ public class GoogleAuthProviderHandler {
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+            .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build();
         mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gso);
     }
 
