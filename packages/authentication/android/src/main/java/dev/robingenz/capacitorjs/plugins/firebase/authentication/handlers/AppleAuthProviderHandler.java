@@ -86,7 +86,7 @@ public class AppleAuthProviderHandler {
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce);
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null);
                 }
             )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
@@ -97,7 +97,7 @@ public class AppleAuthProviderHandler {
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce);
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null);
                 }
             )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));

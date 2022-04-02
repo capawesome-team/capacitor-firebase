@@ -34,9 +34,9 @@ class FacebookAuthProviderHandler: NSObject {
                     return
                 }
 
-                let token = accessToken.tokenString
-                let credential = FacebookAuthProvider.credential(withAccessToken: token)
-                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: token, nonce: nil)
+                let accessTokenString = accessToken.tokenString
+                let credential = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
+                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: accessTokenString, nonce: nil, accessToken: accessTokenString)
             }
         }
         #endif
