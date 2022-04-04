@@ -135,9 +135,7 @@ const resetAnalyticsData = async () => {
 setUserId(options: SetUserIdOptions) => Promise<void>
 ```
 
-Sets a user ID (identifier) that is associated with subsequent fatal and non-fatal reports.
-
-Only available for Android and iOS.
+Sets the user ID property.
 
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |

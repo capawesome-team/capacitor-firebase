@@ -1,8 +1,6 @@
 export interface FirebaseAnalyticsPlugin {
   /**
-   * Sets a user ID (identifier) that is associated with subsequent fatal and non-fatal reports.
-   *
-   * Only available for Android and iOS.
+   * Sets the user ID property.
    */
   setUserId(options: SetUserIdOptions): Promise<void>;
   /**
