@@ -14,7 +14,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 On **iOS**, verify that this function is included in your app's `AppDelegate.swift`:
 
 ```swift
-func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
   return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
 }
 ```
