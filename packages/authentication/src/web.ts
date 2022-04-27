@@ -1,7 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
-  User,
+  User as FirebaseUser,
   UserCredential,
 } from 'firebase/auth';
 import {
@@ -41,6 +41,7 @@ import type {
   UpdateEmailOptions,
   UpdatePasswordOptions,
   UseEmulatorOptions,
+  User,
 } from './definitions';
 
 export class FirebaseAuthenticationWeb
@@ -80,8 +81,9 @@ export class FirebaseAuthenticationWeb
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
     const auth = getAuth();
+    const userResult = this.createUserResult(auth.currentUser);
     const result: GetCurrentUserResult = {
-      user: auth.currentUser,
+      user: userResult,
     };
     return result;
   }
@@ -101,7 +103,7 @@ export class FirebaseAuthenticationWeb
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    return sendEmailVerification(auth.currentUser);
+    return sendEmailVerification(currentUser);
   }
 
   public async sendPasswordResetEmail(
@@ -208,11 +210,21 @@ export class FirebaseAuthenticationWeb
   }
 
   public async updateEmail(options: UpdateEmailOptions): Promise<void> {
-    return updateEmail(options.user, options.newEmail);
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return updateEmail(currentUser, options.newEmail);
   }
 
   public async updatePassword(options: UpdatePasswordOptions): Promise<void> {
-    return updatePassword(options.user, options.newPassword);
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return updatePassword(currentUser, options.newPassword);
   }
 
   public async useAppLanguage(): Promise<void> {
@@ -226,20 +238,22 @@ export class FirebaseAuthenticationWeb
     connectAuthEmulator(auth, `${options.host}:${port}`);
   }
 
-  private handleAuthStateChange(user: User | null): void {
+  private handleAuthStateChange(user: FirebaseUser | null): void {
+    const userResult = this.createUserResult(user);
     const change: AuthStateChange = {
-      user,
+      user: userResult,
     };
     this.notifyListeners('authStateChange', change);
   }
 
   private createSignInResultFromAuthCredential(
-    user: User,
+    user: FirebaseUser,
     credential: FirebaseAuthCredential | null,
   ): SignInResult {
+    const userResult = this.createUserResult(user);
     const credentialResult = this.createCredentialResult(credential);
     const result: SignInResult = {
-      user,
+      user: userResult,
       credential: credentialResult,
     };
     return result;
@@ -248,8 +262,9 @@ export class FirebaseAuthenticationWeb
   private createSignInResultFromUserCredential(
     credential: UserCredential,
   ): SignInResult {
+    const userResult = this.createUserResult(credential.user);
     const result: SignInResult = {
-      user: credential.user,
+      user: userResult,
       credential: null,
     };
     return result;
@@ -269,6 +284,24 @@ export class FirebaseAuthenticationWeb
       result.idToken = credential.idToken;
       result.secret = credential.secret;
     }
+    return result;
+  }
+
+  private createUserResult(user: FirebaseUser | null): User | null {
+    if (!user) {
+      return null;
+    }
+    const result: User = {
+      displayName: user.displayName,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      isAnonymous: user.isAnonymous,
+      phoneNumber: user.phoneNumber,
+      photoUrl: user.photoURL,
+      providerId: user.providerId,
+      tenantId: user.tenantId,
+      uid: user.uid,
+    };
     return result;
   }
 }

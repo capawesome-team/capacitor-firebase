@@ -1,7 +1,6 @@
 /// <reference types="@capacitor/cli" />
 
 import type { PluginListenerHandle } from '@capacitor/core';
-import type { User } from '@firebase/auth';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -132,11 +131,11 @@ export interface FirebaseAuthenticationPlugin {
    */
   signOut(): Promise<void>;
   /**
-   * Updates the user's email address.
+   * Updates the email address of the currently signed in user.
    */
   updateEmail(options: UpdateEmailOptions): Promise<void>;
   /**
-   * Updates the user's password.
+   * Updates the password of the currently signed in user.
    */
   updatePassword(options: UpdatePasswordOptions): Promise<void>;
   /**
@@ -218,7 +217,6 @@ export interface SetLanguageCodeOptions {
 }
 
 export interface UpdateEmailOptions {
-  user: User;
   /**
    * The new email address.
    */
@@ -226,7 +224,6 @@ export interface UpdateEmailOptions {
 }
 
 export interface UpdatePasswordOptions {
-  user: User;
   /**
    * The new password.
    */
@@ -315,6 +312,18 @@ export interface SignInWithPhoneNumberResult extends SignInResult {
    * The verification ID, which is needed to identify the verification code.
    */
   verificationId?: string;
+}
+
+export interface User {
+  displayName: string | null;
+  email: string | null;
+  emailVerified: boolean;
+  isAnonymous: boolean;
+  phoneNumber: string | null;
+  photoUrl: string | null;
+  providerId: string;
+  tenantId: string | null;
+  uid: string;
 }
 
 export interface AuthCredential {
