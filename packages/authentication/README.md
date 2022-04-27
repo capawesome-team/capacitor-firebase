@@ -93,14 +93,51 @@ A working example can be found here: [robingenz/capacitor-firebase-authenticatio
 ```typescript
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
+const applyActionCode = async () => {
+  await FirebaseAuthentication.applyActionCode({ oobCode: '1234' });
+};
+
+const createUserWithEmailAndPassword = async () => {
+  const result = await FirebaseAuthentication.createUserWithEmailAndPassword({
+    email: 'mail@exmaple.com',
+    password: '1234',
+  });
+  return result.user;
+};
+
+const confirmPasswordReset = async () => {
+  await FirebaseAuthentication.confirmPasswordReset({
+    oobCode: '1234',
+    newPassword: '4321',
+  });
+};
+
 const getCurrentUser = async () => {
   const result = await FirebaseAuthentication.getCurrentUser();
   return result.user;
 };
 
 const getIdToken = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
   const result = await FirebaseAuthentication.getIdToken();
   return result.token;
+};
+
+const sendEmailVerification = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.sendEmailVerification();
+};
+
+const sendPasswordResetEmail = async () => {
+  await FirebaseAuthentication.sendPasswordResetEmail({
+    email: 'mail@example.com',
+  });
 };
 
 const setLanguageCode = async () => {
@@ -108,27 +145,48 @@ const setLanguageCode = async () => {
 };
 
 const signInWithApple = async () => {
-  await FirebaseAuthentication.signInWithApple();
+  const result = await FirebaseAuthentication.signInWithApple();
+  return result.user;
+};
+
+const signInWithCustomToken = async () => {
+  const result = await FirebaseAuthentication.signInWithCustomToken({
+    token: '1234',
+  });
+  return result.user;
+};
+
+const signInWithEmailAndPassword = async () => {
+  const result = await FirebaseAuthentication.signInWithEmailAndPassword({
+    email: 'mail@example.com',
+    password: '1234',
+  });
+  return result.user;
 };
 
 const signInWithFacebook = async () => {
-  await FirebaseAuthentication.signInWithFacebook();
+  const result = await FirebaseAuthentication.signInWithFacebook();
+  return result.user;
 };
 
 const signInWithGithub = async () => {
-  await FirebaseAuthentication.signInWithGithub();
+  const result = await FirebaseAuthentication.signInWithGithub();
+  return result.user;
 };
 
 const signInWithGoogle = async () => {
-  await FirebaseAuthentication.signInWithGoogle();
+  const result = await FirebaseAuthentication.signInWithGoogle();
+  return result.user;
 };
 
 const signInWithMicrosoft = async () => {
-  await FirebaseAuthentication.signInWithMicrosoft();
+  const result = await FirebaseAuthentication.signInWithMicrosoft();
+  return result.user;
 };
 
 const signInWithPlayGames = async () => {
-  await FirebaseAuthentication.signInWithPlayGames();
+  const result = await FirebaseAuthentication.signInWithPlayGames();
+  return result.user;
 };
 
 const signInWithPhoneNumber = async () => {
@@ -140,22 +198,45 @@ const signInWithPhoneNumber = async () => {
   const verificationCode = window.prompt(
     'Please enter the verification code that was sent to your mobile device.',
   );
-  await FirebaseAuthentication.signInWithPhoneNumber({
+  const result = await FirebaseAuthentication.signInWithPhoneNumber({
     verificationId,
     verificationCode,
   });
+  return result.user;
 };
 
 const signInWithTwitter = async () => {
-  await FirebaseAuthentication.signInWithTwitter();
+  const result = await FirebaseAuthentication.signInWithTwitter();
+  return result.user;
 };
 
 const signInWithYahoo = async () => {
-  await FirebaseAuthentication.signInWithYahoo();
+  const result = await FirebaseAuthentication.signInWithYahoo();
+  return result.user;
 };
 
 const signOut = async () => {
   await FirebaseAuthentication.signOut();
+};
+
+const updateEmail = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.updateEmail({
+    newEmail: 'new.mail@example.com',
+  });
+};
+
+const updatePassword = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.updatePassword({
+    newPassword: '4321',
+  });
 };
 
 const useAppLanguage = async () => {
