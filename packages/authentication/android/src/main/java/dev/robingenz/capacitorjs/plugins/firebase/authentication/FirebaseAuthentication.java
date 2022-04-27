@@ -78,12 +78,18 @@ public class FirebaseAuthentication {
     }
 
     public void createUserWithEmailAndPassword(PluginCall call) {
-        String email = call.getString("email", "");
+        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
+            return;
+        }
+
+        String email = call.getString("email");
         if (email == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_MISSING);
             return;
         }
-        String password = call.getString("password", "");
+        String password = call.getString("password");
         if (password == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_PASSWORD_MISSING);
             return;
