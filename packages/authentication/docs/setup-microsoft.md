@@ -3,10 +3,12 @@
 ## Android
 
 1. See [Before you begin](https://firebase.google.com/docs/auth/android/microsoft-oauth#before_you_begin) and follow the instructions to configure sign-in with Microsoft correctly.
+**Attention**: Make sure you select `Web` as the platform for your redirect URI when registering a Microsoft OAuth client (step 4).
 
 ## iOS
 
-1. See [Before you begin](https://firebase.google.com/docs/auth/ios/microsoft-oauth#before_you_begin) and follow the instructions to configure sign-in with Microsoft correctly.
+1. See [Before you begin](https://firebase.google.com/docs/auth/ios/microsoft-oauth#before_you_begin) and follow the instructions to configure sign-in with Microsoft correctly.  
+**Attention**: Make sure you select `Web` as the platform for your redirect URI when registering a Microsoft OAuth client (step 4).
 1. Add custom URL schemes to your Xcode project:
    1. Open your project configuration.
       Select your app from the **TARGETS** section, then select the **Info** tab, and expand the **URL Types** section.
@@ -17,4 +19,5 @@
 
 ## Web
 
-1. See [Before you begin](https://firebase.google.com/docs/auth/web/microsoft-oauth#before_you_begin) and follow the instructions to configure and enable sign-in with Microsoft correctly.
+1. See [Before you begin](https://firebase.google.com/docs/auth/web/microsoft-oauth#before_you_begin) and follow the instructions to configure and enable sign-in with Microsoft correctly.  
+**Attention**: Make sure you select `Web` as the platform for your redirect URI when registering a Microsoft OAuth client (step 4).

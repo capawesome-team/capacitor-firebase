@@ -45,6 +45,15 @@ jobs:
           --header 'Content-Type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data-raw '{ "labels": ["package: firestore"] }'
+      - name: Add package-storage label
+        if: contains(github.event.issue.body, '@capacitor-firebase/storage')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: storage"] }'
       - name: Add package-messaging label
         if: contains(github.event.issue.body, '@capacitor-firebase/messaging')
         run: |

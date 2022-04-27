@@ -20,8 +20,8 @@
 1.  Add the `CapacitorFirebaseAuthentication/Google` pod to your `Podfile` (usually `ios/App/Podfile`):
     ```diff
     target 'App' do
-    capacitor_pods
-    # Add your Pods here
+      capacitor_pods
+      # Add your Pods here
     +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@capacitor-firebase/authentication'
     end
     ```

@@ -1,11 +1,26 @@
-# Capacitor Firebase
+<br />
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/13857929/161965231-b2c7f586-2ee8-4342-a71a-0532bb8b4c1f.png" width="720" />
+</div>
+<br />
+<p align="center">
+  <a href="https://github.com/robingenz/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2022?style=flat-square" /></a>
+  <a href="https://github.com/robingenz/capacitor-firebase/actions/workflows/ci.yml"><img src="https://img.shields.io/github/workflow/status/robingenz/capacitor-firebase/CI/main?style=flat-square" /></a>
+  <a href="https://github.com/robingenz/capacitor-firebase"><img src="https://img.shields.io/github/license/robingenz/capacitor-firebase?style=flat-square" /></a>
+  <a href="https://turborepo.org/"><img src="https://img.shields.io/badge/maintained%20with-turborepo-%237f6ab2?style=flat-square" /></a>
+</p>
 
-[![maintenance badge](https://img.shields.io/maintenance/yes/2022?style=flat-square)](https://github.com/robingenz/capacitor-firebase)
-[![workflow badge](https://img.shields.io/github/workflow/status/robingenz/capacitor-firebase/CI/main?style=flat-square)](https://github.com/robingenz/capacitor-firebase/actions/workflows/ci.yml)
-[![license badge](https://img.shields.io/github/license/robingenz/capacitor-firebase?style=flat-square)](https://github.com/robingenz/capacitor-firebase)
-[![maintained badge](https://img.shields.io/badge/maintained%20with-turborepo-%237f6ab2?style=flat-square)](https://turborepo.org/)
+## Features
 
-⚡️ Firebase plugins for Capacitor. Supports Android, iOS and the web.
+Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use Firebase in your Capacitor project.
+
+- 🔋 Supports **Android, iOS and the web**
+- ⚡️ **Capacitor 3+** support 
+- 🔥 **Firebase Web SDK version 9** (modular) support
+- 🦋 Consistent versioning (no more SDK versions conflicts)
+- 👁 Unified Typescript definitions
+- 📄 Full documentation
+- ⚙️ Under active development, more plugins coming soon
 
 ## Maintainers
 

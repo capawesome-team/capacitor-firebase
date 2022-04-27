@@ -109,7 +109,7 @@ public class FirebaseAnalyticsHelper {
                         }
                         break;
                     default:
-                        bundle.putString(key, value.getClass().getSimpleName());
+                        bundle.putString(key, (String) value);
                 }
             }
         } catch (JSONException exception) {

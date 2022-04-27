@@ -37,12 +37,13 @@ See [Disable Analytics data collection](https://firebase.google.com/docs/analyti
 
 #### Disable IDFA collection
 
-If you want to install Firebase without any IDFA collection capability, use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod in place of pod `CapacitorFirebaseAnalytics/Firebase`:
+If you want to install Firebase without any IDFA collection capability, use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod in place of the `CapacitorFirebaseAnalytics/Firebase` pod:
 
 ```diff
 target 'App' do
 capacitor_pods
 # Add your Pods here
+-  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
 +  pod 'CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport', :path => '../../node_modules/@capacitor-firebase/analytics'
 end
 ```
@@ -134,9 +135,7 @@ const resetAnalyticsData = async () => {
 setUserId(options: SetUserIdOptions) => Promise<void>
 ```
 
-Sets a user ID (identifier) that is associated with subsequent fatal and non-fatal reports.
-
-Only available for Android and iOS.
+Sets the user ID property.
 
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
