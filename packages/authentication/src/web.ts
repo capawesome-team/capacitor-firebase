@@ -7,20 +7,20 @@ import type {
 import {
   applyActionCode,
   confirmPasswordReset,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  updateEmail,
-  updatePassword,
   connectAuthEmulator,
+  createUserWithEmailAndPassword,
   FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
   OAuthCredential,
   OAuthProvider,
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithCustomToken,
+  signInWithEmailAndPassword,
   signInWithPopup,
+  updateEmail,
+  updatePassword,
 } from 'firebase/auth';
 
 import type {
@@ -32,7 +32,6 @@ import type {
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
   GetIdTokenResult,
-  SendEmailVerificationOptions,
   SendPasswordResetEmailOptions,
   SetLanguageCodeOptions,
   SignInResult,
@@ -47,6 +46,8 @@ import type {
 export class FirebaseAuthenticationWeb
   extends WebPlugin
   implements FirebaseAuthenticationPlugin {
+  public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
+
   constructor() {
     super();
     const auth = getAuth();
@@ -94,21 +95,20 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
-  public async sendEmailVerification(
-    options: SendEmailVerificationOptions,
-  ): Promise<void> {
-    return sendEmailVerification(options.user, options.actionCodeSettings);
+  public async sendEmailVerification(): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return sendEmailVerification(auth.currentUser);
   }
 
   public async sendPasswordResetEmail(
     options: SendPasswordResetEmailOptions,
   ): Promise<void> {
     const auth = getAuth();
-    return sendPasswordResetEmail(
-      auth,
-      options.email,
-      options.actionCodeSettings,
-    );
+    return sendPasswordResetEmail(auth, options.email);
   }
 
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {

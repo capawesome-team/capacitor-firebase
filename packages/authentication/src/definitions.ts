@@ -1,8 +1,7 @@
 /// <reference types="@capacitor/cli" />
 
 import type { PluginListenerHandle } from '@capacitor/core';
-import type { ActionCodeSettings, User } from '@firebase/auth';
-import { UserCredential } from '@firebase/auth';
+import type { User } from '@firebase/auth';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -60,9 +59,9 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
-   * Sends a verification email to a user.
+   * Sends a verification email to the currently signed in user.
    */
-  sendEmailVerification(options: SendEmailVerificationOptions): Promise<void>;
+  sendEmailVerification(): Promise<void>;
   /**
    * Sends a password reset email.
    */
@@ -205,14 +204,8 @@ export interface GetIdTokenResult {
   token: string;
 }
 
-export interface SendEmailVerificationOptions {
-  user: User;
-  actionCodeSettings?: ActionCodeSettings | null;
-}
-
 export interface SendPasswordResetEmailOptions {
   email: string;
-  actionCodeSettings?: ActionCodeSettings;
 }
 
 export interface SetLanguageCodeOptions {

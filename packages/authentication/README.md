@@ -179,7 +179,7 @@ const useEmulator = async () => {
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
-* [`sendEmailVerification(...)`](#sendemailverification)
+* [`sendEmailVerification()`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
 * [`signInWithApple(...)`](#signinwithapple)
@@ -286,17 +286,13 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 --------------------
 
 
-### sendEmailVerification(...)
+### sendEmailVerification()
 
 ```typescript
-sendEmailVerification(options: SendEmailVerificationOptions) => Promise<void>
+sendEmailVerification() => Promise<void>
 ```
 
-Sends a verification email to a user.
-
-| Param         | Type                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#sendemailverificationoptions">SendEmailVerificationOptions</a></code> |
+Sends a verification email to the currently signed in user.
 
 --------------------
 
@@ -761,34 +757,11 @@ Interface representing a user's metadata.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. |
 
 
-#### SendEmailVerificationOptions
-
-| Prop                     | Type                                                                      |
-| ------------------------ | ------------------------------------------------------------------------- |
-| **`user`**               | <code><a href="#user">User</a></code>                                     |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a> \| null</code> |
-
-
-#### ActionCodeSettings
-
-An interface that defines the required continue/state URL with optional Android and iOS
-bundle identifiers.
-
-| Prop                    | Type                                                                                 | Description                                                                                                                                                                                |
-| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                             |
-| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                 |
-| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
-| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
-| **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
-
-
 #### SendPasswordResetEmailOptions
 
-| Prop                     | Type                                                              |
-| ------------------------ | ----------------------------------------------------------------- |
-| **`email`**              | <code>string</code>                                               |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> |
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`email`** | <code>string</code> |
 
 
 #### SetLanguageCodeOptions
