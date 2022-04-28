@@ -1,5 +1,5 @@
 ---
-"@capacitor-firebase/authentication": minor
+"@capacitor-firebase/authentication": patch
 ---
 
 feat: password authentication
