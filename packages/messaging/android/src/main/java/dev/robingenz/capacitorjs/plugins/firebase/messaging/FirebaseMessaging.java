@@ -8,10 +8,8 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-
 import java.util.List;
 
 public class FirebaseMessaging {
@@ -84,7 +82,7 @@ public class FirebaseMessaging {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return notificationManager.getActiveNotifications();
         } else {
-            return new StatusBarNotification[]{};
+            return new StatusBarNotification[] {};
         }
     }
 

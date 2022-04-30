@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.net.Uri;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
 import com.google.firebase.messaging.RemoteMessage;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import com.getcapacitor.Bridge;
 import com.getcapacitor.JSArray;
@@ -130,12 +129,16 @@ public class FirebaseMessagingPlugin extends Plugin {
     }
 
     private void handleNotificationReceived(@NonNull RemoteMessage remoteMessage) {
-        JSObject result = FirebaseMessagingHelper.createNotificationResult(remoteMessage);
+        JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(remoteMessage);
+        JSObject result = new JSObject();
+        result.put("notification", notificationResult);
         notifyListeners(NOTIFICATION_RECEIVED_EVENT, result, true);
     }
 
     private void handleNotificationReceived(@NonNull Bundle bundle) {
-        JSObject result = FirebaseMessagingHelper.createNotificationResult(bundle);
+        JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(bundle);
+        JSObject result = new JSObject();
+        result.put("notification", notificationResult);
         notifyListeners(NOTIFICATION_RECEIVED_EVENT, result, true);
     }
 

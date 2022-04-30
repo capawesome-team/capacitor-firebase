@@ -71,6 +71,11 @@ You need to add the following to your `ios/App/App/AppDelegate.swift` file:
     ```
 1. Finally edit your `ios/App/App/Info.plist` and add `FirebaseAppDelegateProxyEnabled` key to `NO`.
 
+### Web
+
+1. See [Configure Web Credentials with FCM](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with) and follow the instructions to configure your web credentials correctly.
+1. Add a `firebase-messaging-sw.js` file to the root of your domain. This file can be empty if you do not want to receive push notifications in the background.
+See [Setting notification options in the service worker](https://firebase.google.com/docs/cloud-messaging/js/receive#setting_notification_options_in_the_service_worker) for more information.
 
 ## Configuration
 
@@ -96,7 +101,7 @@ const echo = async () => {
 
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions()`](#requestpermissions)
-* [`register()`](#register)
+* [`register(...)`](#register)
 * [`unregister()`](#unregister)
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
 * [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
@@ -143,14 +148,18 @@ Request permission to receive push notifications.
 --------------------
 
 
-### register()
+### register(...)
 
 ```typescript
-register() => Promise<void>
+register(options: RegisterOptions) => Promise<void>
 ```
 
 Register the app to receive push notifications.
 This method will trigger the `registration` event with the FCM token.
+
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#registeroptions">RegisterOptions</a></code> |
 
 **Since:** 0.2.2
 
@@ -299,6 +308,13 @@ Remove all native listeners for this plugin.
 | **`receive`** | <code><a href="#permissionstate">PermissionState</a></code> | 0.2.2 |
 
 
+#### RegisterOptions
+
+| Prop           | Type                | Description                                                                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`vapidKey`** | <code>string</code> | Your VAPID public key, which is required to retrieve the current registration token on the web. Only available for Web. |
+
+
 #### GetDeliveredNotificationsResult
 
 | Prop                | Type                        | Since |
@@ -339,9 +355,9 @@ Remove all native listeners for this plugin.
 
 #### RegistrationErrorEvent
 
-| Prop        | Type                | Since |
-| ----------- | ------------------- | ----- |
-| **`error`** | <code>string</code> | 0.2.2 |
+| Prop          | Type                | Since |
+| ------------- | ------------------- | ----- |
+| **`message`** | <code>string</code> | 0.2.2 |
 
 
 #### NotificationReceivedEvent

@@ -19,7 +19,7 @@ export interface FirebaseMessagingPlugin {
    *
    * @since 0.2.2
    */
-  register(): Promise<void>;
+  register(options: RegisterOptions): Promise<void>;
   /**
    * Unregister the app to stop receiving push notifications.
    * Can be called, for example, when a user signs out.
@@ -82,6 +82,15 @@ export interface FirebaseMessagingPlugin {
   removeAllListeners(): Promise<void>;
 }
 
+export interface RegisterOptions {
+  /**
+   * Your VAPID public key, which is required to retrieve the current registration token on the web.
+   *
+   * Only available for Web.
+   */
+  vapidKey?: string;
+}
+
 /**
  * Callback to receive the token event.
  *
@@ -122,7 +131,7 @@ export interface RegistrationErrorEvent {
   /**
    * @since 0.2.2
    */
-  error: string;
+  message: string;
 }
 
 /**
