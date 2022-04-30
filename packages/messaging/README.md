@@ -59,10 +59,7 @@ You need to add the following to your `ios/App/App/AppDelegate.swift` file:
 
 ## Configuration
 
-<docgen-config>
-<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-</docgen-config>
+No configuration required for this plugin.
 
 ## Demo
 

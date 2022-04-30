@@ -6,6 +6,5 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-@CapacitorPlugin(name = "FirebaseMessaging")
-public class FirebaseMessagingPlugin extends Plugin {
-}
+@CapacitorPlugin(name = "FirebaseMessaging", permissions = @Permission(strings = {}, alias = "receive"))
+public class FirebaseMessagingPlugin extends Plugin {}
