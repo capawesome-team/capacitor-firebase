@@ -79,10 +79,255 @@ const echo = async () => {
 
 <docgen-index>
 
+* [`checkPermissions()`](#checkpermissions)
+* [`requestPermissions()`](#requestpermissions)
+* [`register()`](#register)
+* [`unregister()`](#unregister)
+* [`getDeliveredNotifications()`](#getdeliverednotifications)
+* [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
+* [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
+* [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
+* [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
+* [`removeAllListeners()`](#removealllisteners)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### checkPermissions()
+
+```typescript
+checkPermissions() => Promise<PermissionStatus>
+```
+
+Check permission to receive push notifications.
+
+**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### requestPermissions()
+
+```typescript
+requestPermissions() => Promise<PermissionStatus>
+```
+
+Request permission to receive push notifications.
+
+**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### register()
+
+```typescript
+register() => Promise<void>
+```
+
+Register the app to receive push notifications.
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### unregister()
+
+```typescript
+unregister() => Promise<void>
+```
+
+Unregister the app to stop receiving push notifications.
+Can be called, for example, when a user signs out.
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### getDeliveredNotifications()
+
+```typescript
+getDeliveredNotifications() => Promise<NotificationsResult>
+```
+
+Get a list of notifications that are visible on the notifications screen.
+
+**Returns:** <code>Promise&lt;<a href="#notificationsresult">NotificationsResult</a>&gt;</code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### removeDeliveredNotifications(...)
+
+```typescript
+removeDeliveredNotifications(options: NotificationsIds) => Promise<void>
+```
+
+Remove specific notifications from the notifications screen.
+
+| Param         | Type                                                          |
+| ------------- | ------------------------------------------------------------- |
+| **`options`** | <code><a href="#notificationsids">NotificationsIds</a></code> |
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### removeAllDeliveredNotifications()
+
+```typescript
+removeAllDeliveredNotifications() => Promise<void>
+```
+
+Remove all notifications from the notifications screen.
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### addListener('tokenReceived', ...)
+
+```typescript
+addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Called when a new FCM token is created.
+
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'tokenReceived'</code>                                            |
+| **`listenerFunc`** | <code><a href="#tokenreceivedlistener">TokenReceivedListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### addListener('notificationReceived', ...)
+
+```typescript
+addListener(eventName: 'notificationReceived', listenerFunc: NotificationReceivedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Called when a new push notification is received.
+
+| Param              | Type                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'notificationReceived'</code>                                                   |
+| **`listenerFunc`** | <code><a href="#notificationreceivedlistener">NotificationReceivedListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Remove all native listeners for this plugin.
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### Interfaces
+
+
+#### PermissionStatus
+
+| Prop          | Type                                                        | Since |
+| ------------- | ----------------------------------------------------------- | ----- |
+| **`receive`** | <code><a href="#permissionstate">PermissionState</a></code> | 0.2.2 |
+
+
+#### NotificationsResult
+
+| Prop                | Type                        | Since |
+| ------------------- | --------------------------- | ----- |
+| **`notifications`** | <code>Notification[]</code> | 0.2.2 |
+
+
+#### Notification
+
+| Prop           | Type                | Description                                                             | Since |
+| -------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
+| **`title`**    | <code>string</code> | The notification title.                                                 | 0.2.2 |
+| **`subtitle`** | <code>string</code> | The notification subtitle.                                              | 0.2.2 |
+| **`body`**     | <code>string</code> | The notification payload.                                               | 0.2.2 |
+| **`id`**       | <code>string</code> | The notification identifier.                                            | 0.2.2 |
+| **`data`**     | <code>any</code>    | Any additional data that was included in the push notification payload. | 0.2.2 |
+
+
+#### NotificationsIds
+
+| Prop      | Type                  | Since |
+| --------- | --------------------- | ----- |
+| **`ids`** | <code>string[]</code> | 0.2.2 |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+#### TokenReceivedEvent
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`token`** | <code>string</code> | 0.2.2 |
+
+
+#### NotificationReceivedEvent
+
+| Prop               | Type                                                  | Since |
+| ------------------ | ----------------------------------------------------- | ----- |
+| **`notification`** | <code><a href="#notification">Notification</a></code> | 0.2.2 |
+
+
+### Type Aliases
+
+
+#### PermissionState
+
+<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+#### TokenReceivedListener
+
+Callback to receive the token event.
+
+<code>(event: <a href="#tokenreceivedevent">TokenReceivedEvent</a>): void</code>
+
+
+#### NotificationReceivedListener
+
+Callback to receive the push notification event.
+
+<code>(event: <a href="#notificationreceivedevent">NotificationReceivedEvent</a>): void</code>
 
 </docgen-api>
 
