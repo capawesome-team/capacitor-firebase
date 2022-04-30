@@ -15,6 +15,7 @@ export interface FirebaseMessagingPlugin {
   requestPermissions(): Promise<PermissionStatus>;
   /**
    * Register the app to receive push notifications.
+   * This method will trigger the `registration` event with the FCM token.
    *
    * @since 0.2.2
    */
@@ -31,13 +32,15 @@ export interface FirebaseMessagingPlugin {
    *
    * @since 0.2.2
    */
-  getDeliveredNotifications(): Promise<NotificationsResult>;
+  getDeliveredNotifications(): Promise<GetDeliveredNotificationsResult>;
   /**
    * Remove specific notifications from the notifications screen.
    *
    * @since 0.2.2
    */
-  removeDeliveredNotifications(options: NotificationsIds): Promise<void>;
+  removeDeliveredNotifications(
+    options: RemoveDeliveredNotificationsOptions,
+  ): Promise<void>;
   /**
    * Remove all notifications from the notifications screen.
    *
@@ -45,13 +48,22 @@ export interface FirebaseMessagingPlugin {
    */
   removeAllDeliveredNotifications(): Promise<void>;
   /**
-   * Called when a new FCM token is created.
+   * Called when the push notification registration is completed without problems.
    *
    * @since 0.2.2
    */
   addListener(
-    eventName: 'tokenReceived',
-    listenerFunc: TokenReceivedListener,
+    eventName: 'registration',
+    listenerFunc: RegistrationListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Called when the push notification registration is completed with problems.
+   *
+   * @since 0.2.2
+   */
+  addListener(
+    eventName: 'registrationError',
+    listenerFunc: RegistrationErrorListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Called when a new push notification is received.
@@ -75,7 +87,14 @@ export interface FirebaseMessagingPlugin {
  *
  * @since 0.2.2
  */
-export type TokenReceivedListener = (event: TokenReceivedEvent) => void;
+export type RegistrationListener = (event: RegistrationEvent) => void;
+
+/**
+ * Callback to receive the token event.
+ *
+ * @since 0.2.2
+ */
+export type RegistrationErrorListener = (event: RegistrationErrorEvent) => void;
 
 /**
  * Callback to receive the push notification event.
@@ -89,11 +108,21 @@ export type NotificationReceivedListener = (
 /**
  * @since 0.2.2
  */
-export interface TokenReceivedEvent {
+export interface RegistrationEvent {
   /**
    * @since 0.2.2
    */
   token: string;
+}
+
+/**
+ * @since 0.2.2
+ */
+export interface RegistrationErrorEvent {
+  /**
+   * @since 0.2.2
+   */
+  error: string;
 }
 
 /**
@@ -119,7 +148,7 @@ export interface TokenResult {
 /**
  * @since 0.2.2
  */
-export interface NotificationsResult {
+export interface GetDeliveredNotificationsResult {
   /**
    * @since 0.2.2
    */
@@ -129,7 +158,7 @@ export interface NotificationsResult {
 /**
  * @since 0.2.2
  */
-export interface NotificationsIds {
+export interface RemoveDeliveredNotificationsOptions {
   /**
    * @since 0.2.2
    */
@@ -151,23 +180,17 @@ export interface PermissionStatus {
  */
 export interface Notification {
   /**
-   * The notification title.
-   *
-   * @since 0.2.2
-   */
-  title?: string;
-  /**
-   * The notification subtitle.
-   *
-   * @since 0.2.2
-   */
-  subtitle?: string;
-  /**
    * The notification payload.
    *
    * @since 0.2.2
    */
   body?: string;
+  /**
+   * Any additional data that was included in the push notification payload.
+   *
+   * @since 0.2.2
+   */
+  data?: unknown;
   /**
    * The notification identifier.
    *
@@ -175,9 +198,9 @@ export interface Notification {
    */
   id: string;
   /**
-   * Any additional data that was included in the push notification payload.
+   * The notification title.
    *
    * @since 0.2.2
    */
-  data: any;
+  title?: string;
 }

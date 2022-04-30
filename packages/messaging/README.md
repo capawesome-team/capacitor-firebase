@@ -29,6 +29,21 @@ The Push Notification icon with the appropriate name should be added to the `and
 
 If no icon is specified, Android uses the application icon, but the push icon should be white pixels on a transparent background. Since the application icon does not usually look like this, it shows a white square or circle. Therefore, it is recommended to provide a separate icon for push notifications.
 
+#### Prevent auto initialization
+
+When a registration token is generated, the library uploads the identifier and configuration data to Firebase.
+If you prefer to prevent token autogeneration, disable Analytics collection and FCM auto initialization by adding these metadata values to the `android/app/src/main/AndroidManifest.xml` file:
+
+```xml
+<meta-data
+    android:name="firebase_messaging_auto_init_enabled"
+    android:value="false" />
+<meta-data
+    android:name="firebase_analytics_collection_enabled"
+    android:value="false" />
+
+```
+
 ### iOS
 
 You need to add the following to your `ios/App/App/AppDelegate.swift` file:
@@ -86,7 +101,8 @@ const echo = async () => {
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
 * [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
-* [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
+* [`addListener('registration', ...)`](#addlistenerregistration)
+* [`addListener('registrationError', ...)`](#addlistenerregistrationerror)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -134,6 +150,7 @@ register() => Promise<void>
 ```
 
 Register the app to receive push notifications.
+This method will trigger the `registration` event with the FCM token.
 
 **Since:** 0.2.2
 
@@ -157,12 +174,12 @@ Can be called, for example, when a user signs out.
 ### getDeliveredNotifications()
 
 ```typescript
-getDeliveredNotifications() => Promise<NotificationsResult>
+getDeliveredNotifications() => Promise<GetDeliveredNotificationsResult>
 ```
 
 Get a list of notifications that are visible on the notifications screen.
 
-**Returns:** <code>Promise&lt;<a href="#notificationsresult">NotificationsResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#getdeliverednotificationsresult">GetDeliveredNotificationsResult</a>&gt;</code>
 
 **Since:** 0.2.2
 
@@ -172,14 +189,14 @@ Get a list of notifications that are visible on the notifications screen.
 ### removeDeliveredNotifications(...)
 
 ```typescript
-removeDeliveredNotifications(options: NotificationsIds) => Promise<void>
+removeDeliveredNotifications(options: RemoveDeliveredNotificationsOptions) => Promise<void>
 ```
 
 Remove specific notifications from the notifications screen.
 
-| Param         | Type                                                          |
-| ------------- | ------------------------------------------------------------- |
-| **`options`** | <code><a href="#notificationsids">NotificationsIds</a></code> |
+| Param         | Type                                                                                                |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#removedeliverednotificationsoptions">RemoveDeliveredNotificationsOptions</a></code> |
 
 **Since:** 0.2.2
 
@@ -199,18 +216,38 @@ Remove all notifications from the notifications screen.
 --------------------
 
 
-### addListener('tokenReceived', ...)
+### addListener('registration', ...)
 
 ```typescript
-addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'registration', listenerFunc: RegistrationListener) => Promise<PluginListenerHandle> & PluginListenerHandle
 ```
 
-Called when a new FCM token is created.
+Called when the push notification registration is completed without problems.
 
-| Param              | Type                                                                    |
-| ------------------ | ----------------------------------------------------------------------- |
-| **`eventName`**    | <code>'tokenReceived'</code>                                            |
-| **`listenerFunc`** | <code><a href="#tokenreceivedlistener">TokenReceivedListener</a></code> |
+| Param              | Type                                                                  |
+| ------------------ | --------------------------------------------------------------------- |
+| **`eventName`**    | <code>'registration'</code>                                           |
+| **`listenerFunc`** | <code><a href="#registrationlistener">RegistrationListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### addListener('registrationError', ...)
+
+```typescript
+addListener(eventName: 'registrationError', listenerFunc: RegistrationErrorListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Called when the push notification registration is completed with problems.
+
+| Param              | Type                                                                            |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'registrationError'</code>                                                |
+| **`listenerFunc`** | <code><a href="#registrationerrorlistener">RegistrationErrorListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
@@ -262,7 +299,7 @@ Remove all native listeners for this plugin.
 | **`receive`** | <code><a href="#permissionstate">PermissionState</a></code> | 0.2.2 |
 
 
-#### NotificationsResult
+#### GetDeliveredNotificationsResult
 
 | Prop                | Type                        | Since |
 | ------------------- | --------------------------- | ----- |
@@ -271,16 +308,15 @@ Remove all native listeners for this plugin.
 
 #### Notification
 
-| Prop           | Type                | Description                                                             | Since |
-| -------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
-| **`title`**    | <code>string</code> | The notification title.                                                 | 0.2.2 |
-| **`subtitle`** | <code>string</code> | The notification subtitle.                                              | 0.2.2 |
-| **`body`**     | <code>string</code> | The notification payload.                                               | 0.2.2 |
-| **`id`**       | <code>string</code> | The notification identifier.                                            | 0.2.2 |
-| **`data`**     | <code>any</code>    | Any additional data that was included in the push notification payload. | 0.2.2 |
+| Prop        | Type                 | Description                                                             | Since |
+| ----------- | -------------------- | ----------------------------------------------------------------------- | ----- |
+| **`body`**  | <code>string</code>  | The notification payload.                                               | 0.2.2 |
+| **`data`**  | <code>unknown</code> | Any additional data that was included in the push notification payload. | 0.2.2 |
+| **`id`**    | <code>string</code>  | The notification identifier.                                            | 0.2.2 |
+| **`title`** | <code>string</code>  | The notification title.                                                 | 0.2.2 |
 
 
-#### NotificationsIds
+#### RemoveDeliveredNotificationsOptions
 
 | Prop      | Type                  | Since |
 | --------- | --------------------- | ----- |
@@ -294,11 +330,18 @@ Remove all native listeners for this plugin.
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
-#### TokenReceivedEvent
+#### RegistrationEvent
 
 | Prop        | Type                | Since |
 | ----------- | ------------------- | ----- |
 | **`token`** | <code>string</code> | 0.2.2 |
+
+
+#### RegistrationErrorEvent
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`error`** | <code>string</code> | 0.2.2 |
 
 
 #### NotificationReceivedEvent
@@ -316,11 +359,18 @@ Remove all native listeners for this plugin.
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
 
-#### TokenReceivedListener
+#### RegistrationListener
 
 Callback to receive the token event.
 
-<code>(event: <a href="#tokenreceivedevent">TokenReceivedEvent</a>): void</code>
+<code>(event: <a href="#registrationevent">RegistrationEvent</a>): void</code>
+
+
+#### RegistrationErrorListener
+
+Callback to receive the token event.
+
+<code>(event: <a href="#registrationerrorevent">RegistrationErrorEvent</a>): void</code>
 
 
 #### NotificationReceivedListener

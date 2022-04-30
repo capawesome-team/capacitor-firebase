@@ -1,4 +1,4 @@
-package de.einfachhans.firebase;
+package dev.robingenz.capacitorjs.plugins.firebase.messaging;
 
 import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -9,12 +9,12 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        FirebasePushPlugin.onNewRemoteMessage(remoteMessage);
+        FirebaseMessagingPlugin.onMessageReceived(remoteMessage);
     }
 
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
-        FirebasePushPlugin.onNewToken(s);
+        FirebaseMessagingPlugin.onNewToken(s);
     }
 }
