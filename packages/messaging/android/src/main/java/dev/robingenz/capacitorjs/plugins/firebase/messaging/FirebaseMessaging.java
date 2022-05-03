@@ -14,20 +14,6 @@ import java.util.List;
 
 public class FirebaseMessaging {
 
-    interface RegistrationListener {
-        void onRegistrationListener(@NonNull String token);
-    }
-
-    interface RegistrationErrorListener {
-        void onRegistrationErrorListener(@NonNull String message);
-    }
-
-    @Nullable
-    private RegistrationListener registrationListener;
-
-    @Nullable
-    private RegistrationErrorListener registrationErrorListener;
-
     private FirebaseMessagingPlugin plugin;
     private NotificationManager notificationManager;
     private com.google.firebase.messaging.FirebaseMessaging firebaseMessagingInstance;
@@ -38,25 +24,7 @@ public class FirebaseMessaging {
         this.firebaseMessagingInstance = com.google.firebase.messaging.FirebaseMessaging.getInstance();
     }
 
-    public void setRegistrationListener(@Nullable RegistrationListener listener) {
-        this.registrationListener = listener;
-    }
-
-    @Nullable
-    public RegistrationListener getRegistrationListener() {
-        return registrationListener;
-    }
-
-    public void setRegistrationErrorListener(@Nullable RegistrationErrorListener listener) {
-        this.registrationErrorListener = listener;
-    }
-
-    @Nullable
-    public RegistrationErrorListener getRegistrationErrorListener() {
-        return registrationErrorListener;
-    }
-
-    public void register() {
+    public void getToken(final GetTokenResultCallback resultCallback) {
         this.firebaseMessagingInstance.setAutoInitEnabled(true);
         this.firebaseMessagingInstance.getToken()
             .addOnCompleteListener(
@@ -64,17 +32,17 @@ public class FirebaseMessaging {
                     if (!task.isSuccessful()) {
                         Exception exception = task.getException();
                         Log.w(FirebaseMessagingPlugin.TAG, "Fetching FCM registration token failed", exception);
-                        this.registrationErrorListener.onRegistrationErrorListener(exception.getLocalizedMessage());
+                        resultCallback.error(exception.getLocalizedMessage());
                         return;
                     }
 
                     String token = task.getResult();
-                    this.registrationListener.onRegistrationListener(token);
+                    resultCallback.success(token);
                 }
             );
     }
 
-    public void unregister() {
+    public void deleteToken() {
         this.firebaseMessagingInstance.deleteToken();
     }
 

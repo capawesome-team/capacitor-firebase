@@ -11,10 +11,4 @@ public class MessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         FirebaseMessagingPlugin.onMessageReceived(remoteMessage);
     }
-
-    @Override
-    public void onNewToken(@NonNull String s) {
-        super.onNewToken(s);
-        FirebaseMessagingPlugin.onNewToken(s);
-    }
 }

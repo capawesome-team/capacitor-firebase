@@ -101,13 +101,11 @@ const echo = async () => {
 
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions()`](#requestpermissions)
-* [`register(...)`](#register)
-* [`unregister()`](#unregister)
+* [`getToken(...)`](#gettoken)
+* [`deleteToken()`](#deletetoken)
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
 * [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
-* [`addListener('registration', ...)`](#addlistenerregistration)
-* [`addListener('registrationError', ...)`](#addlistenerregistrationerror)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -148,31 +146,33 @@ Request permission to receive push notifications.
 --------------------
 
 
-### register(...)
+### getToken(...)
 
 ```typescript
-register(options: RegisterOptions) => Promise<void>
+getToken(options: GetTokenOptions) => Promise<GetTokenResult>
 ```
 
 Register the app to receive push notifications.
-This method will trigger the `registration` event with the FCM token.
+Returns a FCM token that can be used to send push messages to that Messaging instance.
 
 | Param         | Type                                                        |
 | ------------- | ----------------------------------------------------------- |
-| **`options`** | <code><a href="#registeroptions">RegisterOptions</a></code> |
+| **`options`** | <code><a href="#gettokenoptions">GetTokenOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#gettokenresult">GetTokenResult</a>&gt;</code>
 
 **Since:** 0.2.2
 
 --------------------
 
 
-### unregister()
+### deleteToken()
 
 ```typescript
-unregister() => Promise<void>
+deleteToken() => Promise<void>
 ```
 
-Unregister the app to stop receiving push notifications.
+Delete the FCM token and unregister the app to stop receiving push notifications.
 Can be called, for example, when a user signs out.
 
 **Since:** 0.2.2
@@ -225,46 +225,6 @@ Remove all notifications from the notifications screen.
 --------------------
 
 
-### addListener('registration', ...)
-
-```typescript
-addListener(eventName: 'registration', listenerFunc: RegistrationListener) => Promise<PluginListenerHandle> & PluginListenerHandle
-```
-
-Called when the push notification registration is completed without problems.
-
-| Param              | Type                                                                  |
-| ------------------ | --------------------------------------------------------------------- |
-| **`eventName`**    | <code>'registration'</code>                                           |
-| **`listenerFunc`** | <code><a href="#registrationlistener">RegistrationListener</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
-**Since:** 0.2.2
-
---------------------
-
-
-### addListener('registrationError', ...)
-
-```typescript
-addListener(eventName: 'registrationError', listenerFunc: RegistrationErrorListener) => Promise<PluginListenerHandle> & PluginListenerHandle
-```
-
-Called when the push notification registration is completed with problems.
-
-| Param              | Type                                                                            |
-| ------------------ | ------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'registrationError'</code>                                                |
-| **`listenerFunc`** | <code><a href="#registrationerrorlistener">RegistrationErrorListener</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
-**Since:** 0.2.2
-
---------------------
-
-
 ### addListener('notificationReceived', ...)
 
 ```typescript
@@ -308,7 +268,14 @@ Remove all native listeners for this plugin.
 | **`receive`** | <code><a href="#permissionstate">PermissionState</a></code> | 0.2.2 |
 
 
-#### RegisterOptions
+#### GetTokenResult
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`token`** | <code>string</code> | 0.2.2 |
+
+
+#### GetTokenOptions
 
 | Prop           | Type                | Description                                                                                                             |
 | -------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -346,20 +313,6 @@ Remove all native listeners for this plugin.
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
-#### RegistrationEvent
-
-| Prop        | Type                | Since |
-| ----------- | ------------------- | ----- |
-| **`token`** | <code>string</code> | 0.2.2 |
-
-
-#### RegistrationErrorEvent
-
-| Prop          | Type                | Since |
-| ------------- | ------------------- | ----- |
-| **`message`** | <code>string</code> | 0.2.2 |
-
-
 #### NotificationReceivedEvent
 
 | Prop               | Type                                                  | Since |
@@ -373,20 +326,6 @@ Remove all native listeners for this plugin.
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
-
-
-#### RegistrationListener
-
-Callback to receive the token event.
-
-<code>(event: <a href="#registrationevent">RegistrationEvent</a>): void</code>
-
-
-#### RegistrationErrorListener
-
-Callback to receive the token event.
-
-<code>(event: <a href="#registrationerrorevent">RegistrationErrorEvent</a>): void</code>
 
 
 #### NotificationReceivedListener

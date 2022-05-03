@@ -22,8 +22,6 @@ import org.json.JSONException;
 public class FirebaseMessagingPlugin extends Plugin {
 
     public static final String TAG = "FirebaseMessaging";
-    public static final String REGISTRATION_EVENT = "registration";
-    public static final String REGISTRATION_ERROR_EVENT = "registrationError";
     public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
     public static final String ERROR_IDS_MISSING = "ids must be provided.";
     public static Bridge staticBridge = null;
@@ -32,8 +30,6 @@ public class FirebaseMessagingPlugin extends Plugin {
 
     public void load() {
         implementation = new FirebaseMessaging(this);
-        implementation.setRegistrationListener(this::handleRegistration);
-        implementation.setRegistrationErrorListener(this::handleRegistrationError);
 
         staticBridge = this.bridge;
         if (lastRemoteMessage != null) {
@@ -60,22 +56,28 @@ public class FirebaseMessagingPlugin extends Plugin {
         }
     }
 
-    public static void onNewToken(@NonNull String token) {
-        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
-        if (plugin != null) {
-            plugin.handleRegistration(token);
-        }
+    @PluginMethod
+    public void getToken(PluginCall call) {
+        implementation.getToken(
+                new GetTokenResultCallback() {
+                    @Override
+                    public void success(String token) {
+                        JSObject result = new JSObject();
+                        result.put("token", token);
+                        call.resolve(result);
+                    }
+
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
+                }
+        );
     }
 
     @PluginMethod
-    public void register(PluginCall call) {
-        implementation.register();
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void unregister(PluginCall call) {
-        implementation.unregister();
+    public void deleteToken(PluginCall call) {
+        implementation.deleteToken();
         call.resolve();
     }
 
@@ -114,18 +116,6 @@ public class FirebaseMessagingPlugin extends Plugin {
     public void removeAllDeliveredNotifications(PluginCall call) {
         implementation.removeAllDeliveredNotifications();
         call.resolve();
-    }
-
-    private void handleRegistration(@NonNull String token) {
-        JSObject data = new JSObject();
-        data.put("token", token);
-        notifyListeners(REGISTRATION_EVENT, data, true);
-    }
-
-    private void handleRegistrationError(@NonNull String message) {
-        JSObject data = new JSObject();
-        data.put("message", message);
-        notifyListeners(REGISTRATION_ERROR_EVENT, data, true);
     }
 
     private void handleNotificationReceived(@NonNull RemoteMessage remoteMessage) {

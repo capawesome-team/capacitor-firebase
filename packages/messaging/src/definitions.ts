@@ -15,18 +15,18 @@ export interface FirebaseMessagingPlugin {
   requestPermissions(): Promise<PermissionStatus>;
   /**
    * Register the app to receive push notifications.
-   * This method will trigger the `registration` event with the FCM token.
+   * Returns a FCM token that can be used to send push messages to that Messaging instance.
    *
    * @since 0.2.2
    */
-  register(options: RegisterOptions): Promise<void>;
+  getToken(options: GetTokenOptions): Promise<GetTokenResult>;
   /**
-   * Unregister the app to stop receiving push notifications.
+   * Delete the FCM token and unregister the app to stop receiving push notifications.
    * Can be called, for example, when a user signs out.
    *
    * @since 0.2.2
    */
-  unregister(): Promise<void>;
+  deleteToken(): Promise<void>;
   /**
    * Get a list of notifications that are visible on the notifications screen.
    *
@@ -48,24 +48,6 @@ export interface FirebaseMessagingPlugin {
    */
   removeAllDeliveredNotifications(): Promise<void>;
   /**
-   * Called when the push notification registration is completed without problems.
-   *
-   * @since 0.2.2
-   */
-  addListener(
-    eventName: 'registration',
-    listenerFunc: RegistrationListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
-  /**
-   * Called when the push notification registration is completed with problems.
-   *
-   * @since 0.2.2
-   */
-  addListener(
-    eventName: 'registrationError',
-    listenerFunc: RegistrationErrorListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
-  /**
    * Called when a new push notification is received.
    *
    * @since 0.2.2
@@ -82,7 +64,20 @@ export interface FirebaseMessagingPlugin {
   removeAllListeners(): Promise<void>;
 }
 
-export interface RegisterOptions {
+/**
+ * @since 0.2.2
+ */
+export interface PermissionStatus {
+  /**
+   * @since 0.2.2
+   */
+  receive: PermissionState;
+}
+
+/**
+ * @since 0.2.2
+ */
+export interface GetTokenOptions {
   /**
    * Your VAPID public key, which is required to retrieve the current registration token on the web.
    *
@@ -92,62 +87,9 @@ export interface RegisterOptions {
 }
 
 /**
- * Callback to receive the token event.
- *
  * @since 0.2.2
  */
-export type RegistrationListener = (event: RegistrationEvent) => void;
-
-/**
- * Callback to receive the token event.
- *
- * @since 0.2.2
- */
-export type RegistrationErrorListener = (event: RegistrationErrorEvent) => void;
-
-/**
- * Callback to receive the push notification event.
- *
- * @since 0.2.2
- */
-export type NotificationReceivedListener = (
-  event: NotificationReceivedEvent,
-) => void;
-
-/**
- * @since 0.2.2
- */
-export interface RegistrationEvent {
-  /**
-   * @since 0.2.2
-   */
-  token: string;
-}
-
-/**
- * @since 0.2.2
- */
-export interface RegistrationErrorEvent {
-  /**
-   * @since 0.2.2
-   */
-  message: string;
-}
-
-/**
- * @since 0.2.2
- */
-export interface NotificationReceivedEvent {
-  /**
-   * @since 0.2.2
-   */
-  notification: Notification;
-}
-
-/**
- * @since 0.2.2
- */
-export interface TokenResult {
+export interface GetTokenResult {
   /**
    * @since 0.2.2
    */
@@ -175,13 +117,22 @@ export interface RemoveDeliveredNotificationsOptions {
 }
 
 /**
+ * Callback to receive the push notification event.
+ *
  * @since 0.2.2
  */
-export interface PermissionStatus {
+export type NotificationReceivedListener = (
+  event: NotificationReceivedEvent,
+) => void;
+
+/**
+ * @since 0.2.2
+ */
+export interface NotificationReceivedEvent {
   /**
    * @since 0.2.2
    */
-  receive: PermissionState;
+  notification: Notification;
 }
 
 /**

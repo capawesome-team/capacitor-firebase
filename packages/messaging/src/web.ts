@@ -8,73 +8,26 @@ import {
   onMessage,
 } from 'firebase/messaging';
 
-import { Notification } from './definitions';
 import type {
   FirebaseMessagingPlugin,
   GetDeliveredNotificationsResult,
   NotificationReceivedEvent,
   PermissionStatus,
-  RegistrationErrorEvent,
-  RegistrationEvent,
   RemoveDeliveredNotificationsOptions,
+  GetTokenOptions,
+  GetTokenResult,
 } from './definitions';
+import { Notification } from './definitions';
 
 export class FirebaseMessagingWeb
   extends WebPlugin
   implements FirebaseMessagingPlugin {
-  public static readonly registrationEvent = 'registration';
-  public static readonly registrationErrorEvent = 'registrationError';
   public static readonly notificationReceivedEvent = 'notificationReceived';
 
   constructor() {
     super();
     const messaging = getMessaging();
     onMessage(messaging, payload => this.handleNotificationReceived(payload));
-  }
-
-  public async register(): Promise<void> {
-    const messaging = getMessaging();
-    try {
-      const token = await getToken(messaging, {
-        vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>',
-      });
-      if (token) {
-        this.handleRegistration(token);
-      } else {
-        this.handleRegistrationError(
-          'No registration token available. Request permission to generate one.',
-        );
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        this.handleRegistrationError(error.message);
-      } else {
-        this.handleRegistrationError('' + error);
-      }
-    }
-  }
-
-  public async unregister(): Promise<void> {
-    const messaging = getMessaging();
-    await deleteToken(messaging);
-  }
-
-  public async getDeliveredNotifications(): Promise<GetDeliveredNotificationsResult> {
-    this.throwUnavailableError();
-  }
-
-  public async removeDeliveredNotifications(
-    _options: RemoveDeliveredNotificationsOptions,
-  ): Promise<void> {
-    this.throwUnavailableError();
-  }
-
-  public async removeAllDeliveredNotifications(): Promise<void> {
-    this.throwUnavailableError();
-  }
-
-  public async removeAllListeners(): Promise<void> {
-    this.throwUnavailableError();
   }
 
   public async checkPermissions(): Promise<PermissionStatus> {
@@ -96,18 +49,37 @@ export class FirebaseMessagingWeb
     };
   }
 
-  private handleRegistration(token: string): void {
-    const event: RegistrationEvent = {
+  public async getToken(options: GetTokenOptions): Promise<GetTokenResult> {
+    const messaging = getMessaging();
+    const token = await getToken(messaging, {
+      vapidKey: options.vapidKey,
+    });
+    return {
       token,
     };
-    this.notifyListeners(FirebaseMessagingWeb.registrationEvent, event);
   }
 
-  private handleRegistrationError(message: string): void {
-    const event: RegistrationErrorEvent = {
-      message,
-    };
-    this.notifyListeners(FirebaseMessagingWeb.registrationErrorEvent, event);
+  public async deleteToken(): Promise<void> {
+    const messaging = getMessaging();
+    await deleteToken(messaging);
+  }
+
+  public async getDeliveredNotifications(): Promise<GetDeliveredNotificationsResult> {
+    this.throwUnavailableError();
+  }
+
+  public async removeDeliveredNotifications(
+    _options: RemoveDeliveredNotificationsOptions,
+  ): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async removeAllDeliveredNotifications(): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async removeAllListeners(): Promise<void> {
+    this.throwUnavailableError();
   }
 
   private handleNotificationReceived(messagePayload: MessagePayload): void {
