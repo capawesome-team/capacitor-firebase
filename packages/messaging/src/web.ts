@@ -16,7 +16,9 @@ import type {
   NotificationReceivedEvent,
   PermissionStatus,
   RemoveDeliveredNotificationsOptions,
+  SubscribeToTopicOptions,
   TokenReceivedEvent,
+  UnsubscribeFromTopicOptions,
 } from './definitions';
 import { Notification } from './definitions';
 
@@ -82,6 +84,18 @@ export class FirebaseMessagingWeb
   }
 
   public async removeAllListeners(): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async subscribeToTopic(
+    _options: SubscribeToTopicOptions,
+  ): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async unsubscribeFromTopic(
+    _options: UnsubscribeFromTopicOptions,
+  ): Promise<void> {
     this.throwUnavailableError();
   }
 

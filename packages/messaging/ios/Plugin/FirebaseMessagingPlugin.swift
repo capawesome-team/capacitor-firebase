@@ -15,6 +15,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
 
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
+    public let errorTopicMissing = "topic must be provided."
 
     override public func load() {
         implementation = FirebaseMessaging(plugin: self, config: firebaseMessagingConfig())
@@ -81,6 +82,34 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     @objc func removeAllDeliveredNotifications(_ call: CAPPluginCall) {
         implementation?.removeAllDeliveredNotifications()
         call.resolve()
+    }
+
+    @objc func subscribeToTopic(_ call: CAPPluginCall) {
+        guard let topic = call.getString("topic") else {
+            call.reject(errorTopicMissing)
+            return
+        }
+        implementation?.subscribeToTopic(topic: topic, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
+    @objc func unsubscribeFromTopic(_ call: CAPPluginCall) {
+        guard let topic = call.getString("topic") else {
+            call.reject(errorTopicMissing)
+            return
+        }
+        implementation?.unsubscribeFromTopic(topic: topic, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
     }
 
     func handleTokenReceived(token: String) {

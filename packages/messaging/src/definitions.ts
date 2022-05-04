@@ -77,6 +77,22 @@ export interface FirebaseMessagingPlugin {
    */
   removeAllDeliveredNotifications(): Promise<void>;
   /**
+   * Subscribes to topic in the background.
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 0.2.2
+   */
+  subscribeToTopic(options: SubscribeToTopicOptions): Promise<void>;
+  /**
+   * Unsubscribes from topic in the background.
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 0.2.2
+   */
+  unsubscribeFromTopic(options: UnsubscribeFromTopicOptions): Promise<void>;
+  /**
    * Called when a new FCM token is received.
    *
    * @since 0.2.2
@@ -163,6 +179,30 @@ export interface RemoveDeliveredNotificationsOptions {
    * @since 0.2.2
    */
   ids: string[];
+}
+
+/**
+ * @since 0.2.2
+ */
+export interface SubscribeToTopicOptions {
+  /**
+   * The name of the topic to subscribe.
+   *
+   * @since 0.2.2
+   */
+  topic: string;
+}
+
+/**
+ * @since 0.2.2
+ */
+export interface UnsubscribeFromTopicOptions {
+  /**
+   * The name of the topic to unsubscribe from.
+   *
+   * @since 0.2.2
+   */
+  topic: string;
 }
 
 /**

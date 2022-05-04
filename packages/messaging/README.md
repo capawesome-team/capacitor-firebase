@@ -142,6 +142,8 @@ const echo = async () => {
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
 * [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
+* [`subscribeToTopic(...)`](#subscribetotopic)
+* [`unsubscribeFromTopic(...)`](#unsubscribefromtopic)
 * [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
 * [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
@@ -257,6 +259,44 @@ removeAllDeliveredNotifications() => Promise<void>
 ```
 
 Remove all notifications from the notifications screen.
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### subscribeToTopic(...)
+
+```typescript
+subscribeToTopic(options: SubscribeToTopicOptions) => Promise<void>
+```
+
+Subscribes to topic in the background.
+
+Only available for Android and iOS.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#subscribetotopicoptions">SubscribeToTopicOptions</a></code> |
+
+**Since:** 0.2.2
+
+--------------------
+
+
+### unsubscribeFromTopic(...)
+
+```typescript
+unsubscribeFromTopic(options: UnsubscribeFromTopicOptions) => Promise<void>
+```
+
+Unsubscribes from topic in the background.
+
+Only available for Android and iOS.
+
+| Param         | Type                                                                                |
+| ------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#unsubscribefromtopicoptions">UnsubscribeFromTopicOptions</a></code> |
 
 **Since:** 0.2.2
 
@@ -388,6 +428,20 @@ Remove all native listeners for this plugin.
 | Prop      | Type                  | Since |
 | --------- | --------------------- | ----- |
 | **`ids`** | <code>string[]</code> | 0.2.2 |
+
+
+#### SubscribeToTopicOptions
+
+| Prop        | Type                | Description                         | Since |
+| ----------- | ------------------- | ----------------------------------- | ----- |
+| **`topic`** | <code>string</code> | The name of the topic to subscribe. | 0.2.2 |
+
+
+#### UnsubscribeFromTopicOptions
+
+| Prop        | Type                | Description                                | Since |
+| ----------- | ------------------- | ------------------------------------------ | ----- |
+| **`topic`** | <code>string</code> | The name of the topic to unsubscribe from. | 0.2.2 |
 
 
 #### PluginListenerHandle

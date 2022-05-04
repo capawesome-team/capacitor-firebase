@@ -83,6 +83,26 @@ import FirebaseCore
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
+    public func subscribeToTopic(topic: String, completion: @escaping (Error?) -> Void) {
+        Messaging.messaging().subscribe(toTopic: topic) { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+    }
+
+    public func unsubscribeFromTopic(topic: String, completion: @escaping (Error?) -> Void) {
+        Messaging.messaging().unsubscribe(toTopic: topic) { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+    }
+
     public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
         self.plugin.handleNotificationReceived(notification: notification)
 

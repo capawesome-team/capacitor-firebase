@@ -63,4 +63,12 @@ public class FirebaseMessaging {
     public void removeAllDeliveredNotifications() {
         notificationManager.cancelAll();
     }
+
+    public void subscribeToTopic(String topic) {
+        firebaseMessagingInstance.subscribeToTopic(topic);
+    }
+
+    public void unsubscribeFromTopic(String topic) {
+        firebaseMessagingInstance.unsubscribeFromTopic(topic);
+    }
 }

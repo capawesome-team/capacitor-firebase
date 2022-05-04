@@ -26,6 +26,7 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
     public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
     public static final String ERROR_IDS_MISSING = "ids must be provided.";
+    public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
     public static Bridge staticBridge = null;
     public static String lastToken = null;
     public static RemoteMessage lastRemoteMessage = null;
@@ -131,6 +132,28 @@ public class FirebaseMessagingPlugin extends Plugin {
     @PluginMethod
     public void removeAllDeliveredNotifications(PluginCall call) {
         implementation.removeAllDeliveredNotifications();
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void subscribeToTopic(PluginCall call) {
+        String topic = call.getString("topic");
+        if (topic == null) {
+            call.reject(ERROR_TOPIC_MISSING);
+            return;
+        }
+        implementation.subscribeToTopic(topic);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void unsubscribeFromTopic(PluginCall call) {
+        String topic = call.getString("topic");
+        if (topic == null) {
+            call.reject(ERROR_TOPIC_MISSING);
+            return;
+        }
+        implementation.unsubscribeFromTopic(topic);
         call.resolve();
     }
 
