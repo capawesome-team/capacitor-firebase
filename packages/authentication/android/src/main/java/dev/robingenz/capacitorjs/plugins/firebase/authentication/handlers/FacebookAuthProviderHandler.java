@@ -13,13 +13,10 @@ import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
-
-import org.json.JSONException;
-
-import java.util.List;
-
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
+import java.util.List;
+import org.json.JSONException;
 
 public class FacebookAuthProviderHandler {
 
@@ -74,7 +71,7 @@ public class FacebookAuthProviderHandler {
                 Log.e(FirebaseAuthenticationPlugin.TAG, "signIn (applying scopes) failed.", exception);
             }
         }
-        
+
         this.loginButton.performClick();
     }
 

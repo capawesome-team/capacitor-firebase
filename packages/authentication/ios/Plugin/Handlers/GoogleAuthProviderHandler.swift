@@ -22,7 +22,11 @@ class GoogleAuthProviderHandler: NSObject {
         let scopes = call.getArray("scopes", String.self) ?? []
 
         DispatchQueue.main.async {
-            GIDSignIn.sharedInstance.signInWithConfiguration(with: config, presentingViewController: controller, additionalScopes: scopes) { user, error in
+            GIDSignIn.sharedInstance.signInWithConfiguration(
+                with: config,
+                presentingViewController: controller,
+                additionalScopes: scopes
+            ) { user, error in
                 if let error = error {
                     self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
                     return

@@ -63,10 +63,13 @@ export class FirebaseAuthenticationWeb
 
   // Attach scopes to provider if they're there.
   // Takes in either a string describing an OAuthProvider, or specific other providers.
-  private createProviderWithScopes(provider: string | GoogleAuthProvider | FacebookAuthProvider, options?: SignInOptions) {
-    if (typeof provider === "string") provider = new OAuthProvider(provider);
+  private createProviderWithScopes(
+    provider: string | GoogleAuthProvider | FacebookAuthProvider,
+    options?: SignInOptions,
+  ) {
+    if (typeof provider === 'string') provider = new OAuthProvider(provider);
     if (options?.scopes) {
-      for (let scope of options.scopes) {
+      for (const scope of options.scopes) {
         provider.addScope(scope);
       }
     }
@@ -81,15 +84,22 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithFacebook(options?: SignInOptions): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes(new FacebookAuthProvider(), options);
+  public async signInWithFacebook(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes(
+      new FacebookAuthProvider(),
+      options,
+    );
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithGithub(options?: SignInOptions): Promise<SignInResult> {
+  public async signInWithGithub(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = this.createProviderWithScopes('github.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
@@ -97,15 +107,22 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithGoogle(options?: SignInOptions): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes(new GoogleAuthProvider(), options);
+  public async signInWithGoogle(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes(
+      new GoogleAuthProvider(),
+      options,
+    );
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithMicrosoft(options?: SignInOptions): Promise<SignInResult> {
+  public async signInWithMicrosoft(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = this.createProviderWithScopes('microsoft.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
@@ -117,7 +134,9 @@ export class FirebaseAuthenticationWeb
     throw new Error('Not available on web.');
   }
 
-  public async signInWithTwitter(options?: SignInOptions): Promise<SignInResult> {
+  public async signInWithTwitter(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = this.createProviderWithScopes('twitter.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
