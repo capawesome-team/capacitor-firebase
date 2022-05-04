@@ -157,6 +157,11 @@ export interface SignInOptions {
    * Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.
    */
   customParameters?: SignInCustomParameter[];
+
+  /**
+   * Scopes to request from provider.
+   */
+  scopes?: string[];
 }
 
 export interface SignInCustomParameter {

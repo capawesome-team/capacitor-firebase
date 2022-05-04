@@ -21,6 +21,7 @@ import type {
   GetCurrentUserResult,
   GetIdTokenResult,
   SetLanguageCodeOptions,
+  SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
   SignInWithPhoneNumberOptions,
@@ -60,40 +61,52 @@ export class FirebaseAuthenticationWeb
     auth.languageCode = options.languageCode;
   }
 
-  public async signInWithApple(): Promise<SignInResult> {
-    const provider = new OAuthProvider('apple.com');
+  // Attach scopes to provider if they're there.
+  // Takes in either a string describing an OAuthProvider, or specific other providers.
+  private createProviderWithScopes(provider: string | GoogleAuthProvider | FacebookAuthProvider, options?: SignInOptions) {
+    if (typeof provider === "string") provider = new OAuthProvider(provider);
+    if (options?.scopes) {
+      for (let scope of options.scopes) {
+        provider.addScope(scope);
+      }
+    }
+    return provider;
+  }
+
+  public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes('apple.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithFacebook(): Promise<SignInResult> {
-    const provider = new FacebookAuthProvider();
+  public async signInWithFacebook(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes(new FacebookAuthProvider(), options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithGithub(): Promise<SignInResult> {
-    const provider = new OAuthProvider('github.com');
+  public async signInWithGithub(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes('github.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithGoogle(): Promise<SignInResult> {
-    const provider = new GoogleAuthProvider();
+  public async signInWithGoogle(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes(new GoogleAuthProvider(), options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithMicrosoft(): Promise<SignInResult> {
-    const provider = new OAuthProvider('microsoft.com');
+  public async signInWithMicrosoft(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes('microsoft.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -104,16 +117,16 @@ export class FirebaseAuthenticationWeb
     throw new Error('Not available on web.');
   }
 
-  public async signInWithTwitter(): Promise<SignInResult> {
-    const provider = new OAuthProvider('twitter.com');
+  public async signInWithTwitter(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes('twitter.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
     return this.createSignInResult(result.user, credential);
   }
 
-  public async signInWithYahoo(): Promise<SignInResult> {
-    const provider = new OAuthProvider('yahoo.com');
+  public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
+    const provider = this.createProviderWithScopes('yahoo.com', options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
