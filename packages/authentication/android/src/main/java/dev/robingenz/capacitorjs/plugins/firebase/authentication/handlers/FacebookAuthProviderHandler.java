@@ -9,9 +9,15 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
+
+import org.json.JSONException;
+
+import java.util.List;
+
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 
@@ -29,6 +35,7 @@ public class FacebookAuthProviderHandler {
         try {
             mCallbackManager = CallbackManager.Factory.create();
             loginButton = new LoginButton(pluginImplementation.getPlugin().getContext());
+
             loginButton.setPermissions("email", "public_profile");
             loginButton.registerCallback(
                 mCallbackManager,
@@ -56,6 +63,18 @@ public class FacebookAuthProviderHandler {
 
     public void signIn(PluginCall call) {
         savedCall = call;
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                List<String> scopeList = scopes.toList();
+                scopeList.add("email");
+                scopeList.add("public_profile");
+                this.loginButton.setPermissions(scopeList);
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "signIn (applying scopes) failed.", exception);
+            }
+        }
+        
         this.loginButton.performClick();
     }
 
