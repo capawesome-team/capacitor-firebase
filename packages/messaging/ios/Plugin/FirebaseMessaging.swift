@@ -94,13 +94,13 @@ import FirebaseCore
     }
 
     public func unsubscribeFromTopic(topic: String, completion: @escaping (Error?) -> Void) {
-        Messaging.messaging().unsubscribe(toTopic: topic) { error in
+        Messaging.messaging().unsubscribe(fromTopic: topic, completion: { error in
             if let error = error {
                 completion(error)
                 return
             }
             completion(nil)
-        }
+        })
     }
 
     public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
