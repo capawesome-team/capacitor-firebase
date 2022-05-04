@@ -107,6 +107,7 @@ export class FirebaseMessagingWeb
       body: messagePayload.notification?.body,
       data: messagePayload.data,
       id: messagePayload.messageId,
+      image: messagePayload.notification?.image,
       title: messagePayload.notification?.title,
     };
     return notification;

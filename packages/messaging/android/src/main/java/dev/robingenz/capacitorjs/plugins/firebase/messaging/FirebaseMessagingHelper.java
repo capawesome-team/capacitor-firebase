@@ -25,6 +25,12 @@ public class FirebaseMessagingHelper {
         if (notification != null) {
             notificationResult.put("title", notification.getTitle());
             notificationResult.put("body", notification.getBody());
+            notificationResult.put("clickAction", notification.getClickAction());
+
+            Uri link = notification.getLink();
+            if (link != null) {
+                notificationResult.put("link", link.toString());
+            }
         }
         return notificationResult;
     }

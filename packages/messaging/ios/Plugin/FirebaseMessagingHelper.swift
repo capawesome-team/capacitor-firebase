@@ -5,10 +5,11 @@ import FirebaseCore
 public class FirebaseMessagingHelper {
     public static func createNotificationResult(notification: UNNotification) -> JSObject {
         var result = JSObject()
-        result["id"] = notification.request.identifier
-        result["title"] = notification.request.content.title
         result["body"] = notification.request.content.body
         result["data"] = JSTypes.coerceDictionaryToJSObject(notification.request.content.userInfo) ?? [:]
+        result["id"] = notification.request.identifier
+        result["subtitle"] = notification.request.content.subtitle
+        result["title"] = notification.request.content.title
         return result
     }
 }

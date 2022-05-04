@@ -247,6 +247,14 @@ export interface Notification {
    */
   body?: string;
   /**
+   * The action to be performed on the user opening the notification.
+   *
+   * Only available on Android.
+   *
+   * @since 0.2.2
+   */
+  clickAction?: string;
+  /**
    * Any additional data that was included in the push notification payload.
    *
    * @since 0.2.2
@@ -258,6 +266,30 @@ export interface Notification {
    * @since 0.2.2
    */
   id: string;
+  /**
+   * The URL of an image that is downloaded on the device and displayed in the notification.
+   *
+   * Only available on Web.
+   *
+   * @since 0.2.2
+   */
+  image?: string;
+  /**
+   * Deep link from the notification.
+   *
+   * Only available on Android.
+   *
+   * @since 0.2.2
+   */
+  link?: string;
+  /**
+   * The notification subtitle.
+   *
+   * Only available on iOS.
+   *
+   * @since 0.2.2
+   */
+  subtitle?: string;
   /**
    * The notification title.
    *

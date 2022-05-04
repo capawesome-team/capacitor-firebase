@@ -371,12 +371,16 @@ Remove all native listeners for this plugin.
 
 #### Notification
 
-| Prop        | Type                 | Description                                                             | Since |
-| ----------- | -------------------- | ----------------------------------------------------------------------- | ----- |
-| **`body`**  | <code>string</code>  | The notification payload.                                               | 0.2.2 |
-| **`data`**  | <code>unknown</code> | Any additional data that was included in the push notification payload. | 0.2.2 |
-| **`id`**    | <code>string</code>  | The notification identifier.                                            | 0.2.2 |
-| **`title`** | <code>string</code>  | The notification title.                                                 | 0.2.2 |
+| Prop              | Type                 | Description                                                                                                    | Since |
+| ----------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- | ----- |
+| **`body`**        | <code>string</code>  | The notification payload.                                                                                      | 0.2.2 |
+| **`clickAction`** | <code>string</code>  | The action to be performed on the user opening the notification. Only available on Android.                    | 0.2.2 |
+| **`data`**        | <code>unknown</code> | Any additional data that was included in the push notification payload.                                        | 0.2.2 |
+| **`id`**          | <code>string</code>  | The notification identifier.                                                                                   | 0.2.2 |
+| **`image`**       | <code>string</code>  | The URL of an image that is downloaded on the device and displayed in the notification. Only available on Web. | 0.2.2 |
+| **`link`**        | <code>string</code>  | Deep link from the notification. Only available on Android.                                                    | 0.2.2 |
+| **`subtitle`**    | <code>string</code>  | The notification subtitle. Only available on iOS.                                                              | 0.2.2 |
+| **`title`**       | <code>string</code>  | The notification title.                                                                                        | 0.2.2 |
 
 
 #### RemoveDeliveredNotificationsOptions
