@@ -83,6 +83,12 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         call.resolve()
     }
 
+    func handleTokenReceived(token: String) {
+        var result = JSObject()
+        result["token"] = token
+        notifyListeners(notificationReceivedEvent, data: result)
+    }
+
     func handleNotificationReceived(notification: UNNotification) {
         let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
         var result = JSObject()
@@ -112,6 +118,8 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             return
         }
         Messaging.messaging().apnsToken = deviceToken
+        let deviceTokenAsString = String(decoding: deviceToken, as: UTF8.self)
+        self.handleTokenReceived(token: deviceTokenAsString)
     }
 
     private func firebaseMessagingConfig() -> FirebaseMessagingConfig {

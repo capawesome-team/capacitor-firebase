@@ -11,17 +11,19 @@ import {
 import type {
   FirebaseMessagingPlugin,
   GetDeliveredNotificationsResult,
+  GetTokenOptions,
+  GetTokenResult,
   NotificationReceivedEvent,
   PermissionStatus,
   RemoveDeliveredNotificationsOptions,
-  GetTokenOptions,
-  GetTokenResult,
+  TokenReceivedEvent,
 } from './definitions';
 import { Notification } from './definitions';
 
 export class FirebaseMessagingWeb
   extends WebPlugin
   implements FirebaseMessagingPlugin {
+  public static readonly tokenReceivedEvent = 'tokenReceived';
   public static readonly notificationReceivedEvent = 'notificationReceived';
 
   constructor() {
@@ -54,6 +56,7 @@ export class FirebaseMessagingWeb
     const token = await getToken(messaging, {
       vapidKey: options.vapidKey,
     });
+    this.handleTokenReceived(token);
     return {
       token,
     };
@@ -80,6 +83,13 @@ export class FirebaseMessagingWeb
 
   public async removeAllListeners(): Promise<void> {
     this.throwUnavailableError();
+  }
+
+  private handleTokenReceived(token: string): void {
+    const event: TokenReceivedEvent = {
+      token,
+    };
+    this.notifyListeners(FirebaseMessagingWeb.tokenReceivedEvent, event);
   }
 
   private handleNotificationReceived(messagePayload: MessagePayload): void {

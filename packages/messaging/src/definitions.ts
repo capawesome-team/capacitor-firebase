@@ -77,6 +77,15 @@ export interface FirebaseMessagingPlugin {
    */
   removeAllDeliveredNotifications(): Promise<void>;
   /**
+   * Called when a new FCM token is received.
+   *
+   * @since 0.2.2
+   */
+  addListener(
+    eventName: 'tokenReceived',
+    listenerFunc: TokenReceivedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
    * Called when a new push notification is received.
    *
    * @since 0.2.2
@@ -161,6 +170,13 @@ export interface RemoveDeliveredNotificationsOptions {
  *
  * @since 0.2.2
  */
+export type TokenReceivedListener = (event: TokenReceivedEvent) => void;
+
+/**
+ * Callback to receive the push notification event.
+ *
+ * @since 0.2.2
+ */
 export type NotificationReceivedListener = (
   event: NotificationReceivedEvent,
 ) => void;
@@ -173,6 +189,16 @@ export type NotificationReceivedListener = (
 export type NotificationActionPerformedListener = (
   event: NotificationActionPerformedEvent,
 ) => void;
+
+/**
+ * @since 0.2.2
+ */
+export interface TokenReceivedEvent {
+  /**
+   * @since 0.2.2
+   */
+  token: string;
+}
 
 /**
  * @since 0.2.2

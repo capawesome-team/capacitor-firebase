@@ -22,17 +22,23 @@ import org.json.JSONException;
 public class FirebaseMessagingPlugin extends Plugin {
 
     public static final String TAG = "FirebaseMessaging";
+    public static final String TOKEN_RECEIVED_EVENT = "tokenReceived";
     public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
     public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
     public static final String ERROR_IDS_MISSING = "ids must be provided.";
     public static Bridge staticBridge = null;
+    public static String lastToken = null;
     public static RemoteMessage lastRemoteMessage = null;
     private FirebaseMessaging implementation;
 
     public void load() {
         implementation = new FirebaseMessaging(this);
-
         staticBridge = this.bridge;
+
+        if (lastToken != null) {
+            handleTokenReceived(lastToken);
+            lastToken = null;
+        }
         if (lastRemoteMessage != null) {
             handleNotificationReceived(lastRemoteMessage);
             lastRemoteMessage = null;
@@ -45,6 +51,15 @@ public class FirebaseMessagingPlugin extends Plugin {
         Bundle bundle = data.getExtras();
         if (bundle != null && bundle.containsKey("google.message_id")) {
             this.handleNotificationActionPerformed(bundle);
+        }
+    }
+
+    public static void onNewToken(@NonNull String token) {
+        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
+        if (plugin != null) {
+            plugin.handleTokenReceived(token);
+        } else {
+            lastToken = token;
         }
     }
 
@@ -117,6 +132,12 @@ public class FirebaseMessagingPlugin extends Plugin {
     public void removeAllDeliveredNotifications(PluginCall call) {
         implementation.removeAllDeliveredNotifications();
         call.resolve();
+    }
+
+    private void handleTokenReceived(@NonNull String token) {
+        JSObject result = new JSObject();
+        result.put("token", token);
+        notifyListeners(TOKEN_RECEIVED_EVENT, result, true);
     }
 
     private void handleNotificationReceived(@NonNull RemoteMessage remoteMessage) {

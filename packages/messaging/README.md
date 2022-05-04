@@ -142,6 +142,7 @@ const echo = async () => {
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
 * [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
+* [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
 * [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
 * [`removeAllListeners()`](#removealllisteners)
@@ -262,6 +263,26 @@ Remove all notifications from the notifications screen.
 --------------------
 
 
+### addListener('tokenReceived', ...)
+
+```typescript
+addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Called when a new FCM token is received.
+
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'tokenReceived'</code>                                            |
+| **`listenerFunc`** | <code><a href="#tokenreceivedlistener">TokenReceivedListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
 ### addListener('notificationReceived', ...)
 
 ```typescript
@@ -372,6 +393,13 @@ Remove all native listeners for this plugin.
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
+#### TokenReceivedEvent
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`token`** | <code>string</code> | 0.2.2 |
+
+
 #### NotificationReceivedEvent
 
 | Prop               | Type                                                  | Since |
@@ -394,6 +422,13 @@ Remove all native listeners for this plugin.
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+#### TokenReceivedListener
+
+Callback to receive the push notification event.
+
+<code>(event: <a href="#tokenreceivedevent">TokenReceivedEvent</a>): void</code>
 
 
 #### NotificationReceivedListener
