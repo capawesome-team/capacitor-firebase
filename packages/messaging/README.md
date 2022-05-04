@@ -41,45 +41,81 @@ If you prefer to prevent token autogeneration, disable Analytics collection and 
 <meta-data
     android:name="firebase_analytics_collection_enabled"
     android:value="false" />
-
 ```
 
 ### iOS
 
-You need to add the following to your `ios/App/App/AppDelegate.swift` file:
+On iOS you must enable the Push Notifications capability. See [Setting Capabilities](https://capacitorjs.com/docs/v3/ios/configuration#setting-capabilities) for instructions on how to enable the capability.
 
-1. First, add an import at the top of the file:  
-    ```swift
-    import Firebase
-    ```
-1. Then you need to add the following two methods to correctly handle the push registration events:
-    ```swift
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().token(completion: { (token, error) in
-            if let error = error {
-                NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
-            } else if let token = token {
-                NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: token)
-            }
-        })
-    }
+After enabling the Push Notifications capability, add the following to your app's `AppDelegate.swift`:
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        NotificationCenter.default.post(name: Notification.Name.init("didReceiveRemoteNotification"), object: completionHandler, userInfo: userInfo)
-    }
-    ```
-1. Finally edit your `ios/App/App/Info.plist` and add `FirebaseAppDelegateProxyEnabled` key to `NO`.
+```swift
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: deviceToken)
+}
+
+func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+  NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
+}
+```
+
+Finally edit your `ios/App/App/Info.plist` and set `FirebaseAppDelegateProxyEnabled` key to `NO`.
+
+#### Prevent auto initialization
+
+When a registration token is generated, the library uploads the identifier and configuration data to Firebase.
+If you prefer to prevent token autogeneration, disable FCM auto initialization by editing your `ios/App/App/Info.plist` and set `FirebaseMessagingAutoInitEnabled` key to `NO`.
 
 ### Web
 
 1. See [Configure Web Credentials with FCM](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with) and follow the instructions to configure your web credentials correctly.
 1. Add a `firebase-messaging-sw.js` file to the root of your domain. This file can be empty if you do not want to receive push notifications in the background.
-See [Setting notification options in the service worker](https://firebase.google.com/docs/cloud-messaging/js/receive#setting_notification_options_in_the_service_worker) for more information.
+   See [Setting notification options in the service worker](https://firebase.google.com/docs/cloud-messaging/js/receive#setting_notification_options_in_the_service_worker) for more information.
 
 ## Configuration
 
-No configuration required for this plugin.
+<docgen-config>
+<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+On iOS you can configure the way the push notifications are displayed when the app is in foreground.
+
+| Prop                      | Type                              | Description                                                                                                                                                                                                                                                                                                                                                                                 | Default                                  | Since |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
+| **`presentationOptions`** | <code>PresentationOption[]</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["badge", "sound", "alert"]</code> | 0.2.2 |
+
+### Examples
+
+In `capacitor.config.json`:
+
+```json
+{
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
+}
+```
+
+In `capacitor.config.ts`:
+
+```ts
+/// <reference types="@capacitor/push-notifications" />
+
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  plugins: {
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"],
+    },
+  },
+};
+
+export default config;
+```
+
+</docgen-config>
 
 ## Demo
 
@@ -107,6 +143,7 @@ const echo = async () => {
 * [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
+* [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -245,6 +282,28 @@ Called when a new push notification is received.
 --------------------
 
 
+### addListener('notificationActionPerformed', ...)
+
+```typescript
+addListener(eventName: 'notificationActionPerformed', listenerFunc: NotificationActionPerformedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Called when a new push notification action is performed.
+
+Only available on Android and iOS.
+
+| Param              | Type                                                                                                |
+| ------------------ | --------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'notificationActionPerformed'</code>                                                          |
+| **`listenerFunc`** | <code><a href="#notificationactionperformedlistener">NotificationActionPerformedListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 0.2.2
+
+--------------------
+
+
 ### removeAllListeners()
 
 ```typescript
@@ -320,6 +379,15 @@ Remove all native listeners for this plugin.
 | **`notification`** | <code><a href="#notification">Notification</a></code> | 0.2.2 |
 
 
+#### NotificationActionPerformedEvent
+
+| Prop               | Type                                                  | Description                                                     | Since |
+| ------------------ | ----------------------------------------------------- | --------------------------------------------------------------- | ----- |
+| **`actionId`**     | <code><a href="#notification">Notification</a></code> | The action performed on the notification.                       | 0.2.2 |
+| **`inputValue`**   | <code><a href="#notification">Notification</a></code> | Text entered on the notification action. Only available on iOS. | 0.2.2 |
+| **`notification`** | <code><a href="#notification">Notification</a></code> | The notification in which the action was performed.             | 0.2.2 |
+
+
 ### Type Aliases
 
 
@@ -334,6 +402,13 @@ Callback to receive the push notification event.
 
 <code>(event: <a href="#notificationreceivedevent">NotificationReceivedEvent</a>): void</code>
 
+
+#### NotificationActionPerformedListener
+
+Callback to receive the push notification event.
+
+<code>(event: <a href="#notificationactionperformedevent">NotificationActionPerformedEvent</a>): void</code>
+
 </docgen-api>
 
 ## Changelog
@@ -343,8 +418,3 @@ See [CHANGELOG.md](./CHANGELOG.md).
 ## License
 
 See [LICENSE](./LICENSE).
-
-## Credits
-
-This plugin is based on the [Capacitor Firebase Push plugin](https://github.com/EinfachHans/capacitor-firebase-push).
-Thanks to everyone who contributed to the project!

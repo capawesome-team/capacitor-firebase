@@ -1,4 +1,33 @@
-import type { PluginListenerHandle } from '@capacitor/core';
+/// <reference types="@capacitor/cli" />
+
+import type { PermissionState, PluginListenerHandle } from '@capacitor/core';
+
+export type PresentationOption = 'badge' | 'sound' | 'alert';
+
+declare module '@capacitor/cli' {
+  export interface PluginsConfig {
+    /**
+     * On iOS you can configure the way the push notifications are displayed when the app is in foreground.
+     */
+    PushNotifications?: {
+      /**
+       * This is an array of strings you can combine. Possible values in the array are:
+       *   - `badge`: badge count on the app icon is updated (default value)
+       *   - `sound`: the device will ring/vibrate when the push notification is received
+       *   - `alert`: the push notification is displayed in a native dialog
+       *
+       * An empty array can be provided if none of the options are desired.
+       *
+       * Only available for iOS.
+       *
+       * @since 0.2.2
+       * @example ["badge", "sound", "alert"]
+       * @default ["badge", "sound", "alert"]
+       */
+      presentationOptions: PresentationOption[];
+    };
+  }
+}
 
 export interface FirebaseMessagingPlugin {
   /**
@@ -55,6 +84,17 @@ export interface FirebaseMessagingPlugin {
   addListener(
     eventName: 'notificationReceived',
     listenerFunc: NotificationReceivedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Called when a new push notification action is performed.
+   *
+   * Only available on Android and iOS.
+   *
+   * @since 0.2.2
+   */
+  addListener(
+    eventName: 'notificationActionPerformed',
+    listenerFunc: NotificationActionPerformedListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Remove all native listeners for this plugin.
@@ -126,10 +166,45 @@ export type NotificationReceivedListener = (
 ) => void;
 
 /**
+ * Callback to receive the push notification event.
+ *
+ * @since 0.2.2
+ */
+export type NotificationActionPerformedListener = (
+  event: NotificationActionPerformedEvent,
+) => void;
+
+/**
  * @since 0.2.2
  */
 export interface NotificationReceivedEvent {
   /**
+   * @since 0.2.2
+   */
+  notification: Notification;
+}
+
+/**
+ * @since 0.2.2
+ */
+export interface NotificationActionPerformedEvent {
+  /**
+   * The action performed on the notification.
+   *
+   * @since 0.2.2
+   */
+  actionId: Notification;
+  /**
+   * Text entered on the notification action.
+   *
+   * Only available on iOS.
+   *
+   * @since 0.2.2
+   */
+  inputValue: Notification;
+  /**
+   * The notification in which the action was performed.
+   *
    * @since 0.2.2
    */
   notification: Notification;

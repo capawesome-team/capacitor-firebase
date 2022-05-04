@@ -23,6 +23,7 @@ public class FirebaseMessagingPlugin extends Plugin {
 
     public static final String TAG = "FirebaseMessaging";
     public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
+    public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
     public static final String ERROR_IDS_MISSING = "ids must be provided.";
     public static Bridge staticBridge = null;
     public static RemoteMessage lastRemoteMessage = null;
@@ -43,7 +44,7 @@ public class FirebaseMessagingPlugin extends Plugin {
         super.handleOnNewIntent(data);
         Bundle bundle = data.getExtras();
         if (bundle != null && bundle.containsKey("google.message_id")) {
-            this.handleNotificationReceived(bundle);
+            this.handleNotificationActionPerformed(bundle);
         }
     }
 
@@ -59,19 +60,19 @@ public class FirebaseMessagingPlugin extends Plugin {
     @PluginMethod
     public void getToken(PluginCall call) {
         implementation.getToken(
-                new GetTokenResultCallback() {
-                    @Override
-                    public void success(String token) {
-                        JSObject result = new JSObject();
-                        result.put("token", token);
-                        call.resolve(result);
-                    }
-
-                    @Override
-                    public void error(String message) {
-                        call.reject(message);
-                    }
+            new GetTokenResultCallback() {
+                @Override
+                public void success(String token) {
+                    JSObject result = new JSObject();
+                    result.put("token", token);
+                    call.resolve(result);
                 }
+
+                @Override
+                public void error(String message) {
+                    call.reject(message);
+                }
+            }
         );
     }
 
@@ -125,11 +126,12 @@ public class FirebaseMessagingPlugin extends Plugin {
         notifyListeners(NOTIFICATION_RECEIVED_EVENT, result, true);
     }
 
-    private void handleNotificationReceived(@NonNull Bundle bundle) {
+    private void handleNotificationActionPerformed(@NonNull Bundle bundle) {
         JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(bundle);
         JSObject result = new JSObject();
+        result.put("actionId", "tap");
         result.put("notification", notificationResult);
-        notifyListeners(NOTIFICATION_RECEIVED_EVENT, result, true);
+        notifyListeners(NOTIFICATION_ACTION_PERFORMED_EVENT, result, true);
     }
 
     private static FirebaseMessagingPlugin getFirebaseMessagingPluginInstance() {

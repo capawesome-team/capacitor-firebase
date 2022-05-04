@@ -6,8 +6,8 @@
 CAP_PLUGIN(FirebaseMessagingPlugin, "FirebaseMessaging",
            CAP_PLUGIN_METHOD(checkPermissions, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(requestPermissions, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(register, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(unregister, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getToken, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(deleteToken, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getDeliveredNotifications, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(removeDeliveredNotifications, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(removeAllDeliveredNotifications, CAPPluginReturnPromise);
