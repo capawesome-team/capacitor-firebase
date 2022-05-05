@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- [`2201fbd`](https://github.com/robingenz/capacitor-firebase/commit/2201fbd49dc7af7d2ff3507a19667b9b769954f8) ([#76](https://github.com/robingenz/capacitor-firebase/pull/76)): fix(android): string parameters in `logEvent` are sent as `String` instead of the parameter value
+
 ## 0.2.1
 
 ### Patch Changes
