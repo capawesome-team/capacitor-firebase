@@ -15,8 +15,20 @@ import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.Facebo
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
+    public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
+    public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
+    public static final String ERROR_EMAIL_MISSING = "email must be provided.";
+    public static final String ERROR_NEW_EMAIL_MISSING = "newEmail must be provided.";
+    public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
+    public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
+    public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
+    public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
+    public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
+        "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
+    public static final String ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH =
+        "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
@@ -25,6 +37,36 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         config = getFirebaseAuthenticationConfig();
         implementation = new FirebaseAuthentication(this, config);
         implementation.setAuthStateChangeListener(this::updateAuthState);
+    }
+
+    @PluginMethod
+    public void applyActionCode(PluginCall call) {
+        String oobCode = call.getString("oobCode");
+        if (oobCode == null) {
+            call.reject(ERROR_OOB_CODE_MISSING);
+            return;
+        }
+        implementation.applyActionCode(oobCode, () -> call.resolve());
+    }
+
+    @PluginMethod
+    public void createUserWithEmailAndPassword(PluginCall call) {
+        implementation.createUserWithEmailAndPassword(call);
+    }
+
+    @PluginMethod
+    public void confirmPasswordReset(PluginCall call) {
+        String oobCode = call.getString("oobCode");
+        if (oobCode == null) {
+            call.reject(ERROR_OOB_CODE_MISSING);
+            return;
+        }
+        String newPassword = call.getString("newPassword");
+        if (newPassword == null) {
+            call.reject(ERROR_NEW_PASSWORD_MISSING);
+            return;
+        }
+        implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
     }
 
     @PluginMethod
@@ -59,6 +101,26 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void sendEmailVerification(PluginCall call) {
+        FirebaseUser user = implementation.getCurrentUser();
+        if (user == null) {
+            call.reject(ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+        implementation.sendEmailVerification(user, () -> call.resolve());
+    }
+
+    @PluginMethod
+    public void sendPasswordResetEmail(PluginCall call) {
+        String email = call.getString("email");
+        if (email == null) {
+            call.reject(ERROR_EMAIL_MISSING);
+            return;
+        }
+        implementation.sendPasswordResetEmail(email, () -> call.resolve());
+    }
+
+    @PluginMethod
     public void setLanguageCode(PluginCall call) {
         String languageCode = call.getString("languageCode", "");
 
@@ -69,6 +131,16 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void signInWithApple(PluginCall call) {
         implementation.signInWithApple(call);
+    }
+
+    @PluginMethod
+    public void signInWithCustomToken(PluginCall call) {
+        implementation.signInWithCustomToken(call);
+    }
+
+    @PluginMethod
+    public void signInWithEmailAndPassword(PluginCall call) {
+        implementation.signInWithEmailAndPassword(call);
     }
 
     @PluginMethod
@@ -121,13 +193,38 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void signInWithCustomToken(PluginCall call) {
-        implementation.signInWithCustomToken(call);
+    public void signOut(PluginCall call) {
+        implementation.signOut(call);
     }
 
     @PluginMethod
-    public void signOut(PluginCall call) {
-        implementation.signOut(call);
+    public void updateEmail(PluginCall call) {
+        String newEmail = call.getString("newEmail");
+        if (newEmail == null) {
+            call.reject(ERROR_NEW_EMAIL_MISSING);
+            return;
+        }
+        FirebaseUser user = implementation.getCurrentUser();
+        if (user == null) {
+            call.reject(ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+        implementation.updateEmail(user, newEmail, () -> call.resolve());
+    }
+
+    @PluginMethod
+    public void updatePassword(PluginCall call) {
+        String newPassword = call.getString("newPassword");
+        if (newPassword == null) {
+            call.reject(ERROR_NEW_PASSWORD_MISSING);
+            return;
+        }
+        FirebaseUser user = implementation.getCurrentUser();
+        if (user == null) {
+            call.reject(ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+        implementation.updatePassword(user, newPassword, () -> call.resolve());
     }
 
     @PluginMethod

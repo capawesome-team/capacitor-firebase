@@ -33,9 +33,6 @@ public class FirebaseAuthentication {
     @Nullable
     private AuthStateChangeListener authStateChangeListener;
 
-    public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
-    public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
-        "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
     private FirebaseAuth firebaseAuthInstance;
@@ -70,6 +67,63 @@ public class FirebaseAuthentication {
         return authStateChangeListener;
     }
 
+    public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
+        firebaseAuthInstance
+            .applyActionCode(oobCode)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    public void createUserWithEmailAndPassword(PluginCall call) {
+        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
+            return;
+        }
+
+        String email = call.getString("email");
+        if (email == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_MISSING);
+            return;
+        }
+        String password = call.getString("password");
+        if (password == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_PASSWORD_MISSING);
+            return;
+        }
+
+        firebaseAuthInstance
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword succeeded.");
+                        FirebaseUser user = getCurrentUser();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED);
+                    }
+                }
+            );
+    }
+
+    public void confirmPasswordReset(@NonNull String oobCode, @NonNull String newPassword, @NonNull Runnable callback) {
+        firebaseAuthInstance
+            .confirmPasswordReset(oobCode, newPassword)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    @Nullable
     public FirebaseUser getCurrentUser() {
         return firebaseAuthInstance.getCurrentUser();
     }
@@ -78,18 +132,36 @@ public class FirebaseAuthentication {
         FirebaseUser user = getCurrentUser();
         Task<GetTokenResult> tokenResultTask = user.getIdToken(forceRefresh);
         tokenResultTask.addOnCompleteListener(
-            new OnCompleteListener<GetTokenResult>() {
-                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                    if (task.isSuccessful()) {
-                        String token = task.getResult().getToken();
-                        resultCallback.success(token);
-                    } else {
-                        String message = task.getException().getLocalizedMessage();
-                        resultCallback.error(message);
-                    }
+            task -> {
+                if (task.isSuccessful()) {
+                    String token = task.getResult().getToken();
+                    resultCallback.success(token);
+                } else {
+                    String message = task.getException().getLocalizedMessage();
+                    resultCallback.error(message);
                 }
             }
         );
+    }
+
+    public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
+        user
+            .sendEmailVerification()
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    public void sendPasswordResetEmail(@NonNull String email, @NonNull Runnable callback) {
+        firebaseAuthInstance
+            .sendPasswordResetEmail(email)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
     }
 
     public void setLanguageCode(String languageCode) {
@@ -135,7 +207,7 @@ public class FirebaseAuthentication {
     public void signInWithCustomToken(PluginCall call) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
-            call.reject(ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
+            call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
             return;
         }
 
@@ -145,28 +217,43 @@ public class FirebaseAuthentication {
             .signInWithCustomToken(token)
             .addOnCompleteListener(
                 plugin.getActivity(),
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
-                            FirebaseUser user = getCurrentUser();
-                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
-                            call.resolve(signInResult);
-                        } else {
-                            Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
-                            call.reject(ERROR_SIGN_IN_FAILED);
-                        }
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
+                        FirebaseUser user = getCurrentUser();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
                     }
                 }
-            )
-            .addOnFailureListener(
+            );
+    }
+
+    public void signInWithEmailAndPassword(PluginCall call) {
+        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
+            return;
+        }
+
+        String email = call.getString("email", "");
+        String password = call.getString("password", "");
+
+        firebaseAuthInstance
+            .signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(
                 plugin.getActivity(),
-                new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", exception);
-                        call.reject(ERROR_SIGN_IN_FAILED);
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword succeeded.");
+                        FirebaseUser user = getCurrentUser();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
                     }
                 }
             );
@@ -184,6 +271,26 @@ public class FirebaseAuthentication {
             playGamesAuthProviderHandler.signOut();
         }
         call.resolve();
+    }
+
+    public void updateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull Runnable callback) {
+        user
+            .updateEmail(newEmail)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {
+        user
+            .updatePassword(newPassword)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
     }
 
     public void useAppLanguage() {
@@ -233,34 +340,21 @@ public class FirebaseAuthentication {
             .signInWithCredential(credential)
             .addOnCompleteListener(
                 plugin.getActivity(),
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCredential succeeded.");
-                            FirebaseUser user = getCurrentUser();
-                            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
-                                user,
-                                credential,
-                                idToken,
-                                nonce,
-                                accessToken
-                            );
-                            call.resolve(signInResult);
-                        } else {
-                            Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", task.getException());
-                            call.reject(ERROR_SIGN_IN_FAILED);
-                        }
-                    }
-                }
-            )
-            .addOnFailureListener(
-                plugin.getActivity(),
-                new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", exception);
-                        call.reject(ERROR_SIGN_IN_FAILED);
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCredential succeeded.");
+                        FirebaseUser user = getCurrentUser();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+                            user,
+                            credential,
+                            idToken,
+                            nonce,
+                            accessToken
+                        );
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
                     }
                 }
             );

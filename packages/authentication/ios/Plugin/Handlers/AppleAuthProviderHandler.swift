@@ -17,7 +17,7 @@ class AppleAuthProviderHandler: NSObject {
         if #available(iOS 13, *) {
             self.startSignInWithAppleFlow()
         } else {
-            call.reject(self.pluginImplementation.errorDeviceUnsupported)
+            call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
         }
     }
 }
