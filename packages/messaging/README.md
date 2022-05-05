@@ -47,7 +47,9 @@ If you prefer to prevent token autogeneration, disable Analytics collection and 
 
 See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-firebase#prerequisites) and complete the prerequisites first.
 
-After you have completed the prerequisites, add the following to your app's `AppDelegate.swift`:
+See [Upload the APNS Certificate or Key to Firebase](https://capacitorjs.com/docs/guides/push-notifications-firebase#upload-the-apns-certificate-or-key-to-firebase) and follow the instructions to upload the APNS Certificate or APNS Auth Key to Firebase.
+
+Add the following to your app's `AppDelegate.swift`:
 
 ```swift
 func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
