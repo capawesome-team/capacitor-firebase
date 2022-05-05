@@ -23,6 +23,10 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterForRemoteNotifications(notification:)), name: .capacitorDidRegisterForRemoteNotifications, object: nil)
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     @objc override public func checkPermissions(_ call: CAPPluginCall) {
         implementation?.checkPermissions(completion: { permission in
             call.resolve([
