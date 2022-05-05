@@ -397,9 +397,10 @@ Remove all native listeners for this plugin.
 
 #### GetTokenOptions
 
-| Prop           | Type                | Description                                                                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **`vapidKey`** | <code>string</code> | Your VAPID public key, which is required to retrieve the current registration token on the web. Only available for Web. |
+| Prop                            | Type                                   | Description                                                                                                                                                                                                |
+| ------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`vapidKey`**                  | <code>string</code>                    | Your VAPID public key, which is required to retrieve the current registration token on the web. Only available for Web.                                                                                    |
+| **`serviceWorkerRegistration`** | <code>ServiceWorkerRegistration</code> | The service worker registration for receiving push messaging. If the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location. Only available for Web. |
 
 
 #### GetDeliveredNotificationsResult

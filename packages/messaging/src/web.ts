@@ -57,6 +57,7 @@ export class FirebaseMessagingWeb
     const messaging = getMessaging();
     const token = await getToken(messaging, {
       vapidKey: options.vapidKey,
+      serviceWorkerRegistration: options.serviceWorkerRegistration,
     });
     this.handleTokenReceived(token);
     return {

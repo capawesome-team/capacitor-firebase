@@ -149,6 +149,13 @@ export interface GetTokenOptions {
    * Only available for Web.
    */
   vapidKey?: string;
+  /**
+   * The service worker registration for receiving push messaging.
+   * If the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location.
+   *
+   * Only available for Web.
+   */
+  serviceWorkerRegistration?: ServiceWorkerRegistration;
 }
 
 /**
