@@ -75,11 +75,14 @@ public typealias AuthStateChangedObserver = () -> Void
         return Auth.auth().currentUser
     }
 
-    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (String?, Error?) -> Void) {
-        let user = self.getCurrentUser()
-        user?.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
+    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (String?, String?) -> Void) {
+        guard let user = self.getCurrentUser() else {
+            completion(nil, self.plugin.errorNoUserSignedIn)
+            return
+        }
+        user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
             if let error = error {
-                completion(nil, error)
+                completion(nil, error.localizedDescription)
                 return
             }
             completion(result?.token, nil)

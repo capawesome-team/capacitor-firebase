@@ -90,7 +90,10 @@ export class FirebaseAuthenticationWeb
 
   public async getIdToken(): Promise<GetIdTokenResult> {
     const auth = getAuth();
-    const idToken = await auth.currentUser?.getIdToken();
+    if (!auth.currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    const idToken = await auth.currentUser.getIdToken();
     const result: GetIdTokenResult = {
       token: idToken || '',
     };

@@ -130,6 +130,10 @@ public class FirebaseAuthentication {
 
     public void getIdToken(Boolean forceRefresh, final GetIdTokenResultCallback resultCallback) {
         FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            resultCallback.error(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         Task<GetTokenResult> tokenResultTask = user.getIdToken(forceRefresh);
         tokenResultTask.addOnCompleteListener(
             task -> {
