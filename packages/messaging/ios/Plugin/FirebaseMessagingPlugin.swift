@@ -13,6 +13,7 @@ import FirebaseCore
 public class FirebaseMessagingPlugin: CAPPlugin {
     private var implementation: FirebaseMessaging?
 
+    public let tokenReceivedEvent = "tokenReceived"
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
     public let errorTopicMissing = "topic must be provided."
@@ -46,6 +47,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
                 call.reject(error.localizedDescription)
                 return
             }
+            self.handleTokenReceived(token: token)
             var result = JSObject()
             result["token"] = token
             call.resolve(result)
@@ -112,10 +114,10 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         })
     }
 
-    func handleTokenReceived(token: String) {
+    func handleTokenReceived(token: String?) {
         var result = JSObject()
         result["token"] = token
-        notifyListeners(notificationReceivedEvent, data: result)
+        notifyListeners(tokenReceivedEvent, data: result)
     }
 
     func handleNotificationReceived(notification: UNNotification) {
