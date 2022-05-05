@@ -84,10 +84,6 @@ export class FirebaseMessagingWeb
     this.throwUnavailableError();
   }
 
-  public async removeAllListeners(): Promise<void> {
-    this.throwUnavailableError();
-  }
-
   public async subscribeToTopic(
     _options: SubscribeToTopicOptions,
   ): Promise<void> {
