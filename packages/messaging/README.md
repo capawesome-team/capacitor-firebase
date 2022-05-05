@@ -45,9 +45,9 @@ If you prefer to prevent token autogeneration, disable Analytics collection and 
 
 ### iOS
 
-On iOS you must enable the Push Notifications capability. See [Setting Capabilities](https://capacitorjs.com/docs/v3/ios/configuration#setting-capabilities) for instructions on how to enable the capability.
+See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-firebase#prerequisites) and complete the prerequisites first.
 
-After enabling the Push Notifications capability, add the following to your app's `AppDelegate.swift`:
+After you have completed the prerequisites, add the following to your app's `AppDelegate.swift`:
 
 ```swift
 func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
