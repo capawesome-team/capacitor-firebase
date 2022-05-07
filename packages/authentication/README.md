@@ -21,16 +21,16 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 The further installation steps depend on the selected authentication method:
 
-- [Apple Sign-In](docs/setup-apple.md)
-- [Facebook Sign-In](docs/setup-facebook.md)
-- [GitHub Sign-In](docs/setup-github.md)
-- [Google Sign-In](docs/setup-google.md)
-- [Microsoft Sign-In](docs/setup-microsoft.md)
-- [Play Games Sign-In](docs/setup-play-games.md)
-- [Twitter Sign-In](docs/setup-twitter.md)
-- [Yahoo Sign-In](docs/setup-yahoo.md)
-- [Phone Number Sign-In](docs/setup-phone.md)
-- [Custom Token Sign-In](docs/custom-token.md)
+- [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
+- [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
+- [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
+- [Google Sign-In](/packages/authentication/docs/setup-google.md)
+- [Microsoft Sign-In](/packages/authentication/docs/setup-microsoft.md)
+- [Play Games Sign-In](/packages/authentication/docs/setup-play-games.md)
+- [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
+- [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
+- [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
+- [Custom Token Sign-In](/packages/authentication/docs/custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
 These SDKs can initialize on their own and collect various data.
@@ -899,17 +899,17 @@ Callback to receive the user's sign-in state change notifications.
    For native authentication, the native SDKs from Firebase, Google, etc. are used.
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
-   If the user should also be logged in on the web layer, additional steps are required (see [here](./docs/firebase-js-sdk.md)).
+   If the user should also be logged in on the web layer, additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
 1. **How can I use this plugin with the Firebase JavaScript SDK?**  
-   See [here](./docs/firebase-js-sdk.md).
+   See [here](/packages/authentication/docs/firebase-js-sdk.md).
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](/packages/authentication/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](./LICENSE).
+See [LICENSE](/packages/authentication/LICENSE).
 
 ## Credits
 
