@@ -9,7 +9,7 @@ In order to use the Firebase JavaScript SDK, a sign-in on the web layer is requi
 To do this, follow these steps:
 
 1. [Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup)
-1. Set the configuration option `skipNativeAuth` to `true` (see [here](../README.md#configuration)).
+1. Set the configuration option `skipNativeAuth` to `true` (see [here](/packages/authentication/README.md#configuration)).
 1. Sign in on the native layer, create web credentials and sign in on the web using [`signInWithCredential`](https://firebase.google.com/docs/reference/js/auth.md#signinwithcredential) (see [Examples](#examples)).
 
 ## Examples
