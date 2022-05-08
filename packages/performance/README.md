@@ -193,8 +193,8 @@ Determines whether performance monitoring is enabled or disabled.
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](/packages/performance/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](./LICENSE).
+See [LICENSE](/packages/performance/LICENSE).

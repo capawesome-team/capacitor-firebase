@@ -352,11 +352,11 @@ If you get obfuscated crash reports for iOS, make sure you have [initialized Cra
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](/packages/crashlytics/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](./LICENSE).
+See [LICENSE](/packages/crashlytics/LICENSE).
 
 ## Credits
 

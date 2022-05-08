@@ -21,16 +21,16 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 The further installation steps depend on the selected authentication method:
 
-- [Apple Sign-In](docs/setup-apple.md)
-- [Facebook Sign-In](docs/setup-facebook.md)
-- [GitHub Sign-In](docs/setup-github.md)
-- [Google Sign-In](docs/setup-google.md)
-- [Microsoft Sign-In](docs/setup-microsoft.md)
-- [Play Games Sign-In](docs/setup-play-games.md)
-- [Twitter Sign-In](docs/setup-twitter.md)
-- [Yahoo Sign-In](docs/setup-yahoo.md)
-- [Phone Number Sign-In](docs/setup-phone.md)
-- [Custom Token Sign-In](docs/custom-token.md)
+- [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
+- [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
+- [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
+- [Google Sign-In](/packages/authentication/docs/setup-google.md)
+- [Microsoft Sign-In](/packages/authentication/docs/setup-microsoft.md)
+- [Play Games Sign-In](/packages/authentication/docs/setup-play-games.md)
+- [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
+- [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
+- [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
+- [Custom Token Sign-In](/packages/authentication/docs/custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
 These SDKs can initialize on their own and collect various data.
@@ -93,14 +93,51 @@ A working example can be found here: [robingenz/capacitor-firebase-authenticatio
 ```typescript
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
+const applyActionCode = async () => {
+  await FirebaseAuthentication.applyActionCode({ oobCode: '1234' });
+};
+
+const createUserWithEmailAndPassword = async () => {
+  const result = await FirebaseAuthentication.createUserWithEmailAndPassword({
+    email: 'mail@exmaple.com',
+    password: '1234',
+  });
+  return result.user;
+};
+
+const confirmPasswordReset = async () => {
+  await FirebaseAuthentication.confirmPasswordReset({
+    oobCode: '1234',
+    newPassword: '4321',
+  });
+};
+
 const getCurrentUser = async () => {
   const result = await FirebaseAuthentication.getCurrentUser();
   return result.user;
 };
 
 const getIdToken = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
   const result = await FirebaseAuthentication.getIdToken();
   return result.token;
+};
+
+const sendEmailVerification = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.sendEmailVerification();
+};
+
+const sendPasswordResetEmail = async () => {
+  await FirebaseAuthentication.sendPasswordResetEmail({
+    email: 'mail@example.com',
+  });
 };
 
 const setLanguageCode = async () => {
@@ -108,27 +145,48 @@ const setLanguageCode = async () => {
 };
 
 const signInWithApple = async () => {
-  await FirebaseAuthentication.signInWithApple();
+  const result = await FirebaseAuthentication.signInWithApple();
+  return result.user;
+};
+
+const signInWithCustomToken = async () => {
+  const result = await FirebaseAuthentication.signInWithCustomToken({
+    token: '1234',
+  });
+  return result.user;
+};
+
+const signInWithEmailAndPassword = async () => {
+  const result = await FirebaseAuthentication.signInWithEmailAndPassword({
+    email: 'mail@example.com',
+    password: '1234',
+  });
+  return result.user;
 };
 
 const signInWithFacebook = async () => {
-  await FirebaseAuthentication.signInWithFacebook();
+  const result = await FirebaseAuthentication.signInWithFacebook();
+  return result.user;
 };
 
 const signInWithGithub = async () => {
-  await FirebaseAuthentication.signInWithGithub();
+  const result = await FirebaseAuthentication.signInWithGithub();
+  return result.user;
 };
 
 const signInWithGoogle = async () => {
-  await FirebaseAuthentication.signInWithGoogle();
+  const result = await FirebaseAuthentication.signInWithGoogle();
+  return result.user;
 };
 
 const signInWithMicrosoft = async () => {
-  await FirebaseAuthentication.signInWithMicrosoft();
+  const result = await FirebaseAuthentication.signInWithMicrosoft();
+  return result.user;
 };
 
 const signInWithPlayGames = async () => {
-  await FirebaseAuthentication.signInWithPlayGames();
+  const result = await FirebaseAuthentication.signInWithPlayGames();
+  return result.user;
 };
 
 const signInWithPhoneNumber = async () => {
@@ -140,22 +198,45 @@ const signInWithPhoneNumber = async () => {
   const verificationCode = window.prompt(
     'Please enter the verification code that was sent to your mobile device.',
   );
-  await FirebaseAuthentication.signInWithPhoneNumber({
+  const result = await FirebaseAuthentication.signInWithPhoneNumber({
     verificationId,
     verificationCode,
   });
+  return result.user;
 };
 
 const signInWithTwitter = async () => {
-  await FirebaseAuthentication.signInWithTwitter();
+  const result = await FirebaseAuthentication.signInWithTwitter();
+  return result.user;
 };
 
 const signInWithYahoo = async () => {
-  await FirebaseAuthentication.signInWithYahoo();
+  const result = await FirebaseAuthentication.signInWithYahoo();
+  return result.user;
 };
 
 const signOut = async () => {
   await FirebaseAuthentication.signOut();
+};
+
+const updateEmail = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.updateEmail({
+    newEmail: 'new.mail@example.com',
+  });
+};
+
+const updatePassword = async () => {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.updatePassword({
+    newPassword: '4321',
+  });
 };
 
 const useAppLanguage = async () => {
@@ -174,20 +255,28 @@ const useEmulator = async () => {
 
 <docgen-index>
 
+* [`applyActionCode(...)`](#applyactioncode)
+* [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
+* [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
+* [`sendEmailVerification()`](#sendemailverification)
+* [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
 * [`signInWithApple(...)`](#signinwithapple)
+* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
+* [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
 * [`signInWithFacebook(...)`](#signinwithfacebook)
 * [`signInWithGithub(...)`](#signinwithgithub)
 * [`signInWithGoogle(...)`](#signinwithgoogle)
 * [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
+* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
 * [`signInWithPlayGames(...)`](#signinwithplaygames)
 * [`signInWithTwitter(...)`](#signinwithtwitter)
 * [`signInWithYahoo(...)`](#signinwithyahoo)
-* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
-* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signOut()`](#signout)
+* [`updateEmail(...)`](#updateemail)
+* [`updatePassword(...)`](#updatepassword)
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
@@ -199,6 +288,54 @@ const useEmulator = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### applyActionCode(...)
+
+```typescript
+applyActionCode(options: ApplyActionCodeOptions) => Promise<void>
+```
+
+Applies a verification code sent to the user by email.
+
+| Param         | Type                                                                      |
+| ------------- | ------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#applyactioncodeoptions">ApplyActionCodeOptions</a></code> |
+
+--------------------
+
+
+### createUserWithEmailAndPassword(...)
+
+```typescript
+createUserWithEmailAndPassword(options: CreateUserWithEmailAndPasswordOptions) => Promise<SignInResult>
+```
+
+Creates a new user account with email and password.
+If the new account was created, the user is signed in automatically.
+
+| Param         | Type                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createuserwithemailandpasswordoptions">CreateUserWithEmailAndPasswordOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+--------------------
+
+
+### confirmPasswordReset(...)
+
+```typescript
+confirmPasswordReset(options: ConfirmPasswordResetOptions) => Promise<void>
+```
+
+Completes the password reset process
+
+| Param         | Type                                                                                |
+| ------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
+
+--------------------
+
 
 ### getCurrentUser()
 
@@ -230,6 +367,32 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 --------------------
 
 
+### sendEmailVerification()
+
+```typescript
+sendEmailVerification() => Promise<void>
+```
+
+Sends a verification email to the currently signed in user.
+
+--------------------
+
+
+### sendPasswordResetEmail(...)
+
+```typescript
+sendPasswordResetEmail(options: SendPasswordResetEmailOptions) => Promise<void>
+```
+
+Sends a password reset email.
+
+| Param         | Type                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#sendpasswordresetemailoptions">SendPasswordResetEmailOptions</a></code> |
+
+--------------------
+
+
 ### setLanguageCode(...)
 
 ```typescript
@@ -256,6 +419,43 @@ Starts the Apple sign-in flow.
 | Param         | Type                                                    |
 | ------------- | ------------------------------------------------------- |
 | **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+--------------------
+
+
+### signInWithCustomToken(...)
+
+```typescript
+signInWithCustomToken(options: SignInWithCustomTokenOptions) => Promise<SignInResult>
+```
+
+Starts the Custom Token sign-in flow.
+
+This method cannot be used in combination with `skipNativeAuth` on Android and iOS.
+In this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithcustomtokenoptions">SignInWithCustomTokenOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+--------------------
+
+
+### signInWithEmailAndPassword(...)
+
+```typescript
+signInWithEmailAndPassword(options: SignInWithEmailAndPasswordOptions) => Promise<SignInResult>
+```
+
+Starts the sign-in flow using an email and password.
+
+| Param         | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithemailandpasswordoptions">SignInWithEmailAndPasswordOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -330,6 +530,27 @@ Starts the Microsoft sign-in flow.
 --------------------
 
 
+### signInWithPhoneNumber(...)
+
+```typescript
+signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<SignInWithPhoneNumberResult>
+```
+
+Starts the sign-in flow using a phone number.
+
+Either the phone number or the verification code and verification ID must be provided.
+
+Only available for Android and iOS.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
+
+--------------------
+
+
 ### signInWithPlayGames(...)
 
 ```typescript
@@ -381,47 +602,6 @@ Starts the Yahoo sign-in flow.
 --------------------
 
 
-### signInWithPhoneNumber(...)
-
-```typescript
-signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<SignInWithPhoneNumberResult>
-```
-
-Starts the sign-in flow using a phone number.
-
-Either the phone number or the verification code and verification ID must be provided.
-
-Only available for Android and iOS.
-
-| Param         | Type                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
-
---------------------
-
-
-### signInWithCustomToken(...)
-
-```typescript
-signInWithCustomToken(options: SignInWithCustomTokenOptions) => Promise<SignInResult>
-```
-
-Starts the Custom Token sign-in flow.
-
-This method cannot be used in combination with `skipNativeAuth` on Android and iOS.
-In this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.
-
-| Param         | Type                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithcustomtokenoptions">SignInWithCustomTokenOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
-
---------------------
-
-
 ### signOut()
 
 ```typescript
@@ -429,6 +609,36 @@ signOut() => Promise<void>
 ```
 
 Starts the sign-out flow.
+
+--------------------
+
+
+### updateEmail(...)
+
+```typescript
+updateEmail(options: UpdateEmailOptions) => Promise<void>
+```
+
+Updates the email address of the currently signed in user.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#updateemailoptions">UpdateEmailOptions</a></code> |
+
+--------------------
+
+
+### updatePassword(...)
+
+```typescript
+updatePassword(options: UpdatePasswordOptions) => Promise<void>
+```
+
+Updates the password of the currently signed in user.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#updatepasswordoptions">UpdatePasswordOptions</a></code> |
 
 --------------------
 
@@ -491,11 +701,19 @@ Remove all listeners for this plugin.
 ### Interfaces
 
 
-#### GetCurrentUserResult
+#### ApplyActionCodeOptions
 
-| Prop       | Type                                          | Description                                               |
-| ---------- | --------------------------------------------- | --------------------------------------------------------- |
-| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
+| Prop          | Type                | Description                           |
+| ------------- | ------------------- | ------------------------------------- |
+| **`oobCode`** | <code>string</code> | A verification code sent to the user. |
+
+
+#### SignInResult
+
+| Prop             | Type                                                              | Description                                               |
+| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
+| **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. |
+| **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 |
 
 
 #### User
@@ -513,6 +731,40 @@ Remove all listeners for this plugin.
 | **`uid`**           | <code>string</code>         |
 
 
+#### AuthCredential
+
+| Prop              | Type                | Description                                                                                                                              |
+| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential. Example: `google.com`.                                                                |
+| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                |
+| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     |
+| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     |
+| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. |
+
+
+#### CreateUserWithEmailAndPasswordOptions
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`email`**    | <code>string</code> |
+| **`password`** | <code>string</code> |
+
+
+#### ConfirmPasswordResetOptions
+
+| Prop              | Type                | Description                           |
+| ----------------- | ------------------- | ------------------------------------- |
+| **`oobCode`**     | <code>string</code> | A verification code sent to the user. |
+| **`newPassword`** | <code>string</code> | The new password.                     |
+
+
+#### GetCurrentUserResult
+
+| Prop       | Type                                          | Description                                               |
+| ---------- | --------------------------------------------- | --------------------------------------------------------- |
+| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
+
+
 #### GetIdTokenResult
 
 | Prop        | Type                | Description                            |
@@ -527,30 +779,18 @@ Remove all listeners for this plugin.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. |
 
 
+#### SendPasswordResetEmailOptions
+
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`email`** | <code>string</code> |
+
+
 #### SetLanguageCodeOptions
 
 | Prop               | Type                | Description                             |
 | ------------------ | ------------------- | --------------------------------------- |
 | **`languageCode`** | <code>string</code> | BCP 47 language code. Example: `en-US`. |
-
-
-#### SignInResult
-
-| Prop             | Type                                                              | Description                                               |
-| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
-| **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. |
-| **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 |
-
-
-#### AuthCredential
-
-| Prop              | Type                | Description                                                                                                                              |
-| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential. Example: `google.com`.                                                                |
-| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                |
-| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     |
-| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     |
-| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. |
 
 
 #### SignInOptions
@@ -566,6 +806,21 @@ Remove all listeners for this plugin.
 | ----------- | ------------------- | ------------------------------------------------------------------ |
 | **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      |
 | **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). |
+
+
+#### SignInWithCustomTokenOptions
+
+| Prop        | Type                | Description                       |
+| ----------- | ------------------- | --------------------------------- |
+| **`token`** | <code>string</code> | The custom token to sign in with. |
+
+
+#### SignInWithEmailAndPasswordOptions
+
+| Prop           | Type                | Description              |
+| -------------- | ------------------- | ------------------------ |
+| **`email`**    | <code>string</code> | The users email address. |
+| **`password`** | <code>string</code> | The users password.      |
 
 
 #### SignInWithPhoneNumberResult
@@ -584,11 +839,18 @@ Remove all listeners for this plugin.
 | **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             |
 
 
-#### SignInWithCustomTokenOptions
+#### UpdateEmailOptions
 
-| Prop        | Type                | Description                       |
-| ----------- | ------------------- | --------------------------------- |
-| **`token`** | <code>string</code> | The custom token to sign in with. |
+| Prop           | Type                | Description            |
+| -------------- | ------------------- | ---------------------- |
+| **`newEmail`** | <code>string</code> | The new email address. |
+
+
+#### UpdatePasswordOptions
+
+| Prop              | Type                | Description       |
+| ----------------- | ------------------- | ----------------- |
+| **`newPassword`** | <code>string</code> | The new password. |
 
 
 #### UseEmulatorOptions
@@ -637,17 +899,17 @@ Callback to receive the user's sign-in state change notifications.
    For native authentication, the native SDKs from Firebase, Google, etc. are used.
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
-   If the user should also be logged in on the web layer, additional steps are required (see [here](./docs/firebase-js-sdk.md)).
+   If the user should also be logged in on the web layer, additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
 1. **How can I use this plugin with the Firebase JavaScript SDK?**  
-   See [here](./docs/firebase-js-sdk.md).
+   See [here](/packages/authentication/docs/firebase-js-sdk.md).
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](/packages/authentication/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](./LICENSE).
+See [LICENSE](/packages/authentication/LICENSE).
 
 ## Credits
 

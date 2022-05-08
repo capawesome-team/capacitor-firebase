@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- [`8da4212`](https://github.com/robingenz/capacitor-firebase/commit/8da42124fa4ea1656e6db247952cb84718e60e31) ([#59](https://github.com/robingenz/capacitor-firebase/pull/59)): feat: password authentication
+
+* [`412e357`](https://github.com/robingenz/capacitor-firebase/commit/412e35796e3fd60167318785e4d06a07dee31dfe) ([#71](https://github.com/robingenz/capacitor-firebase/pull/71)): fix(ios): `removeAllListeners` method not found
+
+- [`5648977`](https://github.com/robingenz/capacitor-firebase/commit/564897735718a9b5e559532c59c6a3c1e734e10f) ([#79](https://github.com/robingenz/capacitor-firebase/pull/79)): fix: `getIdToken` causes app crash if no user is signed in
+
 ## 0.2.1
 
 ### Patch Changes

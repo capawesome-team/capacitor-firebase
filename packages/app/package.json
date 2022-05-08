@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/app",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Capacitor plugin for Firebase App.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

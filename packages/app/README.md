@@ -97,8 +97,8 @@ Get the configuration options for this app.
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](/packages/app/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](./LICENSE).
+See [LICENSE](/packages/app/LICENSE).

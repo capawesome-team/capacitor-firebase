@@ -2,29 +2,45 @@ import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
   User as FirebaseUser,
+  UserCredential,
 } from 'firebase/auth';
 import {
+  applyActionCode,
+  confirmPasswordReset,
   connectAuthEmulator,
+  createUserWithEmailAndPassword,
   FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
   OAuthCredential,
   OAuthProvider,
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithCustomToken,
+  signInWithEmailAndPassword,
   signInWithPopup,
+  updateEmail,
+  updatePassword,
 } from 'firebase/auth';
 
 import type {
+  ApplyActionCodeOptions,
   AuthCredential,
   AuthStateChange,
+  ConfirmPasswordResetOptions,
+  CreateUserWithEmailAndPasswordOptions,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
   GetIdTokenResult,
+  SendPasswordResetEmailOptions,
   SetLanguageCodeOptions,
   SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
+  SignInWithEmailAndPasswordOptions,
   SignInWithPhoneNumberOptions,
+  UpdateEmailOptions,
+  UpdatePasswordOptions,
   UseEmulatorOptions,
   User,
 } from './definitions';
@@ -32,10 +48,36 @@ import type {
 export class FirebaseAuthenticationWeb
   extends WebPlugin
   implements FirebaseAuthenticationPlugin {
+  public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
+
   constructor() {
     super();
     const auth = getAuth();
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
+  }
+
+  public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
+    const auth = getAuth();
+    return applyActionCode(auth, options.oobCode);
+  }
+
+  public async createUserWithEmailAndPassword(
+    options: CreateUserWithEmailAndPasswordOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const credential = await createUserWithEmailAndPassword(
+      auth,
+      options.email,
+      options.password,
+    );
+    return this.createSignInResultFromUserCredential(credential);
+  }
+
+  public async confirmPasswordReset(
+    options: ConfirmPasswordResetOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return confirmPasswordReset(auth, options.oobCode, options.newPassword);
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
@@ -49,11 +91,30 @@ export class FirebaseAuthenticationWeb
 
   public async getIdToken(): Promise<GetIdTokenResult> {
     const auth = getAuth();
-    const idToken = await auth.currentUser?.getIdToken();
+    if (!auth.currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    const idToken = await auth.currentUser.getIdToken();
     const result: GetIdTokenResult = {
       token: idToken || '',
     };
     return result;
+  }
+
+  public async sendEmailVerification(): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return sendEmailVerification(currentUser);
+  }
+
+  public async sendPasswordResetEmail(
+    options: SendPasswordResetEmailOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return sendPasswordResetEmail(auth, options.email);
   }
 
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
@@ -81,7 +142,27 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
+  }
+
+  public async signInWithCustomToken(
+    options: SignInWithCustomTokenOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const result = await signInWithCustomToken(auth, options.token);
+    return this.createSignInResultFromAuthCredential(result.user, null);
+  }
+
+  public async signInWithEmailAndPassword(
+    options: SignInWithEmailAndPasswordOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const credential = await signInWithEmailAndPassword(
+      auth,
+      options.email,
+      options.password,
+    );
+    return this.createSignInResultFromUserCredential(credential);
   }
 
   public async signInWithFacebook(
@@ -94,7 +175,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithGithub(
@@ -104,7 +185,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithGoogle(
@@ -117,7 +198,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithMicrosoft(
@@ -127,7 +208,13 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
+  }
+
+  public async signInWithPhoneNumber(
+    _options: SignInWithPhoneNumberOptions,
+  ): Promise<SignInResult> {
+    throw new Error('Not implemented on web.');
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
@@ -141,7 +228,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
@@ -149,26 +236,30 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResult(result.user, credential);
-  }
-
-  public async signInWithPhoneNumber(
-    _options: SignInWithPhoneNumberOptions,
-  ): Promise<SignInResult> {
-    throw new Error('Not implemented on web.');
-  }
-
-  public async signInWithCustomToken(
-    options: SignInWithCustomTokenOptions,
-  ): Promise<SignInResult> {
-    const auth = getAuth();
-    const result = await signInWithCustomToken(auth, options.token);
-    return this.createSignInResult(result.user, null);
+    return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
   public async signOut(): Promise<void> {
     const auth = getAuth();
     await auth.signOut();
+  }
+
+  public async updateEmail(options: UpdateEmailOptions): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return updateEmail(currentUser, options.newEmail);
+  }
+
+  public async updatePassword(options: UpdatePasswordOptions): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return updatePassword(currentUser, options.newPassword);
   }
 
   public async useAppLanguage(): Promise<void> {
@@ -190,7 +281,7 @@ export class FirebaseAuthenticationWeb
     this.notifyListeners('authStateChange', change);
   }
 
-  private createSignInResult(
+  private createSignInResultFromAuthCredential(
     user: FirebaseUser,
     credential: FirebaseAuthCredential | null,
   ): SignInResult {
@@ -203,20 +294,13 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
-  private createUserResult(user: FirebaseUser | null): User | null {
-    if (!user) {
-      return null;
-    }
-    const result: User = {
-      displayName: user.displayName,
-      email: user.email,
-      emailVerified: user.emailVerified,
-      isAnonymous: user.isAnonymous,
-      phoneNumber: user.phoneNumber,
-      photoUrl: user.photoURL,
-      providerId: user.providerId,
-      tenantId: user.tenantId,
-      uid: user.uid,
+  private createSignInResultFromUserCredential(
+    credential: UserCredential,
+  ): SignInResult {
+    const userResult = this.createUserResult(credential.user);
+    const result: SignInResult = {
+      user: userResult,
+      credential: null,
     };
     return result;
   }
@@ -235,6 +319,24 @@ export class FirebaseAuthenticationWeb
       result.idToken = credential.idToken;
       result.secret = credential.secret;
     }
+    return result;
+  }
+
+  private createUserResult(user: FirebaseUser | null): User | null {
+    if (!user) {
+      return null;
+    }
+    const result: User = {
+      displayName: user.displayName,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      isAnonymous: user.isAnonymous,
+      phoneNumber: user.phoneNumber,
+      photoUrl: user.photoURL,
+      providerId: user.providerId,
+      tenantId: user.tenantId,
+      uid: user.uid,
+    };
     return result;
   }
 }

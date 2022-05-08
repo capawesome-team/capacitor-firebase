@@ -11,6 +11,7 @@
       "@capacitor-firebase/app",
       "@capacitor-firebase/authentication",
       "@capacitor-firebase/crashlytics",
+      "@capacitor-firebase/messaging",
       "@capacitor-firebase/performance"
     ]
   ],

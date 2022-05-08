@@ -309,8 +309,8 @@ Only available for Android and iOS.
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](/packages/analytics/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](./LICENSE).
+See [LICENSE](/packages/analytics/LICENSE).

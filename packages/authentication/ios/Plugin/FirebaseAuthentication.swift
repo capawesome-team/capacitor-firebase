@@ -6,8 +6,6 @@ import FirebaseAuth
 public typealias AuthStateChangedObserver = () -> Void
 
 @objc public class FirebaseAuthentication: NSObject {
-    public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
-    public let errorCustomTokenSkipNativeAuth = "signInWithCustomToken cannot be used in combination with skipNativeAuth."
     public var authStateObserver: AuthStateChangedObserver?
     private let plugin: FirebaseAuthenticationPlugin
     private let config: FirebaseAuthenticationConfig
@@ -31,19 +29,76 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func applyActionCode(oobCode: String, completion: @escaping (Error?) -> Void) {
+        return Auth.auth().applyActionCode(oobCode, completion: { error in
+            completion(error)
+        })
+    }
+
+    @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
+        if config.skipNativeAuth == true {
+            call.reject(plugin.errorEmailSignInSkipNativeAuth)
+            return
+        }
+
+        guard let email = call.getString("email") else {
+            call.reject(plugin.errorEmailMissing)
+            return
+        }
+        guard let password = call.getString("password") else {
+            call.reject(plugin.errorPasswordMissing)
+            return
+        }
+
+        self.savedCall = call
+        return Auth.auth().createUser(withEmail: email, password: password) { _, error in
+            if let error = error {
+                self.handleFailedSignIn(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let user = self.getCurrentUser()
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
+            savedCall.resolve(result)
+        }
+    }
+
+    @objc func confirmPasswordReset(oobCode: String, newPassword: String, completion: @escaping (Error?) -> Void) {
+        return Auth.auth().confirmPasswordReset(withCode: oobCode, newPassword: newPassword, completion: { error in
+            completion(error)
+        })
+    }
+
     @objc func getCurrentUser() -> User? {
         return Auth.auth().currentUser
     }
 
-    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (String?, Error?) -> Void) {
-        let user = self.getCurrentUser()
-        user?.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
+    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (String?, String?) -> Void) {
+        guard let user = self.getCurrentUser() else {
+            completion(nil, self.plugin.errorNoUserSignedIn)
+            return
+        }
+        user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
             if let error = error {
-                completion(nil, error)
+                completion(nil, error.localizedDescription)
                 return
             }
             completion(result?.token, nil)
         })
+    }
+
+    @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
+        user.sendEmailVerification(completion: { error in
+            completion(error)
+        })
+    }
+
+    @objc func sendPasswordResetEmail(email: String, completion: @escaping (Error?) -> Void) {
+        return Auth.auth().sendPasswordReset(withEmail: email) { error in
+            completion(error)
+        }
     }
 
     @objc func setLanguageCode(_ languageCode: String) {
@@ -53,6 +108,53 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func signInWithApple(_ call: CAPPluginCall) {
         self.savedCall = call
         self.appleAuthProviderHandler?.signIn(call: call)
+    }
+
+    @objc func signInWithCustomToken(_ call: CAPPluginCall) {
+        if config.skipNativeAuth == true {
+            call.reject(plugin.errorCustomTokenSkipNativeAuth)
+            return
+        }
+
+        let token = call.getString("token", "")
+
+        self.savedCall = call
+        Auth.auth().signIn(withCustomToken: token) { _, error in
+            if let error = error {
+                self.handleFailedSignIn(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let user = self.getCurrentUser()
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
+            savedCall.resolve(result)
+        }
+    }
+
+    @objc func signInWithEmailAndPassword(_ call: CAPPluginCall) {
+        if config.skipNativeAuth == true {
+            call.reject(plugin.errorEmailSignInSkipNativeAuth)
+            return
+        }
+
+        let email = call.getString("email", "")
+        let password = call.getString("password", "")
+
+        self.savedCall = call
+        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+            if let error = error {
+                self.handleFailedSignIn(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let user = self.getCurrentUser()
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
+            savedCall.resolve(result)
+        }
     }
 
     @objc func signInWithFacebook(_ call: CAPPluginCall) {
@@ -90,29 +192,6 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.signIn(call: call, providerId: "yahoo.com")
     }
 
-    @objc func signInWithCustomToken(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
-            call.reject(self.errorCustomTokenSkipNativeAuth)
-            return
-        }
-
-        let token = call.getString("token", "")
-
-        self.savedCall = call
-        Auth.auth().signIn(withCustomToken: token) { _, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
-                return
-            }
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
-            savedCall.resolve(result)
-        }
-    }
-
     @objc func signOut(_ call: CAPPluginCall) {
         do {
             try Auth.auth().signOut()
@@ -121,6 +200,18 @@ public typealias AuthStateChangedObserver = () -> Void
             call.resolve()
         } catch let signOutError as NSError {
             call.reject("Error signing out: \(signOutError)")
+        }
+    }
+
+    @objc func updateEmail(user: User, newEmail: String, completion: @escaping (Error?) -> Void) {
+        user.updateEmail(to: newEmail) { error in
+            completion(error)
+        }
+    }
+
+    @objc func updatePassword(user: User, newPassword: String, completion: @escaping (Error?) -> Void) {
+        user.updatePassword(to: newPassword) { error in
+            completion(error)
         }
     }
 

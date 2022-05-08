@@ -35,6 +35,21 @@ declare module '@capacitor/cli' {
 
 export interface FirebaseAuthenticationPlugin {
   /**
+   * Applies a verification code sent to the user by email.
+   */
+  applyActionCode(options: ApplyActionCodeOptions): Promise<void>;
+  /**
+   * Creates a new user account with email and password.
+   * If the new account was created, the user is signed in automatically.
+   */
+  createUserWithEmailAndPassword(
+    options: CreateUserWithEmailAndPasswordOptions,
+  ): Promise<SignInResult>;
+  /**
+   * Completes the password reset process
+   */
+  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
+  /**
    * Fetches the currently signed-in user.
    */
   getCurrentUser(): Promise<GetCurrentUserResult>;
@@ -43,6 +58,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
+   * Sends a verification email to the currently signed in user.
+   */
+  sendEmailVerification(): Promise<void>;
+  /**
+   * Sends a password reset email.
+   */
+  sendPasswordResetEmail(options: SendPasswordResetEmailOptions): Promise<void>;
+  /**
    * Sets the user-facing language code for auth operations.
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
@@ -50,6 +73,21 @@ export interface FirebaseAuthenticationPlugin {
    * Starts the Apple sign-in flow.
    */
   signInWithApple(options?: SignInOptions): Promise<SignInResult>;
+  /**
+   * Starts the Custom Token sign-in flow.
+   *
+   * This method cannot be used in combination with `skipNativeAuth` on Android and iOS.
+   * In this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.
+   */
+  signInWithCustomToken(
+    options: SignInWithCustomTokenOptions,
+  ): Promise<SignInResult>;
+  /**
+   * Starts the sign-in flow using an email and password.
+   */
+  signInWithEmailAndPassword(
+    options: SignInWithEmailAndPasswordOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Facebook sign-in flow.
    */
@@ -67,6 +105,16 @@ export interface FirebaseAuthenticationPlugin {
    */
   signInWithMicrosoft(options?: SignInOptions): Promise<SignInResult>;
   /**
+   * Starts the sign-in flow using a phone number.
+   *
+   * Either the phone number or the verification code and verification ID must be provided.
+   *
+   * Only available for Android and iOS.
+   */
+  signInWithPhoneNumber(
+    options: SignInWithPhoneNumberOptions,
+  ): Promise<SignInWithPhoneNumberResult>;
+  /**
    * Starts the Play Games sign-in flow.
    */
   signInWithPlayGames(options?: SignInOptions): Promise<SignInResult>;
@@ -79,28 +127,17 @@ export interface FirebaseAuthenticationPlugin {
    */
   signInWithYahoo(options?: SignInOptions): Promise<SignInResult>;
   /**
-   * Starts the sign-in flow using a phone number.
-   *
-   * Either the phone number or the verification code and verification ID must be provided.
-   *
-   * Only available for Android and iOS.
-   */
-  signInWithPhoneNumber(
-    options: SignInWithPhoneNumberOptions,
-  ): Promise<SignInWithPhoneNumberResult>;
-  /**
-   * Starts the Custom Token sign-in flow.
-   *
-   * This method cannot be used in combination with `skipNativeAuth` on Android and iOS.
-   * In this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.
-   */
-  signInWithCustomToken(
-    options: SignInWithCustomTokenOptions,
-  ): Promise<SignInResult>;
-  /**
    * Starts the sign-out flow.
    */
   signOut(): Promise<void>;
+  /**
+   * Updates the email address of the currently signed in user.
+   */
+  updateEmail(options: UpdateEmailOptions): Promise<void>;
+  /**
+   * Updates the password of the currently signed in user.
+   */
+  updatePassword(options: UpdatePasswordOptions): Promise<void>;
   /**
    * Sets the user-facing language code to be the default app language.
    */
@@ -120,6 +157,29 @@ export interface FirebaseAuthenticationPlugin {
    * Remove all listeners for this plugin.
    */
   removeAllListeners(): Promise<void>;
+}
+
+export interface ApplyActionCodeOptions {
+  /**
+   * A verification code sent to the user.
+   */
+  oobCode: string;
+}
+
+export interface ConfirmPasswordResetOptions {
+  /**
+   * A verification code sent to the user.
+   */
+  oobCode: string;
+  /**
+   * The new password.
+   */
+  newPassword: string;
+}
+
+export interface CreateUserWithEmailAndPasswordOptions {
+  email: string;
+  password: string;
 }
 
 export interface GetCurrentUserResult {
@@ -143,6 +203,10 @@ export interface GetIdTokenResult {
   token: string;
 }
 
+export interface SendPasswordResetEmailOptions {
+  email: string;
+}
+
 export interface SetLanguageCodeOptions {
   /**
    * BCP 47 language code.
@@ -150,6 +214,20 @@ export interface SetLanguageCodeOptions {
    * Example: `en-US`.
    */
   languageCode: string;
+}
+
+export interface UpdateEmailOptions {
+  /**
+   * The new email address.
+   */
+  newEmail: string;
+}
+
+export interface UpdatePasswordOptions {
+  /**
+   * The new password.
+   */
+  newPassword: string;
 }
 
 export interface SignInOptions {
@@ -190,6 +268,17 @@ export interface SignInWithPhoneNumberOptions {
    * The `verificationId` must also be provided.
    */
   verificationCode?: string;
+}
+
+export interface SignInWithEmailAndPasswordOptions {
+  /**
+   * The users email address.
+   */
+  email: string;
+  /**
+   * The users password.
+   */
+  password: string;
 }
 
 export interface SignInWithCustomTokenOptions {
