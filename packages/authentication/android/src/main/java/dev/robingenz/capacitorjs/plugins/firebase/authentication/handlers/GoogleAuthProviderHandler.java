@@ -3,6 +3,8 @@ package dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers;
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.Nullable;
+
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
@@ -29,33 +31,33 @@ public class GoogleAuthProviderHandler {
 
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gso);
+        this.buildGoogleSignInClient(null);
     }
 
-    public void signIn(PluginCall call) {
-        JSArray scopes = call.getArray("scopes");
-        // Got scopes? Need to get the client again with these new options.
-        if (scopes != null) {
-            try {
-                List<String> scopeList = scopes.toList();
-                GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-                    .requestEmail();
+    private void buildGoogleSignInClient(@Nullable PluginCall call) {
+        GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+                .requestEmail();
 
-                for (String scope : scopeList) {
-                    gsob = gsob.requestScopes(new Scope(scope));
+        if (call != null) {
+            JSArray scopes = call.getArray("scopes");
+            if (scopes != null) {
+                try {
+                    List<String> scopeList = scopes.toList();
+                    for (String scope : scopeList) {
+                        gsob = gsob.requestScopes(new Scope(scope));
+                    }
+                } catch (JSONException exception) {
+                    Log.e(FirebaseAuthenticationPlugin.TAG, "buildGoogleSignInClient failed.", exception);
                 }
-
-                mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gsob.build());
-            } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "signIn (applying scopes) failed.", exception);
             }
         }
 
+        mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gsob.build());
+    }
+
+    public void signIn(PluginCall call) {
+        this.buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResult");
     }

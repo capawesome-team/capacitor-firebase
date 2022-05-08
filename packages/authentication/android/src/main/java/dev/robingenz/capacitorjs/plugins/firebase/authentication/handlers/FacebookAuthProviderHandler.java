@@ -10,6 +10,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.getcapacitor.JSArray;
+import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -58,9 +59,8 @@ public class FacebookAuthProviderHandler {
         }
     }
 
-    public void signIn(PluginCall call) {
-        savedCall = call;
-        JSArray scopes = call.getArray("scopes");
+    private void applySignInConfig() {
+        JSArray scopes = this.savedCall.getArray("scopes");
         if (scopes != null) {
             try {
                 List<String> scopeList = scopes.toList();
@@ -68,10 +68,14 @@ public class FacebookAuthProviderHandler {
                 scopeList.add("public_profile");
                 this.loginButton.setPermissions(scopeList);
             } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "signIn (applying scopes) failed.", exception);
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
             }
         }
+    }
 
+    public void signIn(PluginCall call) {
+        savedCall = call;
+        this.applySignInConfig();
         this.loginButton.performClick();
     }
 

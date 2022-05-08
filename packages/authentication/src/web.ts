@@ -122,23 +122,17 @@ export class FirebaseAuthenticationWeb
     auth.languageCode = options.languageCode;
   }
 
-  // Attach scopes to provider if they're there.
-  // Takes in either a string describing an OAuthProvider, or specific other providers.
-  private createProviderWithScopes(
-    provider: string | GoogleAuthProvider | FacebookAuthProvider,
-    options?: SignInOptions,
-  ) {
-    if (typeof provider === 'string') provider = new OAuthProvider(provider);
+  private applySignInConfig(provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider, options?: SignInOptions) {
     if (options?.scopes) {
       for (const scope of options.scopes) {
         provider.addScope(scope);
       }
     }
-    return provider;
   }
 
   public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes('apple.com', options);
+    const provider = new OAuthProvider('apple.com');
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -168,10 +162,8 @@ export class FirebaseAuthenticationWeb
   public async signInWithFacebook(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes(
-      new FacebookAuthProvider(),
-      options,
-    );
+    const provider = new FacebookAuthProvider();
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
@@ -181,7 +173,8 @@ export class FirebaseAuthenticationWeb
   public async signInWithGithub(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes('github.com', options);
+    const provider = new OAuthProvider('github.com');
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -191,10 +184,8 @@ export class FirebaseAuthenticationWeb
   public async signInWithGoogle(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes(
-      new GoogleAuthProvider(),
-      options,
-    );
+    const provider = new GoogleAuthProvider();
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -204,7 +195,8 @@ export class FirebaseAuthenticationWeb
   public async signInWithMicrosoft(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes('microsoft.com', options);
+    const provider = new OAuthProvider('microsoft.com');
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -224,7 +216,8 @@ export class FirebaseAuthenticationWeb
   public async signInWithTwitter(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes('twitter.com', options);
+    const provider = new OAuthProvider('twitter.com');
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -232,7 +225,8 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
-    const provider = this.createProviderWithScopes('yahoo.com', options);
+    const provider = new OAuthProvider('yahoo.com');
+    this.applySignInConfig(provider, options);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
