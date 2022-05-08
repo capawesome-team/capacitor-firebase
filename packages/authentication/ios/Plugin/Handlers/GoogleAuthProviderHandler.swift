@@ -22,11 +22,7 @@ class GoogleAuthProviderHandler: NSObject {
         let scopes = call.getArray("scopes", String.self) ?? []
 
         DispatchQueue.main.async {
-            GIDSignIn.sharedInstance.signInWithConfiguration(
-                with: config,
-                presentingViewController: controller,
-                additionalScopes: scopes
-            ) { user, error in
+            GIDSignIn.sharedInstance.signIn(with: config, presenting: controller, hint: "gmail.com", additionalScopes: scopes, callback: { user, error in
                 if let error = error {
                     self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
                     return
@@ -38,7 +34,7 @@ class GoogleAuthProviderHandler: NSObject {
 
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
                 self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
-            }
+            })
         }
         #endif
     }
