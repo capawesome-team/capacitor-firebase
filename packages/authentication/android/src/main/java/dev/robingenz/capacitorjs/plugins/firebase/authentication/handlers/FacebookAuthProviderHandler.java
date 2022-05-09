@@ -59,14 +59,14 @@ public class FacebookAuthProviderHandler {
         }
     }
 
-    private void applySignInConfig() {
+    private void applySignInConfig(LoginButton button) {
         JSArray scopes = this.savedCall.getArray("scopes");
         if (scopes != null) {
             try {
                 List<String> scopeList = scopes.toList();
                 scopeList.add("email");
                 scopeList.add("public_profile");
-                this.loginButton.setPermissions(scopeList);
+                button.setPermissions(scopeList);
             } catch (JSONException exception) {
                 Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
             }
@@ -74,8 +74,8 @@ public class FacebookAuthProviderHandler {
     }
 
     public void signIn(PluginCall call) {
-        savedCall = call;
-        this.applySignInConfig();
+        this.savedCall = call;
+        this.applySignInConfig(this.loginButton);
         this.loginButton.performClick();
     }
 
