@@ -34,28 +34,6 @@ public class GoogleAuthProviderHandler {
         this.buildGoogleSignInClient(null);
     }
 
-    private void buildGoogleSignInClient(@Nullable PluginCall call) {
-        GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-                .requestEmail();
-
-        if (call != null) {
-            JSArray scopes = call.getArray("scopes");
-            if (scopes != null) {
-                try {
-                    List<String> scopeList = scopes.toList();
-                    for (String scope : scopeList) {
-                        gsob = gsob.requestScopes(new Scope(scope));
-                    }
-                } catch (JSONException exception) {
-                    Log.e(FirebaseAuthenticationPlugin.TAG, "buildGoogleSignInClient failed.", exception);
-                }
-            }
-        }
-
-        mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gsob.build());
-    }
-
     public void signIn(PluginCall call) {
         this.buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -77,5 +55,27 @@ public class GoogleAuthProviderHandler {
         } catch (ApiException exception) {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }
+    }
+    
+    private void buildGoogleSignInClient(@Nullable PluginCall call) {
+        GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+                .requestEmail();
+
+        if (call != null) {
+            JSArray scopes = call.getArray("scopes");
+            if (scopes != null) {
+                try {
+                    List<String> scopeList = scopes.toList();
+                    for (String scope : scopeList) {
+                        gsob = gsob.requestScopes(new Scope(scope));
+                    }
+                } catch (JSONException exception) {
+                    Log.e(FirebaseAuthenticationPlugin.TAG, "buildGoogleSignInClient failed.", exception);
+                }
+            }
+        }
+
+        mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gsob.build());
     }
 }
