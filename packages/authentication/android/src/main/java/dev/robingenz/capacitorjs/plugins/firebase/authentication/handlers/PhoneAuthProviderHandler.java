@@ -44,14 +44,14 @@ public class PhoneAuthProviderHandler {
 
     private void handleVerificationCode(PluginCall call, String verificationId, String verificationCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
-        pluginImplementation.handleSuccessfulSignIn(call, credential, null);
+        pluginImplementation.handleSuccessfulSignIn(call, credential, null, null);
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(PluginCall call) {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                pluginImplementation.handleSuccessfulSignIn(call, credential, null);
+                pluginImplementation.handleSuccessfulSignIn(call, credential, null, null);
             }
 
             @Override

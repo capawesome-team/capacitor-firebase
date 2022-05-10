@@ -11,6 +11,7 @@ import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.OAuthProvider;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
+import dev.robingenz.capacitorjs.plugins.firebase.authentication.models.AdditionalUserInfo;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +42,9 @@ public class OAuthProviderHandler {
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null);
+                    Object userId = authResult.getAdditionalUserInfo().getProfile().get("id");
+                    Object email = authResult.getAdditionalUserInfo().getProfile().get("email");
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, new AdditionalUserInfo(userId.toString(), email.toString()));
                 }
             )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
@@ -52,7 +55,9 @@ public class OAuthProviderHandler {
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null);
+                    Object userId = authResult.getAdditionalUserInfo().getProfile().get("id");
+                    Object email = authResult.getAdditionalUserInfo().getProfile().get("email");
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, new AdditionalUserInfo(userId.toString(), email.toString()));
                 }
             )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));

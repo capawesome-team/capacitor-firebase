@@ -14,6 +14,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
+import dev.robingenz.capacitorjs.plugins.firebase.authentication.models.AdditionalUserInfo;
 
 public class FacebookAuthProviderHandler {
 
@@ -70,8 +71,9 @@ public class FacebookAuthProviderHandler {
     private void handleSuccessCallback(LoginResult loginResult) {
         AccessToken accessToken = loginResult.getAccessToken();
         String accessTokenString = accessToken.getToken();
+        String userId = accessToken.getUserId();
         AuthCredential credential = FacebookAuthProvider.getCredential(accessTokenString);
-        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString);
+        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString, new AdditionalUserInfo(userId, null));
     }
 
     private void handleCancelCallback() {

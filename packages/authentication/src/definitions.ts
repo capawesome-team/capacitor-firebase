@@ -292,6 +292,11 @@ export interface SignInResult {
    * Credentials returned by an auth provider.
    */
   credential: AuthCredential | null;
+
+  /**
+   * Additional information of the user.
+   */
+  additional?: AdditionalUserInfo | null;
 }
 
 export interface UseEmulatorOptions {
@@ -324,6 +329,11 @@ export interface User {
   providerId: string;
   tenantId: string | null;
   uid: string;
+}
+
+export interface AdditionalUserInfo {
+  userId?: string | null;
+  email?: string | null;
 }
 
 export interface AuthCredential {

@@ -13,6 +13,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.PlayGamesAuthProvider;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.R;
+import dev.robingenz.capacitorjs.plugins.firebase.authentication.models.AdditionalUserInfo;
 
 public class PlayGamesAuthProviderHandler {
 
@@ -44,7 +45,9 @@ public class PlayGamesAuthProviderHandler {
             String serverAuthCode = account.getServerAuthCode();
             AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);
             String idToken = account.getIdToken();
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken);
+            String userId = account.getId();
+            String email = account.getEmail();
+            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, new AdditionalUserInfo(userId, email));
         } catch (ApiException exception) {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }

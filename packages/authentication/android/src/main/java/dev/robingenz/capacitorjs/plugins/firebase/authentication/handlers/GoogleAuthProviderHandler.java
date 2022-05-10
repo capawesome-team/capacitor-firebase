@@ -15,6 +15,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthCredential;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.R;
+import dev.robingenz.capacitorjs.plugins.firebase.authentication.models.AdditionalUserInfo;
 
 public class GoogleAuthProviderHandler {
 
@@ -45,8 +46,10 @@ public class GoogleAuthProviderHandler {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken();
+            String userId = account.getId();
+            String email = account.getEmail();
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken);
+            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, new AdditionalUserInfo(userId, email));
         } catch (ApiException exception) {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }

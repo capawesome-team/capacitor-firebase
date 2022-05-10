@@ -15,6 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import dev.robingenz.capacitorjs.plugins.firebase.authentication.models.AdditionalUserInfo;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
@@ -103,7 +104,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword failed.", task.getException());
@@ -225,7 +226,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
@@ -253,7 +254,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword failed.", task.getException());
@@ -323,8 +324,8 @@ public class FirebaseAuthentication {
         }
     }
 
-    public void handleSuccessfulSignIn(final PluginCall call, AuthCredential credential, String idToken) {
-        handleSuccessfulSignIn(call, credential, idToken, null, null);
+    public void handleSuccessfulSignIn(final PluginCall call, AuthCredential credential, String idToken, @Nullable AdditionalUserInfo additionalUserInfo) {
+        handleSuccessfulSignIn(call, credential, idToken, null, null, additionalUserInfo);
     }
 
     public void handleSuccessfulSignIn(
@@ -332,11 +333,12 @@ public class FirebaseAuthentication {
         @Nullable AuthCredential credential,
         @Nullable String idToken,
         @Nullable String nonce,
-        @Nullable String accessToken
+        @Nullable String accessToken,
+        @Nullable AdditionalUserInfo additionalUserInfo
     ) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
-            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce, accessToken);
+            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce, accessToken, additionalUserInfo);
             call.resolve(signInResult);
             return;
         }
@@ -353,7 +355,8 @@ public class FirebaseAuthentication {
                             credential,
                             idToken,
                             nonce,
-                            accessToken
+                            accessToken,
+                                additionalUserInfo
                         );
                         call.resolve(signInResult);
                     } else {

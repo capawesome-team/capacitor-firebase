@@ -17,13 +17,14 @@ public class FirebaseAuthenticationHelper {
     ) {
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
         JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(credential, idToken, nonce, accessToken);
+        JSObject additionalInfo = FirebaseAuthenticationHelper.createUserAdditionalInfo();
         JSObject result = new JSObject();
         result.put("user", userResult);
         result.put("credential", credentialResult);
         return result;
     }
 
-    public static JSObject createUserResult(@Nullable FirebaseUser user) {
+    public static JSObject createUserResult(@Nullable FirebaseUser user, @Nullable AdditionalUserInfo additionalUserInfo) {
         if (user == null) {
             return null;
         }
@@ -37,6 +38,7 @@ public class FirebaseAuthenticationHelper {
         result.put("providerId", user.getProviderId());
         result.put("tenantId", user.getTenantId());
         result.put("uid", user.getUid());
+        result.put("additionalInfo", additionalUserInfo.toJSON());
         return result;
     }
 
