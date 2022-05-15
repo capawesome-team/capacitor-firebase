@@ -266,7 +266,7 @@ export interface NotificationActionPerformedEvent {
    *
    * @since 0.2.2
    */
-  actionId: Notification;
+  actionId: string;
   /**
    * Text entered on the notification action.
    *
@@ -274,7 +274,7 @@ export interface NotificationActionPerformedEvent {
    *
    * @since 0.2.2
    */
-  inputValue: Notification;
+  inputValue?: string;
   /**
    * The notification in which the action was performed.
    *
