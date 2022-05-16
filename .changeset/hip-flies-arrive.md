@@ -2,4 +2,4 @@
 "@capacitor-firebase/authentication": minor
 ---
 
-Pass through force refresh to firebase
+fix(web): apply `forceRefresh` option in the `getIdToken` method
