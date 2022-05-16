@@ -5,7 +5,7 @@ import UserNotifications
 import FirebaseMessaging
 import FirebaseCore
 
-@objc public class FirebaseMessaging: NSObject, MessagingDelegate, NotificationHandlerProtocol {
+@objc public class FirebaseMessaging: NSObject, NotificationHandlerProtocol {
     private let plugin: FirebaseMessagingPlugin
     private let config: FirebaseMessagingConfig
 
@@ -102,9 +102,31 @@ import FirebaseCore
             completion(nil)
         })
     }
-
-    public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
+    
+    public func handleRemoteNotificationReceived(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            Messaging.messaging().appDidReceiveMessage(userInfo)
+        }
+        self.plugin.handleRemoteNotificationReceived(notification: notification)
+    }
+    
+    private func handleNotificationReceived(notification: UNNotification) {
+        let userInfo = notification.request.content.userInfo
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         self.plugin.handleNotificationReceived(notification: notification)
+    }
+
+    private func handleNotificationActionPerformed(response: UNNotificationResponse) {
+        let userInfo = response.notification.request.content.userInfo
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        self.plugin.handleNotificationActionPerformed(response: response)
+    }
+}
+
+extension FirebaseMessaging: MessagingDelegate {
+    
+    public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
+        self.handleNotificationReceived(notification: notification)
 
         var presentationOptions = UNNotificationPresentationOptions.init()
         self.config.presentationOptions.forEach { option in
@@ -124,6 +146,6 @@ import FirebaseCore
     }
 
     public func didReceive(response: UNNotificationResponse) {
-        self.plugin.handleNotificationActionPerformed(response: response)
+        self.handleNotificationActionPerformed(response: response)
     }
 }
