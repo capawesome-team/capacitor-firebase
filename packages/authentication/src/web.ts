@@ -31,6 +31,7 @@ import type {
   CreateUserWithEmailAndPasswordOptions,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
+  GetIdTokenOptions,
   GetIdTokenResult,
   SendPasswordResetEmailOptions,
   SetLanguageCodeOptions,
@@ -88,12 +89,14 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
-  public async getIdToken(): Promise<GetIdTokenResult> {
+  public async getIdToken(
+    options?: GetIdTokenOptions,
+  ): Promise<GetIdTokenResult> {
     const auth = getAuth();
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const idToken = await auth.currentUser.getIdToken();
+    const idToken = await auth.currentUser.getIdToken(options?.forceRefresh);
     const result: GetIdTokenResult = {
       token: idToken || '',
     };
