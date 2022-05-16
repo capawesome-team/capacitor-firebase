@@ -21,6 +21,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     override public func load() {
         implementation = FirebaseMessaging(plugin: self, config: firebaseMessagingConfig())
         NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterForRemoteNotifications(notification:)), name: .capacitorDidRegisterForRemoteNotifications, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveRemoteNotification(notification:)), name: Notification.Name.init("didReceiveRemoteNotification"), object: nil)
     }
 
     deinit {
@@ -130,6 +131,13 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         result["notification"] = notificationResult
         notifyListeners(notificationReceivedEvent, data: result)
     }
+    
+    func handleRemoteNotificationReceived(notification: NSNotification) {
+        let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
+        var result = JSObject()
+        result["notification"] = notificationResult
+        notifyListeners(notificationReceivedEvent, data: result)
+    }
 
     func handleNotificationActionPerformed(response: UNNotificationResponse) {
         let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: response.notification)
@@ -155,6 +163,10 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         Messaging.messaging().apnsToken = deviceToken
         let deviceTokenAsString = String(decoding: deviceToken, as: UTF8.self)
         self.handleTokenReceived(token: deviceTokenAsString)
+    }
+    
+    @objc private func didReceiveRemoteNotification(notification: NSNotification) {
+        implementation?.handleRemoteNotificationReceived(notification: notification)
     }
 
     private func firebaseMessagingConfig() -> FirebaseMessagingConfig {

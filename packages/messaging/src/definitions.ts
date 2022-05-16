@@ -312,7 +312,7 @@ export interface Notification {
    *
    * @since 0.2.2
    */
-  id: string;
+  id?: string;
   /**
    * The URL of an image that is downloaded on the device and displayed in the notification.
    *
