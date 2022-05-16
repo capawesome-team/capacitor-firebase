@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Patch Changes
+
+- [`935744d`](https://github.com/robingenz/capacitor-firebase/commit/935744df7c0a6703606048db75e71d2b00132c57) ([#84](https://github.com/robingenz/capacitor-firebase/pull/84)): fix(web): apply `forceRefresh` option in the `getIdToken` method
+
 ## 0.2.2
 
 ### Patch Changes
