@@ -79,6 +79,7 @@ public class FirebaseMessagingPlugin extends Plugin {
             new GetTokenResultCallback() {
                 @Override
                 public void success(String token) {
+                    handleTokenReceived(token);
                     JSObject result = new JSObject();
                     result.put("token", token);
                     call.resolve(result);
