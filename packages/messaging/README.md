@@ -67,6 +67,19 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
 
 Finally edit your `ios/App/App/Info.plist` and set `FirebaseAppDelegateProxyEnabled` key to `NO`.
 
+**Attention**: If you use this plugin in combination with `@capacitor-firebase/authentication`, then add the following to your app's `AppDelegate.swift`:
+
+```diff
++ import FirebaseAuth
+
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
++    if Auth.auth().canHandle(url) {
++      return true
++    }
+    return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
+}
+```
+
 #### Prevent auto initialization
 
 When a registration token is generated, the library uploads the identifier and configuration data to Firebase.
