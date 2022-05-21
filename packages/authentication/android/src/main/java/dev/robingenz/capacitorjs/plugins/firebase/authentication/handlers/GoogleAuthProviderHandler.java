@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,7 +22,12 @@ import com.google.firebase.auth.OAuthCredential;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.R;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.json.JSONException;
 
 public class GoogleAuthProviderHandler {
@@ -50,7 +57,17 @@ public class GoogleAuthProviderHandler {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken();
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken);
+            ExecutorService background = Executors.newSingleThreadExecutor();
+            background.submit(() -> {
+                String accessToken = null;
+                try {
+                    accessToken = GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
+                } catch (IOException | GoogleAuthException exception) {
+                    pluginImplementation.handleFailedSignIn(call, null, exception);
+                }
+
+                pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken);
+            });
         } catch (ApiException exception) {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }
