@@ -1,5 +1,5 @@
 ---
-"@capacitor-firebase/authentication": minor
+"@capacitor-firebase/authentication": patch
 ---
 
-Added ability to request scopes when authenticating.
+feat: support OAuth 2.0 scopes
