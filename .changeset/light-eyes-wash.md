@@ -1,5 +1,5 @@
 ---
-"@capacitor-firebase/authentication": minor
+"@capacitor-firebase/authentication": patch
 ---
 
-fix(android): Access token returned with Google Sign In
+feat(android): provide access token for Google
