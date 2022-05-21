@@ -10,7 +10,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 The `Notification.id` property is now optional:
 
-```ts
+```diff
 export interface Notification {
   /**
    * The notification identifier.
