@@ -59,23 +59,9 @@ public class FacebookAuthProviderHandler {
         }
     }
 
-    private void applySignInConfig(LoginButton button) {
-        JSArray scopes = this.savedCall.getArray("scopes");
-        if (scopes != null) {
-            try {
-                List<String> scopeList = scopes.toList();
-                scopeList.add("email");
-                scopeList.add("public_profile");
-                button.setPermissions(scopeList);
-            } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
-            }
-        }
-    }
-
     public void signIn(PluginCall call) {
         this.savedCall = call;
-        this.applySignInConfig(this.loginButton);
+        this.applySignInOptions(call, this.loginButton);
         this.loginButton.performClick();
     }
 
@@ -85,6 +71,20 @@ public class FacebookAuthProviderHandler {
 
     public void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void applySignInOptions(PluginCall call, LoginButton button) {
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                List<String> scopeList = scopes.toList();
+                scopeList.add("email");
+                scopeList.add("public_profile");
+                button.setPermissions(scopeList);
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
+            }
+        }
     }
 
     private void handleSuccessCallback(LoginResult loginResult) {

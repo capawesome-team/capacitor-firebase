@@ -64,7 +64,7 @@ public class AppleAuthProviderHandler {
 
     public void signIn(PluginCall call) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder("apple.com");
-        applySignInConfig(call, provider);
+        applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
             currentNonce = generateNonce(32);
@@ -103,7 +103,7 @@ public class AppleAuthProviderHandler {
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
-    private void applySignInConfig(PluginCall call, OAuthProvider.Builder provider) {
+    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
         JSArray customParameters = call.getArray("customParameters");
         if (customParameters != null) {
             try {
@@ -118,7 +118,7 @@ public class AppleAuthProviderHandler {
                     provider.addCustomParameter(key, value);
                 }
             } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
             }
         }
 
@@ -128,7 +128,7 @@ public class AppleAuthProviderHandler {
                 List<String> scopeList = scopes.toList();
                 provider.setScopes(scopeList);
             } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
             }
         }
     }

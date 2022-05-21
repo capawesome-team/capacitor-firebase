@@ -30,11 +30,11 @@ public class GoogleAuthProviderHandler {
 
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
-        this.buildGoogleSignInClient(null);
+        this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
     public void signIn(PluginCall call) {
-        this.buildGoogleSignInClient(call);
+        mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResult");
     }
@@ -56,7 +56,11 @@ public class GoogleAuthProviderHandler {
         }
     }
 
-    private void buildGoogleSignInClient(@Nullable PluginCall call) {
+    private GoogleSignInClient buildGoogleSignInClient() {
+        return buildGoogleSignInClient(null);
+    }
+
+    private GoogleSignInClient buildGoogleSignInClient(@Nullable PluginCall call) {
         GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
             .requestEmail();
@@ -75,6 +79,6 @@ public class GoogleAuthProviderHandler {
             }
         }
 
-        mGoogleSignInClient = GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gsob.build());
+        return GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), gsob.build());
     }
 }

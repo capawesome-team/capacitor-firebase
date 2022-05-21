@@ -25,7 +25,7 @@ public class OAuthProviderHandler {
 
     public void signIn(PluginCall call, String providerId) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
-        applySignInConfig(call, provider);
+        applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
             startActivityForSignIn(call, provider);
@@ -58,7 +58,7 @@ public class OAuthProviderHandler {
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
-    private void applySignInConfig(PluginCall call, OAuthProvider.Builder provider) {
+    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
         JSArray customParameters = call.getArray("customParameters");
         if (customParameters != null) {
             try {
@@ -73,7 +73,7 @@ public class OAuthProviderHandler {
                     provider.addCustomParameter(key, value);
                 }
             } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
             }
         }
 
@@ -83,7 +83,7 @@ public class OAuthProviderHandler {
                 List<String> scopeList = scopes.toList();
                 provider.setScopes(scopeList);
             } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
             }
         }
     }

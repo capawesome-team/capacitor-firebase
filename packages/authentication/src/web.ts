@@ -125,20 +125,9 @@ export class FirebaseAuthenticationWeb
     auth.languageCode = options.languageCode;
   }
 
-  private applySignInConfig(
-    provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider,
-    options?: SignInOptions,
-  ) {
-    if (options?.scopes) {
-      for (const scope of options.scopes) {
-        provider.addScope(scope);
-      }
-    }
-  }
-
   public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
     const provider = new OAuthProvider('apple.com');
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -169,7 +158,7 @@ export class FirebaseAuthenticationWeb
     options?: SignInOptions,
   ): Promise<SignInResult> {
     const provider = new FacebookAuthProvider();
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
@@ -180,7 +169,7 @@ export class FirebaseAuthenticationWeb
     options?: SignInOptions,
   ): Promise<SignInResult> {
     const provider = new OAuthProvider('github.com');
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -191,7 +180,7 @@ export class FirebaseAuthenticationWeb
     options?: SignInOptions,
   ): Promise<SignInResult> {
     const provider = new GoogleAuthProvider();
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -202,7 +191,7 @@ export class FirebaseAuthenticationWeb
     options?: SignInOptions,
   ): Promise<SignInResult> {
     const provider = new OAuthProvider('microsoft.com');
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -223,7 +212,7 @@ export class FirebaseAuthenticationWeb
     options?: SignInOptions,
   ): Promise<SignInResult> {
     const provider = new OAuthProvider('twitter.com');
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -232,7 +221,7 @@ export class FirebaseAuthenticationWeb
 
   public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
     const provider = new OAuthProvider('yahoo.com');
-    this.applySignInConfig(provider, options);
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -279,6 +268,17 @@ export class FirebaseAuthenticationWeb
       user: userResult,
     };
     this.notifyListeners('authStateChange', change);
+  }
+
+  private applySignInOptions(
+    options: SignInOptions,
+    provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider,
+  ) {
+    if (options?.scopes) {
+      for (const scope of options.scopes) {
+        provider.addScope(scope);
+      }
+    }
   }
 
   private createSignInResultFromAuthCredential(
