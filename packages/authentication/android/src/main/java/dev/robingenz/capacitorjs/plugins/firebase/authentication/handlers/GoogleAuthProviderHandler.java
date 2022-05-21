@@ -58,6 +58,9 @@ public class GoogleAuthProviderHandler {
                     try {
                         accessToken =
                             GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
+                        // Clears local cache after every login attempt
+                        // to ensure permissions changes elsewhere are reflected in future tokens
+                        GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
                     } catch (IOException | GoogleAuthException exception) {
                         pluginImplementation.handleFailedSignIn(call, null, exception);
                     }
