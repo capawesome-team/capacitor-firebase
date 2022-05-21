@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
@@ -56,11 +55,11 @@ public class GoogleAuthProviderHandler {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }
     }
-    
+
     private void buildGoogleSignInClient(@Nullable PluginCall call) {
         GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-                .requestEmail();
+            .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+            .requestEmail();
 
         if (call != null) {
             JSArray scopes = call.getArray("scopes");

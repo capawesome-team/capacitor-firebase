@@ -122,7 +122,10 @@ export class FirebaseAuthenticationWeb
     auth.languageCode = options.languageCode;
   }
 
-  private applySignInConfig(provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider, options?: SignInOptions) {
+  private applySignInConfig(
+    provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider,
+    options?: SignInOptions,
+  ) {
     if (options?.scopes) {
       for (const scope of options.scopes) {
         provider.addScope(scope);
