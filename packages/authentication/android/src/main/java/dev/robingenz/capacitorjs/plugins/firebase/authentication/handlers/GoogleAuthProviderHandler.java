@@ -5,8 +5,9 @@ import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -16,10 +17,10 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.OAuthCredential;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.R;
+import java.io.IOException;
 import java.util.List;
 import org.json.JSONException;
 
@@ -50,7 +51,24 @@ public class GoogleAuthProviderHandler {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken();
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken);
+            // Get Access Token and resolve
+            new Thread(
+                () -> {
+                    String accessToken = null;
+                    try {
+                        accessToken =
+                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
+                        // Clears local cache after every login attempt
+                        // to ensure permissions changes elsewhere are reflected in future tokens
+                        GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
+                    } catch (IOException | GoogleAuthException exception) {
+                        pluginImplementation.handleFailedSignIn(call, null, exception);
+                    }
+
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken);
+                }
+            )
+                .start();
         } catch (ApiException exception) {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }
