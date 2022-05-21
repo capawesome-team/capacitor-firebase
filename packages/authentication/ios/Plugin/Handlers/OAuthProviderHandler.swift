@@ -13,13 +13,13 @@ class OAuthProviderHandler: NSObject {
 
     func signIn(call: CAPPluginCall, providerId: String) {
         self.provider = OAuthProvider(providerID: providerId)
-        self.applySignInConfig(call: call, provider: provider!)
+        self.applySignInOptions(call: call, provider: provider!)
         DispatchQueue.main.async {
             self.startSignInFlow()
         }
     }
 
-    private func applySignInConfig(call: CAPPluginCall, provider: OAuthProvider) {
+    private func applySignInOptions(call: CAPPluginCall, provider: OAuthProvider) {
         let customParameters = call.getArray("customParameters", JSObject.self) ?? []
         for (_, customParameter) in customParameters.enumerated() {
             guard let key = customParameter["key"] as? String else {
