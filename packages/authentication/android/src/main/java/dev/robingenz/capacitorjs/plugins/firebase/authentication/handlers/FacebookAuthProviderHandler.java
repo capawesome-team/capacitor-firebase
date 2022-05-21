@@ -9,11 +9,15 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.getcapacitor.JSArray;
+import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import dev.robingenz.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
+import java.util.List;
+import org.json.JSONException;
 
 public class FacebookAuthProviderHandler {
 
@@ -29,6 +33,7 @@ public class FacebookAuthProviderHandler {
         try {
             mCallbackManager = CallbackManager.Factory.create();
             loginButton = new LoginButton(pluginImplementation.getPlugin().getContext());
+
             loginButton.setPermissions("email", "public_profile");
             loginButton.registerCallback(
                 mCallbackManager,
@@ -54,8 +59,23 @@ public class FacebookAuthProviderHandler {
         }
     }
 
+    private void applySignInConfig(LoginButton button) {
+        JSArray scopes = this.savedCall.getArray("scopes");
+        if (scopes != null) {
+            try {
+                List<String> scopeList = scopes.toList();
+                scopeList.add("email");
+                scopeList.add("public_profile");
+                button.setPermissions(scopeList);
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
+            }
+        }
+    }
+
     public void signIn(PluginCall call) {
-        savedCall = call;
+        this.savedCall = call;
+        this.applySignInConfig(this.loginButton);
         this.loginButton.performClick();
     }
 

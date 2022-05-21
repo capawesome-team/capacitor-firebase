@@ -798,6 +798,7 @@ Remove all listeners for this plugin.
 | Prop                   | Type                                 | Description                                                                                       |
 | ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- |
 | **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  |
 
 
 #### SignInCustomParameter

@@ -76,5 +76,15 @@ public class OAuthProviderHandler {
                 Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
             }
         }
+
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                List<String> scopeList = scopes.toList();
+                provider.setScopes(scopeList);
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInConfig failed.", exception);
+            }
+        }
     }
 }

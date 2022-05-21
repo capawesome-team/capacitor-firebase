@@ -33,6 +33,9 @@ class OAuthProviderHandler: NSObject {
             }
             provider.customParameters?[key] = value
         }
+        
+        let scopes = call.getArray("scopes", String.self) ?? []
+        provider.scopes = scopes
     }
 
     private func startSignInFlow() {
