@@ -20,9 +20,9 @@ declare module '@capacitor/cli' {
        *
        * Only available for iOS.
        *
-       * @since 0.2.2
        * @example ["badge", "sound", "alert"]
        * @default ["badge", "sound", "alert"]
+       * @since 0.2.2
        */
       presentationOptions: PresentationOption[];
     };

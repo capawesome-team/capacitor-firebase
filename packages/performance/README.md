@@ -88,6 +88,8 @@ Starts a trace.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#starttraceoptions">StartTraceOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -103,6 +105,8 @@ Stops a trace.
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#stoptraceoptions">StopTraceOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -117,6 +121,8 @@ Atomically increments the metric with the given name for the selected trace by t
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#incrementmetricoptions">IncrementMetricOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -134,6 +140,8 @@ Will be applied with the next start of the app.
 | ------------- | --------------------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setperformancecollectionenabledoptions">SetPerformanceCollectionEnabledOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -147,6 +155,8 @@ Determines whether performance monitoring is enabled or disabled.
 
 **Returns:** <code>Promise&lt;<a href="#isperformancecollectionenabledresult">IsPerformanceCollectionEnabledResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -155,39 +165,39 @@ Determines whether performance monitoring is enabled or disabled.
 
 #### StartTraceOptions
 
-| Prop            | Type                | Description                                                                                                                                                                                     |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`traceName`** | <code>string</code> | Custom trace name. Names for custom code traces must meet the following requirements: no leading or trailing whitespace, no leading underscore (_) character, and max length is 100 characters. |
+| Prop            | Type                | Description                                                                                                                                                                                     | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`traceName`** | <code>string</code> | Custom trace name. Names for custom code traces must meet the following requirements: no leading or trailing whitespace, no leading underscore (_) character, and max length is 100 characters. | 0.1.0 |
 
 
 #### StopTraceOptions
 
-| Prop            | Type                | Description                                       |
-| --------------- | ------------------- | ------------------------------------------------- |
-| **`traceName`** | <code>string</code> | Name of the trace that was set with `startTrace`. |
+| Prop            | Type                | Description                                       | Since |
+| --------------- | ------------------- | ------------------------------------------------- | ----- |
+| **`traceName`** | <code>string</code> | Name of the trace that was set with `startTrace`. | 0.1.0 |
 
 
 #### IncrementMetricOptions
 
-| Prop              | Type                | Description                                                    |
-| ----------------- | ------------------- | -------------------------------------------------------------- |
-| **`traceName`**   | <code>string</code> | Name of the trace that was set with `startTrace`.              |
-| **`metricName`**  | <code>string</code> | Name of the metric to be incremented.                          |
-| **`incrementBy`** | <code>number</code> | Amount by which the metric has to be incremented. Default: `1` |
+| Prop              | Type                | Description                                       | Default        | Since |
+| ----------------- | ------------------- | ------------------------------------------------- | -------------- | ----- |
+| **`traceName`**   | <code>string</code> | Name of the trace that was set with `startTrace`. |                | 0.1.0 |
+| **`metricName`**  | <code>string</code> | Name of the metric to be incremented.             |                | 0.1.0 |
+| **`incrementBy`** | <code>number</code> | Amount by which the metric has to be incremented. | <code>1</code> | 0.1.0 |
 
 
 #### SetPerformanceCollectionEnabledOptions
 
-| Prop          | Type                 | Description                               |
-| ------------- | -------------------- | ----------------------------------------- |
-| **`enabled`** | <code>boolean</code> | Should performance monitoring be enabled. |
+| Prop          | Type                 | Description                               | Since |
+| ------------- | -------------------- | ----------------------------------------- | ----- |
+| **`enabled`** | <code>boolean</code> | Should performance monitoring be enabled. | 0.1.0 |
 
 
 #### IsPerformanceCollectionEnabledResult
 
-| Prop          | Type                 | Description                                                     |
-| ------------- | -------------------- | --------------------------------------------------------------- |
-| **`enabled`** | <code>boolean</code> | `true` if performance monitoring is enabled, otherwise `false`. |
+| Prop          | Type                 | Description                                                     | Since |
+| ------------- | -------------------- | --------------------------------------------------------------- | ----- |
+| **`enabled`** | <code>boolean</code> | `true` if performance monitoring is enabled, otherwise `false`. | 0.1.0 |
 
 </docgen-api>
 

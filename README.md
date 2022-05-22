@@ -8,6 +8,7 @@
   <a href="https://github.com/robingenz/capacitor-firebase/actions/workflows/ci.yml"><img src="https://img.shields.io/github/workflow/status/robingenz/capacitor-firebase/CI/main?style=flat-square" /></a>
   <a href="https://github.com/robingenz/capacitor-firebase"><img src="https://img.shields.io/github/license/robingenz/capacitor-firebase?style=flat-square" /></a>
   <a href="https://turborepo.org/"><img src="https://img.shields.io/badge/maintained%20with-turborepo-%237f6ab2?style=flat-square" /></a>
+  <a href="https://devlibrary.withgoogle.com/products/firebase/repos/robingenz-capacitor-firebase"><img src="https://img.shields.io/badge/Part%20of-DevLibrary-9cf?color=4285F4&logoColor=4285F4&logo=google&style=flat-square" /></a>
 </p>
 
 ## Features

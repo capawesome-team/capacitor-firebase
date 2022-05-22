@@ -35,6 +35,7 @@ import type {
   GetIdTokenResult,
   SendPasswordResetEmailOptions,
   SetLanguageCodeOptions,
+  SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
   SignInWithEmailAndPasswordOptions,
@@ -124,8 +125,9 @@ export class FirebaseAuthenticationWeb
     auth.languageCode = options.languageCode;
   }
 
-  public async signInWithApple(): Promise<SignInResult> {
+  public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
     const provider = new OAuthProvider('apple.com');
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -152,32 +154,44 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResultFromUserCredential(credential);
   }
 
-  public async signInWithFacebook(): Promise<SignInResult> {
+  public async signInWithFacebook(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = new FacebookAuthProvider();
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = FacebookAuthProvider.credentialFromResult(result);
     return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
-  public async signInWithGithub(): Promise<SignInResult> {
+  public async signInWithGithub(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = new OAuthProvider('github.com');
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
     return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
-  public async signInWithGoogle(): Promise<SignInResult> {
+  public async signInWithGoogle(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = new GoogleAuthProvider();
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
     return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
-  public async signInWithMicrosoft(): Promise<SignInResult> {
+  public async signInWithMicrosoft(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = new OAuthProvider('microsoft.com');
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -194,16 +208,20 @@ export class FirebaseAuthenticationWeb
     throw new Error('Not available on web.');
   }
 
-  public async signInWithTwitter(): Promise<SignInResult> {
+  public async signInWithTwitter(
+    options?: SignInOptions,
+  ): Promise<SignInResult> {
     const provider = new OAuthProvider('twitter.com');
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
     return this.createSignInResultFromAuthCredential(result.user, credential);
   }
 
-  public async signInWithYahoo(): Promise<SignInResult> {
+  public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
     const provider = new OAuthProvider('yahoo.com');
+    this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
     const credential = OAuthProvider.credentialFromResult(result);
@@ -250,6 +268,17 @@ export class FirebaseAuthenticationWeb
       user: userResult,
     };
     this.notifyListeners('authStateChange', change);
+  }
+
+  private applySignInOptions(
+    options: SignInOptions,
+    provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider,
+  ) {
+    if (options?.scopes) {
+      for (const scope of options.scopes) {
+        provider.addScope(scope);
+      }
+    }
   }
 
   private createSignInResultFromAuthCredential(

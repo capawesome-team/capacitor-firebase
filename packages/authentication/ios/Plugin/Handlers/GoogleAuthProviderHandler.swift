@@ -19,9 +19,10 @@ class GoogleAuthProviderHandler: NSObject {
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientId)
         guard let controller = self.pluginImplementation.getPlugin().bridge?.viewController else { return }
+        let scopes = call.getArray("scopes", String.self) ?? []
 
         DispatchQueue.main.async {
-            GIDSignIn.sharedInstance.signIn(with: config, presenting: controller) { user, error in
+            GIDSignIn.sharedInstance.signIn(with: config, presenting: controller, hint: nil, additionalScopes: scopes, callback: { user, error in
                 if let error = error {
                     self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
                     return
@@ -33,7 +34,7 @@ class GoogleAuthProviderHandler: NSObject {
 
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
                 self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
-            }
+            })
         }
         #endif
     }

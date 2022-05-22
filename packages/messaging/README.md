@@ -549,8 +549,8 @@ Remove all native listeners for this plugin.
 
 | Prop               | Type                                                  | Description                                                     | Since |
 | ------------------ | ----------------------------------------------------- | --------------------------------------------------------------- | ----- |
-| **`actionId`**     | <code><a href="#notification">Notification</a></code> | The action performed on the notification.                       | 0.2.2 |
-| **`inputValue`**   | <code><a href="#notification">Notification</a></code> | Text entered on the notification action. Only available on iOS. | 0.2.2 |
+| **`actionId`**     | <code>string</code>                                   | The action performed on the notification.                       | 0.2.2 |
+| **`inputValue`**   | <code>string</code>                                   | Text entered on the notification action. Only available on iOS. | 0.2.2 |
 | **`notification`** | <code><a href="#notification">Notification</a></code> | The notification in which the action was performed.             | 0.2.2 |
 
 

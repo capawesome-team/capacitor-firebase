@@ -22,8 +22,9 @@ class FacebookAuthProviderHandler: NSObject {
 
     func signIn(call: CAPPluginCall) {
         #if RGCFA_INCLUDE_FACEBOOK
+        let scopes = call.getArray("scopes", String.self) ?? []
         DispatchQueue.main.async {
-            self.loginManager.logIn(permissions: ["email", "public_profile"], from: self.pluginImplementation.getPlugin().bridge?.viewController) { result, error in
+            self.loginManager.logIn(permissions: ["email", "public_profile"] + scopes, from: self.pluginImplementation.getPlugin().bridge?.viewController) { result, error in
                 if let error = error {
                     self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
                     return

@@ -56,6 +56,8 @@ Get the name for this app.
 
 **Returns:** <code>Promise&lt;<a href="#getnameresult">GetNameResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -69,6 +71,8 @@ Get the configuration options for this app.
 
 **Returns:** <code>Promise&lt;<a href="#getoptionsresult">GetOptionsResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -77,21 +81,21 @@ Get the configuration options for this app.
 
 #### GetNameResult
 
-| Prop       | Type                | Description                  |
-| ---------- | ------------------- | ---------------------------- |
-| **`name`** | <code>string</code> | The unique name of this app. |
+| Prop       | Type                | Description                  | Since |
+| ---------- | ------------------- | ---------------------------- | ----- |
+| **`name`** | <code>string</code> | The unique name of this app. | 0.1.0 |
 
 
 #### GetOptionsResult
 
-| Prop                | Type                | Description                                                    |
-| ------------------- | ------------------- | -------------------------------------------------------------- |
-| **`apiKey`**        | <code>string</code> | API key used for authenticating requests from your app.        |
-| **`applicationId`** | <code>string</code> | Google App ID used to uniquely identify an instance of an app. |
-| **`databaseUrl`**   | <code>string</code> | The database root URL.                                         |
-| **`gcmSenderId`**   | <code>string</code> | The Project Number.                                            |
-| **`projectId`**     | <code>string</code> | The Google Cloud project ID.                                   |
-| **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          |
+| Prop                | Type                | Description                                                    | Since |
+| ------------------- | ------------------- | -------------------------------------------------------------- | ----- |
+| **`apiKey`**        | <code>string</code> | API key used for authenticating requests from your app.        | 0.1.0 |
+| **`applicationId`** | <code>string</code> | Google App ID used to uniquely identify an instance of an app. | 0.1.0 |
+| **`databaseUrl`**   | <code>string</code> | The database root URL.                                         | 0.1.0 |
+| **`gcmSenderId`**   | <code>string</code> | The Project Number.                                            | 0.1.0 |
+| **`projectId`**     | <code>string</code> | The Google Cloud project ID.                                   | 0.1.0 |
+| **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          | 0.1.0 |
 
 </docgen-api>
 
