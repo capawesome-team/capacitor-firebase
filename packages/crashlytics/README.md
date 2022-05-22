@@ -133,6 +133,8 @@ Only available for Android and iOS.
 | ------------- | ----------------------------------------------------- |
 | **`options`** | <code><a href="#crashoptions">CrashOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -149,6 +151,8 @@ Only available for Android and iOS.
 | Param         | Type                                                                |
 | ------------- | ------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setcustomkeyoptions">SetCustomKeyOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -167,6 +171,8 @@ Only available for Android and iOS.
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuseridoptions">SetUserIdOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -183,6 +189,8 @@ Only available for Android and iOS.
 | Param         | Type                                              |
 | ------------- | ------------------------------------------------- |
 | **`options`** | <code><a href="#logoptions">LogOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -202,6 +210,8 @@ Only available for Android and iOS.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#setenabledoptions">SetEnabledOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -216,6 +226,8 @@ Returns whether or not automatic data collection is enabled.
 Only available for iOS.
 
 **Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -232,6 +244,8 @@ Only available for Android and iOS.
 
 **Returns:** <code>Promise&lt;<a href="#didcrashonpreviousexecutionresult">DidCrashOnPreviousExecutionResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -246,6 +260,8 @@ When automatic data collection is enabled, Crashlytics automatically uploads rep
 
 Only available for Android and iOS.
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -258,6 +274,8 @@ deleteUnsentReports() => Promise<void>
 Deletes any unsent reports on the device.
 
 Only available for Android and iOS.
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -276,6 +294,8 @@ Only available for Android and iOS.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#recordexceptionoptions">RecordExceptionOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -284,62 +304,62 @@ Only available for Android and iOS.
 
 #### CrashOptions
 
-| Prop          | Type                |
-| ------------- | ------------------- |
-| **`message`** | <code>string</code> |
+| Prop          | Type                | Since |
+| ------------- | ------------------- | ----- |
+| **`message`** | <code>string</code> | 0.1.0 |
 
 
 #### SetCustomKeyOptions
 
-| Prop        | Type                                                                         |
-| ----------- | ---------------------------------------------------------------------------- |
-| **`key`**   | <code>string</code>                                                          |
-| **`value`** | <code>string \| number \| boolean</code>                                     |
-| **`type`**  | <code>'string' \| 'boolean' \| 'long' \| 'double' \| 'int' \| 'float'</code> |
+| Prop        | Type                                                                         | Since |
+| ----------- | ---------------------------------------------------------------------------- | ----- |
+| **`key`**   | <code>string</code>                                                          | 0.1.0 |
+| **`value`** | <code>string \| number \| boolean</code>                                     | 0.1.0 |
+| **`type`**  | <code>'string' \| 'boolean' \| 'long' \| 'double' \| 'int' \| 'float'</code> | 0.1.0 |
 
 
 #### SetUserIdOptions
 
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`userId`** | <code>string</code> |
+| Prop         | Type                | Since |
+| ------------ | ------------------- | ----- |
+| **`userId`** | <code>string</code> | 0.1.0 |
 
 
 #### LogOptions
 
-| Prop          | Type                |
-| ------------- | ------------------- |
-| **`message`** | <code>string</code> |
+| Prop          | Type                | Since |
+| ------------- | ------------------- | ----- |
+| **`message`** | <code>string</code> | 0.1.0 |
 
 
 #### SetEnabledOptions
 
-| Prop          | Type                 |
-| ------------- | -------------------- |
-| **`enabled`** | <code>boolean</code> |
+| Prop          | Type                 | Since |
+| ------------- | -------------------- | ----- |
+| **`enabled`** | <code>boolean</code> | 0.1.0 |
 
 
 #### IsEnabledResult
 
-| Prop          | Type                 |
-| ------------- | -------------------- |
-| **`enabled`** | <code>boolean</code> |
+| Prop          | Type                 | Since |
+| ------------- | -------------------- | ----- |
+| **`enabled`** | <code>boolean</code> | 0.1.0 |
 
 
 #### DidCrashOnPreviousExecutionResult
 
-| Prop          | Type                 |
-| ------------- | -------------------- |
-| **`crashed`** | <code>boolean</code> |
+| Prop          | Type                 | Since |
+| ------------- | -------------------- | ----- |
+| **`crashed`** | <code>boolean</code> | 0.1.0 |
 
 
 #### RecordExceptionOptions
 
-| Prop          | Type                | Description                                                        |
-| ------------- | ------------------- | ------------------------------------------------------------------ |
-| **`message`** | <code>string</code> |                                                                    |
-| **`code`**    | <code>number</code> | Error code within a specific error domain. Only available for iOS. |
-| **`domain`**  | <code>string</code> | A string containing the error domain. Only available for iOS.      |
+| Prop          | Type                | Description                                                        | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------ | ----- |
+| **`message`** | <code>string</code> |                                                                    | 0.1.0 |
+| **`code`**    | <code>number</code> | Error code within a specific error domain. Only available for iOS. | 0.1.0 |
+| **`domain`**  | <code>string</code> | A string containing the error domain. Only available for iOS.      | 0.1.0 |
 
 </docgen-api>
 

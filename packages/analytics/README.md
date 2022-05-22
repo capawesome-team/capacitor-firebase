@@ -141,6 +141,8 @@ Sets the user ID property.
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuseridoptions">SetUserIdOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -155,6 +157,8 @@ Sets a custom user property to a given value.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuserpropertyoptions">SetUserPropertyOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -171,6 +175,8 @@ Sets the current screen name.
 | ------------- | --------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setcurrentscreenoptions">SetCurrentScreenOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -185,6 +191,8 @@ Logs an app event.
 | Param         | Type                                                        |
 | ------------- | ----------------------------------------------------------- |
 | **`options`** | <code><a href="#logeventoptions">LogEventOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -203,6 +211,8 @@ Only available for Android and iOS.
 | ------------- | --------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setsessiontimeoutdurationoptions">SetSessionTimeoutDurationOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -219,6 +229,8 @@ The value does not apply until the next run of the app.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#setenabledoptions">SetEnabledOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -234,6 +246,8 @@ Only available for Web.
 
 **Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -248,6 +262,8 @@ Resets the app instance id.
 
 Only available for Android and iOS.
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -256,54 +272,54 @@ Only available for Android and iOS.
 
 #### SetUserIdOptions
 
-| Prop         | Type                        |
-| ------------ | --------------------------- |
-| **`userId`** | <code>string \| null</code> |
+| Prop         | Type                        | Since |
+| ------------ | --------------------------- | ----- |
+| **`userId`** | <code>string \| null</code> | 0.1.0 |
 
 
 #### SetUserPropertyOptions
 
-| Prop        | Type                        |
-| ----------- | --------------------------- |
-| **`key`**   | <code>string</code>         |
-| **`value`** | <code>string \| null</code> |
+| Prop        | Type                        | Since |
+| ----------- | --------------------------- | ----- |
+| **`key`**   | <code>string</code>         | 0.1.0 |
+| **`value`** | <code>string \| null</code> | 0.1.0 |
 
 
 #### SetCurrentScreenOptions
 
-| Prop                      | Type                        | Description                                         |
-| ------------------------- | --------------------------- | --------------------------------------------------- |
-| **`screenName`**          | <code>string \| null</code> |                                                     |
-| **`screenClassOverride`** | <code>string \| null</code> | Only available for Android and iOS. Default: `null` |
+| Prop                      | Type                        | Description                         | Default           | Since |
+| ------------------------- | --------------------------- | ----------------------------------- | ----------------- | ----- |
+| **`screenName`**          | <code>string \| null</code> |                                     |                   | 0.1.0 |
+| **`screenClassOverride`** | <code>string \| null</code> | Only available for Android and iOS. | <code>null</code> | 0.1.0 |
 
 
 #### LogEventOptions
 
-| Prop         | Type                                 | Description                |
-| ------------ | ------------------------------------ | -------------------------- |
-| **`name`**   | <code>string</code>                  | The event name.            |
-| **`params`** | <code>{ [key: string]: any; }</code> | The optional event params. |
+| Prop         | Type                                 | Description                | Since |
+| ------------ | ------------------------------------ | -------------------------- | ----- |
+| **`name`**   | <code>string</code>                  | The event name.            | 0.1.0 |
+| **`params`** | <code>{ [key: string]: any; }</code> | The optional event params. | 0.1.0 |
 
 
 #### SetSessionTimeoutDurationOptions
 
-| Prop           | Type                | Description                                       |
-| -------------- | ------------------- | ------------------------------------------------- |
-| **`duration`** | <code>number</code> | Duration in seconds. Default: `1800` (30 minutes) |
+| Prop           | Type                | Description          | Default           | Since |
+| -------------- | ------------------- | -------------------- | ----------------- | ----- |
+| **`duration`** | <code>number</code> | Duration in seconds. | <code>1800</code> | 0.1.0 |
 
 
 #### SetEnabledOptions
 
-| Prop          | Type                 |
-| ------------- | -------------------- |
-| **`enabled`** | <code>boolean</code> |
+| Prop          | Type                 | Since |
+| ------------- | -------------------- | ----- |
+| **`enabled`** | <code>boolean</code> | 0.1.0 |
 
 
 #### IsEnabledResult
 
-| Prop          | Type                 |
-| ------------- | -------------------- |
-| **`enabled`** | <code>boolean</code> |
+| Prop          | Type                 | Since |
+| ------------- | -------------------- | ----- |
+| **`enabled`** | <code>boolean</code> | 0.1.0 |
 
 </docgen-api>
 

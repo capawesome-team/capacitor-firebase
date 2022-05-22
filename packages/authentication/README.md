@@ -43,10 +43,10 @@ These SDKs can initialize on their own and collect various data.
 
 These configuration values are available:
 
-| Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                            | Default                                                                                                                                              |
-| -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. Only available for Android and iOS.                                                                                                                                    | <code>false</code>                                                                                                                                   |
-| **`providers`**      | <code>string[]</code> | Configure which providers you want to use so that only the providers you need are fully initialized. If you do not configure any providers, they will be all initialized. Please note that this does not prevent the automatic initialization of third-party SDKs. Only available for Android and iOS. | <code>["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]</code> |
+| Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                            | Default                                                                                                                                              | Since |
+| -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. Only available for Android and iOS.                                                                                                                                    | <code>false</code>                                                                                                                                   | 0.1.0 |
+| **`providers`**      | <code>string[]</code> | Configure which providers you want to use so that only the providers you need are fully initialized. If you do not configure any providers, they will be all initialized. Please note that this does not prevent the automatic initialization of third-party SDKs. Only available for Android and iOS. | <code>["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]</code> | 0.1.0 |
 
 ### Examples
 
@@ -301,6 +301,8 @@ Applies a verification code sent to the user by email.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#applyactioncodeoptions">ApplyActionCodeOptions</a></code> |
 
+**Since:** 0.2.2
+
 --------------------
 
 
@@ -319,6 +321,8 @@ If the new account was created, the user is signed in automatically.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
+**Since:** 0.2.2
+
 --------------------
 
 
@@ -328,11 +332,13 @@ If the new account was created, the user is signed in automatically.
 confirmPasswordReset(options: ConfirmPasswordResetOptions) => Promise<void>
 ```
 
-Completes the password reset process
+Completes the password reset process.
 
 | Param         | Type                                                                                |
 | ------------- | ----------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
+
+**Since:** 0.2.2
 
 --------------------
 
@@ -346,6 +352,8 @@ getCurrentUser() => Promise<GetCurrentUserResult>
 Fetches the currently signed-in user.
 
 **Returns:** <code>Promise&lt;<a href="#getcurrentuserresult">GetCurrentUserResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -364,6 +372,8 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 
 **Returns:** <code>Promise&lt;<a href="#getidtokenresult">GetIdTokenResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -374,6 +384,8 @@ sendEmailVerification() => Promise<void>
 ```
 
 Sends a verification email to the currently signed in user.
+
+**Since:** 0.2.2
 
 --------------------
 
@@ -390,6 +402,8 @@ Sends a password reset email.
 | ------------- | --------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#sendpasswordresetemailoptions">SendPasswordResetEmailOptions</a></code> |
 
+**Since:** 0.2.2
+
 --------------------
 
 
@@ -404,6 +418,8 @@ Sets the user-facing language code for auth operations.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -421,6 +437,8 @@ Starts the Apple sign-in flow.
 | **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -442,6 +460,8 @@ In this case you have to use the `signInWithCustomToken` interface of the Fireba
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -458,6 +478,8 @@ Starts the sign-in flow using an email and password.
 | **`options`** | <code><a href="#signinwithemailandpasswordoptions">SignInWithEmailAndPasswordOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 0.2.2
 
 --------------------
 
@@ -476,6 +498,8 @@ Starts the Facebook sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -492,6 +516,8 @@ Starts the GitHub sign-in flow.
 | **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -510,6 +536,8 @@ Starts the Google sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -526,6 +554,8 @@ Starts the Microsoft sign-in flow.
 | **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -548,6 +578,8 @@ Only available for Android and iOS.
 
 **Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -564,6 +596,8 @@ Starts the Play Games sign-in flow.
 | **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -582,6 +616,8 @@ Starts the Twitter sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -599,6 +635,8 @@ Starts the Yahoo sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -609,6 +647,8 @@ signOut() => Promise<void>
 ```
 
 Starts the sign-out flow.
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -625,6 +665,8 @@ Updates the email address of the currently signed in user.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#updateemailoptions">UpdateEmailOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -640,6 +682,8 @@ Updates the password of the currently signed in user.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#updatepasswordoptions">UpdatePasswordOptions</a></code> |
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -650,6 +694,8 @@ useAppLanguage() => Promise<void>
 ```
 
 Sets the user-facing language code to be the default app language.
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -665,6 +711,8 @@ Instrument your app to talk to the Authentication emulator.
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+**Since:** 0.2.0
 
 --------------------
 
@@ -684,6 +732,8 @@ Listen for the user's sign-in state changes.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -695,6 +745,8 @@ removeAllListeners() => Promise<void>
 
 Remove all listeners for this plugin.
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -703,163 +755,163 @@ Remove all listeners for this plugin.
 
 #### ApplyActionCodeOptions
 
-| Prop          | Type                | Description                           |
-| ------------- | ------------------- | ------------------------------------- |
-| **`oobCode`** | <code>string</code> | A verification code sent to the user. |
+| Prop          | Type                | Description                           | Since |
+| ------------- | ------------------- | ------------------------------------- | ----- |
+| **`oobCode`** | <code>string</code> | A verification code sent to the user. | 0.2.2 |
 
 
 #### SignInResult
 
-| Prop             | Type                                                              | Description                                               |
-| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
-| **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. |
-| **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 |
+| Prop             | Type                                                              | Description                                               | Since |
+| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------- | ----- |
+| **`user`**       | <code><a href="#user">User</a> \| null</code>                     | The currently signed-in user, or null if there isn't any. | 0.1.0 |
+| **`credential`** | <code><a href="#authcredential">AuthCredential</a> \| null</code> | Credentials returned by an auth provider.                 | 0.1.0 |
 
 
 #### User
 
-| Prop                | Type                        |
-| ------------------- | --------------------------- |
-| **`displayName`**   | <code>string \| null</code> |
-| **`email`**         | <code>string \| null</code> |
-| **`emailVerified`** | <code>boolean</code>        |
-| **`isAnonymous`**   | <code>boolean</code>        |
-| **`phoneNumber`**   | <code>string \| null</code> |
-| **`photoUrl`**      | <code>string \| null</code> |
-| **`providerId`**    | <code>string</code>         |
-| **`tenantId`**      | <code>string \| null</code> |
-| **`uid`**           | <code>string</code>         |
+| Prop                | Type                        | Since |
+| ------------------- | --------------------------- | ----- |
+| **`displayName`**   | <code>string \| null</code> | 0.1.0 |
+| **`email`**         | <code>string \| null</code> | 0.1.0 |
+| **`emailVerified`** | <code>boolean</code>        | 0.1.0 |
+| **`isAnonymous`**   | <code>boolean</code>        | 0.1.0 |
+| **`phoneNumber`**   | <code>string \| null</code> | 0.1.0 |
+| **`photoUrl`**      | <code>string \| null</code> | 0.1.0 |
+| **`providerId`**    | <code>string</code>         | 0.1.0 |
+| **`tenantId`**      | <code>string \| null</code> | 0.1.0 |
+| **`uid`**           | <code>string</code>         | 0.1.0 |
 
 
 #### AuthCredential
 
-| Prop              | Type                | Description                                                                                                                              |
-| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential. Example: `google.com`.                                                                |
-| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                |
-| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     |
-| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     |
-| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. |
+| Prop              | Type                | Description                                                                                                                              | Since |
+| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential.                                                                                       | 0.1.0 |
+| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                | 0.1.0 |
+| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     | 0.1.0 |
+| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     | 0.1.0 |
+| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. | 0.1.0 |
 
 
 #### CreateUserWithEmailAndPasswordOptions
 
-| Prop           | Type                |
-| -------------- | ------------------- |
-| **`email`**    | <code>string</code> |
-| **`password`** | <code>string</code> |
+| Prop           | Type                | Since |
+| -------------- | ------------------- | ----- |
+| **`email`**    | <code>string</code> | 0.2.2 |
+| **`password`** | <code>string</code> | 0.2.2 |
 
 
 #### ConfirmPasswordResetOptions
 
-| Prop              | Type                | Description                           |
-| ----------------- | ------------------- | ------------------------------------- |
-| **`oobCode`**     | <code>string</code> | A verification code sent to the user. |
-| **`newPassword`** | <code>string</code> | The new password.                     |
+| Prop              | Type                | Description                           | Since |
+| ----------------- | ------------------- | ------------------------------------- | ----- |
+| **`oobCode`**     | <code>string</code> | A verification code sent to the user. | 0.2.2 |
+| **`newPassword`** | <code>string</code> | The new password.                     | 0.2.2 |
 
 
 #### GetCurrentUserResult
 
-| Prop       | Type                                          | Description                                               |
-| ---------- | --------------------------------------------- | --------------------------------------------------------- |
-| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
+| Prop       | Type                                          | Description                                               | Since |
+| ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
+| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
 
 
 #### GetIdTokenResult
 
-| Prop        | Type                | Description                            |
-| ----------- | ------------------- | -------------------------------------- |
-| **`token`** | <code>string</code> | The Firebase Auth ID token JWT string. |
+| Prop        | Type                | Description                            | Since |
+| ----------- | ------------------- | -------------------------------------- | ----- |
+| **`token`** | <code>string</code> | The Firebase Auth ID token JWT string. | 0.1.0 |
 
 
 #### GetIdTokenOptions
 
-| Prop               | Type                 | Description                                   |
-| ------------------ | -------------------- | --------------------------------------------- |
-| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. |
+| Prop               | Type                 | Description                                   | Since |
+| ------------------ | -------------------- | --------------------------------------------- | ----- |
+| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
 
 
 #### SendPasswordResetEmailOptions
 
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`email`** | <code>string</code> |
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`email`** | <code>string</code> | 0.2.2 |
 
 
 #### SetLanguageCodeOptions
 
-| Prop               | Type                | Description                             |
-| ------------------ | ------------------- | --------------------------------------- |
-| **`languageCode`** | <code>string</code> | BCP 47 language code. Example: `en-US`. |
+| Prop               | Type                | Description           | Since |
+| ------------------ | ------------------- | --------------------- | ----- |
+| **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
 
 
 #### SignInOptions
 
-| Prop                   | Type                                 | Description                                                                                       |
-| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  |
+| Prop                   | Type                                 | Description                                                                                       | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. | 0.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  | 0.3.1 |
 
 
 #### SignInCustomParameter
 
-| Prop        | Type                | Description                                                        |
-| ----------- | ------------------- | ------------------------------------------------------------------ |
-| **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      |
-| **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). |
+| Prop        | Type                | Description                                                        | Since |
+| ----------- | ------------------- | ------------------------------------------------------------------ | ----- |
+| **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      | 0.1.0 |
+| **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). | 0.1.0 |
 
 
 #### SignInWithCustomTokenOptions
 
-| Prop        | Type                | Description                       |
-| ----------- | ------------------- | --------------------------------- |
-| **`token`** | <code>string</code> | The custom token to sign in with. |
+| Prop        | Type                | Description                       | Since |
+| ----------- | ------------------- | --------------------------------- | ----- |
+| **`token`** | <code>string</code> | The custom token to sign in with. | 0.1.0 |
 
 
 #### SignInWithEmailAndPasswordOptions
 
-| Prop           | Type                | Description              |
-| -------------- | ------------------- | ------------------------ |
-| **`email`**    | <code>string</code> | The users email address. |
-| **`password`** | <code>string</code> | The users password.      |
+| Prop           | Type                | Description              | Since |
+| -------------- | ------------------- | ------------------------ | ----- |
+| **`email`**    | <code>string</code> | The users email address. | 0.2.2 |
+| **`password`** | <code>string</code> | The users password.      | 0.2.2 |
 
 
 #### SignInWithPhoneNumberResult
 
-| Prop                 | Type                | Description                                                             |
-| -------------------- | ------------------- | ----------------------------------------------------------------------- |
-| **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. |
+| Prop                 | Type                | Description                                                             | Since |
+| -------------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
+| **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. | 0.1.0 |
 
 
 #### SignInWithPhoneNumberOptions
 
-| Prop                   | Type                | Description                                                                                                                                         |
-| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`phoneNumber`**      | <code>string</code> | The phone number to be verified.                                                                                                                    |
-| **`verificationId`**   | <code>string</code> | The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time. The `verificationCode` must also be provided. |
-| **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             |
+| Prop                   | Type                | Description                                                                                                                                         | Since |
+| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`phoneNumber`**      | <code>string</code> | The phone number to be verified.                                                                                                                    | 0.1.0 |
+| **`verificationId`**   | <code>string</code> | The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time. The `verificationCode` must also be provided. | 0.1.0 |
+| **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             | 0.1.0 |
 
 
 #### UpdateEmailOptions
 
-| Prop           | Type                | Description            |
-| -------------- | ------------------- | ---------------------- |
-| **`newEmail`** | <code>string</code> | The new email address. |
+| Prop           | Type                | Description            | Since |
+| -------------- | ------------------- | ---------------------- | ----- |
+| **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
 
 
 #### UpdatePasswordOptions
 
-| Prop              | Type                | Description       |
-| ----------------- | ------------------- | ----------------- |
-| **`newPassword`** | <code>string</code> | The new password. |
+| Prop              | Type                | Description       | Since |
+| ----------------- | ------------------- | ----------------- | ----- |
+| **`newPassword`** | <code>string</code> | The new password. | 0.2.2 |
 
 
 #### UseEmulatorOptions
 
-| Prop       | Type                | Description                                      |
-| ---------- | ------------------- | ------------------------------------------------ |
-| **`host`** | <code>string</code> | The emulator host (e.g. `10.0.2.2`).             |
-| **`port`** | <code>number</code> | The emulator port (e.g. `9099`). Default: `9099` |
+| Prop       | Type                | Description                          | Default           | Since |
+| ---------- | ------------------- | ------------------------------------ | ----------------- | ----- |
+| **`host`** | <code>string</code> | The emulator host (e.g. `10.0.2.2`). |                   | 0.2.0 |
+| **`port`** | <code>number</code> | The emulator port (e.g. `9099`).     | <code>9099</code> | 0.2.0 |
 
 
 #### PluginListenerHandle
@@ -871,9 +923,9 @@ Remove all listeners for this plugin.
 
 #### AuthStateChange
 
-| Prop       | Type                                          | Description                                               |
-| ---------- | --------------------------------------------- | --------------------------------------------------------- |
-| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. |
+| Prop       | Type                                          | Description                                               | Since |
+| ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
+| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
 
 
 ### Type Aliases
