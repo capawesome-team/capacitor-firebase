@@ -19,6 +19,19 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
+**Attention**: If you use this plugin on **iOS** in combination with `@capacitor-firebase/messaging`, then add the following to your app's `AppDelegate.swift`:
+
+```diff
++ import FirebaseAuth
+
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
++    if Auth.auth().canHandle(url) {
++      return true
++    }
+    return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
+}
+```
+
 The further installation steps depend on the selected authentication method:
 
 - [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
