@@ -2,4 +2,4 @@
 "@capacitor-firebase/messaging": patch
 ---
 
-fix: `messaging/unsupported-browser` error
+fix(web): `messaging/unsupported-browser` error when loading the plugin
