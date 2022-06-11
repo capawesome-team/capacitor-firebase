@@ -5,6 +5,7 @@ import {
   deleteToken,
   getMessaging,
   getToken,
+  isSupported,
   onMessage,
 } from 'firebase/messaging';
 
@@ -30,8 +31,13 @@ export class FirebaseMessagingWeb
 
   constructor() {
     super();
-    const messaging = getMessaging();
-    onMessage(messaging, payload => this.handleNotificationReceived(payload));
+    isSupported().then(supported => {
+      if (!supported) {
+        return;
+      }
+      const messaging = getMessaging();
+      onMessage(messaging, payload => this.handleNotificationReceived(payload));
+    });
   }
 
   public async checkPermissions(): Promise<PermissionStatus> {
