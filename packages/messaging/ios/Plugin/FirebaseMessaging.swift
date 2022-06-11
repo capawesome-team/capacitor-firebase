@@ -102,14 +102,14 @@ import FirebaseCore
             completion(nil)
         })
     }
-    
+
     public func handleRemoteNotificationReceived(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             Messaging.messaging().appDidReceiveMessage(userInfo)
         }
         self.plugin.handleRemoteNotificationReceived(notification: notification)
     }
-    
+
     private func handleNotificationReceived(notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -124,7 +124,7 @@ import FirebaseCore
 }
 
 extension FirebaseMessaging: MessagingDelegate {
-    
+
     public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
         self.handleNotificationReceived(notification: notification)
 

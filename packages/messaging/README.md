@@ -216,6 +216,7 @@ const removeAllListeners = async () => {
 
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions()`](#requestpermissions)
+* [`isSupported()`](#issupported)
 * [`getToken(...)`](#gettoken)
 * [`deleteToken()`](#deletetoken)
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
@@ -261,6 +262,23 @@ Request permission to receive push notifications.
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
 **Since:** 0.2.2
+
+--------------------
+
+
+### isSupported()
+
+```typescript
+isSupported() => Promise<IsSupportedResult>
+```
+
+Checks if all required APIs exist.
+
+Always returns `true` on Android and iOS.
+
+**Returns:** <code>Promise&lt;<a href="#issupportedresult">IsSupportedResult</a>&gt;</code>
+
+**Since:** 0.3.1
 
 --------------------
 
@@ -465,6 +483,13 @@ Remove all native listeners for this plugin.
 | Prop          | Type                                                        | Since |
 | ------------- | ----------------------------------------------------------- | ----- |
 | **`receive`** | <code><a href="#permissionstate">PermissionState</a></code> | 0.2.2 |
+
+
+#### IsSupportedResult
+
+| Prop              | Type                 | Since |
+| ----------------- | -------------------- | ----- |
+| **`isSupported`** | <code>boolean</code> | 0.3.1 |
 
 
 #### GetTokenResult

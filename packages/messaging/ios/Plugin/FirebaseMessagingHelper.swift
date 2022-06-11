@@ -12,7 +12,7 @@ public class FirebaseMessagingHelper {
         result["title"] = notification.request.content.title
         return result
     }
-    
+
     public static func createNotificationResult(notification: NSNotification) -> JSObject {
         var result = JSObject()
         result["data"] = JSTypes.coerceDictionaryToJSObject(notification.userInfo) ?? [:]

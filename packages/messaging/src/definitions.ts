@@ -43,6 +43,14 @@ export interface FirebaseMessagingPlugin {
    */
   requestPermissions(): Promise<PermissionStatus>;
   /**
+   * Checks if all required APIs exist.
+   *
+   * Always returns `true` on Android and iOS.
+   *
+   * @since 0.3.1
+   */
+  isSupported(): Promise<IsSupportedResult>;
+  /**
    * Register the app to receive push notifications.
    * Returns a FCM token that can be used to send push messages to that Messaging instance.
    *
@@ -156,6 +164,16 @@ export interface GetTokenOptions {
    * Only available for Web.
    */
   serviceWorkerRegistration?: ServiceWorkerRegistration;
+}
+
+/**
+ * @since 0.3.1
+ */
+export interface IsSupportedResult {
+  /**
+   * @since 0.3.1
+   */
+  isSupported: boolean;
 }
 
 /**
