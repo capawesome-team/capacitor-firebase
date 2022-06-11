@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- [`5da5fbf`](https://github.com/robingenz/capacitor-firebase/commit/5da5fbfaec6305d06f6909261cf46546331414fa) ([#107](https://github.com/robingenz/capacitor-firebase/pull/107)): fix(ios): provide access token for Twitter
+
+* [`e4a4787`](https://github.com/robingenz/capacitor-firebase/commit/e4a47873adab9ceb6dd1800c8bfcf41f8060ab4e) ([#80](https://github.com/robingenz/capacitor-firebase/pull/80)): feat: support OAuth 2.0 scopes
+
+- [`b7e1e6e`](https://github.com/robingenz/capacitor-firebase/commit/b7e1e6eb74986577082f574e1bcc05500283f68f) ([#98](https://github.com/robingenz/capacitor-firebase/pull/98)): feat(android): provide access token for Google
+
+* [`35d4407`](https://github.com/robingenz/capacitor-firebase/commit/35d44079258e5abdd7c631e2ca801b32544173d3) ([#95](https://github.com/robingenz/capacitor-firebase/pull/95)): chore(deps): update native dependencies
+
 ## 0.3.0
 
 ### Patch Changes
