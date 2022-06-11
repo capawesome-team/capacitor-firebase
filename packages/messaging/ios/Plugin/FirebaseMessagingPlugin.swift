@@ -137,7 +137,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         result["notification"] = notificationResult
         notifyListeners(notificationReceivedEvent, data: result)
     }
-    
+
     func handleRemoteNotificationReceived(notification: NSNotification) {
         let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
         var result = JSObject()
@@ -170,7 +170,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         let deviceTokenAsString = String(decoding: deviceToken, as: UTF8.self)
         self.handleTokenReceived(token: deviceTokenAsString)
     }
-    
+
     @objc private func didReceiveRemoteNotification(notification: NSNotification) {
         implementation?.handleRemoteNotificationReceived(notification: notification)
     }

@@ -8,6 +8,7 @@ import {
   isSupported as isSupportedInWeb,
   onMessage,
 } from 'firebase/messaging';
+
 import type {
   FirebaseMessagingPlugin,
   GetDeliveredNotificationsResult,
