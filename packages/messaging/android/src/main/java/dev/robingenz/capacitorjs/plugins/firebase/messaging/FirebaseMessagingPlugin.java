@@ -74,6 +74,13 @@ public class FirebaseMessagingPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void isSupported(PluginCall call) {
+        JSObject result = new JSObject();
+        result.put("isSupported", true);
+        call.resolve(result);
+    }
+
+    @PluginMethod
     public void getToken(PluginCall call) {
         implementation.getToken(
             new GetTokenResultCallback() {

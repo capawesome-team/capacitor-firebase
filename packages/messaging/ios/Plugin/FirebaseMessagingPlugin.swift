@@ -46,6 +46,12 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         })
     }
 
+    @objc func isSupported(_ call: CAPPluginCall) {
+        var result = JSObject()
+        result["isSupported"] = true
+        call.resolve(result)
+    }
+
     @objc func getToken(_ call: CAPPluginCall) {
         implementation?.getToken(completion: { token, error in
             if let error = error {

@@ -5,15 +5,15 @@ import {
   deleteToken,
   getMessaging,
   getToken,
-  isSupported,
+  isSupported as isSupportedInWeb,
   onMessage,
 } from 'firebase/messaging';
-
 import type {
   FirebaseMessagingPlugin,
   GetDeliveredNotificationsResult,
   GetTokenOptions,
   GetTokenResult,
+  IsSupportedResult,
   NotificationReceivedEvent,
   PermissionStatus,
   RemoveDeliveredNotificationsOptions,
@@ -31,7 +31,7 @@ export class FirebaseMessagingWeb
 
   constructor() {
     super();
-    isSupported().then(supported => {
+    isSupportedInWeb().then(supported => {
       if (!supported) {
         return;
       }
@@ -56,6 +56,13 @@ export class FirebaseMessagingWeb
     );
     return {
       receive,
+    };
+  }
+
+  public async isSupported(): Promise<IsSupportedResult> {
+    const isSupported = await isSupportedInWeb();
+    return {
+      isSupported,
     };
   }
 
