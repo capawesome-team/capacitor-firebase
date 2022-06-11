@@ -232,7 +232,7 @@ public typealias AuthStateChangedObserver = () -> Void
             savedCall.resolve(result)
             return
         }
-        Auth.auth().signIn(with: credential) { (_, error) in
+        Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -241,7 +241,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken)
             savedCall.resolve(result)
         }
     }
