@@ -4,7 +4,19 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 0.4.x](#version-04x)
 - [Version 0.3.x](#version-03x)
+
+## Version 0.4.x
+
+The `removeDeliveredNotifications` now requires a notifications array as parameter:
+
+```diff
+export interface RemoveDeliveredNotificationsOptions {
+-  ids: string[];
++  notifications: Notification[];
+}
+```
 
 ## Version 0.3.x
 

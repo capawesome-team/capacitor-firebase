@@ -15,8 +15,10 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.google.firebase.messaging.RemoteMessage;
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebaseMessaging", permissions = @Permission(strings = {}, alias = "receive"))
 public class FirebaseMessagingPlugin extends Plugin {
@@ -25,7 +27,7 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String TOKEN_RECEIVED_EVENT = "tokenReceived";
     public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
     public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
-    public static final String ERROR_IDS_MISSING = "ids must be provided.";
+    public static final String ERROR_NOTIFICATIONS_INVALID = "The provided notifications are invalid.";
     public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
     public static Bridge staticBridge = null;
     public static String lastToken = null;
@@ -122,18 +124,29 @@ public class FirebaseMessagingPlugin extends Plugin {
 
     @PluginMethod
     public void removeDeliveredNotifications(PluginCall call) {
-        List<Integer> ids = null;
+        JSArray notifications = call.getArray("notifications");
+
+        List<String> tags = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
         try {
-            ids = call.getArray("ids").toList();
+            for (Object item : notifications.toList()) {
+                if (item instanceof JSONObject) {
+                    JSObject notification = JSObject.fromJSONObject((JSONObject) item);
+                    String tag = notification.getString("tag", "");
+                    tags.add(tag);
+                    String id = notification.getString("id", "");
+                    ids.add(id);
+                } else {
+                    call.reject(ERROR_NOTIFICATIONS_INVALID);
+                    return;
+                }
+            }
         } catch (JSONException e) {
-            Log.w(TAG, e.getLocalizedMessage());
-        }
-        if (ids == null || ids.size() == 0) {
-            call.reject(ERROR_IDS_MISSING);
+            call.reject(ERROR_NOTIFICATIONS_INVALID);
             return;
         }
 
-        implementation.removeDeliveredNotifications(ids);
+        implementation.removeDeliveredNotifications(tags, ids);
         call.resolve();
     }
 

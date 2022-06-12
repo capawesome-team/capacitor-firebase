@@ -201,9 +201,9 @@ export interface GetDeliveredNotificationsResult {
  */
 export interface RemoveDeliveredNotificationsOptions {
   /**
-   * @since 0.2.2
+   * @since 0.4.0
    */
-  ids: string[];
+  notifications: Notification[];
 }
 
 /**
@@ -355,6 +355,14 @@ export interface Notification {
    * @since 0.2.2
    */
   subtitle?: string;
+  /**
+   * The notification string identifier.
+   *
+   * Only available on Android.
+   *
+   * @since 0.4.0
+   */
+  tag?: string;
   /**
    * The notification title.
    *

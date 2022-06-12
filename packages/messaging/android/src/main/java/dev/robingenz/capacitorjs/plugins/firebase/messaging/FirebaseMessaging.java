@@ -54,9 +54,15 @@ public class FirebaseMessaging {
         }
     }
 
-    public void removeDeliveredNotifications(List<Integer> ids) {
-        for (int id : ids) {
-            notificationManager.cancel(id);
+    public void removeDeliveredNotifications(List<String> tags, List<String> ids) {
+        for (int i = 0; i < tags.size(); i++) {
+            try {
+                String tag = tags.get(i);
+                int id = Integer.parseInt(ids.get(i));
+                notificationManager.cancel(tag, id);
+            } catch (NumberFormatException exception) {
+                Log.w(FirebaseMessagingPlugin.TAG, "removeDeliveredNotifications failed", exception);
+            }
         }
     }
 

@@ -525,14 +525,15 @@ Remove all native listeners for this plugin.
 | **`image`**       | <code>string</code>  | The URL of an image that is downloaded on the device and displayed in the notification. Only available on Web. | 0.2.2 |
 | **`link`**        | <code>string</code>  | Deep link from the notification. Only available on Android.                                                    | 0.2.2 |
 | **`subtitle`**    | <code>string</code>  | The notification subtitle. Only available on iOS.                                                              | 0.2.2 |
+| **`tag`**         | <code>string</code>  | The notification string identifier. Only available on Android.                                                 | 0.4.0 |
 | **`title`**       | <code>string</code>  | The notification title.                                                                                        | 0.2.2 |
 
 
 #### RemoveDeliveredNotificationsOptions
 
-| Prop      | Type                  | Since |
-| --------- | --------------------- | ----- |
-| **`ids`** | <code>string[]</code> | 0.2.2 |
+| Prop                | Type                        | Since |
+| ------------------- | --------------------------- | ----- |
+| **`notifications`** | <code>Notification[]</code> | 0.4.0 |
 
 
 #### SubscribeToTopicOptions
