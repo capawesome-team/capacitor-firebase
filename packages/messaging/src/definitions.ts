@@ -53,6 +53,8 @@ export interface FirebaseMessagingPlugin {
   /**
    * Register the app to receive push notifications.
    * Returns a FCM token that can be used to send push messages to that Messaging instance.
+   * 
+   * This method also re-enables FCM auto-init.
    *
    * @since 0.2.2
    */

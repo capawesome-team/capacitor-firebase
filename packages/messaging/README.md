@@ -292,6 +292,8 @@ getToken(options: GetTokenOptions) => Promise<GetTokenResult>
 Register the app to receive push notifications.
 Returns a FCM token that can be used to send push messages to that Messaging instance.
 
+This method also re-enables FCM auto-init.
+
 | Param         | Type                                                        |
 | ------------- | ----------------------------------------------------------- |
 | **`options`** | <code><a href="#gettokenoptions">GetTokenOptions</a></code> |
