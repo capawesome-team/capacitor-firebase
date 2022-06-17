@@ -49,6 +49,11 @@ See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-fireb
 
 See [Upload the APNS Certificate or Key to Firebase](https://capacitorjs.com/docs/guides/push-notifications-firebase#upload-the-apns-certificate-or-key-to-firebase) and follow the instructions to upload the APNS Certificate or APNS Auth Key to Firebase.
 
+> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://www.raywenderlich.com/20201639-firebase-cloud-messaging-for-ios-push-notifications). 
+The steps are explained there in a quite understandable way.
+But be aware that this guide is more detailed and covers more than you need. 
+Use it only for assistance.
+
 Add the following to your app's `AppDelegate.swift`:
 
 ```swift
@@ -429,6 +434,14 @@ addListener(eventName: 'notificationReceived', listenerFunc: NotificationReceive
 ```
 
 Called when a new push notification is received.
+
+On **Android**, this listener is called for every push notification if the app is in the _foreground_.
+If the app is in the _background_, then this listener is only called on data push notifications.
+See https://firebase.google.com/docs/cloud-messaging/android/receive#handling_messages for more information.
+
+On **iOS**, this listener is called for every push notification if the app is in the _foreground_.
+If the app is in the _background_, then this listener is only called for silent push notifications (messages with the `content-available` key).
+See https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html for more information.
 
 | Param              | Type                                                                                  |
 | ------------------ | ------------------------------------------------------------------------------------- |

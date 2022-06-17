@@ -53,7 +53,7 @@ export interface FirebaseMessagingPlugin {
   /**
    * Register the app to receive push notifications.
    * Returns a FCM token that can be used to send push messages to that Messaging instance.
-   * 
+   *
    * This method also re-enables FCM auto-init.
    *
    * @since 0.2.2
@@ -113,6 +113,14 @@ export interface FirebaseMessagingPlugin {
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Called when a new push notification is received.
+   *
+   * On **Android**, this listener is called for every push notification if the app is in the _foreground_.
+   * If the app is in the _background_, then this listener is only called on data push notifications.
+   * See https://firebase.google.com/docs/cloud-messaging/android/receive#handling_messages for more information.
+   *
+   * On **iOS**, this listener is called for every push notification if the app is in the _foreground_.
+   * If the app is in the _background_, then this listener is only called for silent push notifications (messages with the `content-available` key).
+   * See https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html for more information.
    *
    * @since 0.2.2
    */
