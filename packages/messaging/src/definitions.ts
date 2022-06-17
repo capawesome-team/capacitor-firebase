@@ -58,7 +58,7 @@ export interface FirebaseMessagingPlugin {
    *
    * @since 0.2.2
    */
-  getToken(options: GetTokenOptions): Promise<GetTokenResult>;
+  getToken(options?: GetTokenOptions): Promise<GetTokenResult>;
   /**
    * Delete the FCM token and unregister the app to stop receiving push notifications.
    * Can be called, for example, when a user signs out.
