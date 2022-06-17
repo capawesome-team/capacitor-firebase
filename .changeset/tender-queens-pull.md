@@ -2,4 +2,4 @@
 "@capacitor-firebase/authentication": minor
 ---
 
-chore(ios): update Facebook iOS SDK to `13.2.0` (**BREAKING CHANGES**: see [`BREAKING.md`](../packages/authentication/BREAKING.md))
+chore(ios): update Facebook iOS SDK to `13.2.0` (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/robingenz/capacitor-firebase/tree/main/packages/authentication/BREAKING.md))
