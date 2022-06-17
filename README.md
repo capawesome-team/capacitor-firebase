@@ -45,6 +45,16 @@ Click on the name of the desired plugin under the [`Plugins`](#plugins) section 
 | [Cloud Messaging](./packages/messaging) | `@capacitor-firebase/messaging`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)       |
 | [Performance Monitoring](./packages/performance) | `@capacitor-firebase/performance`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/performance?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/performance)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/performance?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/performance)       |
 
+## Changelogs
+
+Each plugin has its own `CHANGELOG.md` file which contains information about version changes. 
+Click on the name of the desired plugin under the [`Plugins`](#plugins) section to get to the plugin folder.
+
+## Breaking Changes
+
+Each plugin has its own `BREAKING.md` file which contains information about breaking changes. 
+Click on the name of the desired plugin under the [`Plugins`](#plugins) section to get to the plugin folder.
+
 ## License
 
 See [LICENSE](./LICENSE).
