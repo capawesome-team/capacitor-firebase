@@ -16,9 +16,11 @@
     ```xml
     <string name="facebook_app_id">[APP_ID]</string>
     <string name="fb_login_protocol_scheme">fb[APP_ID]</string>
+    <string name="facebook_client_token">[CLIENT_TOKEN]</string>
     ```
 
-    `[APP_ID]` must be replaced with your Facebook app ID.
+    `[APP_ID]` must be replaced with your [Facebook App-ID](https://developers.facebook.com/docs/android/getting-started/#app-id).  
+    `[CLIENT_TOKEN]` must be replaced with your [Facebook Client Token](https://developers.facebook.com/docs/android/getting-started/#client-token).  
 
 1.  Add the following elements to `android/app/src/main/AndroidManifest.xml` inside the `application` element:
 
@@ -26,6 +28,10 @@
     <meta-data
        android:name="com.facebook.sdk.ApplicationId"
        android:value="@string/facebook_app_id"/>
+
+    <meta-data 
+        android:name="com.facebook.sdk.ClientToken" 
+        android:value="@string/facebook_client_token"/>
 
     <activity
        android:name="com.facebook.FacebookActivity"
