@@ -17,6 +17,8 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
     public let errorTopicMissing = "topic must be provided."
+    public let errorNotificationsMissing = "notifications must be provided."
+    public let errorNotificationsInvalid = "The provided notifications are invalid."
 
     override public func load() {
         implementation = FirebaseMessaging(plugin: self, config: firebaseMessagingConfig())
@@ -87,7 +89,20 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     }
 
     @objc func removeDeliveredNotifications(_ call: CAPPluginCall) {
-        let ids = call.getArray("ids", String.self) ?? []
+        guard let notifications = call.getArray("notifications", JSObject.self) else {
+            call.reject(errorNotificationsMissing)
+            return
+        }
+        
+        var ids = [String]()
+        for notification in notifications {
+            guard let id = notification["id"] as? String else {
+                call.reject(errorNotificationsInvalid)
+                return
+            }
+            ids.append(id)
+        }
+        
         implementation?.removeDeliveredNotifications(ids: ids)
         call.resolve()
     }
@@ -102,6 +117,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             call.reject(errorTopicMissing)
             return
         }
+        
         implementation?.subscribeToTopic(topic: topic, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)
@@ -116,6 +132,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             call.reject(errorTopicMissing)
             return
         }
+        
         implementation?.unsubscribeFromTopic(topic: topic, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)

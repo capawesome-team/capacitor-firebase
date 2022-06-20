@@ -26,6 +26,7 @@ public class FirebaseMessagingHelper {
             notificationResult.put("title", notification.getTitle());
             notificationResult.put("body", notification.getBody());
             notificationResult.put("clickAction", notification.getClickAction());
+            notificationResult.put("tag", notification.getTag());
 
             Uri link = notification.getLink();
             if (link != null) {
@@ -40,7 +41,7 @@ public class FirebaseMessagingHelper {
         JSObject data = new JSObject();
         for (String key : bundle.keySet()) {
             if (key.equals("google.message_id")) {
-                notificationResult.put("id", bundle.get(key));
+                notificationResult.put("id", "" + bundle.get(key).toString());
             } else {
                 data.put(key, bundle.get(key));
             }
@@ -51,7 +52,8 @@ public class FirebaseMessagingHelper {
 
     public static JSObject createNotificationResult(@NonNull StatusBarNotification statusBarNotification) {
         JSObject notificationResult = new JSObject();
-        notificationResult.put("id", statusBarNotification.getId());
+        notificationResult.put("id", "" + statusBarNotification.getId());
+        notificationResult.put("tag", statusBarNotification.getTag());
 
         Notification notification = statusBarNotification.getNotification();
         if (notification != null) {
