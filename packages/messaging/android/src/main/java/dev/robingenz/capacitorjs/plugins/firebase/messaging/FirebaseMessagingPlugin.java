@@ -29,6 +29,7 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
     public static final String ERROR_NOTIFICATIONS_INVALID = "The provided notifications are invalid.";
     public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
+    public static final String ERROR_NOTIFICATIONS_MISSING = "notifications must be provided.";
     public static Bridge staticBridge = null;
     public static String lastToken = null;
     public static RemoteMessage lastRemoteMessage = null;
@@ -125,6 +126,10 @@ public class FirebaseMessagingPlugin extends Plugin {
     @PluginMethod
     public void removeDeliveredNotifications(PluginCall call) {
         JSArray notifications = call.getArray("notifications");
+        if (notifications == null) {
+            call.reject(ERROR_NOTIFICATIONS_MISSING);
+            return;
+        }
 
         List<String> tags = new ArrayList<>();
         List<String> ids = new ArrayList<>();
