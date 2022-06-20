@@ -16,11 +16,9 @@ import FirebaseCore
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+        UIApplication.shared.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         self.plugin.bridge?.notificationRouter.pushNotificationHandler = self
-        DispatchQueue.main.async {
-            UIApplication.shared.registerForRemoteNotifications()
-        }
     }
 
     public func requestPermissions(completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) {
