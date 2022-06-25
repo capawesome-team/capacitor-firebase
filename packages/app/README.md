@@ -11,6 +11,10 @@ npx cap sync
 
 Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
 
+### Android
+
+**Attention**: Please make sure that you are using **Java 11**.
+
 ## Configuration
 
 No configuration required for this plugin.
