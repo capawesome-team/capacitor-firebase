@@ -55,6 +55,10 @@ Click on the name of the desired plugin under the [`Plugins`](#plugins) section 
 Each plugin has its own `BREAKING.md` file which contains information about breaking changes. 
 Click on the name of the desired plugin under the [`Plugins`](#plugins) section to get to the plugin folder.
 
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## License
 
 See [LICENSE](./LICENSE).
