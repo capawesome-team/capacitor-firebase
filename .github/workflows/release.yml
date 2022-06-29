@@ -9,8 +9,6 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-permissions: write-all
-
 env:
   NODE_VERSION: 16
 
