@@ -1,11 +1,5 @@
 # Changelog
 
-## 0.4.0
-
-### Minor Changes
-
-- [`917165b`](https://github.com/robingenz/capacitor-firebase/commit/917165b3b631db150536da8cda92e503f022ce11) ([#113](https://github.com/robingenz/capacitor-firebase/pull/113)): feat(ios)!: update Facebook iOS SDK to `13.2.0` (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/robingenz/capacitor-firebase/tree/main/packages/authentication/BREAKING.md))
-
 ## 0.3.1
 
 ### Patch Changes

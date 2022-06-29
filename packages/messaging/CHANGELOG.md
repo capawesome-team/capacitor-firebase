@@ -1,17 +1,5 @@
 # Changelog
 
-## 0.4.0
-
-### Minor Changes
-
-- [`abcf912`](https://github.com/robingenz/capacitor-firebase/commit/abcf912da98c769d3f7db92dd02681f9f4e47073) ([#109](https://github.com/robingenz/capacitor-firebase/pull/109)): fix(android)!: `removeDeliveredNotifications` crash (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/robingenz/capacitor-firebase/blob/main/packages/messaging/BREAKING.md))
-
-### Patch Changes
-
-- [`03cfad9`](https://github.com/robingenz/capacitor-firebase/commit/03cfad9a3ddd977f51e7f8f88fbd67e6731a4341) ([#123](https://github.com/robingenz/capacitor-firebase/pull/123)): fix(ios): APNS device token not set before retrieving FCM Token
-
-* [`b17e4f6`](https://github.com/robingenz/capacitor-firebase/commit/b17e4f68dc25e697b1c031edea2621c6712a4f7f) ([#121](https://github.com/robingenz/capacitor-firebase/pull/121)): fix: `GetTokenOptions` parameter is now optional
-
 ## 0.3.1
 
 ### Patch Changes
