@@ -9,7 +9,7 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-permissions: read-all|write-all
+permissions: write-all
 
 env:
   NODE_VERSION: 16
