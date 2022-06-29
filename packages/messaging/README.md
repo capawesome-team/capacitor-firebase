@@ -13,6 +13,8 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 ### Android
 
+**Attention**: Please make sure that you are using **Java 11**.
+
 #### Variables
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):

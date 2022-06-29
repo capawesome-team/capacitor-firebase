@@ -13,6 +13,8 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 ### Android
 
+**Attention**: Please make sure that you are using **Java 11**.
+
 See [Add the Firebase Crashlytics plugin to your app](https://firebase.google.com/docs/crashlytics/get-started?platform=android#add-plugin) and follow the instructions to set up your app correctly.
 
 #### Variables
