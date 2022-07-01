@@ -90,3 +90,12 @@ jobs:
           --header 'Content-Type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data-raw '{ "labels": ["package: remote-config"] }'
+      - name: Add package-in-app-messaging label
+        if: contains(github.event.issue.body, '@capacitor-firebase/in-app-messaging')
+        run: |
+          curl --request POST \
+          --url 'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data-raw '{ "labels": ["package: in-app-messaging"] }'
