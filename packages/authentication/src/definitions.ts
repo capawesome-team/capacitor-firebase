@@ -221,13 +221,6 @@ export interface FirebaseAuthenticationPlugin {
    * @since New forked Repo
    */
   verifyPhoneNumber(options?: {phoneNumber?: string}): Promise<{verificationId: string}>;
-
-  /**
-   * Might be needed later, resolves sign in with resolver stored in native code
-   *
-   * @since New forked Repo
-   */
-  // resolveSignIn(options: {verificationId: string, verificationCode: string}): Promise<UserCredential>;
 }
 
 /**
