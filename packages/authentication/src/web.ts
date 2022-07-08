@@ -22,7 +22,6 @@ import {
   updateEmail,
   updatePassword,
 } from 'firebase/auth';
-
 import type {
   ApplyActionCodeOptions,
   AuthCredential,
@@ -260,6 +259,12 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const port = options.port || 9099;
     connectAuthEmulator(auth, `${options.host}:${port}`);
+  }
+
+  public verifyPhoneNumber(_options?: {
+    phoneNumber?: string | undefined;
+  }): Promise<{ verificationId: string }> {
+    throw new Error('Not implemented on web.');
   }
 
   private handleAuthStateChange(user: FirebaseUser | null): void {
