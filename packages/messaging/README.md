@@ -293,7 +293,7 @@ Always returns `true` on Android and iOS.
 ### getToken(...)
 
 ```typescript
-getToken(options: GetTokenOptions) => Promise<GetTokenResult>
+getToken(options?: GetTokenOptions | undefined) => Promise<GetTokenResult>
 ```
 
 Register the app to receive push notifications.

@@ -296,6 +296,7 @@ const useEmulator = async () => {
 * [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
 * [`removeAllListeners()`](#removealllisteners)
+* [`verifyPhoneNumber(...)`](#verifyphonenumber)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -761,6 +762,25 @@ removeAllListeners() => Promise<void>
 Remove all listeners for this plugin.
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### verifyPhoneNumber(...)
+
+```typescript
+verifyPhoneNumber(options?: { phoneNumber?: string | undefined; } | undefined) => Promise<{ verificationId: string; }>
+```
+
+Sends an SMS to the user. If no phoneNumber is provided, uses the first hint from the resolver session (must call signInWithEmailAndPassword first to grab the resolver session when 2nd factor is needed)
+
+| Param         | Type                                   |
+| ------------- | -------------------------------------- |
+| **`options`** | <code>{ phoneNumber?: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ verificationId: string; }&gt;</code>
+
+**Since:** New forked Repo
 
 --------------------
 
