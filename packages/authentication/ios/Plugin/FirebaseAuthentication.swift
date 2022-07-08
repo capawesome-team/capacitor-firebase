@@ -15,6 +15,7 @@ public typealias AuthStateChangedObserver = () -> Void
     private var oAuthProviderHandler: OAuthProviderHandler?
     private var phoneAuthProviderHandler: PhoneAuthProviderHandler?
     private var savedCall: CAPPluginCall?
+    private var resolver: MultiFactorResolver?
 
     init(plugin: FirebaseAuthenticationPlugin, config: FirebaseAuthenticationConfig) {
         self.plugin = plugin
@@ -143,17 +144,22 @@ public typealias AuthStateChangedObserver = () -> Void
         let password = call.getString("password", "")
 
         self.savedCall = call
-        Auth.auth().signIn(withEmail: email, password: password) { _, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
-                return
-            }
-            guard let savedCall = self.savedCall else {
-                return
-            }
+        
+        Auth.auth().signIn(withEmail: email,
+                           password: password) { (result, error) in
+          let authError = error as NSError?
+          if (authError == nil || authError!.code != AuthErrorCode.secondFactorRequired.rawValue) {
+            // User is not enrolled with a second factor and is successfully signed in.
+            print("User is signed in!", authError)
             let user = self.getCurrentUser()
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
             savedCall.resolve(result)
+          } else {
+              // Second factor is required, or some other issue
+            let resolver = authError!.userInfo[AuthErrorUserInfoMultiFactorResolverKey] as! MultiFactorResolver
+            self.resolver = resolver
+            call.resolve()
+          }
         }
     }
 
@@ -221,6 +227,50 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func useEmulator(_ host: String, _ port: Int) {
         Auth.auth().useEmulator(withHost: host, port: port)
+    }
+    
+    @objc func verifyPhoneNumber(_ call: CAPPluginCall) {
+        self.savedCall = call
+        
+        let phoneNumber = call.getString("phoneNumber", "")
+        print("Phone number: ", phoneNumber)
+        if (phoneNumber != "") {
+            print(self.getCurrentUser())
+            self.getCurrentUser()!.multiFactor.getSessionWithCompletion({ (session, error) in
+                PhoneAuthProvider.provider().verifyPhoneNumber(
+                  phoneNumber,
+                  uiDelegate: nil,
+                  multiFactorSession: session) { (verificationId, error) in
+                    if error != nil {
+                        // Failed to verify phone number.
+                        print("Error sending sms to enroll: ", error)
+                        call.reject()
+                    }
+                      var result = JSObject()
+                      result["verificationId"] = verificationId
+                      call.resolve(result)
+                }
+            })
+        } else {
+            let hint = self.resolver?.hints[0]
+            if hint == nil {
+                call.reject("No hint for sending sms. Please call signInWithEmailAndPassword first")
+                return;
+            }
+            PhoneAuthProvider.provider().verifyPhoneNumber(
+                with: hint as! PhoneMultiFactorInfo,
+              uiDelegate: nil,
+              multiFactorSession: resolver?.session) { (verificationId, error) in
+                if error != nil {
+                    // Failed to verify phone number.
+                    print("Error sending sms to sign in: ", error)
+                    call.reject()
+                }
+                  var result = JSObject()
+                  result["verificationId"] = verificationId
+                  call.resolve(result)
+            }
+        }
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {

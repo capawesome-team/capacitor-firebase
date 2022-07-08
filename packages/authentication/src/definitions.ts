@@ -213,6 +213,21 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   removeAllListeners(): Promise<void>;
+
+  /**
+   * Sends an SMS to the user. If no phoneNumber is provided, uses the first hint from the resolver session (must call signInWithEmailAndPassword first to grab the resolver session when 2nd factor is needed)
+   * @param {string} [phoneNumber] 
+   * phoneNumber to send the sms to
+   * @since New forked Repo
+   */
+  verifyPhoneNumber(options?: {phoneNumber?: string}): Promise<{verificationId: string}>;
+
+  /**
+   * Might be needed later, resolves sign in with resolver stored in native code
+   *
+   * @since New forked Repo
+   */
+  // resolveSignIn(options: {verificationId: string, verificationCode: string}): Promise<UserCredential>;
 }
 
 /**

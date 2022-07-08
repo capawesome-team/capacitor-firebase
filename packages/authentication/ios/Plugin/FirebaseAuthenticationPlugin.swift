@@ -250,6 +250,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         notifyListeners(authStateChangeEvent, data: result)
     }
 
+    @objc func verifyPhoneNumber(_ call: CAPPluginCall) {
+        implementation?.verifyPhoneNumber(call)
+    }
+    
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {
         var config = FirebaseAuthenticationConfig()
 
