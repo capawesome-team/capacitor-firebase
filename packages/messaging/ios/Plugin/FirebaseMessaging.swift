@@ -146,4 +146,8 @@ extension FirebaseMessaging: MessagingDelegate {
     public func didReceive(response: UNNotificationResponse) {
         self.handleNotificationActionPerformed(response: response)
     }
+    
+    public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        self.plugin.handleTokenReceived(token: fcmToken)
+    }
 }
