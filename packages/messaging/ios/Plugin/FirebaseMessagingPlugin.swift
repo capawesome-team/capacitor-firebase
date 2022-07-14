@@ -184,8 +184,6 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             return
         }
         Messaging.messaging().apnsToken = deviceToken
-        let deviceTokenAsString = String(decoding: deviceToken, as: UTF8.self)
-        self.handleTokenReceived(token: deviceTokenAsString)
     }
 
     @objc private func didReceiveRemoteNotification(notification: NSNotification) {
