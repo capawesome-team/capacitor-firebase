@@ -19,7 +19,6 @@ import type {
   PermissionStatus,
   RemoveDeliveredNotificationsOptions,
   SubscribeToTopicOptions,
-  TokenReceivedEvent,
   UnsubscribeFromTopicOptions,
 } from './definitions';
 import { Notification } from './definitions';
