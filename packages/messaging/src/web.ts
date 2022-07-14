@@ -73,7 +73,6 @@ export class FirebaseMessagingWeb
       vapidKey: options.vapidKey,
       serviceWorkerRegistration: options.serviceWorkerRegistration,
     });
-    this.handleTokenReceived(token);
     return {
       token,
     };
