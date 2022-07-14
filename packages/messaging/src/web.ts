@@ -27,7 +27,6 @@ import { Notification } from './definitions';
 export class FirebaseMessagingWeb
   extends WebPlugin
   implements FirebaseMessagingPlugin {
-  public static readonly tokenReceivedEvent = 'tokenReceived';
   public static readonly notificationReceivedEvent = 'notificationReceived';
 
   constructor() {
@@ -107,13 +106,6 @@ export class FirebaseMessagingWeb
     _options: UnsubscribeFromTopicOptions,
   ): Promise<void> {
     this.throwUnavailableError();
-  }
-
-  private handleTokenReceived(token: string): void {
-    const event: TokenReceivedEvent = {
-      token,
-    };
-    this.notifyListeners(FirebaseMessagingWeb.tokenReceivedEvent, event);
   }
 
   private handleNotificationReceived(messagePayload: MessagePayload): void {
