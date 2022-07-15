@@ -41,7 +41,7 @@ public class PlayGamesAuthProviderHandler {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(PluginCall call, ActivityResult result) {
+    public void handleOnActivityResult(final PluginCall call, ActivityResult result) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
@@ -59,7 +59,7 @@ public class PlayGamesAuthProviderHandler {
         return buildGoogleSignInClient(null);
     }
 
-    private GoogleSignInClient buildGoogleSignInClient(@Nullable PluginCall call) {
+    private GoogleSignInClient buildGoogleSignInClient(@Nullable final PluginCall call) {
         GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
             .requestEmail();

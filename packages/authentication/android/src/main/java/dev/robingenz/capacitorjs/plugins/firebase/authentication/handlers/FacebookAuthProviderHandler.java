@@ -2,6 +2,9 @@ package dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers;
 
 import android.content.Intent;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -26,6 +29,7 @@ public class FacebookAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private CallbackManager mCallbackManager;
     private LoginButton loginButton;
+    @Nullable
     private PluginCall savedCall;
 
     public FacebookAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
@@ -91,14 +95,23 @@ public class FacebookAuthProviderHandler {
         AccessToken accessToken = loginResult.getAccessToken();
         String accessTokenString = accessToken.getToken();
         AuthCredential credential = FacebookAuthProvider.getCredential(accessTokenString);
+        if (savedCall == null) {
+            return;
+        }
         pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString);
     }
 
     private void handleCancelCallback() {
+        if (savedCall == null) {
+            return;
+        }
         pluginImplementation.handleFailedSignIn(savedCall, ERROR_SIGN_IN_CANCELED, null);
     }
 
     private void handleErrorCallback(FacebookException exception) {
+        if (savedCall == null) {
+            return;
+        }
         pluginImplementation.handleFailedSignIn(savedCall, null, exception);
     }
 }
