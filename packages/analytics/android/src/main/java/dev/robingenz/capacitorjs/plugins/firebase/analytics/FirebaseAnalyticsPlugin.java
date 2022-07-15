@@ -21,59 +21,83 @@ public class FirebaseAnalyticsPlugin extends Plugin {
 
     @PluginMethod
     public void setUserId(PluginCall call) {
-        String userId = call.getString("userId", null);
-        implementation.setUserId(userId);
-        call.resolve();
+        try {
+            String userId = call.getString("userId", null);
+            implementation.setUserId(userId);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void setUserProperty(PluginCall call) {
-        String key = call.getString("key");
-        if (key == null) {
-            call.reject(ERROR_KEY_MISSING);
-            return;
+        try {
+            String key = call.getString("key");
+            if (key == null) {
+                call.reject(ERROR_KEY_MISSING);
+                return;
+            }
+            String value = call.getString("value", null);
+            implementation.setUserProperty(key, value);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        String value = call.getString("value", null);
-        implementation.setUserProperty(key, value);
-        call.resolve();
     }
 
     @PluginMethod
     public void setCurrentScreen(PluginCall call) {
-        String screenName = call.getString("screenName", null);
-        String screenClassOverride = call.getString("screenClassOverride", null);
-        implementation.setCurrentScreen(screenName, screenClassOverride);
-        call.resolve();
+        try {
+            String screenName = call.getString("screenName", null);
+            String screenClassOverride = call.getString("screenClassOverride", null);
+            implementation.setCurrentScreen(screenName, screenClassOverride);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void logEvent(PluginCall call) {
-        String name = call.getString("name");
-        if (name == null) {
-            call.reject(ERROR_NAME_MISSING);
-            return;
+        try {
+            String name = call.getString("name");
+            if (name == null) {
+                call.reject(ERROR_NAME_MISSING);
+                return;
+            }
+            JSObject params = call.getObject("params");
+            implementation.logEvent(name, params);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        JSObject params = call.getObject("params");
-        implementation.logEvent(name, params);
-        call.resolve();
     }
 
     @PluginMethod
     public void setSessionTimeoutDuration(PluginCall call) {
-        Long duration = call.getLong("duration", 1800000L);
-        implementation.setSessionTimeoutDuration(duration);
-        call.resolve();
+        try {
+            Long duration = call.getLong("duration", 1800000L);
+            implementation.setSessionTimeoutDuration(duration);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void setEnabled(PluginCall call) {
-        Boolean enabled = call.getBoolean("enabled");
-        if (enabled == null) {
-            call.reject(ERROR_ENABLED_MISSING);
-            return;
+        try {
+            Boolean enabled = call.getBoolean("enabled");
+            if (enabled == null) {
+                call.reject(ERROR_ENABLED_MISSING);
+                return;
+            }
+            implementation.setEnabled(enabled);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.setEnabled(enabled);
-        call.resolve();
     }
 
     @PluginMethod
@@ -83,7 +107,11 @@ public class FirebaseAnalyticsPlugin extends Plugin {
 
     @PluginMethod
     public void resetAnalyticsData(PluginCall call) {
-        implementation.resetAnalyticsData();
-        call.resolve();
+        try {
+            implementation.resetAnalyticsData();
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 }

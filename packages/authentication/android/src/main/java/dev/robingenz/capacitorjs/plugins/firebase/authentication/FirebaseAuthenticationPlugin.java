@@ -41,209 +41,305 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     @PluginMethod
     public void applyActionCode(PluginCall call) {
-        String oobCode = call.getString("oobCode");
-        if (oobCode == null) {
-            call.reject(ERROR_OOB_CODE_MISSING);
-            return;
+        try {
+            String oobCode = call.getString("oobCode");
+            if (oobCode == null) {
+                call.reject(ERROR_OOB_CODE_MISSING);
+                return;
+            }
+            implementation.applyActionCode(oobCode, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.applyActionCode(oobCode, () -> call.resolve());
     }
 
     @PluginMethod
     public void createUserWithEmailAndPassword(PluginCall call) {
-        implementation.createUserWithEmailAndPassword(call);
+        try {
+            implementation.createUserWithEmailAndPassword(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void confirmPasswordReset(PluginCall call) {
-        String oobCode = call.getString("oobCode");
-        if (oobCode == null) {
-            call.reject(ERROR_OOB_CODE_MISSING);
-            return;
+        try {
+            String oobCode = call.getString("oobCode");
+            if (oobCode == null) {
+                call.reject(ERROR_OOB_CODE_MISSING);
+                return;
+            }
+            String newPassword = call.getString("newPassword");
+            if (newPassword == null) {
+                call.reject(ERROR_NEW_PASSWORD_MISSING);
+                return;
+            }
+            implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        String newPassword = call.getString("newPassword");
-        if (newPassword == null) {
-            call.reject(ERROR_NEW_PASSWORD_MISSING);
-            return;
-        }
-        implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
     }
 
     @PluginMethod
     public void getCurrentUser(PluginCall call) {
-        FirebaseUser user = implementation.getCurrentUser();
-        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
-        JSObject result = new JSObject();
-        result.put("user", userResult);
-        call.resolve(result);
+        try {
+            FirebaseUser user = implementation.getCurrentUser();
+            JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
+            JSObject result = new JSObject();
+            result.put("user", userResult);
+            call.resolve(result);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void getIdToken(PluginCall call) {
-        Boolean forceRefresh = call.getBoolean("forceRefresh", false);
+        try {
+            Boolean forceRefresh = call.getBoolean("forceRefresh", false);
 
-        implementation.getIdToken(
-            forceRefresh,
-            new GetIdTokenResultCallback() {
-                @Override
-                public void success(String token) {
-                    JSObject result = new JSObject();
-                    result.put("token", token);
-                    call.resolve(result);
-                }
+            implementation.getIdToken(
+                forceRefresh,
+                new GetIdTokenResultCallback() {
+                    @Override
+                    public void success(String token) {
+                        JSObject result = new JSObject();
+                        result.put("token", token);
+                        call.resolve(result);
+                    }
 
-                @Override
-                public void error(String message) {
-                    call.reject(message);
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
                 }
-            }
-        );
+            );
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void sendEmailVerification(PluginCall call) {
-        FirebaseUser user = implementation.getCurrentUser();
-        if (user == null) {
-            call.reject(ERROR_NO_USER_SIGNED_IN);
-            return;
+        try {
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.sendEmailVerification(user, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.sendEmailVerification(user, () -> call.resolve());
     }
 
     @PluginMethod
     public void sendPasswordResetEmail(PluginCall call) {
-        String email = call.getString("email");
-        if (email == null) {
-            call.reject(ERROR_EMAIL_MISSING);
-            return;
+        try {
+            String email = call.getString("email");
+            if (email == null) {
+                call.reject(ERROR_EMAIL_MISSING);
+                return;
+            }
+            implementation.sendPasswordResetEmail(email, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.sendPasswordResetEmail(email, () -> call.resolve());
     }
 
     @PluginMethod
     public void setLanguageCode(PluginCall call) {
-        String languageCode = call.getString("languageCode", "");
+        try {
+            String languageCode = call.getString("languageCode", "");
 
-        implementation.setLanguageCode(languageCode);
-        call.resolve();
+            implementation.setLanguageCode(languageCode);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithApple(PluginCall call) {
-        implementation.signInWithApple(call);
+        try {
+            implementation.signInWithApple(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithCustomToken(PluginCall call) {
-        implementation.signInWithCustomToken(call);
+        try {
+            implementation.signInWithCustomToken(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithEmailAndPassword(PluginCall call) {
-        implementation.signInWithEmailAndPassword(call);
+        try {
+            implementation.signInWithEmailAndPassword(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithFacebook(PluginCall call) {
-        implementation.signInWithFacebook(call);
+        try {
+            implementation.signInWithFacebook(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithGithub(PluginCall call) {
-        implementation.signInWithGithub(call);
+        try {
+            implementation.signInWithGithub(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithGoogle(PluginCall call) {
-        implementation.signInWithGoogle(call);
+        try {
+            implementation.signInWithGoogle(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithMicrosoft(PluginCall call) {
-        implementation.signInWithMicrosoft(call);
+        try {
+            implementation.signInWithMicrosoft(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithPhoneNumber(PluginCall call) {
-        String phoneNumber = call.getString("phoneNumber");
-        String verificationId = call.getString("verificationId");
-        String verificationCode = call.getString("verificationCode");
+        try {
+            String phoneNumber = call.getString("phoneNumber");
+            String verificationId = call.getString("verificationId");
+            String verificationCode = call.getString("verificationCode");
 
-        if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
-            call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
-            return;
+            if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
+                call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
+                return;
+            }
+
+            implementation.signInWithPhoneNumber(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-
-        implementation.signInWithPhoneNumber(call);
     }
 
     @PluginMethod
     public void signInWithPlayGames(PluginCall call) {
-        implementation.signInWithPlayGames(call);
+        try {
+            implementation.signInWithPlayGames(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithTwitter(PluginCall call) {
-        implementation.signInWithTwitter(call);
+        try {
+            implementation.signInWithTwitter(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signInWithYahoo(PluginCall call) {
-        implementation.signInWithYahoo(call);
+        try {
+            implementation.signInWithYahoo(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void signOut(PluginCall call) {
-        implementation.signOut(call);
+        try {
+            implementation.signOut(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void updateEmail(PluginCall call) {
-        String newEmail = call.getString("newEmail");
-        if (newEmail == null) {
-            call.reject(ERROR_NEW_EMAIL_MISSING);
-            return;
+        try {
+            String newEmail = call.getString("newEmail");
+            if (newEmail == null) {
+                call.reject(ERROR_NEW_EMAIL_MISSING);
+                return;
+            }
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.updateEmail(user, newEmail, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        FirebaseUser user = implementation.getCurrentUser();
-        if (user == null) {
-            call.reject(ERROR_NO_USER_SIGNED_IN);
-            return;
-        }
-        implementation.updateEmail(user, newEmail, () -> call.resolve());
     }
 
     @PluginMethod
     public void updatePassword(PluginCall call) {
-        String newPassword = call.getString("newPassword");
-        if (newPassword == null) {
-            call.reject(ERROR_NEW_PASSWORD_MISSING);
-            return;
+        try {
+            String newPassword = call.getString("newPassword");
+            if (newPassword == null) {
+                call.reject(ERROR_NEW_PASSWORD_MISSING);
+                return;
+            }
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.updatePassword(user, newPassword, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        FirebaseUser user = implementation.getCurrentUser();
-        if (user == null) {
-            call.reject(ERROR_NO_USER_SIGNED_IN);
-            return;
-        }
-        implementation.updatePassword(user, newPassword, () -> call.resolve());
     }
 
     @PluginMethod
     public void useAppLanguage(PluginCall call) {
-        implementation.useAppLanguage();
-        call.resolve();
+        try {
+            implementation.useAppLanguage();
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void useEmulator(PluginCall call) {
-        String host = call.getString("host");
-        if (host == null) {
-            call.reject(ERROR_HOST_MISSING);
-            return;
-        }
-        int port = call.getInt("port", 9099);
+        try {
+            String host = call.getString("host");
+            if (host == null) {
+                call.reject(ERROR_HOST_MISSING);
+                return;
+            }
+            int port = call.getInt("port", 9099);
 
-        implementation.useEmulator(host, port);
-        call.resolve();
+            implementation.useEmulator(host, port);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @Override
