@@ -44,7 +44,7 @@ public class GoogleAuthProviderHandler {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(PluginCall call, ActivityResult result) {
+    public void handleOnActivityResult(final PluginCall call, ActivityResult result) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
