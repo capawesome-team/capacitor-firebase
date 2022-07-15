@@ -19,9 +19,3 @@ jobs:
       - uses: dessant/lock-threads@v3
         with:
           issue-inactive-days: '56'
-          issue-comment: >
-            This issue has been automatically locked since there
-            has not been any recent activity after it was closed.
-          pr-comment: >
-            This pull request has been automatically locked since there
-            has not been any recent activity after it was closed.
