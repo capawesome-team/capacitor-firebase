@@ -2,9 +2,7 @@ package dev.robingenz.capacitorjs.plugins.firebase.authentication.handlers;
 
 import android.content.Intent;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,6 +27,7 @@ public class FacebookAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private CallbackManager mCallbackManager;
     private LoginButton loginButton;
+
     @Nullable
     private PluginCall savedCall;
 
