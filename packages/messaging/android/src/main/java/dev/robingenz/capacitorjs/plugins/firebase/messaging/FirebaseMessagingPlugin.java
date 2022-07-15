@@ -85,102 +85,130 @@ public class FirebaseMessagingPlugin extends Plugin {
 
     @PluginMethod
     public void getToken(PluginCall call) {
-        implementation.getToken(
-            new GetTokenResultCallback() {
-                @Override
-                public void success(String token) {
-                    handleTokenReceived(token);
-                    JSObject result = new JSObject();
-                    result.put("token", token);
-                    call.resolve(result);
-                }
+        try {
+            implementation.getToken(
+                new GetTokenResultCallback() {
+                    @Override
+                    public void success(String token) {
+                        handleTokenReceived(token);
+                        JSObject result = new JSObject();
+                        result.put("token", token);
+                        call.resolve(result);
+                    }
 
-                @Override
-                public void error(String message) {
-                    call.reject(message);
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
                 }
-            }
-        );
+            );
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void deleteToken(PluginCall call) {
-        implementation.deleteToken();
-        call.resolve();
+        try {
+            implementation.deleteToken();
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void getDeliveredNotifications(PluginCall call) {
-        JSArray notificationsResult = new JSArray();
-        StatusBarNotification[] activeNotifications = implementation.getDeliveredNotifications();
-        for (StatusBarNotification activeNotification : activeNotifications) {
-            JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(activeNotification);
-            notificationsResult.put(notificationResult);
-        }
+        try {
+            JSArray notificationsResult = new JSArray();
+            StatusBarNotification[] activeNotifications = implementation.getDeliveredNotifications();
+            for (StatusBarNotification activeNotification : activeNotifications) {
+                JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(activeNotification);
+                notificationsResult.put(notificationResult);
+            }
 
-        JSObject result = new JSObject();
-        result.put("notifications", notificationsResult);
-        call.resolve(result);
+            JSObject result = new JSObject();
+            result.put("notifications", notificationsResult);
+            call.resolve(result);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void removeDeliveredNotifications(PluginCall call) {
-        JSArray notifications = call.getArray("notifications");
-        if (notifications == null) {
-            call.reject(ERROR_NOTIFICATIONS_MISSING);
-            return;
-        }
-
-        List<String> tags = new ArrayList<>();
-        List<String> ids = new ArrayList<>();
         try {
-            for (Object item : notifications.toList()) {
-                if (item instanceof JSONObject) {
-                    JSObject notification = JSObject.fromJSONObject((JSONObject) item);
-                    String tag = notification.getString("tag", "");
-                    tags.add(tag);
-                    String id = notification.getString("id", "");
-                    ids.add(id);
-                } else {
-                    call.reject(ERROR_NOTIFICATIONS_INVALID);
-                    return;
-                }
+            JSArray notifications = call.getArray("notifications");
+            if (notifications == null) {
+                call.reject(ERROR_NOTIFICATIONS_MISSING);
+                return;
             }
-        } catch (JSONException e) {
-            call.reject(ERROR_NOTIFICATIONS_INVALID);
-            return;
-        }
 
-        implementation.removeDeliveredNotifications(tags, ids);
-        call.resolve();
+            List<String> tags = new ArrayList<>();
+            List<String> ids = new ArrayList<>();
+            try {
+                for (Object item : notifications.toList()) {
+                    if (item instanceof JSONObject) {
+                        JSObject notification = JSObject.fromJSONObject((JSONObject) item);
+                        String tag = notification.getString("tag", "");
+                        tags.add(tag);
+                        String id = notification.getString("id", "");
+                        ids.add(id);
+                    } else {
+                        call.reject(ERROR_NOTIFICATIONS_INVALID);
+                        return;
+                    }
+                }
+            } catch (JSONException e) {
+                call.reject(ERROR_NOTIFICATIONS_INVALID);
+                return;
+            }
+
+            implementation.removeDeliveredNotifications(tags, ids);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void removeAllDeliveredNotifications(PluginCall call) {
-        implementation.removeAllDeliveredNotifications();
-        call.resolve();
+        try {
+            implementation.removeAllDeliveredNotifications();
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void subscribeToTopic(PluginCall call) {
-        String topic = call.getString("topic");
-        if (topic == null) {
-            call.reject(ERROR_TOPIC_MISSING);
-            return;
+        try {
+            String topic = call.getString("topic");
+            if (topic == null) {
+                call.reject(ERROR_TOPIC_MISSING);
+                return;
+            }
+            implementation.subscribeToTopic(topic);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.subscribeToTopic(topic);
-        call.resolve();
     }
 
     @PluginMethod
     public void unsubscribeFromTopic(PluginCall call) {
-        String topic = call.getString("topic");
-        if (topic == null) {
-            call.reject(ERROR_TOPIC_MISSING);
-            return;
+        try {
+            String topic = call.getString("topic");
+            if (topic == null) {
+                call.reject(ERROR_TOPIC_MISSING);
+                return;
+            }
+            implementation.unsubscribeFromTopic(topic);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.unsubscribeFromTopic(topic);
-        call.resolve();
     }
 
     private void handleTokenReceived(@NonNull String token) {
