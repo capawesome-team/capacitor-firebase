@@ -3,6 +3,13 @@ name: Close old issues that need reply
 on:
   schedule:
     - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: needs-reply
 
 jobs:
   needs-reply:
