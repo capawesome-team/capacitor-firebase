@@ -23,7 +23,7 @@ declare module '@capacitor/cli' {
       skipNativeAuth?: boolean;
       /**
        * Configure the providers that should be loaded by the plugin.
-       * 
+       *
        * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
        *
        * Only available for Android and iOS.
