@@ -22,14 +22,14 @@ declare module '@capacitor/cli' {
        */
       skipNativeAuth?: boolean;
       /**
-       * Configure which providers you want to use so that only the providers you need are fully initialized.
-       * If you do not configure any providers, they will be all initialized.
-       * Please note that this does not prevent the automatic initialization of third-party SDKs.
+       * Configure the providers that should be loaded by the plugin.
+       * 
+       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
        *
        * Only available for Android and iOS.
        *
-       * @default ["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]
-       * @example ["apple.com", "google.com"]
+       * @default []
+       * @example ["apple.com", "facebook.com"]
        * @since 0.1.0
        */
       providers?: string[];
