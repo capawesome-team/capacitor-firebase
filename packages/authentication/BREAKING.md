@@ -4,7 +4,15 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 0.6.x](#version-06x)
 - [Version 0.4.x](#version-04x)
+
+## Version 0.6.x
+
+### `tokenReceived` event
+
+The `tokenReceived` event is no longer triggered by the `getToken` method.
+If you have used these methods in combination so far, please check your implementation.
 
 ## Version 0.4.x
 
