@@ -19,7 +19,7 @@ public class PhoneAuthProviderHandler {
         this.pluginImplementation = pluginImplementation;
     }
 
-    public void signIn(PluginCall call) {
+    public void signIn(final PluginCall call) {
         String phoneNumber = call.getString("phoneNumber");
         String verificationId = call.getString("verificationId");
         String verificationCode = call.getString("verificationCode");
@@ -31,7 +31,7 @@ public class PhoneAuthProviderHandler {
         }
     }
 
-    private void verifyPhoneNumber(PluginCall call, String phoneNumber) {
+    private void verifyPhoneNumber(final PluginCall call, String phoneNumber) {
         PhoneAuthOptions.Builder builder = PhoneAuthOptions
             .newBuilder(pluginImplementation.getFirebaseAuthInstance())
             .setPhoneNumber(phoneNumber)
@@ -42,12 +42,12 @@ public class PhoneAuthProviderHandler {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    private void handleVerificationCode(PluginCall call, String verificationId, String verificationCode) {
+    private void handleVerificationCode(final PluginCall call, String verificationId, String verificationCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
         pluginImplementation.handleSuccessfulSignIn(call, credential, null);
     }
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(PluginCall call) {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(final PluginCall call) {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {

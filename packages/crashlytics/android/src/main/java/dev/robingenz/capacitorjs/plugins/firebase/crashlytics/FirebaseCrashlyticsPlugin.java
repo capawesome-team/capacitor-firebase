@@ -34,52 +34,68 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
 
     @PluginMethod
     public void setCustomKey(PluginCall call) {
-        String key = call.getString("key");
-        if (key == null) {
-            call.reject(ERROR_KEY_MISSING);
-            return;
+        try {
+            String key = call.getString("key");
+            if (key == null) {
+                call.reject(ERROR_KEY_MISSING);
+                return;
+            }
+            boolean hasValue = call.hasOption("value");
+            if (!hasValue) {
+                call.reject(ERROR_VALUE_MISSING);
+                return;
+            }
+            String type = call.getString("type", "string");
+            implementation.setCustomKey(key, type, call);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        boolean hasValue = call.hasOption("value");
-        if (!hasValue) {
-            call.reject(ERROR_VALUE_MISSING);
-            return;
-        }
-        String type = call.getString("type", "string");
-        implementation.setCustomKey(key, type, call);
-        call.resolve();
     }
 
     @PluginMethod
     public void setUserId(PluginCall call) {
-        String userId = call.getString("userId");
-        if (userId == null) {
-            call.reject(ERROR_USERID_MISSING);
-            return;
+        try {
+            String userId = call.getString("userId");
+            if (userId == null) {
+                call.reject(ERROR_USERID_MISSING);
+                return;
+            }
+            implementation.setUserId(userId);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.setUserId(userId);
-        call.resolve();
     }
 
     @PluginMethod
     public void log(PluginCall call) {
-        String message = call.getString("message");
-        if (message == null) {
-            call.reject(ERROR_MESSAGE_MISSING);
-            return;
+        try {
+            String message = call.getString("message");
+            if (message == null) {
+                call.reject(ERROR_MESSAGE_MISSING);
+                return;
+            }
+            implementation.log(message);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.log(message);
-        call.resolve();
     }
 
     @PluginMethod
     public void setEnabled(PluginCall call) {
-        Boolean enabled = call.getBoolean("enabled");
-        if (enabled == null) {
-            call.reject(ERROR_ENABLED_MISSING);
-            return;
+        try {
+            Boolean enabled = call.getBoolean("enabled");
+            if (enabled == null) {
+                call.reject(ERROR_ENABLED_MISSING);
+                return;
+            }
+            implementation.setEnabled(enabled);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
         }
-        implementation.setEnabled(enabled);
-        call.resolve();
     }
 
     @PluginMethod
@@ -89,33 +105,49 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
 
     @PluginMethod
     public void didCrashOnPreviousExecution(PluginCall call) {
-        boolean crashed = implementation.didCrashOnPreviousExecution();
-        JSObject ret = new JSObject();
-        ret.put("crashed", crashed);
-        call.resolve(ret);
+        try {
+            boolean crashed = implementation.didCrashOnPreviousExecution();
+            JSObject ret = new JSObject();
+            ret.put("crashed", crashed);
+            call.resolve(ret);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void sendUnsentReports(PluginCall call) {
-        implementation.sendUnsentReports();
-        call.resolve();
+        try {
+            implementation.sendUnsentReports();
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void deleteUnsentReports(PluginCall call) {
-        implementation.deleteUnsentReports();
-        call.resolve();
+        try {
+            implementation.deleteUnsentReports();
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void recordException(PluginCall call) {
-        String message = call.getString("message");
-        if (message == null) {
-            call.reject(ERROR_MESSAGE_MISSING);
-            return;
-        }
+        try {
+            String message = call.getString("message");
+            if (message == null) {
+                call.reject(ERROR_MESSAGE_MISSING);
+                return;
+            }
 
-        implementation.recordException(message);
-        call.resolve();
+            implementation.recordException(message);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 }

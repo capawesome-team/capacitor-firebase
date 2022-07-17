@@ -7,11 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
@@ -172,43 +169,43 @@ public class FirebaseAuthentication {
         firebaseAuthInstance.setLanguageCode(languageCode);
     }
 
-    public void signInWithApple(PluginCall call) {
+    public void signInWithApple(final PluginCall call) {
         appleAuthProviderHandler.signIn(call);
     }
 
-    public void signInWithFacebook(PluginCall call) {
+    public void signInWithFacebook(final PluginCall call) {
         facebookAuthProviderHandler.signIn(call);
     }
 
-    public void signInWithGithub(PluginCall call) {
+    public void signInWithGithub(final PluginCall call) {
         oAuthProviderHandler.signIn(call, "github.com");
     }
 
-    public void signInWithGoogle(PluginCall call) {
+    public void signInWithGoogle(final PluginCall call) {
         googleAuthProviderHandler.signIn(call);
     }
 
-    public void signInWithMicrosoft(PluginCall call) {
+    public void signInWithMicrosoft(final PluginCall call) {
         oAuthProviderHandler.signIn(call, "microsoft.com");
     }
 
-    public void signInWithPhoneNumber(PluginCall call) {
+    public void signInWithPhoneNumber(final PluginCall call) {
         phoneAuthProviderHandler.signIn(call);
     }
 
-    public void signInWithPlayGames(PluginCall call) {
+    public void signInWithPlayGames(final PluginCall call) {
         playGamesAuthProviderHandler.signIn(call);
     }
 
-    public void signInWithTwitter(PluginCall call) {
+    public void signInWithTwitter(final PluginCall call) {
         oAuthProviderHandler.signIn(call, "twitter.com");
     }
 
-    public void signInWithYahoo(PluginCall call) {
+    public void signInWithYahoo(final PluginCall call) {
         oAuthProviderHandler.signIn(call, "yahoo.com");
     }
 
-    public void signInWithCustomToken(PluginCall call) {
+    public void signInWithCustomToken(final PluginCall call) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
@@ -235,7 +232,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void signInWithEmailAndPassword(PluginCall call) {
+    public void signInWithEmailAndPassword(final PluginCall call) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
@@ -263,7 +260,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void signOut(PluginCall call) {
+    public void signOut(final PluginCall call) {
         FirebaseAuth.getInstance().signOut();
         if (googleAuthProviderHandler != null) {
             googleAuthProviderHandler.signOut();
@@ -305,15 +302,15 @@ public class FirebaseAuthentication {
         firebaseAuthInstance.useEmulator(host, port);
     }
 
-    public void startActivityForResult(PluginCall call, Intent intent, String callbackName) {
+    public void startActivityForResult(final PluginCall call, Intent intent, String callbackName) {
         plugin.startActivityForResult(call, intent, callbackName);
     }
 
-    public void handleGoogleAuthProviderActivityResult(PluginCall call, ActivityResult result) {
+    public void handleGoogleAuthProviderActivityResult(final PluginCall call, ActivityResult result) {
         googleAuthProviderHandler.handleOnActivityResult(call, result);
     }
 
-    public void handlePlayGamesAuthProviderActivityResult(PluginCall call, ActivityResult result) {
+    public void handlePlayGamesAuthProviderActivityResult(final PluginCall call, ActivityResult result) {
         playGamesAuthProviderHandler.handleOnActivityResult(call, result);
     }
 
@@ -364,7 +361,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void handleFailedSignIn(PluginCall call, String message, Exception exception) {
+    public void handleFailedSignIn(final PluginCall call, String message, Exception exception) {
         if (message == null && exception != null) {
             message = exception.getLocalizedMessage();
         }

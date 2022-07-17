@@ -19,21 +19,29 @@ public class FirebaseAppPlugin extends Plugin {
 
     @PluginMethod
     public void getName(PluginCall call) {
-        JSObject ret = new JSObject();
-        ret.put("name", firebaseAppInstance.getName());
-        call.resolve(ret);
+        try {
+            JSObject ret = new JSObject();
+            ret.put("name", firebaseAppInstance.getName());
+            call.resolve(ret);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod
     public void getOptions(PluginCall call) {
-        FirebaseOptions options = firebaseAppInstance.getOptions();
-        JSObject ret = new JSObject();
-        ret.put("apiKey", options.getApiKey());
-        ret.put("applicationId", options.getApplicationId());
-        ret.put("databaseUrl", options.getDatabaseUrl());
-        ret.put("gcmSenderId", options.getGcmSenderId());
-        ret.put("projectId", options.getProjectId());
-        ret.put("storageBucket", options.getStorageBucket());
-        call.resolve(ret);
+        try {
+            FirebaseOptions options = firebaseAppInstance.getOptions();
+            JSObject ret = new JSObject();
+            ret.put("apiKey", options.getApiKey());
+            ret.put("applicationId", options.getApplicationId());
+            ret.put("databaseUrl", options.getDatabaseUrl());
+            ret.put("gcmSenderId", options.getGcmSenderId());
+            ret.put("projectId", options.getProjectId());
+            ret.put("storageBucket", options.getStorageBucket());
+            call.resolve(ret);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 }
