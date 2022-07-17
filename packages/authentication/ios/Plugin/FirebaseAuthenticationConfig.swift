@@ -1,4 +1,4 @@
 public struct FirebaseAuthenticationConfig {
     var skipNativeAuth = false
-    var providers = []
+    var providers = [String]()
 }
