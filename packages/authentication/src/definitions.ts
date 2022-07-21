@@ -450,6 +450,12 @@ export interface SignInResult {
    * @since 0.1.0
    */
   credential: AuthCredential | null;
+  /**
+   * Additional user information from a federated identity provider.
+   * 
+   * @since 0.5.1
+   */
+  additionalUserInfo: AdditionalUserInfo;
 }
 
 /**
@@ -560,6 +566,36 @@ export interface AuthCredential {
    * @since 0.1.0
    */
   nonce?: string;
+}
+
+/**
+ * @since 0.5.1
+ */
+export interface AdditionalUserInfo {
+  /**
+   * Whether the user is new (sign-up) or existing (sign-in).
+   * 
+   * @since 0.5.1
+   */
+  isNewUser?: boolean;
+  /**
+   * Map containing IDP-specific user data.
+   * 
+   * @since 0.5.1
+   */
+  profile?: { [key: string]: unknown }
+  /**
+   * Identifier for the provider used to authenticate this user.
+   * 
+   * @since 0.5.1
+   */
+  providerId: string | null;
+  /**
+   * The username if the provider is GitHub or Twitter.
+   * 
+   * @since 0.5.1
+   */
+  username?: string | null;
 }
 
 /**
