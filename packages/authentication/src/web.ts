@@ -1,16 +1,17 @@
 import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
+  CustomParameters,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
 import {
-  getAdditionalUserInfo,
   applyActionCode,
   confirmPasswordReset,
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
+  getAdditionalUserInfo,
   getAuth,
   GoogleAuthProvider,
   OAuthCredential,
@@ -280,7 +281,14 @@ export class FirebaseAuthenticationWeb
     options: SignInOptions,
     provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider,
   ) {
-    if (options?.scopes) {
+    if (options.customParameters) {
+      const customParameters: CustomParameters = {};
+      options.customParameters.map(parameter => {
+        customParameters[parameter.key] = parameter.value;
+      });
+      provider.setCustomParameters(customParameters);
+    }
+    if (options.scopes) {
       for (const scope of options.scopes) {
         provider.addScope(scope);
       }
