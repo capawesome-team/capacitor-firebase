@@ -44,14 +44,14 @@ public class PhoneAuthProviderHandler {
 
     private void handleVerificationCode(final PluginCall call, String verificationId, String verificationCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
-        pluginImplementation.handleSuccessfulSignIn(call, credential, null);
+        pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(final PluginCall call) {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                pluginImplementation.handleSuccessfulSignIn(call, credential, null);
+                pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
             }
 
             @Override
@@ -61,7 +61,7 @@ public class PhoneAuthProviderHandler {
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null, null);
+                JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null, null, null);
                 result.put("verificationId", verificationId);
                 call.resolve(result);
             }
