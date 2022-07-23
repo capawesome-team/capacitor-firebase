@@ -65,7 +65,7 @@ public class GoogleAuthProviderHandler {
                         pluginImplementation.handleFailedSignIn(call, null, exception);
                     }
 
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken);
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
                 }
             )
                 .start();

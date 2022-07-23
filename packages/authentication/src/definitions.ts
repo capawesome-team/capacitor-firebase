@@ -589,15 +589,14 @@ export interface AdditionalUserInfo {
    *
    * @since 0.5.1
    */
-  providerId: string | null;
+  providerId?: string;
   /**
    * The username if the provider is GitHub or Twitter.
    *
    * @since 0.5.1
    */
-  username?: string | null;
+  username?: string;
 }
-
 /**
  * Callback to receive the user's sign-in state change notifications.
  *

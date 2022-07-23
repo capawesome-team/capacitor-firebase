@@ -291,15 +291,15 @@ export class FirebaseAuthenticationWeb
     userCredential: FirebaseUserCredential,
     authCredential: FirebaseAuthCredential | null,
   ): SignInResult {
-    const user = this.createUserResult(userCredential.user);
-    const credential = this.createCredentialResult(authCredential);
-    const additionalUserInfo = this.createAdditionalUserInfoResult(
+    const userResult = this.createUserResult(userCredential.user);
+    const credentialResult = this.createCredentialResult(authCredential);
+    const additionalUserInfoResult = this.createAdditionalUserInfoResult(
       userCredential,
     );
     const result: SignInResult = {
-      user,
-      credential,
-      additionalUserInfo,
+      user: userResult,
+      credential: credentialResult,
+      additionalUserInfo: additionalUserInfoResult,
     };
     return result;
   }
@@ -349,12 +349,14 @@ export class FirebaseAuthenticationWeb
     const { isNewUser, profile, providerId, username } = additionalUserInfo;
     const result: AdditionalUserInfo = {
       isNewUser,
-      providerId,
     };
-    if (profile) {
+    if (providerId !== null) {
+      result.providerId = providerId;
+    }
+    if (profile !== null) {
       result.profile = profile as { [key: string]: unknown };
     }
-    if (username !== undefined) {
+    if (username !== null && username !== undefined) {
       result.username = username;
     }
     return result;
