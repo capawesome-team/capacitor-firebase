@@ -34,7 +34,7 @@ class PhoneAuthProviderHandler: NSObject {
                     return
                 }
 
-                var result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: nil, idToken: nil, nonce: nil, accessToken: nil)
+                var result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: nil, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
                 result["verificationId"] = verificationID
                 call.resolve(result)
             }
