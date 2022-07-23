@@ -7,6 +7,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthCredential;
 
+import java.util.Map;
+
 public class FirebaseAuthenticationHelper {
 
     public static JSObject createSignInResult(
@@ -93,7 +95,11 @@ public class FirebaseAuthenticationHelper {
         JSObject result = new JSObject();
         result.put("isNewUser", additionalUserInfo.isNewUser());
         if (additionalUserInfo.getProfile() != null) {
-            result.put("profile", additionalUserInfo.getProfile());
+            JSObject profileResult = new JSObject();
+            for (Map.Entry<String, Object> entry : additionalUserInfo.getProfile().entrySet()) {
+              profileResult.put(entry.getKey(), entry.getValue());
+            }
+            result.put("profile", profileResult);
         }
         if (additionalUserInfo.getProviderId() != null) {
             result.put("providerId", additionalUserInfo.getProviderId());
