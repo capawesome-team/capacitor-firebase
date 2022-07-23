@@ -2,9 +2,10 @@ import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
   User as FirebaseUser,
-  UserCredential,
+  UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
 import {
+  getAdditionalUserInfo,
   applyActionCode,
   confirmPasswordReset,
   connectAuthEmulator,
@@ -24,6 +25,7 @@ import {
 } from 'firebase/auth';
 
 import type {
+  AdditionalUserInfo,
   ApplyActionCodeOptions,
   AuthCredential,
   AuthStateChange,
@@ -66,12 +68,12 @@ export class FirebaseAuthenticationWeb
     options: CreateUserWithEmailAndPasswordOptions,
   ): Promise<SignInResult> {
     const auth = getAuth();
-    const credential = await createUserWithEmailAndPassword(
+    const userCredential = await createUserWithEmailAndPassword(
       auth,
       options.email,
       options.password,
     );
-    return this.createSignInResultFromUserCredential(credential);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async confirmPasswordReset(
@@ -129,29 +131,29 @@ export class FirebaseAuthenticationWeb
     const provider = new OAuthProvider('apple.com');
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signInWithCustomToken(
     options: SignInWithCustomTokenOptions,
   ): Promise<SignInResult> {
     const auth = getAuth();
-    const result = await signInWithCustomToken(auth, options.token);
-    return this.createSignInResultFromAuthCredential(result.user, null);
+    const userCredential = await signInWithCustomToken(auth, options.token);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async signInWithEmailAndPassword(
     options: SignInWithEmailAndPasswordOptions,
   ): Promise<SignInResult> {
     const auth = getAuth();
-    const credential = await signInWithEmailAndPassword(
+    const userCredential = await signInWithEmailAndPassword(
       auth,
       options.email,
       options.password,
     );
-    return this.createSignInResultFromUserCredential(credential);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async signInWithFacebook(
@@ -160,9 +162,11 @@ export class FirebaseAuthenticationWeb
     const provider = new FacebookAuthProvider();
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = FacebookAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = FacebookAuthProvider.credentialFromResult(
+      userCredential,
+    );
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signInWithGithub(
@@ -171,9 +175,9 @@ export class FirebaseAuthenticationWeb
     const provider = new OAuthProvider('github.com');
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signInWithGoogle(
@@ -182,9 +186,11 @@ export class FirebaseAuthenticationWeb
     const provider = new GoogleAuthProvider();
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = GoogleAuthProvider.credentialFromResult(
+      userCredential,
+    );
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signInWithMicrosoft(
@@ -193,9 +199,9 @@ export class FirebaseAuthenticationWeb
     const provider = new OAuthProvider('microsoft.com');
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signInWithPhoneNumber(
@@ -214,18 +220,18 @@ export class FirebaseAuthenticationWeb
     const provider = new OAuthProvider('twitter.com');
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
     const provider = new OAuthProvider('yahoo.com');
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = OAuthProvider.credentialFromResult(result);
-    return this.createSignInResultFromAuthCredential(result.user, credential);
+    const userCredential = await signInWithPopup(auth, provider);
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async signOut(): Promise<void> {
@@ -281,26 +287,19 @@ export class FirebaseAuthenticationWeb
     }
   }
 
-  private createSignInResultFromAuthCredential(
-    user: FirebaseUser,
-    credential: FirebaseAuthCredential | null,
+  private createSignInResult(
+    userCredential: FirebaseUserCredential,
+    authCredential: FirebaseAuthCredential | null,
   ): SignInResult {
-    const userResult = this.createUserResult(user);
-    const credentialResult = this.createCredentialResult(credential);
+    const user = this.createUserResult(userCredential.user);
+    const credential = this.createCredentialResult(authCredential);
+    const additionalUserInfo = this.createAdditionalUserInfoResult(
+      userCredential,
+    );
     const result: SignInResult = {
-      user: userResult,
-      credential: credentialResult,
-    };
-    return result;
-  }
-
-  private createSignInResultFromUserCredential(
-    credential: UserCredential,
-  ): SignInResult {
-    const userResult = this.createUserResult(credential.user);
-    const result: SignInResult = {
-      user: userResult,
-      credential: null,
+      user,
+      credential,
+      additionalUserInfo,
     };
     return result;
   }
@@ -337,6 +336,27 @@ export class FirebaseAuthenticationWeb
       tenantId: user.tenantId,
       uid: user.uid,
     };
+    return result;
+  }
+
+  private createAdditionalUserInfoResult(
+    credential: FirebaseUserCredential,
+  ): AdditionalUserInfo | null {
+    const additionalUserInfo = getAdditionalUserInfo(credential);
+    if (!additionalUserInfo) {
+      return null;
+    }
+    const { isNewUser, profile, providerId, username } = additionalUserInfo;
+    const result: AdditionalUserInfo = {
+      isNewUser,
+      providerId,
+    };
+    if (profile) {
+      result.profile = profile as { [key: string]: unknown };
+    }
+    if (username !== undefined) {
+      result.username = username;
+    }
     return result;
   }
 }
