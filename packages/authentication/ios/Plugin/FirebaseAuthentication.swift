@@ -240,7 +240,8 @@ public typealias AuthStateChangedObserver = () -> Void
             guard let savedCall = self.savedCall else {
                 return
             }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: authResult?.additionalUserInfo)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken,
+                                                                         nonce: nonce, accessToken: accessToken, additionalUserInfo: authResult?.additionalUserInfo)
             savedCall.resolve(result)
         }
     }
