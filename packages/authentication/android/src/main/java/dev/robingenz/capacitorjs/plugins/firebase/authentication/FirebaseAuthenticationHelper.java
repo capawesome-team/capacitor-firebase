@@ -6,7 +6,6 @@ import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthCredential;
-
 import java.util.Map;
 
 public class FirebaseAuthenticationHelper {
@@ -97,7 +96,7 @@ public class FirebaseAuthenticationHelper {
         if (additionalUserInfo.getProfile() != null) {
             JSObject profileResult = new JSObject();
             for (Map.Entry<String, Object> entry : additionalUserInfo.getProfile().entrySet()) {
-              profileResult.put(entry.getKey(), entry.getValue());
+                profileResult.put(entry.getKey(), entry.getValue());
             }
             result.put("profile", profileResult);
         }
