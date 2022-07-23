@@ -60,7 +60,7 @@ These configuration values are available:
 
 | Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                            | Default                                                                                                                                              | Since |
 | -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. Only available for Android and iOS.                                                                                                                                    | <code>false</code>                                                                                                                                   | 0.1.0 |
+| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                                                              | <code>false</code>                                                                                                                                   | 0.1.0 |
 | **`providers`**      | <code>string[]</code> | Configure which providers you want to use so that only the providers you need are fully initialized. If you do not configure any providers, they will be all initialized. Please note that this does not prevent the automatic initialization of third-party SDKs. Only available for Android and iOS. | <code>["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]</code> | 0.1.0 |
 
 ### Examples
@@ -816,8 +816,8 @@ Remove all listeners for this plugin.
 | ---------------- | ---------------------------------------- | ----------------------------------------------------------- | ----- |
 | **`isNewUser`**  | <code>boolean</code>                     | Whether the user is new (sign-up) or existing (sign-in).    | 0.5.1 |
 | **`profile`**    | <code>{ [key: string]: unknown; }</code> | Map containing IDP-specific user data.                      | 0.5.1 |
-| **`providerId`** | <code>string \| null</code>              | Identifier for the provider used to authenticate this user. | 0.5.1 |
-| **`username`**   | <code>string \| null</code>              | The username if the provider is GitHub or Twitter.          | 0.5.1 |
+| **`providerId`** | <code>string</code>                      | Identifier for the provider used to authenticate this user. | 0.5.1 |
+| **`username`**   | <code>string</code>                      | The username if the provider is GitHub or Twitter.          | 0.5.1 |
 
 
 #### CreateUserWithEmailAndPasswordOptions
