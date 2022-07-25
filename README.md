@@ -30,6 +30,16 @@ Capacitor Firebase is a collection of Capacitor plugins that make it easier for 
 | ---------- | ----------------------------------------- | --------------------------------------------- |
 | Robin Genz | [robingenz](https://github.com/robingenz) | [@robin_genz](https://twitter.com/robin_genz) |
 
+## Sponsors
+
+This is an Apache-2.0-licensed open source project. 
+It can grow thanks to the support by these awesome people. 
+If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).  
+
+<!-- sponsors --><!-- sponsors -->
+
+<a href="https://github.com/cycraft"><img src="https://github.com/cycraft.png" alt="cycraft" style="max-width: 100%;" width="50px"></a>
+
 ## Installation
 
 Each plugin has its own installation instructions.

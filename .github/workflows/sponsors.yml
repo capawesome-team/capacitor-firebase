@@ -1,0 +1,20 @@
+name: Generate Sponsors README
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate Sponsors README
+        uses: JamesIves/github-sponsors-readme-action@v1
+        with:
+          token: ${{ secrets.PAT }}
+          file: 'README.md'
+          organization: true
+          minimum: 5
