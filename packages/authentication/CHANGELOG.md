@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+### Minor Changes
+
+- [`20448e7`](https://github.com/capawesome-team/capacitor-firebase/commit/20448e7beb9c401ac2d36436035b33169105f0e4) ([#151](https://github.com/capawesome-team/capacitor-firebase/pull/151)): fix!: no more providers are loaded by default (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/BREAKING.md))
+
 ## 0.5.1
 
 ### Patch Changes
