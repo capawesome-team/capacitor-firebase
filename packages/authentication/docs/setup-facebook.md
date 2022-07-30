@@ -2,6 +2,7 @@
 
 ## Android
 
+1. Add `facebook.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1.  Add the following project variable to your `variables.gradle` file (usually `android/build.gradle`):
     ```diff
     ext {
@@ -52,6 +53,7 @@
 
 ## iOS
 
+1. Add `facebook.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1.  Add the `CapacitorFirebaseAuthentication/Facebook` pod to your `Podfile` (usually `ios/App/Podfile`):
     ```diff
     target 'App' do

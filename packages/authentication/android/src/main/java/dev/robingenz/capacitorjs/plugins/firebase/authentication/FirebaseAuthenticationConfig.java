@@ -3,17 +3,7 @@ package dev.robingenz.capacitorjs.plugins.firebase.authentication;
 public class FirebaseAuthenticationConfig {
 
     private boolean skipNativeAuth = false;
-    private String[] providers = new String[] {
-        "apple.com",
-        "facebook.com",
-        "github.com",
-        "google.com",
-        "microsoft.com",
-        "playgames.google.com",
-        "twitter.com",
-        "yahoo.com",
-        "phone"
-    };
+    private String[] providers = new String[] {};
 
     public boolean getSkipNativeAuth() {
         return skipNativeAuth;
