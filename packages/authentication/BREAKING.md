@@ -9,11 +9,6 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Version 0.6.x
 
-### `tokenReceived` event
-
-The `tokenReceived` event is no longer triggered by the `getToken` method.
-If you have used these methods in combination so far, please check your implementation.
-
 ### `providers` configuration option
 
 Using the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) option you can select which providers (Google, Facebook, ...) should be loaded by the plugin.  
