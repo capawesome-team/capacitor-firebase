@@ -60,7 +60,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
             savedCall.resolve(result)
         }
     }
@@ -128,7 +128,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
             savedCall.resolve(result)
         }
     }
@@ -152,7 +152,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
             savedCall.resolve(result)
         }
     }
@@ -228,7 +228,7 @@ public typealias AuthStateChangedObserver = () -> Void
             guard let savedCall = self.savedCall else {
                 return
             }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce, accessToken: accessToken)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: nil)
             savedCall.resolve(result)
             return
         }
@@ -240,8 +240,8 @@ public typealias AuthStateChangedObserver = () -> Void
             guard let savedCall = self.savedCall else {
                 return
             }
-            let user = self.getCurrentUser()
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken,
+                                                                         nonce: nonce, accessToken: accessToken, additionalUserInfo: authResult?.additionalUserInfo)
             savedCall.resolve(result)
         }
     }

@@ -97,7 +97,7 @@ public class FacebookAuthProviderHandler {
         if (savedCall == null) {
             return;
         }
-        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString);
+        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString, null);
     }
 
     private void handleCancelCallback() {

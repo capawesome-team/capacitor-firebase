@@ -14,6 +14,32 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 The `tokenReceived` event is no longer triggered by the `getToken` method.
 If you have used these methods in combination so far, please check your implementation.
 
+### `providers` configuration option
+
+Using the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) option you can select which providers (Google, Facebook, ...) should be loaded by the plugin.  
+Previously, all providers were loaded by default.   
+From now on, _no providers will be loaded by default_.  
+Please set the `providers` configuration option and specify all providers you use. 
+
+**Example** (`capacitor.config.ts`):
+
+```ts
+/// <reference types="@capacitor/firebase-authentication" />
+
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  plugins: {
+    FirebaseAuthentication: {
+      skipNativeAuth: false,
+      providers: ["apple.com", "facebook.com"],
+    },
+  },
+};
+
+export default config;
+```
+
 ## Version 0.4.x
 
 Add the following `string` element to `android/app/src/main/res/values/strings.xml` after the `resources` element:

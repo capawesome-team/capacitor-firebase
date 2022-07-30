@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
@@ -100,7 +102,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword failed.", task.getException());
@@ -222,7 +224,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
@@ -250,7 +252,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword failed.", task.getException());
@@ -320,20 +322,24 @@ public class FirebaseAuthentication {
         }
     }
 
-    public void handleSuccessfulSignIn(final PluginCall call, AuthCredential credential, String idToken) {
-        handleSuccessfulSignIn(call, credential, idToken, null, null);
-    }
-
     public void handleSuccessfulSignIn(
         final PluginCall call,
         @Nullable AuthCredential credential,
         @Nullable String idToken,
         @Nullable String nonce,
-        @Nullable String accessToken
+        @Nullable String accessToken,
+        @Nullable AdditionalUserInfo additionalUserInfo
     ) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
-            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(null, credential, idToken, nonce, accessToken);
+            JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+                null,
+                credential,
+                idToken,
+                nonce,
+                accessToken,
+                additionalUserInfo
+            );
             call.resolve(signInResult);
             return;
         }
@@ -344,13 +350,14 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCredential succeeded.");
-                        FirebaseUser user = getCurrentUser();
+                        AuthResult authResult = task.getResult();
                         JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
-                            user,
-                            credential,
+                            authResult.getUser(),
+                            authResult.getCredential(),
                             idToken,
                             nonce,
-                            accessToken
+                            accessToken,
+                            authResult.getAdditionalUserInfo()
                         );
                         call.resolve(signInResult);
                     } else {

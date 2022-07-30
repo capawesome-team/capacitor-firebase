@@ -49,7 +49,7 @@ public class PlayGamesAuthProviderHandler {
             String serverAuthCode = account.getServerAuthCode();
             AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);
             String idToken = account.getIdToken();
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken);
+            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, null, null);
         } catch (ApiException exception) {
             pluginImplementation.handleFailedSignIn(call, null, exception);
         }

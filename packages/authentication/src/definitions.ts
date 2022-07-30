@@ -14,6 +14,8 @@ declare module '@capacitor/cli' {
        * Configure whether the plugin should skip the native authentication.
        * Only needed if you want to use the Firebase JavaScript SDK.
        *
+       * **Note that the plugin may behave differently across the platforms.**
+       *
        * Only available for Android and iOS.
        *
        * @default false
@@ -22,14 +24,14 @@ declare module '@capacitor/cli' {
        */
       skipNativeAuth?: boolean;
       /**
-       * Configure which providers you want to use so that only the providers you need are fully initialized.
-       * If you do not configure any providers, they will be all initialized.
-       * Please note that this does not prevent the automatic initialization of third-party SDKs.
+       * Configure the providers that should be loaded by the plugin.
+       *
+       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
        *
        * Only available for Android and iOS.
        *
-       * @default ["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]
-       * @example ["apple.com", "google.com"]
+       * @default []
+       * @example ["apple.com", "facebook.com"]
        * @since 0.1.0
        */
       providers?: string[];
@@ -450,6 +452,12 @@ export interface SignInResult {
    * @since 0.1.0
    */
   credential: AuthCredential | null;
+  /**
+   * Additional user information from a federated identity provider.
+   *
+   * @since 0.5.1
+   */
+  additionalUserInfo: AdditionalUserInfo | null;
 }
 
 /**
@@ -562,6 +570,35 @@ export interface AuthCredential {
   nonce?: string;
 }
 
+/**
+ * @since 0.5.1
+ */
+export interface AdditionalUserInfo {
+  /**
+   * Whether the user is new (sign-up) or existing (sign-in).
+   *
+   * @since 0.5.1
+   */
+  isNewUser: boolean;
+  /**
+   * Map containing IDP-specific user data.
+   *
+   * @since 0.5.1
+   */
+  profile?: { [key: string]: unknown };
+  /**
+   * Identifier for the provider used to authenticate this user.
+   *
+   * @since 0.5.1
+   */
+  providerId?: string;
+  /**
+   * The username if the provider is GitHub or Twitter.
+   *
+   * @since 0.5.1
+   */
+  username?: string;
+}
 /**
  * Callback to receive the user's sign-in state change notifications.
  *

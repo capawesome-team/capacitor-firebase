@@ -5,6 +5,7 @@ import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.OAuthProvider;
@@ -86,7 +87,8 @@ public class AppleAuthProviderHandler {
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null);
+                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null, additionalUserInfo);
                 }
             )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
@@ -97,7 +99,8 @@ public class AppleAuthProviderHandler {
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null);
+                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null, additionalUserInfo);
                 }
             )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
