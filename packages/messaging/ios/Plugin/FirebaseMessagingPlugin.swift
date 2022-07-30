@@ -60,7 +60,6 @@ public class FirebaseMessagingPlugin: CAPPlugin {
                 call.reject(error.localizedDescription)
                 return
             }
-            self.handleTokenReceived(token: token)
             var result = JSObject()
             result["token"] = token
             call.resolve(result)

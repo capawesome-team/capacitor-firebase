@@ -9,11 +9,12 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Version 0.6.x
 
-Using the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) option you could select which providers (Google, Facebook, ...) should be loaded by the plugin.  
+### `providers` configuration option
+
+Using the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) option you can select which providers (Google, Facebook, ...) should be loaded by the plugin.  
 Previously, all providers were loaded by default.   
 From now on, _no providers will be loaded by default_.  
 Please set the `providers` configuration option and specify all providers you use. 
-
 
 **Example** (`capacitor.config.ts`):
 
