@@ -4,12 +4,14 @@ import FirebaseCore
 import FirebaseAuth
 
 public class FirebaseAuthenticationHelper {
-    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?) -> JSObject {
+    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
         let userResult = self.createUserResult(user)
         let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken)
+        let additionalUserInfoResult = self.createAdditionalUserInfoResult(additionalUserInfo)
         var result = JSObject()
         result["user"] = userResult
         result["credential"] = credentialResult
+        result["additionalUserInfo"] = additionalUserInfoResult
         return result
     }
 
@@ -60,6 +62,22 @@ public class FirebaseAuthenticationHelper {
         }
         if let accessToken = accessToken {
             result["accessToken"] = accessToken
+        }
+        return result
+    }
+
+    public static func createAdditionalUserInfoResult(_ additionalUserInfo: AdditionalUserInfo?) -> JSObject? {
+        guard let additionalUserInfo = additionalUserInfo else {
+            return nil
+        }
+        var result = JSObject()
+        result["isNewUser"] = additionalUserInfo.isNewUser
+        if let profile = additionalUserInfo.profile {
+            result["profile"] = JSTypes.coerceDictionaryToJSObject(profile) ?? [:]
+        }
+        result["providerId"] = additionalUserInfo.providerID
+        if let username = additionalUserInfo.username {
+            result["username"] = username
         }
         return result
     }

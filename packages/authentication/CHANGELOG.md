@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- [`e3ab129`](https://github.com/capawesome-team/capacitor-firebase/commit/e3ab1295b5d4a1cde0d7345a9b8e6552b1be7a5c) ([#157](https://github.com/capawesome-team/capacitor-firebase/pull/157)): fix(web): `customParameters` is not applied
+
+* [`4a0e4df`](https://github.com/capawesome-team/capacitor-firebase/commit/4a0e4df7275dfa080d09ac4b3fa9e43448158f9f) ([#147](https://github.com/capawesome-team/capacitor-firebase/pull/147)): fix(android): `NullPointerException`
+
+- [`2165073`](https://github.com/capawesome-team/capacitor-firebase/commit/2165073ec68d29706dd6bec19a04540b9aaaee38) ([#154](https://github.com/capawesome-team/capacitor-firebase/pull/154)): feat: expose `AdditionalUserInfo`
+
+* [`c8543f6`](https://github.com/capawesome-team/capacitor-firebase/commit/c8543f6985983f9a96dc6d435429af20841c539b) ([#149](https://github.com/capawesome-team/capacitor-firebase/pull/149)): fix(android): catch all native errors and pass to the webview
+
 ## 0.5.0
 
 ### Minor Changes
