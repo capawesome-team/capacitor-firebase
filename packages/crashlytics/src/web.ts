@@ -13,7 +13,8 @@ import type {
 
 export class FirebaseCrashlyticsWeb
   extends WebPlugin
-  implements FirebaseCrashlyticsPlugin {
+  implements FirebaseCrashlyticsPlugin
+{
   public async crash(): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
