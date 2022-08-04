@@ -14,12 +14,15 @@ import {
   getAdditionalUserInfo,
   getAuth,
   GoogleAuthProvider,
+  isSignInWithEmailLink,
   OAuthCredential,
   OAuthProvider,
   sendEmailVerification,
   sendPasswordResetEmail,
+  sendSignInLinkToEmail,
   signInWithCustomToken,
   signInWithEmailAndPassword,
+  signInWithEmailLink,
   signInWithPopup,
   updateEmail,
   updatePassword,
@@ -42,6 +45,7 @@ import type {
   SignInResult,
   SignInWithCustomTokenOptions,
   SignInWithEmailAndPasswordOptions,
+  SignInWithEmailLinkOptions,
   SignInWithPhoneNumberOptions,
   UpdateEmailOptions,
   UpdatePasswordOptions,
@@ -121,6 +125,36 @@ export class FirebaseAuthenticationWeb
   ): Promise<void> {
     const auth = getAuth();
     return sendPasswordResetEmail(auth, options.email);
+  }
+
+  public async sendSignInLinkToEmail(
+    options: SignInWithEmailLinkOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return sendSignInLinkToEmail(
+      auth,
+      options.email,
+      options.actionCodeSettings!,
+    );
+  }
+
+  public isSignInWithEmailLink(
+    options: SignInWithEmailLinkOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return isSignInWithEmailLink(auth, options.emailLink!);
+  }
+
+  public async signInWithEmailLink(
+    options: SignInWithEmailLinkOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const userCredential = await signInWithEmailLink(
+      auth,
+      options.email,
+      options.emailLink,
+    );
+    return this.createSignInResult(userCredential, null);
   }
 
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {

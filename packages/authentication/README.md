@@ -45,6 +45,7 @@ The further installation steps depend on the selected authentication method:
 - [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
 - [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
 - [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
+- [Email Link Sign-In](/packages/authentication/docs/setup-email-link.md)
 - [Custom Token Sign-In](/packages/authentication/docs/custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
@@ -155,6 +156,33 @@ const sendPasswordResetEmail = async () => {
   });
 };
 
+const sendSignInLinkToEmail = async () => {
+  const email = 'mail@example.com';
+  await FirebaseAuthentication.sendSignInLinkToEmail({
+    email,
+    actionCodeSettings: {
+      // URL you want to redirect back to. The domain (www.example.com) for this
+      // URL must be in the authorized domains list in the Firebase Console.
+      url: 'https://www.example.com/finishSignUp?cartId=1234',
+      // This must be true.
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'com.example.ios',
+      },
+      android: {
+        packageName: 'com.example.android',
+        installApp: true,
+        minimumVersion: '12',
+      },
+      dynamicLinkDomain: 'example.page.link',
+    }
+  });
+  // The link was successfully sent. Inform the user.
+  // Save the email locally so you don't need to ask the user for it again
+  // if they open the link on the same device.
+  window.localStorage.setItem('emailForSignIn', email);
+};
+
 const setLanguageCode = async () => {
   await FirebaseAuthentication.setLanguageCode({ languageCode: 'en-US' });
 };
@@ -176,6 +204,32 @@ const signInWithEmailAndPassword = async () => {
     email: 'mail@example.com',
     password: '1234',
   });
+  return result.user;
+};
+
+const signInWithEmailLink = async () => {
+  // Get the email if available. This should be available if the user completes
+  // the flow on the same device where they started it.
+  const emailLink = window.location.href;
+  // Confirm the link is a sign-in with email link.
+  await FirebaseAuthentication.isSignInWithEmailLink({
+    emailLink,
+  })
+  let email = window.localStorage.getItem('emailForSignIn');
+  if (!email) {
+    // User opened the link on a different device. To prevent session fixation
+    // attacks, ask the user to provide the associated email again.
+    email = window.prompt(
+      'Please provide your email for confirmation.',
+    );
+  }
+  // The client SDK will parse the code from the link for you.
+  const result = await FirebaseAuthentication.signInWithEmailLink({
+    email,
+    emailLink,
+  });
+  // Clear email from storage.
+  window.localStorage.removeItem('emailForSignIn');
   return result.user;
 };
 
@@ -275,12 +329,15 @@ const useEmulator = async () => {
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
+* [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
 * [`sendEmailVerification()`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
+* [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
 * [`signInWithApple(...)`](#signinwithapple)
 * [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
+* [`signInWithEmailLink(...)`](#signinwithemaillink)
 * [`signInWithFacebook(...)`](#signinwithfacebook)
 * [`signInWithGithub(...)`](#signinwithgithub)
 * [`signInWithGoogle(...)`](#signinwithgoogle)
@@ -392,6 +449,25 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 --------------------
 
 
+### isSignInWithEmailLink(...)
+
+```typescript
+isSignInWithEmailLink(options: SignInWithEmailLinkOptions) => Promise<void>
+```
+
+Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
+
+The link sent to the user's email address must be provided.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
+
+**Since:** 0.6.0
+
+--------------------
+
+
 ### sendEmailVerification()
 
 ```typescript
@@ -418,6 +494,25 @@ Sends a password reset email.
 | **`options`** | <code><a href="#sendpasswordresetemailoptions">SendPasswordResetEmailOptions</a></code> |
 
 **Since:** 0.2.2
+
+--------------------
+
+
+### sendSignInLinkToEmail(...)
+
+```typescript
+sendSignInLinkToEmail(options: SignInWithEmailLinkOptions) => Promise<void>
+```
+
+Sends a sign-in email link to the user with the specified email.
+
+To complete sign in with the email link, call signInWithEmailLink with the email address and the email link supplied in the email sent to the user.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
+
+**Since:** 0.6.0
 
 --------------------
 
@@ -495,6 +590,27 @@ Starts the sign-in flow using an email and password.
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
 **Since:** 0.2.2
+
+--------------------
+
+
+### signInWithEmailLink(...)
+
+```typescript
+signInWithEmailLink(options: SignInWithEmailLinkOptions) => Promise<SignInResult>
+```
+
+Signs in using an email and sign-in email link.
+
+Both the user's email and the link sent to the user's email address must be provided.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 0.6.0
 
 --------------------
 
@@ -855,6 +971,29 @@ Remove all listeners for this plugin.
 | Prop               | Type                 | Description                                   | Since |
 | ------------------ | -------------------- | --------------------------------------------- | ----- |
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
+
+
+#### SignInWithEmailLinkOptions
+
+| Prop                     | Type                                                              | Description                                                                                               | Since |
+| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 0.6.0 |
+| **`emailLink`**          | <code>string</code>                                               | The link sent to the user's email address.                                                                | 0.6.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 0.6.0 |
+
+
+#### ActionCodeSettings
+
+An interface that defines the required continue/state URL with optional Android and iOS
+bundle identifiers.
+
+| Prop                    | Type                                                                                 | Description                                                                                                                                                                                |
+| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                             |
+| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                 |
+| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
+| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
+| **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
 
 
 #### SendPasswordResetEmailOptions

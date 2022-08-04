@@ -74,6 +74,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
+   * Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
+   *
+   * The link sent to the user's email address must be provided.
+   *
+   * @since 0.6.0
+   */
+  isSignInWithEmailLink(options: SignInWithEmailLinkOptions): Promise<void>;
+  /**
    * Sends a verification email to the currently signed in user.
    *
    * @since 0.2.2
@@ -85,6 +93,14 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.2.2
    */
   sendPasswordResetEmail(options: SendPasswordResetEmailOptions): Promise<void>;
+  /**
+   * Sends a sign-in email link to the user with the specified email.
+   *
+   * To complete sign in with the email link, call signInWithEmailLink with the email address and the email link supplied in the email sent to the user.
+   *
+   * @since 0.6.0
+   */
+  sendSignInLinkToEmail(options: SignInWithEmailLinkOptions): Promise<void>;
   /**
    * Sets the user-facing language code for auth operations.
    *
@@ -115,6 +131,16 @@ export interface FirebaseAuthenticationPlugin {
    */
   signInWithEmailAndPassword(
     options: SignInWithEmailAndPasswordOptions,
+  ): Promise<SignInResult>;
+  /**
+   * Signs in using an email and sign-in email link.
+   *
+   * Both the user's email and the link sent to the user's email address must be provided.
+   *
+   * @since 0.6.0
+   */
+  signInWithEmailLink(
+    options: SignInWithEmailLinkOptions,
   ): Promise<SignInResult>;
   /**
    * Starts the Facebook sign-in flow.
@@ -425,6 +451,30 @@ export interface SignInWithEmailAndPasswordOptions {
 }
 
 /**
+ * @since 0.6.0
+ */
+export interface SignInWithEmailLinkOptions {
+  /**
+   * The user's email address.
+   *
+   * @since 0.6.0
+   */
+  email: string;
+  /**
+   * The link sent to the user's email address.
+   *
+   * @since 0.6.0
+   */
+  emailLink?: string;
+  /**
+   * Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.
+   *
+   * @since 0.6.0
+   */
+  actionCodeSettings?: ActionCodeSettings;
+}
+
+/**
  * @since 0.1.0
  */
 export interface SignInWithCustomTokenOptions {
@@ -616,4 +666,41 @@ export interface AuthStateChange {
    * @since 0.1.0
    */
   user: User | null;
+}
+
+/**
+ * An interface that defines the required continue/state URL with optional Android and iOS
+ * bundle identifiers.
+ *
+ * @since 0.6.0
+ */
+export interface ActionCodeSettings {
+  /**
+   * Sets the Android package name.
+   */
+  android?: {
+    installApp?: boolean;
+    minimumVersion?: string;
+    packageName: string;
+  };
+  /**
+   * When set to true, the action code link will be be sent as a Universal Link or Android App
+   * Link and will be opened by the app if installed.
+   */
+  handleCodeInApp?: boolean;
+  /**
+   * Sets the iOS bundle ID.
+   */
+  iOS?: {
+    bundleId: string;
+  };
+  /**
+   * Sets the link continue/state URL.
+   */
+  url: string;
+  /**
+   * When multiple custom dynamic link domains are defined for a project, specify which one to use
+   * when the link is to be opened via a specified mobile app (for example, `example.page.link`).
+   */
+  dynamicLinkDomain?: string;
 }
