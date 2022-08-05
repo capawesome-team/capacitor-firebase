@@ -13,6 +13,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorOobCodeMissing = "oobCode must be provided."
     public let errorEmailMissing = "email must be provided."
     public let errorNewEmailMissing = "newEmail must be provided."
+    public let errorEmailLinkMissing = "emailLink must be provided."
+    public let errorEmailLinkInvalid = "emailLink not valid."
+    public let errorActionCodeSettingsMissing = "actionCodeSettings must be provided."
     public let errorPasswordMissing = "password must be provided."
     public let errorNewPasswordMissing = "newPassword must be provided."
     public let errorPhoneNumberVerificationIdCodeMissing = "phoneNumber or verificationId and verificationCode must be provided."
@@ -94,6 +97,21 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
+    @objc func isSignInWithEmailLink(_ call: CAPPluginCall) {
+        guard let emailLink = call.getString("emailLink") else {
+            call.reject(errorEmailLinkMissing)
+            return
+        }
+
+        implementation?.isSignInWithEmailLink(emailLink: emailLink, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
         guard let user = implementation?.getCurrentUser() else {
             call.reject(errorNoUserSignedIn)
@@ -124,6 +142,48 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
+    @objc func sendSignInLinkToEmail(_ call: CAPPluginCall) {
+        guard let email = call.getString("email") else {
+            call.reject(errorEmailMissing)
+            return
+        }
+        guard let settings = call.getObject("actionCodeSettings") else {
+            call.reject(errorActionCodeSettingsMissing)
+            return
+        }
+
+        let actionCodeSettings = ActionCodeSettings()
+        actionCodeSettings.url = URL(settings.getString("url"))
+
+        guard let handleCodeInApp = settings.getBoolean("handleCodeInApp") {
+            actionCodeSettings.handleCodeInApp = handleCodeInApp
+        }
+
+        guard let iOS = settings.getJSObject("iOS") {
+            actionCodeSettings.iOSBundleID = iOS.getString("bundleId")
+        }
+
+        guard let android = settings.getJSObject("android") {
+            actionCodeSettings.setAndroidPackageName(
+                android.getString("packageName"), 
+                installIfNotAvailable: android.getBoolean("installApp"), 
+                minimumVersion: android.getString("minimumVersion")
+            )
+        }
+
+        guard let dynamicLinkDomain = settings.getString("dynamicLinkDomain") {
+            actionCodeSettings.dynamicLinkDomain = dynamicLinkDomain
+        }
+
+        implementation?.sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func setLanguageCode(_ call: CAPPluginCall) {
         let languageCode = call.getString("languageCode", "")
 
@@ -141,6 +201,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func signInWithEmailAndPassword(_ call: CAPPluginCall) {
         implementation?.signInWithEmailAndPassword(call)
+    }
+
+    @objc func signInWithEmailLink(_ call: CAPPluginCall) {
+        implementation?.signInWithEmailLink(call)
     }
 
     @objc func signInWithFacebook(_ call: CAPPluginCall) {
