@@ -31,11 +31,11 @@ public class FirebasePerformance {
         return null;
     }
 
-    public void setPerformanceCollectionEnabled(Boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.getFirebasePerformanceInstance().setPerformanceCollectionEnabled(enabled);
     }
 
-    public Boolean isPerformanceCollectionEnabled() {
+    public Boolean isEnabled() {
         return this.getFirebasePerformanceInstance().isPerformanceCollectionEnabled();
     }
 

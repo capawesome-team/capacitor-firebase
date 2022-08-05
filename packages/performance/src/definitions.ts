@@ -23,15 +23,13 @@ export interface FirebasePerformancePlugin {
    *
    * @since 0.1.0
    */
-  setPerformanceCollectionEnabled(
-    options: SetPerformanceCollectionEnabledOptions,
-  ): Promise<void>;
+  setEnabled(options: SetEnabledOptions): Promise<void>;
   /**
    * Determines whether performance monitoring is enabled or disabled.
    *
    * @since 0.1.0
    */
-  isPerformanceCollectionEnabled(): Promise<IsPerformanceCollectionEnabledResult>;
+  isEnabled(): Promise<IsEnabledResult>;
 }
 
 /**
@@ -90,7 +88,7 @@ export interface IncrementMetricOptions {
 /**
  * @since 0.1.0
  */
-export interface SetPerformanceCollectionEnabledOptions {
+export interface SetEnabledOptions {
   /**
    * Should performance monitoring be enabled.
    *
@@ -99,7 +97,7 @@ export interface SetPerformanceCollectionEnabledOptions {
   enabled: boolean;
 }
 
-export interface IsPerformanceCollectionEnabledResult {
+export interface IsEnabledResult {
   /**
    * `true` if performance monitoring is enabled, otherwise `false`.
    *

@@ -84,14 +84,14 @@ public class FirebasePerformancePlugin extends Plugin {
     }
 
     @PluginMethod
-    public void setPerformanceCollectionEnabled(PluginCall call) {
+    public void setEnabled(PluginCall call) {
         try {
             Boolean enabled = call.getBoolean("enabled");
             if (enabled == null) {
                 call.reject(ERROR_ENABLED_MISSING);
                 return;
             }
-            implementation.setPerformanceCollectionEnabled(enabled);
+            implementation.setEnabled(enabled);
             call.resolve();
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
@@ -99,9 +99,9 @@ public class FirebasePerformancePlugin extends Plugin {
     }
 
     @PluginMethod
-    public void isPerformanceCollectionEnabled(PluginCall call) {
+    public void isEnabled(PluginCall call) {
         try {
-            Boolean enabled = implementation.isPerformanceCollectionEnabled();
+            Boolean enabled = implementation.isEnabled();
             JSObject result = new JSObject();
             result.put("enabled", enabled);
             call.resolve(result);
