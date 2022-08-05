@@ -18,7 +18,7 @@ If you want to use this plugin with Capacitor 3, please install version `0.5.1`:
 npm i @capacitor-firebase/performance@0.5.1
 ```
 
-### Renamed methods and interfaces
+### Rename methods and interfaces
 
 Method `setPerformanceCollectionEnabled` was renamed to `setEnabled`.  
 Interface `SetPerformanceCollectionEnabledOptions` was renamed to `SetEnabledOptions`.  
