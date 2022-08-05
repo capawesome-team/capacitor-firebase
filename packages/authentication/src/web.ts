@@ -51,7 +51,8 @@ import type {
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin {
+  implements FirebaseAuthenticationPlugin
+{
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
 
   constructor() {
@@ -164,9 +165,8 @@ export class FirebaseAuthenticationWeb
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
-    const authCredential = FacebookAuthProvider.credentialFromResult(
-      userCredential,
-    );
+    const authCredential =
+      FacebookAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -188,9 +188,8 @@ export class FirebaseAuthenticationWeb
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
-    const authCredential = GoogleAuthProvider.credentialFromResult(
-      userCredential,
-    );
+    const authCredential =
+      GoogleAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -301,9 +300,8 @@ export class FirebaseAuthenticationWeb
   ): SignInResult {
     const userResult = this.createUserResult(userCredential.user);
     const credentialResult = this.createCredentialResult(authCredential);
-    const additionalUserInfoResult = this.createAdditionalUserInfoResult(
-      userCredential,
-    );
+    const additionalUserInfoResult =
+      this.createAdditionalUserInfoResult(userCredential);
     const result: SignInResult = {
       user: userResult,
       credential: credentialResult,

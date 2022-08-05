@@ -13,8 +13,6 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 ### Android
 
-**Attention**: Please make sure that you are using **Java 11**.
-
 See [Add the Performance Monitoring plugin to your app](https://firebase.google.com/docs/perf-mon/get-started-android#add-perfmon-plugin) and follow the instructions to set up your app correctly.
 
 #### Variables

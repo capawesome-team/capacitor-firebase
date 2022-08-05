@@ -13,7 +13,8 @@ import type {
 
 export class FirebasePerformanceWeb
   extends WebPlugin
-  implements FirebasePerformancePlugin {
+  implements FirebasePerformancePlugin
+{
   private traces: { [key: string]: PerformanceTrace | undefined } = {};
 
   public async startTrace(options: StartTraceOptions): Promise<void> {

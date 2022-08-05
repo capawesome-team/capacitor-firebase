@@ -25,7 +25,8 @@ import { Notification } from './definitions';
 
 export class FirebaseMessagingWeb
   extends WebPlugin
-  implements FirebaseMessagingPlugin {
+  implements FirebaseMessagingPlugin
+{
   public static readonly notificationReceivedEvent = 'notificationReceived';
 
   constructor() {
