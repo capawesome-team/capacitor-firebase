@@ -13,8 +13,6 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 ### Android
 
-**Attention**: Please make sure that you are using **Java 11**.
-
 See [Add the Performance Monitoring plugin to your app](https://firebase.google.com/docs/perf-mon/get-started-android#add-perfmon-plugin) and follow the instructions to set up your app correctly.
 
 #### Variables
@@ -69,8 +67,8 @@ const isPerformanceCollectionEnabled = async () => {
 * [`startTrace(...)`](#starttrace)
 * [`stopTrace(...)`](#stoptrace)
 * [`incrementMetric(...)`](#incrementmetric)
-* [`setPerformanceCollectionEnabled(...)`](#setperformancecollectionenabled)
-* [`isPerformanceCollectionEnabled()`](#isperformancecollectionenabled)
+* [`setEnabled(...)`](#setenabled)
+* [`isEnabled()`](#isenabled)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -129,33 +127,33 @@ Atomically increments the metric with the given name for the selected trace by t
 --------------------
 
 
-### setPerformanceCollectionEnabled(...)
+### setEnabled(...)
 
 ```typescript
-setPerformanceCollectionEnabled(options: SetPerformanceCollectionEnabledOptions) => Promise<void>
+setEnabled(options: SetEnabledOptions) => Promise<void>
 ```
 
 Enables or disables performance monitoring.
 Will be applied with the next start of the app.
 
-| Param         | Type                                                                                                      |
-| ------------- | --------------------------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#setperformancecollectionenabledoptions">SetPerformanceCollectionEnabledOptions</a></code> |
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#setenabledoptions">SetEnabledOptions</a></code> |
 
 **Since:** 0.1.0
 
 --------------------
 
 
-### isPerformanceCollectionEnabled()
+### isEnabled()
 
 ```typescript
-isPerformanceCollectionEnabled() => Promise<IsPerformanceCollectionEnabledResult>
+isEnabled() => Promise<IsEnabledResult>
 ```
 
 Determines whether performance monitoring is enabled or disabled.
 
-**Returns:** <code>Promise&lt;<a href="#isperformancecollectionenabledresult">IsPerformanceCollectionEnabledResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
 
 **Since:** 0.1.0
 
@@ -188,14 +186,14 @@ Determines whether performance monitoring is enabled or disabled.
 | **`incrementBy`** | <code>number</code> | Amount by which the metric has to be incremented. | <code>1</code> | 0.1.0 |
 
 
-#### SetPerformanceCollectionEnabledOptions
+#### SetEnabledOptions
 
 | Prop          | Type                 | Description                               | Since |
 | ------------- | -------------------- | ----------------------------------------- | ----- |
 | **`enabled`** | <code>boolean</code> | Should performance monitoring be enabled. | 0.1.0 |
 
 
-#### IsPerformanceCollectionEnabledResult
+#### IsEnabledResult
 
 | Prop          | Type                 | Description                                                     | Since |
 | ------------- | -------------------- | --------------------------------------------------------------- | ----- |

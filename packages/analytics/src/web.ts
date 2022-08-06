@@ -20,7 +20,8 @@ import type {
 
 export class FirebaseAnalyticsWeb
   extends WebPlugin
-  implements FirebaseAnalyticsPlugin {
+  implements FirebaseAnalyticsPlugin
+{
   public async setUserId(options: SetUserIdOptions): Promise<void> {
     const analytics = getAnalytics();
     setUserId(analytics, options.userId || '');

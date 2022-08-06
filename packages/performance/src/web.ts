@@ -5,15 +5,16 @@ import { getPerformance, trace as createTrace } from 'firebase/performance';
 import type {
   FirebasePerformancePlugin,
   IncrementMetricOptions,
-  IsPerformanceCollectionEnabledResult,
-  SetPerformanceCollectionEnabledOptions,
+  IsEnabledResult,
+  SetEnabledOptions,
   StartTraceOptions,
   StopTraceOptions,
 } from './definitions';
 
 export class FirebasePerformanceWeb
   extends WebPlugin
-  implements FirebasePerformancePlugin {
+  implements FirebasePerformancePlugin
+{
   private traces: { [key: string]: PerformanceTrace | undefined } = {};
 
   public async startTrace(options: StartTraceOptions): Promise<void> {
@@ -39,17 +40,15 @@ export class FirebasePerformanceWeb
     trace.incrementMetric(options.metricName, options.incrementBy);
   }
 
-  public async setPerformanceCollectionEnabled(
-    options: SetPerformanceCollectionEnabledOptions,
-  ): Promise<void> {
+  public async setEnabled(options: SetEnabledOptions): Promise<void> {
     const perf = getPerformance();
     perf.instrumentationEnabled = options.enabled;
     perf.dataCollectionEnabled = options.enabled;
   }
 
-  public async isPerformanceCollectionEnabled(): Promise<IsPerformanceCollectionEnabledResult> {
+  public async isEnabled(): Promise<IsEnabledResult> {
     const perf = getPerformance();
-    const result: IsPerformanceCollectionEnabledResult = {
+    const result: IsEnabledResult = {
       enabled: perf.instrumentationEnabled || perf.dataCollectionEnabled,
     };
     return result;

@@ -65,17 +65,17 @@ public class FirebasePerformancePlugin: CAPPlugin {
         call.resolve()
     }
 
-    @objc func setPerformanceCollectionEnabled(_ call: CAPPluginCall) {
+    @objc func setEnabled(_ call: CAPPluginCall) {
         guard let enabled = call.getBool("enabled") else {
             call.reject(errorEnabledMissing)
             return
         }
-        implementation?.setPerformanceCollectionEnabled(enabled)
+        implementation?.setEnabled(enabled)
         call.resolve()
     }
 
-    @objc func isPerformanceCollectionEnabled(_ call: CAPPluginCall) {
-        let enabled = implementation?.isPerformanceCollectionEnabled()
+    @objc func isEnabled(_ call: CAPPluginCall) {
+        let enabled = implementation?.isEnabled()
         var result = JSObject()
         result["enabled"] = enabled
         call.resolve(result)
