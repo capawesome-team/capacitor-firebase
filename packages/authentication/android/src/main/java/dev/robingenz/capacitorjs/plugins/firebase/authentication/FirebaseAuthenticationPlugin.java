@@ -135,8 +135,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_EMAIL_LINK_MISSING);
                 return;
             }
-            if (implementation.isSignInWithEmailLink(emailLink)) call.resolve();
-            else call.reject(ERROR_EMAIL_LINK_INVALID);
+            if (implementation.isSignInWithEmailLink(emailLink)) {
+                call.resolve();
+            } else {
+                call.reject(ERROR_EMAIL_LINK_INVALID);
+            }
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
