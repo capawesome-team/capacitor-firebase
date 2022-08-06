@@ -57,6 +57,7 @@ export class FirebaseAuthenticationWeb
   extends WebPlugin
   implements FirebaseAuthenticationPlugin {
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
+  public static readonly ERROR_EMAIL_LINK_INVALID = 'emailLink not valid.';
 
   constructor() {
     super();
@@ -142,7 +143,11 @@ export class FirebaseAuthenticationWeb
     options: SignInWithEmailLinkOptions,
   ): Promise<void> {
     const auth = getAuth();
-    return isSignInWithEmailLink(auth, options.emailLink!);
+    return new Promise((resolve, reject) => {
+      isSignInWithEmailLink(auth, options.emailLink!)
+        ? resolve()
+        : reject(FirebaseAuthenticationWeb.ERROR_EMAIL_LINK_INVALID);
+    });
   }
 
   public async signInWithEmailLink(
