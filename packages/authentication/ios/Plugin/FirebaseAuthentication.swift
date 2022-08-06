@@ -89,10 +89,8 @@ public typealias AuthStateChangedObserver = () -> Void
         })
     }
 
-    @objc func isSignInWithEmailLink(emailLink: String, completion: @escaping (Error?) -> Void) {
-        return Auth.auth().isSignIn(withEmailLink: emailLink) { error in
-            completion(error)
-        }
+    @objc func isSignInWithEmailLink(link: String) -> Bool {
+        return Auth.auth().isSignIn(withEmailLink: link)
     }
 
     @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
@@ -173,7 +171,7 @@ public typealias AuthStateChangedObserver = () -> Void
         let email = call.getString("email", "")
         let emailLink = call.getString("emailLink", "")
 
-        if self.isSignInWithEmailLink(emailLink) {
+        if self.isSignInWithEmailLink(link: emailLink) {
             self.savedCall = call
             Auth.auth().signIn(withEmail: email, link: emailLink) { _, error in
                 if let error = error {

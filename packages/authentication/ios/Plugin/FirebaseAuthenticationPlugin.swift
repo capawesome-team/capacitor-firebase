@@ -103,13 +103,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             return
         }
 
-        implementation?.isSignInWithEmailLink(emailLink: emailLink, completion: { error in
-            if let error = error {
-                call.reject(error.localizedDescription)
-                return
-            }
-            call.resolve()
-        })
+        implementation?.isSignInWithEmailLink(link: emailLink) ?? false ?
+            call.resolve() :
+            call.reject(errorEmailLinkInvalid)
     }
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
@@ -153,29 +149,29 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
 
         let actionCodeSettings = ActionCodeSettings()
-        actionCodeSettings.url = URL(settings.getString("url"))
+        actionCodeSettings.url = URL(string: settings["url"] as! String)
 
-        guard let handleCodeInApp = settings.getBoolean("handleCodeInApp") {
+        if let handleCodeInApp = settings["handleCodeInApp"] as? Bool {
             actionCodeSettings.handleCodeInApp = handleCodeInApp
         }
 
-        guard let iOS = settings.getJSObject("iOS") {
-            actionCodeSettings.iOSBundleID = iOS.getString("bundleId")
+        if let iOS = settings["iOS"] as? JSObject {
+            actionCodeSettings.setIOSBundleID(iOS["bundleId"] as! String)
         }
 
-        guard let android = settings.getJSObject("android") {
+        if let android = settings["android"] as? JSObject {
             actionCodeSettings.setAndroidPackageName(
-                android.getString("packageName"), 
-                installIfNotAvailable: android.getBoolean("installApp"), 
-                minimumVersion: android.getString("minimumVersion")
+                android["packageName"] as! String,
+                installIfNotAvailable: android["installApp"] as? Bool ?? false,
+                minimumVersion: android["minimumVersion"] as? String
             )
         }
 
-        guard let dynamicLinkDomain = settings.getString("dynamicLinkDomain") {
+        if let dynamicLinkDomain = settings["dynamicLinkDomain"] as? String {
             actionCodeSettings.dynamicLinkDomain = dynamicLinkDomain
         }
 
-        implementation?.sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings, completion: { error in
+        implementation?.sendSignInLinkToEmail(email: email, actionCodeSettings: actionCodeSettings, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)
                 return
