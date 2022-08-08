@@ -45,6 +45,11 @@ const config: CapacitorConfig = {
 export default config;
 ```
 
+### Facebook Sign-In
+
+⚠️ You may encounter the following error with Gradle lint: `Class referenced in the manifest, com.facebook.FacebookActivity, was not found in the project or the libraries [MissingClass]`.  
+Check out this comment in that case: [issues/117#issuecomment-1208612107](https://github.com/capawesome-team/capacitor-firebase/issues/117#issuecomment-1208612107).
+
 ## Version 0.4.x
 
 Add the following `string` element to `android/app/src/main/res/values/strings.xml` after the `resources` element:
