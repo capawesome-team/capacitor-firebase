@@ -8,6 +8,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 
@@ -20,7 +21,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_EMAIL_MISSING = "email must be provided.";
     public static final String ERROR_NEW_EMAIL_MISSING = "newEmail must be provided.";
     public static final String ERROR_EMAIL_LINK_MISSING = "emailLink must be provided.";
-    public static final String ERROR_EMAIL_LINK_INVALID = "emailLink not valid.";
     public static final String ERROR_ACTION_CODE_SETTINGS_MISSING = "actionCodeSettings must be provided.";
     public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
@@ -131,11 +131,9 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_EMAIL_LINK_MISSING);
                 return;
             }
-            if (implementation.isSignInWithEmailLink(emailLink)) {
-                call.resolve();
-            } else {
-                call.reject(ERROR_EMAIL_LINK_INVALID);
-            }
+            JSObject result = new JSObject();
+            result.put("isSignInWithEmailLink", implementation.isSignInWithEmailLink(emailLink));
+            call.resolve(result);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }

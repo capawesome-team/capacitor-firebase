@@ -39,7 +39,10 @@ import type {
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
+  IsSignInWithEmailLinkOptions,
+  IsSignInWithEmailLinkResult,
   SendPasswordResetEmailOptions,
+  SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
   SignInOptions,
   SignInResult,
@@ -55,10 +58,8 @@ import type {
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin
-{
+  implements FirebaseAuthenticationPlugin {
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
-  public static readonly ERROR_EMAIL_LINK_INVALID = 'emailLink not valid.';
 
   constructor() {
     super();
@@ -130,37 +131,23 @@ export class FirebaseAuthenticationWeb
   }
 
   public async sendSignInLinkToEmail(
-    options: SignInWithEmailLinkOptions,
+    options: SendSignInLinkToEmailOptions,
   ): Promise<void> {
     const auth = getAuth();
     return sendSignInLinkToEmail(
       auth,
       options.email,
-      options.actionCodeSettings!,
+      options.actionCodeSettings,
     );
   }
 
-  public isSignInWithEmailLink(
-    options: SignInWithEmailLinkOptions,
-  ): Promise<void> {
+  public async isSignInWithEmailLink(
+    options: IsSignInWithEmailLinkOptions,
+  ): Promise<IsSignInWithEmailLinkResult> {
     const auth = getAuth();
-    return new Promise((resolve, reject) => {
-      isSignInWithEmailLink(auth, options.emailLink!)
-        ? resolve()
-        : reject(FirebaseAuthenticationWeb.ERROR_EMAIL_LINK_INVALID);
-    });
-  }
-
-  public async signInWithEmailLink(
-    options: SignInWithEmailLinkOptions,
-  ): Promise<SignInResult> {
-    const auth = getAuth();
-    const userCredential = await signInWithEmailLink(
-      auth,
-      options.email,
-      options.emailLink,
-    );
-    return this.createSignInResult(userCredential, null);
+    return {
+      isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink)
+    };
   }
 
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
@@ -193,6 +180,18 @@ export class FirebaseAuthenticationWeb
       auth,
       options.email,
       options.password,
+    );
+    return this.createSignInResult(userCredential, null);
+  }
+
+  public async signInWithEmailLink(
+    options: SignInWithEmailLinkOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const userCredential = await signInWithEmailLink(
+      auth,
+      options.email,
+      options.emailLink,
     );
     return this.createSignInResult(userCredential, null);
   }

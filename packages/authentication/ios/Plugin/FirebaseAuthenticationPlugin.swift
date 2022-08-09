@@ -14,7 +14,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorEmailMissing = "email must be provided."
     public let errorNewEmailMissing = "newEmail must be provided."
     public let errorEmailLinkMissing = "emailLink must be provided."
-    public let errorEmailLinkInvalid = "emailLink not valid."
     public let errorActionCodeSettingsMissing = "actionCodeSettings must be provided."
     public let errorPasswordMissing = "password must be provided."
     public let errorNewPasswordMissing = "newPassword must be provided."
@@ -103,9 +102,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             return
         }
 
-        implementation?.isSignInWithEmailLink(link: emailLink) ?? false ?
-            call.resolve() :
-            call.reject(errorEmailLinkInvalid)
+        var result = JSObject()
+        result["isSignInWithEmailLink"] = implementation?.isSignInWithEmailLink(link: emailLink)         
+        call.resolve(result)
     }
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {

@@ -77,7 +77,6 @@ const signInWithPhoneNumber = async () => {
   await signInWithCredential(auth, credential);
 };
 
-// 1. Send the authentication link to the user's email
 const sendSignInLinkToEmail = async () => {
   const email = 'mail@example.com';
   await FirebaseAuthentication.sendSignInLinkToEmail({
@@ -105,31 +104,36 @@ const sendSignInLinkToEmail = async () => {
   window.localStorage.setItem('emailForSignIn', email);
 };
 
-// 2. Complete sign in with the email link
 const signInWithEmailLink = async () => {
   // Get the email if available. This should be available if the user completes
   // the flow on the same device where they started it.
   const emailLink = window.location.href;
   // Confirm the link is a sign-in with email link.
-  await FirebaseAuthentication.isSignInWithEmailLink({
-    emailLink,
-  })
-  let email = window.localStorage.getItem('emailForSignIn');
-  if (!email) {
-    // User opened the link on a different device. To prevent session fixation
-    // attacks, ask the user to provide the associated email again.
-    email = window.prompt(
-      'Please provide your email for confirmation.',
-    );
-  }
-  // The client SDK will parse the code from the link for you.
-  const result = await FirebaseAuthentication.signInWithEmailLink({
-    email,
+  const result = await FirebaseAuthentication.isSignInWithEmailLink({
     emailLink,
   });
-  // Clear email from storage.
-  window.localStorage.removeItem('emailForSignIn');
-  return result.user;
+  if (
+    result.isSignInWithEmailLink
+  ) {
+    let email = window.localStorage.getItem('emailForSignIn');
+    if (!email) {
+      // User opened the link on a different device. To prevent session fixation
+      // attacks, ask the user to provide the associated email again.
+      email = window.prompt(
+        'Please provide your email for confirmation.',
+      );
+    }
+    // The client SDK will parse the code from the link for you.
+    const result = await FirebaseAuthentication.signInWithEmailLink({
+      email,
+      emailLink,
+    });
+    // Clear email from storage.
+    window.localStorage.removeItem('emailForSignIn');
+    return result.user;
+  } else {
+    alert('emailLink is invalid.');
+  }
 };
 ```
 

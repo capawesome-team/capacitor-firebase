@@ -76,11 +76,9 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
    *
-   * The link sent to the user's email address must be provided.
-   *
-   * @since 0.6.0
+   * @since 1.1.0
    */
-  isSignInWithEmailLink(options: SignInWithEmailLinkOptions): Promise<void>;
+  isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions): Promise<IsSignInWithEmailLinkResult>;
   /**
    * Sends a verification email to the currently signed in user.
    *
@@ -96,11 +94,11 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Sends a sign-in email link to the user with the specified email.
    *
-   * To complete sign in with the email link, call signInWithEmailLink with the email address and the email link supplied in the email sent to the user.
+   * To complete sign in with the email link, call `signInWithEmailLink` with the email address and the email link supplied in the email sent to the user.
    *
-   * @since 0.6.0
+   * @since 1.1.0
    */
-  sendSignInLinkToEmail(options: SignInWithEmailLinkOptions): Promise<void>;
+  sendSignInLinkToEmail(options: SendSignInLinkToEmailOptions): Promise<void>;
   /**
    * Sets the user-facing language code for auth operations.
    *
@@ -135,9 +133,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Signs in using an email and sign-in email link.
    *
-   * Both the user's email and the link sent to the user's email address must be provided.
-   *
-   * @since 0.6.0
+   * @since 1.1.0
    */
   signInWithEmailLink(
     options: SignInWithEmailLinkOptions,
@@ -451,27 +447,60 @@ export interface SignInWithEmailAndPasswordOptions {
 }
 
 /**
- * @since 0.6.0
+ * @since 1.1.0
+ */
+export interface SendSignInLinkToEmailOptions {
+  /**
+   * The user's email address.
+   *
+   * @since 1.1.0
+   */
+  email: string;
+  /**
+   * Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.
+   *
+   * @since 1.1.0
+   */
+  actionCodeSettings: ActionCodeSettings;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface IsSignInWithEmailLinkOptions {
+  /**
+   * The link sent to the user's email address.
+   *
+   * @since 1.1.0
+   */
+  emailLink: string;
+}
+/**
+ * @since 1.1.0
+ */
+export interface IsSignInWithEmailLinkResult {
+  /**
+   * Whether an incoming link is a signup with email link suitable for `signInWithEmailLink(...)`.
+   */
+  isSignInWithEmailLink: boolean;
+}
+
+/**
+ * @since 1.1.0
  */
 export interface SignInWithEmailLinkOptions {
   /**
    * The user's email address.
    *
-   * @since 0.6.0
+   * @since 1.1.0
    */
   email: string;
   /**
    * The link sent to the user's email address.
    *
-   * @since 0.6.0
+   * @since 1.1.0
    */
-  emailLink?: string;
-  /**
-   * Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.
-   *
-   * @since 0.6.0
-   */
-  actionCodeSettings?: ActionCodeSettings;
+  emailLink: string;
 }
 
 /**
@@ -672,7 +701,7 @@ export interface AuthStateChange {
  * An interface that defines the required continue/state URL with optional Android and iOS
  * bundle identifiers.
  *
- * @since 0.6.0
+ * @since 1.1.0
  */
 export interface ActionCodeSettings {
   /**

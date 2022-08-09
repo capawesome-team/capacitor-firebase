@@ -210,25 +210,31 @@ const signInWithEmailLink = async () => {
   // the flow on the same device where they started it.
   const emailLink = window.location.href;
   // Confirm the link is a sign-in with email link.
-  await FirebaseAuthentication.isSignInWithEmailLink({
-    emailLink,
-  })
-  let email = window.localStorage.getItem('emailForSignIn');
-  if (!email) {
-    // User opened the link on a different device. To prevent session fixation
-    // attacks, ask the user to provide the associated email again.
-    email = window.prompt(
-      'Please provide your email for confirmation.',
-    );
-  }
-  // The client SDK will parse the code from the link for you.
-  const result = await FirebaseAuthentication.signInWithEmailLink({
-    email,
+  const result = await FirebaseAuthentication.isSignInWithEmailLink({
     emailLink,
   });
-  // Clear email from storage.
-  window.localStorage.removeItem('emailForSignIn');
-  return result.user;
+  if (
+    result.isSignInWithEmailLink
+  ) {
+    let email = window.localStorage.getItem('emailForSignIn');
+    if (!email) {
+      // User opened the link on a different device. To prevent session fixation
+      // attacks, ask the user to provide the associated email again.
+      email = window.prompt(
+        'Please provide your email for confirmation.',
+      );
+    }
+    // The client SDK will parse the code from the link for you.
+    const result = await FirebaseAuthentication.signInWithEmailLink({
+      email,
+      emailLink,
+    });
+    // Clear email from storage.
+    window.localStorage.removeItem('emailForSignIn');
+    return result.user;
+  } else {
+    alert('emailLink is invalid.');
+  }
 };
 
 const signInWithFacebook = async () => {
@@ -450,18 +456,18 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 ### isSignInWithEmailLink(...)
 
 ```typescript
-isSignInWithEmailLink(options: SignInWithEmailLinkOptions) => Promise<void>
+isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions) => Promise<IsSignInWithEmailLinkResult>
 ```
 
 Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
 
-The link sent to the user's email address must be provided.
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#issigninwithemaillinkoptions">IsSignInWithEmailLinkOptions</a></code> |
 
-| Param         | Type                                                                              |
-| ------------- | --------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
+**Returns:** <code>Promise&lt;<a href="#issigninwithemaillinkresult">IsSignInWithEmailLinkResult</a>&gt;</code>
 
-**Since:** 0.6.0
+**Since:** 1.1.0
 
 --------------------
 
@@ -499,18 +505,18 @@ Sends a password reset email.
 ### sendSignInLinkToEmail(...)
 
 ```typescript
-sendSignInLinkToEmail(options: SignInWithEmailLinkOptions) => Promise<void>
+sendSignInLinkToEmail(options: SendSignInLinkToEmailOptions) => Promise<void>
 ```
 
 Sends a sign-in email link to the user with the specified email.
 
-To complete sign in with the email link, call signInWithEmailLink with the email address and the email link supplied in the email sent to the user.
+To complete sign in with the email link, call `signInWithEmailLink` with the email address and the email link supplied in the email sent to the user.
 
-| Param         | Type                                                                              |
-| ------------- | --------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#sendsigninlinktoemailoptions">SendSignInLinkToEmailOptions</a></code> |
 
-**Since:** 0.6.0
+**Since:** 1.1.0
 
 --------------------
 
@@ -600,15 +606,13 @@ signInWithEmailLink(options: SignInWithEmailLinkOptions) => Promise<SignInResult
 
 Signs in using an email and sign-in email link.
 
-Both the user's email and the link sent to the user's email address must be provided.
-
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
-**Since:** 0.6.0
+**Since:** 1.1.0
 
 --------------------
 
@@ -971,13 +975,33 @@ Remove all listeners for this plugin.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
 
 
-#### SignInWithEmailLinkOptions
+#### IsSignInWithEmailLinkResult
+
+| Prop                        | Type                 | Description                                                                                   |
+| --------------------------- | -------------------- | --------------------------------------------------------------------------------------------- |
+| **`isSignInWithEmailLink`** | <code>boolean</code> | Whether an incoming link is a signup with email link suitable for `signInWithEmailLink(...)`. |
+
+
+#### IsSignInWithEmailLinkOptions
+
+| Prop            | Type                | Description                                | Since |
+| --------------- | ------------------- | ------------------------------------------ | ----- |
+| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+
+
+#### SendPasswordResetEmailOptions
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`email`** | <code>string</code> | 0.2.2 |
+
+
+#### SendSignInLinkToEmailOptions
 
 | Prop                     | Type                                                              | Description                                                                                               | Since |
 | ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
-| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 0.6.0 |
-| **`emailLink`**          | <code>string</code>                                               | The link sent to the user's email address.                                                                | 0.6.0 |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 0.6.0 |
+| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 1.1.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
 
 
 #### ActionCodeSettings
@@ -992,13 +1016,6 @@ bundle identifiers.
 | **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
 | **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
 | **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
-
-
-#### SendPasswordResetEmailOptions
-
-| Prop        | Type                | Since |
-| ----------- | ------------------- | ----- |
-| **`email`** | <code>string</code> | 0.2.2 |
 
 
 #### SetLanguageCodeOptions
@@ -1037,6 +1054,14 @@ bundle identifiers.
 | -------------- | ------------------- | ------------------------ | ----- |
 | **`email`**    | <code>string</code> | The users email address. | 0.2.2 |
 | **`password`** | <code>string</code> | The users password.      | 0.2.2 |
+
+
+#### SignInWithEmailLinkOptions
+
+| Prop            | Type                | Description                                | Since |
+| --------------- | ------------------- | ------------------------------------------ | ----- |
+| **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
+| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
 #### SignInWithPhoneNumberResult
