@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- [`83debcf`](https://github.com/capawesome-team/capacitor-firebase/commit/83debcf02500c6a9ecb363eb30b918ace7b416a5) ([#168](https://github.com/capawesome-team/capacitor-firebase/pull/168)): feat!: update to Capacitor 4 (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/capawesome-team/capacitor-firebase#breaking-changes))
+
+### Minor Changes
+
+- [`fa93e28`](https://github.com/capawesome-team/capacitor-firebase/commit/fa93e28a2a34acf99b5d62b52be18836dcf7472f) ([#145](https://github.com/capawesome-team/capacitor-firebase/pull/145)): refactor!: `tokenReceived` event is no longer triggered by the `getToken` method (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/BREAKING.md))
+
 ## 0.5.1
 
 ### Patch Changes

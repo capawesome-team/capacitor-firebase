@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- [`83debcf`](https://github.com/capawesome-team/capacitor-firebase/commit/83debcf02500c6a9ecb363eb30b918ace7b416a5) ([#168](https://github.com/capawesome-team/capacitor-firebase/pull/168)): feat!: update to Capacitor 4 (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/capawesome-team/capacitor-firebase#breaking-changes))
+
+* [`5b70df4`](https://github.com/capawesome-team/capacitor-firebase/commit/5b70df4f919585c9ac051e2897527263d0afd846) ([#170](https://github.com/capawesome-team/capacitor-firebase/pull/170)): refactor: rename methods (**BREAKING CHANGES**: see [`BREAKING.md`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/performance/BREAKING.md))
+
 ## 0.5.1
 
 ### Patch Changes
