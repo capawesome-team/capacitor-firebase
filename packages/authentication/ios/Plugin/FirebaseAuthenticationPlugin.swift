@@ -103,7 +103,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
 
         var result = JSObject()
-        result["isSignInWithEmailLink"] = implementation?.isSignInWithEmailLink(link: emailLink)         
+        result["isSignInWithEmailLink"] = implementation?.isSignInWithEmailLink(link: emailLink)
         call.resolve(result)
     }
 
