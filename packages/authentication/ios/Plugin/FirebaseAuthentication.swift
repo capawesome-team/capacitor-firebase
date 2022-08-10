@@ -171,20 +171,17 @@ public typealias AuthStateChangedObserver = () -> Void
         let email = call.getString("email", "")
         let emailLink = call.getString("emailLink", "")
 
-        if self.isSignInWithEmailLink(link: emailLink) {
-            self.savedCall = call
-            Auth.auth().signIn(withEmail: email, link: emailLink) { _, error in
-                if let error = error {
-                    self.handleFailedSignIn(message: nil, error: error)
-                    return
-                }
-                guard let savedCall = self.savedCall else {
-                    return
-                }
-                let user = self.getCurrentUser()
-                let result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: user, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
-                savedCall.resolve(result)
+        self.savedCall = call
+        Auth.auth().signIn(withEmail: email, link: emailLink) { authResult, error in
+            if let error = error {
+                self.handleFailedSignIn(message: nil, error: error)
+                return
             }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: authResult?.additionalUserInfo)
+            savedCall.resolve(result)
         }
     }
 
