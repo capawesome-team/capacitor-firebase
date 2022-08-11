@@ -78,7 +78,9 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions): Promise<IsSignInWithEmailLinkResult>;
+  isSignInWithEmailLink(
+    options: IsSignInWithEmailLinkOptions,
+  ): Promise<IsSignInWithEmailLinkResult>;
   /**
    * Sends a verification email to the currently signed in user.
    *

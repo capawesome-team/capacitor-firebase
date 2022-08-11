@@ -58,7 +58,8 @@ import type {
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin {
+  implements FirebaseAuthenticationPlugin
+{
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
 
   constructor() {
@@ -146,7 +147,7 @@ export class FirebaseAuthenticationWeb
   ): Promise<IsSignInWithEmailLinkResult> {
     const auth = getAuth();
     return {
-      isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink)
+      isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink),
     };
   }
 

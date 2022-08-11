@@ -1,9 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
-
 import androidx.activity.result.ActivityResult;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -12,10 +10,9 @@ import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
-
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 
-@CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = {FacebookAuthProviderHandler.RC_FACEBOOK_AUTH})
+@CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
@@ -32,9 +29,9 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
     public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
-            "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
+        "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH =
-            "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth.";
+        "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
@@ -106,20 +103,20 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             Boolean forceRefresh = call.getBoolean("forceRefresh", false);
 
             implementation.getIdToken(
-                    forceRefresh,
-                    new GetIdTokenResultCallback() {
-                        @Override
-                        public void success(String token) {
-                            JSObject result = new JSObject();
-                            result.put("token", token);
-                            call.resolve(result);
-                        }
-
-                        @Override
-                        public void error(String message) {
-                            call.reject(message);
-                        }
+                forceRefresh,
+                new GetIdTokenResultCallback() {
+                    @Override
+                    public void success(String token) {
+                        JSObject result = new JSObject();
+                        result.put("token", token);
+                        call.resolve(result);
                     }
+
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
+                }
             );
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
@@ -184,29 +181,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
 
-            ActionCodeSettings.Builder actionCodeSettings =
-                    ActionCodeSettings.newBuilder()
-                            .setUrl(settings.getString("url"));
+            ActionCodeSettings.Builder actionCodeSettings = ActionCodeSettings.newBuilder().setUrl(settings.getString("url"));
 
             Boolean handleCodeInApp = settings.getBoolean("handleCodeInApp");
-            if (handleCodeInApp != null)
-                actionCodeSettings.setHandleCodeInApp(handleCodeInApp);
+            if (handleCodeInApp != null) actionCodeSettings.setHandleCodeInApp(handleCodeInApp);
 
             JSObject iOS = settings.getJSObject("iOS");
-            if (iOS != null)
-                actionCodeSettings.setIOSBundleId(iOS.getString("bundleId"));
+            if (iOS != null) actionCodeSettings.setIOSBundleId(iOS.getString("bundleId"));
 
             JSObject android = settings.getJSObject("android");
-            if (android != null)
-                actionCodeSettings.setAndroidPackageName(
-                        android.getString("packageName"),
-                        android.getBoolean("installApp"),
-                        android.getString("minimumVersion")
-                );
+            if (android != null) actionCodeSettings.setAndroidPackageName(
+                android.getString("packageName"),
+                android.getBoolean("installApp"),
+                android.getString("minimumVersion")
+            );
 
             String dynamicLinkDomain = settings.getString("dynamicLinkDomain");
-            if (dynamicLinkDomain != null)
-                actionCodeSettings.setDynamicLinkDomain(dynamicLinkDomain);
+            if (dynamicLinkDomain != null) actionCodeSettings.setDynamicLinkDomain(dynamicLinkDomain);
 
             implementation.sendSignInLinkToEmail(email, actionCodeSettings.build(), () -> call.resolve());
         } catch (Exception ex) {
