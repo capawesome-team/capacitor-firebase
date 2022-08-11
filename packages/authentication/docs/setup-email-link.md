@@ -28,7 +28,7 @@
 **Attention**: Skip step 2. The `Firebase/Auth` pod is already added by the plugin.
 1. See [Enable Email Link sign-in for your Firebase project](https://firebase.google.com/docs/auth/ios/email-link-auth#enable_email_link_sign-in_for_your_firebase_project) and follow the instructions to enable the Email provider and Email link sign-in method for your Firebase project.
 1. See [Support Universal Links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html) on how to enable Universal Links in order to open an Email Link directly in your app.
-	1. Add the following lines to your apps's `ios/App/App/Info.plist`:
+	1. Add the following lines to your `ios/App/App/Info.plist` file:
 		```xml
 		<key>CFBundleURLTypes</key>
 		<array>
@@ -45,7 +45,7 @@
 
 		`[DOMAIN_NAME]` must be replaced with your domain name of the link.
 
-	1. Add the following lines to your apps's `ios/App/App/App.entitlements`:
+	1. Add the following lines to your `ios/App/App/App.entitlements` file:
 		```xml
 		?xml version="1.0" encoding="UTF-8"?>
 		<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
