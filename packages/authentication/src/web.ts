@@ -14,12 +14,15 @@ import {
   getAdditionalUserInfo,
   getAuth,
   GoogleAuthProvider,
+  isSignInWithEmailLink,
   OAuthCredential,
   OAuthProvider,
   sendEmailVerification,
   sendPasswordResetEmail,
+  sendSignInLinkToEmail,
   signInWithCustomToken,
   signInWithEmailAndPassword,
+  signInWithEmailLink,
   signInWithPopup,
   updateEmail,
   updatePassword,
@@ -36,12 +39,16 @@ import type {
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
+  IsSignInWithEmailLinkOptions,
+  IsSignInWithEmailLinkResult,
   SendPasswordResetEmailOptions,
+  SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
   SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
   SignInWithEmailAndPasswordOptions,
+  SignInWithEmailLinkOptions,
   SignInWithPhoneNumberOptions,
   UpdateEmailOptions,
   UpdatePasswordOptions,
@@ -124,6 +131,26 @@ export class FirebaseAuthenticationWeb
     return sendPasswordResetEmail(auth, options.email);
   }
 
+  public async sendSignInLinkToEmail(
+    options: SendSignInLinkToEmailOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return sendSignInLinkToEmail(
+      auth,
+      options.email,
+      options.actionCodeSettings,
+    );
+  }
+
+  public async isSignInWithEmailLink(
+    options: IsSignInWithEmailLinkOptions,
+  ): Promise<IsSignInWithEmailLinkResult> {
+    const auth = getAuth();
+    return {
+      isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink),
+    };
+  }
+
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
     const auth = getAuth();
     auth.languageCode = options.languageCode;
@@ -154,6 +181,18 @@ export class FirebaseAuthenticationWeb
       auth,
       options.email,
       options.password,
+    );
+    return this.createSignInResult(userCredential, null);
+  }
+
+  public async signInWithEmailLink(
+    options: SignInWithEmailLinkOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    const userCredential = await signInWithEmailLink(
+      auth,
+      options.email,
+      options.emailLink,
     );
     return this.createSignInResult(userCredential, null);
   }

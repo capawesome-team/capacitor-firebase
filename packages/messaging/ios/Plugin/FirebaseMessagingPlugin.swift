@@ -92,7 +92,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             call.reject(errorNotificationsMissing)
             return
         }
-        
+
         var ids = [String]()
         for notification in notifications {
             guard let id = notification["id"] as? String else {
@@ -101,7 +101,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             }
             ids.append(id)
         }
-        
+
         implementation?.removeDeliveredNotifications(ids: ids)
         call.resolve()
     }
@@ -116,7 +116,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             call.reject(errorTopicMissing)
             return
         }
-        
+
         implementation?.subscribeToTopic(topic: topic, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)
@@ -131,7 +131,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
             call.reject(errorTopicMissing)
             return
         }
-        
+
         implementation?.unsubscribeFromTopic(topic: topic, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)

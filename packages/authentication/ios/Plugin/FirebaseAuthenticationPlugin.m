@@ -9,12 +9,15 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(confirmPasswordReset, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCurrentUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getIdToken, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(isSignInWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendEmailVerification, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setLanguageCode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithApple, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithCustomToken, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithEmailAndPassword, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(signInWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithFacebook, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithGithub, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithGoogle, CAPPluginReturnPromise);

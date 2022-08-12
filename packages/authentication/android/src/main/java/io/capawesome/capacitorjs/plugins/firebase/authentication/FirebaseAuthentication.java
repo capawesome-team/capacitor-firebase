@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -147,6 +148,10 @@ public class FirebaseAuthentication {
         );
     }
 
+    public boolean isSignInWithEmailLink(@NonNull String emailLink) {
+        return firebaseAuthInstance.isSignInWithEmailLink(emailLink);
+    }
+
     public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
         user
             .sendEmailVerification()
@@ -160,6 +165,16 @@ public class FirebaseAuthentication {
     public void sendPasswordResetEmail(@NonNull String email, @NonNull Runnable callback) {
         firebaseAuthInstance
             .sendPasswordResetEmail(email)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    public void sendSignInLinkToEmail(@NonNull String email, @NonNull ActionCodeSettings actionCodeSettings, @NonNull Runnable callback) {
+        firebaseAuthInstance
+            .sendSignInLinkToEmail(email, actionCodeSettings)
             .addOnCompleteListener(
                 task -> {
                     callback.run();
@@ -256,6 +271,35 @@ public class FirebaseAuthentication {
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                    }
+                }
+            );
+    }
+
+    public void signInWithEmailLink(final PluginCall call) {
+        String email = call.getString("email", "");
+        String emailLink = call.getString("emailLink", "");
+
+        firebaseAuthInstance
+            .signInWithEmailLink(email, emailLink)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithEmailLink succeeded.");
+                        AuthResult authResult = task.getResult();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+                            authResult.getUser(),
+                            authResult.getCredential(),
+                            null,
+                            null,
+                            null,
+                            authResult.getAdditionalUserInfo()
+                        );
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailLink failed.", task.getException());
                         call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
                     }
                 }
