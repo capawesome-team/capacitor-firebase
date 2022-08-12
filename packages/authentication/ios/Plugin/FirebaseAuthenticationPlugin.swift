@@ -163,7 +163,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
 
         if let android = settings["android"] as? JSObject {
-            let packageName = android["packageName"] as? String {
+            if let packageName = android["packageName"] as? String {
                 actionCodeSettings.setAndroidPackageName(
                     packageName,
                     installIfNotAvailable: android["installApp"] as? Bool ?? false,
