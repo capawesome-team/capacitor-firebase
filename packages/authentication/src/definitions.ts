@@ -74,7 +74,7 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
-   * Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
+   * Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.
    *
    * @since 1.1.0
    */

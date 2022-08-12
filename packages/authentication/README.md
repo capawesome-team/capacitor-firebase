@@ -459,7 +459,7 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions) => Promise<IsSignInWithEmailLinkResult>
 ```
 
-Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
+Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.
 
 | Param         | Type                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------- |
