@@ -148,22 +148,28 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
 
         let actionCodeSettings = ActionCodeSettings()
-        actionCodeSettings.url = URL(string: settings["url"] as! String)
+        if let url = settings["url"] as? String {
+            actionCodeSettings.url = URL(string: url)
+        }
 
         if let handleCodeInApp = settings["handleCodeInApp"] as? Bool {
             actionCodeSettings.handleCodeInApp = handleCodeInApp
         }
 
         if let iOS = settings["iOS"] as? JSObject {
-            actionCodeSettings.setIOSBundleID(iOS["bundleId"] as! String)
+            if let bundleId = iOS["bundleId"] as? String {
+                actionCodeSettings.setIOSBundleID(bundleId)
+            }
         }
 
         if let android = settings["android"] as? JSObject {
-            actionCodeSettings.setAndroidPackageName(
-                android["packageName"] as! String,
-                installIfNotAvailable: android["installApp"] as? Bool ?? false,
-                minimumVersion: android["minimumVersion"] as? String
-            )
+            let packageName = android["packageName"] as? String {
+                actionCodeSettings.setAndroidPackageName(
+                    packageName,
+                    installIfNotAvailable: android["installApp"] as? Bool ?? false,
+                    minimumVersion: android["minimumVersion"] as? String
+                )
+            }
         }
 
         if let dynamicLinkDomain = settings["dynamicLinkDomain"] as? String {
