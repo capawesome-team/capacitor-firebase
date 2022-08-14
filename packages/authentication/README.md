@@ -34,6 +34,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 The further installation steps depend on the selected authentication method:
 
+- [Anonymous Sign-In](/packages/authentication/docs/setup-anonymous.md)
 - [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
 - [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
 - [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
@@ -183,6 +184,11 @@ const sendSignInLinkToEmail = async () => {
 
 const setLanguageCode = async () => {
   await FirebaseAuthentication.setLanguageCode({ languageCode: 'en-US' });
+};
+
+const signInAnonymously = async () => {
+  const result = await FirebaseAuthentication.signInAnonymously();
+  return result.user;
 };
 
 const signInWithApple = async () => {
@@ -338,6 +344,7 @@ const useEmulator = async () => {
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
+* [`signInAnonymously()`](#signinanonymously)
 * [`signInWithApple(...)`](#signinwithapple)
 * [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
@@ -534,6 +541,21 @@ Sets the user-facing language code for auth operations.
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### signInAnonymously()
+
+```typescript
+signInAnonymously() => Promise<SignInResult>
+```
+
+Signs in by creating a temporary anonymous account.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
 
 --------------------
 

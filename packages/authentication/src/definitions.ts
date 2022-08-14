@@ -108,6 +108,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
   /**
+   * Signs in by creating a temporary anonymous account.
+   *
+   * @since 1.2.0
+   */
+  signInAnonymously(): Promise<SignInResult>;
+  /**
    * Starts the Apple sign-in flow.
    *
    * @since 0.1.0
