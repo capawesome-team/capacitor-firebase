@@ -340,6 +340,16 @@ const useEmulator = async () => {
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
 * [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
+* [`linkWithApple()`](#linkwithapple)
+* [`linkWithEmailLink(...)`](#linkwithemaillink)
+* [`linkWithFacebook()`](#linkwithfacebook)
+* [`linkWithGithub()`](#linkwithgithub)
+* [`linkWithGoogle()`](#linkwithgoogle)
+* [`linkWithMicrosoft()`](#linkwithmicrosoft)
+* [`linkWithPhoneNumber(...)`](#linkwithphonenumber)
+* [`linkWithPlayGames()`](#linkwithplaygames)
+* [`linkWithTwitter()`](#linkwithtwitter)
+* [`linkWithYahoo()`](#linkwithyahoo)
 * [`sendEmailVerification()`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
@@ -475,6 +485,164 @@ Checks if an incoming link is a sign-in with email link suitable for `signInWith
 **Returns:** <code>Promise&lt;<a href="#issigninwithemaillinkresult">IsSignInWithEmailLinkResult</a>&gt;</code>
 
 **Since:** 1.1.0
+
+--------------------
+
+
+### linkWithApple()
+
+```typescript
+linkWithApple() => Promise<SignInResult>
+```
+
+Links the user account with Apple authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithEmailLink(...)
+
+```typescript
+linkWithEmailLink(options: LinkWithEmailLinkOptions) => Promise<SignInResult>
+```
+
+Links the user account with Email authentication provider.
+
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#linkwithemaillinkoptions">LinkWithEmailLinkOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithFacebook()
+
+```typescript
+linkWithFacebook() => Promise<SignInResult>
+```
+
+Links the user account with Facebook authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithGithub()
+
+```typescript
+linkWithGithub() => Promise<SignInResult>
+```
+
+Links the user account with GitHub authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithGoogle()
+
+```typescript
+linkWithGoogle() => Promise<SignInResult>
+```
+
+Links the user account with Google authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithMicrosoft()
+
+```typescript
+linkWithMicrosoft() => Promise<SignInResult>
+```
+
+Links the user account with Microsoft authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithPhoneNumber(...)
+
+```typescript
+linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => Promise<SignInResult>
+```
+
+Links the user account with Phone Number authentication provider.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#linkwithphonenumberoptions">LinkWithPhoneNumberOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithPlayGames()
+
+```typescript
+linkWithPlayGames() => Promise<SignInResult>
+```
+
+Links the user account with Play Games authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithTwitter()
+
+```typescript
+linkWithTwitter() => Promise<SignInResult>
+```
+
+Links the user account with Twitter authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithYahoo()
+
+```typescript
+linkWithYahoo() => Promise<SignInResult>
+```
+
+Links the user account with Yahoo authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
 
 --------------------
 
@@ -1009,6 +1177,21 @@ Remove all listeners for this plugin.
 | Prop            | Type                | Description                                | Since |
 | --------------- | ------------------- | ------------------------------------------ | ----- |
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+
+
+#### LinkWithEmailLinkOptions
+
+| Prop            | Type                | Description                                | Since |
+| --------------- | ------------------- | ------------------------------------------ | ----- |
+| **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
+| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+
+
+#### LinkWithPhoneNumberOptions
+
+| Prop              | Type                | Description                                                  | Since |
+| ----------------- | ------------------- | ------------------------------------------------------------ | ----- |
+| **`phoneNumber`** | <code>string</code> | The user's phone number in E.164 format (e.g. +16505550101). | 1.2.0 |
 
 
 #### SendPasswordResetEmailOptions

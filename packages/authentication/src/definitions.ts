@@ -82,6 +82,68 @@ export interface FirebaseAuthenticationPlugin {
     options: IsSignInWithEmailLinkOptions,
   ): Promise<IsSignInWithEmailLinkResult>;
   /**
+   * Links the user account with Apple authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithApple(): Promise<SignInResult>;
+  /**
+   * Links the user account with Email authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithEmailLink(options: LinkWithEmailLinkOptions): Promise<SignInResult>;
+  /**
+   * Links the user account with Facebook authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithFacebook(): Promise<SignInResult>;
+  /**
+   * Links the user account with GitHub authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithGithub(): Promise<SignInResult>;
+  /**
+   * Links the user account with Google authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithGoogle(): Promise<SignInResult>;
+  /**
+   * Links the user account with Microsoft authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithMicrosoft(): Promise<SignInResult>;
+  /**
+   * Links the user account with Phone Number authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithPhoneNumber(
+    options: LinkWithPhoneNumberOptions,
+  ): Promise<SignInResult>;
+  /**
+   * Links the user account with Play Games authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithPlayGames(): Promise<SignInResult>;
+  /**
+   * Links the user account with Twitter authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithTwitter(): Promise<SignInResult>;
+  /**
+   * Links the user account with Yahoo authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithYahoo(): Promise<SignInResult>;
+  /**
    * Sends a verification email to the currently signed in user.
    *
    * @since 0.2.2
@@ -325,6 +387,36 @@ export interface GetIdTokenResult {
    * @since 0.1.0
    */
   token: string;
+}
+
+/**
+ * @since 1.2.0
+ */
+export interface LinkWithEmailLinkOptions {
+  /**
+   * The user's email address.
+   *
+   * @since 1.1.0
+   */
+  email: string;
+  /**
+   * The link sent to the user's email address.
+   *
+   * @since 1.1.0
+   */
+  emailLink: string;
+}
+
+/**
+ * @since 1.2.0
+ */
+export interface LinkWithPhoneNumberOptions {
+  /**
+   * The user's phone number in E.164 format (e.g. +16505550101).
+   *
+   * @since 1.2.0
+   */
+  phoneNumber: string;
 }
 
 /**
