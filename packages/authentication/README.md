@@ -341,6 +341,7 @@ const useEmulator = async () => {
 * [`getIdToken(...)`](#getidtoken)
 * [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
 * [`linkWithApple()`](#linkwithapple)
+* [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
 * [`linkWithEmailLink(...)`](#linkwithemaillink)
 * [`linkWithFacebook()`](#linkwithfacebook)
 * [`linkWithGithub()`](#linkwithgithub)
@@ -496,6 +497,25 @@ linkWithApple() => Promise<SignInResult>
 ```
 
 Links the user account with Apple authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithEmailAndPassword(...)
+
+```typescript
+linkWithEmailAndPassword(options: LinkWithEmailAndPasswordOptions) => Promise<SignInResult>
+```
+
+Links the user account with Email authentication provider.
+
+| Param         | Type                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#linkwithemailandpasswordoptions">LinkWithEmailAndPasswordOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1177,6 +1197,14 @@ Remove all listeners for this plugin.
 | Prop            | Type                | Description                                | Since |
 | --------------- | ------------------- | ------------------------------------------ | ----- |
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+
+
+#### LinkWithEmailAndPasswordOptions
+
+| Prop           | Type                | Description              | Since |
+| -------------- | ------------------- | ------------------------ | ----- |
+| **`email`**    | <code>string</code> | The users email address. | 0.2.2 |
+| **`password`** | <code>string</code> | The users password.      | 0.2.2 |
 
 
 #### LinkWithEmailLinkOptions

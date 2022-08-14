@@ -92,6 +92,14 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.2.0
    */
+  linkWithEmailAndPassword(
+    options: LinkWithEmailAndPasswordOptions,
+  ): Promise<SignInResult>;
+  /**
+   * Links the user account with Email authentication provider.
+   *
+   * @since 1.2.0
+   */
   linkWithEmailLink(options: LinkWithEmailLinkOptions): Promise<SignInResult>;
   /**
    * Links the user account with Facebook authentication provider.
@@ -387,6 +395,24 @@ export interface GetIdTokenResult {
    * @since 0.1.0
    */
   token: string;
+}
+
+/**
+ * @since 1.2.0
+ */
+export interface LinkWithEmailAndPasswordOptions {
+  /**
+   * The users email address.
+   *
+   * @since 0.2.2
+   */
+  email: string;
+  /**
+   * The users password.
+   *
+   * @since 0.2.2
+   */
+  password: string;
 }
 
 /**

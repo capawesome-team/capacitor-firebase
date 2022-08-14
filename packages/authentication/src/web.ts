@@ -45,6 +45,7 @@ import type {
   GetIdTokenResult,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
+  LinkWithEmailAndPasswordOptions,
   LinkWithEmailLinkOptions,
   LinkWithPhoneNumberOptions,
   SendPasswordResetEmailOptions,
@@ -138,6 +139,24 @@ export class FirebaseAuthenticationWeb
     const provider = new OAuthProvider('apple.com');
     const userCredential = await linkWithPopup(auth.currentUser, provider);
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
+  }
+
+  public async linkWithEmailAndPassword(
+    options: LinkWithEmailAndPasswordOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    const authCredential = EmailAuthProvider.credential(
+      options.email,
+      options.password,
+    );
+    const userCredential = await linkWithCredential(
+      auth.currentUser,
+      authCredential,
+    );
     return this.createSignInResult(userCredential, authCredential);
   }
 
