@@ -20,6 +20,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
+  signInAnonymously,
   signInWithCustomToken,
   signInWithEmailAndPassword,
   signInWithEmailLink,
@@ -115,6 +116,15 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
+  public async isSignInWithEmailLink(
+    options: IsSignInWithEmailLinkOptions,
+  ): Promise<IsSignInWithEmailLinkResult> {
+    const auth = getAuth();
+    return {
+      isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink),
+    };
+  }
+
   public async sendEmailVerification(): Promise<void> {
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -142,18 +152,15 @@ export class FirebaseAuthenticationWeb
     );
   }
 
-  public async isSignInWithEmailLink(
-    options: IsSignInWithEmailLinkOptions,
-  ): Promise<IsSignInWithEmailLinkResult> {
-    const auth = getAuth();
-    return {
-      isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink),
-    };
-  }
-
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
     const auth = getAuth();
     auth.languageCode = options.languageCode;
+  }
+
+  public async signInAnonymously(): Promise<SignInResult> {
+    const auth = getAuth();
+    const userCredential = await signInAnonymously(auth);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
