@@ -30,6 +30,7 @@ import {
   signInWithEmailLink,
   signInWithPopup,
   TwitterAuthProvider,
+  unlink,
   updateEmail,
   updatePassword,
 } from 'firebase/auth';
@@ -59,28 +60,31 @@ import type {
   SignInWithEmailAndPasswordOptions,
   SignInWithEmailLinkOptions,
   SignInWithPhoneNumberOptions,
+  UnlinkOptions,
+  UnlinkResult,
   UpdateEmailOptions,
   UpdatePasswordOptions,
   UseEmulatorOptions,
   User,
 } from './definitions';
 
-declare const ProviderId: {
+export declare const ProviderId: {
   readonly APPLE: 'apple.com';
   readonly FACEBOOK: 'facebook.com';
-  readonly FIREBASE: 'firebase';
   readonly GAME_CENTER: 'gc.apple.com';
   readonly GITHUB: 'github.com';
   readonly GOOGLE: 'google.com';
   readonly MICROSOFT: 'microsoft.com';
-  readonly PASSWORD: 'password';
-  readonly PHONE: 'phone';
   readonly PLAY_GAMES: 'playgames.google.com';
   readonly TWITTER: 'twitter.com';
   readonly YAHOO: 'yahoo.com';
+
+  readonly FIREBASE: 'firebase';
+  readonly PASSWORD: 'password';
+  readonly PHONE: 'phone';
 };
 
-declare const SignInMethod: {
+export declare const SignInMethod: {
   readonly EMAIL_LINK: 'emailLink';
   readonly EMAIL_PASSWORD: 'password';
   readonly PHONE: 'phone';
@@ -211,10 +215,6 @@ export class FirebaseAuthenticationWeb
     const authCredential =
       FacebookAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
-  }
-
-  public async linkWithGameCenter(): Promise<SignInResult> {
-    throw new Error('Not available on web.');
   }
 
   public async linkWithGithub(): Promise<SignInResult> {
@@ -445,8 +445,17 @@ export class FirebaseAuthenticationWeb
     await auth.signOut();
   }
 
-  public async unlink(): Promise<void> {
-    throw new Error('Not available on web.');
+  public async unlink(options: UnlinkOptions): Promise<UnlinkResult> {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    const user = await unlink(auth.currentUser, options.providerId);
+    const userResult = this.createUserResult(user);
+    const result: UnlinkResult = {
+      user: userResult,
+    };
+    return result;
   }
 
   public async updateEmail(options: UpdateEmailOptions): Promise<void> {

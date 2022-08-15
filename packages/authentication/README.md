@@ -34,7 +34,6 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 The further installation steps depend on the selected authentication method:
 
-- [Anonymous Sign-In](/packages/authentication/docs/setup-anonymous.md)
 - [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
 - [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
 - [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
@@ -43,8 +42,10 @@ The further installation steps depend on the selected authentication method:
 - [Play Games Sign-In](/packages/authentication/docs/setup-play-games.md)
 - [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
 - [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
-- [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
+- --
+- [Anonymous Sign-In](/packages/authentication/docs/setup-anonymous.md)
 - [Email Link Sign-In](/packages/authentication/docs/setup-email-link.md)
+- [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
 - [Custom Token Sign-In](/packages/authentication/docs/custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
@@ -58,10 +59,10 @@ These SDKs can initialize on their own and collect various data.
 
 These configuration values are available:
 
-| Prop                 | Type                  | Description                                                                                                                                                                                                                                                                             | Default            | Since |
-| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                                               | <code>false</code> | 0.1.0 |
-| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]` Only available for Android and iOS. | <code>[]</code>    | 0.1.0 |
+| Prop                 | Type                  | Description                                                                                                                                                                                                                                                             | Default            | Since |
+| -------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                               | <code>false</code> | 0.1.0 |
+| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]` Only available for Android and iOS. | <code>[]</code>    | 0.1.0 |
 
 ### Examples
 
@@ -344,7 +345,6 @@ const useEmulator = async () => {
 * [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
 * [`linkWithEmailLink(...)`](#linkwithemaillink)
 * [`linkWithFacebook()`](#linkwithfacebook)
-* [`linkWithGameCenter()`](#linkwithgamecenter)
 * [`linkWithGithub()`](#linkwithgithub)
 * [`linkWithGoogle()`](#linkwithgoogle)
 * [`linkWithMicrosoft()`](#linkwithmicrosoft)
@@ -370,6 +370,7 @@ const useEmulator = async () => {
 * [`signInWithTwitter(...)`](#signinwithtwitter)
 * [`signInWithYahoo(...)`](#signinwithyahoo)
 * [`signOut()`](#signout)
+* [`unlink(...)`](#unlink)
 * [`updateEmail(...)`](#updateemail)
 * [`updatePassword(...)`](#updatepassword)
 * [`useAppLanguage()`](#useapplanguage)
@@ -551,21 +552,6 @@ linkWithFacebook() => Promise<SignInResult>
 ```
 
 Links the user account with Facebook authentication provider.
-
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
-
-**Since:** 1.2.0
-
---------------------
-
-
-### linkWithGameCenter()
-
-```typescript
-linkWithGameCenter() => Promise<SignInResult>
-```
-
-Links the user account with Game Center authentication provider.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1012,6 +998,25 @@ Starts the sign-out flow.
 --------------------
 
 
+### unlink(...)
+
+```typescript
+unlink(options: UnlinkOptions) => Promise<UnlinkResult>
+```
+
+Unlinks a provider from a user account.
+
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#unlinkoptions">UnlinkOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#unlinkresult">UnlinkResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
 ### updateEmail(...)
 
 ```typescript
@@ -1219,16 +1224,16 @@ Remove all listeners for this plugin.
 
 | Prop           | Type                | Description              | Since |
 | -------------- | ------------------- | ------------------------ | ----- |
-| **`email`**    | <code>string</code> | The users email address. | 0.2.2 |
-| **`password`** | <code>string</code> | The users password.      | 0.2.2 |
+| **`email`**    | <code>string</code> | The users email address. | 1.2.0 |
+| **`password`** | <code>string</code> | The users password.      | 1.2.0 |
 
 
 #### LinkWithEmailLinkOptions
 
 | Prop            | Type                | Description                                | Since |
 | --------------- | ------------------- | ------------------------------------------ | ----- |
-| **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
-| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+| **`email`**     | <code>string</code> | The user's email address.                  | 1.2.0 |
+| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.2.0 |
 
 
 #### LinkWithPhoneNumberOptions
@@ -1327,6 +1332,20 @@ bundle identifiers.
 | **`phoneNumber`**      | <code>string</code> | The phone number to be verified.                                                                                                                    | 0.1.0 |
 | **`verificationId`**   | <code>string</code> | The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time. The `verificationCode` must also be provided. | 0.1.0 |
 | **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             | 0.1.0 |
+
+
+#### UnlinkResult
+
+| Prop       | Type                                          | Description                                               | Since |
+| ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
+| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 1.2.0 |
+
+
+#### UnlinkOptions
+
+| Prop             | Type                | Description             | Since |
+| ---------------- | ------------------- | ----------------------- | ----- |
+| **`providerId`** | <code>string</code> | The provider to unlink. | 1.2.0 |
 
 
 #### UpdateEmailOptions

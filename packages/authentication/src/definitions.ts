@@ -26,7 +26,7 @@ declare module '@capacitor/cli' {
       /**
        * Configure the providers that should be loaded by the plugin.
        *
-       * Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]`
+       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]`
        *
        * Only available for Android and iOS.
        *
@@ -107,12 +107,6 @@ export interface FirebaseAuthenticationPlugin {
    * @since 1.2.0
    */
   linkWithFacebook(): Promise<SignInResult>;
-  /**
-   * Links the user account with Game Center authentication provider.
-   *
-   * @since 1.2.0
-   */
-  linkWithGameCenter(): Promise<SignInResult>;
   /**
    * Links the user account with GitHub authentication provider.
    *
@@ -283,6 +277,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   signOut(): Promise<void>;
   /**
+   * Unlinks a provider from a user account.
+   *
+   * @since 1.2.0
+   */
+  unlink(options: UnlinkOptions): Promise<UnlinkResult>;
+  /**
    * Updates the email address of the currently signed in user.
    *
    * @since 0.1.0
@@ -410,13 +410,13 @@ export interface LinkWithEmailAndPasswordOptions {
   /**
    * The users email address.
    *
-   * @since 0.2.2
+   * @since 1.2.0
    */
   email: string;
   /**
    * The users password.
    *
-   * @since 0.2.2
+   * @since 1.2.0
    */
   password: string;
 }
@@ -428,13 +428,13 @@ export interface LinkWithEmailLinkOptions {
   /**
    * The user's email address.
    *
-   * @since 1.1.0
+   * @since 1.2.0
    */
   email: string;
   /**
    * The link sent to the user's email address.
    *
-   * @since 1.1.0
+   * @since 1.2.0
    */
   emailLink: string;
 }
@@ -669,6 +669,30 @@ export interface SignInResult {
    * @since 0.5.1
    */
   additionalUserInfo: AdditionalUserInfo | null;
+}
+
+/**
+ * @since 1.2.0
+ */
+export interface UnlinkOptions {
+  /**
+   * The provider to unlink.
+   *
+   * @since 1.2.0
+   */
+  providerId: string;
+}
+
+/**
+ * @since 1.2.0
+ */
+export interface UnlinkResult {
+  /**
+   * The currently signed-in user, or null if there isn't any.
+   *
+   * @since 1.2.0
+   */
+  user: User | null;
 }
 
 /**
