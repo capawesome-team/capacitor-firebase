@@ -1,9 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
-  AuthProvider,
   CustomParameters,
-  EmailAuthCredential,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
@@ -52,7 +50,6 @@ import type {
   LinkWithEmailAndPasswordOptions,
   LinkWithEmailLinkOptions,
   LinkWithPhoneNumberOptions,
-  LinkWithProviderOptions,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -71,11 +68,14 @@ import type {
 declare const ProviderId: {
   readonly APPLE: 'apple.com';
   readonly FACEBOOK: 'facebook.com';
+  readonly FIREBASE: 'firebase';
+  readonly GAME_CENTER: 'gc.apple.com';
   readonly GITHUB: 'github.com';
   readonly GOOGLE: 'google.com';
   readonly MICROSOFT: 'microsoft.com';
   readonly PASSWORD: 'password';
   readonly PHONE: 'phone';
+  readonly PLAY_GAMES: 'playgames.google.com';
   readonly TWITTER: 'twitter.com';
   readonly YAHOO: 'yahoo.com';
 };
@@ -83,11 +83,7 @@ declare const ProviderId: {
 declare const SignInMethod: {
   readonly EMAIL_LINK: 'emailLink';
   readonly EMAIL_PASSWORD: 'password';
-  readonly FACEBOOK: 'facebook.com';
-  readonly GITHUB: 'github.com';
-  readonly GOOGLE: 'google.com';
   readonly PHONE: 'phone';
-  readonly TWITTER: 'twitter.com';
 };
 
 export class FirebaseAuthenticationWeb
@@ -95,8 +91,6 @@ export class FirebaseAuthenticationWeb
   implements FirebaseAuthenticationPlugin
 {
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
-  public static readonly ERROR_UNKNOWN_SIGN_IN_METHOD =
-    'Unknown sign in method.';
 
   constructor() {
     super();
@@ -160,68 +154,6 @@ export class FirebaseAuthenticationWeb
     };
   }
 
-  public async linkWithProvider(
-    options: LinkWithProviderOptions,
-  ): Promise<SignInResult> {
-    const auth = getAuth();
-    if (!auth.currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
-    }
-    let provider: AuthProvider;
-    let credentialFunc = OAuthProvider.credentialFromResult;
-    switch (options.providerId) {
-      case ProviderId.PASSWORD: {
-        let authCredential: EmailAuthCredential;
-        switch (options.signInMethod) {
-          case SignInMethod.EMAIL_PASSWORD:
-            authCredential = EmailAuthProvider.credential(
-              options.email,
-              options.password,
-            );
-            break;
-          case SignInMethod.EMAIL_LINK:
-            authCredential = EmailAuthProvider.credentialWithLink(
-              options.email,
-              options.emailLink,
-            );
-            break;
-          default:
-            throw new Error(
-              FirebaseAuthenticationWeb.ERROR_UNKNOWN_SIGN_IN_METHOD,
-            );
-        }
-        const userCredential = await linkWithCredential(
-          auth.currentUser,
-          authCredential,
-        );
-        return this.createSignInResult(userCredential, authCredential);
-      }
-      case ProviderId.FACEBOOK:
-        provider = new FacebookAuthProvider();
-        credentialFunc = FacebookAuthProvider.credentialFromResult;
-        break;
-      case ProviderId.GITHUB:
-        provider = new GithubAuthProvider();
-        credentialFunc = GithubAuthProvider.credentialFromResult;
-        break;
-      case ProviderId.GOOGLE:
-        provider = new GoogleAuthProvider();
-        credentialFunc = GoogleAuthProvider.credentialFromResult;
-        break;
-      case ProviderId.PHONE:
-        throw new Error('Not implemented on web.');
-      case ProviderId.TWITTER:
-        provider = new TwitterAuthProvider();
-        credentialFunc = TwitterAuthProvider.credentialFromResult;
-        break;
-      default:
-        provider = new OAuthProvider(options.providerId);
-    }
-    const userCredential = await linkWithPopup(auth.currentUser, provider);
-    const authCredential = credentialFunc(userCredential);
-    return this.createSignInResult(userCredential, authCredential);
-  }
-
   public async linkWithApple(): Promise<SignInResult> {
     const auth = getAuth();
     if (!auth.currentUser) {
@@ -258,7 +190,6 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    // Construct the email link credential from the current URL.
     const authCredential = EmailAuthProvider.credentialWithLink(
       options.email,
       options.emailLink,
@@ -282,14 +213,19 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResult(userCredential, authCredential);
   }
 
+  public async linkWithGameCenter(): Promise<SignInResult> {
+    throw new Error('Not available on web.');
+  }
+
   public async linkWithGithub(): Promise<SignInResult> {
     const auth = getAuth();
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(ProviderId.GITHUB);
+    const provider = new GithubAuthProvider();
     const userCredential = await linkWithPopup(auth.currentUser, provider);
-    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    const authCredential =
+      GithubAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -331,9 +267,10 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(ProviderId.TWITTER);
+    const provider = new TwitterAuthProvider();
     const userCredential = await linkWithPopup(auth.currentUser, provider);
-    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    const authCredential =
+      TwitterAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -506,6 +443,10 @@ export class FirebaseAuthenticationWeb
   public async signOut(): Promise<void> {
     const auth = getAuth();
     await auth.signOut();
+  }
+
+  public async unlink(): Promise<void> {
+    throw new Error('Not available on web.');
   }
 
   public async updateEmail(options: UpdateEmailOptions): Promise<void> {
