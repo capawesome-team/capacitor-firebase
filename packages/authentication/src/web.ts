@@ -1,7 +1,9 @@
 import { WebPlugin } from '@capacitor/core';
 import type {
   AuthCredential as FirebaseAuthCredential,
+  AuthProvider,
   CustomParameters,
+  EmailAuthCredential,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
@@ -14,6 +16,7 @@ import {
   FacebookAuthProvider,
   getAdditionalUserInfo,
   getAuth,
+  GithubAuthProvider,
   GoogleAuthProvider,
   isSignInWithEmailLink,
   linkWithCredential,
@@ -28,6 +31,7 @@ import {
   signInWithEmailAndPassword,
   signInWithEmailLink,
   signInWithPopup,
+  TwitterAuthProvider,
   updateEmail,
   updatePassword,
 } from 'firebase/auth';
@@ -48,6 +52,7 @@ import type {
   LinkWithEmailAndPasswordOptions,
   LinkWithEmailLinkOptions,
   LinkWithPhoneNumberOptions,
+  LinkWithProviderOptions,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -63,17 +68,26 @@ import type {
   User,
 } from './definitions';
 
-declare const SignInProvider: {
-  readonly EMAIL_LINK: 'emailLink';
-  readonly EMAIL_PASSWORD: 'password';
+declare const ProviderId: {
   readonly APPLE: 'apple.com';
   readonly FACEBOOK: 'facebook.com';
   readonly GITHUB: 'github.com';
   readonly GOOGLE: 'google.com';
   readonly MICROSOFT: 'microsoft.com';
+  readonly PASSWORD: 'password';
   readonly PHONE: 'phone';
   readonly TWITTER: 'twitter.com';
   readonly YAHOO: 'yahoo.com';
+};
+
+declare const SignInMethod: {
+  readonly EMAIL_LINK: 'emailLink';
+  readonly EMAIL_PASSWORD: 'password';
+  readonly FACEBOOK: 'facebook.com';
+  readonly GITHUB: 'github.com';
+  readonly GOOGLE: 'google.com';
+  readonly PHONE: 'phone';
+  readonly TWITTER: 'twitter.com';
 };
 
 export class FirebaseAuthenticationWeb
@@ -81,6 +95,8 @@ export class FirebaseAuthenticationWeb
   implements FirebaseAuthenticationPlugin
 {
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
+  public static readonly ERROR_UNKNOWN_SIGN_IN_METHOD =
+    'Unknown sign in method.';
 
   constructor() {
     super();
@@ -144,12 +160,74 @@ export class FirebaseAuthenticationWeb
     };
   }
 
+  public async linkWithProvider(
+    options: LinkWithProviderOptions,
+  ): Promise<SignInResult> {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    let provider: AuthProvider;
+    let credentialFunc = OAuthProvider.credentialFromResult;
+    switch (options.providerId) {
+      case ProviderId.PASSWORD: {
+        let authCredential: EmailAuthCredential;
+        switch (options.signInMethod) {
+          case SignInMethod.EMAIL_PASSWORD:
+            authCredential = EmailAuthProvider.credential(
+              options.email,
+              options.password,
+            );
+            break;
+          case SignInMethod.EMAIL_LINK:
+            authCredential = EmailAuthProvider.credentialWithLink(
+              options.email,
+              options.emailLink,
+            );
+            break;
+          default:
+            throw new Error(
+              FirebaseAuthenticationWeb.ERROR_UNKNOWN_SIGN_IN_METHOD,
+            );
+        }
+        const userCredential = await linkWithCredential(
+          auth.currentUser,
+          authCredential,
+        );
+        return this.createSignInResult(userCredential, authCredential);
+      }
+      case ProviderId.FACEBOOK:
+        provider = new FacebookAuthProvider();
+        credentialFunc = FacebookAuthProvider.credentialFromResult;
+        break;
+      case ProviderId.GITHUB:
+        provider = new GithubAuthProvider();
+        credentialFunc = GithubAuthProvider.credentialFromResult;
+        break;
+      case ProviderId.GOOGLE:
+        provider = new GoogleAuthProvider();
+        credentialFunc = GoogleAuthProvider.credentialFromResult;
+        break;
+      case ProviderId.PHONE:
+        throw new Error('Not implemented on web.');
+      case ProviderId.TWITTER:
+        provider = new TwitterAuthProvider();
+        credentialFunc = TwitterAuthProvider.credentialFromResult;
+        break;
+      default:
+        provider = new OAuthProvider(options.providerId);
+    }
+    const userCredential = await linkWithPopup(auth.currentUser, provider);
+    const authCredential = credentialFunc(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
+  }
+
   public async linkWithApple(): Promise<SignInResult> {
     const auth = getAuth();
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(SignInProvider.APPLE);
+    const provider = new OAuthProvider(ProviderId.APPLE);
     const userCredential = await linkWithPopup(auth.currentUser, provider);
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
@@ -209,7 +287,7 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(SignInProvider.GITHUB);
+    const provider = new OAuthProvider(ProviderId.GITHUB);
     const userCredential = await linkWithPopup(auth.currentUser, provider);
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
@@ -232,7 +310,7 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(SignInProvider.MICROSOFT);
+    const provider = new OAuthProvider(ProviderId.MICROSOFT);
     const userCredential = await linkWithPopup(auth.currentUser, provider);
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
@@ -253,7 +331,7 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(SignInProvider.TWITTER);
+    const provider = new OAuthProvider(ProviderId.TWITTER);
     const userCredential = await linkWithPopup(auth.currentUser, provider);
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
@@ -264,7 +342,7 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const provider = new OAuthProvider(SignInProvider.YAHOO);
+    const provider = new OAuthProvider(ProviderId.YAHOO);
     const userCredential = await linkWithPopup(auth.currentUser, provider);
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
@@ -309,7 +387,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
-    const provider = new OAuthProvider(SignInProvider.APPLE);
+    const provider = new OAuthProvider(ProviderId.APPLE);
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
@@ -364,7 +442,7 @@ export class FirebaseAuthenticationWeb
   public async signInWithGithub(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = new OAuthProvider(SignInProvider.GITHUB);
+    const provider = new OAuthProvider(ProviderId.GITHUB);
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
@@ -387,7 +465,7 @@ export class FirebaseAuthenticationWeb
   public async signInWithMicrosoft(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = new OAuthProvider(SignInProvider.MICROSOFT);
+    const provider = new OAuthProvider(ProviderId.MICROSOFT);
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
@@ -408,7 +486,7 @@ export class FirebaseAuthenticationWeb
   public async signInWithTwitter(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = new OAuthProvider(SignInProvider.TWITTER);
+    const provider = new OAuthProvider(ProviderId.TWITTER);
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
@@ -417,7 +495,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithYahoo(options?: SignInOptions): Promise<SignInResult> {
-    const provider = new OAuthProvider(SignInProvider.YAHOO);
+    const provider = new OAuthProvider(ProviderId.YAHOO);
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);

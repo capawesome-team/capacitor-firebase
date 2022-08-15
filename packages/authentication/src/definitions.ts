@@ -446,6 +446,28 @@ export interface LinkWithPhoneNumberOptions {
 }
 
 /**
+ * @since 1.2.0
+ */
+export interface LinkWithProviderOptions
+  extends LinkWithEmailAndPasswordOptions,
+    LinkWithEmailLinkOptions {
+  /**
+   * The authentication provider ID for the credential.
+   *
+   * @example "password"
+   * @since 1.2.0
+   */
+  providerId: string;
+  /**
+   * The authentication sign in method for the credential.
+   *
+   * @example "emailLink"
+   * @since 1.2.0
+   */
+  signInMethod: string;
+}
+
+/**
  * @since 0.2.2
  */
 export interface SendPasswordResetEmailOptions {
