@@ -71,7 +71,6 @@ import type {
 export declare const ProviderId: {
   readonly APPLE: 'apple.com';
   readonly FACEBOOK: 'facebook.com';
-  readonly GAME_CENTER: 'gc.apple.com';
   readonly GITHUB: 'github.com';
   readonly GOOGLE: 'google.com';
   readonly MICROSOFT: 'microsoft.com';
