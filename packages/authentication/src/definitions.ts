@@ -26,7 +26,7 @@ declare module '@capacitor/cli' {
       /**
        * Configure the providers that should be loaded by the plugin.
        *
-       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
+       * Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]`
        *
        * Only available for Android and iOS.
        *
@@ -107,6 +107,12 @@ export interface FirebaseAuthenticationPlugin {
    * @since 1.2.0
    */
   linkWithFacebook(): Promise<SignInResult>;
+  /**
+   * Links the user account with Game Center authentication provider.
+   *
+   * @since 1.2.0
+   */
+  linkWithGameCenter(): Promise<SignInResult>;
   /**
    * Links the user account with GitHub authentication provider.
    *

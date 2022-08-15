@@ -58,10 +58,10 @@ These SDKs can initialize on their own and collect various data.
 
 These configuration values are available:
 
-| Prop                 | Type                  | Description                                                                                                                                                                                                                                                 | Default            | Since |
-| -------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                   | <code>false</code> | 0.1.0 |
-| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS. | <code>[]</code>    | 0.1.0 |
+| Prop                 | Type                  | Description                                                                                                                                                                                                                                                                             | Default            | Since |
+| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                                               | <code>false</code> | 0.1.0 |
+| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]` Only available for Android and iOS. | <code>[]</code>    | 0.1.0 |
 
 ### Examples
 
@@ -344,6 +344,7 @@ const useEmulator = async () => {
 * [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
 * [`linkWithEmailLink(...)`](#linkwithemaillink)
 * [`linkWithFacebook()`](#linkwithfacebook)
+* [`linkWithGameCenter()`](#linkwithgamecenter)
 * [`linkWithGithub()`](#linkwithgithub)
 * [`linkWithGoogle()`](#linkwithgoogle)
 * [`linkWithMicrosoft()`](#linkwithmicrosoft)
@@ -550,6 +551,21 @@ linkWithFacebook() => Promise<SignInResult>
 ```
 
 Links the user account with Facebook authentication provider.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.2.0
+
+--------------------
+
+
+### linkWithGameCenter()
+
+```typescript
+linkWithGameCenter() => Promise<SignInResult>
+```
+
+Links the user account with Game Center authentication provider.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
