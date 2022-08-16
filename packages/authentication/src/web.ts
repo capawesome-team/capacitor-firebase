@@ -378,11 +378,12 @@ export class FirebaseAuthenticationWeb
   public async signInWithGithub(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = new OAuthProvider(ProviderId.GITHUB);
+    const provider = new GithubAuthProvider();
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
-    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    const authCredential =
+      GithubAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -422,11 +423,12 @@ export class FirebaseAuthenticationWeb
   public async signInWithTwitter(
     options?: SignInOptions,
   ): Promise<SignInResult> {
-    const provider = new OAuthProvider(ProviderId.TWITTER);
+    const provider = new TwitterAuthProvider();
     this.applySignInOptions(options || {}, provider);
     const auth = getAuth();
     const userCredential = await signInWithPopup(auth, provider);
-    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    const authCredential =
+      TwitterAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
