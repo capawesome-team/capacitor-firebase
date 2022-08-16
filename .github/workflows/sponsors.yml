@@ -1,4 +1,4 @@
-name: Generate Sponsors README
+name: Sponsors
 
 on:
   workflow_dispatch:
@@ -9,10 +9,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate Sponsors README
+      - name: Update `Sponsors` section
         uses: JamesIves/github-sponsors-readme-action@releases/v1-org
         with:
           token: ${{ secrets.PAT }}
           file: 'README.md'
           organization: true
           minimum: 5
+      - name: Commit changes
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: main
+          folder: '.'
