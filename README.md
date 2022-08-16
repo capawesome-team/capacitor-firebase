@@ -36,7 +36,7 @@ This is an Apache-2.0-licensed open source project.
 It can grow thanks to the support by these awesome people. 
 If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).  
 
-<!-- sponsors --><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/bastifix"><img src="https://github.com/bastifix.png" width="60px" alt="Basti" /></a><!-- sponsors -->
 
 <a href="https://github.com/cycraft"><img src="https://github.com/cycraft.png" alt="cycraft" style="max-width: 100%;" width="50px"></a>
 
