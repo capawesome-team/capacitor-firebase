@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Generate Sponsors README
-        uses: JamesIves/github-sponsors-readme-action@v1
+        uses: JamesIves/github-sponsors-readme-action@releases/v1-org
         with:
           token: ${{ secrets.PAT }}
           file: 'README.md'
