@@ -16,6 +16,8 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Facebo
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
+    public static final String ERROR_PROVIDER_MISSING = "providerId must be provided.";
+    public static final String ERROR_UNLINK_FAILED = "unlink failed.";
     public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
     public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
     public static final String ERROR_EMAIL_MISSING = "email must be provided.";
@@ -347,6 +349,25 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signOut(PluginCall call) {
         try {
             implementation.signOut(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void unlink(PluginCall call) {
+        try {
+            String providerId = call.getString("providerId");
+            if (providerId == null) {
+                call.reject(ERROR_PROVIDER_MISSING);
+                return;
+            }
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.unlink(call, user, providerId);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }

@@ -346,6 +346,26 @@ public class FirebaseAuthentication {
         call.resolve();
     }
 
+    public void unlink(final PluginCall call, FirebaseUser user, @NonNull String providerId) {
+        user
+            .unlink(providerId)
+            .addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "unlink succeeded.");
+                        AuthResult authResult = task.getResult();
+                        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
+                        JSObject result = new JSObject();
+                        result.put("user", userResult);
+                        call.resolve(result);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "unlink failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_UNLINK_FAILED);
+                    }
+                }
+            );
+    }
+
     public void updateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull Runnable callback) {
         user
             .updateEmail(newEmail)
