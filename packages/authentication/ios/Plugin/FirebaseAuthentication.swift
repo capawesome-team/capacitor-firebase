@@ -115,6 +115,22 @@ public typealias AuthStateChangedObserver = () -> Void
         Auth.auth().languageCode = languageCode
     }
 
+    @objc func signInAnonymously(_ call: CAPPluginCall) {
+        self.savedCall = call
+        Auth.auth().signInAnonymously { authResult, error in
+            if let error = error {
+                self.handleFailedSignIn(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: nil, nonce: nil, accessToken: nil,
+                                                                         additionalUserInfo: authResult?.additionalUserInfo)
+            savedCall.resolve(result)
+        }
+    }
+
     @objc func signInWithApple(_ call: CAPPluginCall) {
         self.savedCall = call
         self.appleAuthProviderHandler?.signIn(call: call)

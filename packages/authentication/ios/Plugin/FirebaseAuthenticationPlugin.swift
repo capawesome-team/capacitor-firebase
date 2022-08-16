@@ -192,6 +192,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         call.resolve()
     }
 
+    @objc func signInAnonymously(_ call: CAPPluginCall) {
+        implementation?.signInAnonymously(call)
+    }
+
     @objc func signInWithApple(_ call: CAPPluginCall) {
         implementation?.signInWithApple(call)
     }

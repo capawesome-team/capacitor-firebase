@@ -14,6 +14,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setLanguageCode, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(signInAnonymously, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithApple, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithCustomToken, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithEmailAndPassword, CAPPluginReturnPromise);
