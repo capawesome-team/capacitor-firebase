@@ -218,6 +218,15 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void signInAnonymously(PluginCall call) {
+        try {
+            implementation.signInAnonymously(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
     public void signInWithApple(PluginCall call) {
         try {
             implementation.signInWithApple(call);

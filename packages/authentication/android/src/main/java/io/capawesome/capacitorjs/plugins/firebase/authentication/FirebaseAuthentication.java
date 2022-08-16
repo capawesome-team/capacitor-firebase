@@ -186,6 +186,32 @@ public class FirebaseAuthentication {
         firebaseAuthInstance.setLanguageCode(languageCode);
     }
 
+    public void signInAnonymously(final PluginCall call) {
+        firebaseAuthInstance
+            .signInAnonymously()
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInAnonymously succeeded.");
+                        AuthResult authResult = task.getResult();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+                            authResult.getUser(),
+                            authResult.getCredential(),
+                            null,
+                            null,
+                            null,
+                            authResult.getAdditionalUserInfo()
+                        );
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInAnonymously failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                    }
+                }
+            );
+    }
+
     public void signInWithApple(final PluginCall call) {
         appleAuthProviderHandler.signIn(call);
     }
