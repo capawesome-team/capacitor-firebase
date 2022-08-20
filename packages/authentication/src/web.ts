@@ -67,27 +67,7 @@ import type {
   UseEmulatorOptions,
   User,
 } from './definitions';
-
-export declare const ProviderId: {
-  readonly APPLE: 'apple.com';
-  readonly FACEBOOK: 'facebook.com';
-  readonly GITHUB: 'github.com';
-  readonly GOOGLE: 'google.com';
-  readonly MICROSOFT: 'microsoft.com';
-  readonly PLAY_GAMES: 'playgames.google.com';
-  readonly TWITTER: 'twitter.com';
-  readonly YAHOO: 'yahoo.com';
-
-  readonly FIREBASE: 'firebase';
-  readonly PASSWORD: 'password';
-  readonly PHONE: 'phone';
-};
-
-export declare const SignInMethod: {
-  readonly EMAIL_LINK: 'emailLink';
-  readonly EMAIL_PASSWORD: 'password';
-  readonly PHONE: 'phone';
-};
+import { ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin

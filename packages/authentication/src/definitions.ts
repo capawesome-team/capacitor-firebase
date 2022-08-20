@@ -889,3 +889,24 @@ export interface ActionCodeSettings {
    */
   dynamicLinkDomain?: string;
 }
+
+export enum ProviderId {
+  APPLE = 'apple.com',
+  FACEBOOK = 'facebook.com',
+  GITHUB = 'github.com',
+  GOOGLE = 'google.com',
+  MICROSOFT = 'microsoft.com',
+  PLAY_GAMES = 'playgames.google.com',
+  TWITTER = 'twitter.com',
+  YAHOO = 'yahoo.com',
+
+  FIREBASE = 'firebase',
+  PASSWORD = 'password',
+  PHONE = 'phone',
+}
+
+export enum SignInMethod {
+  EMAIL_LINK = 'emailLink',
+  EMAIL_PASSWORD = 'password',
+  PHONE = 'phone',
+}
