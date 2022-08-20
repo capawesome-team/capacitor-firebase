@@ -74,6 +74,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
+   * Get the tenant id.
+   *
+   * @since 1.1.0
+   */
+  getTenantId(): Promise<GetTenantId>;
+  /**
    * Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.
    *
    * @since 1.1.0
@@ -107,6 +113,12 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
+  /**
+   * Sets the tenant id.
+   *
+   * @since 0.1.0
+   */
+  setTenantId(options: SetTenantIdOptions): Promise<void>;
   /**
    * Starts the Apple sign-in flow.
    *
@@ -322,6 +334,19 @@ export interface GetIdTokenResult {
 }
 
 /**
+ * @since 1.1.0
+ */
+export interface GetTenantId {
+  /**
+   * The tenant id.
+   * `null` if it has never been set.
+   *
+   * @since 1.1.0
+   */
+  tenantId: string | null;
+}
+
+/**
  * @since 0.2.2
  */
 export interface SendPasswordResetEmailOptions {
@@ -342,6 +367,18 @@ export interface SetLanguageCodeOptions {
    * @since 0.1.0
    */
   languageCode: string;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface SetTenantIdOptions {
+  /**
+   * The tenant id.
+   *
+   * @since 1.1.0
+   */
+  tenantId: string;
 }
 
 /**

@@ -148,6 +148,11 @@ public class FirebaseAuthentication {
         );
     }
 
+    @Nullable
+    public String getTenantId() {
+        return firebaseAuthInstance.getTenantId();
+    }
+
     public boolean isSignInWithEmailLink(@NonNull String emailLink) {
         return firebaseAuthInstance.isSignInWithEmailLink(emailLink);
     }
@@ -184,6 +189,10 @@ public class FirebaseAuthentication {
 
     public void setLanguageCode(String languageCode) {
         firebaseAuthInstance.setLanguageCode(languageCode);
+    }
+
+    public void setTenantId(String tenantId) {
+        firebaseAuthInstance.setTenantId(tenantId);
     }
 
     public void signInWithApple(final PluginCall call) {
