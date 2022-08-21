@@ -8,16 +8,10 @@ on:
 permissions:
   issues: write
 
-concurrency: 
-  group: needs-reply-remove-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
 jobs:
   needs-reply:
     runs-on: ubuntu-latest
-    if: |
-      github.event.comment.author_association != 'OWNER' &&
-      github.event.comment.author_association != 'COLLABORATOR'
+    if: github.event.comment.author_association != 'MEMBER'
     steps:
       - name: Remove needs-reply label
         run: |
