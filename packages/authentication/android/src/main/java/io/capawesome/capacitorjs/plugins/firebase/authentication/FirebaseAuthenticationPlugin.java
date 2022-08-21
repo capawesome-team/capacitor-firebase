@@ -17,7 +17,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
     public static final String ERROR_PROVIDER_MISSING = "providerId must be provided.";
-    public static final String ERROR_UNLINK_FAILED = "unlink failed.";
     public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
     public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
     public static final String ERROR_EMAIL_MISSING = "email must be provided.";
@@ -28,10 +27,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
-    public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
-    public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
+    public static final String ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH =
+        "linkWithEmailAndPassword and linkWithEmailLink cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH =
         "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
@@ -136,6 +135,114 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("isSignInWithEmailLink", implementation.isSignInWithEmailLink(emailLink));
             call.resolve(result);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithApple(PluginCall call) {
+        try {
+            implementation.linkWithApple(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithFacebook(PluginCall call) {
+        try {
+            implementation.linkWithFacebook(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithGithub(PluginCall call) {
+        try {
+            implementation.linkWithGithub(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithGoogle(PluginCall call) {
+        try {
+            implementation.linkWithGoogle(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithMicrosoft(PluginCall call) {
+        try {
+            implementation.linkWithMicrosoft(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithPhoneNumber(PluginCall call) {
+        try {
+            String phoneNumber = call.getString("phoneNumber");
+            String verificationId = call.getString("verificationId");
+            String verificationCode = call.getString("verificationCode");
+
+            if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
+                call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
+                return;
+            }
+
+            implementation.linkWithPhoneNumber(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithPlayGames(PluginCall call) {
+        try {
+            implementation.linkWithPlayGames(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithTwitter(PluginCall call) {
+        try {
+            implementation.linkWithTwitter(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithYahoo(PluginCall call) {
+        try {
+            implementation.linkWithYahoo(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithEmailAndPassword(PluginCall call) {
+        try {
+            implementation.linkWithEmailAndPassword(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithEmailLink(PluginCall call) {
+        try {
+            implementation.linkWithEmailLink(call);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }

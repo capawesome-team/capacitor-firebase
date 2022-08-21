@@ -19,6 +19,10 @@ public class PhoneAuthProviderHandler {
         this.pluginImplementation = pluginImplementation;
     }
 
+    public void link(final PluginCall call) {
+        signIn(call);
+    }
+
     public void signIn(final PluginCall call) {
         String phoneNumber = call.getString("phoneNumber");
         String verificationId = call.getString("verificationId");
@@ -44,19 +48,31 @@ public class PhoneAuthProviderHandler {
 
     private void handleVerificationCode(final PluginCall call, String verificationId, String verificationCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
-        pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
+        if (call.getMethodName().startsWith("link")) {
+            pluginImplementation.handleSuccessfulLink(call, credential, null, null, null, null);
+        } else {
+            pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
+        }
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(final PluginCall call) {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
+                if (call.getMethodName().startsWith("link")) {
+                    pluginImplementation.handleSuccessfulLink(call, credential, null, null, null, null);
+                } else {
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
+                }
             }
 
             @Override
             public void onVerificationFailed(FirebaseException exception) {
-                pluginImplementation.handleFailedSignIn(call, null, exception);
+                if (call.getMethodName().startsWith("link")) {
+                    pluginImplementation.handleFailedLink(call, null, exception);
+                } else {
+                    pluginImplementation.handleFailedSignIn(call, null, exception);
+                }
             }
 
             @Override

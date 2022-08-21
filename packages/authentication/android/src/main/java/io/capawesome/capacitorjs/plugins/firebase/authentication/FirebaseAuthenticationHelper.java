@@ -10,6 +10,29 @@ import java.util.Map;
 
 public class FirebaseAuthenticationHelper {
 
+    public static class ProviderId {
+
+        public static final String APPLE = "apple.com";
+        public static final String FACEBOOK = "facebook.com";
+        public static final String GITHUB = "github.com";
+        public static final String GOOGLE = "google.com";
+        public static final String MICROSOFT = "microsoft.com";
+        public static final String PLAY_GAMES = "playgames.google.com";
+        public static final String TWITTER = "twitter.com";
+        public static final String YAHOO = "yahoo.com";
+
+        public static final String FIREBASE = "firebase";
+        public static final String PASSWORD = "password";
+        public static final String PHONE = "phone";
+    }
+
+    public static class SignInMethod {
+
+        public static final String EMAIL_LINK = "emailLink";
+        public static final String EMAIL_PASSWORD = "password";
+        public static final String PHONE = "phone";
+    }
+
     public static JSObject createSignInResult(
         @Nullable FirebaseUser user,
         @Nullable AuthCredential credential,
