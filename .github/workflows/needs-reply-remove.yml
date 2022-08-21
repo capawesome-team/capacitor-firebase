@@ -8,10 +8,6 @@ on:
 permissions:
   issues: write
 
-concurrency: 
-  group: needs-reply-remove-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
 jobs:
   needs-reply:
     runs-on: ubuntu-latest
@@ -19,6 +15,8 @@ jobs:
       github.event.comment.author_association != 'OWNER' &&
       github.event.comment.author_association != 'COLLABORATOR'
     steps:
+      - name: Test
+        run: echo ${{ github.event.comment.author_association }}
       - name: Remove needs-reply label
         run: |
           curl --request DELETE \
