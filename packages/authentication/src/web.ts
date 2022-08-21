@@ -39,7 +39,7 @@ import type {
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
-  GetTenantId,
+  GetTenantIdResult,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
   SendPasswordResetEmailOptions,
@@ -117,7 +117,7 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
-  public async getTenantId(): Promise<GetTenantId> {
+  public async getTenantId(): Promise<GetTenantIdResult> {
     const auth = getAuth();
     return {
       tenantId: auth.tenantId,

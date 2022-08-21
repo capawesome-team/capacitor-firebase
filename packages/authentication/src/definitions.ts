@@ -78,7 +78,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  getTenantId(): Promise<GetTenantId>;
+  getTenantId(): Promise<GetTenantIdResult>;
   /**
    * Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.
    *
@@ -116,7 +116,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Sets the tenant id.
    *
-   * @since 0.1.0
+   * @since 1.1.0
    */
   setTenantId(options: SetTenantIdOptions): Promise<void>;
   /**
@@ -336,7 +336,7 @@ export interface GetIdTokenResult {
 /**
  * @since 1.1.0
  */
-export interface GetTenantId {
+export interface GetTenantIdResult {
   /**
    * The tenant id.
    * `null` if it has never been set.
