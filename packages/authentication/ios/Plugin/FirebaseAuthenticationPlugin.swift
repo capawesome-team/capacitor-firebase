@@ -11,6 +11,7 @@ import FirebaseAuth
 public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorNoUserSignedIn = "No user is signed in."
     public let errorOobCodeMissing = "oobCode must be provided."
+    public let errorTenantIdMissing = "tenantId must be provided."
     public let errorEmailMissing = "email must be provided."
     public let errorNewEmailMissing = "newEmail must be provided."
     public let errorEmailLinkMissing = "emailLink must be provided."
@@ -94,6 +95,12 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             result["token"] = token
             call.resolve(result)
         })
+    }
+
+    @objc func getTenantId(_ call: CAPPluginCall) {
+        var result = JSObject()
+        result["tenantId"] = implementation?.getTenantId()
+        call.resolve(result)
     }
 
     @objc func isSignInWithEmailLink(_ call: CAPPluginCall) {
@@ -189,6 +196,16 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         let languageCode = call.getString("languageCode", "")
 
         implementation?.setLanguageCode(languageCode)
+        call.resolve()
+    }
+
+    @objc func setTenantId(_ call: CAPPluginCall) {
+        guard let tenantId = call.getString("tenantId") else {
+            call.reject(errorTenantIdMissing)
+            return
+        }
+
+        implementation?.setTenantId(tenantId: tenantId)
         call.resolve()
     }
 

@@ -39,11 +39,13 @@ import type {
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
+  GetTenantIdResult,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
+  SetTenantIdOptions,
   SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
@@ -115,6 +117,13 @@ export class FirebaseAuthenticationWeb
     return result;
   }
 
+  public async getTenantId(): Promise<GetTenantIdResult> {
+    const auth = getAuth();
+    return {
+      tenantId: auth.tenantId,
+    };
+  }
+
   public async sendEmailVerification(): Promise<void> {
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -154,6 +163,11 @@ export class FirebaseAuthenticationWeb
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
     const auth = getAuth();
     auth.languageCode = options.languageCode;
+  }
+
+  public async setTenantId(options: SetTenantIdOptions): Promise<void> {
+    const auth = getAuth();
+    auth.tenantId = options.tenantId;
   }
 
   public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {

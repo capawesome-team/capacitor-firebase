@@ -333,11 +333,13 @@ const useEmulator = async () => {
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
+* [`getTenantId()`](#gettenantid)
 * [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
 * [`sendEmailVerification()`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
+* [`setTenantId(...)`](#settenantid)
 * [`signInWithApple(...)`](#signinwithapple)
 * [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
@@ -453,6 +455,21 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 --------------------
 
 
+### getTenantId()
+
+```typescript
+getTenantId() => Promise<GetTenantIdResult>
+```
+
+Get the tenant id.
+
+**Returns:** <code>Promise&lt;<a href="#gettenantidresult">GetTenantIdResult</a>&gt;</code>
+
+**Since:** 1.1.0
+
+--------------------
+
+
 ### isSignInWithEmailLink(...)
 
 ```typescript
@@ -534,6 +551,23 @@ Sets the user-facing language code for auth operations.
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### setTenantId(...)
+
+```typescript
+setTenantId(options: SetTenantIdOptions) => Promise<void>
+```
+
+Sets the tenant id.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#settenantidoptions">SetTenantIdOptions</a></code> |
+
+**Since:** 1.1.0
 
 --------------------
 
@@ -975,6 +1009,13 @@ Remove all listeners for this plugin.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
 
 
+#### GetTenantIdResult
+
+| Prop           | Type                        | Description                                     | Since |
+| -------------- | --------------------------- | ----------------------------------------------- | ----- |
+| **`tenantId`** | <code>string \| null</code> | The tenant id. `null` if it has never been set. | 1.1.0 |
+
+
 #### IsSignInWithEmailLinkResult
 
 | Prop                        | Type                 | Description                                                                                   |
@@ -1023,6 +1064,13 @@ bundle identifiers.
 | Prop               | Type                | Description           | Since |
 | ------------------ | ------------------- | --------------------- | ----- |
 | **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
+
+
+#### SetTenantIdOptions
+
+| Prop           | Type                | Description    | Since |
+| -------------- | ------------------- | -------------- | ----- |
+| **`tenantId`** | <code>string</code> | The tenant id. | 1.1.0 |
 
 
 #### SignInOptions
