@@ -11,12 +11,8 @@ permissions:
 jobs:
   needs-reply:
     runs-on: ubuntu-latest
-    if: |
-      github.event.comment.author_association != 'OWNER' &&
-      github.event.comment.author_association != 'COLLABORATOR'
+    if: github.event.comment.author_association != 'MEMBER'
     steps:
-      - name: Test
-        run: echo ${{ github.event.comment.author_association }}
       - name: Remove needs-reply label
         run: |
           curl --request DELETE \
