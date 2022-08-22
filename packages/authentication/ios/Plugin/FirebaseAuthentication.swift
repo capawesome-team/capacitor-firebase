@@ -5,6 +5,9 @@ import FirebaseAuth
 
 public typealias AuthStateChangedObserver = () -> Void
 
+public typealias AuthSuccessHandler = ((credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?)) -> Void
+public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Void
+
 @objc public class FirebaseAuthentication: NSObject {
     public var authStateObserver: AuthStateChangedObserver?
     private let plugin: FirebaseAuthenticationPlugin
@@ -95,6 +98,102 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func isSignInWithEmailLink(link: String) -> Bool {
         return Auth.auth().isSignIn(withEmailLink: link)
+    }
+
+    @objc func linkWithApple(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.appleAuthProviderHandler?.link(call: call)
+    }
+
+    @objc func linkWithEmailAndPassword(_ call: CAPPluginCall) {
+        if config.skipNativeAuth == true {
+            call.reject(plugin.errorEmailSignInSkipNativeAuth)
+            return
+        }
+        guard let user = self.getCurrentUser() else {
+            call.reject(plugin.errorNoUserSignedIn)
+            return
+        }
+
+        let email = call.getString("email", "")
+        let password = call.getString("password", "")
+
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+
+        self.savedCall = call
+        user.link(with: credential) { authResult, error in
+            if let error = error {
+                self.handleFailedLink(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: nil, nonce: nil, accessToken: nil,
+                                                                         additionalUserInfo: authResult?.additionalUserInfo)
+            savedCall.resolve(result)
+        }
+    }
+
+    @objc func linkWithEmailLink(_ call: CAPPluginCall) {
+        guard let user = self.getCurrentUser() else {
+            call.reject(plugin.errorNoUserSignedIn)
+            return
+        }
+
+        let email = call.getString("email", "")
+        let emailLink = call.getString("emailLink", "")
+
+        let credential = EmailAuthProvider.credential(withEmail: email, link: emailLink)
+
+        self.savedCall = call
+        user.link(with: credential) { authResult, error in
+            if let error = error {
+                self.handleFailedLink(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: nil, nonce: nil, accessToken: nil,
+                                                                         additionalUserInfo: authResult?.additionalUserInfo)
+            savedCall.resolve(result)
+        }
+    }
+
+    @objc func linkWithFacebook(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.facebookAuthProviderHandler?.link(call: call)
+    }
+
+    @objc func linkWithGithub(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.GITHUB)
+    }
+
+    @objc func linkWithGoogle(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.googleAuthProviderHandler?.link(call: call)
+    }
+
+    @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.MICROSOFT)
+    }
+
+    @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.phoneAuthProviderHandler?.link(call: call)
+    }
+
+    @objc func linkWithTwitter(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.TWITTER)
+    }
+
+    @objc func linkWithYahoo(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.YAHOO)
     }
 
     @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
@@ -217,7 +316,7 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func signInWithGithub(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: "github.com")
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.GITHUB)
     }
 
     @objc func signInWithGoogle(_ call: CAPPluginCall) {
@@ -227,7 +326,7 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func signInWithMicrosoft(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: "microsoft.com")
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.MICROSOFT)
     }
 
     @objc func signInWithPhoneNumber(_ call: CAPPluginCall) {
@@ -237,12 +336,12 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func signInWithTwitter(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: "twitter.com")
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.TWITTER)
     }
 
     @objc func signInWithYahoo(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: "yahoo.com")
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.YAHOO)
     }
 
     @objc func signOut(_ call: CAPPluginCall) {
@@ -280,6 +379,45 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func useEmulator(_ host: String, _ port: Int) {
         Auth.auth().useEmulator(withHost: host, port: port)
+    }
+
+    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
+        if config.skipNativeAuth == true {
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: nil)
+            savedCall.resolve(result)
+            return
+        }
+        guard let user = self.getCurrentUser() else {
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            savedCall.reject(self.plugin.errorNoUserSignedIn)
+            return
+        }
+
+        user.link(with: credential) { (authResult, error) in
+            if let error = error {
+                self.handleFailedLink(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken,
+                                                                         additionalUserInfo: authResult?.additionalUserInfo)
+            savedCall.resolve(result)
+        }
+    }
+
+    func handleFailedLink(message: String?, error: Error?) {
+        guard let savedCall = self.savedCall else {
+            return
+        }
+        let errorMessage = message ?? error?.localizedDescription ?? ""
+        savedCall.reject(errorMessage, nil, error)
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {

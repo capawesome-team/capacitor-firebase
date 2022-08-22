@@ -11,12 +11,12 @@ class OAuthProviderHandler: NSObject {
         self.pluginImplementation = pluginImplementation
     }
 
-    func signIn(call: CAPPluginCall, providerId: String) {
-        self.provider = OAuthProvider(providerID: providerId)
-        self.applySignInOptions(call: call, provider: provider!)
-        DispatchQueue.main.async {
-            self.startSignInFlow()
-        }
+    func link(call: CAPPluginCall, providerId: ProviderId) {
+        dispatch(call, providerId, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+    }
+
+    func signIn(call: CAPPluginCall, providerId: ProviderId) {
+        dispatch(call, providerId, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
     }
 
     private func applySignInOptions(call: CAPPluginCall, provider: OAuthProvider) {
@@ -38,14 +38,18 @@ class OAuthProviderHandler: NSObject {
         provider.scopes = scopes
     }
 
-    private func startSignInFlow() {
-        self.provider?.getCredentialWith(nil) { credential, error in
-            if let error = error {
-                self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
-                return
-            }
-            if let credential = credential {
-                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+    private func dispatch(_ call: CAPPluginCall, _ providerId: ProviderId, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
+        self.provider = OAuthProvider(providerID: providerId.rawValue)
+        self.applySignInOptions(call: call, provider: provider!)
+        DispatchQueue.main.async {
+            self.provider?.getCredentialWith(nil) { credential, error in
+                if let error = error {
+                    failure((message: nil, error: error))
+                    return
+                }
+                if let credential = credential {
+                    success((credential: credential, idToken: nil, nonce: nil, accessToken: nil))
+                }
             }
         }
     }

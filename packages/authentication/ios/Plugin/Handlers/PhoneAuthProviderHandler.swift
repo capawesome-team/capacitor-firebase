@@ -11,26 +11,34 @@ class PhoneAuthProviderHandler: NSObject {
         super.init()
     }
 
+    func link(call: CAPPluginCall) {
+        dispatch(call, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+    }
+
     func signIn(call: CAPPluginCall) {
+        dispatch(call, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
+    }
+
+    private func dispatch(_ call: CAPPluginCall, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
         let phoneNumber = call.getString("phoneNumber")
         let verificationId = call.getString("verificationId")
         let verificationCode = call.getString("verificationCode")
 
         if verificationCode == nil {
-            verifyPhoneNumber(call, phoneNumber)
+            verifyPhoneNumber(call, phoneNumber, failure)
         } else {
-            handleVerificationCode(call, verificationId, verificationCode)
+            handleVerificationCode(call, verificationId, verificationCode, success)
         }
     }
 
-    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?) {
+    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?, _ failure: @escaping AuthFailureHandler) {
         guard let phoneNumber = phoneNumber else {
             return
         }
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
                 if let error = error {
-                    self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                    failure((message: nil, error: error))
                     return
                 }
 
@@ -40,7 +48,7 @@ class PhoneAuthProviderHandler: NSObject {
             }
     }
 
-    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?) {
+    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?, _ success: @escaping AuthSuccessHandler) {
         guard let verificationID = verificationID, let verificationCode = verificationCode else {
             return
         }
@@ -48,6 +56,6 @@ class PhoneAuthProviderHandler: NSObject {
             withVerificationID: verificationID,
             verificationCode: verificationCode
         )
-        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+        success((credential: credential, idToken: nil, nonce: nil, accessToken: nil))
     }
 }

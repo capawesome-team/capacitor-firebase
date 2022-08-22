@@ -115,6 +115,59 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         call.resolve(result)
     }
 
+    @objc func linkWithApple(_ call: CAPPluginCall) {
+        implementation?.linkWithApple(call)
+    }
+
+    @objc func linkWithEmailAndPassword(_ call: CAPPluginCall) {
+        implementation?.linkWithEmailAndPassword(call)
+    }
+
+    @objc func linkWithEmailLink(_ call: CAPPluginCall) {
+        implementation?.linkWithEmailLink(call)
+    }
+
+    @objc func linkWithFacebook(_ call: CAPPluginCall) {
+        implementation?.linkWithFacebook(call)
+    }
+
+    @objc func linkWithGithub(_ call: CAPPluginCall) {
+        implementation?.linkWithGithub(call)
+    }
+
+    @objc func linkWithGoogle(_ call: CAPPluginCall) {
+        implementation?.linkWithGoogle(call)
+    }
+
+    @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
+        implementation?.linkWithMicrosoft(call)
+    }
+
+    @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
+        let phoneNumber = call.getString("phoneNumber")
+        let verificationId = call.getString("verificationId")
+        let verificationCode = call.getString("verificationCode")
+
+        if phoneNumber == nil && (verificationId == nil || verificationCode == nil) {
+            call.reject(errorPhoneNumberVerificationIdCodeMissing)
+            return
+        }
+
+        implementation?.linkWithPhoneNumber(call)
+    }
+
+    @objc func linkWithPlayGames(_ call: CAPPluginCall) {
+        call.reject("Not available on iOS.")
+    }
+
+    @objc func linkWithTwitter(_ call: CAPPluginCall) {
+        implementation?.linkWithTwitter(call)
+    }
+
+    @objc func linkWithYahoo(_ call: CAPPluginCall) {
+        implementation?.linkWithYahoo(call)
+    }
+
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
         guard let user = implementation?.getCurrentUser() else {
             call.reject(errorNoUserSignedIn)

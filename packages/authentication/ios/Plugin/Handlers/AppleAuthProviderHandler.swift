@@ -7,15 +7,25 @@ import CryptoKit
 
 class AppleAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
-    fileprivate var currentNonce: String?
+    fileprivate var nonce: String?
+    fileprivate var success: AuthSuccessHandler?
+    fileprivate var failure: AuthFailureHandler?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
     }
 
+    func link(call: CAPPluginCall) {
+        if #available(iOS 13, *) {
+            self.dispatch(call, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+        } else {
+            call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
+        }
+    }
+
     func signIn(call: CAPPluginCall) {
         if #available(iOS 13, *) {
-            self.startSignInWithAppleFlow()
+            self.dispatch(call, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
         } else {
             call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
         }
@@ -63,9 +73,12 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
     }
 
     @available(iOS 13, *)
-    func startSignInWithAppleFlow() {
+    func dispatch(_ call: CAPPluginCall, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
+        self.success = success
+        self.failure = failure
+
         let nonce = randomNonceString()
-        currentNonce = nonce
+        self.nonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -92,7 +105,7 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             return
         }
-        guard let nonce = currentNonce else {
+        guard let nonce = self.nonce else {
             fatalError("Invalid state: A login callback was received, but no login request was sent.")
         }
         guard let appleIDToken = appleIDCredential.identityToken else {
@@ -103,11 +116,11 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
-        let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil)
+        let credential = OAuthProvider.credential(withProviderID: ProviderId.APPLE.rawValue, idToken: idTokenString, rawNonce: nonce)
+        self.success!((credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil))
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+        self.failure!((message: nil, error: error))
     }
 }

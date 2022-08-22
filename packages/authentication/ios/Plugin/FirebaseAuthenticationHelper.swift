@@ -3,6 +3,27 @@ import Capacitor
 import FirebaseCore
 import FirebaseAuth
 
+public enum ProviderId: String {
+    case APPLE = "apple.com"
+    case FACEBOOK = "facebook.com"
+    case GITHUB = "github.com"
+    case GOOGLE = "google.com"
+    case MICROSOFT = "microsoft.com"
+    case PLAY_GAMES = "playgames.google.com"
+    case TWITTER = "twitter.com"
+    case YAHOO = "yahoo.com"
+
+    case FIREBASE = "firebase"
+    case PASSWORD = "password"
+    case PHONE = "phone"
+}
+
+public enum SignInMethod: String {
+    case EMAIL_LINK = "emailLink"
+    case EMAIL_PASSWORD = "password"
+    case PHONE = "phone"
+}
+
 public class FirebaseAuthenticationHelper {
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
         let userResult = self.createUserResult(user)

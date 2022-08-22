@@ -11,6 +11,17 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(getIdToken, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getTenantId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(isSignInWithEmailLink, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithApple, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithFacebook, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithGithub, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithGoogle, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithMicrosoft, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithPhoneNumber, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithPlayGames, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithTwitter, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithYahoo, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithEmailAndPassword, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendEmailVerification, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);

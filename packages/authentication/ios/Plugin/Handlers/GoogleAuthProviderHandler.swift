@@ -14,7 +14,15 @@ class GoogleAuthProviderHandler: NSObject {
         super.init()
     }
 
+    func link(call: CAPPluginCall) {
+        dispatch(call, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+    }
+
     func signIn(call: CAPPluginCall) {
+        dispatch(call, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
+    }
+
+    private func dispatch(_ call: CAPPluginCall, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
         #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientId)
@@ -24,7 +32,7 @@ class GoogleAuthProviderHandler: NSObject {
         DispatchQueue.main.async {
             GIDSignIn.sharedInstance.signIn(with: config, presenting: controller, hint: nil, additionalScopes: scopes, callback: { user, error in
                 if let error = error {
-                    self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                    failure((message: nil, error: error))
                     return
                 }
 
@@ -33,7 +41,7 @@ class GoogleAuthProviderHandler: NSObject {
                 let accessToken = authentication.accessToken
 
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                success((credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken))
             })
         }
         #endif
