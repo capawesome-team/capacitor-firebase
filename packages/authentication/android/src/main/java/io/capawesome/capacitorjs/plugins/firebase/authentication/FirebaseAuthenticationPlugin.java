@@ -441,10 +441,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         super.startActivityForResult(call, intent, callbackName);
     }
 
-    public void notifyListeners(String eventName, JSObject data) {
-        super.notifyListeners(eventName, data);
-    }
-
     @Override
     protected void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
         super.handleOnActivityResult(requestCode, resultCode, data);
@@ -456,7 +452,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
         JSObject result = new JSObject();
         result.put("user", userResult);
-        notifyListeners(AUTH_STATE_CHANGE_EVENT, result);
+        notifyListeners(AUTH_STATE_CHANGE_EVENT, result, true);
     }
 
     @ActivityCallback
