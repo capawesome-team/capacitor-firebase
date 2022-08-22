@@ -9,6 +9,7 @@ import FirebaseAuth
  */
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
+    public let errorProviderMissing = "providerId must be provided."
     public let errorNoUserSignedIn = "No user is signed in."
     public let errorOobCodeMissing = "oobCode must be provided."
     public let errorEmailMissing = "email must be provided."
@@ -255,6 +256,28 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func signOut(_ call: CAPPluginCall) {
         implementation?.signOut(call)
+    }
+
+    @objc func unlink(_ call: CAPPluginCall) {
+        guard let providerId = call.getString("providerId") else {
+            call.reject(errorProviderMissing)
+            return
+        }
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.unlink(user: user, providerId: providerId, completion: { user, error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            let userResult = FirebaseAuthenticationHelper.createUserResult(user)
+            var result = JSObject()
+            result["user"] = userResult
+            call.resolve(result)
+        })
     }
 
     @objc func updateEmail(_ call: CAPPluginCall) {

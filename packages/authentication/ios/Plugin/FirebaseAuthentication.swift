@@ -248,6 +248,12 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func unlink(user: User, providerId: String, completion: @escaping (User?, Error?) -> Void) {
+        user.unlink(fromProvider: providerId) { user, error in
+            completion(user, error)
+        }
+    }
+
     @objc func updateEmail(user: User, newEmail: String, completion: @escaping (Error?) -> Void) {
         user.updateEmail(to: newEmail) { error in
             completion(error)
