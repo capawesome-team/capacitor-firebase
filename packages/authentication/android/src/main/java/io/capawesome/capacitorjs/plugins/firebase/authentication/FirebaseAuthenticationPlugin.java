@@ -19,6 +19,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_PROVIDER_MISSING = "providerId must be provided.";
     public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
     public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
+    public static final String ERROR_TENANT_ID_MISSING = "tenantId must be provided.";
     public static final String ERROR_EMAIL_MISSING = "email must be provided.";
     public static final String ERROR_NEW_EMAIL_MISSING = "newEmail must be provided.";
     public static final String ERROR_EMAIL_LINK_MISSING = "emailLink must be provided.";
@@ -119,6 +120,17 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                     }
                 }
             );
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void getTenantId(PluginCall call) {
+        try {
+            JSObject result = new JSObject();
+            result.put("tenantId", implementation.getTenantId());
+            call.resolve(result);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
@@ -320,6 +332,22 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             String languageCode = call.getString("languageCode", "");
 
             implementation.setLanguageCode(languageCode);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void setTenantId(PluginCall call) {
+        try {
+            String tenantId = call.getString("tenantId");
+            if (tenantId == null) {
+                call.reject(ERROR_TENANT_ID_MISSING);
+                return;
+            }
+
+            implementation.setTenantId(tenantId);
             call.resolve();
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());

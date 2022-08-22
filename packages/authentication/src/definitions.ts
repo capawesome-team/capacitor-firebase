@@ -74,6 +74,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
+   * Get the tenant id.
+   *
+   * @since 1.1.0
+   */
+  getTenantId(): Promise<GetTenantIdResult>;
+  /**
    * Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.
    *
    * @since 1.1.0
@@ -177,6 +183,12 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
+  /**
+   * Sets the tenant id.
+   *
+   * @since 1.1.0
+   */
+  setTenantId(options: SetTenantIdOptions): Promise<void>;
   /**
    * Signs in by creating a temporary anonymous account.
    *
@@ -404,6 +416,19 @@ export interface GetIdTokenResult {
 }
 
 /**
+ * @since 1.1.0
+ */
+export interface GetTenantIdResult {
+  /**
+   * The tenant id.
+   * `null` if it has never been set.
+   *
+   * @since 1.1.0
+   */
+  tenantId: string | null;
+}
+
+/**
  * @since 1.2.0
  */
 export interface LinkWithEmailAndPasswordOptions {
@@ -472,6 +497,18 @@ export interface SetLanguageCodeOptions {
    * @since 0.1.0
    */
   languageCode: string;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface SetTenantIdOptions {
+  /**
+   * The tenant id.
+   *
+   * @since 1.1.0
+   */
+  tenantId: string;
 }
 
 /**

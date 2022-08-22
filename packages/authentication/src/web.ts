@@ -46,6 +46,7 @@ import type {
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
+  GetTenantIdResult,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
   LinkWithEmailAndPasswordOptions,
@@ -54,6 +55,7 @@ import type {
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
+  SetTenantIdOptions,
   SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
@@ -126,6 +128,13 @@ export class FirebaseAuthenticationWeb
       token: idToken || '',
     };
     return result;
+  }
+
+  public async getTenantId(): Promise<GetTenantIdResult> {
+    const auth = getAuth();
+    return {
+      tenantId: auth.tenantId,
+    };
   }
 
   public async isSignInWithEmailLink(
@@ -300,6 +309,11 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const userCredential = await signInAnonymously(auth);
     return this.createSignInResult(userCredential, null);
+  }
+
+  public async setTenantId(options: SetTenantIdOptions): Promise<void> {
+    const auth = getAuth();
+    auth.tenantId = options.tenantId;
   }
 
   public async signInWithApple(options?: SignInOptions): Promise<SignInResult> {
