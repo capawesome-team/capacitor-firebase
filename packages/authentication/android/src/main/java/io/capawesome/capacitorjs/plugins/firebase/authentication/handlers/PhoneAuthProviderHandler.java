@@ -1,6 +1,9 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
+import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.FirebaseException;
@@ -15,15 +18,24 @@ public class PhoneAuthProviderHandler {
 
     private FirebaseAuthentication pluginImplementation;
 
+    @Nullable
+    private AuthHandler handler;
+
     public PhoneAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
     }
 
     public void link(final PluginCall call) {
-        signIn(call);
+        this.handler = pluginImplementation.getAuthHandlerLink();
+        dispatch(call);
     }
 
     public void signIn(final PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerSignIn();
+        dispatch(call);
+    }
+
+    private void dispatch(final PluginCall call) {
         String phoneNumber = call.getString("phoneNumber");
         String verificationId = call.getString("verificationId");
         String verificationCode = call.getString("verificationCode");
@@ -48,31 +60,19 @@ public class PhoneAuthProviderHandler {
 
     private void handleVerificationCode(final PluginCall call, String verificationId, String verificationCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
-        if (call.getMethodName().startsWith("link")) {
-            pluginImplementation.handleSuccessfulLink(call, credential, null, null, null, null);
-        } else {
-            pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
-        }
+        handler.success(call, credential, null, null, null, null);
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(final PluginCall call) {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                if (call.getMethodName().startsWith("link")) {
-                    pluginImplementation.handleSuccessfulLink(call, credential, null, null, null, null);
-                } else {
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
-                }
+                handler.success(call, credential, null, null, null, null);
             }
 
             @Override
             public void onVerificationFailed(FirebaseException exception) {
-                if (call.getMethodName().startsWith("link")) {
-                    pluginImplementation.handleFailedLink(call, null, exception);
-                } else {
-                    pluginImplementation.handleFailedSignIn(call, null, exception);
-                }
+                handler.failure(call, null, exception);
             }
 
             @Override

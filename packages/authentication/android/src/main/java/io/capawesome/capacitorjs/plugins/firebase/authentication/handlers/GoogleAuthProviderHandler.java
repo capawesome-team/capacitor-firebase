@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
+import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
+
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
@@ -29,12 +31,25 @@ public class GoogleAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
+    @Nullable
+    private AuthHandler handler;
+
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
+    public void link(PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerLink();
+        dispatch(call);
+    }
+
     public void signIn(PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerSignIn();
+        dispatch(call);
+    }
+
+    private void dispatch(PluginCall call) {
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResult");
@@ -62,15 +77,15 @@ public class GoogleAuthProviderHandler {
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
                     } catch (IOException | GoogleAuthException exception) {
-                        pluginImplementation.handleFailedSignIn(call, null, exception);
+                        handler.failure(call, null, exception);
                     }
 
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
+                    handler.success(call, credential, idToken, null, accessToken, null);
                 }
             )
                 .start();
         } catch (ApiException exception) {
-            pluginImplementation.handleFailedSignIn(call, null, exception);
+            handler.failure(call, null, exception);
         }
     }
 

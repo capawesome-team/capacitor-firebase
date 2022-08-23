@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
+import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
+
 import android.content.Intent;
 import android.util.Log;
 import androidx.annotation.Nullable;
@@ -11,7 +13,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.getcapacitor.JSArray;
-import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -30,6 +31,9 @@ public class FacebookAuthProviderHandler {
 
     @Nullable
     private PluginCall savedCall;
+
+    @Nullable
+    private AuthHandler handler;
 
     public FacebookAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
@@ -62,7 +66,17 @@ public class FacebookAuthProviderHandler {
         }
     }
 
+    public void link(PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerLink();
+        dispatch(call);
+    }
+
     public void signIn(PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerSignIn();
+        dispatch(call);
+    }
+
+    private void dispatch(PluginCall call) {
         this.savedCall = call;
         this.applySignInOptions(call, this.loginButton);
         this.loginButton.performClick();
@@ -94,23 +108,23 @@ public class FacebookAuthProviderHandler {
         AccessToken accessToken = loginResult.getAccessToken();
         String accessTokenString = accessToken.getToken();
         AuthCredential credential = FacebookAuthProvider.getCredential(accessTokenString);
-        if (savedCall == null) {
+        if (savedCall == null || handler == null) {
             return;
         }
-        pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString, null);
+        handler.success(savedCall, credential, null, null, accessTokenString, null);
     }
 
     private void handleCancelCallback() {
-        if (savedCall == null) {
+        if (savedCall == null || handler == null) {
             return;
         }
-        pluginImplementation.handleFailedSignIn(savedCall, ERROR_SIGN_IN_CANCELED, null);
+        handler.failure(savedCall, ERROR_SIGN_IN_CANCELED, null);
     }
 
     private void handleErrorCallback(FacebookException exception) {
-        if (savedCall == null) {
+        if (savedCall == null || handler == null) {
             return;
         }
-        pluginImplementation.handleFailedSignIn(savedCall, null, exception);
+        handler.failure(savedCall, null, exception);
     }
 }

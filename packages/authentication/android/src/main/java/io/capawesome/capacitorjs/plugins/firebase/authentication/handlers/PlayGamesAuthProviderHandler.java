@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
+import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
+
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
@@ -26,12 +28,25 @@ public class PlayGamesAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
+    @Nullable
+    private AuthHandler handler;
+
     public PlayGamesAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
+    public void link(PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerLink();
+        dispatch(call);
+    }
+
     public void signIn(PluginCall call) {
+        this.handler = pluginImplementation.getAuthHandlerSignIn();
+        dispatch(call);
+    }
+
+    private void dispatch(PluginCall call) {
         this.mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderActivityResult");
@@ -49,9 +64,9 @@ public class PlayGamesAuthProviderHandler {
             String serverAuthCode = account.getServerAuthCode();
             AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);
             String idToken = account.getIdToken();
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, null, null);
+            handler.success(call, credential, idToken, null, null, null);
         } catch (ApiException exception) {
-            pluginImplementation.handleFailedSignIn(call, null, exception);
+            handler.failure(call, null, exception);
         }
     }
 
