@@ -10,6 +10,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.OAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -64,7 +65,7 @@ public class AppleAuthProviderHandler {
     }
 
     public void signIn(PluginCall call) {
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder("apple.com");
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {

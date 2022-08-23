@@ -164,38 +164,6 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.link(call, ProviderId.APPLE);
     }
 
-    public void linkWithFacebook(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.FACEBOOK);
-    }
-
-    public void linkWithGithub(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.GITHUB);
-    }
-
-    public void linkWithGoogle(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.GOOGLE);
-    }
-
-    public void linkWithMicrosoft(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.MICROSOFT);
-    }
-
-    public void linkWithPhoneNumber(final PluginCall call) {
-        phoneAuthProviderHandler.link(call);
-    }
-
-    public void linkWithPlayGames(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.PLAY_GAMES);
-    }
-
-    public void linkWithTwitter(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.TWITTER);
-    }
-
-    public void linkWithYahoo(final PluginCall call) {
-        oAuthProviderHandler.link(call, ProviderId.YAHOO);
-    }
-
     public void linkWithEmailAndPassword(final PluginCall call) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
@@ -256,6 +224,38 @@ public class FirebaseAuthentication {
                     }
                 }
             );
+    }
+
+    public void linkWithFacebook(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.FACEBOOK);
+    }
+
+    public void linkWithGithub(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.GITHUB);
+    }
+
+    public void linkWithGoogle(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.GOOGLE);
+    }
+
+    public void linkWithMicrosoft(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.MICROSOFT);
+    }
+
+    public void linkWithPhoneNumber(final PluginCall call) {
+        phoneAuthProviderHandler.link(call);
+    }
+
+    public void linkWithPlayGames(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.PLAY_GAMES);
+    }
+
+    public void linkWithTwitter(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.TWITTER);
+    }
+
+    public void linkWithYahoo(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.YAHOO);
     }
 
     public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
@@ -326,65 +326,6 @@ public class FirebaseAuthentication {
         appleAuthProviderHandler.signIn(call);
     }
 
-    public void signInWithFacebook(final PluginCall call) {
-        facebookAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithGithub(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "github.com");
-    }
-
-    public void signInWithGoogle(final PluginCall call) {
-        googleAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithMicrosoft(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "microsoft.com");
-    }
-
-    public void signInWithPhoneNumber(final PluginCall call) {
-        phoneAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithPlayGames(final PluginCall call) {
-        playGamesAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithTwitter(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "twitter.com");
-    }
-
-    public void signInWithYahoo(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "yahoo.com");
-    }
-
-    public void signInWithCustomToken(final PluginCall call) {
-        boolean skipNativeAuth = this.config.getSkipNativeAuth();
-        if (skipNativeAuth) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
-            return;
-        }
-
-        String token = call.getString("token", "");
-
-        firebaseAuthInstance
-            .signInWithCustomToken(token)
-            .addOnCompleteListener(
-                plugin.getActivity(),
-                task -> {
-                    if (task.isSuccessful()) {
-                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
-                        FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = createSignInResult(user, null, null, null, null, null);
-                        call.resolve(signInResult);
-                    } else {
-                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
-                        call.reject(task.getException().getLocalizedMessage());
-                    }
-                }
-            );
-    }
-
     public void signInWithEmailAndPassword(final PluginCall call) {
         boolean skipNativeAuth = this.config.getSkipNativeAuth();
         if (skipNativeAuth) {
@@ -436,6 +377,65 @@ public class FirebaseAuthentication {
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailLink failed.", task.getException());
+                        call.reject(task.getException().getLocalizedMessage());
+                    }
+                }
+            );
+    }
+
+    public void signInWithFacebook(final PluginCall call) {
+        facebookAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithGithub(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.GITHUB);
+    }
+
+    public void signInWithGoogle(final PluginCall call) {
+        googleAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithMicrosoft(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.MICROSOFT);
+    }
+
+    public void signInWithPhoneNumber(final PluginCall call) {
+        phoneAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithPlayGames(final PluginCall call) {
+        playGamesAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithTwitter(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.TWITTER);
+    }
+
+    public void signInWithYahoo(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.YAHOO);
+    }
+
+    public void signInWithCustomToken(final PluginCall call) {
+        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
+            return;
+        }
+
+        String token = call.getString("token", "");
+
+        firebaseAuthInstance
+            .signInWithCustomToken(token)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
+                        FirebaseUser user = getCurrentUser();
+                        JSObject signInResult = createSignInResult(user, null, null, null, null, null);
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
                         call.reject(task.getException().getLocalizedMessage());
                     }
                 }
@@ -636,20 +636,20 @@ public class FirebaseAuthentication {
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {
         List providerList = Arrays.asList(config.getProviders());
-        if (providerList.contains("facebook.com")) {
-            facebookAuthProviderHandler = new FacebookAuthProviderHandler(this);
-        }
-        if (providerList.contains("google.com")) {
-            googleAuthProviderHandler = new GoogleAuthProviderHandler(this);
-        }
-        if (providerList.contains("apple.com")) {
+        if (providerList.contains(ProviderId.APPLE)) {
             appleAuthProviderHandler = new AppleAuthProviderHandler(this);
         }
-        if (providerList.contains("playgames.google.com")) {
-            playGamesAuthProviderHandler = new PlayGamesAuthProviderHandler(this);
+        if (providerList.contains(ProviderId.FACEBOOK)) {
+            facebookAuthProviderHandler = new FacebookAuthProviderHandler(this);
         }
-        if (providerList.contains("phone")) {
+        if (providerList.contains(ProviderId.GOOGLE)) {
+            googleAuthProviderHandler = new GoogleAuthProviderHandler(this);
+        }
+        if (providerList.contains(ProviderId.PHONE)) {
             phoneAuthProviderHandler = new PhoneAuthProviderHandler(this);
+        }
+        if (providerList.contains(ProviderId.PLAY_GAMES)) {
+            playGamesAuthProviderHandler = new PlayGamesAuthProviderHandler(this);
         }
         oAuthProviderHandler = new OAuthProviderHandler(this);
     }

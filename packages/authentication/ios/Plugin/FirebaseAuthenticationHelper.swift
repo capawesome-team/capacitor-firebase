@@ -4,24 +4,24 @@ import FirebaseCore
 import FirebaseAuth
 
 public enum ProviderId: String {
-    case APPLE = "apple.com"
-    case FACEBOOK = "facebook.com"
-    case GITHUB = "github.com"
-    case GOOGLE = "google.com"
-    case MICROSOFT = "microsoft.com"
-    case PLAYGAMES = "playgames.google.com"
-    case TWITTER = "twitter.com"
-    case YAHOO = "yahoo.com"
+    case apple = "apple.com"
+    case facebook = "facebook.com"
+    case gitHub = "github.com"
+    case google = "google.com"
+    case microsoft = "microsoft.com"
+    case playGames = "playgames.google.com"
+    case twitter = "twitter.com"
+    case yahoo = "yahoo.com"
 
-    case FIREBASE = "firebase"
-    case PASSWORD = "password"
-    case PHONE = "phone"
+    case firebase = "firebase"
+    case password = "password"
+    case phone = "phone"
 }
 
 public enum SignInMethod: String {
-    case EMAILLINK = "emailLink"
-    case EMAILPASSWORD = "password"
-    case PHONE = "phone"
+    case emailLink = "emailLink"
+    case emailPassword = "password"
+    case phone = "phone"
 }
 
 public class FirebaseAuthenticationHelper {

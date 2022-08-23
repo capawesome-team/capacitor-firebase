@@ -171,7 +171,7 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
     @objc func linkWithGithub(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.GITHUB)
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.gitHub)
     }
 
     @objc func linkWithGoogle(_ call: CAPPluginCall) {
@@ -181,7 +181,7 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
     @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.MICROSOFT)
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.microsoft)
     }
 
     @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
@@ -191,12 +191,12 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
     @objc func linkWithTwitter(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.TWITTER)
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.twitter)
     }
 
     @objc func linkWithYahoo(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.YAHOO)
+        self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.yahoo)
     }
 
     @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
@@ -323,7 +323,7 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
     @objc func signInWithGithub(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.GITHUB)
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.gitHub)
     }
 
     @objc func signInWithGoogle(_ call: CAPPluginCall) {
@@ -333,7 +333,7 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
     @objc func signInWithMicrosoft(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.MICROSOFT)
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.microsoft)
     }
 
     @objc func signInWithPhoneNumber(_ call: CAPPluginCall) {
@@ -343,12 +343,12 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
     @objc func signInWithTwitter(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.TWITTER)
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.twitter)
     }
 
     @objc func signInWithYahoo(_ call: CAPPluginCall) {
         self.savedCall = call
-        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.YAHOO)
+        self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.yahoo)
     }
 
     @objc func signOut(_ call: CAPPluginCall) {
@@ -467,16 +467,16 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {
-        if config.providers.contains("apple.com") {
+        if config.providers.contains(ProviderId.apple) {
             self.appleAuthProviderHandler = AppleAuthProviderHandler(self)
         }
-        if config.providers.contains("facebook.com") {
+        if config.providers.contains(ProviderId.facebook) {
             self.facebookAuthProviderHandler = FacebookAuthProviderHandler(self)
         }
-        if config.providers.contains("google.com") {
+        if config.providers.contains(ProviderId.google) {
             self.googleAuthProviderHandler = GoogleAuthProviderHandler(self)
         }
-        if config.providers.contains("phone") {
+        if config.providers.contains(ProviderId.phone) {
             self.phoneAuthProviderHandler = PhoneAuthProviderHandler(self)
         }
         self.oAuthProviderHandler = OAuthProviderHandler(self)
