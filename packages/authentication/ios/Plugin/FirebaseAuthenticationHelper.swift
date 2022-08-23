@@ -9,7 +9,7 @@ public enum ProviderId: String {
     case GITHUB = "github.com"
     case GOOGLE = "google.com"
     case MICROSOFT = "microsoft.com"
-    case PLAY_GAMES = "playgames.google.com"
+    case PLAYGAMES = "playgames.google.com"
     case TWITTER = "twitter.com"
     case YAHOO = "yahoo.com"
 
@@ -19,8 +19,8 @@ public enum ProviderId: String {
 }
 
 public enum SignInMethod: String {
-    case EMAIL_LINK = "emailLink"
-    case EMAIL_PASSWORD = "password"
+    case EMAILLINK = "emailLink"
+    case EMAILPASSWORD = "password"
     case PHONE = "phone"
 }
 
