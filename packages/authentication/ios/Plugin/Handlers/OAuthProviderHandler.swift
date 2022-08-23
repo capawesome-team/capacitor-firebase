@@ -11,11 +11,11 @@ class OAuthProviderHandler: NSObject {
         self.pluginImplementation = pluginImplementation
     }
 
-    func link(call: CAPPluginCall, providerId: ProviderId) {
+    func link(call: CAPPluginCall, providerId: String) {
         dispatch(call, providerId, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
     }
 
-    func signIn(call: CAPPluginCall, providerId: ProviderId) {
+    func signIn(call: CAPPluginCall, providerId: String) {
         dispatch(call, providerId, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
     }
 
@@ -38,8 +38,8 @@ class OAuthProviderHandler: NSObject {
         provider.scopes = scopes
     }
 
-    private func dispatch(_ call: CAPPluginCall, _ providerId: ProviderId, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
-        self.provider = OAuthProvider(providerID: providerId.rawValue)
+    private func dispatch(_ call: CAPPluginCall, _ providerId: String, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
+        self.provider = OAuthProvider(providerID: providerId)
         self.applySignInOptions(call: call, provider: provider!)
         DispatchQueue.main.async {
             self.provider?.getCredentialWith(nil) { credential, error in

@@ -116,7 +116,7 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
-        let credential = OAuthProvider.credential(withProviderID: ProviderId.APPLE.rawValue, idToken: idTokenString, rawNonce: nonce)
+        let credential = OAuthProvider.credential(withProviderID: ProviderId.apple, idToken: idTokenString, rawNonce: nonce)
         self.success!((credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil))
     }
 

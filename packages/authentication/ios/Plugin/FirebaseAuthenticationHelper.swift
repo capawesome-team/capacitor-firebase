@@ -3,25 +3,25 @@ import Capacitor
 import FirebaseCore
 import FirebaseAuth
 
-public enum ProviderId: String {
-    case apple = "apple.com"
-    case facebook = "facebook.com"
-    case gitHub = "github.com"
-    case google = "google.com"
-    case microsoft = "microsoft.com"
-    case playGames = "playgames.google.com"
-    case twitter = "twitter.com"
-    case yahoo = "yahoo.com"
+public struct ProviderId {
+    static let apple = "apple.com"
+    static let facebook = "facebook.com"
+    static let gitHub = "github.com"
+    static let google = "google.com"
+    static let microsoft = "microsoft.com"
+    static let playGames = "playgames.google.com"
+    static let twitter = "twitter.com"
+    static let yahoo = "yahoo.com"
 
-    case firebase = "firebase"
-    case password = "password"
-    case phone = "phone"
+    static let firebase = "firebase"
+    static let password = "password"
+    static let phone = "phone"
 }
 
-public enum SignInMethod: String {
-    case emailLink = "emailLink"
-    case emailPassword = "password"
-    case phone = "phone"
+public struct SignInMethod {
+    static let emailLink = "emailLink"
+    static let emailPassword = "password"
+    static let phone = "phone"
 }
 
 public class FirebaseAuthenticationHelper {
