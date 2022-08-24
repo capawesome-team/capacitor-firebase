@@ -249,7 +249,7 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithPlayGames(final PluginCall call) {
-        playGamesAuthProviderHandler.link(call, ProviderId.PLAY_GAMES);
+        playGamesAuthProviderHandler.link(call);
     }
 
     public void linkWithTwitter(final PluginCall call) {
