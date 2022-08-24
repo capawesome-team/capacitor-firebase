@@ -33,7 +33,7 @@ public class FacebookAuthProviderHandler {
     private PluginCall savedCall;
 
     @Nullable
-    private AuthHandler handler;
+    private AuthType authType;
 
     public FacebookAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
@@ -67,17 +67,16 @@ public class FacebookAuthProviderHandler {
     }
 
     public void link(PluginCall call) {
-        this.handler = pluginImplementation.getAuthHandlerLink();
-        dispatch(call);
+        dispatch(call, AuthType.LINK);
     }
 
     public void signIn(PluginCall call) {
-        this.handler = pluginImplementation.getAuthHandlerSignIn();
-        dispatch(call);
+        dispatch(call, AuthType.SIGN_IN);
     }
 
-    private void dispatch(PluginCall call) {
+    private void dispatch(PluginCall call, AuthType authType) {
         this.savedCall = call;
+        this.authType = authType;
         this.applySignInOptions(call, this.loginButton);
         this.loginButton.performClick();
     }
@@ -108,23 +107,23 @@ public class FacebookAuthProviderHandler {
         AccessToken accessToken = loginResult.getAccessToken();
         String accessTokenString = accessToken.getToken();
         AuthCredential credential = FacebookAuthProvider.getCredential(accessTokenString);
-        if (savedCall == null || handler == null) {
+        if (savedCall == null || authType == null) {
             return;
         }
-        handler.success(savedCall, credential, null, null, accessTokenString, null);
+        success(savedCall, authType, pluginImplementation, credential, null, null, accessTokenString, null);
     }
 
     private void handleCancelCallback() {
-        if (savedCall == null || handler == null) {
+        if (savedCall == null) {
             return;
         }
-        handler.failure(savedCall, ERROR_SIGN_IN_CANCELED, null);
+        failure(savedCall, ERROR_SIGN_IN_CANCELED, null);
     }
 
     private void handleErrorCallback(FacebookException exception) {
-        if (savedCall == null || handler == null) {
+        if (savedCall == null) {
             return;
         }
-        handler.failure(savedCall, null, exception);
+        failure(savedCall, null, exception);
     }
 }

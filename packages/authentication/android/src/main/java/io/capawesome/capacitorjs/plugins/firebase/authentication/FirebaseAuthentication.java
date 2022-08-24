@@ -35,8 +35,6 @@ public class FirebaseAuthentication {
     @Nullable
     private AuthStateChangeListener authStateChangeListener;
 
-    private FirebaseAuthenticationHandler handler;
-
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
     private FirebaseAuth firebaseAuthInstance;
@@ -51,7 +49,6 @@ public class FirebaseAuthentication {
     public FirebaseAuthentication(FirebaseAuthenticationPlugin plugin, FirebaseAuthenticationConfig config) {
         this.plugin = plugin;
         this.config = config;
-        this.handler = new FirebaseAuthenticationHandler(this);
         firebaseAuthInstance = FirebaseAuth.getInstance();
         this.initAuthProviderHandlers(config);
         this.firebaseAuthStateListener =
@@ -534,14 +531,6 @@ public class FirebaseAuthentication {
 
     public FirebaseAuthenticationConfig getConfig() {
         return config;
-    }
-
-    public FirebaseAuthenticationHandler.AuthHandler getAuthHandlerLink() {
-        return handler.authHandlerLink;
-    }
-
-    public FirebaseAuthenticationHandler.AuthHandler getAuthHandlerSignIn() {
-        return handler.authHandlerSignIn;
     }
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {

@@ -3,7 +3,6 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
 
 import android.util.Log;
-import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
@@ -22,37 +21,32 @@ public class OAuthProviderHandler {
 
     private final FirebaseAuthentication pluginImplementation;
 
-    @Nullable
-    private AuthHandler handler;
-
     public OAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
     }
 
     public void link(PluginCall call, String providerId) {
-        this.handler = pluginImplementation.getAuthHandlerLink();
-        dispatch(call, providerId, true);
+        dispatch(call, providerId, AuthType.LINK);
     }
 
     public void signIn(PluginCall call, String providerId) {
-        this.handler = pluginImplementation.getAuthHandlerSignIn();
-        dispatch(call, providerId, false);
+        dispatch(call, providerId, AuthType.SIGN_IN);
     }
 
-    private void dispatch(PluginCall call, String providerId, Boolean isLink) {
+    private void dispatch(PluginCall call, String providerId, AuthType authType) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
-            startActivity(call, provider, isLink);
+            startActivity(call, authType, provider);
         } else {
-            finishActivity(call, pendingResultTask);
+            finishActivity(call, authType, pendingResultTask);
         }
     }
 
-    private void startActivity(final PluginCall call, OAuthProvider.Builder provider, Boolean isLink) {
+    private void startActivity(final PluginCall call, final AuthType authType, OAuthProvider.Builder provider) {
         (
-            (isLink)
+            (authType == AuthType.LINK)
                 ? pluginImplementation
                     .getFirebaseAuthInstance()
                     .getCurrentUser()
@@ -64,22 +58,22 @@ public class OAuthProviderHandler {
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
                     AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    handler.success(call, credential, null, null, null, additionalUserInfo);
+                    success(call, authType, pluginImplementation, credential, null, null, null, additionalUserInfo);
                 }
             )
-            .addOnFailureListener(exception -> handler.failure(call, null, exception));
+            .addOnFailureListener(exception -> failure(call, null, exception));
     }
 
-    private void finishActivity(final PluginCall call, Task<AuthResult> pendingResultTask) {
+    private void finishActivity(final PluginCall call, final AuthType authType, Task<AuthResult> pendingResultTask) {
         pendingResultTask
             .addOnSuccessListener(
                 authResult -> {
                     AuthCredential credential = authResult.getCredential();
                     AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    handler.success(call, credential, null, null, null, additionalUserInfo);
+                    success(call, authType, pluginImplementation, credential, null, null, null, additionalUserInfo);
                 }
             )
-            .addOnFailureListener(exception -> handler.failure(call, null, exception));
+            .addOnFailureListener(exception -> failure(call, null, exception));
     }
 
     private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {

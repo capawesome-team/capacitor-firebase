@@ -3,6 +3,7 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
@@ -31,27 +32,23 @@ public class GoogleAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
-    @Nullable
-    private AuthHandler handler;
-
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
     public void link(PluginCall call) {
-        this.handler = pluginImplementation.getAuthHandlerLink();
-        dispatch(call);
+        dispatch(call, AuthType.LINK);
     }
 
     public void signIn(PluginCall call) {
-        this.handler = pluginImplementation.getAuthHandlerSignIn();
-        dispatch(call);
+        dispatch(call, AuthType.SIGN_IN);
     }
 
-    private void dispatch(PluginCall call) {
+    private void dispatch(PluginCall call, AuthType authType) {
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        signInIntent.putExtra("authType", authType);
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResult");
     }
 
@@ -63,6 +60,8 @@ public class GoogleAuthProviderHandler {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
+            Bundle extras = data.getExtras();
+            AuthType authType = AuthType.fromId(extras.getInt("authType"));
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken();
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -77,15 +76,15 @@ public class GoogleAuthProviderHandler {
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
                     } catch (IOException | GoogleAuthException exception) {
-                        handler.failure(call, null, exception);
+                        failure(call, null, exception);
                     }
 
-                    handler.success(call, credential, idToken, null, accessToken, null);
+                    success(call, authType, pluginImplementation, credential, idToken, null, accessToken, null);
                 }
             )
                 .start();
         } catch (ApiException exception) {
-            handler.failure(call, null, exception);
+            failure(call, null, exception);
         }
     }
 
