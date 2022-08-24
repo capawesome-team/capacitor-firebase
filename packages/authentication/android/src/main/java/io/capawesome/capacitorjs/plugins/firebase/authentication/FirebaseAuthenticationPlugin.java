@@ -162,6 +162,24 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void linkWithEmailAndPassword(PluginCall call) {
+        try {
+            implementation.linkWithEmailAndPassword(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void linkWithEmailLink(PluginCall call) {
+        try {
+            implementation.linkWithEmailLink(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
     public void linkWithFacebook(PluginCall call) {
         try {
             implementation.linkWithFacebook(call);
@@ -237,24 +255,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithYahoo(PluginCall call) {
         try {
             implementation.linkWithYahoo(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
-        }
-    }
-
-    @PluginMethod
-    public void linkWithEmailAndPassword(PluginCall call) {
-        try {
-            implementation.linkWithEmailAndPassword(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
-        }
-    }
-
-    @PluginMethod
-    public void linkWithEmailLink(PluginCall call) {
-        try {
-            implementation.linkWithEmailLink(call);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
