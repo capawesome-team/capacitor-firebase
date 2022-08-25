@@ -21,31 +21,35 @@ class FacebookAuthProviderHandler: NSObject {
     }
 
     func link(call: CAPPluginCall) {
-        dispatch(call, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+        if self.pluginImplementation.getCurrentUser() == nil {
+            call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
+            return
+        }
+        dispatch(call, AuthType.link)
     }
 
     func signIn(call: CAPPluginCall) {
-        dispatch(call, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
+        dispatch(call, AuthType.signIn)
     }
 
-    private func dispatch(_ call: CAPPluginCall, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
+    private func dispatch(_ call: CAPPluginCall, _ authType: AuthType) {
         #if RGCFA_INCLUDE_FACEBOOK
         let scopes = call.getArray("scopes", String.self) ?? []
         DispatchQueue.main.async {
             self.loginManager.logIn(permissions: ["email", "public_profile"] + scopes, from: self.pluginImplementation.getPlugin().bridge?.viewController) { result, error in
                 if let error = error {
-                    failure((message: nil, error: error))
+                    FirebaseAuthenticationHandler.failure(call, message: nil, error: error)
                     return
                 }
 
                 guard let accessToken = result?.token else {
-                    failure((message: self.errorSignInCanceled, error: nil))
+                    FirebaseAuthenticationHandler.failure(call, message: self.errorSignInCanceled, error: nil)
                     return
                 }
 
                 let accessTokenString = accessToken.tokenString
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
-                success((credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString))
+                FirebaseAuthenticationHandler.success(call, authType, self.pluginImplementation, credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString)
             }
         }
         #endif

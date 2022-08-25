@@ -12,33 +12,37 @@ class PhoneAuthProviderHandler: NSObject {
     }
 
     func link(call: CAPPluginCall) {
-        dispatch(call, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+        if self.pluginImplementation.getCurrentUser() == nil {
+            call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
+            return
+        }
+        dispatch(call, AuthType.link)
     }
 
     func signIn(call: CAPPluginCall) {
-        dispatch(call, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
+        dispatch(call, AuthType.signIn)
     }
 
-    private func dispatch(_ call: CAPPluginCall, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
+    private func dispatch(_ call: CAPPluginCall, _ authType: AuthType) {
         let phoneNumber = call.getString("phoneNumber")
         let verificationId = call.getString("verificationId")
         let verificationCode = call.getString("verificationCode")
 
         if verificationCode == nil {
-            verifyPhoneNumber(call, phoneNumber, failure)
+            verifyPhoneNumber(call, authType, phoneNumber)
         } else {
-            handleVerificationCode(call, verificationId, verificationCode, success)
+            handleVerificationCode(call, authType, verificationId, verificationCode)
         }
     }
 
-    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?, _ failure: @escaping AuthFailureHandler) {
+    private func verifyPhoneNumber(_ call: CAPPluginCall, _ authType: AuthType, _ phoneNumber: String?) {
         guard let phoneNumber = phoneNumber else {
             return
         }
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
                 if let error = error {
-                    failure((message: nil, error: error))
+                    FirebaseAuthenticationHandler.failure(call, message: nil, error: error)
                     return
                 }
 
@@ -48,7 +52,7 @@ class PhoneAuthProviderHandler: NSObject {
             }
     }
 
-    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?, _ success: @escaping AuthSuccessHandler) {
+    private func handleVerificationCode(_ call: CAPPluginCall, _ authType: AuthType, _ verificationID: String?, _ verificationCode: String?) {
         guard let verificationID = verificationID, let verificationCode = verificationCode else {
             return
         }
@@ -56,6 +60,6 @@ class PhoneAuthProviderHandler: NSObject {
             withVerificationID: verificationID,
             verificationCode: verificationCode
         )
-        success((credential: credential, idToken: nil, nonce: nil, accessToken: nil))
+        FirebaseAuthenticationHandler.success(call, authType, self.pluginImplementation, credential: credential, idToken: nil, nonce: nil, accessToken: nil)
     }
 }

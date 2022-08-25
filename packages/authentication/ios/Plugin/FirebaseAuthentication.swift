@@ -55,11 +55,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
         self.savedCall = call
         return Auth.auth().createUser(withEmail: email, password: password) { _, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let user = self.getCurrentUser()
@@ -102,7 +102,6 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     @objc func linkWithApple(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.appleAuthProviderHandler?.link(call: call)
     }
 
@@ -123,11 +122,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
         self.savedCall = call
         user.link(with: credential) { authResult, error in
-            if let error = error {
-                self.handleFailedLink(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
@@ -150,11 +149,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
         self.savedCall = call
         user.link(with: credential) { authResult, error in
-            if let error = error {
-                self.handleFailedLink(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
@@ -165,37 +164,30 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     @objc func linkWithFacebook(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.facebookAuthProviderHandler?.link(call: call)
     }
 
     @objc func linkWithGithub(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.gitHub)
     }
 
     @objc func linkWithGoogle(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.googleAuthProviderHandler?.link(call: call)
     }
 
     @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.microsoft)
     }
 
     @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.phoneAuthProviderHandler?.link(call: call)
     }
 
     @objc func linkWithTwitter(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.twitter)
     }
 
     @objc func linkWithYahoo(_ call: CAPPluginCall) {
-        self.savedCall = call
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.yahoo)
     }
 
@@ -228,11 +220,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     @objc func signInAnonymously(_ call: CAPPluginCall) {
         self.savedCall = call
         Auth.auth().signInAnonymously { authResult, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
@@ -257,11 +249,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
         self.savedCall = call
         Auth.auth().signIn(withCustomToken: token) { _, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let user = self.getCurrentUser()
@@ -282,11 +274,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
         self.savedCall = call
         Auth.auth().signIn(withEmail: email, password: password) { _, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let user = self.getCurrentUser()
@@ -302,11 +294,11 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
 
         self.savedCall = call
         Auth.auth().signIn(withEmail: email, link: emailLink) { authResult, error in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
+            guard let savedCall = self.savedCall else {
                 return
             }
-            guard let savedCall = self.savedCall else {
+            if let error = error {
+                FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
                 return
             }
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
@@ -388,82 +380,12 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
         Auth.auth().useEmulator(withHost: host, port: port)
     }
 
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        if config.skipNativeAuth == true {
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
-                                                                         accessToken: accessToken, additionalUserInfo: nil)
-            savedCall.resolve(result)
-            return
-        }
-        guard let user = self.getCurrentUser() else {
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            savedCall.reject(self.plugin.errorNoUserSignedIn)
-            return
-        }
-
-        user.link(with: credential) { (authResult, error) in
-            if let error = error {
-                self.handleFailedLink(message: nil, error: error)
-                return
-            }
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
-                                                                         idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo)
-            savedCall.resolve(result)
-        }
-    }
-
-    func handleFailedLink(message: String?, error: Error?) {
-        guard let savedCall = self.savedCall else {
-            return
-        }
-        let errorMessage = message ?? error?.localizedDescription ?? ""
-        savedCall.reject(errorMessage, nil, error)
-    }
-
-    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        if config.skipNativeAuth == true {
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
-                                                                         accessToken: accessToken, additionalUserInfo: nil)
-            savedCall.resolve(result)
-            return
-        }
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error {
-                self.handleFailedSignIn(message: nil, error: error)
-                return
-            }
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
-                                                                         idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo)
-            savedCall.resolve(result)
-        }
-    }
-
-    func handleFailedSignIn(message: String?, error: Error?) {
-        guard let savedCall = self.savedCall else {
-            return
-        }
-        let errorMessage = message ?? error?.localizedDescription ?? ""
-        savedCall.reject(errorMessage, nil, error)
-    }
-
     func getPlugin() -> FirebaseAuthenticationPlugin {
         return self.plugin
+    }
+
+    func getConfig() -> FirebaseAuthenticationConfig {
+        return self.config
     }
 
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {

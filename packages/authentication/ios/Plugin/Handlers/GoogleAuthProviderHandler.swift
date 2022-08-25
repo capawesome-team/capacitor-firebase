@@ -15,14 +15,18 @@ class GoogleAuthProviderHandler: NSObject {
     }
 
     func link(call: CAPPluginCall) {
-        dispatch(call, success: self.pluginImplementation.handleSuccessfulLink, failure: self.pluginImplementation.handleFailedLink)
+        if self.pluginImplementation.getCurrentUser() == nil {
+            call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
+            return
+        }
+        dispatch(call, AuthType.link)
     }
 
     func signIn(call: CAPPluginCall) {
-        dispatch(call, success: self.pluginImplementation.handleSuccessfulSignIn, failure: self.pluginImplementation.handleFailedSignIn)
+        dispatch(call, AuthType.signIn)
     }
 
-    private func dispatch(_ call: CAPPluginCall, success: @escaping AuthSuccessHandler, failure: @escaping AuthFailureHandler) {
+    private func dispatch(_ call: CAPPluginCall, _ authType: AuthType) {
         #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientId)
@@ -32,7 +36,7 @@ class GoogleAuthProviderHandler: NSObject {
         DispatchQueue.main.async {
             GIDSignIn.sharedInstance.signIn(with: config, presenting: controller, hint: nil, additionalScopes: scopes, callback: { user, error in
                 if let error = error {
-                    failure((message: nil, error: error))
+                    FirebaseAuthenticationHandler.failure(call, message: nil, error: error)
                     return
                 }
 
@@ -41,7 +45,7 @@ class GoogleAuthProviderHandler: NSObject {
                 let accessToken = authentication.accessToken
 
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-                success((credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken))
+                FirebaseAuthenticationHandler.success(call, authType, self.pluginImplementation, credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
             })
         }
         #endif
