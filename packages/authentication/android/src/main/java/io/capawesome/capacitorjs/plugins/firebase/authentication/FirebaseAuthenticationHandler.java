@@ -14,16 +14,7 @@ public class FirebaseAuthenticationHandler {
 
     public enum AuthType {
         SIGN_IN,
-        LINK;
-
-        private static AuthType[] values = null;
-
-        public static AuthType fromId(int id) {
-            if (AuthType.values == null) {
-                AuthType.values = AuthType.values();
-            }
-            return AuthType.values[id];
-        }
+        LINK
     }
 
     public static void success(
@@ -44,7 +35,7 @@ public class FirebaseAuthenticationHandler {
         }
         (
             (authType == AuthType.LINK)
-                ? implementation.getFirebaseAuthInstance().getCurrentUser().linkWithCredential(credential)
+                ? implementation.getCurrentUser().linkWithCredential(credential)
                 : implementation.getFirebaseAuthInstance().signInWithCredential(credential)
         ).addOnCompleteListener(
                 implementation.getPlugin().getActivity(),

@@ -3,13 +3,11 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,12 +28,18 @@ public class PlayGamesAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
+    private AuthType authType;
+
     public PlayGamesAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
     public void link(PluginCall call) {
+        if (pluginImplementation.getCurrentUser() == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         dispatch(call, AuthType.LINK);
     }
 
@@ -44,9 +48,9 @@ public class PlayGamesAuthProviderHandler {
     }
 
     private void dispatch(PluginCall call, AuthType authType) {
+        this.authType = authType;
         this.mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        signInIntent.putExtra("authType", authType);
         pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderActivityResult");
     }
 
@@ -58,8 +62,6 @@ public class PlayGamesAuthProviderHandler {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
-            Bundle extras = data.getExtras();
-            AuthType authType = AuthType.fromId(extras.getInt("authType"));
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String serverAuthCode = account.getServerAuthCode();
             AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);

@@ -36,6 +36,10 @@ public class AppleAuthProviderHandler {
     }
 
     public void link(PluginCall call) {
+        if (pluginImplementation.getCurrentUser() == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         dispatch(call, AuthType.LINK);
     }
 
@@ -64,7 +68,6 @@ public class AppleAuthProviderHandler {
         (
             (authType == AuthType.LINK)
                 ? pluginImplementation
-                    .getFirebaseAuthInstance()
                     .getCurrentUser()
                     .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
                 : pluginImplementation

@@ -11,6 +11,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthProviderHandler {
@@ -22,6 +23,10 @@ public class PhoneAuthProviderHandler {
     }
 
     public void link(final PluginCall call) {
+        if (pluginImplementation.getCurrentUser() == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         dispatch(call, AuthType.LINK);
     }
 

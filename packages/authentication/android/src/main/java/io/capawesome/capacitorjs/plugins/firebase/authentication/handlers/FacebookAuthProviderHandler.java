@@ -67,6 +67,10 @@ public class FacebookAuthProviderHandler {
     }
 
     public void link(PluginCall call) {
+        if (pluginImplementation.getCurrentUser() == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         dispatch(call, AuthType.LINK);
     }
 

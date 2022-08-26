@@ -3,7 +3,6 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
@@ -32,12 +31,18 @@ public class GoogleAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
+    private AuthType authType;
+
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
     public void link(PluginCall call) {
+        if (pluginImplementation.getCurrentUser() == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         dispatch(call, AuthType.LINK);
     }
 
@@ -46,9 +51,9 @@ public class GoogleAuthProviderHandler {
     }
 
     private void dispatch(PluginCall call, AuthType authType) {
+        this.authType = authType;
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        signInIntent.putExtra("authType", authType);
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResult");
     }
 
@@ -60,8 +65,6 @@ public class GoogleAuthProviderHandler {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
-            Bundle extras = data.getExtras();
-            AuthType authType = AuthType.fromId(extras.getInt("authType"));
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken();
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);

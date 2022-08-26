@@ -26,6 +26,10 @@ public class OAuthProviderHandler {
     }
 
     public void link(PluginCall call, String providerId) {
+        if (pluginImplementation.getCurrentUser() == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
         dispatch(call, providerId, AuthType.LINK);
     }
 
@@ -48,7 +52,6 @@ public class OAuthProviderHandler {
         (
             (authType == AuthType.LINK)
                 ? pluginImplementation
-                    .getFirebaseAuthInstance()
                     .getCurrentUser()
                     .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
                 : pluginImplementation

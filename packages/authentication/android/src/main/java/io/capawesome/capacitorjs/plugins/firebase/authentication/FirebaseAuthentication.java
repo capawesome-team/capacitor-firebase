@@ -169,21 +169,24 @@ public class FirebaseAuthentication {
             call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH);
             return;
         }
+        FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
 
         String email = call.getString("email", "");
         String password = call.getString("password", "");
 
         AuthCredential credential = EmailAuthProvider.getCredential(email, password);
 
-        firebaseAuthInstance
-            .getCurrentUser()
+        user
             .linkWithCredential(credential)
             .addOnCompleteListener(
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithEmailAndPassword succeeded.");
-                        FirebaseUser user = getCurrentUser();
                         JSObject linkResult = createSignInResult(user, null, null, null, null, null);
                         call.resolve(linkResult);
                     } else {
@@ -200,21 +203,24 @@ public class FirebaseAuthentication {
             call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH);
             return;
         }
+        FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
 
         String email = call.getString("email", "");
         String emailLink = call.getString("emailLink", "");
 
         AuthCredential credential = EmailAuthProvider.getCredentialWithLink(email, emailLink);
 
-        firebaseAuthInstance
-            .getCurrentUser()
+        user
             .linkWithCredential(credential)
             .addOnCompleteListener(
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithEmailLink succeeded.");
-                        FirebaseUser user = getCurrentUser();
                         JSObject linkResult = createSignInResult(user, null, null, null, null, null);
                         call.resolve(linkResult);
                     } else {
