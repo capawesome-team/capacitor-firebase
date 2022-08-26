@@ -8,8 +8,8 @@ public enum AuthType {
 }
 
 @objc public class FirebaseAuthenticationHandler: NSObject {
-    static func success(_ call: CAPPluginCall, _ authType: AuthType, _ pluginImplementation: FirebaseAuthentication, credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        if pluginImplementation.getConfig().skipNativeAuth == true {
+    static func success(_ call: CAPPluginCall, _ authType: AuthType, _ implementation: FirebaseAuthentication, credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
+        if implementation.getConfig().skipNativeAuth == true {
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
                                                                          accessToken: accessToken, additionalUserInfo: nil)
             call.resolve(result)
@@ -17,7 +17,7 @@ public enum AuthType {
         }
         (
             (authType == AuthType.link)
-                ? pluginImplementation.getCurrentUser()!.link
+                ? implementation.getCurrentUser()!.link
                 : Auth.auth().signIn
         )(credential) { (authResult, error) in
             if let error = error {
