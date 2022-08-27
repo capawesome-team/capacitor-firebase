@@ -41,7 +41,10 @@ public class FirebaseAuthenticationHandler {
                 implementation.getPlugin().getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithCredential succeeded.");
+                        Log.d(
+                            FirebaseAuthenticationPlugin.TAG,
+                            ((authType == AuthType.LINK) ? "linkWithCredential" : "signInWithCredential") + " succeeded."
+                        );
                         AuthResult authResult = task.getResult();
                         JSObject linkResult = createSignInResult(
                             authResult.getUser(),
@@ -53,11 +56,33 @@ public class FirebaseAuthenticationHandler {
                         );
                         call.resolve(linkResult);
                     } else {
-                        Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithCredential failed.", task.getException());
+                        Log.e(
+                            FirebaseAuthenticationPlugin.TAG,
+                            ((authType == AuthType.LINK) ? "linkWithCredential" : "signInWithCredential") + " failed.",
+                            task.getException()
+                        );
                         call.reject(task.getException().getLocalizedMessage());
                     }
                 }
             );
+    }
+
+    public static void success(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
+        JSObject linkResult = createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(linkResult);
     }
 
     public static void failure(final PluginCall call, String message, Exception exception) {

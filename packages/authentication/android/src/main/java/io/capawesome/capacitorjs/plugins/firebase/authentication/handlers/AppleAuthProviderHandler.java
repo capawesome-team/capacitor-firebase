@@ -73,25 +73,13 @@ public class AppleAuthProviderHandler {
                 : pluginImplementation
                     .getFirebaseAuthInstance()
                     .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-        ).addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    success(call, authType, pluginImplementation, credential, null, nonce, null, additionalUserInfo);
-                }
-            )
+        ).addOnSuccessListener(authResult -> success(call, authResult, null, nonce, null))
             .addOnFailureListener(exception -> failure(call, null, exception));
     }
 
     private void finishActivity(final PluginCall call, final AuthType authType, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    success(call, authType, pluginImplementation, credential, null, nonce, null, additionalUserInfo);
-                }
-            )
+            .addOnSuccessListener(authResult -> success(call, authResult, null, nonce, null))
             .addOnFailureListener(exception -> failure(call, null, exception));
     }
 
