@@ -409,7 +409,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         let userResult = FirebaseAuthenticationHelper.createUserResult(user)
         var result = JSObject()
         result["user"] = userResult
-        notifyListeners(authStateChangeEvent, data: result)
+        notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
     }
 
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {
