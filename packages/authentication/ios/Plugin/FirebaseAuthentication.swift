@@ -36,7 +36,8 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorEmailSignInSkipNativeAuth)
             return
         }
@@ -129,7 +130,8 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithCustomToken(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorCustomTokenSkipNativeAuth)
             return
         }
@@ -152,7 +154,8 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithEmailAndPassword(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorEmailSignInSkipNativeAuth)
             return
         }
@@ -265,10 +268,11 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
-        if config.skipNativeAuth == true {
-            guard let savedCall = self.savedCall else {
-                return
-            }
+        guard let savedCall = self.savedCall else {
+            return
+        }
+        let skipNativeAuth = savedCall.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
                                                                          accessToken: accessToken, additionalUserInfo: nil, displayName: displayName)
             savedCall.resolve(result)

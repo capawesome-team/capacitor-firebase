@@ -447,6 +447,8 @@ export interface SignInOptions {
    *
    * **Note that the plugin may behave differently across the platforms.**
    *
+   * `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`.
+   *
    * Only available for Android and iOS.
    *
    * @since 1.1.0
@@ -493,7 +495,7 @@ export interface SignInCustomParameter {
 /**
  * @since 0.1.0
  */
-export interface SignInWithPhoneNumberOptions {
+export interface SignInWithPhoneNumberOptions extends SignInOptions {
   /**
    * The phone number to be verified.
    *
@@ -519,7 +521,7 @@ export interface SignInWithPhoneNumberOptions {
 /**
  * @since 0.2.2
  */
-export interface SignInWithEmailAndPasswordOptions {
+export interface SignInWithEmailAndPasswordOptions extends SignInOptions {
   /**
    * The users email address.
    *
@@ -576,7 +578,7 @@ export interface IsSignInWithEmailLinkResult {
 /**
  * @since 1.1.0
  */
-export interface SignInWithEmailLinkOptions {
+export interface SignInWithEmailLinkOptions extends SignInOptions {
   /**
    * The user's email address.
    *
@@ -594,7 +596,7 @@ export interface SignInWithEmailLinkOptions {
 /**
  * @since 0.1.0
  */
-export interface SignInWithCustomTokenOptions {
+export interface SignInWithCustomTokenOptions extends SignInOptions {
   /**
    * The custom token to sign in with.
    *
