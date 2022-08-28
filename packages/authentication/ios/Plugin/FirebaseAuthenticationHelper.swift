@@ -5,7 +5,11 @@ import FirebaseAuth
 
 public class FirebaseAuthenticationHelper {
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
-        let userResult = self.createUserResult(user)
+        return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: additionalUserInfo, displayName: nil)
+    }
+
+    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?) -> JSObject {
+        let userResult = self.createUserResult(user, displayName: displayName)
         let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken)
         let additionalUserInfoResult = self.createAdditionalUserInfoResult(additionalUserInfo)
         var result = JSObject()
@@ -16,11 +20,15 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createUserResult(_ user: User?) -> JSObject? {
+        return createUserResult(user, displayName: nil)
+    }
+
+    public static func createUserResult(_ user: User?, displayName: String?) -> JSObject? {
         guard let user = user else {
             return nil
         }
         var result = JSObject()
-        result["displayName"] = user.displayName
+        result["displayName"] = displayName ?? user.displayName
         result["email"] = user.email
         result["emailVerified"] = user.isEmailVerified
         result["isAnonymous"] = user.isAnonymous
