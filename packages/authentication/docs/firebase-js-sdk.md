@@ -9,7 +9,7 @@ In order to use the Firebase JavaScript SDK on Android and iOS, a sign-in on the
 To do this, follow these steps:
 
 1. [Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup)
-1. Set the configuration option [`skipNativeAuth`](/packages/authentication/README.md#configuration) to `true`.
+1. Set the configuration option [`skipNativeAuth`](/packages/authentication/README.md#configuration) to `true` (sometimes you also need `false`, see [Quirks](#quirks)).
 1. Sign in on the native layer, create web credentials and sign in on the web using [`signInWithCredential`](https://firebase.google.com/docs/reference/js/auth.md#signinwithcredential) (see [Examples](#examples)).
 
 ## Quirks
@@ -18,6 +18,8 @@ When using the Firebase JS SDK on Android and iOS, you must be aware of the foll
 
 - **Apple Sign-In** works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
 - **Twitter Sign-In** works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
+
+**Note**: The [`skipNativeAuth`](/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` paramter in [SignInOptions](/packages/authentication/README.md#signinoptions)).
 
 ## Examples
 
