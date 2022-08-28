@@ -592,14 +592,14 @@ Sets the tenant id.
 ### signInWithApple(...)
 
 ```typescript
-signInWithApple(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithApple(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Apple sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -671,14 +671,14 @@ Signs in using an email and sign-in email link.
 ### signInWithFacebook(...)
 
 ```typescript
-signInWithFacebook(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithFacebook(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Facebook sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -690,14 +690,14 @@ Starts the Facebook sign-in flow.
 ### signInWithGithub(...)
 
 ```typescript
-signInWithGithub(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithGithub(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the GitHub sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -709,14 +709,14 @@ Starts the GitHub sign-in flow.
 ### signInWithGoogle(...)
 
 ```typescript
-signInWithGoogle(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithGoogle(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Google sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -728,14 +728,14 @@ Starts the Google sign-in flow.
 ### signInWithMicrosoft(...)
 
 ```typescript
-signInWithMicrosoft(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithMicrosoft(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Microsoft sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -770,14 +770,14 @@ Only available for Android and iOS.
 ### signInWithPlayGames(...)
 
 ```typescript
-signInWithPlayGames(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithPlayGames(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Play Games sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -789,14 +789,14 @@ Starts the Play Games sign-in flow.
 ### signInWithTwitter(...)
 
 ```typescript
-signInWithTwitter(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithTwitter(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Twitter sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -808,14 +808,14 @@ Starts the Twitter sign-in flow.
 ### signInWithYahoo(...)
 
 ```typescript
-signInWithYahoo(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithYahoo(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Yahoo sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1092,10 +1092,11 @@ bundle identifiers.
 
 #### SignInOptions
 
-| Prop                   | Type                                 | Description                                                                                       | Since |
-| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. | 0.1.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  | 0.3.1 |
+| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                                                                               | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.                                                                                                                                                                                                                                                                         | 0.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                                                                                                                                                                                                                                                                                          | 0.3.1 |
+| **`skipNativeAuth`**   | <code>boolean</code>                 | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | 1.1.0 |
 
 
 #### SignInCustomParameter
@@ -1104,6 +1105,14 @@ bundle identifiers.
 | ----------- | ------------------- | ------------------------------------------------------------------ | ----- |
 | **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      | 0.1.0 |
 | **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). | 0.1.0 |
+
+
+#### SignInWithOAuthOptions
+
+| Prop                   | Type                                 | Description                                                                                       | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. | 1.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  | 1.1.0 |
 
 
 #### SignInWithCustomTokenOptions

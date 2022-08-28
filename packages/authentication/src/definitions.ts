@@ -124,7 +124,9 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithApple(options?: SignInOptions): Promise<SignInResult>;
+  signInWithApple(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Custom Token sign-in flow.
    *
@@ -157,25 +159,33 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithFacebook(options?: SignInOptions): Promise<SignInResult>;
+  signInWithFacebook(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the GitHub sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithGithub(options?: SignInOptions): Promise<SignInResult>;
+  signInWithGithub(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Google sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithGoogle(options?: SignInOptions): Promise<SignInResult>;
+  signInWithGoogle(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Microsoft sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithMicrosoft(options?: SignInOptions): Promise<SignInResult>;
+  signInWithMicrosoft(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using a phone number.
    *
@@ -193,19 +203,25 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithPlayGames(options?: SignInOptions): Promise<SignInResult>;
+  signInWithPlayGames(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Twitter sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithTwitter(options?: SignInOptions): Promise<SignInResult>;
+  signInWithTwitter(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Yahoo sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithYahoo(options?: SignInOptions): Promise<SignInResult>;
+  signInWithYahoo(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the sign-out flow.
    *
@@ -413,12 +429,45 @@ export interface SignInOptions {
    * Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.
    *
    * @since 0.1.0
+   * @deprecated Use `SignInWithOAuthOptions` interface instead.
    */
   customParameters?: SignInCustomParameter[];
   /**
    * Scopes to request from provider.
    *
    * @since 0.3.1
+   * @deprecated Use `SignInWithOAuthOptions` interface instead.
+   */
+  scopes?: string[];
+  /**
+   * Whether the plugin should skip the native authentication or not.
+   * Only needed if you want to use the Firebase JavaScript SDK.
+   * This value overwrites the configrations value of the `skipNativeAuth` option.
+   * If no value is set, the configuration value is used.
+   *
+   * **Note that the plugin may behave differently across the platforms.**
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 1.1.0
+   */
+  skipNativeAuth?: boolean;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface SignInWithOAuthOptions extends SignInOptions {
+  /**
+   * Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.
+   *
+   * @since 1.1.0
+   */
+  customParameters?: SignInCustomParameter[];
+  /**
+   * Scopes to request from provider.
+   *
+   * @since 1.1.0
    */
   scopes?: string[];
 }
