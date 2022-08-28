@@ -261,11 +261,16 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
+        self.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
+    }
+
+    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
         if config.skipNativeAuth == true {
             guard let savedCall = self.savedCall else {
                 return
             }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: nil)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
+                                                                         accessToken: accessToken, additionalUserInfo: nil, displayName: displayName)
             savedCall.resolve(result)
             return
         }
@@ -278,7 +283,7 @@ public typealias AuthStateChangedObserver = () -> Void
                 return
             }
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo)
+                                                                         additionalUserInfo: authResult?.additionalUserInfo, displayName: displayName)
             savedCall.resolve(result)
         }
     }

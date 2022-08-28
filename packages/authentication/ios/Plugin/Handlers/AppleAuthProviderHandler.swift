@@ -103,8 +103,14 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
+        var displayName: String?
+        if let fullName = appleIDCredential.fullName {
+            if let givenName = fullName.givenName, let familyName = fullName.familyName {
+                displayName = "\(givenName) \(familyName)"
+            }
+        }
         let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil)
+        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
