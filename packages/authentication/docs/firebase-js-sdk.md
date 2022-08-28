@@ -5,12 +5,19 @@
 ## How to use this plugin with the Firebase JavaScript SDK
 
 By default, this plugin signs the user in only on the native layer of the app.
-In order to use the Firebase JavaScript SDK, a sign-in on the web layer is required.
+In order to use the Firebase JavaScript SDK on Android and iOS, a sign-in on the web layer is required.
 To do this, follow these steps:
 
 1. [Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup)
-1. Set the configuration option `skipNativeAuth` to `true` (see [here](/packages/authentication/README.md#configuration)).
+1. Set the configuration option [`skipNativeAuth`](/packages/authentication/README.md#configuration) to `true`.
 1. Sign in on the native layer, create web credentials and sign in on the web using [`signInWithCredential`](https://firebase.google.com/docs/reference/js/auth.md#signinwithcredential) (see [Examples](#examples)).
+
+## Quirks
+
+When using the Firebase JS SDK on Android and iOS, you must be aware of the following:
+
+- **Apple Sign-In** works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
+- **Twitter Sign-In** works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
 
 ## Examples
 
