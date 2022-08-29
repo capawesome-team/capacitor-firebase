@@ -98,6 +98,23 @@ export default config;
 
 </docgen-config>
 
+## FAQ
+
+1. **What does this plugin do?**  
+   This plugin enables the use of [Firebase Authentication](https://firebase.google.com/docs/auth) in a Capacitor app.
+   It uses the Firebase SDK for [Java](https://firebase.google.com/docs/reference/android) (Android), [Swift](https://firebase.google.com/docs/reference/swift) (iOS) and [JavaScript](https://firebase.google.com/docs/reference/js).
+1. **What is the difference between the web implementation of this plugin and the Firebase JS SDK?**  
+   The web implementation of this plugin encapsulates the Firebase JS SDK and enables a consistent interface across all platforms.
+   You can decide if you prefer to use the web implementation or the Firebase JS SDK.
+1. **What is the difference between the native and web authentication?**  
+   For web authentication, the Firebase JS SDK is used. This only works to a limited extent on Android and iOS in the WebViews (see [here](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html)).
+   For native authentication, the native SDKs from Firebase, Google, etc. are used.
+   These offer all the functionalities that the Firebase JS SDK also offers on the web.
+   However, after a login with the native SDK, the user is only logged in on the native layer of the app.
+   If the user should also be logged in on the web layer, additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
+1. **How can I use this plugin with the Firebase JavaScript SDK?**  
+   See [here](/packages/authentication/docs/firebase-js-sdk.md).
+
 ## Demo
 
 A working example can be found here: [robingenz/capacitor-firebase-authentication-demo](https://github.com/robingenz/capacitor-firebase-authentication-demo)
@@ -575,14 +592,14 @@ Sets the tenant id.
 ### signInWithApple(...)
 
 ```typescript
-signInWithApple(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithApple(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Apple sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -654,14 +671,14 @@ Signs in using an email and sign-in email link.
 ### signInWithFacebook(...)
 
 ```typescript
-signInWithFacebook(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithFacebook(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Facebook sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -673,14 +690,14 @@ Starts the Facebook sign-in flow.
 ### signInWithGithub(...)
 
 ```typescript
-signInWithGithub(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithGithub(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the GitHub sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -692,14 +709,14 @@ Starts the GitHub sign-in flow.
 ### signInWithGoogle(...)
 
 ```typescript
-signInWithGoogle(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithGoogle(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Google sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -711,14 +728,14 @@ Starts the Google sign-in flow.
 ### signInWithMicrosoft(...)
 
 ```typescript
-signInWithMicrosoft(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithMicrosoft(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Microsoft sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -753,14 +770,14 @@ Only available for Android and iOS.
 ### signInWithPlayGames(...)
 
 ```typescript
-signInWithPlayGames(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithPlayGames(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Play Games sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -772,14 +789,14 @@ Starts the Play Games sign-in flow.
 ### signInWithTwitter(...)
 
 ```typescript
-signInWithTwitter(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithTwitter(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Twitter sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -791,14 +808,14 @@ Starts the Twitter sign-in flow.
 ### signInWithYahoo(...)
 
 ```typescript
-signInWithYahoo(options?: SignInOptions | undefined) => Promise<SignInResult>
+signInWithYahoo(options?: SignInOptions | SignInWithOAuthOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Yahoo sign-in flow.
 
-| Param         | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`options`** | <code><a href="#signinoptions">SignInOptions</a></code> |
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinoptions">SignInOptions</a> \| <a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1075,10 +1092,11 @@ bundle identifiers.
 
 #### SignInOptions
 
-| Prop                   | Type                                 | Description                                                                                       | Since |
-| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. | 0.1.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  | 0.3.1 |
+| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.                                                                                                                                                                                                                                                                                                                                                                                                                        | 0.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 0.3.1 |
+| **`skipNativeAuth`**   | <code>boolean</code>                 | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
 
 
 #### SignInCustomParameter
@@ -1087,6 +1105,14 @@ bundle identifiers.
 | ----------- | ------------------- | ------------------------------------------------------------------ | ----- |
 | **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      | 0.1.0 |
 | **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). | 0.1.0 |
+
+
+#### SignInWithOAuthOptions
+
+| Prop                   | Type                                 | Description                                                                                       | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. | 1.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  | 1.1.0 |
 
 
 #### SignInWithCustomTokenOptions
@@ -1174,23 +1200,6 @@ Callback to receive the user's sign-in state change notifications.
 <code>(change: <a href="#authstatechange">AuthStateChange</a>): void</code>
 
 </docgen-api>
-
-## FAQ
-
-1. **What does this plugin do?**  
-   This plugin enables the use of [Firebase Authentication](https://firebase.google.com/docs/auth) in a Capacitor app.
-   It uses the Firebase SDK for [Java](https://firebase.google.com/docs/reference/android) (Android), [Swift](https://firebase.google.com/docs/reference/swift) (iOS) and [JavaScript](https://firebase.google.com/docs/reference/js).
-1. **What is the difference between the web implementation of this plugin and the Firebase JS SDK?**  
-   The web implementation of this plugin encapsulates the Firebase JS SDK and enables a consistent interface across all platforms.
-   You can decide if you prefer to use the web implementation or the Firebase JS SDK.
-1. **What is the difference between the native and web authentication?**  
-   For web authentication, the Firebase JS SDK is used. This only works to a limited extent on Android and iOS in the WebViews (see [here](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html)).
-   For native authentication, the native SDKs from Firebase, Google, etc. are used.
-   These offer all the functionalities that the Firebase JS SDK also offers on the web.
-   However, after a login with the native SDK, the user is only logged in on the native layer of the app.
-   If the user should also be logged in on the web layer, additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
-1. **How can I use this plugin with the Firebase JavaScript SDK?**  
-   See [here](/packages/authentication/docs/firebase-js-sdk.md).
 
 ## Changelog
 
