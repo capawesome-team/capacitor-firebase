@@ -77,8 +77,9 @@ public class PlayGamesAuthProviderHandler {
     }
 
     private GoogleSignInClient buildGoogleSignInClient(@Nullable final PluginCall call) {
-        GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions.Builder gsob = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
             .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+            .requestServerAuthCode(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
             .requestEmail();
 
         if (call != null) {

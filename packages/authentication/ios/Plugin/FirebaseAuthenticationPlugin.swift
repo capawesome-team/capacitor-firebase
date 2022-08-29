@@ -25,6 +25,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorCreateUserWithEmailAndPasswordFailed = "createUserWithEmailAndPassword failed."
     public let errorCustomTokenSkipNativeAuth =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth."
+    public let errorEmailLinkSignInSkipNativeAuth =
+        "signInWithEmailLink cannot be used in combination with skipNativeAuth."
     public let errorEmailSignInSkipNativeAuth =
         "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth."
     public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."

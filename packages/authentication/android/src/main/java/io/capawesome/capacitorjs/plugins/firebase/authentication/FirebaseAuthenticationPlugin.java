@@ -32,6 +32,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH =
         "linkWithEmailAndPassword and linkWithEmailLink cannot be used in combination with skipNativeAuth.";
+    public static final String ERROR_EMAIL_LINK_SIGN_IN_SKIP_NATIVE_AUTH =
+        "signInWithEmailLink cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH =
         "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";

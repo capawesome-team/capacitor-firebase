@@ -39,7 +39,8 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorEmailSignInSkipNativeAuth)
             return
         }
@@ -240,7 +241,8 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     @objc func signInWithCustomToken(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorCustomTokenSkipNativeAuth)
             return
         }
@@ -264,7 +266,8 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     @objc func signInWithEmailAndPassword(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorEmailSignInSkipNativeAuth)
             return
         }
@@ -289,6 +292,12 @@ public typealias AuthFailureHandler = ((message: String?, error: Error?)) -> Voi
     }
 
     @objc func signInWithEmailLink(_ call: CAPPluginCall) {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
+            call.reject(plugin.errorEmailLinkSignInSkipNativeAuth)
+            return
+        }
+
         let email = call.getString("email", "")
         let emailLink = call.getString("emailLink", "")
 

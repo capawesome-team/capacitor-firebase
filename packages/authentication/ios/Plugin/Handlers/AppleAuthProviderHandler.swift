@@ -125,11 +125,17 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             savedCall.reject("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
+        var displayName: String?
+        if let fullName = appleIDCredential.fullName {
+            if let givenName = fullName.givenName, let familyName = fullName.familyName {
+                displayName = "\(givenName) \(familyName)"
+            }
+        }
         let credential = OAuthProvider.credential(withProviderID: ProviderId.apple, idToken: idTokenString, rawNonce: nonce)
         guard let authType = self.authType else {
             return
         }
-        FirebaseAuthenticationHandler.success(savedCall, authType, self.pluginImplementation, credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil)
+        FirebaseAuthenticationHandler.success(savedCall, authType, self.pluginImplementation, credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {

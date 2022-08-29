@@ -9,9 +9,13 @@ public enum AuthType {
 
 @objc public class FirebaseAuthenticationHandler: NSObject {
     static func success(_ call: CAPPluginCall, _ authType: AuthType, _ implementation: FirebaseAuthentication, credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
+        self.success(call, authType, implementation, credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
+    }
+
+    static func success(_ call: CAPPluginCall, _ authType: AuthType, _ implementation: FirebaseAuthentication, credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
         if implementation.getConfig().skipNativeAuth == true {
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
-                                                                         accessToken: accessToken, additionalUserInfo: nil)
+                                                                         accessToken: accessToken, additionalUserInfo: nil, displayName: displayName)
             call.resolve(result)
             return
         }
@@ -26,7 +30,7 @@ public enum AuthType {
             }
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user,
                                                                          idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo)
+                                                                         additionalUserInfo: authResult?.additionalUserInfo, displayName: displayName)
             call.resolve(result)
         }
     }

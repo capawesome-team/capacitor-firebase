@@ -80,7 +80,7 @@ public class FirebaseAuthentication {
     }
 
     public void createUserWithEmailAndPassword(PluginCall call) {
-        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
         if (skipNativeAuth) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
             return;
@@ -332,7 +332,7 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithEmailAndPassword(final PluginCall call) {
-        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
         if (skipNativeAuth) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
             return;
@@ -360,6 +360,12 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithEmailLink(final PluginCall call) {
+        boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SIGN_IN_SKIP_NATIVE_AUTH);
+            return;
+        }
+
         String email = call.getString("email", "");
         String emailLink = call.getString("emailLink", "");
 
@@ -421,7 +427,7 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithCustomToken(final PluginCall call) {
-        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
         if (skipNativeAuth) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
             return;
