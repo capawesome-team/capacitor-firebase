@@ -287,6 +287,12 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithEmailLink(final PluginCall call) {
+        boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH);
+            return;
+        }
+
         String email = call.getString("email", "");
         String emailLink = call.getString("emailLink", "");
 

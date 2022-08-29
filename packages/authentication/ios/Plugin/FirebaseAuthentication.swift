@@ -179,6 +179,12 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithEmailLink(_ call: CAPPluginCall) {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
+            call.reject(plugin.errorEmailLinkSkipNativeAuth)
+            return
+        }
+
         let email = call.getString("email", "")
         let emailLink = call.getString("emailLink", "")
 
