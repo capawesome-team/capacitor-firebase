@@ -25,7 +25,13 @@ public class FirebaseAuthenticationHelper {
 
     public static func createUserResult(_ user: User?, displayName: String?) -> JSObject? {
         guard let user = user else {
-            return nil
+            if let displayName = displayName {
+                var result = JSObject()
+                result["displayName"] = displayName
+                return result
+            } else {
+                return nil
+            }
         }
         var result = JSObject()
         result["displayName"] = displayName ?? user.displayName
