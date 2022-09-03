@@ -114,7 +114,7 @@ In `capacitor.config.json`:
 ```json
 {
   "plugins": {
-    "PushNotifications": {
+    "FirebaseMessaging": {
       "presentationOptions": ["badge", "sound", "alert"]
     }
   }
@@ -124,13 +124,13 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor/push-notifications" />
+/// <reference types="@capacitor/firebase-messaging" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   plugins: {
-    PushNotifications: {
+    FirebaseMessaging: {
       presentationOptions: ["badge", "sound", "alert"],
     },
   },

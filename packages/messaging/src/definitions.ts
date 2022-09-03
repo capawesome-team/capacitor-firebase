@@ -9,7 +9,7 @@ declare module '@capacitor/cli' {
     /**
      * On iOS you can configure the way the push notifications are displayed when the app is in foreground.
      */
-    PushNotifications?: {
+    FirebaseMessaging?: {
       /**
        * This is an array of strings you can combine. Possible values in the array are:
        *   - `badge`: badge count on the app icon is updated (default value)
