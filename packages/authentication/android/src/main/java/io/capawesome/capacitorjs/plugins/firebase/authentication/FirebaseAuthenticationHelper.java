@@ -20,9 +20,6 @@ public class FirebaseAuthenticationHelper {
         public static final String PLAY_GAMES = "playgames.google.com";
         public static final String TWITTER = "twitter.com";
         public static final String YAHOO = "yahoo.com";
-
-        public static final String FIREBASE = "firebase";
-        public static final String PASSWORD = "password";
         public static final String PHONE = "phone";
     }
 

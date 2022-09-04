@@ -109,7 +109,7 @@ public class FirebaseAuthentication {
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword failed.", task.getException());
-                        call.reject(task.getException().getLocalizedMessage());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED, task.getException());
                     }
                 }
             );

@@ -42,7 +42,7 @@ The further installation steps depend on the selected authentication method:
 - [Play Games Sign-In](/packages/authentication/docs/setup-play-games.md)
 - [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
 - [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
-- --
+
 - [Anonymous Sign-In](/packages/authentication/docs/setup-anonymous.md)
 - [Email Link Sign-In](/packages/authentication/docs/setup-email-link.md)
 - [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
@@ -59,10 +59,10 @@ These SDKs can initialize on their own and collect various data.
 
 These configuration values are available:
 
-| Prop                 | Type                  | Description                                                                                                                                                                                                                                                             | Default            | Since |
-| -------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                               | <code>false</code> | 0.1.0 |
-| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]` Only available for Android and iOS. | <code>[]</code>    | 0.1.0 |
+| Prop                 | Type                  | Description                                                                                                                                                                                                                                                 | Default            | Since |
+| -------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                   | <code>false</code> | 0.1.0 |
+| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS. | <code>[]</code>    | 0.1.0 |
 
 ### Examples
 
@@ -792,7 +792,7 @@ Sets the tenant id.
 signInAnonymously() => Promise<SignInResult>
 ```
 
-Signs in by creating a temporary anonymous account.
+Signs in as an anonymous user.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1296,9 +1296,9 @@ Remove all listeners for this plugin.
 
 #### LinkWithPhoneNumberOptions
 
-| Prop              | Type                | Description                                                  | Since |
-| ----------------- | ------------------- | ------------------------------------------------------------ | ----- |
-| **`phoneNumber`** | <code>string</code> | The user's phone number in E.164 format (e.g. +16505550101). | 1.2.0 |
+| Prop              | Type                | Description                              | Since |
+| ----------------- | ------------------- | ---------------------------------------- | ----- |
+| **`phoneNumber`** | <code>string</code> | The user's phone number in E.164 format. | 1.2.0 |
 
 
 #### SendPasswordResetEmailOptions

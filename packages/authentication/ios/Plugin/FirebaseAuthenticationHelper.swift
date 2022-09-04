@@ -12,9 +12,6 @@ public struct ProviderId {
     static let playGames = "playgames.google.com"
     static let twitter = "twitter.com"
     static let yahoo = "yahoo.com"
-
-    static let firebase = "firebase"
-    static let password = "password"
     static let phone = "phone"
 }
 

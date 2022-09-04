@@ -26,7 +26,7 @@ declare module '@capacitor/cli' {
       /**
        * Configure the providers that should be loaded by the plugin.
        *
-       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "password", "phone"]`
+       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
        *
        * Only available for Android and iOS.
        *
@@ -190,7 +190,7 @@ export interface FirebaseAuthenticationPlugin {
    */
   setTenantId(options: SetTenantIdOptions): Promise<void>;
   /**
-   * Signs in by creating a temporary anonymous account.
+   * Signs in as an anonymous user.
    *
    * @since 1.2.0
    */
@@ -485,8 +485,9 @@ export interface LinkWithEmailLinkOptions {
  */
 export interface LinkWithPhoneNumberOptions {
   /**
-   * The user's phone number in E.164 format (e.g. +16505550101).
+   * The user's phone number in E.164 format.
    *
+   * @example "+16505550101"
    * @since 1.2.0
    */
   phoneNumber: string;
@@ -987,9 +988,6 @@ export enum ProviderId {
   PLAY_GAMES = 'playgames.google.com',
   TWITTER = 'twitter.com',
   YAHOO = 'yahoo.com',
-
-  FIREBASE = 'firebase',
-  PASSWORD = 'password',
   PHONE = 'phone',
 }
 

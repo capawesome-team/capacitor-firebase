@@ -16,7 +16,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Facebo
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
-    public static final String ERROR_PROVIDER_MISSING = "providerId must be provided.";
+    public static final String ERROR_PROVIDER_ID_MISSING = "providerId must be provided.";
     public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
     public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
     public static final String ERROR_TENANT_ID_MISSING = "tenantId must be provided.";
@@ -28,6 +28,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
+    public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH =
@@ -496,7 +497,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         try {
             String providerId = call.getString("providerId");
             if (providerId == null) {
-                call.reject(ERROR_PROVIDER_MISSING);
+                call.reject(ERROR_PROVIDER_ID_MISSING);
                 return;
             }
             FirebaseUser user = implementation.getCurrentUser();

@@ -1,4 +1,4 @@
-# Set up authentication to use temporary anonymous accounts
+# Set up authentication using Anonymous Sign-In
 
 ## Android
 

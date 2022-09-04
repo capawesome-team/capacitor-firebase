@@ -9,7 +9,7 @@ import FirebaseAuth
  */
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
-    public let errorProviderMissing = "providerId must be provided."
+    public let errorProviderIdMissing = "providerId must be provided."
     public let errorNoUserSignedIn = "No user is signed in."
     public let errorOobCodeMissing = "oobCode must be provided."
     public let errorTenantIdMissing = "tenantId must be provided."
@@ -332,7 +332,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func unlink(_ call: CAPPluginCall) {
         guard let providerId = call.getString("providerId") else {
-            call.reject(errorProviderMissing)
+            call.reject(errorProviderIdMissing)
             return
         }
         guard let user = implementation?.getCurrentUser() else {
