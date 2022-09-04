@@ -10,7 +10,6 @@
 		03FC29A292ACC40490383A1F /* Pods_Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */; };
 		20C0B05DCFC8E3958A738AF2 /* Pods_PluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */; };
 		2F98D68224C9AAE500613A4C /* FirebaseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* FirebaseAuthentication.swift */; };
-		4A47BC1D28B7FA0D00A63FD5 /* FirebaseAuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47BC1C28B7FA0D00A63FD5 /* FirebaseAuthenticationHandler.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
 		50ADFF97201F53D600D50D53 /* FirebaseAuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebaseAuthenticationPluginTests.swift */; };
 		50ADFF99201F53D600D50D53 /* FirebaseAuthenticationPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* FirebaseAuthenticationPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,7 +38,6 @@
 /* Begin PBXFileReference section */
 		2F98D68124C9AAE400613A4C /* FirebaseAuthentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthentication.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4A47BC1C28B7FA0D00A63FD5 /* FirebaseAuthenticationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthenticationHandler.swift; sourceTree = "<group>"; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF8B201F53D600D50D53 /* FirebaseAuthenticationPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseAuthenticationPlugin.h; sourceTree = "<group>"; };
 		50ADFF8C201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 				50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseAuthentication.swift */,
 				7CC1EA4E26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift */,
-				4A47BC1C28B7FA0D00A63FD5 /* FirebaseAuthenticationHandler.swift */,
 				7CD588EF2688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift */,
 				50ADFF8B201F53D600D50D53 /* FirebaseAuthenticationPlugin.h */,
 				50ADFFA72020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m */,
@@ -133,10 +130,10 @@
 		7C8E530426656F2000FF4B87 /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */,
 				7CD588F32688B6A7002BDF65 /* AppleAuthProviderHandler.swift */,
-				7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */,
 				7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */,
+				7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */,
+				7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */,
 				7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */,
 			);
 			path = Handlers;
@@ -371,7 +368,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CE70B7526D1AA220025E915 /* FacebookAuthProviderHandler.swift in Sources */,
-				4A47BC1D28B7FA0D00A63FD5 /* FirebaseAuthenticationHandler.swift in Sources */,
 				7C8E530826656FD100FF4B87 /* GoogleAuthProviderHandler.swift in Sources */,
 				7C3D92CA26D3CC62000C0B29 /* PhoneAuthProviderHandler.swift in Sources */,
 				7CD588F02688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift in Sources */,

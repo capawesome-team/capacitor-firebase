@@ -17,26 +17,18 @@ class OAuthProviderHandler: NSObject {
             call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
             return
         }
-        dispatch(call, providerId, AuthType.link)
-    }
-
-    func signIn(call: CAPPluginCall, providerId: String) {
-        dispatch(call, providerId, AuthType.signIn)
-    }
-
-    private func dispatch(_ call: CAPPluginCall, _ providerId: String, _ authType: AuthType) {
         self.provider = OAuthProvider(providerID: providerId)
         self.applySignInOptions(call: call, provider: provider!)
         DispatchQueue.main.async {
-            self.provider?.getCredentialWith(nil) { credential, error in
-                if let error = error {
-                    FirebaseAuthenticationHandler.failure(call, message: nil, error: error)
-                    return
-                }
-                if let credential = credential {
-                    FirebaseAuthenticationHandler.success(call, authType, self.pluginImplementation, credential: credential, idToken: nil, nonce: nil, accessToken: nil)
-                }
-            }
+            self.startLinkFlow()
+        }
+    }
+
+    func signIn(call: CAPPluginCall, providerId: String) {
+        self.provider = OAuthProvider(providerID: providerId)
+        self.applySignInOptions(call: call, provider: provider!)
+        DispatchQueue.main.async {
+            self.startSignInFlow()
         }
     }
 
@@ -57,5 +49,29 @@ class OAuthProviderHandler: NSObject {
 
         let scopes = call.getArray("scopes", String.self) ?? []
         provider.scopes = scopes
+    }
+
+    private func startLinkFlow() {
+        self.provider?.getCredentialWith(nil) { credential, error in
+            if let error = error {
+                self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                return
+            }
+            if let credential = credential {
+                self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+            }
+        }
+    }
+
+    private func startSignInFlow() {
+        self.provider?.getCredentialWith(nil) { credential, error in
+            if let error = error {
+                self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                return
+            }
+            if let credential = credential {
+                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+            }
+        }
     }
 }

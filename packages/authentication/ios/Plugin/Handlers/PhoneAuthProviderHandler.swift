@@ -5,6 +5,7 @@ import FirebaseAuth
 
 class PhoneAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
+    fileprivate var isLink: Bool?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
@@ -16,33 +17,39 @@ class PhoneAuthProviderHandler: NSObject {
             call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
             return
         }
-        dispatch(call, AuthType.link)
+        dispatch(call, true)
     }
 
     func signIn(call: CAPPluginCall) {
-        dispatch(call, AuthType.signIn)
+        dispatch(call, false)
     }
 
-    private func dispatch(_ call: CAPPluginCall, _ authType: AuthType) {
+    private func dispatch(_ call: CAPPluginCall, _ isLink: Bool) {
+        self.isLink = isLink
         let phoneNumber = call.getString("phoneNumber")
         let verificationId = call.getString("verificationId")
         let verificationCode = call.getString("verificationCode")
 
         if verificationCode == nil {
-            verifyPhoneNumber(call, authType, phoneNumber)
+            verifyPhoneNumber(call, phoneNumber)
         } else {
-            handleVerificationCode(call, authType, verificationId, verificationCode)
+            handleVerificationCode(call, verificationId, verificationCode)
         }
     }
 
-    private func verifyPhoneNumber(_ call: CAPPluginCall, _ authType: AuthType, _ phoneNumber: String?) {
+    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?) {
         guard let phoneNumber = phoneNumber else {
             return
         }
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
+                guard let isLink = self.isLink else {
+                    return
+                }
                 if let error = error {
-                    FirebaseAuthenticationHandler.failure(call, message: nil, error: error)
+                    isLink
+                        ? self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                        : self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
                     return
                 }
 
@@ -52,7 +59,7 @@ class PhoneAuthProviderHandler: NSObject {
             }
     }
 
-    private func handleVerificationCode(_ call: CAPPluginCall, _ authType: AuthType, _ verificationID: String?, _ verificationCode: String?) {
+    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?) {
         guard let verificationID = verificationID, let verificationCode = verificationCode else {
             return
         }
@@ -60,6 +67,11 @@ class PhoneAuthProviderHandler: NSObject {
             withVerificationID: verificationID,
             verificationCode: verificationCode
         )
-        FirebaseAuthenticationHandler.success(call, authType, self.pluginImplementation, credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+        guard let isLink = self.isLink else {
+            return
+        }
+        isLink
+            ? self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+            : self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
     }
 }

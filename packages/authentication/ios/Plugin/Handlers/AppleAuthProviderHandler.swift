@@ -7,9 +7,8 @@ import CryptoKit
 
 class AppleAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
-    fileprivate var nonce: String?
-    fileprivate var savedCall: CAPPluginCall?
-    fileprivate var authType: AuthType?
+    fileprivate var currentNonce: String?
+    fileprivate var isLink: Bool?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
@@ -22,7 +21,7 @@ class AppleAuthProviderHandler: NSObject {
             return
         }
         if #available(iOS 13, *) {
-            dispatch(call, AuthType.link)
+            dispatch(true)
         } else {
             call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
         }
@@ -30,7 +29,7 @@ class AppleAuthProviderHandler: NSObject {
 
     func signIn(call: CAPPluginCall) {
         if #available(iOS 13, *) {
-            dispatch(call, AuthType.signIn)
+            dispatch(false)
         } else {
             call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
         }
@@ -78,12 +77,10 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
     }
 
     @available(iOS 13, *)
-    private func dispatch(_ call: CAPPluginCall, _ authType: AuthType) {
-        self.savedCall = call
-        self.authType = authType
-
+    private func dispatch(_ isLink: Bool) {
+        self.isLink = isLink
         let nonce = randomNonceString()
-        self.nonce = nonce
+        currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -107,22 +104,18 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let savedCall = self.savedCall else {
-            return
-        }
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             return
         }
-        guard let nonce = self.nonce else {
-            savedCall.reject("Invalid state: A login callback was received, but no login request was sent.")
-            return
+        guard let nonce = currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
         }
         guard let appleIDToken = appleIDCredential.identityToken else {
-            savedCall.reject("Unable to fetch identity token")
+            print("Unable to fetch identity token")
             return
         }
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            savedCall.reject("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
         var displayName: String?
@@ -132,16 +125,20 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             }
         }
         let credential = OAuthProvider.credential(withProviderID: ProviderId.apple, idToken: idTokenString, rawNonce: nonce)
-        guard let authType = self.authType else {
+        guard let isLink = self.isLink else {
             return
         }
-        FirebaseAuthenticationHandler.success(savedCall, authType, self.pluginImplementation, credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+        isLink
+            ? self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+            : self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        guard let savedCall = self.savedCall else {
+        guard let isLink = self.isLink else {
             return
         }
-        FirebaseAuthenticationHandler.failure(savedCall, message: nil, error: error)
+        isLink
+            ? self.pluginImplementation.handleFailedLink(message: nil, error: error)
+            : self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
     }
 }

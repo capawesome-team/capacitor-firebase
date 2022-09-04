@@ -11,6 +11,7 @@ class FacebookAuthProviderHandler: NSObject {
     #if RGCFA_INCLUDE_FACEBOOK
     private var loginManager: LoginManager
     #endif
+    fileprivate var isLink: Bool?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
@@ -25,31 +26,41 @@ class FacebookAuthProviderHandler: NSObject {
             call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
             return
         }
-        dispatch(call, AuthType.link)
+        dispatch(call, true)
     }
 
     func signIn(call: CAPPluginCall) {
-        dispatch(call, AuthType.signIn)
+        dispatch(call, false)
     }
 
-    private func dispatch(_ call: CAPPluginCall, _ authType: AuthType) {
+    private func dispatch(_ call: CAPPluginCall, _ isLink: Bool) {
+        self.isLink = isLink
         #if RGCFA_INCLUDE_FACEBOOK
         let scopes = call.getArray("scopes", String.self) ?? []
         DispatchQueue.main.async {
             self.loginManager.logIn(permissions: ["email", "public_profile"] + scopes, from: self.pluginImplementation.getPlugin().bridge?.viewController) { result, error in
+                guard let isLink = self.isLink else {
+                    return
+                }
                 if let error = error {
-                    FirebaseAuthenticationHandler.failure(call, message: nil, error: error)
+                    isLink
+                        ? self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                        : self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
                     return
                 }
 
                 guard let accessToken = result?.token else {
-                    FirebaseAuthenticationHandler.failure(call, message: self.errorSignInCanceled, error: nil)
+                    isLink
+                        ? self.pluginImplementation.handleFailedLink(message: self.errorSignInCanceled, error: nil)
+                        : self.pluginImplementation.handleFailedSignIn(message: self.errorSignInCanceled, error: nil)
                     return
                 }
 
                 let accessTokenString = accessToken.tokenString
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
-                FirebaseAuthenticationHandler.success(call, authType, self.pluginImplementation, credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString)
+                isLink
+                    ? self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString)
+                    : self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString)
             }
         }
         #endif
