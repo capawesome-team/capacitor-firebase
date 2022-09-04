@@ -1,7 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
-import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
-
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
@@ -31,8 +29,6 @@ public class GoogleAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
-    private AuthType authType;
-
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
@@ -43,25 +39,22 @@ public class GoogleAuthProviderHandler {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
         }
-        dispatch(call, AuthType.LINK);
+        mGoogleSignInClient = buildGoogleSignInClient(call);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResultLink");
     }
 
     public void signIn(PluginCall call) {
-        dispatch(call, AuthType.SIGN_IN);
-    }
-
-    private void dispatch(PluginCall call, AuthType authType) {
-        this.authType = authType;
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResult");
+        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResultSignIn");
     }
 
     public void signOut() {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(final PluginCall call, ActivityResult result) {
+    public void handleOnActivityResultLink(final PluginCall call, ActivityResult result) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
@@ -79,15 +72,45 @@ public class GoogleAuthProviderHandler {
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
                     } catch (IOException | GoogleAuthException exception) {
-                        failure(call, null, exception);
+                        pluginImplementation.handleFailedLink(call, null, exception);
                     }
 
-                    success(call, authType, pluginImplementation, credential, idToken, null, accessToken, null);
+                    pluginImplementation.handleSuccessfulLink(call, credential, idToken, null, accessToken, null);
                 }
             )
                 .start();
         } catch (ApiException exception) {
-            failure(call, null, exception);
+            pluginImplementation.handleFailedLink(call, null, exception);
+        }
+    }
+
+    public void handleOnActivityResultSignIn(final PluginCall call, ActivityResult result) {
+        Intent data = result.getData();
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String idToken = account.getIdToken();
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+            // Get Access Token and resolve
+            new Thread(
+                () -> {
+                    String accessToken = null;
+                    try {
+                        accessToken =
+                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
+                        // Clears local cache after every login attempt
+                        // to ensure permissions changes elsewhere are reflected in future tokens
+                        GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
+                    } catch (IOException | GoogleAuthException exception) {
+                        pluginImplementation.handleFailedSignIn(call, null, exception);
+                    }
+
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
+                }
+            )
+                .start();
+        } catch (ApiException exception) {
+            pluginImplementation.handleFailedSignIn(call, null, exception);
         }
     }
 

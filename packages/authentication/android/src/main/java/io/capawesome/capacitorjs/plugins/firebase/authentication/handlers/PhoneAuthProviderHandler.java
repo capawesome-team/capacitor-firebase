@@ -1,7 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
-import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
-
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
@@ -27,51 +25,92 @@ public class PhoneAuthProviderHandler {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
         }
-        dispatch(call, AuthType.LINK);
-    }
-
-    public void signIn(final PluginCall call) {
-        dispatch(call, AuthType.SIGN_IN);
-    }
-
-    private void dispatch(final PluginCall call, AuthType authType) {
         String phoneNumber = call.getString("phoneNumber");
         String verificationId = call.getString("verificationId");
         String verificationCode = call.getString("verificationCode");
 
         if (verificationCode == null) {
-            verifyPhoneNumber(call, authType, phoneNumber);
+            verifyPhoneNumberLink(call, phoneNumber);
         } else {
-            handleVerificationCode(call, authType, verificationId, verificationCode);
+            handleVerificationCodeLink(call, verificationId, verificationCode);
         }
     }
 
-    private void verifyPhoneNumber(final PluginCall call, final AuthType authType, String phoneNumber) {
+    public void signIn(final PluginCall call) {
+        String phoneNumber = call.getString("phoneNumber");
+        String verificationId = call.getString("verificationId");
+        String verificationCode = call.getString("verificationCode");
+
+        if (verificationCode == null) {
+            verifyPhoneNumberSignIn(call, phoneNumber);
+        } else {
+            handleVerificationCodeSignIn(call, verificationId, verificationCode);
+        }
+    }
+
+    private void verifyPhoneNumberLink(final PluginCall call, String phoneNumber) {
         PhoneAuthOptions.Builder builder = PhoneAuthOptions
             .newBuilder(pluginImplementation.getFirebaseAuthInstance())
             .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setActivity(pluginImplementation.getPlugin().getActivity())
-            .setCallbacks(createCallbacks(call, authType));
+            .setCallbacks(createCallbacksLink(call));
         PhoneAuthOptions options = builder.build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    private void handleVerificationCode(final PluginCall call, final AuthType authType, String verificationId, String verificationCode) {
+    private void handleVerificationCodeLink(final PluginCall call, String verificationId, String verificationCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
-        success(call, authType, pluginImplementation, credential, null, null, null, null);
+        pluginImplementation.handleSuccessfulLink(call, credential, null, null, null, null);
     }
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacks(final PluginCall call, final AuthType authType) {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacksLink(final PluginCall call) {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                success(call, authType, pluginImplementation, credential, null, null, null, null);
+                pluginImplementation.handleSuccessfulLink(call, credential, null, null, null, null);
             }
 
             @Override
             public void onVerificationFailed(FirebaseException exception) {
-                failure(call, null, exception);
+                pluginImplementation.handleFailedLink(call, null, exception);
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null, null, null);
+                result.put("verificationId", verificationId);
+                call.resolve(result);
+            }
+        };
+    }
+
+    private void verifyPhoneNumberSignIn(final PluginCall call, String phoneNumber) {
+        PhoneAuthOptions.Builder builder = PhoneAuthOptions
+            .newBuilder(pluginImplementation.getFirebaseAuthInstance())
+            .setPhoneNumber(phoneNumber)
+            .setTimeout(60L, TimeUnit.SECONDS)
+            .setActivity(pluginImplementation.getPlugin().getActivity())
+            .setCallbacks(createCallbacksSignIn(call));
+        PhoneAuthOptions options = builder.build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void handleVerificationCodeSignIn(final PluginCall call, String verificationId, String verificationCode) {
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
+        pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
+    }
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks createCallbacksSignIn(final PluginCall call) {
+        return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, null);
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException exception) {
+                pluginImplementation.handleFailedSignIn(call, null, exception);
             }
 
             @Override

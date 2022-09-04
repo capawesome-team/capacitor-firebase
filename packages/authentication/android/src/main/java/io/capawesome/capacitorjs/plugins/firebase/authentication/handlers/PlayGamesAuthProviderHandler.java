@@ -1,7 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
-import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHandler.*;
-
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
@@ -28,8 +26,6 @@ public class PlayGamesAuthProviderHandler {
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
 
-    private AuthType authType;
-
     public PlayGamesAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
         this.mGoogleSignInClient = buildGoogleSignInClient();
@@ -40,25 +36,22 @@ public class PlayGamesAuthProviderHandler {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
         }
-        dispatch(call, AuthType.LINK);
+        this.mGoogleSignInClient = buildGoogleSignInClient(call);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderActivityResultLink");
     }
 
     public void signIn(PluginCall call) {
-        dispatch(call, AuthType.SIGN_IN);
-    }
-
-    private void dispatch(PluginCall call, AuthType authType) {
-        this.authType = authType;
         this.mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderActivityResult");
+        pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderActivityResultSignIn");
     }
 
     public void signOut() {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(final PluginCall call, ActivityResult result) {
+    public void handleOnActivityResultLink(final PluginCall call, ActivityResult result) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
@@ -66,9 +59,23 @@ public class PlayGamesAuthProviderHandler {
             String serverAuthCode = account.getServerAuthCode();
             AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);
             String idToken = account.getIdToken();
-            success(call, authType, pluginImplementation, credential, idToken, null, null, null);
+            pluginImplementation.handleSuccessfulLink(call, credential, idToken, null, null, null);
         } catch (ApiException exception) {
-            failure(call, null, exception);
+            pluginImplementation.handleFailedLink(call, null, exception);
+        }
+    }
+
+    public void handleOnActivityResultSignIn(final PluginCall call, ActivityResult result) {
+        Intent data = result.getData();
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String serverAuthCode = account.getServerAuthCode();
+            AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);
+            String idToken = account.getIdToken();
+            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, null, null);
+        } catch (ApiException exception) {
+            pluginImplementation.handleFailedSignIn(call, null, exception);
         }
     }
 

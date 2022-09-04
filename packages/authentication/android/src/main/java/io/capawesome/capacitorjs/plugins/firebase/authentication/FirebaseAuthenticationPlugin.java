@@ -28,6 +28,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
+    public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
+    public static final String ERROR_LINK_FAILED = "link failed.";
     public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
@@ -596,13 +598,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderActivityResult(PluginCall call, ActivityResult result) {
-        implementation.handleGoogleAuthProviderActivityResult(call, result);
+    private void handleGoogleAuthProviderActivityResultLink(PluginCall call, ActivityResult result) {
+        implementation.handleGoogleAuthProviderActivityResultLink(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderActivityResult(PluginCall call, ActivityResult result) {
-        implementation.handlePlayGamesAuthProviderActivityResult(call, result);
+    private void handleGoogleAuthProviderActivityResultSignIn(PluginCall call, ActivityResult result) {
+        implementation.handleGoogleAuthProviderActivityResultSignIn(call, result);
+    }
+
+    @ActivityCallback
+    private void handlePlayGamesAuthProviderActivityResultLink(PluginCall call, ActivityResult result) {
+        implementation.handlePlayGamesAuthProviderActivityResultLink(call, result);
+    }
+
+    @ActivityCallback
+    private void handlePlayGamesAuthProviderActivityResultSignIn(PluginCall call, ActivityResult result) {
+        implementation.handlePlayGamesAuthProviderActivityResultSignIn(call, result);
     }
 
     private FirebaseAuthenticationConfig getFirebaseAuthenticationConfig() {
