@@ -521,19 +521,19 @@ public class FirebaseAuthentication {
     }
 
     public void handleGoogleAuthProviderActivityResultLink(final PluginCall call, ActivityResult result) {
-        googleAuthProviderHandler.handleOnActivityResultLink(call, result);
+        googleAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
     public void handleGoogleAuthProviderActivityResultSignIn(final PluginCall call, ActivityResult result) {
-        googleAuthProviderHandler.handleOnActivityResultSignIn(call, result);
+        googleAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
     public void handlePlayGamesAuthProviderActivityResultLink(final PluginCall call, ActivityResult result) {
-        playGamesAuthProviderHandler.handleOnActivityResultLink(call, result);
+        playGamesAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
     public void handlePlayGamesAuthProviderActivityResultSignIn(final PluginCall call, ActivityResult result) {
-        playGamesAuthProviderHandler.handleOnActivityResultSignIn(call, result);
+        playGamesAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
     public void handleOnActivityResult(int requestCode, int resultCode, Intent data) {

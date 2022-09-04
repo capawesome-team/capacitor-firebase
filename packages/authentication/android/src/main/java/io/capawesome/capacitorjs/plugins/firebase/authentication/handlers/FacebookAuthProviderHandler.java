@@ -64,33 +64,34 @@ public class FacebookAuthProviderHandler {
         }
     }
 
-    public void link(PluginCall call) {
+    public void link(final PluginCall call) {
         if (pluginImplementation.getCurrentUser() == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
         }
-        this.savedCall = call;
-        this.isLink = true;
-        this.applySignInOptions(call, this.loginButton);
-        this.loginButton.performClick();
+        dispatch(call, true);
     }
 
-    public void signIn(PluginCall call) {
-        this.savedCall = call;
-        this.isLink = false;
-        this.applySignInOptions(call, this.loginButton);
-        this.loginButton.performClick();
+    public void signIn(final PluginCall call) {
+        dispatch(call, false);
     }
 
     public void signOut() {
         LoginManager.getInstance().logOut();
     }
 
+    private void dispatch(final PluginCall call, final Boolean isLink) {
+        this.savedCall = call;
+        this.isLink = isLink;
+        this.applySignInOptions(call, this.loginButton);
+        this.loginButton.performClick();
+    }
+
     public void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void applySignInOptions(PluginCall call, LoginButton button) {
+    private void applySignInOptions(final PluginCall call, LoginButton button) {
         JSArray scopes = call.getArray("scopes");
         if (scopes != null) {
             try {

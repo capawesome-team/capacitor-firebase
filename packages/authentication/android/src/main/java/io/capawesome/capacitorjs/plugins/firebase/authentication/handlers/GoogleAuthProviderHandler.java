@@ -34,7 +34,7 @@ public class GoogleAuthProviderHandler {
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
-    public void link(PluginCall call) {
+    public void link(final PluginCall call) {
         if (pluginImplementation.getCurrentUser() == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
@@ -44,7 +44,7 @@ public class GoogleAuthProviderHandler {
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResultLink");
     }
 
-    public void signIn(PluginCall call) {
+    public void signIn(final PluginCall call) {
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResultSignIn");
@@ -54,7 +54,7 @@ public class GoogleAuthProviderHandler {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResultLink(final PluginCall call, ActivityResult result) {
+    public void handleOnActivityResult(final PluginCall call, ActivityResult result, final Boolean isLink) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
@@ -72,45 +72,31 @@ public class GoogleAuthProviderHandler {
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
                     } catch (IOException | GoogleAuthException exception) {
-                        pluginImplementation.handleFailedLink(call, null, exception);
+                        if (isLink) pluginImplementation.handleFailedLink(
+                            call,
+                            null,
+                            exception
+                        ); else pluginImplementation.handleFailedSignIn(call, null, exception);
+                        return;
                     }
 
-                    pluginImplementation.handleSuccessfulLink(call, credential, idToken, null, accessToken, null);
+                    if (isLink) pluginImplementation.handleSuccessfulLink(
+                        call,
+                        credential,
+                        idToken,
+                        null,
+                        accessToken,
+                        null
+                    ); else pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
                 }
             )
                 .start();
         } catch (ApiException exception) {
-            pluginImplementation.handleFailedLink(call, null, exception);
-        }
-    }
-
-    public void handleOnActivityResultSignIn(final PluginCall call, ActivityResult result) {
-        Intent data = result.getData();
-        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-        try {
-            GoogleSignInAccount account = task.getResult(ApiException.class);
-            String idToken = account.getIdToken();
-            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-            // Get Access Token and resolve
-            new Thread(
-                () -> {
-                    String accessToken = null;
-                    try {
-                        accessToken =
-                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
-                        // Clears local cache after every login attempt
-                        // to ensure permissions changes elsewhere are reflected in future tokens
-                        GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
-                    } catch (IOException | GoogleAuthException exception) {
-                        pluginImplementation.handleFailedSignIn(call, null, exception);
-                    }
-
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
-                }
-            )
-                .start();
-        } catch (ApiException exception) {
-            pluginImplementation.handleFailedSignIn(call, null, exception);
+            if (isLink) pluginImplementation.handleFailedLink(call, null, exception); else pluginImplementation.handleFailedSignIn(
+                call,
+                null,
+                exception
+            );
         }
     }
 

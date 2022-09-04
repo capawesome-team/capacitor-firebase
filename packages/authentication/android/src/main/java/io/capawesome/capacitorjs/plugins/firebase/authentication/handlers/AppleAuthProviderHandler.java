@@ -25,47 +25,38 @@ import org.json.JSONObject;
 public class AppleAuthProviderHandler {
 
     private final FirebaseAuthentication pluginImplementation;
-    private String nonce;
+    private String currentNonce;
 
     public AppleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
     }
 
-    public void link(PluginCall call) {
+    public void link(final PluginCall call) {
         if (pluginImplementation.getCurrentUser() == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
         }
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
-        applySignInOptions(call, provider);
-        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
-        if (pendingResultTask == null) {
-            this.nonce = generateNonce(32);
-            try {
-                provider.addCustomParameter("nonce", sha256(this.nonce));
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            startActivityForLink(call, provider);
-        } else {
-            finishActivityForLink(call, pendingResultTask);
-        }
+        dispatch(call, true);
     }
 
-    public void signIn(PluginCall call) {
+    public void signIn(final PluginCall call) {
+        dispatch(call, false);
+    }
+
+    private void dispatch(final PluginCall call, final Boolean isLink) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
-            this.nonce = generateNonce(32);
+            currentNonce = generateNonce(32);
             try {
-                provider.addCustomParameter("nonce", sha256(this.nonce));
+                provider.addCustomParameter("nonce", sha256(currentNonce));
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
-            startActivityForSignIn(call, provider);
+            if (isLink) startActivityForLink(call, provider); else startActivityForSignIn(call, provider);
         } else {
-            finishActivityForSignIn(call, pendingResultTask);
+            if (isLink) finishActivityForLink(call, pendingResultTask); else finishActivityForSignIn(call, pendingResultTask);
         }
     }
 
@@ -73,13 +64,13 @@ public class AppleAuthProviderHandler {
         pluginImplementation
             .getCurrentUser()
             .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, nonce, null))
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }
 
     private void finishActivityForLink(final PluginCall call, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, nonce, null))
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }
 
@@ -87,17 +78,17 @@ public class AppleAuthProviderHandler {
         pluginImplementation
             .getFirebaseAuthInstance()
             .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, nonce, null))
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, currentNonce, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
     private void finishActivityForSignIn(final PluginCall call, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, nonce, null))
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, currentNonce, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
-    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
+    private void applySignInOptions(final PluginCall call, OAuthProvider.Builder provider) {
         JSArray customParameters = call.getArray("customParameters");
         if (customParameters != null) {
             try {

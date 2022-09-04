@@ -21,29 +21,26 @@ public class OAuthProviderHandler {
         this.pluginImplementation = pluginImplementation;
     }
 
-    public void link(PluginCall call, String providerId) {
+    public void link(final PluginCall call, String providerId) {
         if (pluginImplementation.getCurrentUser() == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
         }
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
-        applySignInOptions(call, provider);
-        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
-        if (pendingResultTask == null) {
-            startActivityForLink(call, provider);
-        } else {
-            finishActivityForLink(call, pendingResultTask);
-        }
+        dispatch(call, providerId, true);
     }
 
-    public void signIn(PluginCall call, String providerId) {
+    public void signIn(final PluginCall call, String providerId) {
+        dispatch(call, providerId, false);
+    }
+
+    private void dispatch(final PluginCall call, String providerId, final Boolean isLink) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
-            startActivityForSignIn(call, provider);
+            if (isLink) startActivityForLink(call, provider); else startActivityForSignIn(call, provider);
         } else {
-            finishActivityForSignIn(call, pendingResultTask);
+            if (isLink) finishActivityForLink(call, pendingResultTask); else finishActivityForSignIn(call, pendingResultTask);
         }
     }
 
@@ -75,7 +72,7 @@ public class OAuthProviderHandler {
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
-    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
+    private void applySignInOptions(final PluginCall call, OAuthProvider.Builder provider) {
         JSArray customParameters = call.getArray("customParameters");
         if (customParameters != null) {
             try {
