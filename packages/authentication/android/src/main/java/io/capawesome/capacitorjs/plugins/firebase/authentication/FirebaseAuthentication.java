@@ -1,7 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
-import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.*;
-
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
@@ -18,6 +16,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
@@ -106,11 +105,11 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = createSignInResult(user, null, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "createUserWithEmailAndPassword failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED, task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED);
                     }
                 }
             );
@@ -188,7 +187,7 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithEmailAndPassword succeeded.");
-                        JSObject linkResult = createSignInResult(user, null, null, null, null, null);
+                        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(linkResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithEmailAndPassword failed.", task.getException());
@@ -222,7 +221,7 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithEmailLink succeeded.");
-                        JSObject linkResult = createSignInResult(user, null, null, null, null, null);
+                        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(linkResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithEmailLink failed.", task.getException());
@@ -311,7 +310,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInAnonymously succeeded.");
                         AuthResult authResult = task.getResult();
-                        JSObject signInResult = createSignInResult(
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
                             authResult.getUser(),
                             authResult.getCredential(),
                             null,
@@ -350,7 +349,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = createSignInResult(user, null, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithEmailAndPassword failed.", task.getException());
@@ -378,7 +377,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithEmailLink succeeded.");
                         AuthResult authResult = task.getResult();
-                        JSObject signInResult = createSignInResult(
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
                             authResult.getUser(),
                             authResult.getCredential(),
                             null,
@@ -444,7 +443,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
                         FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = createSignInResult(user, null, null, null, null, null);
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
@@ -476,7 +475,7 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "unlink succeeded.");
                         AuthResult authResult = task.getResult();
-                        JSObject userResult = createUserResult(authResult.getUser());
+                        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
                         JSObject result = new JSObject();
                         result.put("user", userResult);
                         call.resolve(result);
@@ -587,7 +586,7 @@ public class FirebaseAuthentication {
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithCredential failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED, task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
                     }
                 }
             );
@@ -600,7 +599,7 @@ public class FirebaseAuthentication {
         @Nullable String nonce,
         @Nullable String accessToken
     ) {
-        JSObject linkResult = createSignInResult(
+        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(
             authResult.getUser(),
             authResult.getCredential(),
             idToken,
@@ -658,7 +657,7 @@ public class FirebaseAuthentication {
                         call.resolve(signInResult);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED, task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
                     }
                 }
             );
@@ -671,7 +670,7 @@ public class FirebaseAuthentication {
         @Nullable String nonce,
         @Nullable String accessToken
     ) {
-        JSObject linkResult = createSignInResult(
+        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(
             authResult.getUser(),
             authResult.getCredential(),
             idToken,
