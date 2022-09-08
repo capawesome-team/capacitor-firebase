@@ -1,6 +1,8 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
+import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
+import org.json.JSONException;
 
 public class FirebaseCrashlytics {
 
@@ -60,8 +62,21 @@ public class FirebaseCrashlytics {
         crashlyticsInstance.deleteUnsentReports();
     }
 
-    public void recordException(String message) {
-        Throwable throwable = new Throwable(message);
+    public void recordException(String message, JSArray stacktrace) {
+        Throwable throwable = getJavaScriptException(message, stacktrace);
         crashlyticsInstance.recordException(throwable);
+    }
+
+    private JavaScriptException getJavaScriptException(String message, JSArray stacktrace) {
+        if (stacktrace == null) {
+            return new JavaScriptException(message);
+        }
+
+        try {
+            return new JavaScriptException(message, stacktrace);
+        } catch (JSONException error) {
+            System.err.println("Stacktrace is not parsable! " + error.getMessage());
+            return new JavaScriptException(message);
+        }
     }
 }

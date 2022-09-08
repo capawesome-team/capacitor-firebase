@@ -1,5 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -144,7 +145,8 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
                 return;
             }
 
-            implementation.recordException(message);
+            JSArray stacktrace = call.getArray("stacktrace", null);
+            implementation.recordException(message, stacktrace);
             call.resolve();
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
