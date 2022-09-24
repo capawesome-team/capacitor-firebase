@@ -5,9 +5,12 @@ import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AdditionalUserInfo;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.OAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.nio.ByteBuffer;
@@ -31,19 +34,7 @@ public class AppleAuthProviderHandler {
         this.pluginImplementation = pluginImplementation;
     }
 
-    public void link(final PluginCall call) {
-        if (pluginImplementation.getCurrentUser() == null) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
-            return;
-        }
-        dispatch(call, true);
-    }
-
-    public void signIn(final PluginCall call) {
-        dispatch(call, false);
-    }
-
-    private void dispatch(final PluginCall call, final Boolean isLink) {
+    public void signIn(PluginCall call) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
@@ -54,41 +45,80 @@ public class AppleAuthProviderHandler {
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
-            if (isLink) startActivityForLink(call, provider); else startActivityForSignIn(call, provider);
+            startActivityForSignIn(call, provider);
         } else {
-            if (isLink) finishActivityForLink(call, pendingResultTask); else finishActivityForSignIn(call, pendingResultTask);
+            finishActivityForSignIn(call, pendingResultTask);
         }
     }
 
-    private void startActivityForLink(final PluginCall call, OAuthProvider.Builder provider) {
-        pluginImplementation
-            .getCurrentUser()
-            .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
-            .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
-    }
-
-    private void finishActivityForLink(final PluginCall call, Task<AuthResult> pendingResultTask) {
-        pendingResultTask
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
-            .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
+    public void link(PluginCall call) {
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
+        applySignInOptions(call, provider);
+        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
+        if (pendingResultTask == null) {
+            currentNonce = generateNonce(32);
+            try {
+                provider.addCustomParameter("nonce", sha256(currentNonce));
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            startActivityForLink(call, provider);
+        } else {
+            finishActivityForLink(call, pendingResultTask);
+        }
     }
 
     private void startActivityForSignIn(final PluginCall call, OAuthProvider.Builder provider) {
         pluginImplementation
             .getFirebaseAuthInstance()
             .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, currentNonce, null))
+            .addOnSuccessListener(
+                authResult -> {
+                    AuthCredential credential = authResult.getCredential();
+                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null, additionalUserInfo);
+                }
+            )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
     private void finishActivityForSignIn(final PluginCall call, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, currentNonce, null))
+            .addOnSuccessListener(
+                authResult -> {
+                    AuthCredential credential = authResult.getCredential();
+                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null, additionalUserInfo);
+                }
+            )
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
-    private void applySignInOptions(final PluginCall call, OAuthProvider.Builder provider) {
+    private void startActivityForLink(final PluginCall call, OAuthProvider.Builder provider) {
+        pluginImplementation
+            .getCurrentUser()
+            .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
+            .addOnSuccessListener(
+                authResult -> {
+                    AuthCredential credential = authResult.getCredential();
+                    pluginImplementation.handleSuccessfulLink(call, credential, null, currentNonce, null);
+                }
+            )
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
+    }
+
+    private void finishActivityForLink(final PluginCall call, Task<AuthResult> pendingResultTask) {
+        pendingResultTask
+            .addOnSuccessListener(
+                authResult -> {
+                    AuthCredential credential = authResult.getCredential();
+                    pluginImplementation.handleSuccessfulLink(call, credential, null, currentNonce, null);
+                }
+            )
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
+    }
+
+    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
         JSArray customParameters = call.getArray("customParameters");
         if (customParameters != null) {
             try {

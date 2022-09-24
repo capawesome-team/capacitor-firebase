@@ -34,27 +34,23 @@ public class GoogleAuthProviderHandler {
         this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
-    public void link(final PluginCall call) {
-        if (pluginImplementation.getCurrentUser() == null) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
-            return;
-        }
+    public void signIn(PluginCall call) {
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResultLink");
+        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderSignInActivityResult");
     }
 
-    public void signIn(final PluginCall call) {
+    public void link(PluginCall call) {
         mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderActivityResultSignIn");
+        pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderLinkActivityResult");
     }
 
     public void signOut() {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(final PluginCall call, ActivityResult result, final Boolean isLink) {
+    public void handleOnActivityResult(final PluginCall call, ActivityResult result, boolean isLink) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
@@ -72,31 +68,27 @@ public class GoogleAuthProviderHandler {
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
                     } catch (IOException | GoogleAuthException exception) {
-                        if (isLink) pluginImplementation.handleFailedLink(
-                            call,
-                            null,
-                            exception
-                        ); else pluginImplementation.handleFailedSignIn(call, null, exception);
+                        if (isLink) {
+                            pluginImplementation.handleFailedLink(call, null, exception);
+                        } else {
+                            pluginImplementation.handleFailedSignIn(call, null, exception);
+                        }
                         return;
                     }
-
-                    if (isLink) pluginImplementation.handleSuccessfulLink(
-                        call,
-                        credential,
-                        idToken,
-                        null,
-                        accessToken,
-                        null
-                    ); else pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
+                    if (isLink) {
+                        pluginImplementation.handleSuccessfulLink(call, credential, idToken, null, accessToken);
+                    } else {
+                        pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, null);
+                    }
                 }
             )
                 .start();
         } catch (ApiException exception) {
-            if (isLink) pluginImplementation.handleFailedLink(call, null, exception); else pluginImplementation.handleFailedSignIn(
-                call,
-                null,
-                exception
-            );
+            if (isLink) {
+                pluginImplementation.handleFailedLink(call, null, exception);
+            } else {
+                pluginImplementation.handleFailedSignIn(call, null, exception);
+            }
         }
     }
 

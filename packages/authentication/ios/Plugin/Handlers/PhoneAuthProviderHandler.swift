@@ -5,51 +5,48 @@ import FirebaseAuth
 
 class PhoneAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
-    fileprivate var isLink: Bool?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
         super.init()
     }
 
-    func link(call: CAPPluginCall) {
-        if self.pluginImplementation.getCurrentUser() == nil {
-            call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
-            return
-        }
-        dispatch(call, true)
-    }
-
     func signIn(call: CAPPluginCall) {
-        dispatch(call, false)
-    }
-
-    private func dispatch(_ call: CAPPluginCall, _ isLink: Bool) {
-        self.isLink = isLink
         let phoneNumber = call.getString("phoneNumber")
         let verificationId = call.getString("verificationId")
         let verificationCode = call.getString("verificationCode")
 
         if verificationCode == nil {
-            verifyPhoneNumber(call, phoneNumber)
+            verifyPhoneNumber(call, phoneNumber, isLink: false)
         } else {
-            handleVerificationCode(call, verificationId, verificationCode)
+            handleVerificationCode(call, verificationId, verificationCode, isLink: false)
         }
     }
 
-    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?) {
+    func link(call: CAPPluginCall) {
+        let phoneNumber = call.getString("phoneNumber")
+        let verificationId = call.getString("verificationId")
+        let verificationCode = call.getString("verificationCode")
+
+        if verificationCode == nil {
+            verifyPhoneNumber(call, phoneNumber, isLink: true)
+        } else {
+            handleVerificationCode(call, verificationId, verificationCode, isLink: true)
+        }
+    }
+
+    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?, isLink: Bool) {
         guard let phoneNumber = phoneNumber else {
             return
         }
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
-                guard let isLink = self.isLink else {
-                    return
-                }
                 if let error = error {
-                    isLink
-                        ? self.pluginImplementation.handleFailedLink(message: nil, error: error)
-                        : self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                    if isLink == true {
+                        self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                    } else {
+                        self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                    }
                     return
                 }
 
@@ -59,7 +56,7 @@ class PhoneAuthProviderHandler: NSObject {
             }
     }
 
-    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?) {
+    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?, isLink: Bool) {
         guard let verificationID = verificationID, let verificationCode = verificationCode else {
             return
         }
@@ -67,11 +64,10 @@ class PhoneAuthProviderHandler: NSObject {
             withVerificationID: verificationID,
             verificationCode: verificationCode
         )
-        guard let isLink = self.isLink else {
-            return
+        if isLink == true {
+            self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+        } else {
+            self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
         }
-        isLink
-            ? self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
-            : self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
     }
 }

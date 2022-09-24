@@ -30,6 +30,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
     public static final String ERROR_LINK_FAILED = "link failed.";
+    public static final String ERROR_UNLINK_FAILED = "unlink failed.";
     public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
@@ -39,6 +40,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         "signInWithEmailLink cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH =
         "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth.";
+    public static final String ERROR_SIGN_IN_ANONYMOUSLY_SKIP_NATIVE_AUTH =
+        "signInAnonymously cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
@@ -598,23 +601,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderActivityResultLink(PluginCall call, ActivityResult result) {
-        implementation.handleGoogleAuthProviderActivityResultLink(call, result);
+    private void handleGoogleAuthProviderSignInActivityResult(PluginCall call, ActivityResult result) {
+        implementation.handleGoogleAuthProviderSignInActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderActivityResultSignIn(PluginCall call, ActivityResult result) {
-        implementation.handleGoogleAuthProviderActivityResultSignIn(call, result);
+    private void handleGoogleAuthProviderLinkActivityResult(PluginCall call, ActivityResult result) {
+        implementation.handleGoogleAuthProviderLinkActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderActivityResultLink(PluginCall call, ActivityResult result) {
-        implementation.handlePlayGamesAuthProviderActivityResultLink(call, result);
+    private void handlePlayGamesAuthProviderSignInActivityResult(PluginCall call, ActivityResult result) {
+        implementation.handlePlayGamesAuthProviderSignInActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderActivityResultSignIn(PluginCall call, ActivityResult result) {
-        implementation.handlePlayGamesAuthProviderActivityResultSignIn(call, result);
+    private void handlePlayGamesAuthProviderLinkActivityResult(PluginCall call, ActivityResult result) {
+        implementation.handlePlayGamesAuthProviderLinkActivityResult(call, result);
     }
 
     private FirebaseAuthenticationConfig getFirebaseAuthenticationConfig() {

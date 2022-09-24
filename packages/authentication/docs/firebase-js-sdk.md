@@ -86,6 +86,15 @@ const signInWithPhoneNumber = async () => {
   await signInWithCredential(auth, credential);
 };
 
+const linkWithGoogle = async () => {
+  // 1. Create credentials on the native layer
+  const result = await FirebaseAuthentication.signInWithGoogle();
+  // 2. Link on the web layer using the id token
+  const credential = GoogleAuthProvider.credential(result.credential?.idToken);
+  const auth = getAuth();
+  await linkWithCredential(auth, credential);
+};
+
 const sendSignInLinkToEmail = async () => {
   const email = 'mail@example.com';
   await FirebaseAuthentication.sendSignInLinkToEmail({

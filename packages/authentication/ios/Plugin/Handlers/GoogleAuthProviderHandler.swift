@@ -8,27 +8,27 @@ import GoogleSignIn
 
 class GoogleAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
-    fileprivate var isLink: Bool?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
         super.init()
     }
 
-    func link(call: CAPPluginCall) {
-        if self.pluginImplementation.getCurrentUser() == nil {
-            call.reject(self.pluginImplementation.getPlugin().errorNoUserSignedIn)
-            return
-        }
-        dispatch(call, true)
-    }
-
     func signIn(call: CAPPluginCall) {
-        dispatch(call, false)
+        startSignInWithGoogleFlow(call, isLink: false)
     }
 
-    private func dispatch(_ call: CAPPluginCall, _ isLink: Bool) {
-        self.isLink = isLink
+    func link(call: CAPPluginCall) {
+        startSignInWithGoogleFlow(call, isLink: true)
+    }
+
+    func signOut() {
+        #if RGCFA_INCLUDE_GOOGLE
+        GIDSignIn.sharedInstance.signOut()
+        #endif
+    }
+
+    private func startSignInWithGoogleFlow(_ call: CAPPluginCall, isLink: Bool) {
         #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientId)
@@ -37,13 +37,12 @@ class GoogleAuthProviderHandler: NSObject {
 
         DispatchQueue.main.async {
             GIDSignIn.sharedInstance.signIn(with: config, presenting: controller, hint: nil, additionalScopes: scopes, callback: { user, error in
-                guard let isLink = self.isLink else {
-                    return
-                }
                 if let error = error {
-                    isLink
-                        ? self.pluginImplementation.handleFailedLink(message: nil, error: error)
-                        : self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                    if isLink == true {
+                        self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                    } else {
+                        self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                    }
                     return
                 }
 
@@ -52,17 +51,13 @@ class GoogleAuthProviderHandler: NSObject {
                 let accessToken = authentication.accessToken
 
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-                isLink
-                    ? self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
-                    : self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                if isLink == true {
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                } else {
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                }
             })
         }
-        #endif
-    }
-
-    func signOut() {
-        #if RGCFA_INCLUDE_GOOGLE
-        GIDSignIn.sharedInstance.signOut()
         #endif
     }
 }

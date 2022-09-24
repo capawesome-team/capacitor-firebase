@@ -105,7 +105,8 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func linkWithEmailAndPassword(_ call: CAPPluginCall) {
-        if config.skipNativeAuth == true {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
             call.reject(plugin.errorEmailSignInSkipNativeAuth)
             return
         }
@@ -224,6 +225,11 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInAnonymously(_ call: CAPPluginCall) {
+        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        if skipNativeAuth == true {
+            call.reject(plugin.errorSignInAnonymouslySkipNativeAuth)
+            return
+        }
         self.savedCall = call
         Auth.auth().signInAnonymously { authResult, error in
             if let error = error {
@@ -394,47 +400,6 @@ public typealias AuthStateChangedObserver = () -> Void
         Auth.auth().useEmulator(withHost: host, port: port)
     }
 
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
-    }
-
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
-        guard let savedCall = self.savedCall else {
-            return
-        }
-        let skipNativeAuth = savedCall.getBool("skipNativeAuth", config.skipNativeAuth)
-        if skipNativeAuth == true {
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
-                                                                         accessToken: accessToken, additionalUserInfo: nil, displayName: displayName)
-            savedCall.resolve(result)
-            return
-        }
-        guard let user = getCurrentUser() else {
-            self.handleFailedLink(message: plugin.errorNoUserSignedIn, error: nil)
-            return
-        }
-        user.link(with: credential) { (authResult, error) in
-            if let error = error {
-                self.handleFailedLink(message: nil, error: error)
-                return
-            }
-            guard let savedCall = self.savedCall else {
-                return
-            }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo, displayName: displayName)
-            savedCall.resolve(result)
-        }
-    }
-
-    func handleFailedLink(message: String?, error: Error?) {
-        guard let savedCall = self.savedCall else {
-            return
-        }
-        let errorMessage = message ?? error?.localizedDescription ?? ""
-        savedCall.reject(errorMessage, nil, error)
-    }
-
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
         self.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
     }
@@ -465,6 +430,37 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     func handleFailedSignIn(message: String?, error: Error?) {
+        guard let savedCall = self.savedCall else {
+            return
+        }
+        let errorMessage = message ?? error?.localizedDescription ?? ""
+        savedCall.reject(errorMessage, nil, error)
+    }
+
+    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
+        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
+    }
+
+    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
+        guard let user = getCurrentUser() else {
+            self.handleFailedLink(message: plugin.errorNoUserSignedIn, error: nil)
+            return
+        }
+        user.link(with: credential) { (authResult, error) in
+            if let error = error {
+                self.handleFailedLink(message: nil, error: error)
+                return
+            }
+            guard let savedCall = self.savedCall else {
+                return
+            }
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken,
+                                                                         additionalUserInfo: authResult?.additionalUserInfo, displayName: displayName)
+            savedCall.resolve(result)
+        }
+    }
+
+    func handleFailedLink(message: String?, error: Error?) {
         guard let savedCall = self.savedCall else {
             return
         }

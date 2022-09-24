@@ -29,6 +29,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         "signInWithEmailLink cannot be used in combination with skipNativeAuth."
     public let errorEmailSignInSkipNativeAuth =
         "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth."
+    public let errorSignInAnonymouslySkipNativeAuth =
+        "signInAnonymously cannot be used in combination with skipNativeAuth."
     public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
     public let authStateChangeEvent = "authStateChange"
     private var implementation: FirebaseAuthentication?
