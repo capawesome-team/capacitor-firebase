@@ -225,7 +225,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInAnonymously(_ call: CAPPluginCall) {
-        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        let skipNativeAuth = config.skipNativeAuth
         if skipNativeAuth == true {
             call.reject(plugin.errorSignInAnonymouslySkipNativeAuth)
             return
@@ -277,7 +277,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithEmailAndPassword(_ call: CAPPluginCall) {
-        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        let skipNativeAuth = config.skipNativeAuth
         if skipNativeAuth == true {
             call.reject(plugin.errorEmailSignInSkipNativeAuth)
             return
@@ -303,7 +303,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithEmailLink(_ call: CAPPluginCall) {
-        let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
+        let skipNativeAuth = config.skipNativeAuth
         if skipNativeAuth == true {
             call.reject(plugin.errorEmailLinkSignInSkipNativeAuth)
             return
