@@ -50,12 +50,12 @@ const incrementMetric = async () => {
   });
 };
 
-const setPerformanceCollectionEnabled = async () => {
-  await FirebasePerformance.setPerformanceCollectionEnabled({ enabled: true });
+const setEnabled = async () => {
+  await FirebasePerformance.setEnabled({ enabled: true });
 };
 
-const isPerformanceCollectionEnabled = async () => {
-  const result = await FirebasePerformance.isPerformanceCollectionEnabled();
+const isEnabled = async () => {
+  const result = await FirebasePerformance.isEnabled();
   return result.enabled;
 };
 ```
