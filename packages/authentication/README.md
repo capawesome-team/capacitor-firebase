@@ -530,7 +530,7 @@ Checks if an incoming link is a sign-in with email link suitable for `signInWith
 ### linkWithApple(...)
 
 ```typescript
-linkWithApple(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithApple(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Apple authentication provider.
@@ -552,7 +552,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithEmailAndPassword(...)
 
 ```typescript
-linkWithEmailAndPassword(options: LinkWithEmailAndPasswordOptions) => Promise<SignInResult>
+linkWithEmailAndPassword(options: LinkWithEmailAndPasswordOptions) => Promise<LinkResult>
 ```
 
 Links the user account with Email authentication provider.
@@ -574,7 +574,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithEmailLink(...)
 
 ```typescript
-linkWithEmailLink(options: LinkWithEmailLinkOptions) => Promise<SignInResult>
+linkWithEmailLink(options: LinkWithEmailLinkOptions) => Promise<LinkResult>
 ```
 
 Links the user account with Email authentication provider.
@@ -596,7 +596,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithFacebook(...)
 
 ```typescript
-linkWithFacebook(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithFacebook(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Facebook authentication provider.
@@ -618,7 +618,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithGithub(...)
 
 ```typescript
-linkWithGithub(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithGithub(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with GitHub authentication provider.
@@ -640,7 +640,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithGoogle(...)
 
 ```typescript
-linkWithGoogle(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithGoogle(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Google authentication provider.
@@ -662,7 +662,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithMicrosoft(...)
 
 ```typescript
-linkWithMicrosoft(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithMicrosoft(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Microsoft authentication provider.
@@ -684,7 +684,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithPhoneNumber(...)
 
 ```typescript
-linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => Promise<SignInResult>
+linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => Promise<LinkResult>
 ```
 
 Links the user account with Phone Number authentication provider.
@@ -706,7 +706,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithPlayGames(...)
 
 ```typescript
-linkWithPlayGames(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithPlayGames(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Play Games authentication provider.
@@ -728,7 +728,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithTwitter(...)
 
 ```typescript
-linkWithTwitter(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithTwitter(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Twitter authentication provider.
@@ -750,7 +750,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithYahoo(...)
 
 ```typescript
-linkWithYahoo(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+linkWithYahoo(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
 ```
 
 Links the user account with Yahoo authentication provider.
@@ -1530,6 +1530,11 @@ bundle identifiers.
 #### LinkWithOAuthOptions
 
 <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code>
+
+
+#### LinkResult
+
+<code><a href="#signinresult">SignInResult</a></code>
 
 
 #### AuthStateChangeListener

@@ -96,7 +96,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithApple(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithApple(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with Email authentication provider.
    *
@@ -107,7 +107,7 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithEmailAndPassword(
     options: LinkWithEmailAndPasswordOptions,
-  ): Promise<SignInResult>;
+  ): Promise<LinkResult>;
   /**
    * Links the user account with Email authentication provider.
    *
@@ -116,7 +116,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithEmailLink(options: LinkWithEmailLinkOptions): Promise<SignInResult>;
+  linkWithEmailLink(options: LinkWithEmailLinkOptions): Promise<LinkResult>;
   /**
    * Links the user account with Facebook authentication provider.
    *
@@ -125,7 +125,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithFacebook(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithFacebook(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with GitHub authentication provider.
    *
@@ -134,7 +134,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithGithub(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithGithub(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with Google authentication provider.
    *
@@ -143,7 +143,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithGoogle(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithGoogle(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with Microsoft authentication provider.
    *
@@ -152,7 +152,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithMicrosoft(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithMicrosoft(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with Phone Number authentication provider.
    *
@@ -163,7 +163,7 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithPhoneNumber(
     options: LinkWithPhoneNumberOptions,
-  ): Promise<SignInResult>;
+  ): Promise<LinkResult>;
   /**
    * Links the user account with Play Games authentication provider.
    *
@@ -172,7 +172,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithPlayGames(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithPlayGames(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with Twitter authentication provider.
    *
@@ -181,7 +181,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithTwitter(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithTwitter(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Links the user account with Yahoo authentication provider.
    *
@@ -190,7 +190,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithYahoo(options?: LinkWithOAuthOptions): Promise<SignInResult>;
+  linkWithYahoo(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
    * Sends a verification email to the currently signed in user.
    *
