@@ -161,9 +161,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithPhoneNumber(
-    options: LinkWithPhoneNumberOptions,
-  ): Promise<LinkResult>;
+  linkWithPhoneNumber(options: LinkWithPhoneNumberOptions): Promise<LinkResult>;
   /**
    * Links the user account with Play Games authentication provider.
    *
