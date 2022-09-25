@@ -1040,6 +1040,7 @@ export enum ProviderId {
   PLAY_GAMES = 'playgames.google.com',
   TWITTER = 'twitter.com',
   YAHOO = 'yahoo.com',
+  PASSWORD = 'password',
   PHONE = 'phone',
 }
 

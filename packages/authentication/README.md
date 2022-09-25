@@ -1559,6 +1559,7 @@ Callback to receive the user's sign-in state change notifications.
 | **`PLAY_GAMES`** | <code>'playgames.google.com'</code> |
 | **`TWITTER`**    | <code>'twitter.com'</code>          |
 | **`YAHOO`**      | <code>'yahoo.com'</code>            |
+| **`PASSWORD`**   | <code>'password'</code>             |
 | **`PHONE`**      | <code>'phone'</code>                |
 
 </docgen-api>
