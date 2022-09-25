@@ -49,25 +49,13 @@ public class OAuthProviderHandler {
         pluginImplementation
             .getFirebaseAuthInstance()
             .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, additionalUserInfo);
-                }
-            )
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
     private void finishActivityForSignIn(final PluginCall call, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, null, null, additionalUserInfo);
-                }
-            )
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
     }
 
@@ -75,23 +63,13 @@ public class OAuthProviderHandler {
         pluginImplementation
             .getCurrentUser()
             .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulLink(call, credential, null, null, null);
-                }
-            )
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }
 
     private void finishActivityForLink(final PluginCall call, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    pluginImplementation.handleSuccessfulLink(call, credential, null, null, null);
-                }
-            )
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }
 

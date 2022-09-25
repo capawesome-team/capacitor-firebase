@@ -575,21 +575,31 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCredential succeeded.");
                         final AuthResult authResult = task.getResult();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
-                            authResult.getUser(),
-                            authResult.getCredential(),
-                            idToken,
-                            nonce,
-                            accessToken,
-                            authResult.getAdditionalUserInfo()
-                        );
-                        call.resolve(signInResult);
+                        handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", task.getException());
                         call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
                     }
                 }
             );
+    }
+
+    public void handleSuccessfulSignIn(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
+        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(signInResult);
     }
 
     public void handleFailedSignIn(final PluginCall call, String message, Exception exception) {
@@ -619,21 +629,31 @@ public class FirebaseAuthentication {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithCredential succeeded.");
                         final AuthResult authResult = task.getResult();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
-                            authResult.getUser(),
-                            authResult.getCredential(),
-                            idToken,
-                            nonce,
-                            accessToken,
-                            authResult.getAdditionalUserInfo()
-                        );
-                        call.resolve(signInResult);
+                        handleSuccessfulLink(call, authResult, idToken, nonce, accessToken);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithCredential failed.", task.getException());
                         call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
                     }
                 }
             );
+    }
+
+    public void handleSuccessfulLink(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
+        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(linkResult);
     }
 
     public void handleFailedLink(final PluginCall call, String message, Exception exception) {
