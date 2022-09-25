@@ -94,9 +94,16 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
             call.reject(errorMessageMissing)
             return
         }
-        let domain = call.getString("domain") ?? ""
-        let code = call.getInt("code") ?? -1001
-        implementation?.recordException(message, domain, code)
+
+        let stacktrace = call.getArray("stacktrace", JSObject.self)
+        if (stacktrace == nil || stacktrace!.isEmpty) {
+            let domain = call.getString("domain") ?? ""
+            let code = call.getInt("code") ?? -1001
+
+            implementation?.recordException(message, domain, code)
+        } else {
+            implementation?.recordExceptionWithStacktrace(message, stacktrace!)
+        }
         call.resolve()
     }
 }
