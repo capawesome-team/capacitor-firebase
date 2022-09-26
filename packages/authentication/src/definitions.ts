@@ -1043,9 +1043,3 @@ export enum ProviderId {
   PASSWORD = 'password',
   PHONE = 'phone',
 }
-
-export enum SignInMethod {
-  EMAIL_LINK = 'emailLink',
-  EMAIL_PASSWORD = 'password',
-  PHONE = 'phone',
-}

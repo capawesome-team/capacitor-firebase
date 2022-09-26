@@ -24,13 +24,6 @@ public class FirebaseAuthenticationHelper {
         public static final String PHONE = "phone";
     }
 
-    public static class SignInMethod {
-
-        public static final String EMAIL_LINK = "emailLink";
-        public static final String EMAIL_PASSWORD = "password";
-        public static final String PHONE = "phone";
-    }
-
     public static JSObject createSignInResult(
         @Nullable FirebaseUser user,
         @Nullable AuthCredential credential,

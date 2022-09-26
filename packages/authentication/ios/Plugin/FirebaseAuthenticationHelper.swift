@@ -16,12 +16,6 @@ public struct ProviderId {
     static let phone = "phone"
 }
 
-public struct SignInMethod {
-    static let emailLink = "emailLink"
-    static let emailPassword = "password"
-    static let phone = "phone"
-}
-
 public class FirebaseAuthenticationHelper {
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
         return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: additionalUserInfo, displayName: nil)
