@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [`381bbfb`](https://github.com/capawesome-team/capacitor-firebase/commit/381bbfbbb83916b4be165bae45d0fcb88f9e278b) ([#201](https://github.com/capawesome-team/capacitor-firebase/pull/201)): feat(crashlytics): `recordException` now supports `stacktrace` (by @NLueg)
+
 ## 1.0.0
 
 ### Major Changes
