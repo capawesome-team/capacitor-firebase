@@ -34,14 +34,20 @@ public class PlayGamesAuthProviderHandler {
     public void signIn(PluginCall call) {
         this.mGoogleSignInClient = buildGoogleSignInClient(call);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderActivityResult");
+        pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderSignInActivityResult");
+    }
+
+    public void link(PluginCall call) {
+        this.mGoogleSignInClient = buildGoogleSignInClient(call);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        pluginImplementation.startActivityForResult(call, signInIntent, "handlePlayGamesAuthProviderLinkActivityResult");
     }
 
     public void signOut() {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(final PluginCall call, ActivityResult result) {
+    public void handleOnActivityResult(final PluginCall call, ActivityResult result, boolean isLink) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
@@ -49,9 +55,17 @@ public class PlayGamesAuthProviderHandler {
             String serverAuthCode = account.getServerAuthCode();
             AuthCredential credential = PlayGamesAuthProvider.getCredential(serverAuthCode);
             String idToken = account.getIdToken();
-            pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, null, null);
+            if (isLink) {
+                pluginImplementation.handleSuccessfulLink(call, credential, idToken, null, null);
+            } else {
+                pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, null, null);
+            }
         } catch (ApiException exception) {
-            pluginImplementation.handleFailedSignIn(call, null, exception);
+            if (isLink) {
+                pluginImplementation.handleFailedLink(call, null, exception);
+            } else {
+                pluginImplementation.handleFailedSignIn(call, null, exception);
+            }
         }
     }
 

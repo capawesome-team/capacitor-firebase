@@ -130,10 +130,10 @@
 		7C8E530426656F2000FF4B87 /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */,
 				7CD588F32688B6A7002BDF65 /* AppleAuthProviderHandler.swift */,
-				7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */,
 				7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */,
+				7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */,
+				7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */,
 				7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */,
 			);
 			path = Handlers;
@@ -544,7 +544,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -570,7 +569,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.getcapacitor.Plugin;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

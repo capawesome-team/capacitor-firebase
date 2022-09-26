@@ -3,6 +3,19 @@ import Capacitor
 import FirebaseCore
 import FirebaseAuth
 
+public struct ProviderId {
+    static let apple = "apple.com"
+    static let facebook = "facebook.com"
+    static let gitHub = "github.com"
+    static let google = "google.com"
+    static let microsoft = "microsoft.com"
+    static let playGames = "playgames.google.com"
+    static let twitter = "twitter.com"
+    static let yahoo = "yahoo.com"
+    static let password = "password"
+    static let phone = "phone"
+}
+
 public class FirebaseAuthenticationHelper {
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
         return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: additionalUserInfo, displayName: nil)

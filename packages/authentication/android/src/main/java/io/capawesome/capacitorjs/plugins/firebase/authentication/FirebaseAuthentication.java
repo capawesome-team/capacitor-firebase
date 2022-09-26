@@ -12,9 +12,11 @@ import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
@@ -157,6 +159,110 @@ public class FirebaseAuthentication {
         return firebaseAuthInstance.isSignInWithEmailLink(emailLink);
     }
 
+    public void linkWithApple(final PluginCall call) {
+        appleAuthProviderHandler.link(call);
+    }
+
+    public void linkWithEmailAndPassword(final PluginCall call) {
+        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH);
+            return;
+        }
+        FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+
+        String email = call.getString("email", "");
+        String password = call.getString("password", "");
+
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+
+        user
+            .linkWithCredential(credential)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithEmailAndPassword succeeded.");
+                        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
+                        call.resolve(linkResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithEmailAndPassword failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
+                    }
+                }
+            );
+    }
+
+    public void linkWithEmailLink(final PluginCall call) {
+        boolean skipNativeAuth = this.config.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH);
+            return;
+        }
+        FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+
+        String email = call.getString("email", "");
+        String emailLink = call.getString("emailLink", "");
+
+        AuthCredential credential = EmailAuthProvider.getCredentialWithLink(email, emailLink);
+
+        user
+            .linkWithCredential(credential)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithEmailLink succeeded.");
+                        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
+                        call.resolve(linkResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithEmailLink failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
+                    }
+                }
+            );
+    }
+
+    public void linkWithFacebook(final PluginCall call) {
+        facebookAuthProviderHandler.link(call);
+    }
+
+    public void linkWithGithub(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.GITHUB);
+    }
+
+    public void linkWithGoogle(final PluginCall call) {
+        googleAuthProviderHandler.link(call);
+    }
+
+    public void linkWithMicrosoft(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.MICROSOFT);
+    }
+
+    public void linkWithPhoneNumber(final PluginCall call) {
+        phoneAuthProviderHandler.link(call);
+    }
+
+    public void linkWithPlayGames(final PluginCall call) {
+        playGamesAuthProviderHandler.link(call);
+    }
+
+    public void linkWithTwitter(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.TWITTER);
+    }
+
+    public void linkWithYahoo(final PluginCall call) {
+        oAuthProviderHandler.link(call, ProviderId.YAHOO);
+    }
+
     public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
         user
             .sendEmailVerification()
@@ -195,67 +301,39 @@ public class FirebaseAuthentication {
         firebaseAuthInstance.setTenantId(tenantId);
     }
 
-    public void signInWithApple(final PluginCall call) {
-        appleAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithFacebook(final PluginCall call) {
-        facebookAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithGithub(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "github.com");
-    }
-
-    public void signInWithGoogle(final PluginCall call) {
-        googleAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithMicrosoft(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "microsoft.com");
-    }
-
-    public void signInWithPhoneNumber(final PluginCall call) {
-        phoneAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithPlayGames(final PluginCall call) {
-        playGamesAuthProviderHandler.signIn(call);
-    }
-
-    public void signInWithTwitter(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "twitter.com");
-    }
-
-    public void signInWithYahoo(final PluginCall call) {
-        oAuthProviderHandler.signIn(call, "yahoo.com");
-    }
-
-    public void signInWithCustomToken(final PluginCall call) {
+    public void signInAnonymously(final PluginCall call) {
         boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
         if (skipNativeAuth) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
+            call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_ANONYMOUSLY_SKIP_NATIVE_AUTH);
             return;
         }
-
-        String token = call.getString("token", "");
-
         firebaseAuthInstance
-            .signInWithCustomToken(token)
+            .signInAnonymously()
             .addOnCompleteListener(
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
-                        FirebaseUser user = getCurrentUser();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInAnonymously succeeded.");
+                        AuthResult authResult = task.getResult();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+                            authResult.getUser(),
+                            authResult.getCredential(),
+                            null,
+                            null,
+                            null,
+                            authResult.getAdditionalUserInfo()
+                        );
                         call.resolve(signInResult);
                     } else {
-                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInAnonymously failed.", task.getException());
+                        call.reject(task.getException().getLocalizedMessage());
                     }
                 }
             );
+    }
+
+    public void signInWithApple(final PluginCall call) {
+        appleAuthProviderHandler.signIn(call);
     }
 
     public void signInWithEmailAndPassword(final PluginCall call) {
@@ -289,7 +367,7 @@ public class FirebaseAuthentication {
     public void signInWithEmailLink(final PluginCall call) {
         boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
         if (skipNativeAuth) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH);
+            call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_LINK_SIGN_IN_SKIP_NATIVE_AUTH);
             return;
         }
 
@@ -321,6 +399,65 @@ public class FirebaseAuthentication {
             );
     }
 
+    public void signInWithFacebook(final PluginCall call) {
+        facebookAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithGithub(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.GITHUB);
+    }
+
+    public void signInWithGoogle(final PluginCall call) {
+        googleAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithMicrosoft(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.MICROSOFT);
+    }
+
+    public void signInWithPhoneNumber(final PluginCall call) {
+        phoneAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithPlayGames(final PluginCall call) {
+        playGamesAuthProviderHandler.signIn(call);
+    }
+
+    public void signInWithTwitter(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.TWITTER);
+    }
+
+    public void signInWithYahoo(final PluginCall call) {
+        oAuthProviderHandler.signIn(call, ProviderId.YAHOO);
+    }
+
+    public void signInWithCustomToken(final PluginCall call) {
+        boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
+        if (skipNativeAuth) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH);
+            return;
+        }
+
+        String token = call.getString("token", "");
+
+        firebaseAuthInstance
+            .signInWithCustomToken(token)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken succeeded.");
+                        FirebaseUser user = getCurrentUser();
+                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
+                        call.resolve(signInResult);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCustomToken failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                    }
+                }
+            );
+    }
+
     public void signOut(final PluginCall call) {
         FirebaseAuth.getInstance().signOut();
         if (googleAuthProviderHandler != null) {
@@ -333,6 +470,26 @@ public class FirebaseAuthentication {
             playGamesAuthProviderHandler.signOut();
         }
         call.resolve();
+    }
+
+    public void unlink(final PluginCall call, FirebaseUser user, @NonNull String providerId) {
+        user
+            .unlink(providerId)
+            .addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "unlink succeeded.");
+                        AuthResult authResult = task.getResult();
+                        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
+                        JSObject result = new JSObject();
+                        result.put("user", userResult);
+                        call.resolve(result);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "unlink failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_UNLINK_FAILED);
+                    }
+                }
+            );
     }
 
     public void updateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull Runnable callback) {
@@ -367,12 +524,20 @@ public class FirebaseAuthentication {
         plugin.startActivityForResult(call, intent, callbackName);
     }
 
-    public void handleGoogleAuthProviderActivityResult(final PluginCall call, ActivityResult result) {
-        googleAuthProviderHandler.handleOnActivityResult(call, result);
+    public void handleGoogleAuthProviderSignInActivityResult(final PluginCall call, ActivityResult result) {
+        googleAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
-    public void handlePlayGamesAuthProviderActivityResult(final PluginCall call, ActivityResult result) {
-        playGamesAuthProviderHandler.handleOnActivityResult(call, result);
+    public void handleGoogleAuthProviderLinkActivityResult(final PluginCall call, ActivityResult result) {
+        googleAuthProviderHandler.handleOnActivityResult(call, result, true);
+    }
+
+    public void handlePlayGamesAuthProviderSignInActivityResult(final PluginCall call, ActivityResult result) {
+        playGamesAuthProviderHandler.handleOnActivityResult(call, result, false);
+    }
+
+    public void handlePlayGamesAuthProviderLinkActivityResult(final PluginCall call, ActivityResult result) {
+        playGamesAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
     public void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
@@ -409,16 +574,8 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         Log.d(FirebaseAuthenticationPlugin.TAG, "signInWithCredential succeeded.");
-                        AuthResult authResult = task.getResult();
-                        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
-                            authResult.getUser(),
-                            authResult.getCredential(),
-                            idToken,
-                            nonce,
-                            accessToken,
-                            authResult.getAdditionalUserInfo()
-                        );
-                        call.resolve(signInResult);
+                        final AuthResult authResult = task.getResult();
+                        handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken);
                     } else {
                         Log.e(FirebaseAuthenticationPlugin.TAG, "signInWithCredential failed.", task.getException());
                         call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
@@ -427,7 +584,79 @@ public class FirebaseAuthentication {
             );
     }
 
+    public void handleSuccessfulSignIn(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
+        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(signInResult);
+    }
+
     public void handleFailedSignIn(final PluginCall call, String message, Exception exception) {
+        if (message == null && exception != null) {
+            message = exception.getLocalizedMessage();
+        }
+        call.reject(message, exception);
+    }
+
+    public void handleSuccessfulLink(
+        final PluginCall call,
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
+        FirebaseUser user = firebaseAuthInstance.getCurrentUser();
+        if (user == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+        user
+            .linkWithCredential(credential)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(FirebaseAuthenticationPlugin.TAG, "linkWithCredential succeeded.");
+                        final AuthResult authResult = task.getResult();
+                        handleSuccessfulLink(call, authResult, idToken, nonce, accessToken);
+                    } else {
+                        Log.e(FirebaseAuthenticationPlugin.TAG, "linkWithCredential failed.", task.getException());
+                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
+                    }
+                }
+            );
+    }
+
+    public void handleSuccessfulLink(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken
+    ) {
+        JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(linkResult);
+    }
+
+    public void handleFailedLink(final PluginCall call, String message, Exception exception) {
         if (message == null && exception != null) {
             message = exception.getLocalizedMessage();
         }
@@ -448,20 +677,20 @@ public class FirebaseAuthentication {
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {
         List providerList = Arrays.asList(config.getProviders());
-        if (providerList.contains("facebook.com")) {
-            facebookAuthProviderHandler = new FacebookAuthProviderHandler(this);
-        }
-        if (providerList.contains("google.com")) {
-            googleAuthProviderHandler = new GoogleAuthProviderHandler(this);
-        }
-        if (providerList.contains("apple.com")) {
+        if (providerList.contains(ProviderId.APPLE)) {
             appleAuthProviderHandler = new AppleAuthProviderHandler(this);
         }
-        if (providerList.contains("playgames.google.com")) {
-            playGamesAuthProviderHandler = new PlayGamesAuthProviderHandler(this);
+        if (providerList.contains(ProviderId.FACEBOOK)) {
+            facebookAuthProviderHandler = new FacebookAuthProviderHandler(this);
         }
-        if (providerList.contains("phone")) {
+        if (providerList.contains(ProviderId.GOOGLE)) {
+            googleAuthProviderHandler = new GoogleAuthProviderHandler(this);
+        }
+        if (providerList.contains(ProviderId.PHONE)) {
             phoneAuthProviderHandler = new PhoneAuthProviderHandler(this);
+        }
+        if (providerList.contains(ProviderId.PLAY_GAMES)) {
+            playGamesAuthProviderHandler = new PlayGamesAuthProviderHandler(this);
         }
         oAuthProviderHandler = new OAuthProviderHandler(this);
     }

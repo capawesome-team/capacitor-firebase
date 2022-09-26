@@ -19,7 +19,7 @@ When using the Firebase JS SDK on Android and iOS, you must be aware of the foll
 - **Apple Sign-In** works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
 - **Twitter Sign-In** works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
 
-**Note**: The [`skipNativeAuth`](/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` paramter in [SignInOptions](/packages/authentication/README.md#signinoptions)).
+**Note**: The [`skipNativeAuth`](/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](/packages/authentication/README.md#signinoptions)).
 
 ## Examples
 
@@ -84,6 +84,15 @@ const signInWithPhoneNumber = async () => {
   );
   const auth = getAuth();
   await signInWithCredential(auth, credential);
+};
+
+const linkWithGoogle = async () => {
+  // 1. Create credentials on the native layer
+  const result = await FirebaseAuthentication.signInWithGoogle();
+  // 2. Link on the web layer using the id token
+  const credential = GoogleAuthProvider.credential(result.credential?.idToken);
+  const auth = getAuth();
+  await linkWithCredential(auth, credential);
 };
 
 const sendSignInLinkToEmail = async () => {

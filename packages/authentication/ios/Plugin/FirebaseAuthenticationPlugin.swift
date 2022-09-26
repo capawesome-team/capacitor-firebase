@@ -9,6 +9,7 @@ import FirebaseAuth
  */
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
+    public let errorProviderIdMissing = "providerId must be provided."
     public let errorNoUserSignedIn = "No user is signed in."
     public let errorOobCodeMissing = "oobCode must be provided."
     public let errorTenantIdMissing = "tenantId must be provided."
@@ -24,10 +25,12 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorCreateUserWithEmailAndPasswordFailed = "createUserWithEmailAndPassword failed."
     public let errorCustomTokenSkipNativeAuth =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth."
-    public let errorEmailLinkSkipNativeAuth =
+    public let errorEmailLinkSignInSkipNativeAuth =
         "signInWithEmailLink cannot be used in combination with skipNativeAuth."
     public let errorEmailSignInSkipNativeAuth =
         "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth."
+    public let errorSignInAnonymouslySkipNativeAuth =
+        "signInAnonymously cannot be used in combination with skipNativeAuth."
     public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
     public let authStateChangeEvent = "authStateChange"
     private var implementation: FirebaseAuthentication?
@@ -114,6 +117,59 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         var result = JSObject()
         result["isSignInWithEmailLink"] = implementation?.isSignInWithEmailLink(link: emailLink)
         call.resolve(result)
+    }
+
+    @objc func linkWithApple(_ call: CAPPluginCall) {
+        implementation?.linkWithApple(call)
+    }
+
+    @objc func linkWithEmailAndPassword(_ call: CAPPluginCall) {
+        implementation?.linkWithEmailAndPassword(call)
+    }
+
+    @objc func linkWithEmailLink(_ call: CAPPluginCall) {
+        implementation?.linkWithEmailLink(call)
+    }
+
+    @objc func linkWithFacebook(_ call: CAPPluginCall) {
+        implementation?.linkWithFacebook(call)
+    }
+
+    @objc func linkWithGithub(_ call: CAPPluginCall) {
+        implementation?.linkWithGithub(call)
+    }
+
+    @objc func linkWithGoogle(_ call: CAPPluginCall) {
+        implementation?.linkWithGoogle(call)
+    }
+
+    @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
+        implementation?.linkWithMicrosoft(call)
+    }
+
+    @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
+        let phoneNumber = call.getString("phoneNumber")
+        let verificationId = call.getString("verificationId")
+        let verificationCode = call.getString("verificationCode")
+
+        if phoneNumber == nil && (verificationId == nil || verificationCode == nil) {
+            call.reject(errorPhoneNumberVerificationIdCodeMissing)
+            return
+        }
+
+        implementation?.linkWithPhoneNumber(call)
+    }
+
+    @objc func linkWithPlayGames(_ call: CAPPluginCall) {
+        call.reject("Not available on iOS.")
+    }
+
+    @objc func linkWithTwitter(_ call: CAPPluginCall) {
+        implementation?.linkWithTwitter(call)
+    }
+
+    @objc func linkWithYahoo(_ call: CAPPluginCall) {
+        implementation?.linkWithYahoo(call)
     }
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
@@ -211,6 +267,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         call.resolve()
     }
 
+    @objc func signInAnonymously(_ call: CAPPluginCall) {
+        implementation?.signInAnonymously(call)
+    }
+
     @objc func signInWithApple(_ call: CAPPluginCall) {
         implementation?.signInWithApple(call)
     }
@@ -270,6 +330,28 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func signOut(_ call: CAPPluginCall) {
         implementation?.signOut(call)
+    }
+
+    @objc func unlink(_ call: CAPPluginCall) {
+        guard let providerId = call.getString("providerId") else {
+            call.reject(errorProviderIdMissing)
+            return
+        }
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.unlink(user: user, providerId: providerId, completion: { user, error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            let userResult = FirebaseAuthenticationHelper.createUserResult(user)
+            var result = JSObject()
+            result["user"] = userResult
+            call.resolve(result)
+        })
     }
 
     @objc func updateEmail(_ call: CAPPluginCall) {

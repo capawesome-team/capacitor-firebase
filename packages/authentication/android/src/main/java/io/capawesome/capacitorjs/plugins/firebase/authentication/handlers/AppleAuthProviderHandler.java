@@ -10,6 +10,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.OAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -30,6 +32,98 @@ public class AppleAuthProviderHandler {
 
     public AppleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
+    }
+
+    public void signIn(PluginCall call) {
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
+        applySignInOptions(call, provider);
+        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
+        if (pendingResultTask == null) {
+            currentNonce = generateNonce(32);
+            try {
+                provider.addCustomParameter("nonce", sha256(currentNonce));
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            startActivityForSignIn(call, provider);
+        } else {
+            finishActivityForSignIn(call, pendingResultTask);
+        }
+    }
+
+    public void link(PluginCall call) {
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
+        applySignInOptions(call, provider);
+        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
+        if (pendingResultTask == null) {
+            currentNonce = generateNonce(32);
+            try {
+                provider.addCustomParameter("nonce", sha256(currentNonce));
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            startActivityForLink(call, provider);
+        } else {
+            finishActivityForLink(call, pendingResultTask);
+        }
+    }
+
+    private void startActivityForSignIn(final PluginCall call, OAuthProvider.Builder provider) {
+        pluginImplementation
+            .getFirebaseAuthInstance()
+            .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, currentNonce, null))
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
+    }
+
+    private void finishActivityForSignIn(final PluginCall call, Task<AuthResult> pendingResultTask) {
+        pendingResultTask
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, currentNonce, null))
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
+    }
+
+    private void startActivityForLink(final PluginCall call, OAuthProvider.Builder provider) {
+        pluginImplementation
+            .getCurrentUser()
+            .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
+    }
+
+    private void finishActivityForLink(final PluginCall call, Task<AuthResult> pendingResultTask) {
+        pendingResultTask
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
+    }
+
+    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
+        JSArray customParameters = call.getArray("customParameters");
+        if (customParameters != null) {
+            try {
+                List<Object> customParametersList = customParameters.toList();
+                for (int i = 0; i < customParametersList.size(); i++) {
+                    JSObject customParameter = JSObject.fromJSONObject((JSONObject) customParametersList.get(i));
+                    String key = customParameter.getString("key");
+                    String value = customParameter.getString("value");
+                    if (key == null || value == null) {
+                        continue;
+                    }
+                    provider.addCustomParameter(key, value);
+                }
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
+            }
+        }
+
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                List<String> scopeList = scopes.toList();
+                provider.setScopes(scopeList);
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
+            }
+        }
     }
 
     // From https://firebase.google.com/docs/auth/android/apple#advanced_handle_the_sign-in_flow_manually
@@ -61,78 +155,5 @@ public class AppleAuthProviderHandler {
             hash.append(String.format("%02x", c));
         }
         return hash.toString();
-    }
-
-    public void signIn(PluginCall call) {
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder("apple.com");
-        applySignInOptions(call, provider);
-        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
-        if (pendingResultTask == null) {
-            currentNonce = generateNonce(32);
-            try {
-                provider.addCustomParameter("nonce", sha256(currentNonce));
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            startActivityForSignIn(call, provider);
-        } else {
-            finishActivityForSignIn(call, pendingResultTask);
-        }
-    }
-
-    private void startActivityForSignIn(final PluginCall call, OAuthProvider.Builder provider) {
-        pluginImplementation
-            .getFirebaseAuthInstance()
-            .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null, additionalUserInfo);
-                }
-            )
-            .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
-    }
-
-    private void finishActivityForSignIn(final PluginCall call, Task<AuthResult> pendingResultTask) {
-        pendingResultTask
-            .addOnSuccessListener(
-                authResult -> {
-                    AuthCredential credential = authResult.getCredential();
-                    AdditionalUserInfo additionalUserInfo = authResult.getAdditionalUserInfo();
-                    pluginImplementation.handleSuccessfulSignIn(call, credential, null, currentNonce, null, additionalUserInfo);
-                }
-            )
-            .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
-    }
-
-    private void applySignInOptions(PluginCall call, OAuthProvider.Builder provider) {
-        JSArray customParameters = call.getArray("customParameters");
-        if (customParameters != null) {
-            try {
-                List<Object> customParametersList = customParameters.toList();
-                for (int i = 0; i < customParametersList.size(); i++) {
-                    JSObject customParameter = JSObject.fromJSONObject((JSONObject) customParametersList.get(i));
-                    String key = customParameter.getString("key");
-                    String value = customParameter.getString("value");
-                    if (key == null || value == null) {
-                        continue;
-                    }
-                    provider.addCustomParameter(key, value);
-                }
-            } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
-            }
-        }
-
-        JSArray scopes = call.getArray("scopes");
-        if (scopes != null) {
-            try {
-                List<String> scopeList = scopes.toList();
-                provider.setScopes(scopeList);
-            } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
-            }
-        }
     }
 }

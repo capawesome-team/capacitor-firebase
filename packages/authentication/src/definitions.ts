@@ -13,6 +13,7 @@ declare module '@capacitor/cli' {
       /**
        * Configure whether the plugin should skip the native authentication.
        * Only needed if you want to use the Firebase JavaScript SDK.
+       * This configuration option has no effect on Firebase account linking.
        *
        * **Note that the plugin may behave differently across the platforms.**
        *
@@ -88,6 +89,107 @@ export interface FirebaseAuthenticationPlugin {
     options: IsSignInWithEmailLinkOptions,
   ): Promise<IsSignInWithEmailLinkResult>;
   /**
+   * Links the user account with Apple authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithApple(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Email authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithEmailAndPassword(
+    options: LinkWithEmailAndPasswordOptions,
+  ): Promise<LinkResult>;
+  /**
+   * Links the user account with Email authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithEmailLink(options: LinkWithEmailLinkOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Facebook authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithFacebook(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with GitHub authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithGithub(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Google authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithGoogle(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Microsoft authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithMicrosoft(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Phone Number authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithPhoneNumber(options: LinkWithPhoneNumberOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Play Games authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithPlayGames(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Twitter authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithTwitter(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with Yahoo authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.1.0
+   */
+  linkWithYahoo(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
    * Sends a verification email to the currently signed in user.
    *
    * @since 0.2.2
@@ -119,6 +221,12 @@ export interface FirebaseAuthenticationPlugin {
    * @since 1.1.0
    */
   setTenantId(options: SetTenantIdOptions): Promise<void>;
+  /**
+   * Signs in as an anonymous user.
+   *
+   * @since 1.1.0
+   */
+  signInAnonymously(): Promise<SignInResult>;
   /**
    * Starts the Apple sign-in flow.
    *
@@ -228,6 +336,12 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   signOut(): Promise<void>;
+  /**
+   * Unlinks a provider from a user account.
+   *
+   * @since 1.1.0
+   */
+  unlink(options: UnlinkOptions): Promise<UnlinkResult>;
   /**
    * Updates the email address of the currently signed in user.
    *
@@ -420,6 +534,75 @@ export interface UpdatePasswordOptions {
    */
   newPassword: string;
 }
+
+/**
+ * @since 1.1.0
+ */
+export type LinkOptions = SignInOptions;
+
+/**
+ * @since 1.1.0
+ */
+export type LinkWithOAuthOptions = SignInWithOAuthOptions;
+
+/**
+ * @since 1.1.0
+ */
+export interface LinkWithEmailAndPasswordOptions {
+  /**
+   * The users email address.
+   *
+   * @since 1.1.0
+   */
+  email: string;
+  /**
+   * The users password.
+   *
+   * @since 1.1.0
+   */
+  password: string;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface LinkWithEmailLinkOptions {
+  /**
+   * The user's email address.
+   *
+   * @since 1.1.0
+   */
+  email: string;
+  /**
+   * The link sent to the user's email address.
+   *
+   * @since 1.1.0
+   */
+  emailLink: string;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface LinkWithPhoneNumberOptions {
+  /**
+   * The user's phone number in E.164 format.
+   *
+   * @example "+16505550101"
+   * @since 1.1.0
+   */
+  phoneNumber: string;
+}
+
+/**
+ * @since 1.1.0
+ */
+export type LinkWithCustomTokenOptions = SignInWithCustomTokenOptions;
+
+/**
+ * @since 1.1.0
+ */
+export type LinkResult = SignInResult;
 
 /**
  * @since 0.1.0
@@ -630,6 +813,30 @@ export interface SignInResult {
 }
 
 /**
+ * @since 1.1.0
+ */
+export interface UnlinkOptions {
+  /**
+   * The provider to unlink.
+   *
+   * @since 1.1.0
+   */
+  providerId: ProviderId;
+}
+
+/**
+ * @since 1.1.0
+ */
+export interface UnlinkResult {
+  /**
+   * The currently signed-in user, or null if there isn't any.
+   *
+   * @since 1.1.0
+   */
+  user: User | null;
+}
+
+/**
  * @since 0.2.0
  */
 export interface UseEmulatorOptions {
@@ -822,4 +1029,17 @@ export interface ActionCodeSettings {
    * when the link is to be opened via a specified mobile app (for example, `example.page.link`).
    */
   dynamicLinkDomain?: string;
+}
+
+export enum ProviderId {
+  APPLE = 'apple.com',
+  FACEBOOK = 'facebook.com',
+  GITHUB = 'github.com',
+  GOOGLE = 'google.com',
+  MICROSOFT = 'microsoft.com',
+  PLAY_GAMES = 'playgames.google.com',
+  TWITTER = 'twitter.com',
+  YAHOO = 'yahoo.com',
+  PASSWORD = 'password',
+  PHONE = 'phone',
 }

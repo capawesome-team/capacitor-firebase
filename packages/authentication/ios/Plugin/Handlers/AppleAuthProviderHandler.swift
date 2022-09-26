@@ -8,6 +8,7 @@ import CryptoKit
 class AppleAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
     fileprivate var currentNonce: String?
+    fileprivate var isLink: Bool?
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
@@ -15,6 +16,16 @@ class AppleAuthProviderHandler: NSObject {
 
     func signIn(call: CAPPluginCall) {
         if #available(iOS 13, *) {
+            self.isLink = false
+            self.startSignInWithAppleFlow()
+        } else {
+            call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
+        }
+    }
+
+    func link(call: CAPPluginCall) {
+        if #available(iOS 13, *) {
+            self.isLink = true
             self.startSignInWithAppleFlow()
         } else {
             call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
@@ -109,11 +120,25 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
                 displayName = "\(givenName) \(familyName)"
             }
         }
-        let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+        let credential = OAuthProvider.credential(withProviderID: ProviderId.apple, idToken: idTokenString, rawNonce: nonce)
+        guard let isLink = self.isLink else {
+            return
+        }
+        if isLink == true {
+            self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+        } else {
+            self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+        }
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+        guard let isLink = self.isLink else {
+            return
+        }
+        if isLink == true {
+            self.pluginImplementation.handleFailedLink(message: nil, error: error)
+        } else {
+            self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+        }
     }
 }
