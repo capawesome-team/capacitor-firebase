@@ -96,7 +96,7 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
         }
 
         let stacktrace = call.getArray("stacktrace", JSObject.self)
-        if (stacktrace == nil || stacktrace!.isEmpty) {
+        if stacktrace == nil || stacktrace!.isEmpty {
             let domain = call.getString("domain") ?? ""
             let code = call.getInt("code") ?? -1001
 
