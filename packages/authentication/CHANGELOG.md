@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [`ad7c25b`](https://github.com/capawesome-team/capacitor-firebase/commit/ad7c25b906860028a0bf832f6d3f8d2b7ef5f114) ([#172](https://github.com/capawesome-team/capacitor-firebase/pull/172)): feat: support Email Link Authentication (by @trancee)
+
+* [`e06605d`](https://github.com/capawesome-team/capacitor-firebase/commit/e06605dc113b4be051275f17439afc62131ab52f) ([#181](https://github.com/capawesome-team/capacitor-firebase/pull/181)): feat: add `tenantId` support
+
+- [`590545d`](https://github.com/capawesome-team/capacitor-firebase/commit/590545db537a7f0f327217bc08e3343681d693b0) ([#194](https://github.com/capawesome-team/capacitor-firebase/pull/194)): feat: overwrite `skipNativeAuth` configuration option
+
+* [`39830a1`](https://github.com/capawesome-team/capacitor-firebase/commit/39830a1a25263798c357eacff5dc4066a7ca2502) ([#176](https://github.com/capawesome-team/capacitor-firebase/pull/176)): feat: add Sign-In Anonymously (by @trancee)
+
+### Patch Changes
+
+- [`cf0d83d`](https://github.com/capawesome-team/capacitor-firebase/commit/cf0d83dc59100555055fee95f098ece839ed76ab) ([#192](https://github.com/capawesome-team/capacitor-firebase/pull/192)): fix(ios): `displayName` is missing when signing in with Apple using `skipNativeAuth`
+
+* [`c1fb022`](https://github.com/capawesome-team/capacitor-firebase/commit/c1fb0220a4e633c2606c5a55daad164bf154188a) ([#196](https://github.com/capawesome-team/capacitor-firebase/pull/196)): fix(android): `serverAuthCode` is null on Play Games Sign-In
+
+- [`eeeecae`](https://github.com/capawesome-team/capacitor-firebase/commit/eeeecaeb8a463bf51bcd535d2be488e554e23a7d) ([#186](https://github.com/capawesome-team/capacitor-firebase/pull/186)): fix: retain `authStateChangeEvent` until consumed on Android and iOS
+
 ## 1.0.0
 
 ### Major Changes

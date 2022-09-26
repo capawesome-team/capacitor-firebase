@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+### Patch Changes
+
+- [`3b45e52`](https://github.com/capawesome-team/capacitor-firebase/commit/3b45e52066b72ce5da337da6227fede8b74259e9): fix: set plugin config class name to `FirebaseMessaging`
+
 ## 1.0.0
 
 ### Major Changes
