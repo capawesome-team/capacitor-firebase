@@ -922,18 +922,19 @@ export interface User {
  */
 export interface AuthCredential {
   /**
-   * The authentication provider ID for the credential.
-   *
-   * @example "google.com"
-   * @since 0.1.0
-   */
-  providerId: string;
-  /**
    * The OAuth access token associated with the credential if it belongs to an OAuth provider.
    *
    * @since 0.1.0
    */
   accessToken?: string;
+  /**
+   * A token that the app uses to interact with the server.
+   *
+   * Only available for Apple Sign-in on iOS.
+   *
+   * @since 1.2.0
+   */
+  authorizationCode?: string;
   /**
    * The OAuth ID token associated with the credential if it belongs to an OIDC provider.
    *
@@ -941,17 +942,24 @@ export interface AuthCredential {
    */
   idToken?: string;
   /**
-   * The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.
-   *
-   * @since 0.1.0
-   */
-  secret?: string;
-  /**
    * The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request.
    *
    * @since 0.1.0
    */
   nonce?: string;
+  /**
+   * The authentication provider ID for the credential.
+   *
+   * @example "google.com"
+   * @since 0.1.0
+   */
+  providerId: string;
+  /**
+   * The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.
+   *
+   * @since 0.1.0
+   */
+  secret?: string;
 }
 
 /**

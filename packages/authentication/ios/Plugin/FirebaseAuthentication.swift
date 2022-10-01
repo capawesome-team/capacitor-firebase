@@ -401,10 +401,10 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        self.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
+        self.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil, authorizationCode: nil)
     }
 
-    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
+    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?, authorizationCode: String?) {
         guard let savedCall = self.savedCall else {
             return
         }
@@ -438,10 +438,10 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil)
+        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil, authorizationCode: nil)
     }
 
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?) {
+    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?, authorizationCode: String?) {
         guard let user = getCurrentUser() else {
             self.handleFailedLink(message: plugin.errorNoUserSignedIn, error: nil)
             return
