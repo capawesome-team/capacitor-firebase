@@ -110,6 +110,10 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             print("Unable to fetch identity token")
             return
         }
+        var authorizationCode: String?
+        if let authorizationCodeData = appleIDCredential.authorizationCode {
+            authorizationCode = String(data: authorizationCodeData, encoding: .utf8)
+        }
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
@@ -125,9 +129,11 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             return
         }
         if isLink == true {
-            self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+            self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce,
+                                                           accessToken: nil, displayName: displayName, authorizationCode: authorizationCode)
         } else {
-            self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: displayName)
+            self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce,
+                                                             accessToken: nil, displayName: displayName, authorizationCode: authorizationCode)
         }
     }
 
