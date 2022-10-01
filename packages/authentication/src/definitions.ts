@@ -645,7 +645,7 @@ export interface SignInOptions {
 export interface SignInWithOAuthOptions extends SignInOptions {
   /**
    * Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.
-   * 
+   *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
    * Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android.
    * Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS.
@@ -655,7 +655,7 @@ export interface SignInWithOAuthOptions extends SignInOptions {
   customParameters?: SignInCustomParameter[];
   /**
    * Scopes to request from provider.
-   * 
+   *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
    * Supports Apple, GitHub, Microsoft, Twitter, Yahoo and Play Games on Android.
    * Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.
