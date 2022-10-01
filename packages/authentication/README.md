@@ -1267,13 +1267,14 @@ Remove all listeners for this plugin.
 
 #### AuthCredential
 
-| Prop              | Type                | Description                                                                                                                              | Since |
-| ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`providerId`**  | <code>string</code> | The authentication provider ID for the credential.                                                                                       | 0.1.0 |
-| **`accessToken`** | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                | 0.1.0 |
-| **`idToken`**     | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     | 0.1.0 |
-| **`secret`**      | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     | 0.1.0 |
-| **`nonce`**       | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. | 0.1.0 |
+| Prop                    | Type                | Description                                                                                                                              | Since |
+| ----------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`accessToken`**       | <code>string</code> | The OAuth access token associated with the credential if it belongs to an OAuth provider.                                                | 0.1.0 |
+| **`authorizationCode`** | <code>string</code> | A token that the app uses to interact with the server. Only available for Apple Sign-in on iOS.                                          | 1.2.0 |
+| **`idToken`**           | <code>string</code> | The OAuth ID token associated with the credential if it belongs to an OIDC provider.                                                     | 0.1.0 |
+| **`nonce`**             | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. | 0.1.0 |
+| **`providerId`**        | <code>string</code> | The authentication provider ID for the credential.                                                                                       | 0.1.0 |
+| **`secret`**            | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     | 0.1.0 |
 
 
 #### AdditionalUserInfo
