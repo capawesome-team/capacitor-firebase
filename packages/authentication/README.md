@@ -1346,10 +1346,10 @@ Remove all listeners for this plugin.
 
 #### SignInWithOAuthOptions
 
-| Prop                   | Type                                 | Description                                                                                       | Since |
-| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. | 1.1.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                  | 1.1.0 |
+| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                       | Since |
+| ---------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS. | 1.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                              | 1.1.0 |
 
 
 #### SignInCustomParameter
