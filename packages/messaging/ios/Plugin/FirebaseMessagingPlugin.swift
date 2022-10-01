@@ -144,21 +144,21 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     func handleTokenReceived(token: String?) {
         var result = JSObject()
         result["token"] = token
-        notifyListeners(tokenReceivedEvent, data: result)
+        notifyListeners(tokenReceivedEvent, data: result, retainUntilConsumed: true)
     }
 
     func handleNotificationReceived(notification: UNNotification) {
         let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
         var result = JSObject()
         result["notification"] = notificationResult
-        notifyListeners(notificationReceivedEvent, data: result)
+        notifyListeners(notificationReceivedEvent, data: result, retainUntilConsumed: true)
     }
 
     func handleRemoteNotificationReceived(notification: NSNotification) {
         let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
         var result = JSObject()
         result["notification"] = notificationResult
-        notifyListeners(notificationReceivedEvent, data: result)
+        notifyListeners(notificationReceivedEvent, data: result, retainUntilConsumed: true)
     }
 
     func handleNotificationActionPerformed(response: UNNotificationResponse) {
@@ -175,7 +175,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         if let inputType = response as? UNTextInputNotificationResponse {
             result["inputValue"] = inputType.userText
         }
-        notifyListeners(notificationActionPerformedEvent, data: result)
+        notifyListeners(notificationActionPerformedEvent, data: result, retainUntilConsumed: true)
     }
 
     @objc private func didRegisterForRemoteNotifications(notification: NSNotification) {
