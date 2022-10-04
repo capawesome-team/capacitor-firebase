@@ -419,10 +419,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {
         var config = FirebaseAuthenticationConfig()
 
-        if let skipNativeAuth = getConfigValue("skipNativeAuth") as? Bool {
-            config.skipNativeAuth = skipNativeAuth
-        }
-        if let providers = getConfigValue("providers") as? [String] {
+        config.skipNativeAuth = getConfig().getBoolean("skipNativeAuth", config.skipNativeAuth)
+        if let providers = getConfig().getArray("providers") as? [String] {
             config.providers = providers
         }
 
