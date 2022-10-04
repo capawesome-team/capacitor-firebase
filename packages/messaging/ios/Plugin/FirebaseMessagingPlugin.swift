@@ -195,7 +195,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         if let presentationOptions = getConfig().getArray("presentationOptions") as? [String] {
             config.presentationOptions = presentationOptions
         }
-        
+
         return config
     }
 }
