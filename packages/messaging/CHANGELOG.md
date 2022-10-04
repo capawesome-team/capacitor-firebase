@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+### Patch Changes
+
+- [`57ae209`](https://github.com/capawesome-team/capacitor-firebase/commit/57ae20929918bab6915536843109424a80495b42) ([#214](https://github.com/capawesome-team/capacitor-firebase/pull/214)): fix(ios): `getConfigValue` is deprecated
+
+* [`a6a0720`](https://github.com/capawesome-team/capacitor-firebase/commit/a6a0720b9151492bbcf029bd26f8907030bd3359): fix(ios): retain all events until consumed
+
 ## 1.1.0
 
 ### Patch Changes
