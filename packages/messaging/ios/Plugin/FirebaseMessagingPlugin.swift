@@ -192,7 +192,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     private func firebaseMessagingConfig() -> FirebaseMessagingConfig {
         var config = FirebaseMessagingConfig()
 
-        if let presentationOptions = getConfigValue("presentationOptions") as? [String] {
+        if let presentationOptions = getConfig().getArray("presentationOptions") as? [String] {
             config.presentationOptions = presentationOptions
         }
 
