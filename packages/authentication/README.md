@@ -113,7 +113,7 @@ export default config;
    For native authentication, the native SDKs from Firebase, Google, etc. are used.
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
-   If the user should also be logged in on the web layer, additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
+   If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
 1. **How can I use this plugin with the Firebase JavaScript SDK?**  
    See [here](/packages/authentication/docs/firebase-js-sdk.md).
 
