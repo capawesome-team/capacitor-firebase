@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0
+
+### Minor Changes
+
+- [`29ac6cc`](https://github.com/capawesome-team/capacitor-firebase/commit/29ac6cc792ee4b014510cc631a754e4a2f46aa1a) ([#213](https://github.com/capawesome-team/capacitor-firebase/pull/213)): feat(ios): return `authorizationCode` on Apple Sign-In
+
+### Patch Changes
+
+- [`57ae209`](https://github.com/capawesome-team/capacitor-firebase/commit/57ae20929918bab6915536843109424a80495b42) ([#214](https://github.com/capawesome-team/capacitor-firebase/pull/214)): fix(ios): `getConfigValue` is deprecated
+
 ## 1.1.0
 
 ### Minor Changes
