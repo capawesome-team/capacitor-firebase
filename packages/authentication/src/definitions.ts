@@ -319,7 +319,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.3.0
    */
-   signInWithGameCenter(
+  signInWithGameCenter(
     options?: SignInOptions | SignInWithOAuthOptions,
   ): Promise<SignInResult>;
   /**

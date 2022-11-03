@@ -168,7 +168,7 @@ public typealias AuthStateChangedObserver = () -> Void
         self.savedCall = call
         self.facebookAuthProviderHandler?.link(call: call)
     }
-    
+
     @objc func linkWithGameCenter(_ call: CAPPluginCall) {
         self.savedCall = call
         self.gameCenterAuthProviderHandler?.link(call: call)
@@ -338,7 +338,7 @@ public typealias AuthStateChangedObserver = () -> Void
         self.savedCall = call
         self.facebookAuthProviderHandler?.signIn(call: call)
     }
-    
+
     @objc func signInWithGameCenter(_ call: CAPPluginCall) {
         self.savedCall = call
         self.gameCenterAuthProviderHandler?.signIn(call: call)

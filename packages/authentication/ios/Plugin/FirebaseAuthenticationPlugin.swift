@@ -134,7 +134,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     @objc func linkWithFacebook(_ call: CAPPluginCall) {
         implementation?.linkWithFacebook(call)
     }
-    
+
     @objc func linkWithGameCenter(_ call: CAPPluginCall) {
         implementation?.linkWithGameCenter(call)
     }
@@ -294,7 +294,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     @objc func signInWithFacebook(_ call: CAPPluginCall) {
         implementation?.signInWithFacebook(call)
     }
-    
+
     @objc func signInWithGameCenter(_ call: CAPPluginCall) {
         implementation?.signInWithGameCenter(call)
     }
