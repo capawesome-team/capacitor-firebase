@@ -26,7 +26,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_ACTION_CODE_SETTINGS_MISSING = "actionCodeSettings must be provided.";
     public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
-    public static final String ERROR_GAME_CENTER_NOT_SUPPORTED_ON_ANDROID = "game center not supported on android.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
@@ -383,11 +382,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     @PluginMethod
     public void signInWithGameCenter(PluginCall call) {
-        try {
-            implementation.signInWithGameCenter(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
-        }
+        call.reject("Not available on Android.");
     }
 
     @PluginMethod

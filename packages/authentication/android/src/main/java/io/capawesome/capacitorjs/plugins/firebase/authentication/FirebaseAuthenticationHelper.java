@@ -18,7 +18,6 @@ public class FirebaseAuthenticationHelper {
         public static final String GOOGLE = "google.com";
         public static final String MICROSOFT = "microsoft.com";
         public static final String PLAY_GAMES = "playgames.google.com";
-        public static final String GAME_CENTER = "gamecenter.apple.com";
         public static final String TWITTER = "twitter.com";
         public static final String YAHOO = "yahoo.com";
         public static final String PASSWORD = "password";
