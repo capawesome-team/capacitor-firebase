@@ -315,6 +315,14 @@ export interface FirebaseAuthenticationPlugin {
     options?: SignInOptions | SignInWithOAuthOptions,
   ): Promise<SignInResult>;
   /**
+   * Starts the Game Center sign-in flow.
+   *
+   * @since 1.2.0
+   */
+   signInWithGameCenter(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
+  /**
    * Starts the Twitter sign-in flow.
    *
    * @since 0.1.0

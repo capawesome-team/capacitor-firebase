@@ -336,6 +336,10 @@ public class FirebaseAuthentication {
         appleAuthProviderHandler.signIn(call);
     }
 
+    public void signInWithGameCenter(final PluginCall call) {
+        call.reject(FirebaseAuthenticationPlugin.ERROR_EMAIL_SIGN_IN_SKIP_NATIVE_AUTH);
+    }
+
     public void signInWithEmailAndPassword(final PluginCall call) {
         boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
         if (skipNativeAuth) {

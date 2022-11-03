@@ -10,6 +10,7 @@ public typealias AuthStateChangedObserver = () -> Void
     private let plugin: FirebaseAuthenticationPlugin
     private let config: FirebaseAuthenticationConfig
     private var appleAuthProviderHandler: AppleAuthProviderHandler?
+    private var gameCenterAuthProviderHandler: GameCenterAuthProviderHandler?
     private var facebookAuthProviderHandler: FacebookAuthProviderHandler?
     private var googleAuthProviderHandler: GoogleAuthProviderHandler?
     private var oAuthProviderHandler: OAuthProviderHandler?
@@ -251,6 +252,11 @@ public typealias AuthStateChangedObserver = () -> Void
         self.appleAuthProviderHandler?.signIn(call: call)
     }
 
+    @objc func signInWithGameCenter(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.gameCenterAuthProviderHandler?.signIn(call: call)
+    }
+
     @objc func signInWithCustomToken(_ call: CAPPluginCall) {
         let skipNativeAuth = call.getBool("skipNativeAuth", config.skipNativeAuth)
         if skipNativeAuth == true {
@@ -479,6 +485,9 @@ public typealias AuthStateChangedObserver = () -> Void
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {
         if config.providers.contains(ProviderId.apple) {
             self.appleAuthProviderHandler = AppleAuthProviderHandler(self)
+        }
+        if config.providers.contains(ProviderId.gameCenter) {
+            self.gameCenterAuthProviderHandler = GameCenterAuthProviderHandler(self)
         }
         if config.providers.contains(ProviderId.facebook) {
             self.facebookAuthProviderHandler = FacebookAuthProviderHandler(self)
