@@ -36,6 +36,7 @@ The further installation steps depend on the selected authentication method:
 
 - [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
 - [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
+- [Game Center Sign-In](/packages/authentication/docs/setup-game-center.md)
 - [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
 - [Google Sign-In](/packages/authentication/docs/setup-google.md)
 - [Microsoft Sign-In](/packages/authentication/docs/setup-microsoft.md)
