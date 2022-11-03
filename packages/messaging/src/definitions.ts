@@ -334,7 +334,7 @@ export interface Notification {
    *
    * @since 0.2.2
    */
-  data?: unknown;
+  data?: any;
   /**
    * The notification identifier.
    *
