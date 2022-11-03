@@ -5,7 +5,7 @@ import FirebaseAuth
 
 public struct ProviderId {
     static let apple = "apple.com"
-    static let gameCenter = "gamecenter.apple.com"
+    static let gameCenter = "gc.apple.com"
     static let facebook = "facebook.com"
     static let gitHub = "github.com"
     static let google = "google.com"

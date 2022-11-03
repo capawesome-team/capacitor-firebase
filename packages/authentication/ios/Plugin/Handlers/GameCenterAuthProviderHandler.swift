@@ -5,7 +5,7 @@ import FirebaseAuth
 import AuthenticationServices
 import GameKit
 
-class AppleAuthProviderHandler: NSObject {
+class GameCenterAuthProviderHandler: NSObject {
     var pluginImplementation: FirebaseAuthentication
     fileprivate var currentNonce: String?
     fileprivate var isLink: Bool?
