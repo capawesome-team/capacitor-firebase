@@ -13,6 +13,7 @@
       "@capacitor-firebase/crashlytics",
       "@capacitor-firebase/messaging",
       "@capacitor-firebase/performance"
+      "@capacitor-firebase/remote-config"
     ]
   ],
   "linked": [],
