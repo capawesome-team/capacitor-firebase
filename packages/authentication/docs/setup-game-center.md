@@ -1,4 +1,4 @@
-# Set up authentication using Play Games Sign-In
+# Set up authentication using Game Center Sign-In
 
 ## Android
 
