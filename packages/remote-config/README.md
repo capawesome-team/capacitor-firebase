@@ -13,6 +13,8 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 ### Android
 
+Google Analytics is required for the [conditional targeting of app instances](https://firebase.google.com/docs/remote-config/parameters#conditions_rules_and_conditional_values) to user properties and audiences. Make sure that you install the [Capacitor Firebase Analytics](/packages/analytics) plugin in your project.
+
 #### Variables
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
