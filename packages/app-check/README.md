@@ -21,6 +21,16 @@ This plugin will use the following project variables (defined in your app’s `v
 
 - `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `16.1.0`)
 
+### iOS
+
+On **iOS 14 and later**, see [Set up your Firebase project](https://firebase.google.com/docs/app-check/ios/app-attest-provider#project-setup) and follow the instructions to set up your app correctly.
+
+On **iOS 13**, see [Set up your Firebase project](https://firebase.google.com/docs/app-check/ios/devicecheck-provider#project-setup) and follow the instructions to set up your app correctly.
+
+### Web
+
+See [Set up your Firebase project](https://firebase.google.com/docs/app-check/web/recaptcha-provider#project-setup) and follow the instructions to set up your app correctly.
+
 ## Configuration
 
 No configuration required for this plugin.
@@ -32,10 +42,10 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { AppCheck } from '@capacitor-firebase/app-check';
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
 
 const echo = async () => {
-  await AppCheck.echo();
+  await FirebaseAppCheck.echo();
 };
 ```
 
