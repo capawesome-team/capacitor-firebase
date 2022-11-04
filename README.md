@@ -17,7 +17,7 @@
 Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use Firebase in your Capacitor project.
 
 - 🔋 Supports **Android, iOS and the Web**
-- ⚡️ **Capacitor 3+** support 
+- ⚡️ **Capacitor 3+** support
 - 🔥 **Firebase Web SDK version 9** (modular) support
 - 🦋 Consistent versioning (no more SDK versions conflicts)
 - 👁 Unified Typescript definitions
@@ -32,9 +32,9 @@ Capacitor Firebase is a collection of Capacitor plugins that make it easier for 
 
 ## Sponsors
 
-This is an Apache-2.0-licensed open source project. 
-It can grow thanks to the support by these awesome people. 
-If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).  
+This is an Apache-2.0-licensed open source project.
+It can grow thanks to the support by these awesome people.
+If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).
 
 <!-- gold-sponsors --><!-- gold-sponsors -->
 <!-- silver-sponsors --><!-- silver-sponsors -->
@@ -49,23 +49,24 @@ Click on the name of the desired plugin under the [`Plugins`](#plugins) section 
 
 ## Plugins
 
-| Name                                                       | Package                              | Version                                                                                                                                                             | Downloads                                                                                                                                                                |
-| ---------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name                                             | Package                              | Version                                                                                                                                                             | Downloads                                                                                                                                                                |
+| ------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [Analytics](./packages/analytics)                | `@capacitor-firebase/analytics`      | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/analytics?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/analytics)           | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/analytics?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/analytics)           |
 | [App](./packages/app)                            | `@capacitor-firebase/app`            | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app)                       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/app?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app)                       |
+| [App Check](./packages/app-check)                | `@capacitor-firebase/app-check`      | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app-check?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app-check)           | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/app-check?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app-check)           |
 | [Authentication](./packages/authentication)      | `@capacitor-firebase/authentication` | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/authentication?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/authentication) | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/authentication?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/authentication) |
 | [Crashlytics](./packages/crashlytics)            | `@capacitor-firebase/crashlytics`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/crashlytics?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/crashlytics)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/crashlytics?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/crashlytics)       |
-| [Cloud Messaging](./packages/messaging) | `@capacitor-firebase/messaging`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)       |
+| [Cloud Messaging](./packages/messaging)          | `@capacitor-firebase/messaging`      | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)           | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)           |
 | [Performance Monitoring](./packages/performance) | `@capacitor-firebase/performance`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/performance?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/performance)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/performance?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/performance)       |
 
 ## Changelogs
 
-Each plugin has its own `CHANGELOG.md` file which contains information about version changes. 
+Each plugin has its own `CHANGELOG.md` file which contains information about version changes.
 Click on the name of the desired plugin under the [`Plugins`](#plugins) section to get to the plugin folder.
 
 ## Breaking Changes
 
-Each plugin has its own `BREAKING.md` file which contains information about breaking changes. 
+Each plugin has its own `BREAKING.md` file which contains information about breaking changes.
 Click on the name of the desired plugin under the [`Plugins`](#plugins) section to get to the plugin folder.
 
 ## Contributing
