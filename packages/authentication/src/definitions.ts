@@ -232,9 +232,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithApple(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithApple(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Custom Token sign-in flow.
    *
@@ -267,33 +265,25 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithFacebook(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithFacebook(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the GitHub sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithGithub(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGithub(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Google sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithGoogle(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGoogle(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Microsoft sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithMicrosoft(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithMicrosoft(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using a phone number.
    *
@@ -311,25 +301,19 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithPlayGames(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithPlayGames(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Twitter sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithTwitter(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithTwitter(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Yahoo sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithYahoo(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithYahoo(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the sign-out flow.
    *
@@ -653,6 +637,13 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * @since 1.1.0
    */
   customParameters?: SignInCustomParameter[];
+  /**
+   * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
+   *
+   * @default 'popup'
+   * @since 1.3.0
+   */
+  mode?: 'popup' | 'redirect';
   /**
    * Scopes to request from provider.
    *
