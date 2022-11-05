@@ -13,7 +13,7 @@ export interface FirebaseAppCheckPlugin {
    *
    * @since 1.3.0
    */
-  initialize(options?: InitializeAppCheckOptions): Promise<void>;
+  initialize(options?: InitializeOptions): Promise<void>;
   /**
    * Set whether the App Check token should be refreshed automatically or not.
    */
@@ -78,7 +78,7 @@ export interface GetTokenResult {
 /**
  * @since 1.3.0
  */
-export interface InitializeAppCheckOptions {
+export interface InitializeOptions {
   /**
    * If `true`, the debug provider is used.
    *

@@ -126,15 +126,15 @@ Get the current App Check token.
 ### initialize(...)
 
 ```typescript
-initialize(options?: InitializeAppCheckOptions | undefined) => Promise<void>
+initialize(options?: InitializeOptions | undefined) => Promise<void>
 ```
 
 Activate App Check for the given app.
 Can be called only once per app.
 
-| Param         | Type                                                                            |
-| ------------- | ------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#initializeappcheckoptions">InitializeAppCheckOptions</a></code> |
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> |
 
 **Since:** 1.3.0
 
@@ -211,13 +211,21 @@ Only available on Web.
 | **`forceRefresh`** | <code>boolean</code> | If `true`, will always try to fetch a fresh token. If `false`, will use a cached token if found in storage. | <code>false</code> | 1.3.0 |
 
 
-#### InitializeAppCheckOptions
+#### InitializeOptions
 
 | Prop                            | Type                 | Description                                                                                                                                                                                                                                                                                                                                     | Default            | Since |
 | ------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`debug`**                     | <code>boolean</code> | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code> | 1.3.0 |
 | **`isTokenAutoRefreshEnabled`** | <code>boolean</code> | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                          | <code>false</code> | 1.3.0 |
 | **`siteKey`**                   | <code>string</code>  | The reCAPTCHA v3 site key (public key). Only available for Web.                                                                                                                                                                                                                                                                                 |                    | 1.3.0 |
+
+
+#### InstanceFactoryOptions
+
+| Prop                     | Type                |
+| ------------------------ | ------------------- |
+| **`instanceIdentifier`** | <code>string</code> |
+| **`options`**            | <code>{}</code>     |
 
 
 #### SetTokenAutoRefreshEnabledOptions
@@ -242,6 +250,11 @@ Only available on Web.
 
 
 ### Type Aliases
+
+
+#### InitializeOptions
+
+<code><a href="#instancefactoryoptions">InstanceFactoryOptions</a></code>
 
 
 #### TokenChangedListener

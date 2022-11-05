@@ -17,7 +17,7 @@ import type {
   FirebaseAppCheckPlugin,
   GetTokenOptions,
   GetTokenResult,
-  InitializeAppCheckOptions,
+  InitializeOptions,
   SetTokenAutoRefreshEnabledOptions,
   TokenChangedEvent,
 } from './definitions';
@@ -61,7 +61,7 @@ export class FirebaseAppCheckWeb
     };
   }
 
-  public async initialize(options?: InitializeAppCheckOptions): Promise<void> {
+  public async initialize(options?: InitializeOptions): Promise<void> {
     if (!options || !options.siteKey) {
       throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
     }
