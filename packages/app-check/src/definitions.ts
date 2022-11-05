@@ -23,6 +23,8 @@ export interface FirebaseAppCheckPlugin {
   /**
    * Called when the App Check token changed.
    *
+   * Only available on Web.
+   *
    * @since 1.3.0
    */
   addListener(
@@ -31,6 +33,8 @@ export interface FirebaseAppCheckPlugin {
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Remove all listeners for this plugin.
+   *
+   * Only available on Web.
    *
    * @since 1.3.0
    */
