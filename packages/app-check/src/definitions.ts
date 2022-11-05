@@ -29,6 +29,12 @@ export interface FirebaseAppCheckPlugin {
     eventName: 'tokenChanged',
     listenerFunc: TokenChangedListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Remove all listeners for this plugin.
+   *
+   * @since 1.3.0
+   */
+  removeAllListeners(): Promise<void>;
 }
 
 /**
@@ -55,6 +61,14 @@ export interface GetTokenResult {
    * @since 1.3.0
    */
   token: string;
+  /**
+   * The timestamp after which the token will expire in milliseconds since epoch.
+   *
+   * Only available on Android and iOS.
+   *
+   * @since 1.3.0
+   */
+  expireTimeMillis?: number;
 }
 
 /**

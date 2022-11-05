@@ -140,7 +140,7 @@ export interface FirebaseMessagingPlugin {
     listenerFunc: NotificationActionPerformedListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
-   * Remove all native listeners for this plugin.
+   * Remove all listeners for this plugin.
    *
    * @since 0.2.2
    */

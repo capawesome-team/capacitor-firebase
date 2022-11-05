@@ -483,7 +483,7 @@ Only available for Android and iOS.
 removeAllListeners() => Promise<void>
 ```
 
-Remove all native listeners for this plugin.
+Remove all listeners for this plugin.
 
 **Since:** 0.2.2
 

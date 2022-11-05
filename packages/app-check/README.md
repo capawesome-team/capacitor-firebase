@@ -43,9 +43,46 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ```typescript
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { getApp } from 'firebase/app';
+import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 
-const echo = async () => {
-  await FirebaseAppCheck.echo();
+const getToken = async () => {
+  const { token } = FirebaseAppCheck.getToken({
+    forceRefresh: false,
+  });
+  return token;
+};
+
+const initializeOnWeb = async () => {
+  await FirebaseAppCheck.initialize({
+    siteKey: 'myKey',
+  });
+};
+
+// Only necessary if you want to use this plugin with Firebase JS SDK on Android and iOS.
+const initializeOnNative = async () => {
+  await FirebaseAppCheck.initialize();
+  const provider = new CustomProvider({
+    getToken: () => {
+      return FirebaseAppCheck.getToken();
+    },
+  });
+  const app = getApp();
+  await initializeAppCheck(app, { provider });
+};
+
+const setTokenAutoRefreshEnabled = async () => {
+  await FirebaseAppCheck.setTokenAutoRefreshEnabled({ enabled: true });
+};
+
+const addTokenChangedListener = async () => {
+  await FirebaseAppCheck.addListener('tokenChanged', event => {
+    console.log('tokenChanged', { event });
+  });
+};
+
+const removeAllListeners = async () => {
+  await FirebaseAppCheck.removeAllListeners();
 };
 ```
 
@@ -57,6 +94,7 @@ const echo = async () => {
 * [`initialize(...)`](#initialize)
 * [`setTokenAutoRefreshEnabled(...)`](#settokenautorefreshenabled)
 * [`addListener('tokenChanged', ...)`](#addlistenertokenchanged)
+* [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -137,14 +175,28 @@ Called when the App Check token changed.
 --------------------
 
 
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Remove all listeners for this plugin.
+
+**Since:** 1.3.0
+
+--------------------
+
+
 ### Interfaces
 
 
 #### GetTokenResult
 
-| Prop        | Type                | Description                        | Since |
-| ----------- | ------------------- | ---------------------------------- | ----- |
-| **`token`** | <code>string</code> | The App Check token in JWT format. | 1.3.0 |
+| Prop                   | Type                | Description                                                                                                     | Since |
+| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------- | ----- |
+| **`token`**            | <code>string</code> | The App Check token in JWT format.                                                                              | 1.3.0 |
+| **`expireTimeMillis`** | <code>number</code> | The timestamp after which the token will expire in milliseconds since epoch. Only available on Android and iOS. | 1.3.0 |
 
 
 #### GetTokenOptions
