@@ -13,9 +13,7 @@ public class FirebaseAppCheckPlugin extends Plugin {
 
     @PluginMethod
     public void echo(PluginCall call) {
-        try {
-            
-        } catch (Exception ex) {
+        try {} catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
     }

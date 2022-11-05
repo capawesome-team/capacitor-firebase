@@ -131,7 +131,7 @@ export interface FirebaseMessagingPlugin {
   /**
    * Called when a new push notification action is performed.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 0.2.2
    */
@@ -241,14 +241,14 @@ export interface UnsubscribeFromTopicOptions {
 }
 
 /**
- * Callback to receive the push notification event.
+ * Callback to receive the token received event.
  *
  * @since 0.2.2
  */
 export type TokenReceivedListener = (event: TokenReceivedEvent) => void;
 
 /**
- * Callback to receive the push notification event.
+ * Callback to receive the notification received event.
  *
  * @since 0.2.2
  */
@@ -257,7 +257,7 @@ export type NotificationReceivedListener = (
 ) => void;
 
 /**
- * Callback to receive the push notification event.
+ * Callback to receive the notification action performed event.
  *
  * @since 0.2.2
  */
@@ -298,7 +298,7 @@ export interface NotificationActionPerformedEvent {
   /**
    * Text entered on the notification action.
    *
-   * Only available on iOS.
+   * Only available for iOS.
    *
    * @since 0.2.2
    */
@@ -324,7 +324,7 @@ export interface Notification {
   /**
    * The action to be performed on the user opening the notification.
    *
-   * Only available on Android.
+   * Only available for Android.
    *
    * @since 0.2.2
    */
@@ -344,7 +344,7 @@ export interface Notification {
   /**
    * The URL of an image that is downloaded on the device and displayed in the notification.
    *
-   * Only available on Web.
+   * Only available for Web.
    *
    * @since 0.2.2
    */
@@ -352,7 +352,7 @@ export interface Notification {
   /**
    * Deep link from the notification.
    *
-   * Only available on Android.
+   * Only available for Android.
    *
    * @since 0.2.2
    */
@@ -360,7 +360,7 @@ export interface Notification {
   /**
    * The notification subtitle.
    *
-   * Only available on iOS.
+   * Only available for iOS.
    *
    * @since 0.2.2
    */
@@ -368,7 +368,7 @@ export interface Notification {
   /**
    * The notification string identifier.
    *
-   * Only available on Android.
+   * Only available for Android.
    *
    * @since 0.4.0
    */
