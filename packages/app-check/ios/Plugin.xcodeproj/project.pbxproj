@@ -16,6 +16,7 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* FirebaseAppCheckPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseAppCheckPlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseAppCheckPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseAppCheckPlugin.swift */; };
+		7C7664AB2917181500B2C286 /* CustomAppCheckProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7664AA2917181500B2C286 /* CustomAppCheckProviderFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		50ADFFA72020EE4F00D50D53 /* FirebaseAppCheckPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseAppCheckPlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseAppCheckPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAppCheckPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
+		7C7664AA2917181500B2C286 /* CustomAppCheckProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppCheckProviderFactory.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			children = (
 				50E1A94720377CB70090CE1A /* FirebaseAppCheckPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseAppCheck.swift */,
+				7C7664AA2917181500B2C286 /* CustomAppCheckProviderFactory.swift */,
 				50ADFF8B201F53D600D50D53 /* FirebaseAppCheckPlugin.h */,
 				50ADFFA72020EE4F00D50D53 /* FirebaseAppCheckPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
@@ -270,13 +273,10 @@
 				"${PODS_ROOT}/Target Support Files/Pods-PluginTests/Pods-PluginTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework",
 				"${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheck/FirebaseAppCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheck/FirebaseAppCheck.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
@@ -286,13 +286,10 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Capacitor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cordova.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheck.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
@@ -331,6 +328,7 @@
 				50E1A94820377CB70090CE1A /* FirebaseAppCheckPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseAppCheck.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* FirebaseAppCheckPlugin.m in Sources */,
+				7C7664AB2917181500B2C286 /* CustomAppCheckProviderFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
