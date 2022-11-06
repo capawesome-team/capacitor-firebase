@@ -60,7 +60,8 @@ const initializeOnWeb = async () => {
   });
 };
 
-// Only necessary if you want to use this plugin with Firebase JS SDK on Android and iOS.
+// Only necessary if you want to use this plugin
+// with Firebase JS SDK on Android and iOS.
 const initializeOnNative = async () => {
   await FirebaseAppCheck.initialize();
   const provider = new CustomProvider({
