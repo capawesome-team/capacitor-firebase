@@ -16,6 +16,8 @@ export interface FirebaseAppCheckPlugin {
   initialize(options?: InitializeOptions): Promise<void>;
   /**
    * Set whether the App Check token should be refreshed automatically or not.
+   *
+   * @since 1.3.0
    */
   setTokenAutoRefreshEnabled(
     options: SetTokenAutoRefreshEnabledOptions,

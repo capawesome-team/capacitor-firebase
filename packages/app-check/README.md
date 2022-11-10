@@ -154,6 +154,8 @@ Set whether the App Check token should be refreshed automatically or not.
 | ------------- | ----------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#settokenautorefreshenabledoptions">SetTokenAutoRefreshEnabledOptions</a></code> |
 
+**Since:** 1.3.0
+
 --------------------
 
 
