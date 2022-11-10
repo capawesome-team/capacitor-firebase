@@ -27,7 +27,7 @@ declare module '@capacitor/cli' {
       /**
        * Configure the providers that should be loaded by the plugin.
        *
-       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
+       * Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
        *
        * Only available for Android and iOS.
        *
@@ -312,6 +312,14 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   signInWithPlayGames(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
+  /**
+   * Starts the Game Center sign-in flow.
+   *
+   * @since 1.3.0
+   */
+  signInWithGameCenter(
     options?: SignInOptions | SignInWithOAuthOptions,
   ): Promise<SignInResult>;
   /**
@@ -1050,6 +1058,7 @@ export interface ActionCodeSettings {
 export enum ProviderId {
   APPLE = 'apple.com',
   FACEBOOK = 'facebook.com',
+  GAME_CENTER = 'gc.apple.com',
   GITHUB = 'github.com',
   GOOGLE = 'google.com',
   MICROSOFT = 'microsoft.com',

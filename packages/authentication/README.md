@@ -36,6 +36,7 @@ The further installation steps depend on the selected authentication method:
 
 - [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
 - [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
+- [Game Center Sign-In](/packages/authentication/docs/setup-game-center.md)
 - [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
 - [Google Sign-In](/packages/authentication/docs/setup-google.md)
 - [Microsoft Sign-In](/packages/authentication/docs/setup-microsoft.md)
@@ -62,7 +63,7 @@ These configuration values are available:
 | Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                                    | Default            | Since |
 | -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
-| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                                    | <code>[]</code>    | 0.1.0 |
+| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
 
 ### Examples
 
@@ -211,6 +212,11 @@ const signInAnonymously = async () => {
 
 const signInWithApple = async () => {
   const result = await FirebaseAuthentication.signInWithApple();
+  return result.user;
+};
+
+const signInWithGameCenter = async () => {
+  const result = await FirebaseAuthentication.signInWithGameCenter();
   return result.user;
 };
 
@@ -383,6 +389,7 @@ const useEmulator = async () => {
 * [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
 * [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
 * [`signInWithPlayGames(...)`](#signinwithplaygames)
+* [`signInWithGameCenter(...)`](#signinwithgamecenter)
 * [`signInWithTwitter(...)`](#signinwithtwitter)
 * [`signInWithYahoo(...)`](#signinwithyahoo)
 * [`signOut()`](#signout)
@@ -1061,6 +1068,25 @@ Starts the Play Games sign-in flow.
 --------------------
 
 
+### signInWithGameCenter(...)
+
+```typescript
+signInWithGameCenter(options?: SignInWithOAuthOptions | SignInOptions | undefined) => Promise<SignInResult>
+```
+
+Starts the Game Center sign-in flow.
+
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a> \| <a href="#signinoptions">SignInOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
 ### signInWithTwitter(...)
 
 ```typescript
@@ -1547,18 +1573,19 @@ Callback to receive the user's sign-in state change notifications.
 
 #### ProviderId
 
-| Members          | Value                               |
-| ---------------- | ----------------------------------- |
-| **`APPLE`**      | <code>'apple.com'</code>            |
-| **`FACEBOOK`**   | <code>'facebook.com'</code>         |
-| **`GITHUB`**     | <code>'github.com'</code>           |
-| **`GOOGLE`**     | <code>'google.com'</code>           |
-| **`MICROSOFT`**  | <code>'microsoft.com'</code>        |
-| **`PLAY_GAMES`** | <code>'playgames.google.com'</code> |
-| **`TWITTER`**    | <code>'twitter.com'</code>          |
-| **`YAHOO`**      | <code>'yahoo.com'</code>            |
-| **`PASSWORD`**   | <code>'password'</code>             |
-| **`PHONE`**      | <code>'phone'</code>                |
+| Members           | Value                               |
+| ----------------- | ----------------------------------- |
+| **`APPLE`**       | <code>'apple.com'</code>            |
+| **`FACEBOOK`**    | <code>'facebook.com'</code>         |
+| **`GAME_CENTER`** | <code>'gc.apple.com'</code>         |
+| **`GITHUB`**      | <code>'github.com'</code>           |
+| **`GOOGLE`**      | <code>'google.com'</code>           |
+| **`MICROSOFT`**   | <code>'microsoft.com'</code>        |
+| **`PLAY_GAMES`**  | <code>'playgames.google.com'</code> |
+| **`TWITTER`**     | <code>'twitter.com'</code>          |
+| **`YAHOO`**       | <code>'yahoo.com'</code>            |
+| **`PASSWORD`**    | <code>'password'</code>             |
+| **`PHONE`**       | <code>'phone'</code>                |
 
 </docgen-api>
 

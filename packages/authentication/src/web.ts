@@ -437,6 +437,10 @@ export class FirebaseAuthenticationWeb
     throw new Error('Not available on web.');
   }
 
+  public async signInWithGameCenter(): Promise<SignInResult> {
+    throw new Error('Not available on web.');
+  }
+
   public async signInWithTwitter(
     options?: SignInOptions,
   ): Promise<SignInResult> {
