@@ -28,6 +28,8 @@ On **iOS 14 and later**, see [Set up your Firebase project](https://firebase.goo
 
 On **iOS 13**, see [Set up your Firebase project](https://firebase.google.com/docs/app-check/ios/devicecheck-provider#project-setup) and follow the instructions to set up your app correctly.
 
+Make sure that the private key (\*.p8) you upload to Firebase has `DeviceCheck` selected as a service.
+
 ### Web
 
 See [Set up your Firebase project](https://firebase.google.com/docs/app-check/web/recaptcha-provider#project-setup) and follow the instructions to set up your app correctly.
