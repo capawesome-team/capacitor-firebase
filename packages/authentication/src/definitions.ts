@@ -132,6 +132,8 @@ export interface FirebaseAuthenticationPlugin {
    * The user must be logged in on the native layer.
    * The `skipNativeAuth` configuration option has no effect here.
    *
+   * Only available for iOS.
+   *
    * @since 1.3.0
    */
   linkWithGameCenter(options?: LinkWithOAuthOptions): Promise<LinkResult>;
@@ -176,6 +178,8 @@ export interface FirebaseAuthenticationPlugin {
    *
    * The user must be logged in on the native layer.
    * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * Only available for Android.
    *
    * @since 1.1.0
    */
@@ -280,6 +284,16 @@ export interface FirebaseAuthenticationPlugin {
     options?: SignInOptions | SignInWithOAuthOptions,
   ): Promise<SignInResult>;
   /**
+   * Starts the Game Center sign-in flow.
+   *
+   * Only available for iOS.
+   *
+   * @since 1.3.0
+   */
+  signInWithGameCenter(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
+  /**
    * Starts the GitHub sign-in flow.
    *
    * @since 0.1.0
@@ -318,17 +332,11 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Starts the Play Games sign-in flow.
    *
+   * Only available for Android.
+   *
    * @since 0.1.0
    */
   signInWithPlayGames(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
-  /**
-   * Starts the Game Center sign-in flow.
-   *
-   * @since 1.3.0
-   */
-  signInWithGameCenter(
     options?: SignInOptions | SignInWithOAuthOptions,
   ): Promise<SignInResult>;
   /**

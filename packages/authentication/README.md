@@ -366,6 +366,7 @@ const useEmulator = async () => {
 * [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
 * [`linkWithEmailLink(...)`](#linkwithemaillink)
 * [`linkWithFacebook(...)`](#linkwithfacebook)
+* [`linkWithGameCenter(...)`](#linkwithgamecenter)
 * [`linkWithGithub(...)`](#linkwithgithub)
 * [`linkWithGoogle(...)`](#linkwithgoogle)
 * [`linkWithMicrosoft(...)`](#linkwithmicrosoft)
@@ -384,12 +385,12 @@ const useEmulator = async () => {
 * [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
 * [`signInWithEmailLink(...)`](#signinwithemaillink)
 * [`signInWithFacebook(...)`](#signinwithfacebook)
+* [`signInWithGameCenter(...)`](#signinwithgamecenter)
 * [`signInWithGithub(...)`](#signinwithgithub)
 * [`signInWithGoogle(...)`](#signinwithgoogle)
 * [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
 * [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
 * [`signInWithPlayGames(...)`](#signinwithplaygames)
-* [`signInWithGameCenter(...)`](#signinwithgamecenter)
 * [`signInWithTwitter(...)`](#signinwithtwitter)
 * [`signInWithYahoo(...)`](#signinwithyahoo)
 * [`signOut()`](#signout)
@@ -619,6 +620,30 @@ The `skipNativeAuth` configuration option has no effect here.
 --------------------
 
 
+### linkWithGameCenter(...)
+
+```typescript
+linkWithGameCenter(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+```
+
+Links the user account with Game Center authentication provider.
+
+The user must be logged in on the native layer.
+The `skipNativeAuth` configuration option has no effect here.
+
+Only available for iOS.
+
+| Param         | Type                                                                      |
+| ------------- | ------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
 ### linkWithGithub(...)
 
 ```typescript
@@ -717,6 +742,8 @@ Links the user account with Play Games authentication provider.
 
 The user must be logged in on the native layer.
 The `skipNativeAuth` configuration option has no effect here.
+
+Only available for Android.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
@@ -969,6 +996,27 @@ Starts the Facebook sign-in flow.
 --------------------
 
 
+### signInWithGameCenter(...)
+
+```typescript
+signInWithGameCenter(options?: SignInWithOAuthOptions | SignInOptions | undefined) => Promise<SignInResult>
+```
+
+Starts the Game Center sign-in flow.
+
+Only available for iOS.
+
+| Param         | Type                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a> \| <a href="#signinoptions">SignInOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
 ### signInWithGithub(...)
 
 ```typescript
@@ -1057,6 +1105,8 @@ signInWithPlayGames(options?: SignInWithOAuthOptions | SignInOptions | undefined
 
 Starts the Play Games sign-in flow.
 
+Only available for Android.
+
 | Param         | Type                                                                                                                    |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a> \| <a href="#signinoptions">SignInOptions</a></code> |
@@ -1064,25 +1114,6 @@ Starts the Play Games sign-in flow.
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
 **Since:** 0.1.0
-
---------------------
-
-
-### signInWithGameCenter(...)
-
-```typescript
-signInWithGameCenter(options?: SignInWithOAuthOptions | SignInOptions | undefined) => Promise<SignInResult>
-```
-
-Starts the Game Center sign-in flow.
-
-| Param         | Type                                                                                                                    |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a> \| <a href="#signinoptions">SignInOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
-
-**Since:** 1.3.0
 
 --------------------
 
