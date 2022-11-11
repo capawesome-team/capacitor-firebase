@@ -213,6 +213,10 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResult(userCredential, authCredential);
   }
 
+  public async linkWithGameCenter(): Promise<LinkResult> {
+    throw new Error('Not available on web.');
+  }
+
   public async linkWithGithub(
     options?: LinkWithOAuthOptions,
   ): Promise<LinkResult> {
