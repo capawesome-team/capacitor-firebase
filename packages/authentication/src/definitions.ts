@@ -127,6 +127,15 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithFacebook(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
+   * Links the user account with Game Center authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * @since 1.3.0
+   */
+  linkWithGameCenter(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
    * Links the user account with GitHub authentication provider.
    *
    * The user must be logged in on the native layer.
