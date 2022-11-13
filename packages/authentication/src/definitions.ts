@@ -27,7 +27,7 @@ declare module '@capacitor/cli' {
       /**
        * Configure the providers that should be loaded by the plugin.
        *
-       * Possible values: `["apple.com", "facebook.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
+       * Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]`
        *
        * Only available for Android and iOS.
        *
@@ -127,6 +127,17 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithFacebook(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
+   * Links the user account with Game Center authentication provider.
+   *
+   * The user must be logged in on the native layer.
+   * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * Only available for iOS.
+   *
+   * @since 1.3.0
+   */
+  linkWithGameCenter(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
    * Links the user account with GitHub authentication provider.
    *
    * The user must be logged in on the native layer.
@@ -167,6 +178,8 @@ export interface FirebaseAuthenticationPlugin {
    *
    * The user must be logged in on the native layer.
    * The `skipNativeAuth` configuration option has no effect here.
+   *
+   * Only available for Android.
    *
    * @since 1.1.0
    */
@@ -267,6 +280,16 @@ export interface FirebaseAuthenticationPlugin {
    */
   signInWithFacebook(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
+   * Starts the Game Center sign-in flow.
+   *
+   * Only available for iOS.
+   *
+   * @since 1.3.0
+   */
+  signInWithGameCenter(
+    options?: SignInOptions | SignInWithOAuthOptions,
+  ): Promise<SignInResult>;
+  /**
    * Starts the GitHub sign-in flow.
    *
    * @since 0.1.0
@@ -298,6 +321,8 @@ export interface FirebaseAuthenticationPlugin {
   ): Promise<SignInWithPhoneNumberResult>;
   /**
    * Starts the Play Games sign-in flow.
+   *
+   * Only available for Android.
    *
    * @since 0.1.0
    */
@@ -1041,6 +1066,7 @@ export interface ActionCodeSettings {
 export enum ProviderId {
   APPLE = 'apple.com',
   FACEBOOK = 'facebook.com',
+  GAME_CENTER = 'gc.apple.com',
   GITHUB = 'github.com',
   GOOGLE = 'google.com',
   MICROSOFT = 'microsoft.com',

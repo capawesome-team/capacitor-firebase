@@ -15,6 +15,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(linkWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithFacebook, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(linkWithGameCenter, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithGithub, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithGoogle, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithMicrosoft, CAPPluginReturnPromise);
@@ -33,6 +34,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(signInWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithFacebook, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(signInWithGameCenter, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithGithub, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithGoogle, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithMicrosoft, CAPPluginReturnPromise);

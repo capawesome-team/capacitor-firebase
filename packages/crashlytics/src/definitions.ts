@@ -57,7 +57,8 @@ export interface FirebaseCrashlyticsPlugin {
    */
   didCrashOnPreviousExecution(): Promise<DidCrashOnPreviousExecutionResult>;
   /**
-   * Uploads any unsent reports to Crashlytics.
+   * Uploads any unsent reports to Crashlytics at next startup.
+   *
    * When automatic data collection is enabled, Crashlytics automatically uploads reports at startup.
    *
    * Only available for Android and iOS.

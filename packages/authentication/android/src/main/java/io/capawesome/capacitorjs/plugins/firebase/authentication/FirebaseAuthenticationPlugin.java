@@ -381,6 +381,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void signInWithGameCenter(PluginCall call) {
+        call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
     public void signInWithCustomToken(PluginCall call) {
         try {
             implementation.signInWithCustomToken(call);

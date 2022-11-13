@@ -205,6 +205,10 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResult(userCredential, authCredential);
   }
 
+  public async linkWithGameCenter(): Promise<LinkResult> {
+    throw new Error('Not available on web.');
+  }
+
   public async linkWithGithub(
     options?: LinkWithOAuthOptions,
   ): Promise<LinkResult> {
@@ -433,6 +437,10 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
+    throw new Error('Not available on web.');
+  }
+
+  public async signInWithGameCenter(): Promise<SignInResult> {
     throw new Error('Not available on web.');
   }
 

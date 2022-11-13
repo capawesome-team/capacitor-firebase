@@ -10,6 +10,7 @@ public typealias AuthStateChangedObserver = () -> Void
     private let plugin: FirebaseAuthenticationPlugin
     private let config: FirebaseAuthenticationConfig
     private var appleAuthProviderHandler: AppleAuthProviderHandler?
+    private var gameCenterAuthProviderHandler: GameCenterAuthProviderHandler?
     private var facebookAuthProviderHandler: FacebookAuthProviderHandler?
     private var googleAuthProviderHandler: GoogleAuthProviderHandler?
     private var oAuthProviderHandler: OAuthProviderHandler?
@@ -166,6 +167,11 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func linkWithFacebook(_ call: CAPPluginCall) {
         self.savedCall = call
         self.facebookAuthProviderHandler?.link(call: call)
+    }
+
+    @objc func linkWithGameCenter(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.gameCenterAuthProviderHandler?.link(call: call)
     }
 
     @objc func linkWithGithub(_ call: CAPPluginCall) {
@@ -333,6 +339,11 @@ public typealias AuthStateChangedObserver = () -> Void
         self.facebookAuthProviderHandler?.signIn(call: call)
     }
 
+    @objc func signInWithGameCenter(_ call: CAPPluginCall) {
+        self.savedCall = call
+        self.gameCenterAuthProviderHandler?.signIn(call: call)
+    }
+
     @objc func signInWithGithub(_ call: CAPPluginCall) {
         self.savedCall = call
         self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.gitHub)
@@ -479,6 +490,9 @@ public typealias AuthStateChangedObserver = () -> Void
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {
         if config.providers.contains(ProviderId.apple) {
             self.appleAuthProviderHandler = AppleAuthProviderHandler(self)
+        }
+        if config.providers.contains(ProviderId.gameCenter) {
+            self.gameCenterAuthProviderHandler = GameCenterAuthProviderHandler(self)
         }
         if config.providers.contains(ProviderId.facebook) {
             self.facebookAuthProviderHandler = FacebookAuthProviderHandler(self)
