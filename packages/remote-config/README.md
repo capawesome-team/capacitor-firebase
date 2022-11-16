@@ -83,6 +83,7 @@ const getString = async () => {
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -220,9 +221,10 @@ Only available on Web.
 
 #### GetBooleanResult
 
-| Prop        | Type                 | Description                               | Since |
-| ----------- | -------------------- | ----------------------------------------- | ----- |
-| **`value`** | <code>boolean</code> | The value for the given key as a boolean. | 1.3.0 |
+| Prop         | Type                                                      | Description                                                                        | Since |
+| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>boolean</code>                                      | The value for the given key as a boolean.                                          | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
 
 
 #### GetOptions
@@ -269,6 +271,18 @@ Only available on Web.
 #### GetStringOptions
 
 <code><a href="#getoptions">GetOptions</a></code>
+
+
+### Enums
+
+
+#### GetValueSource
+
+| Members                  | Value          | Description                                                                             | Since |
+| ------------------------ | -------------- | --------------------------------------------------------------------------------------- | ----- |
+| **`ValueSourceStatic`**  | <code>0</code> | Indicates that the value returned is the static default value.                          | 1.3.0 |
+| **`ValueSourceDefault`** | <code>1</code> | Indicates that the value returned was retrieved from the defaults set by the client.    | 1.3.0 |
+| **`ValueSourceRemote`**  | <code>2</code> | Indicates that the value returned was retrieved from the Firebase Remote Config Server. | 1.3.0 |
 
 </docgen-api>
 

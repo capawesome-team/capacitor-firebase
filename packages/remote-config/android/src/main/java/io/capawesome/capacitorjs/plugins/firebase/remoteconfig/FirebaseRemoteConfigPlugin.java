@@ -86,9 +86,10 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
                 call.reject(ERROR_KEY_MISSING);
                 return;
             }
-            boolean value = implementation.getBoolean(key);
+            GetValueResult<Boolean> getValueResult = implementation.getBoolean(key);
             JSObject result = new JSObject();
-            result.put("value", value);
+            result.put("value", getValueResult.value);
+            result.put("source", getValueResult.source);
             call.resolve(result);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
@@ -103,9 +104,10 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
                 call.reject(ERROR_KEY_MISSING);
                 return;
             }
-            double value = implementation.getNumber(key);
+            GetValueResult<Double> getValueResult = implementation.getNumber(key);
             JSObject result = new JSObject();
-            result.put("value", value);
+            result.put("value", getValueResult.value);
+            result.put("source", getValueResult.source);
             call.resolve(result);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
@@ -120,9 +122,10 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
                 call.reject(ERROR_KEY_MISSING);
                 return;
             }
-            String value = implementation.getString(key);
+            GetValueResult<String> getValueResult = implementation.getString(key);
             JSObject result = new JSObject();
-            result.put("value", value);
+            result.put("value", getValueResult.value);
+            result.put("source", getValueResult.source);
             call.resolve(result);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());

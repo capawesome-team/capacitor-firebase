@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.remoteconfig;
 
 import android.util.Log;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
 public class FirebaseRemoteConfig {
 
@@ -58,15 +59,18 @@ public class FirebaseRemoteConfig {
             );
     }
 
-    public boolean getBoolean(String key) {
-        return remoteConfigInstance.getBoolean(key);
+    public GetValueResult<Boolean> getBoolean(String key) {
+        FirebaseRemoteConfigValue value = remoteConfigInstance.getValue(key);
+        return new GetValueResult<Boolean>(value.asBoolean(), value.getSource());
     }
 
-    public double getNumber(String key) {
-        return remoteConfigInstance.getDouble(key);
+    public GetValueResult<Double> getNumber(String key) {
+        FirebaseRemoteConfigValue value = remoteConfigInstance.getValue(key);
+        return new GetValueResult<Double>(value.asDouble(), value.getSource());
     }
 
-    public String getString(String key) {
-        return remoteConfigInstance.getString(key);
+    public GetValueResult<String> getString(String key) {
+        FirebaseRemoteConfigValue value = remoteConfigInstance.getValue(key);
+        return new GetValueResult<String>(value.asString(), value.getSource());
     }
 }

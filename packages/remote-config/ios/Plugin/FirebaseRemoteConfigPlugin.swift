@@ -54,9 +54,10 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             call.reject(errorKeyMissing)
             return
         }
-        let value = implementation?.getBoolean(key)
+        let value = implementation?.getValue(key)
         call.resolve([
-            "value": value!
+            "value": value!.boolValue,
+            "source": FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value!.source)
         ])
     }
 
@@ -65,9 +66,10 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             call.reject(errorKeyMissing)
             return
         }
-        let value = implementation?.getNumber(key)
+        let value = implementation?.getValue(key)
         call.resolve([
-            "value": value!
+            "value": value!.numberValue,
+            "source": FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value!.source)
         ])
     }
 
@@ -76,9 +78,10 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             call.reject(errorKeyMissing)
             return
         }
-        let value = implementation?.getString(key)
+        let value = implementation?.getValue(key)
         call.resolve([
-            "value": value!
+            "value": value!.stringValue ?? "",
+            "source": FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value!.source)
         ])
     }
 

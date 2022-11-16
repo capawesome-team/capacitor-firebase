@@ -101,6 +101,14 @@ export interface GetBooleanResult {
    * @since 1.3.0
    */
   value: boolean;
+  /**
+   * Indicates at which source this value came from.
+   *
+   * Only available on Android and iOS.
+   *
+   * @since 1.3.0
+   */
+  source?: GetValueSource;
 }
 
 /**
@@ -140,4 +148,28 @@ export interface SetMinimumFetchIntervalOptions {
    * @see https://firebase.google.com/docs/reference/js/firebase.remoteconfig.RemoteConfigSettings#minimumfetchintervalmillis
    */
   minimumFetchIntervalInSeconds: number;
+}
+
+/**
+ * @since 1.3.0
+ */
+export enum GetValueSource {
+  /**
+   * Indicates that the value returned is the static default value.
+   *
+   * @since 1.3.0
+   */
+  ValueSourceStatic = 0,
+  /**
+   * Indicates that the value returned was retrieved from the defaults set by the client.
+   *
+   * @since 1.3.0
+   */
+  ValueSourceDefault = 1,
+  /**
+   * Indicates that the value returned was retrieved from the Firebase Remote Config Server.
+   *
+   * @since 1.3.0
+   */
+  ValueSourceRemote = 2,
 }

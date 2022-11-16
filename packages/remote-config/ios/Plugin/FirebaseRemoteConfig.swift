@@ -48,15 +48,7 @@ import FirebaseRemoteConfig
         })
     }
 
-    @objc public func getBoolean(_ key: String) -> Bool {
-        return RemoteConfig.remoteConfig().configValue(forKey: key).boolValue
-    }
-
-    @objc public func getNumber(_ key: String) -> NSNumber {
-        return RemoteConfig.remoteConfig().configValue(forKey: key).numberValue
-    }
-
-    @objc public func getString(_ key: String) -> String? {
-        return RemoteConfig.remoteConfig().configValue(forKey: key).stringValue
+    @objc public func getValue(_ key: String) -> RemoteConfigValue {
+        return RemoteConfig.remoteConfig().configValue(forKey: key)
     }
 }
