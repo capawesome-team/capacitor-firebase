@@ -34,8 +34,39 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ```typescript
 import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
 
-const echo = async () => {
-  await FirebaseRemoteConfig.echo();
+const activate = async () => {
+  await FirebaseRemoteConfig.activate();
+};
+
+const fetchAndActivate = async () => {
+  await FirebaseRemoteConfig.fetchAndActivate();
+};
+
+const fetchConfig = async () => {
+  await FirebaseRemoteConfig.fetchConfig({
+    minimumFetchIntervalInSeconds: 1200,
+  });
+};
+
+const getBoolean = async () => {
+  const { value } = await FirebaseRemoteConfig.getBoolean({
+    key: 'is_sale',
+  });
+  return value;
+};
+
+const getNumber = async () => {
+  const { value } = await FirebaseRemoteConfig.getNumber({
+    key: 'upcoming_maintenance',
+  });
+  return value;
+};
+
+const getString = async () => {
+  const { value } = await FirebaseRemoteConfig.getString({
+    key: 'license_key',
+  });
+  return value;
 };
 ```
 
@@ -43,10 +74,201 @@ const echo = async () => {
 
 <docgen-index>
 
+* [`activate()`](#activate)
+* [`fetchAndActivate()`](#fetchandactivate)
+* [`fetchConfig(...)`](#fetchconfig)
+* [`getBoolean(...)`](#getboolean)
+* [`getNumber(...)`](#getnumber)
+* [`getString(...)`](#getstring)
+* [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### activate()
+
+```typescript
+activate() => Promise<void>
+```
+
+Make the last fetched configuration available to the getters.
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### fetchAndActivate()
+
+```typescript
+fetchAndActivate() => Promise<void>
+```
+
+Perform fetch and activate operations.
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### fetchConfig(...)
+
+```typescript
+fetchConfig(options?: FetchConfigOptions | undefined) => Promise<void>
+```
+
+Fetch and cache configuration from the Remote Config service.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#fetchconfigoptions">FetchConfigOptions</a></code> |
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### getBoolean(...)
+
+```typescript
+getBoolean(options: GetBooleanOptions) => Promise<GetBooleanResult>
+```
+
+Get the value for the given key as a boolean.
+
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getbooleanresult">GetBooleanResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### getNumber(...)
+
+```typescript
+getNumber(options: GetNumberOptions) => Promise<GetNumberResult>
+```
+
+Get the value for the given key as a number.
+
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getnumberresult">GetNumberResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### getString(...)
+
+```typescript
+getString(options: GetStringOptions) => Promise<GetStringResult>
+```
+
+Get the value for the given key as a string.
+
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getstringresult">GetStringResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### setMinimumFetchInterval(...)
+
+```typescript
+setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions) => Promise<void>
+```
+
+Set the minimum fetch interval.
+
+Only available on Web.
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setminimumfetchintervaloptions">SetMinimumFetchIntervalOptions</a></code> |
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### Interfaces
+
+
+#### FetchConfigOptions
+
+| Prop                                | Type                | Description                                                                                                                                                                                                              | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ----- |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. Only available on Android and iOS. | <code>43200</code> | 1.3.0 |
+
+
+#### GetBooleanResult
+
+| Prop        | Type                 | Description                               | Since |
+| ----------- | -------------------- | ----------------------------------------- | ----- |
+| **`value`** | <code>boolean</code> | The value for the given key as a boolean. | 1.3.0 |
+
+
+#### GetOptions
+
+| Prop      | Type                | Description                  | Since |
+| --------- | ------------------- | ---------------------------- | ----- |
+| **`key`** | <code>string</code> | The key of the value to get. | 1.3.0 |
+
+
+#### GetNumberResult
+
+| Prop        | Type                | Description                              | Since |
+| ----------- | ------------------- | ---------------------------------------- | ----- |
+| **`value`** | <code>number</code> | The value for the given key as a number. | 1.3.0 |
+
+
+#### GetStringResult
+
+| Prop        | Type                | Description                              | Since |
+| ----------- | ------------------- | ---------------------------------------- | ----- |
+| **`value`** | <code>string</code> | The value for the given key as a string. | 1.3.0 |
+
+
+#### SetMinimumFetchIntervalOptions
+
+| Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
+
+
+### Type Aliases
+
+
+#### GetBooleanOptions
+
+<code><a href="#getoptions">GetOptions</a></code>
+
+
+#### GetNumberOptions
+
+<code><a href="#getoptions">GetOptions</a></code>
+
+
+#### GetStringOptions
+
+<code><a href="#getoptions">GetOptions</a></code>
 
 </docgen-api>
 
