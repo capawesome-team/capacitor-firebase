@@ -23,6 +23,7 @@
 		7CD588F22688B5A4002BDF65 /* OAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */; };
 		7CD588F42688B6A7002BDF65 /* AppleAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD588F32688B6A7002BDF65 /* AppleAuthProviderHandler.swift */; };
 		7CE70B7526D1AA220025E915 /* FacebookAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */; };
+		D8872AD52913A78800CF6CED /* GameCenterAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthProviderHandler.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterAuthProviderHandler.swift; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				7CD588F32688B6A7002BDF65 /* AppleAuthProviderHandler.swift */,
+				D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */,
 				7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */,
 				7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */,
 				7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */,
@@ -368,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CE70B7526D1AA220025E915 /* FacebookAuthProviderHandler.swift in Sources */,
+				D8872AD52913A78800CF6CED /* GameCenterAuthProviderHandler.swift in Sources */,
 				7C8E530826656FD100FF4B87 /* GoogleAuthProviderHandler.swift in Sources */,
 				7C3D92CA26D3CC62000C0B29 /* PhoneAuthProviderHandler.swift in Sources */,
 				7CD588F02688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift in Sources */,
