@@ -4,7 +4,11 @@ import FirebaseCore
 import FirebaseRemoteConfig
 
 @objc public class FirebaseRemoteConfig: NSObject {
-    override init() {
+    private let plugin: FirebaseRemoteConfigPlugin
+
+    init(plugin: FirebaseRemoteConfigPlugin) {
+        self.plugin = plugin
+        super.init()
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
@@ -21,12 +25,16 @@ import FirebaseRemoteConfig
     }
 
     @objc public func fetchAndActivate(completion: @escaping (Bool, String?) -> Void) {
-        RemoteConfig.remoteConfig().fetchAndActivate(completionHandler: { _, error in
+        RemoteConfig.remoteConfig().fetchAndActivate(completionHandler: { result, error in
             if let error = error {
                 completion(false, error.localizedDescription)
                 return
             }
-            completion(true, nil)
+            if result == .error {
+                completion(false, self.plugin.errorFetchAndActivatefailed)
+            } else {
+                completion(true, nil)
+            }
         })
     }
 

@@ -8,10 +8,11 @@ import Capacitor
 @objc(FirebaseRemoteConfigPlugin)
 public class FirebaseRemoteConfigPlugin: CAPPlugin {
     public let errorKeyMissing = "key must be provided."
+    public let errorFetchAndActivatefailed = "fetchAndActivate failed."
     private var implementation: FirebaseRemoteConfig?
 
     override public func load() {
-        implementation = FirebaseRemoteConfig()
+        implementation = FirebaseRemoteConfig(plugin: self)
     }
 
     @objc func activate(_ call: CAPPluginCall) {
