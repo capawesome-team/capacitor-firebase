@@ -9,6 +9,7 @@
     [
       "@capacitor-firebase/analytics",
       "@capacitor-firebase/app",
+      "@capacitor-firebase/app-check",
       "@capacitor-firebase/authentication",
       "@capacitor-firebase/crashlytics",
       "@capacitor-firebase/messaging",

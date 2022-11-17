@@ -49,10 +49,10 @@ See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-fireb
 
 See [Upload the APNS Certificate or Key to Firebase](https://capacitorjs.com/docs/guides/push-notifications-firebase#upload-the-apns-certificate-or-key-to-firebase) and follow the instructions to upload the APNS Certificate or APNS Auth Key to Firebase.
 
-> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://www.raywenderlich.com/20201639-firebase-cloud-messaging-for-ios-push-notifications). 
-The steps are explained there in a quite understandable way.
-But be aware that this guide is more detailed and covers more than you need. 
-Use it only for assistance.
+> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://www.raywenderlich.com/20201639-firebase-cloud-messaging-for-ios-push-notifications).
+> The steps are explained there in a quite understandable way.
+> But be aware that this guide is more detailed and covers more than you need.
+> Use it only for assistance.
 
 Add the following to your app's `AppDelegate.swift`:
 
@@ -64,7 +64,7 @@ func application(_ application: UIApplication, didRegisterForRemoteNotifications
 func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
   NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
 }
-    
+
 func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     NotificationCenter.default.post(name: Notification.Name.init("didReceiveRemoteNotification"), object: completionHandler, userInfo: userInfo)
 }
@@ -463,7 +463,7 @@ addListener(eventName: 'notificationActionPerformed', listenerFunc: Notification
 
 Called when a new push notification action is performed.
 
-Only available on Android and iOS.
+Only available for Android and iOS.
 
 | Param              | Type                                                                                                |
 | ------------------ | --------------------------------------------------------------------------------------------------- |
@@ -483,7 +483,7 @@ Only available on Android and iOS.
 removeAllListeners() => Promise<void>
 ```
 
-Remove all native listeners for this plugin.
+Remove all listeners for this plugin.
 
 **Since:** 0.2.2
 
@@ -531,17 +531,17 @@ Remove all native listeners for this plugin.
 
 #### Notification
 
-| Prop              | Type                 | Description                                                                                                    | Since |
-| ----------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- | ----- |
-| **`body`**        | <code>string</code>  | The notification payload.                                                                                      | 0.2.2 |
-| **`clickAction`** | <code>string</code>  | The action to be performed on the user opening the notification. Only available on Android.                    | 0.2.2 |
-| **`data`**        | <code>unknown</code> | Any additional data that was included in the push notification payload.                                        | 0.2.2 |
-| **`id`**          | <code>string</code>  | The notification identifier.                                                                                   | 0.2.2 |
-| **`image`**       | <code>string</code>  | The URL of an image that is downloaded on the device and displayed in the notification. Only available on Web. | 0.2.2 |
-| **`link`**        | <code>string</code>  | Deep link from the notification. Only available on Android.                                                    | 0.2.2 |
-| **`subtitle`**    | <code>string</code>  | The notification subtitle. Only available on iOS.                                                              | 0.2.2 |
-| **`tag`**         | <code>string</code>  | The notification string identifier. Only available on Android.                                                 | 0.4.0 |
-| **`title`**       | <code>string</code>  | The notification title.                                                                                        | 0.2.2 |
+| Prop              | Type                 | Description                                                                                                     | Since |
+| ----------------- | -------------------- | --------------------------------------------------------------------------------------------------------------- | ----- |
+| **`body`**        | <code>string</code>  | The notification payload.                                                                                       | 0.2.2 |
+| **`clickAction`** | <code>string</code>  | The action to be performed on the user opening the notification. Only available for Android.                    | 0.2.2 |
+| **`data`**        | <code>unknown</code> | Any additional data that was included in the push notification payload.                                         | 0.2.2 |
+| **`id`**          | <code>string</code>  | The notification identifier.                                                                                    | 0.2.2 |
+| **`image`**       | <code>string</code>  | The URL of an image that is downloaded on the device and displayed in the notification. Only available for Web. | 0.2.2 |
+| **`link`**        | <code>string</code>  | Deep link from the notification. Only available for Android.                                                    | 0.2.2 |
+| **`subtitle`**    | <code>string</code>  | The notification subtitle. Only available for iOS.                                                              | 0.2.2 |
+| **`tag`**         | <code>string</code>  | The notification string identifier. Only available for Android.                                                 | 0.4.0 |
+| **`title`**       | <code>string</code>  | The notification title.                                                                                         | 0.2.2 |
 
 
 #### RemoveDeliveredNotificationsOptions
@@ -588,11 +588,11 @@ Remove all native listeners for this plugin.
 
 #### NotificationActionPerformedEvent
 
-| Prop               | Type                                                  | Description                                                     | Since |
-| ------------------ | ----------------------------------------------------- | --------------------------------------------------------------- | ----- |
-| **`actionId`**     | <code>string</code>                                   | The action performed on the notification.                       | 0.2.2 |
-| **`inputValue`**   | <code>string</code>                                   | Text entered on the notification action. Only available on iOS. | 0.2.2 |
-| **`notification`** | <code><a href="#notification">Notification</a></code> | The notification in which the action was performed.             | 0.2.2 |
+| Prop               | Type                                                  | Description                                                      | Since |
+| ------------------ | ----------------------------------------------------- | ---------------------------------------------------------------- | ----- |
+| **`actionId`**     | <code>string</code>                                   | The action performed on the notification.                        | 0.2.2 |
+| **`inputValue`**   | <code>string</code>                                   | Text entered on the notification action. Only available for iOS. | 0.2.2 |
+| **`notification`** | <code><a href="#notification">Notification</a></code> | The notification in which the action was performed.              | 0.2.2 |
 
 
 ### Type Aliases
@@ -605,21 +605,21 @@ Remove all native listeners for this plugin.
 
 #### TokenReceivedListener
 
-Callback to receive the push notification event.
+Callback to receive the token received event.
 
 <code>(event: <a href="#tokenreceivedevent">TokenReceivedEvent</a>): void</code>
 
 
 #### NotificationReceivedListener
 
-Callback to receive the push notification event.
+Callback to receive the notification received event.
 
 <code>(event: <a href="#notificationreceivedevent">NotificationReceivedEvent</a>): void</code>
 
 
 #### NotificationActionPerformedListener
 
-Callback to receive the push notification event.
+Callback to receive the notification action performed event.
 
 <code>(event: <a href="#notificationactionperformedevent">NotificationActionPerformedEvent</a>): void</code>
 
