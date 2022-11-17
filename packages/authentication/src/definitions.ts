@@ -664,6 +664,7 @@ export interface SignInWithOAuthOptions extends SignInOptions {
   customParameters?: SignInCustomParameter[];
   /**
    * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
+   * If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.
    *
    * @default 'popup'
    * @since 1.3.0
