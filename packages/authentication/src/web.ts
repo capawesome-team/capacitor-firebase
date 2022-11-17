@@ -7,6 +7,7 @@ import type {
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
 import {
+  getRedirectResult,
   linkWithPopup,
   linkWithRedirect,
   signInWithPopup,
@@ -87,6 +88,12 @@ export class FirebaseAuthenticationWeb
     super();
     const auth = getAuth();
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
+    getRedirectResult(auth).then(result => {
+      if (!result) {
+        return;
+      }
+      this.handleAuthStateChange(result.user);
+    });
   }
 
   public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
@@ -547,7 +554,7 @@ export class FirebaseAuthenticationWeb
   public signInWithPopupOrRedirect(
     provider: FirebaseAuthProvider,
     mode?: 'popup' | 'redirect',
-  ): Promise<FirebaseUserCredential> {
+  ): Promise<FirebaseUserCredential | never> {
     const auth = getAuth();
     if (mode === 'redirect') {
       return signInWithRedirect(auth, provider);
@@ -559,7 +566,7 @@ export class FirebaseAuthenticationWeb
   public linkCurrentUserWithPopupOrRedirect(
     provider: FirebaseAuthProvider,
     mode?: 'popup' | 'redirect',
-  ): Promise<FirebaseUserCredential> {
+  ): Promise<FirebaseUserCredential | never> {
     const auth = getAuth();
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);

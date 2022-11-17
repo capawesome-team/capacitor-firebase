@@ -1105,6 +1105,8 @@ signInWithPlayGames(options?: SignInWithOAuthOptions | undefined) => Promise<Sig
 
 Starts the Play Games sign-in flow.
 
+Only available for Android.
+
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
@@ -1501,6 +1503,15 @@ bundle identifiers.
 | --------------- | ------------------- | ------------------------------------------ | ----- |
 | **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+
+
+#### SignInOptions
+
+| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.                                                                                                                                                                                                                                                                                                                                                                                                                        | 0.1.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 0.3.1 |
+| **`skipNativeAuth`**   | <code>boolean</code>                 | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
 
 
 #### SignInWithPhoneNumberResult
