@@ -121,6 +121,14 @@ export interface GetNumberResult {
    * @since 1.3.0
    */
   value: number;
+  /**
+   * Indicates at which source this value came from.
+   *
+   * Only available on Android and iOS.
+   *
+   * @since 1.3.0
+   */
+  source?: GetValueSource;
 }
 
 /**
@@ -133,6 +141,14 @@ export interface GetStringResult {
    * @since 1.3.0
    */
   value: string;
+  /**
+   * Indicates at which source this value came from.
+   *
+   * Only available on Android and iOS.
+   *
+   * @since 1.3.0
+   */
+  source?: GetValueSource;
 }
 
 /**

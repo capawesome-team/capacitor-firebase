@@ -236,16 +236,18 @@ Only available on Web.
 
 #### GetNumberResult
 
-| Prop        | Type                | Description                              | Since |
-| ----------- | ------------------- | ---------------------------------------- | ----- |
-| **`value`** | <code>number</code> | The value for the given key as a number. | 1.3.0 |
+| Prop         | Type                                                      | Description                                                                        | Since |
+| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>number</code>                                       | The value for the given key as a number.                                           | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
 
 
 #### GetStringResult
 
-| Prop        | Type                | Description                              | Since |
-| ----------- | ------------------- | ---------------------------------------- | ----- |
-| **`value`** | <code>string</code> | The value for the given key as a string. | 1.3.0 |
+| Prop         | Type                                                      | Description                                                                        | Since |
+| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>string</code>                                       | The value for the given key as a string.                                           | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
 
 
 #### SetMinimumFetchIntervalOptions
