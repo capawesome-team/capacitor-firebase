@@ -118,6 +118,10 @@ export default config;
 1. **How can I use this plugin with the Firebase JavaScript SDK?**  
    See [here](/packages/authentication/docs/firebase-js-sdk.md).
 
+## Firebase JavaScript SDK
+
+[Here](/packages/authentication/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
+
 ## Demo
 
 A working example can be found here: [robingenz/capacitor-firebase-authentication-demo](https://github.com/robingenz/capacitor-firebase-authentication-demo)
@@ -193,7 +197,7 @@ const sendSignInLinkToEmail = async () => {
         minimumVersion: '12',
       },
       dynamicLinkDomain: 'example.page.link',
-    }
+    },
   });
   // The link was successfully sent. Inform the user.
   // Save the email locally so you don't need to ask the user for it again
@@ -240,9 +244,10 @@ const signInWithEmailLink = async () => {
   // the flow on the same device where they started it.
   const emailLink = window.location.href;
   // Confirm the link is a sign-in with email link.
-  const { isSignInWithEmailLink } = await FirebaseAuthentication.isSignInWithEmailLink({
-    emailLink,
-  });
+  const { isSignInWithEmailLink } =
+    await FirebaseAuthentication.isSignInWithEmailLink({
+      emailLink,
+    });
   if (!isSignInWithEmailLink) {
     return;
   }
@@ -250,9 +255,7 @@ const signInWithEmailLink = async () => {
   if (!email) {
     // User opened the link on a different device. To prevent session fixation
     // attacks, ask the user to provide the associated email again.
-    email = window.prompt(
-      'Please provide your email for confirmation.',
-    );
+    email = window.prompt('Please provide your email for confirmation.');
   }
   // The client SDK will parse the code from the link for you.
   const result = await FirebaseAuthentication.signInWithEmailLink({

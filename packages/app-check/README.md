@@ -38,6 +38,10 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/we
 
 No configuration required for this plugin.
 
+## Firebase JavaScript SDK
+
+[Here](/packages/app-check/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
+
 ## Demo
 
 A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
@@ -269,6 +273,28 @@ Callback to receive the token change event.
 <code>(event: <a href="#tokenchangedevent">TokenChangedEvent</a>): void</code>
 
 </docgen-api>
+
+## Testing
+
+### Android
+
+Follow these steps to test your implementation on a real device:
+
+1. Start your app on the Android device.
+1. Run the following command to grab your temporary secret from the android logs:
+
+```
+adb logcat | grep DebugAppCheckProvider
+```
+
+The output should look like this:
+
+```
+D DebugAppCheckProvider: Enter this debug secret into the allow list in
+the Firebase Console for your project: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+```
+
+1. Next, open the [App Check project](https://console.firebase.google.com/u/0/project/_/appcheck/apps) in the Firebase Console and select Manage debug tokens from the overflow menu of your app. Then, register the debug secret from the output.
 
 ## Changelog
 
