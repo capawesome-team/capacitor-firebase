@@ -6,7 +6,7 @@ import AuthenticationServices
 import GameKit
 
 class GameCenterAuthProviderHandler: NSObject {
-    public let errorGetCredentialFailed = "getCredential failed."
+    let errorGetCredentialFailed = "getCredential failed."
     private var pluginImplementation: FirebaseAuthentication
 
     init(_ pluginImplementation: FirebaseAuthentication) {

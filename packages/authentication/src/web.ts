@@ -88,12 +88,6 @@ export class FirebaseAuthenticationWeb
     super();
     const auth = getAuth();
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
-    getRedirectResult(auth).then(result => {
-      if (!result) {
-        return;
-      }
-      this.handleAuthStateChange(result.user);
-    });
   }
 
   public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
@@ -141,6 +135,15 @@ export class FirebaseAuthenticationWeb
       token: idToken || '',
     };
     return result;
+  }
+
+  public async getRedirectResult(): Promise<SignInResult> {
+    const auth = getAuth();
+    const userCredential = await getRedirectResult(auth);
+    const authCredential = userCredential
+      ? OAuthProvider.credentialFromResult(userCredential)
+      : null;
+    return this.createSignInResult(userCredential, authCredential);
   }
 
   public async getTenantId(): Promise<GetTenantIdResult> {
@@ -589,10 +592,10 @@ export class FirebaseAuthenticationWeb
   }
 
   private createSignInResult(
-    userCredential: FirebaseUserCredential,
+    userCredential: FirebaseUserCredential | null,
     authCredential: FirebaseAuthCredential | null,
   ): SignInResult {
-    const userResult = this.createUserResult(userCredential.user);
+    const userResult = this.createUserResult(userCredential?.user || null);
     const credentialResult = this.createCredentialResult(authCredential);
     const additionalUserInfoResult =
       this.createAdditionalUserInfoResult(userCredential);
@@ -640,8 +643,11 @@ export class FirebaseAuthenticationWeb
   }
 
   private createAdditionalUserInfoResult(
-    credential: FirebaseUserCredential,
+    credential: FirebaseUserCredential | null,
   ): AdditionalUserInfo | null {
+    if (!credential) {
+      return null;
+    }
     const additionalUserInfo = getAdditionalUserInfo(credential);
     if (!additionalUserInfo) {
       return null;

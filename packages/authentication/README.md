@@ -356,10 +356,11 @@ const useEmulator = async () => {
 <docgen-index>
 
 * [`applyActionCode(...)`](#applyactioncode)
-* [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
+* [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
+* [`getRedirectResult()`](#getredirectresult)
 * [`getTenantId()`](#gettenantid)
 * [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
 * [`linkWithApple(...)`](#linkwithapple)
@@ -427,6 +428,23 @@ Applies a verification code sent to the user by email.
 --------------------
 
 
+### confirmPasswordReset(...)
+
+```typescript
+confirmPasswordReset(options: ConfirmPasswordResetOptions) => Promise<void>
+```
+
+Completes the password reset process.
+
+| Param         | Type                                                                                |
+| ------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
+
+**Since:** 0.2.2
+
+--------------------
+
+
 ### createUserWithEmailAndPassword(...)
 
 ```typescript
@@ -441,23 +459,6 @@ If the new account was created, the user is signed in automatically.
 | **`options`** | <code><a href="#createuserwithemailandpasswordoptions">CreateUserWithEmailAndPasswordOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
-
-**Since:** 0.2.2
-
---------------------
-
-
-### confirmPasswordReset(...)
-
-```typescript
-confirmPasswordReset(options: ConfirmPasswordResetOptions) => Promise<void>
-```
-
-Completes the password reset process.
-
-| Param         | Type                                                                                |
-| ------------- | ----------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
 
 **Since:** 0.2.2
 
@@ -494,6 +495,26 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 **Returns:** <code>Promise&lt;<a href="#getidtokenresult">GetIdTokenResult</a>&gt;</code>
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### getRedirectResult()
+
+```typescript
+getRedirectResult() => Promise<SignInResult>
+```
+
+Returns the <a href="#signinresult">`SignInResult`</a> from the redirect-based sign-in flow.
+
+If sign-in was unsuccessful, fails with an error.
+If no redirect operation was called, returns a <a href="#signinresult">`SignInResult`</a> with a null user.
+
+Only available for Web.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 1.3.0
 
 --------------------
 
@@ -1295,6 +1316,14 @@ Remove all listeners for this plugin.
 | **`oobCode`** | <code>string</code> | A verification code sent to the user. | 0.2.2 |
 
 
+#### ConfirmPasswordResetOptions
+
+| Prop              | Type                | Description                           | Since |
+| ----------------- | ------------------- | ------------------------------------- | ----- |
+| **`oobCode`**     | <code>string</code> | A verification code sent to the user. | 0.2.2 |
+| **`newPassword`** | <code>string</code> | The new password.                     | 0.2.2 |
+
+
 #### SignInResult
 
 | Prop                     | Type                                                                      | Description                                                     | Since |
@@ -1347,14 +1376,6 @@ Remove all listeners for this plugin.
 | -------------- | ------------------- | ----- |
 | **`email`**    | <code>string</code> | 0.2.2 |
 | **`password`** | <code>string</code> | 0.2.2 |
-
-
-#### ConfirmPasswordResetOptions
-
-| Prop              | Type                | Description                           | Since |
-| ----------------- | ------------------- | ------------------------------------- | ----- |
-| **`oobCode`**     | <code>string</code> | A verification code sent to the user. | 0.2.2 |
-| **`newPassword`** | <code>string</code> | The new password.                     | 0.2.2 |
 
 
 #### GetCurrentUserResult

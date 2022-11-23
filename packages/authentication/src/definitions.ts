@@ -48,6 +48,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   applyActionCode(options: ApplyActionCodeOptions): Promise<void>;
   /**
+   * Completes the password reset process.
+   *
+   * @since 0.2.2
+   */
+  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
+  /**
    * Creates a new user account with email and password.
    * If the new account was created, the user is signed in automatically.
    *
@@ -56,12 +62,6 @@ export interface FirebaseAuthenticationPlugin {
   createUserWithEmailAndPassword(
     options: CreateUserWithEmailAndPasswordOptions,
   ): Promise<SignInResult>;
-  /**
-   * Completes the password reset process.
-   *
-   * @since 0.2.2
-   */
-  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
   /**
    * Fetches the currently signed-in user.
    *
@@ -74,6 +74,17 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
+  /**
+   * Returns the `SignInResult` from the redirect-based sign-in flow.
+   *
+   * If sign-in was unsuccessful, fails with an error.
+   * If no redirect operation was called, returns a `SignInResult` with a null user.
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  getRedirectResult(): Promise<SignInResult>;
   /**
    * Get the tenant id.
    *

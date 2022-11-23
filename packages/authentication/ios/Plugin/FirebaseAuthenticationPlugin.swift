@@ -57,10 +57,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
-    @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
-        implementation?.createUserWithEmailAndPassword(call)
-    }
-
     @objc func confirmPasswordReset(_ call: CAPPluginCall) {
         guard let oobCode = call.getString("oobCode") else {
             call.reject(errorOobCodeMissing)
@@ -78,6 +74,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             }
             call.resolve()
         })
+    }
+
+    @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
+        implementation?.createUserWithEmailAndPassword(call)
     }
 
     @objc func getCurrentUser(_ call: CAPPluginCall) {
@@ -100,6 +100,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             result["token"] = token
             call.resolve(result)
         })
+    }
+
+    @objc func getRedirectResult(_ call: CAPPluginCall) {
+        call.reject("Not available on iOS.")
     }
 
     @objc func getTenantId(_ call: CAPPluginCall) {
