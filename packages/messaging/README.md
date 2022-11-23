@@ -70,8 +70,6 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
 }
 ```
 
-Finally edit your `ios/App/App/Info.plist` and set `FirebaseAppDelegateProxyEnabled` key to `NO`.
-
 **Attention**: If you use this plugin in combination with `@capacitor-firebase/authentication`, then add the following to your app's `AppDelegate.swift`:
 
 ```diff
