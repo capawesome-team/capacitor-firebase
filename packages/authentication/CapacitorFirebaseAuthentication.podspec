@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
   s.ios.deployment_target  = '13.0'
   s.dependency 'Capacitor'
-  s.dependency 'Firebase/Auth', '9.1.0'
+  s.dependency 'Firebase/Auth', '10.2.0'
   s.swift_version = '5.1'
   s.static_framework = true
   s.default_subspec = 'Lite'
@@ -24,12 +24,12 @@ Pod::Spec.new do |s|
 
   s.subspec 'Google' do |google|
     google.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DRGCFA_INCLUDE_GOOGLE' }
-    google.dependency 'GoogleSignIn', '6.2.1'
+    google.dependency 'GoogleSignIn', '6.2.4'
   end
 
   s.subspec 'Facebook' do |facebook|
     facebook.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DRGCFA_INCLUDE_FACEBOOK' }
-    facebook.dependency 'FBSDKCoreKit', '13.2.0'
-    facebook.dependency 'FBSDKLoginKit', '13.2.0'
+    facebook.dependency 'FBSDKCoreKit', '15.1.0'
+    facebook.dependency 'FBSDKLoginKit', '15.1.0'
   end
 end

@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `20.0.6`)
+- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `23.1.0`)
 
 #### Push Notification Icon
 
