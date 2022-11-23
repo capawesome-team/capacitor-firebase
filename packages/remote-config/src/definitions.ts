@@ -175,17 +175,17 @@ export enum GetValueSource {
    *
    * @since 1.3.0
    */
-  ValueSourceStatic = 0,
+  Static = 0,
   /**
    * Indicates that the value returned was retrieved from the defaults set by the client.
    *
    * @since 1.3.0
    */
-  ValueSourceDefault = 1,
+  Default = 1,
   /**
    * Indicates that the value returned was retrieved from the Firebase Remote Config Server.
    *
    * @since 1.3.0
    */
-  ValueSourceRemote = 2,
+  Remote = 2,
 }

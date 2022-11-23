@@ -280,11 +280,11 @@ Only available on Web.
 
 #### GetValueSource
 
-| Members                  | Value          | Description                                                                             | Since |
-| ------------------------ | -------------- | --------------------------------------------------------------------------------------- | ----- |
-| **`ValueSourceStatic`**  | <code>0</code> | Indicates that the value returned is the static default value.                          | 1.3.0 |
-| **`ValueSourceDefault`** | <code>1</code> | Indicates that the value returned was retrieved from the defaults set by the client.    | 1.3.0 |
-| **`ValueSourceRemote`**  | <code>2</code> | Indicates that the value returned was retrieved from the Firebase Remote Config Server. | 1.3.0 |
+| Members       | Value          | Description                                                                             | Since |
+| ------------- | -------------- | --------------------------------------------------------------------------------------- | ----- |
+| **`Static`**  | <code>0</code> | Indicates that the value returned is the static default value.                          | 1.3.0 |
+| **`Default`** | <code>1</code> | Indicates that the value returned was retrieved from the defaults set by the client.    | 1.3.0 |
+| **`Remote`**  | <code>2</code> | Indicates that the value returned was retrieved from the Firebase Remote Config Server. | 1.3.0 |
 
 </docgen-api>
 
