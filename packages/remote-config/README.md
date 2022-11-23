@@ -1,0 +1,297 @@
+# @capacitor-firebase/remote-config
+
+⚡️ Capacitor plugin for Firebase Remote Config.
+
+## Installation
+
+```bash
+npm install @capacitor-firebase/remote-config firebase
+npx cap sync
+```
+
+Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+
+### Android
+
+Google Analytics is required for the [conditional targeting of app instances](https://firebase.google.com/docs/remote-config/parameters#conditions_rules_and_conditional_values) to user properties and audiences. Make sure that you install the [Capacitor Firebase Analytics](/packages/analytics) plugin in your project.
+
+#### Variables
+
+This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
+
+- `$firebaseConfigVersion` version of `com.google.firebase:firebase-config` (default: `21.2.0`)
+
+## Configuration
+
+No configuration required for this plugin.
+
+## Demo
+
+A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
+
+## Usage
+
+```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
+const activate = async () => {
+  await FirebaseRemoteConfig.activate();
+};
+
+const fetchAndActivate = async () => {
+  await FirebaseRemoteConfig.fetchAndActivate();
+};
+
+const fetchConfig = async () => {
+  await FirebaseRemoteConfig.fetchConfig({
+    minimumFetchIntervalInSeconds: 1200,
+  });
+};
+
+const getBoolean = async () => {
+  const { value } = await FirebaseRemoteConfig.getBoolean({
+    key: 'is_sale',
+  });
+  return value;
+};
+
+const getNumber = async () => {
+  const { value } = await FirebaseRemoteConfig.getNumber({
+    key: 'upcoming_maintenance',
+  });
+  return value;
+};
+
+const getString = async () => {
+  const { value } = await FirebaseRemoteConfig.getString({
+    key: 'license_key',
+  });
+  return value;
+};
+```
+
+## API
+
+<docgen-index>
+
+* [`activate()`](#activate)
+* [`fetchAndActivate()`](#fetchandactivate)
+* [`fetchConfig(...)`](#fetchconfig)
+* [`getBoolean(...)`](#getboolean)
+* [`getNumber(...)`](#getnumber)
+* [`getString(...)`](#getstring)
+* [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+* [Enums](#enums)
+
+</docgen-index>
+
+<docgen-api>
+<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### activate()
+
+```typescript
+activate() => Promise<void>
+```
+
+Make the last fetched configuration available to the getters.
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### fetchAndActivate()
+
+```typescript
+fetchAndActivate() => Promise<void>
+```
+
+Perform fetch and activate operations.
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### fetchConfig(...)
+
+```typescript
+fetchConfig(options?: FetchConfigOptions | undefined) => Promise<void>
+```
+
+Fetch and cache configuration from the Remote Config service.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#fetchconfigoptions">FetchConfigOptions</a></code> |
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### getBoolean(...)
+
+```typescript
+getBoolean(options: GetBooleanOptions) => Promise<GetBooleanResult>
+```
+
+Get the value for the given key as a boolean.
+
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getbooleanresult">GetBooleanResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### getNumber(...)
+
+```typescript
+getNumber(options: GetNumberOptions) => Promise<GetNumberResult>
+```
+
+Get the value for the given key as a number.
+
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getnumberresult">GetNumberResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### getString(...)
+
+```typescript
+getString(options: GetStringOptions) => Promise<GetStringResult>
+```
+
+Get the value for the given key as a string.
+
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getstringresult">GetStringResult</a>&gt;</code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### setMinimumFetchInterval(...)
+
+```typescript
+setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions) => Promise<void>
+```
+
+Set the minimum fetch interval.
+
+Only available on Web.
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setminimumfetchintervaloptions">SetMinimumFetchIntervalOptions</a></code> |
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### Interfaces
+
+
+#### FetchConfigOptions
+
+| Prop                                | Type                | Description                                                                                                                                                                                                              | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ----- |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. Only available on Android and iOS. | <code>43200</code> | 1.3.0 |
+
+
+#### GetBooleanResult
+
+| Prop         | Type                                                      | Description                                                                        | Since |
+| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>boolean</code>                                      | The value for the given key as a boolean.                                          | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
+
+
+#### GetOptions
+
+| Prop      | Type                | Description                  | Since |
+| --------- | ------------------- | ---------------------------- | ----- |
+| **`key`** | <code>string</code> | The key of the value to get. | 1.3.0 |
+
+
+#### GetNumberResult
+
+| Prop         | Type                                                      | Description                                                                        | Since |
+| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>number</code>                                       | The value for the given key as a number.                                           | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
+
+
+#### GetStringResult
+
+| Prop         | Type                                                      | Description                                                                        | Since |
+| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>string</code>                                       | The value for the given key as a string.                                           | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
+
+
+#### SetMinimumFetchIntervalOptions
+
+| Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
+
+
+### Type Aliases
+
+
+#### GetBooleanOptions
+
+<code><a href="#getoptions">GetOptions</a></code>
+
+
+#### GetNumberOptions
+
+<code><a href="#getoptions">GetOptions</a></code>
+
+
+#### GetStringOptions
+
+<code><a href="#getoptions">GetOptions</a></code>
+
+
+### Enums
+
+
+#### GetValueSource
+
+| Members       | Value          | Description                                                                             | Since |
+| ------------- | -------------- | --------------------------------------------------------------------------------------- | ----- |
+| **`Static`**  | <code>0</code> | Indicates that the value returned is the static default value.                          | 1.3.0 |
+| **`Default`** | <code>1</code> | Indicates that the value returned was retrieved from the defaults set by the client.    | 1.3.0 |
+| **`Remote`**  | <code>2</code> | Indicates that the value returned was retrieved from the Firebase Remote Config Server. | 1.3.0 |
+
+</docgen-api>
+
+## Changelog
+
+See [CHANGELOG.md](/packages/remote-config/CHANGELOG.md).
+
+## License
+
+See [LICENSE](/packages/remote-config/LICENSE).
