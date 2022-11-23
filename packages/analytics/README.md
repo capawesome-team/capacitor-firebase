@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.0.0`)
+- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.2.0`)
 
 ### iOS
 
@@ -114,15 +114,15 @@ const resetAnalyticsData = async () => {
 
 <docgen-index>
 
-* [`setUserId(...)`](#setuserid)
-* [`setUserProperty(...)`](#setuserproperty)
-* [`setCurrentScreen(...)`](#setcurrentscreen)
-* [`logEvent(...)`](#logevent)
-* [`setSessionTimeoutDuration(...)`](#setsessiontimeoutduration)
-* [`setEnabled(...)`](#setenabled)
-* [`isEnabled()`](#isenabled)
-* [`resetAnalyticsData()`](#resetanalyticsdata)
-* [Interfaces](#interfaces)
+- [`setUserId(...)`](#setuserid)
+- [`setUserProperty(...)`](#setuserproperty)
+- [`setCurrentScreen(...)`](#setcurrentscreen)
+- [`logEvent(...)`](#logevent)
+- [`setSessionTimeoutDuration(...)`](#setsessiontimeoutduration)
+- [`setEnabled(...)`](#setenabled)
+- [`isEnabled()`](#isenabled)
+- [`resetAnalyticsData()`](#resetanalyticsdata)
+- [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -143,8 +143,7 @@ Sets the user ID property.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### setUserProperty(...)
 
@@ -160,8 +159,7 @@ Sets a custom user property to a given value.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### setCurrentScreen(...)
 
@@ -177,8 +175,7 @@ Sets the current screen name.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### logEvent(...)
 
@@ -194,8 +191,7 @@ Logs an app event.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### setSessionTimeoutDuration(...)
 
@@ -213,8 +209,7 @@ Only available for Android and iOS.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### setEnabled(...)
 
@@ -231,8 +226,7 @@ The value does not apply until the next run of the app.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### isEnabled()
 
@@ -248,8 +242,7 @@ Only available for Web.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### resetAnalyticsData()
 
@@ -264,18 +257,15 @@ Only available for Android and iOS.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### SetUserIdOptions
 
 | Prop         | Type                        | Since |
 | ------------ | --------------------------- | ----- |
 | **`userId`** | <code>string \| null</code> | 0.1.0 |
-
 
 #### SetUserPropertyOptions
 
@@ -284,14 +274,12 @@ Only available for Android and iOS.
 | **`key`**   | <code>string</code>         | 0.1.0 |
 | **`value`** | <code>string \| null</code> | 0.1.0 |
 
-
 #### SetCurrentScreenOptions
 
 | Prop                      | Type                        | Description                         | Default           | Since |
 | ------------------------- | --------------------------- | ----------------------------------- | ----------------- | ----- |
 | **`screenName`**          | <code>string \| null</code> |                                     |                   | 0.1.0 |
 | **`screenClassOverride`** | <code>string \| null</code> | Only available for Android and iOS. | <code>null</code> | 0.1.0 |
-
 
 #### LogEventOptions
 
@@ -300,20 +288,17 @@ Only available for Android and iOS.
 | **`name`**   | <code>string</code>                  | The event name.            | 0.1.0 |
 | **`params`** | <code>{ [key: string]: any; }</code> | The optional event params. | 0.1.0 |
 
-
 #### SetSessionTimeoutDurationOptions
 
 | Prop           | Type                | Description          | Default           | Since |
 | -------------- | ------------------- | -------------------- | ----------------- | ----- |
 | **`duration`** | <code>number</code> | Duration in seconds. | <code>1800</code> | 0.1.0 |
 
-
 #### SetEnabledOptions
 
 | Prop          | Type                 | Since |
 | ------------- | -------------------- | ----- |
 | **`enabled`** | <code>boolean</code> | 0.1.0 |
-
 
 #### IsEnabledResult
 

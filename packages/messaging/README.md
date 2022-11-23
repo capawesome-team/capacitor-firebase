@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `20.0.6`)
+- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `23.1.0`)
 
 #### Push Notification Icon
 
@@ -129,7 +129,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   plugins: {
     FirebaseMessaging: {
-      presentationOptions: ["badge", "sound", "alert"],
+      presentationOptions: ['badge', 'sound', 'alert'],
     },
   },
 };
@@ -217,22 +217,22 @@ const removeAllListeners = async () => {
 
 <docgen-index>
 
-* [`checkPermissions()`](#checkpermissions)
-* [`requestPermissions()`](#requestpermissions)
-* [`isSupported()`](#issupported)
-* [`getToken(...)`](#gettoken)
-* [`deleteToken()`](#deletetoken)
-* [`getDeliveredNotifications()`](#getdeliverednotifications)
-* [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
-* [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
-* [`subscribeToTopic(...)`](#subscribetotopic)
-* [`unsubscribeFromTopic(...)`](#unsubscribefromtopic)
-* [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
-* [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
-* [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
-* [`removeAllListeners()`](#removealllisteners)
-* [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
+- [`checkPermissions()`](#checkpermissions)
+- [`requestPermissions()`](#requestpermissions)
+- [`isSupported()`](#issupported)
+- [`getToken(...)`](#gettoken)
+- [`deleteToken()`](#deletetoken)
+- [`getDeliveredNotifications()`](#getdeliverednotifications)
+- [`removeDeliveredNotifications(...)`](#removedeliverednotifications)
+- [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
+- [`subscribeToTopic(...)`](#subscribetotopic)
+- [`unsubscribeFromTopic(...)`](#unsubscribefromtopic)
+- [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
+- [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
+- [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
+- [`removeAllListeners()`](#removealllisteners)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -251,8 +251,7 @@ Check permission to receive push notifications.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### requestPermissions()
 
@@ -266,8 +265,7 @@ Request permission to receive push notifications.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### isSupported()
 
@@ -283,8 +281,7 @@ Always returns `true` on Android and iOS.
 
 **Since:** 0.3.1
 
---------------------
-
+---
 
 ### getToken(...)
 
@@ -305,8 +302,7 @@ This method also re-enables FCM auto-init.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### deleteToken()
 
@@ -319,8 +315,7 @@ Can be called, for example, when a user signs out.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### getDeliveredNotifications()
 
@@ -334,8 +329,7 @@ Get a list of notifications that are visible on the notifications screen.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### removeDeliveredNotifications(...)
 
@@ -351,8 +345,7 @@ Remove specific notifications from the notifications screen.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### removeAllDeliveredNotifications()
 
@@ -364,8 +357,7 @@ Remove all notifications from the notifications screen.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### subscribeToTopic(...)
 
@@ -383,8 +375,7 @@ Only available for Android and iOS.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### unsubscribeFromTopic(...)
 
@@ -402,8 +393,7 @@ Only available for Android and iOS.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### addListener('tokenReceived', ...)
 
@@ -422,8 +412,7 @@ Called when a new FCM token is received.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### addListener('notificationReceived', ...)
 
@@ -450,8 +439,7 @@ See https://developer.apple.com/library/archive/documentation/NetworkingInternet
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### addListener('notificationActionPerformed', ...)
 
@@ -472,8 +460,7 @@ Only available for Android and iOS.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### removeAllListeners()
 
@@ -485,11 +472,9 @@ Remove all listeners for this plugin.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### PermissionStatus
 
@@ -497,20 +482,17 @@ Remove all listeners for this plugin.
 | ------------- | ----------------------------------------------------------- | ----- |
 | **`receive`** | <code><a href="#permissionstate">PermissionState</a></code> | 0.2.2 |
 
-
 #### IsSupportedResult
 
 | Prop              | Type                 | Since |
 | ----------------- | -------------------- | ----- |
 | **`isSupported`** | <code>boolean</code> | 0.3.1 |
 
-
 #### GetTokenResult
 
 | Prop        | Type                | Since |
 | ----------- | ------------------- | ----- |
 | **`token`** | <code>string</code> | 0.2.2 |
-
 
 #### GetTokenOptions
 
@@ -519,13 +501,11 @@ Remove all listeners for this plugin.
 | **`vapidKey`**                  | <code>string</code>                    | Your VAPID public key, which is required to retrieve the current registration token on the web. Only available for Web.                                                                                    |
 | **`serviceWorkerRegistration`** | <code>ServiceWorkerRegistration</code> | The service worker registration for receiving push messaging. If the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location. Only available for Web. |
 
-
 #### GetDeliveredNotificationsResult
 
 | Prop                | Type                        | Since |
 | ------------------- | --------------------------- | ----- |
 | **`notifications`** | <code>Notification[]</code> | 0.2.2 |
-
 
 #### Notification
 
@@ -541,13 +521,11 @@ Remove all listeners for this plugin.
 | **`tag`**         | <code>string</code>  | The notification string identifier. Only available for Android.                                                 | 0.4.0 |
 | **`title`**       | <code>string</code>  | The notification title.                                                                                         | 0.2.2 |
 
-
 #### RemoveDeliveredNotificationsOptions
 
 | Prop                | Type                        | Since |
 | ------------------- | --------------------------- | ----- |
 | **`notifications`** | <code>Notification[]</code> | 0.4.0 |
-
 
 #### SubscribeToTopicOptions
 
@@ -555,13 +533,11 @@ Remove all listeners for this plugin.
 | ----------- | ------------------- | ----------------------------------- | ----- |
 | **`topic`** | <code>string</code> | The name of the topic to subscribe. | 0.2.2 |
 
-
 #### UnsubscribeFromTopicOptions
 
 | Prop        | Type                | Description                                | Since |
 | ----------- | ------------------- | ------------------------------------------ | ----- |
 | **`topic`** | <code>string</code> | The name of the topic to unsubscribe from. | 0.2.2 |
-
 
 #### PluginListenerHandle
 
@@ -569,20 +545,17 @@ Remove all listeners for this plugin.
 | ------------ | ----------------------------------------- |
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
-
 #### TokenReceivedEvent
 
 | Prop        | Type                | Since |
 | ----------- | ------------------- | ----- |
 | **`token`** | <code>string</code> | 0.2.2 |
 
-
 #### NotificationReceivedEvent
 
 | Prop               | Type                                                  | Since |
 | ------------------ | ----------------------------------------------------- | ----- |
 | **`notification`** | <code><a href="#notification">Notification</a></code> | 0.2.2 |
-
 
 #### NotificationActionPerformedEvent
 
@@ -592,14 +565,11 @@ Remove all listeners for this plugin.
 | **`inputValue`**   | <code>string</code>                                   | Text entered on the notification action. Only available for iOS. | 0.2.2 |
 | **`notification`** | <code><a href="#notification">Notification</a></code> | The notification in which the action was performed.              | 0.2.2 |
 
-
 ### Type Aliases
-
 
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
-
 
 #### TokenReceivedListener
 
@@ -607,13 +577,11 @@ Callback to receive the token received event.
 
 <code>(event: <a href="#tokenreceivedevent">TokenReceivedEvent</a>): void</code>
 
-
 #### NotificationReceivedListener
 
 Callback to receive the notification received event.
 
 <code>(event: <a href="#notificationreceivedevent">NotificationReceivedEvent</a>): void</code>
-
 
 #### NotificationActionPerformedListener
 

@@ -9,7 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'Firebase/Core', '9.1.0'
+  pod 'Firebase/Core', '10.3.0'
 end
 
 target 'PluginTests' do
