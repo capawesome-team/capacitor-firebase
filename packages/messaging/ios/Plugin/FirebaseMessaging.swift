@@ -5,7 +5,7 @@ import UserNotifications
 import FirebaseMessaging
 import FirebaseCore
 
-@objc public class FirebaseMessaging: NSObject, NotificationHandlerProtocol {
+@objc public class FirebaseMessaging: NSObject, NotificationHandlerProtocol, UNUserNotificationCenterDelegate {
     private let plugin: FirebaseMessagingPlugin
     private let config: FirebaseMessagingConfig
 
@@ -16,6 +16,8 @@ import FirebaseCore
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+        UNUserNotificationCenter.current().delegate = self
+
         UIApplication.shared.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         self.plugin.bridge?.notificationRouter.pushNotificationHandler = self
@@ -106,6 +108,24 @@ import FirebaseCore
             Messaging.messaging().appDidReceiveMessage(userInfo)
         }
         self.plugin.handleRemoteNotificationReceived(notification: notification)
+    }
+
+    public func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler:
+        @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([[]])
+    }
+
+    public func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        self.handleNotificationActionPerformed(response: response)
+        completionHandler()
     }
 
     private func handleNotificationReceived(notification: UNNotification) {
