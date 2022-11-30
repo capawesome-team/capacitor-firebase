@@ -48,6 +48,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   applyActionCode(options: ApplyActionCodeOptions): Promise<void>;
   /**
+   * Completes the password reset process.
+   *
+   * @since 0.2.2
+   */
+  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
+  /**
    * Creates a new user account with email and password.
    * If the new account was created, the user is signed in automatically.
    *
@@ -56,12 +62,6 @@ export interface FirebaseAuthenticationPlugin {
   createUserWithEmailAndPassword(
     options: CreateUserWithEmailAndPasswordOptions,
   ): Promise<SignInResult>;
-  /**
-   * Completes the password reset process.
-   *
-   * @since 0.2.2
-   */
-  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
   /**
    * Fetches the currently signed-in user.
    *
@@ -74,6 +74,17 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
+  /**
+   * Returns the `SignInResult` from the redirect-based sign-in flow.
+   *
+   * If sign-in was unsuccessful, fails with an error.
+   * If no redirect operation was called, returns a `SignInResult` with a null user.
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  getRedirectResult(): Promise<SignInResult>;
   /**
    * Get the tenant id.
    *
@@ -245,9 +256,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithApple(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithApple(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Custom Token sign-in flow.
    *
@@ -280,9 +289,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithFacebook(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithFacebook(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Game Center sign-in flow.
    *
@@ -298,25 +305,19 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithGithub(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGithub(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Google sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithGoogle(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGoogle(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Microsoft sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithMicrosoft(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithMicrosoft(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using a phone number.
    *
@@ -336,25 +337,19 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithPlayGames(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithPlayGames(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Twitter sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithTwitter(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithTwitter(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Yahoo sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithYahoo(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithYahoo(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the sign-out flow.
    *
@@ -678,6 +673,14 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * @since 1.1.0
    */
   customParameters?: SignInCustomParameter[];
+  /**
+   * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
+   * If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.
+   *
+   * @default 'popup'
+   * @since 1.3.0
+   */
+  mode?: 'popup' | 'redirect';
   /**
    * Scopes to request from provider.
    *

@@ -67,15 +67,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void createUserWithEmailAndPassword(PluginCall call) {
-        try {
-            implementation.createUserWithEmailAndPassword(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
-        }
-    }
-
-    @PluginMethod
     public void confirmPasswordReset(PluginCall call) {
         try {
             String oobCode = call.getString("oobCode");
@@ -89,6 +80,15 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void createUserWithEmailAndPassword(PluginCall call) {
+        try {
+            implementation.createUserWithEmailAndPassword(call);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
@@ -131,6 +131,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
+    }
+
+    @PluginMethod
+    public void getRedirectResult(PluginCall call) {
+        call.reject("Not available on Android.");
     }
 
     @PluginMethod

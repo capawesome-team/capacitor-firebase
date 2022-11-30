@@ -5,10 +5,11 @@
 // each method the plugin supports using the CAP_PLUGIN_METHOD macro.
 CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(applyActionCode, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(createUserWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(confirmPasswordReset, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(createUserWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCurrentUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getIdToken, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getRedirectResult, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getTenantId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(isSignInWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithApple, CAPPluginReturnPromise);
