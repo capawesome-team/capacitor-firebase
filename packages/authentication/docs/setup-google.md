@@ -28,6 +28,21 @@
     end
     ```
     Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
+1.  Add the following post install script to your `Podfile` (usually `ios/App/Podfile`) to disable code signing for bundles:
+    ```ruby
+    post_install do |installer|
+        installer.pods_project.targets.each do |target|
+            target.build_configurations.each do |config|
+                if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+                    target.build_configurations.each do |config|
+                        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+                    end
+                end
+            end
+        end
+    end
+    ```
+    (See [here](https://stackoverflow.com/q/73765469/6731412) for more information.)
 1.  Add custom URL schemes to your Xcode project:
     1.  Open your project configuration.
         Select your app from the **TARGETS** section, then select the **Info** tab, and expand the **URL Types** section.
