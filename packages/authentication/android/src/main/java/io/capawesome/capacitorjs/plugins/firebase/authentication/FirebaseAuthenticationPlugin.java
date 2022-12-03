@@ -8,6 +8,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
@@ -16,6 +17,9 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Facebo
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
+    public static final String PHONE_VERIFICATION_COMPLETED_EVENT = "phoneVerificationCompleted";
+    public static final String PHONE_VERIFICATION_FAILED_EVENT = "phoneVerificationFailed";
+    public static final String PHONE_CODE_SENT_EVENT = "phoneCodeSent";
     public static final String ERROR_PROVIDER_ID_MISSING = "providerId must be provided.";
     public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
     public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
@@ -589,6 +593,24 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
+    }
+
+    public void handlePhoneVerificationCompleted(String smsCode) {
+        JSObject result = new JSObject();
+        // TODO
+        notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, result, true);
+    }
+
+    public void handlePhoneVerificationFailed(Exception exception) {
+        JSObject result = new JSObject();
+        // TODO
+        notifyListeners(PHONE_VERIFICATION_FAILED_EVENT, result, true);
+    }
+
+    public void handlePhoneCodeSent(String verificationId) {
+        JSObject result = new JSObject();
+        // TODO
+        notifyListeners(PHONE_CODE_SENT_EVENT, result, true);
     }
 
     @Override

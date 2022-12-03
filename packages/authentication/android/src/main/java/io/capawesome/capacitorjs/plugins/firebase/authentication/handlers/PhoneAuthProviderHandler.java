@@ -67,6 +67,11 @@ public class PhoneAuthProviderHandler {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
+                String smsCode = credential.getSmsCode();
+                pluginImplementation.handlePhoneVerificationCompleted(smsCode);
+                /**
+                 * @deprecated This code was replaced by event listener.
+                 */
                 if (isLink) {
                     pluginImplementation.handleSuccessfulLink(call, credential, null, null, null);
                 } else {
@@ -76,6 +81,10 @@ public class PhoneAuthProviderHandler {
 
             @Override
             public void onVerificationFailed(FirebaseException exception) {
+                pluginImplementation.handlePhoneVerificationFailed(exception);
+                /**
+                 * @deprecated This code was replaced by event listener.
+                 */
                 if (isLink) {
                     pluginImplementation.handleFailedLink(call, null, exception);
                 } else {
@@ -85,6 +94,10 @@ public class PhoneAuthProviderHandler {
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                pluginImplementation.handlePhoneCodeSent(verificationId);
+                /**
+                 * @deprecated This code was replaced by event listener.
+                 */
                 JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null, null, null);
                 result.put("verificationId", verificationId);
                 call.resolve(result);
