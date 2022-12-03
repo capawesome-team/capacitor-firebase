@@ -7,6 +7,7 @@ import FirebaseAuth
  * Please read the Capacitor iOS Plugin Development Guide
  * here: https://capacitorjs.com/docs/plugins/ios
  */
+// swiftlint:disable type_body_length
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorProviderIdMissing = "providerId must be provided."
