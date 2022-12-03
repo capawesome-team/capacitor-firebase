@@ -397,6 +397,8 @@ export interface FirebaseAuthenticationPlugin {
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Listen for a completed phone verification.
+   * 
+   * Only available for Android.
    *
    * @since 1.3.0
    */
@@ -744,9 +746,9 @@ export interface SignInCustomParameter {
 export interface SignInWithPhoneNumberOptions extends SignInOptions {
   /**
    * The phone number to be verified.
-   * 
+   *
    * Cannot be used in combination with `verificationId` and `verificationCode`.
-   * 
+   *
    * Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
    * Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
    * Use the `phoneCodeSent` listener to get the verification id.
@@ -756,7 +758,7 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
   phoneNumber?: string;
   /**
    * The verification ID received from the `phoneCodeSent` listener.
-   * 
+   *
    * The `verificationCode` must also be provided.
    *
    * @since 0.1.0
@@ -764,7 +766,7 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
   verificationId?: string;
   /**
    * The verification code either received from the `phoneCodeSent` listener or entered by the user.
-   * 
+   *
    * The `verificationId` must also be provided.
    *
    * @since 0.1.0
@@ -1097,7 +1099,7 @@ export type PhoneVerificationCompletedListener = (event: {
 export type PhoneVerificationFailedListener = (event: {
   /**
    * The error message.
-   * 
+   *
    * @since 1.3.0
    */
   message: string;

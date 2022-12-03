@@ -41,6 +41,7 @@ class PhoneAuthProviderHandler: NSObject {
         }
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
+                // TODO: `phoneVerificationFailed` listener
                 if let error = error {
                     if isLink == true {
                         self.pluginImplementation.handleFailedLink(message: nil, error: error)
@@ -51,6 +52,7 @@ class PhoneAuthProviderHandler: NSObject {
                 }
 
                 var result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: nil, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
+                // TODO: `phoneVerificationCompleted` listener
                 result["verificationId"] = verificationID
                 call.resolve(result)
             }

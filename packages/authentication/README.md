@@ -1304,6 +1304,8 @@ addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerifica
 
 Listen for a completed phone verification.
 
+Only available for Android.
+
 | Param              | Type                                                                                              |
 | ------------------ | ------------------------------------------------------------------------------------------------- |
 | **`eventName`**    | <code>'phoneVerificationCompleted'</code>                                                         |

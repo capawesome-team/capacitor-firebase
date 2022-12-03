@@ -597,19 +597,19 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     public void handlePhoneVerificationCompleted(String smsCode) {
         JSObject result = new JSObject();
-        // TODO
+        result.put("verificationCode", smsCode);
         notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, result, true);
     }
 
     public void handlePhoneVerificationFailed(Exception exception) {
         JSObject result = new JSObject();
-        // TODO
+        result.put("message", exception.getLocalizedMessage());
         notifyListeners(PHONE_VERIFICATION_FAILED_EVENT, result, true);
     }
 
     public void handlePhoneCodeSent(String verificationId) {
         JSObject result = new JSObject();
-        // TODO
+        result.put("verificationId", verificationId);
         notifyListeners(PHONE_CODE_SENT_EVENT, result, true);
     }
 

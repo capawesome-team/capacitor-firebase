@@ -71,6 +71,8 @@ public class PhoneAuthProviderHandler {
                 pluginImplementation.handlePhoneVerificationCompleted(smsCode);
                 /**
                  * @deprecated This code was replaced by event listener.
+                 *
+                 * Caution: The call must be resolved earlier.
                  */
                 if (isLink) {
                     pluginImplementation.handleSuccessfulLink(call, credential, null, null, null);
@@ -84,6 +86,8 @@ public class PhoneAuthProviderHandler {
                 pluginImplementation.handlePhoneVerificationFailed(exception);
                 /**
                  * @deprecated This code was replaced by event listener.
+                 *
+                 * Caution: The call must be resolved earlier.
                  */
                 if (isLink) {
                     pluginImplementation.handleFailedLink(call, null, exception);
@@ -97,6 +101,8 @@ public class PhoneAuthProviderHandler {
                 pluginImplementation.handlePhoneCodeSent(verificationId);
                 /**
                  * @deprecated This code was replaced by event listener.
+                 *
+                 * Caution: The call must be resolved earlier.
                  */
                 JSObject result = FirebaseAuthenticationHelper.createSignInResult(null, null, null, null, null, null);
                 result.put("verificationId", verificationId);
