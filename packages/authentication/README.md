@@ -401,6 +401,9 @@ const useEmulator = async () => {
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
+* [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted)
+* [`addListener('phoneVerificationFailed', ...)`](#addlistenerphoneverificationfailed)
+* [`addListener('phoneCodeSent', ...)`](#addlistenerphonecodesent)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -1293,6 +1296,66 @@ Listen for the user's sign-in state changes.
 --------------------
 
 
+### addListener('phoneVerificationCompleted', ...)
+
+```typescript
+addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerificationCompletedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Listen for a completed phone verification.
+
+| Param              | Type                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'phoneVerificationCompleted'</code>                                                         |
+| **`listenerFunc`** | <code><a href="#phoneverificationcompletedlistener">PhoneVerificationCompletedListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### addListener('phoneVerificationFailed', ...)
+
+```typescript
+addListener(eventName: 'phoneVerificationFailed', listenerFunc: PhoneVerificationFailedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Listen for a failed phone verification.
+
+| Param              | Type                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'phoneVerificationFailed'</code>                                                      |
+| **`listenerFunc`** | <code><a href="#phoneverificationfailedlistener">PhoneVerificationFailedListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
+### addListener('phoneCodeSent', ...)
+
+```typescript
+addListener(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+Listen for a phone verification code.
+
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'phoneCodeSent'</code>                                            |
+| **`listenerFunc`** | <code><a href="#phonecodesentlistener">PhoneCodeSentListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 1.3.0
+
+--------------------
+
+
 ### removeAllListeners()
 
 ```typescript
@@ -1544,11 +1607,11 @@ bundle identifiers.
 
 #### SignInWithPhoneNumberOptions
 
-| Prop                   | Type                | Description                                                                                                                                         | Since |
-| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`phoneNumber`**      | <code>string</code> | The phone number to be verified.                                                                                                                    | 0.1.0 |
-| **`verificationId`**   | <code>string</code> | The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time. The `verificationCode` must also be provided. | 0.1.0 |
-| **`verificationCode`** | <code>string</code> | The verification code from the SMS message. The `verificationId` must also be provided.                                                             | 0.1.0 |
+| Prop                   | Type                | Description                                                                                                                                                                                                                                                                                                                                                           | Since |
+| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`phoneNumber`**      | <code>string</code> | The phone number to be verified. Cannot be used in combination with `verificationId` and `verificationCode`. Use the `phoneVerificationCompleted` listener to be notified when the verification is completed. Use the `phoneVerificationFailed` listener to be notified when the verification is failed. Use the `phoneCodeSent` listener to get the verification id. | 0.1.0 |
+| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` must also be provided.                                                                                                                                                                                                                                                         | 0.1.0 |
+| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` must also be provided.                                                                                                                                                                                                                           | 0.1.0 |
 
 
 #### UnlinkResult
@@ -1619,6 +1682,27 @@ bundle identifiers.
 Callback to receive the user's sign-in state change notifications.
 
 <code>(change: <a href="#authstatechange">AuthStateChange</a>): void</code>
+
+
+#### PhoneVerificationCompletedListener
+
+Callback to receive the verification code sent to the user's phone number.
+
+<code>(event: { verificationCode: string; }): void</code>
+
+
+#### PhoneVerificationFailedListener
+
+Callback to receive notifications of failed phone verification.
+
+<code>(event: { message: string; }): void</code>
+
+
+#### PhoneCodeSentListener
+
+Callback to receive the verification ID.
+
+<code>(event: { verificationId: string; }): void</code>
 
 
 ### Enums
