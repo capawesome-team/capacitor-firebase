@@ -45,6 +45,8 @@ If you prefer to prevent token autogeneration, disable Analytics collection and 
 
 ### iOS
 
+> **Important**: Make sure that no other Capacitor Push Notification plugin is installed (see [here](https://github.com/capawesome-team/capacitor-firebase/pull/267#issuecomment-1328885820)).
+
 See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-firebase#prerequisites) and complete the prerequisites first.
 
 See [Upload the APNS Certificate or Key to Firebase](https://capacitorjs.com/docs/guides/push-notifications-firebase#upload-the-apns-certificate-or-key-to-firebase) and follow the instructions to upload the APNS Certificate or APNS Auth Key to Firebase.
