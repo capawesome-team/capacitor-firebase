@@ -397,7 +397,7 @@ export interface FirebaseAuthenticationPlugin {
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Listen for a completed phone verification.
-   * 
+   *
    * Only available for Android.
    *
    * @since 1.3.0
