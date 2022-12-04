@@ -31,6 +31,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
+    public static final String ERROR_PHONE_RESEND_TOKEN_MISSING =
+        "signInWithPhoneNumber must be called once before using the resendCode option.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
     public static final String ERROR_LINK_FAILED = "link failed.";

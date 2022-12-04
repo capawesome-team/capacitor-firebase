@@ -398,6 +398,13 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Listen for a completed phone verification.
    *
+   * This listener only fires in two situations:
+   * 1. **Instant verification**: In some cases the phone number can be instantly
+   * verified without needing to send or enter a verification code.
+   * 2. **Auto-retrieval**: On some devices Google Play services can automatically
+   * detect the incoming verification SMS and perform verification without
+   * user action.
+   *
    * Only available for Android.
    *
    * @since 1.3.0
@@ -757,9 +764,21 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    */
   phoneNumber?: string;
   /**
+   * Resend the verification code to the specified phone number.
+   * `signInWithPhoneNumber` must be called once before using this option.
+   *
+   * The `phoneNumber` option must also be provided.
+   *
+   * Only available for Android.
+   *
+   * @since 1.3.0
+   * @default false
+   */
+  resendCode?: boolean;
+  /**
    * The verification ID received from the `phoneCodeSent` listener.
    *
-   * The `verificationCode` must also be provided.
+   * The `verificationCode` option must also be provided.
    *
    * @since 0.1.0
    */
@@ -767,7 +786,7 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
   /**
    * The verification code either received from the `phoneCodeSent` listener or entered by the user.
    *
-   * The `verificationId` must also be provided.
+   * The `verificationId` option must also be provided.
    *
    * @since 0.1.0
    */
