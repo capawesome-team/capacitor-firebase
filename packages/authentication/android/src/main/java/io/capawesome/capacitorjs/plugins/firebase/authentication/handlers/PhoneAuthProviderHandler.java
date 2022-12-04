@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.FirebaseException;
@@ -9,11 +10,15 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthProviderHandler {
 
     private FirebaseAuthentication pluginImplementation;
+
+    @Nullable
+    private PhoneAuthProvider.ForceResendingToken forceResendingToken;
 
     public PhoneAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
@@ -21,11 +26,12 @@ public class PhoneAuthProviderHandler {
 
     public void signIn(final PluginCall call) {
         String phoneNumber = call.getString("phoneNumber");
+        boolean resendCode = call.getBoolean("resendCode", false);
         String verificationId = call.getString("verificationId");
         String verificationCode = call.getString("verificationCode");
 
         if (verificationCode == null) {
-            verifyPhoneNumber(call, phoneNumber, false);
+            verifyPhoneNumber(call, phoneNumber, resendCode, false);
         } else {
             handleVerificationCode(call, verificationId, verificationCode, false);
         }
@@ -33,23 +39,31 @@ public class PhoneAuthProviderHandler {
 
     public void link(final PluginCall call) {
         String phoneNumber = call.getString("phoneNumber");
+        boolean resendCode = call.getBoolean("resendCode", false);
         String verificationId = call.getString("verificationId");
         String verificationCode = call.getString("verificationCode");
 
         if (verificationCode == null) {
-            verifyPhoneNumber(call, phoneNumber, true);
+            verifyPhoneNumber(call, phoneNumber, resendCode, true);
         } else {
             handleVerificationCode(call, verificationId, verificationCode, true);
         }
     }
 
-    private void verifyPhoneNumber(final PluginCall call, String phoneNumber, boolean isLink) {
+    private void verifyPhoneNumber(final PluginCall call, String phoneNumber, boolean resendCode, boolean isLink) {
         PhoneAuthOptions.Builder builder = PhoneAuthOptions
             .newBuilder(pluginImplementation.getFirebaseAuthInstance())
             .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setActivity(pluginImplementation.getPlugin().getActivity())
             .setCallbacks(createCallbacks(call, isLink));
+        if (resendCode) {
+            if (forceResendingToken == null) {
+                call.reject(FirebaseAuthenticationPlugin.ERROR_PHONE_RESEND_TOKEN_MISSING);
+                return;
+            }
+            builder.setForceResendingToken(forceResendingToken);
+        }
         PhoneAuthOptions options = builder.build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
@@ -98,6 +112,7 @@ public class PhoneAuthProviderHandler {
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                forceResendingToken = token;
                 pluginImplementation.handlePhoneCodeSent(verificationId);
                 /**
                  * @deprecated This code was replaced by event listener.

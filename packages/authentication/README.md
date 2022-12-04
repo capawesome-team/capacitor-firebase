@@ -1304,6 +1304,13 @@ addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerifica
 
 Listen for a completed phone verification.
 
+This listener only fires in two situations:
+1. **Instant verification**: In some cases the phone number can be instantly
+verified without needing to send or enter a verification code.
+2. **Auto-retrieval**: On some devices Google Play services can automatically
+detect the incoming verification SMS and perform verification without
+user action.
+
 Only available for Android.
 
 | Param              | Type                                                                                              |
@@ -1609,11 +1616,12 @@ bundle identifiers.
 
 #### SignInWithPhoneNumberOptions
 
-| Prop                   | Type                | Description                                                                                                                                                                                                                                                                                                                                                           | Since |
-| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`phoneNumber`**      | <code>string</code> | The phone number to be verified. Cannot be used in combination with `verificationId` and `verificationCode`. Use the `phoneVerificationCompleted` listener to be notified when the verification is completed. Use the `phoneVerificationFailed` listener to be notified when the verification is failed. Use the `phoneCodeSent` listener to get the verification id. | 0.1.0 |
-| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` must also be provided.                                                                                                                                                                                                                                                         | 0.1.0 |
-| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` must also be provided.                                                                                                                                                                                                                           | 0.1.0 |
+| Prop                   | Type                 | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
+| ---------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`phoneNumber`**      | <code>string</code>  | The phone number to be verified. Cannot be used in combination with `verificationId` and `verificationCode`. Use the `phoneVerificationCompleted` listener to be notified when the verification is completed. Use the `phoneVerificationFailed` listener to be notified when the verification is failed. Use the `phoneCodeSent` listener to get the verification id. |                    | 0.1.0 |
+| **`resendCode`**       | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. The `phoneNumber` option must also be provided. Only available for Android.                                                                                                                                                         | <code>false</code> | 1.3.0 |
+| **`verificationId`**   | <code>string</code>  | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                                                                                                                                                                                                                                                  |                    | 0.1.0 |
+| **`verificationCode`** | <code>string</code>  | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided.                                                                                                                                                                                                                    |                    | 0.1.0 |
 
 
 #### UnlinkResult
