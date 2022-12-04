@@ -34,6 +34,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         "signInAnonymously cannot be used in combination with skipNativeAuth."
     public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
     public let authStateChangeEvent = "authStateChange"
+    public let phoneVerificationFailedEvent = "phoneVerificationFailed"
+    public let phoneCodeSentEvent = "phoneCodeSent"
     private var implementation: FirebaseAuthentication?
 
     override public func load() {
@@ -427,6 +429,18 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         var result = JSObject()
         result["user"] = userResult
         notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
+    }
+
+    @objc func handlePhoneVerificationFailed(_ error: Error) {
+        var result = JSObject()
+        result["message"] = error.localizedDescription
+        notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)
+    }
+
+    @objc func handlePhoneCodeSent(_ verificationId: String) {
+        var result = JSObject()
+        result["verificationId"] = verificationId
+        notifyListeners(phoneCodeSentEvent, data: result, retainUntilConsumed: true)
     }
 
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {

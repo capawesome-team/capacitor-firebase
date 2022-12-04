@@ -396,6 +396,35 @@ export interface FirebaseAuthenticationPlugin {
     listenerFunc: AuthStateChangeListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
+   * Listen for a completed phone verification.
+   *
+   * Only available for Android.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'phoneVerificationCompleted',
+    listenerFunc: PhoneVerificationCompletedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Listen for a failed phone verification.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'phoneVerificationFailed',
+    listenerFunc: PhoneVerificationFailedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Listen for a phone verification code.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'phoneCodeSent',
+    listenerFunc: PhoneCodeSentListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
    * Remove all listeners for this plugin.
    *
    * @since 0.1.0
@@ -718,18 +747,26 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
   /**
    * The phone number to be verified.
    *
+   * Cannot be used in combination with `verificationId` and `verificationCode`.
+   *
+   * Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
+   * Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
+   * Use the `phoneCodeSent` listener to get the verification id.
+   *
    * @since 0.1.0
    */
   phoneNumber?: string;
   /**
-   * The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time.
+   * The verification ID received from the `phoneCodeSent` listener.
+   *
    * The `verificationCode` must also be provided.
    *
    * @since 0.1.0
    */
   verificationId?: string;
   /**
-   * The verification code from the SMS message.
+   * The verification code either received from the `phoneCodeSent` listener or entered by the user.
+   *
    * The `verificationId` must also be provided.
    *
    * @since 0.1.0
@@ -899,6 +936,7 @@ export interface SignInWithPhoneNumberResult extends SignInResult {
    * The verification ID, which is needed to identify the verification code.
    *
    * @since 0.1.0
+   * @deprecated Use `addListener('phoneCodeSent', ...)` instead.
    */
   verificationId?: string;
 }
@@ -1019,6 +1057,7 @@ export interface AdditionalUserInfo {
    */
   username?: string;
 }
+
 /**
  * Callback to receive the user's sign-in state change notifications.
  *
@@ -1037,6 +1076,48 @@ export interface AuthStateChange {
    */
   user: User | null;
 }
+
+/**
+ * Callback to receive the verification code sent to the user's phone number.
+ *
+ * @since 1.3.0
+ */
+export type PhoneVerificationCompletedListener = (event: {
+  /**
+   * The verification code sent to the user's phone number.
+   *
+   * @since 1.3.0
+   */
+  verificationCode: string;
+}) => void;
+
+/**
+ * Callback to receive notifications of failed phone verification.
+ *
+ * @since 1.3.0
+ */
+export type PhoneVerificationFailedListener = (event: {
+  /**
+   * The error message.
+   *
+   * @since 1.3.0
+   */
+  message: string;
+}) => void;
+
+/**
+ * Callback to receive the verification ID.
+ *
+ * @since 1.3.0
+ */
+export type PhoneCodeSentListener = (event: {
+  /**
+   * The verification ID, which is needed to identify the verification code.
+   *
+   * @since 1.3.0
+   */
+  verificationId: string;
+}) => void;
 
 /**
  * An interface that defines the required continue/state URL with optional Android and iOS

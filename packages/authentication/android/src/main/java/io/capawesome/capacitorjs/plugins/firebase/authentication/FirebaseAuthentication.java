@@ -663,6 +663,18 @@ public class FirebaseAuthentication {
         call.reject(message, exception);
     }
 
+    public void handlePhoneVerificationCompleted(String smsCode) {
+        plugin.handlePhoneVerificationCompleted(smsCode);
+    }
+
+    public void handlePhoneVerificationFailed(Exception exception) {
+        plugin.handlePhoneVerificationFailed(exception);
+    }
+
+    public void handlePhoneCodeSent(String verificationId) {
+        plugin.handlePhoneCodeSent(verificationId);
+    }
+
     public FirebaseAuth getFirebaseAuthInstance() {
         return firebaseAuthInstance;
     }

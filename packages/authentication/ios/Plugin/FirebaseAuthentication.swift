@@ -480,6 +480,14 @@ public typealias AuthStateChangedObserver = () -> Void
         savedCall.reject(errorMessage, nil, error)
     }
 
+    func handlePhoneVerificationFailed(_ error: Error) {
+        plugin.handlePhoneVerificationFailed(error)
+    }
+
+    func handlePhoneCodeSent(_ verificationId: String) {
+        plugin.handlePhoneCodeSent(verificationId)
+    }
+
     func getPlugin() -> FirebaseAuthenticationPlugin {
         return self.plugin
     }
