@@ -198,7 +198,7 @@ setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions) => Promise<void
 
 Set the minimum fetch interval.
 
-Only available on Web.
+Only available for Web.
 
 | Param         | Type                                                                                      |
 | ------------- | ----------------------------------------------------------------------------------------- |
@@ -214,17 +214,17 @@ Only available on Web.
 
 #### FetchConfigOptions
 
-| Prop                                | Type                | Description                                                                                                                                                                                                              | Default            | Since |
-| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ----- |
-| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. Only available on Android and iOS. | <code>43200</code> | 1.3.0 |
+| Prop                                | Type                | Description                                                                                                                                                                                                               | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. Only available for Android and iOS. | <code>43200</code> | 1.3.0 |
 
 
 #### GetBooleanResult
 
-| Prop         | Type                                                      | Description                                                                        | Since |
-| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
-| **`value`**  | <code>boolean</code>                                      | The value for the given key as a boolean.                                          | 1.3.0 |
-| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
+| Prop         | Type                                                      | Description                                                                         | Since |
+| ------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>boolean</code>                                      | The value for the given key as a boolean.                                           | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
 
 #### GetOptions
@@ -236,18 +236,18 @@ Only available on Web.
 
 #### GetNumberResult
 
-| Prop         | Type                                                      | Description                                                                        | Since |
-| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
-| **`value`**  | <code>number</code>                                       | The value for the given key as a number.                                           | 1.3.0 |
-| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
+| Prop         | Type                                                      | Description                                                                         | Since |
+| ------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>number</code>                                       | The value for the given key as a number.                                            | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
 
 #### GetStringResult
 
-| Prop         | Type                                                      | Description                                                                        | Since |
-| ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
-| **`value`**  | <code>string</code>                                       | The value for the given key as a string.                                           | 1.3.0 |
-| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available on Android and iOS. | 1.3.0 |
+| Prop         | Type                                                      | Description                                                                         | Since |
+| ------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>string</code>                                       | The value for the given key as a string.                                            | 1.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
 
 #### SetMinimumFetchIntervalOptions

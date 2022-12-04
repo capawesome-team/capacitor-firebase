@@ -38,7 +38,7 @@ export interface FirebaseRemoteConfigPlugin {
   /**
    * Set the minimum fetch interval.
    *
-   * Only available on Web.
+   * Only available for Web.
    *
    * @since 1.3.0
    */
@@ -67,7 +67,7 @@ export interface FetchConfigOptions {
    * Define the maximum age in seconds of an entry in the config cache before it is considered stale.
    * During development, it's recommended to set a relatively low minimum fetch interval.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 1.3.0
    * @default 43200
@@ -104,7 +104,7 @@ export interface GetBooleanResult {
   /**
    * Indicates at which source this value came from.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 1.3.0
    */
@@ -124,7 +124,7 @@ export interface GetNumberResult {
   /**
    * Indicates at which source this value came from.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 1.3.0
    */
@@ -144,7 +144,7 @@ export interface GetStringResult {
   /**
    * Indicates at which source this value came from.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 1.3.0
    */

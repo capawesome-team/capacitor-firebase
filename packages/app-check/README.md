@@ -169,7 +169,7 @@ addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => Pr
 
 Called when the App Check token changed.
 
-Only available on Web.
+Only available for Web.
 
 | Param              | Type                                                                  |
 | ------------------ | --------------------------------------------------------------------- |
@@ -191,7 +191,7 @@ removeAllListeners() => Promise<void>
 
 Remove all listeners for this plugin.
 
-Only available on Web.
+Only available for Web.
 
 **Since:** 1.3.0
 
@@ -203,10 +203,10 @@ Only available on Web.
 
 #### GetTokenResult
 
-| Prop                   | Type                | Description                                                                                                     | Since |
-| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------- | ----- |
-| **`token`**            | <code>string</code> | The App Check token in JWT format.                                                                              | 1.3.0 |
-| **`expireTimeMillis`** | <code>number</code> | The timestamp after which the token will expire in milliseconds since epoch. Only available on Android and iOS. | 1.3.0 |
+| Prop                   | Type                | Description                                                                                                      | Since |
+| ---------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------- | ----- |
+| **`token`**            | <code>string</code> | The App Check token in JWT format.                                                                               | 1.3.0 |
+| **`expireTimeMillis`** | <code>number</code> | The timestamp after which the token will expire in milliseconds since epoch. Only available for Android and iOS. | 1.3.0 |
 
 
 #### GetTokenOptions

@@ -25,7 +25,7 @@ export interface FirebaseAppCheckPlugin {
   /**
    * Called when the App Check token changed.
    *
-   * Only available on Web.
+   * Only available for Web.
    *
    * @since 1.3.0
    */
@@ -36,7 +36,7 @@ export interface FirebaseAppCheckPlugin {
   /**
    * Remove all listeners for this plugin.
    *
-   * Only available on Web.
+   * Only available for Web.
    *
    * @since 1.3.0
    */
@@ -70,7 +70,7 @@ export interface GetTokenResult {
   /**
    * The timestamp after which the token will expire in milliseconds since epoch.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 1.3.0
    */
