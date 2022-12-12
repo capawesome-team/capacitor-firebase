@@ -37,6 +37,7 @@ import {
   unlink,
   updateEmail,
   updatePassword,
+  updateProfile,
 } from 'firebase/auth';
 
 import type {
@@ -73,6 +74,7 @@ import type {
   UnlinkResult,
   UpdateEmailOptions,
   UpdatePasswordOptions,
+  UpdateProfileOptions,
   UseEmulatorOptions,
   User,
 } from './definitions';
@@ -80,8 +82,7 @@ import { ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin
-{
+  implements FirebaseAuthenticationPlugin {
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
 
   constructor() {
@@ -515,6 +516,15 @@ export class FirebaseAuthenticationWeb
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
     return updatePassword(currentUser, options.newPassword);
+  }
+
+  public async updateProfile(options: UpdateProfileOptions): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return updateProfile(currentUser, options);
   }
 
   public async useAppLanguage(): Promise<void> {
