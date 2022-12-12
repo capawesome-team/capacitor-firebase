@@ -46,6 +46,7 @@ public class FirebaseAppCheckPlugin extends Plugin {
             boolean debug = call.getBoolean("debug", false);
             boolean isTokenAutoRefreshEnabled = call.getBoolean("isTokenAutoRefreshEnabled", false);
             implementation.initialize(debug, isTokenAutoRefreshEnabled);
+            call.resolve();
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
@@ -60,6 +61,7 @@ public class FirebaseAppCheckPlugin extends Plugin {
                 return;
             }
             implementation.setTokenAutoRefreshEnabled(enabled);
+            call.resolve();
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
