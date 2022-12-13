@@ -571,6 +571,22 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void updateProfile(PluginCall call) {
+        try {
+            String displayName = call.getString("displayName");
+            String photoURL = call.getString("photoURL");
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.updateProfile(user, displayName, photoURL, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
     public void useAppLanguage(PluginCall call) {
         try {
             implementation.useAppLanguage();

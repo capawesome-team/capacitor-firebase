@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
@@ -505,6 +507,25 @@ public class FirebaseAuthentication {
     public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {
         user
             .updatePassword(newPassword)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    public void updateProfile(FirebaseUser user, String displayName, String photoURL, @NonNull Runnable callback) {
+        UserProfileChangeRequest.Builder profileUpdates = new UserProfileChangeRequest.Builder();
+
+        if (displayName != null) {
+            profileUpdates.setDisplayName(displayName);
+        }
+        if (photoURL != null) {
+            profileUpdates.setPhotoUri(Uri.parse(photoURL));
+        }
+
+        user
+            .updateProfile(profileUpdates.build())
             .addOnCompleteListener(
                 task -> {
                     callback.run();

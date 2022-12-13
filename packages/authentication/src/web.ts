@@ -82,7 +82,8 @@ import { ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin {
+  implements FirebaseAuthenticationPlugin
+{
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
 
   constructor() {
