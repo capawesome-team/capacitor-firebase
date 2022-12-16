@@ -65,8 +65,11 @@
     end
     ```
     Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
-1.  See [Before you begin](https://firebase.google.com/docs/auth/ios/facebook-login#before_you_begin) and follow the instructions to configure and enable sign-in with Facebook correctly.  
-    **Attention**: Skip step 2. The `Firebase/Auth` pod is already added by the plugin.
+1.  On the [Facebook for Developers](https://developers.facebook.com/) site, get the App ID and an App Secret for your app.
+1.  Enable Facebook Login:
+    1. In the [Firebase console](https://console.firebase.google.com/), open the Auth section.
+    1. On the **Sign in method** tab, enable the **Facebook** sign-in method and specify the **App ID** and **App Secret** you got from Facebook.
+    1. Then, make sure your **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is listed as one of your **OAuth redirect URIs** in your Facebook app's settings page on the [Facebook for Developers](https://developers.facebook.com/) site in the **Product Settings > Facebook Login** config.
 1.  Add the following import in your app's `AppDelegate.swift`:
 
     ```swift
