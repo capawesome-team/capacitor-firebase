@@ -404,6 +404,21 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func updateProfile(user: User, displayName: String?, photoURL: String?, completion: @escaping (Error?) -> Void) {
+        let changeRequest = user.createProfileChangeRequest()
+
+        if displayName != nil {
+            changeRequest.displayName = displayName
+        }
+        if photoURL != nil {
+            changeRequest.photoURL = URL(string: photoURL!)
+        }
+
+        changeRequest.commitChanges { error in
+            completion(error)
+        }
+    }
+
     @objc func useAppLanguage() {
         Auth.auth().useAppLanguage()
     }
