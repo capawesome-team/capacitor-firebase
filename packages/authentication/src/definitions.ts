@@ -220,6 +220,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithYahoo(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
+   * Reloads user account data, if signed in.
+   *
+   * @since 1.3.0
+   */
+  reload(): Promise<void>;
+  /**
    * Sends a verification email to the currently signed in user.
    *
    * @since 0.2.2
