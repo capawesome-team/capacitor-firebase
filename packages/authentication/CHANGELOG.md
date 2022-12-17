@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.3.0
+
+### Minor Changes
+
+- [`8b27765`](https://github.com/capawesome-team/capacitor-firebase/commit/8b277658ae511fcfd03de9ba35ff291434641ae9) ([#285](https://github.com/capawesome-team/capacitor-firebase/pull/285)): feat: add `reload` method (by @trancee)
+
+* [`9024eef`](https://github.com/capawesome-team/capacitor-firebase/commit/9024eef856dbd25b2b6459e4b6bcee104ca89755) ([#238](https://github.com/capawesome-team/capacitor-firebase/pull/238)): feat(web): support sign-in with redirect
+
+- [`fcb0f25`](https://github.com/capawesome-team/capacitor-firebase/commit/fcb0f2586ec89c6902488a5f4f183114fc15556b) ([#235](https://github.com/capawesome-team/capacitor-firebase/pull/235)): feat(ios): support Game Center Sign-In
+
+* [`57a7497`](https://github.com/capawesome-team/capacitor-firebase/commit/57a74971cd8daf2175f09b780dc40d11872cc8f5) ([#273](https://github.com/capawesome-team/capacitor-firebase/pull/273)): feat(android): resend sms verification code
+
+- [`5665835`](https://github.com/capawesome-team/capacitor-firebase/commit/566583561a10f803002639b7b477c6d00cf8dedf) ([#265](https://github.com/capawesome-team/capacitor-firebase/pull/265)): feat: update all native SDKs
+
+* [`4c00b61`](https://github.com/capawesome-team/capacitor-firebase/commit/4c00b6158282d3061337b2f007b344a89cadfed0) ([#272](https://github.com/capawesome-team/capacitor-firebase/pull/272)): feat(android): provide the auto-retrieved SMS verification code
+
+- [`46864df`](https://github.com/capawesome-team/capacitor-firebase/commit/46864dfc7d5de654321dcdaf3a2f3f36949d86db) ([#282](https://github.com/capawesome-team/capacitor-firebase/pull/282)): feat: add `deleteUser` method (by @trancee)
+
+* [`d31f96f`](https://github.com/capawesome-team/capacitor-firebase/commit/d31f96f7f6f4637287a43cf006523b63af9bdb20) ([#277](https://github.com/capawesome-team/capacitor-firebase/pull/277)): feat: add `updateProfile` method (by @trancee)
+
+### Patch Changes
+
+- [`5c1b40b`](https://github.com/capawesome-team/capacitor-firebase/commit/5c1b40b1c840df4fa43b60d38fde8d88cc21d993) ([#246](https://github.com/capawesome-team/capacitor-firebase/pull/246)): fix(android): update Facebook Login SDK
+
 ## 1.2.0
 
 ### Minor Changes
