@@ -294,6 +294,20 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void reload(PluginCall call) {
+        try {
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.reload(user, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
     public void sendEmailVerification(PluginCall call) {
         try {
             FirebaseUser user = implementation.getCurrentUser();
