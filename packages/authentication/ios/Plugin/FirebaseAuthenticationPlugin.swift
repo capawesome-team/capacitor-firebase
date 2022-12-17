@@ -198,6 +198,21 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         implementation?.linkWithYahoo(call)
     }
 
+    @objc func reload(_ call: CAPPluginCall) {
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.reload(user: user, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
         guard let user = implementation?.getCurrentUser() else {
             call.reject(errorNoUserSignedIn)

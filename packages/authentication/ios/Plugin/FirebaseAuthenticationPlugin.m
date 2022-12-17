@@ -25,6 +25,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(linkWithPlayGames, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithTwitter, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithYahoo, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(reload, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendEmailVerification, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);
