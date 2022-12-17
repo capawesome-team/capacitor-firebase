@@ -127,6 +127,16 @@ public class FirebaseAuthentication {
             );
     }
 
+    public void deleteUser(FirebaseUser user, @NonNull Runnable callback) {
+        user
+            .delete()
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
     @Nullable
     public FirebaseUser getCurrentUser() {
         return firebaseAuthInstance.getCurrentUser();

@@ -101,6 +101,20 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void deleteUser(PluginCall call) {
+        try {
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.deleteUser(user, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
     public void getCurrentUser(PluginCall call) {
         try {
             FirebaseUser user = implementation.getCurrentUser();
