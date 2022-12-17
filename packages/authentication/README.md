@@ -376,6 +376,7 @@ const useEmulator = async () => {
 * [`linkWithPlayGames(...)`](#linkwithplaygames)
 * [`linkWithTwitter(...)`](#linkwithtwitter)
 * [`linkWithYahoo(...)`](#linkwithyahoo)
+* [`reload()`](#reload)
 * [`sendEmailVerification()`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
@@ -835,6 +836,19 @@ The `skipNativeAuth` configuration option has no effect here.
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
 **Since:** 1.1.0
+
+--------------------
+
+
+### reload()
+
+```typescript
+reload() => Promise<void>
+```
+
+Reloads user account data, if signed in.
+
+**Since:** 1.3.0
 
 --------------------
 

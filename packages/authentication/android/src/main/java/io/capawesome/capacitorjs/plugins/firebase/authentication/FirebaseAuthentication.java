@@ -275,6 +275,16 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.link(call, ProviderId.YAHOO);
     }
 
+    public void reload(FirebaseUser user, @NonNull Runnable callback) {
+        user
+            .reload()
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
     public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
         user
             .sendEmailVerification()

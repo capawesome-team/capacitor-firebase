@@ -26,6 +26,7 @@ import {
   linkWithCredential,
   linkWithPopup,
   linkWithRedirect,
+  reload,
   sendEmailVerification,
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
@@ -307,6 +308,15 @@ export class FirebaseAuthenticationWeb
     );
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
+  }
+
+  public async reload(): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return reload(currentUser);
   }
 
   public async sendEmailVerification(): Promise<void> {

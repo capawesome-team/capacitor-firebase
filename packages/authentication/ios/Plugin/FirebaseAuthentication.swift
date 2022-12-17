@@ -211,6 +211,12 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.yahoo)
     }
 
+    @objc func reload(user: User, completion: @escaping (Error?) -> Void) {
+        user.reload { error in
+            completion(error)
+        }
+    }
+
     @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
         user.sendEmailVerification(completion: { error in
             completion(error)
