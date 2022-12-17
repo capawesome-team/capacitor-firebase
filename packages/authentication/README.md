@@ -1259,7 +1259,7 @@ Updates a user's profile data.
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#updateprofileoptions">UpdateProfileOptions</a></code> |
 
-**Since:** 1.4.0
+**Since:** 1.3.0
 
 --------------------
 
@@ -1674,8 +1674,8 @@ bundle identifiers.
 
 | Prop              | Type                        | Description              | Since |
 | ----------------- | --------------------------- | ------------------------ | ----- |
-| **`displayName`** | <code>string \| null</code> | The user's display name. | 1.4.0 |
-| **`photoURL`**    | <code>string \| null</code> | The user's photo URL.    | 1.4.0 |
+| **`displayName`** | <code>string \| null</code> | The user's display name. | 1.3.0 |
+| **`photoUrl`**    | <code>string \| null</code> | The user's photo URL.    | 1.3.0 |
 
 
 #### UseEmulatorOptions

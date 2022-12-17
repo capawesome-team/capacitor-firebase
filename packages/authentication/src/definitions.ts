@@ -377,7 +377,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Updates a user's profile data.
    *
-   * @since 1.4.0
+   * @since 1.3.0
    */
   updateProfile(options: UpdateProfileOptions): Promise<void>;
   /**
@@ -604,15 +604,15 @@ export interface UpdateProfileOptions {
   /**
    * The user's display name.
    *
-   * @since 1.4.0
+   * @since 1.3.0
    */
   displayName?: string | null;
   /**
    * The user's photo URL.
    *
-   * @since 1.4.0
+   * @since 1.3.0
    */
-  photoURL?: string | null;
+  photoUrl?: string | null;
 }
 
 /**
