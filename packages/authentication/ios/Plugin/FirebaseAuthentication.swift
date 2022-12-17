@@ -404,14 +404,14 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc func updateProfile(user: User, displayName: String?, photoURL: String?, completion: @escaping (Error?) -> Void) {
+    @objc func updateProfile(user: User, displayName: String?, photoUrl: String?, completion: @escaping (Error?) -> Void) {
         let changeRequest = user.createProfileChangeRequest()
 
         if displayName != nil {
             changeRequest.displayName = displayName
         }
-        if photoURL != nil {
-            changeRequest.photoURL = URL(string: photoURL!)
+        if photoUrl != nil {
+            changeRequest.photoURL = URL(string: photoUrl!)
         }
 
         changeRequest.commitChanges { error in

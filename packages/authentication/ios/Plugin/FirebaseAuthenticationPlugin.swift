@@ -409,14 +409,14 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func updateProfile(_ call: CAPPluginCall) {
         let displayName = call.getString("displayName")
-        let photoURL = call.getString("photoURL")
+        let photoUrl = call.getString("photoUrl")
 
         guard let user = implementation?.getCurrentUser() else {
             call.reject(errorNoUserSignedIn)
             return
         }
 
-        implementation?.updateProfile(user: user, displayName: displayName, photoURL: photoURL, completion: { error in
+        implementation?.updateProfile(user: user, displayName: displayName, photoUrl: photoUrl, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)
                 return

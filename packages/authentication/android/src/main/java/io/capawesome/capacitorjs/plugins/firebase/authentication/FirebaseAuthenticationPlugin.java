@@ -574,13 +574,13 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void updateProfile(PluginCall call) {
         try {
             String displayName = call.getString("displayName");
-            String photoURL = call.getString("photoURL");
+            String photoUrl = call.getString("photoUrl");
             FirebaseUser user = implementation.getCurrentUser();
             if (user == null) {
                 call.reject(ERROR_NO_USER_SIGNED_IN);
                 return;
             }
-            implementation.updateProfile(user, displayName, photoURL, () -> call.resolve());
+            implementation.updateProfile(user, displayName, photoUrl, () -> call.resolve());
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }

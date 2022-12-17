@@ -514,14 +514,14 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void updateProfile(FirebaseUser user, String displayName, String photoURL, @NonNull Runnable callback) {
+    public void updateProfile(FirebaseUser user, String displayName, String photoUrl, @NonNull Runnable callback) {
         UserProfileChangeRequest.Builder profileUpdates = new UserProfileChangeRequest.Builder();
 
         if (displayName != null) {
             profileUpdates.setDisplayName(displayName);
         }
-        if (photoURL != null) {
-            profileUpdates.setPhotoUri(Uri.parse(photoURL));
+        if (photoUrl != null) {
+            profileUpdates.setPhotoUri(Uri.parse(photoUrl));
         }
 
         user
