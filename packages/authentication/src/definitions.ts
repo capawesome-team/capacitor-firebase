@@ -375,6 +375,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   updatePassword(options: UpdatePasswordOptions): Promise<void>;
   /**
+   * Updates a user's profile data.
+   *
+   * @since 1.3.0
+   */
+  updateProfile(options: UpdateProfileOptions): Promise<void>;
+  /**
    * Sets the user-facing language code to be the default app language.
    *
    * @since 0.1.0
@@ -592,6 +598,24 @@ export interface UpdatePasswordOptions {
 }
 
 /**
+ * @since 1.3.0
+ */
+export interface UpdateProfileOptions {
+  /**
+   * The user's display name.
+   *
+   * @since 1.3.0
+   */
+  displayName?: string | null;
+  /**
+   * The user's photo URL.
+   *
+   * @since 1.3.0
+   */
+  photoUrl?: string | null;
+}
+
+/**
  * @since 1.1.0
  */
 export type LinkOptions = SignInOptions;
@@ -606,13 +630,13 @@ export type LinkWithOAuthOptions = SignInWithOAuthOptions;
  */
 export interface LinkWithEmailAndPasswordOptions {
   /**
-   * The users email address.
+   * The user's email address.
    *
    * @since 1.1.0
    */
   email: string;
   /**
-   * The users password.
+   * The user's password.
    *
    * @since 1.1.0
    */
@@ -798,13 +822,13 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
  */
 export interface SignInWithEmailAndPasswordOptions extends SignInOptions {
   /**
-   * The users email address.
+   * The user's email address.
    *
    * @since 0.2.2
    */
   email: string;
   /**
-   * The users password.
+   * The user's password.
    *
    * @since 0.2.2
    */

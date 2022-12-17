@@ -398,6 +398,7 @@ const useEmulator = async () => {
 * [`unlink(...)`](#unlink)
 * [`updateEmail(...)`](#updateemail)
 * [`updatePassword(...)`](#updatepassword)
+* [`updateProfile(...)`](#updateprofile)
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
@@ -1246,6 +1247,23 @@ Updates the password of the currently signed in user.
 --------------------
 
 
+### updateProfile(...)
+
+```typescript
+updateProfile(options: UpdateProfileOptions) => Promise<void>
+```
+
+Updates a user's profile data.
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#updateprofileoptions">UpdateProfileOptions</a></code> |
+
+**Since:** 1.3.0
+
+--------------------
+
+
 ### useAppLanguage()
 
 ```typescript
@@ -1511,10 +1529,10 @@ Remove all listeners for this plugin.
 
 #### LinkWithEmailAndPasswordOptions
 
-| Prop           | Type                | Description              | Since |
-| -------------- | ------------------- | ------------------------ | ----- |
-| **`email`**    | <code>string</code> | The users email address. | 1.1.0 |
-| **`password`** | <code>string</code> | The users password.      | 1.1.0 |
+| Prop           | Type                | Description               | Since |
+| -------------- | ------------------- | ------------------------- | ----- |
+| **`email`**    | <code>string</code> | The user's email address. | 1.1.0 |
+| **`password`** | <code>string</code> | The user's password.      | 1.1.0 |
 
 
 #### LinkWithEmailLinkOptions
@@ -1584,10 +1602,10 @@ bundle identifiers.
 
 #### SignInWithEmailAndPasswordOptions
 
-| Prop           | Type                | Description              | Since |
-| -------------- | ------------------- | ------------------------ | ----- |
-| **`email`**    | <code>string</code> | The users email address. | 0.2.2 |
-| **`password`** | <code>string</code> | The users password.      | 0.2.2 |
+| Prop           | Type                | Description               | Since |
+| -------------- | ------------------- | ------------------------- | ----- |
+| **`email`**    | <code>string</code> | The user's email address. | 0.2.2 |
+| **`password`** | <code>string</code> | The user's password.      | 0.2.2 |
 
 
 #### SignInWithEmailLinkOptions
@@ -1650,6 +1668,14 @@ bundle identifiers.
 | Prop              | Type                | Description       | Since |
 | ----------------- | ------------------- | ----------------- | ----- |
 | **`newPassword`** | <code>string</code> | The new password. | 0.2.2 |
+
+
+#### UpdateProfileOptions
+
+| Prop              | Type                        | Description              | Since |
+| ----------------- | --------------------------- | ------------------------ | ----- |
+| **`displayName`** | <code>string \| null</code> | The user's display name. | 1.3.0 |
+| **`photoUrl`**    | <code>string \| null</code> | The user's photo URL.    | 1.3.0 |
 
 
 #### UseEmulatorOptions

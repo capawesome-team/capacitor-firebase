@@ -29,7 +29,7 @@ Please set the `providers` configuration option and specify all providers you us
 **Example** (`capacitor.config.ts`):
 
 ```ts
-/// <reference types="@capacitor/firebase-authentication" />
+/// <reference types="@capacitor-firebase/authentication" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
