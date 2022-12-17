@@ -7,25 +7,25 @@ import type {
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
 import {
-  getRedirectResult,
-  linkWithPopup,
-  linkWithRedirect,
-  signInWithPopup,
-  signInWithRedirect,
+  EmailAuthProvider,
+  FacebookAuthProvider,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  OAuthCredential,
+  OAuthProvider,
+  TwitterAuthProvider,
   applyActionCode,
   confirmPasswordReset,
   connectAuthEmulator,
   createUserWithEmailAndPassword,
-  EmailAuthProvider,
-  FacebookAuthProvider,
+  deleteUser,
   getAdditionalUserInfo,
   getAuth,
-  GithubAuthProvider,
-  GoogleAuthProvider,
+  getRedirectResult,
   isSignInWithEmailLink,
   linkWithCredential,
-  OAuthCredential,
-  OAuthProvider,
+  linkWithPopup,
+  linkWithRedirect,
   sendEmailVerification,
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
@@ -33,7 +33,8 @@ import {
   signInWithCustomToken,
   signInWithEmailAndPassword,
   signInWithEmailLink,
-  TwitterAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
   unlink,
   updateEmail,
   updatePassword,
@@ -114,6 +115,15 @@ export class FirebaseAuthenticationWeb
   ): Promise<void> {
     const auth = getAuth();
     return confirmPasswordReset(auth, options.oobCode, options.newPassword);
+  }
+
+  public async deleteUser(): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return deleteUser(currentUser);
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {

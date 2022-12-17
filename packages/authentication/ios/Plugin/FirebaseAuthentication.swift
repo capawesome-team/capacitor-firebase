@@ -75,6 +75,12 @@ public typealias AuthStateChangedObserver = () -> Void
         })
     }
 
+    @objc func deleteUser(user: User, completion: @escaping (Error?) -> Void) {
+        user.delete { error in
+            completion(error)
+        }
+    }
+
     @objc func getCurrentUser() -> User? {
         return Auth.auth().currentUser
     }

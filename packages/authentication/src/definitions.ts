@@ -63,6 +63,12 @@ export interface FirebaseAuthenticationPlugin {
     options: CreateUserWithEmailAndPasswordOptions,
   ): Promise<SignInResult>;
   /**
+   * Deletes and signs out the user.
+   *
+   * @since 1.3.0
+   */
+  deleteUser(): Promise<void>;
+  /**
    * Fetches the currently signed-in user.
    *
    * @since 0.1.0

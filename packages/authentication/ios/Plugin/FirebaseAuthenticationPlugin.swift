@@ -83,6 +83,21 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         implementation?.createUserWithEmailAndPassword(call)
     }
 
+    @objc func deleteUser(_ call: CAPPluginCall) {
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.deleteUser(user: user, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func getCurrentUser(_ call: CAPPluginCall) {
         let user = implementation?.getCurrentUser()
         let userResult = FirebaseAuthenticationHelper.createUserResult(user)

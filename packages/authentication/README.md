@@ -358,6 +358,7 @@ const useEmulator = async () => {
 * [`applyActionCode(...)`](#applyactioncode)
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
+* [`deleteUser()`](#deleteuser)
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getIdToken(...)`](#getidtoken)
 * [`getRedirectResult()`](#getredirectresult)
@@ -465,6 +466,19 @@ If the new account was created, the user is signed in automatically.
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
 **Since:** 0.2.2
+
+--------------------
+
+
+### deleteUser()
+
+```typescript
+deleteUser() => Promise<void>
+```
+
+Deletes and signs out the user.
+
+**Since:** 1.3.0
 
 --------------------
 
