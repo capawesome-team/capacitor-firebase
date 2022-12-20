@@ -58,7 +58,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void fetchConfig(PluginCall call) {
         try {
-            long minimumFetchIntervalInSeconds = call.getLong("minimumFetchIntervalInSeconds", 43200L);
+            int minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", 43200);
             implementation.fetchConfig(
                 minimumFetchIntervalInSeconds,
                 new FetchConfigResultCallback() {
