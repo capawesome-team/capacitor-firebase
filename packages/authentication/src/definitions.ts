@@ -450,6 +450,28 @@ export interface FirebaseAuthenticationPlugin {
     listenerFunc: PhoneCodeSentListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
+   * Listen for a solved reCAPTCHA.
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'recaptchaSolved',
+    listenerFunc: RecaptchaSolvedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Listen for a expired reCAPTCHA.
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'recaptchaExpired',
+    listenerFunc: RecaptchaExpiredListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
    * Remove all listeners for this plugin.
    *
    * @since 0.1.0

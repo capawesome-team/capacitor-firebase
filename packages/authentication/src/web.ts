@@ -1,8 +1,10 @@
 import { WebPlugin } from '@capacitor/core';
-import type {
+import {
   AuthCredential as FirebaseAuthCredential,
   AuthProvider as FirebaseAuthProvider,
   CustomParameters as FirebaseCustomParameters,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
@@ -86,7 +88,13 @@ export class FirebaseAuthenticationWeb
   extends WebPlugin
   implements FirebaseAuthenticationPlugin
 {
-  public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
+  public static readonly authStateChangeEvent = 'authStateChange';
+  public static readonly phoneCodeSentEvent = 'phoneCodeSent';
+  public static readonly phoneVerificationFailedEvent =
+    'phoneVerificationFailed';
+  public static readonly recaptchaSolvedEvent = 'recaptchaSolved';
+  public static readonly recaptchaExpiredEvent = 'recaptchaExpired';
+  public static readonly errorNoUserSignedIn = 'No user is signed in.';
 
   constructor() {
     super();
@@ -122,7 +130,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return deleteUser(currentUser);
   }
@@ -141,7 +149,7 @@ export class FirebaseAuthenticationWeb
   ): Promise<GetIdTokenResult> {
     const auth = getAuth();
     if (!auth.currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     const idToken = await auth.currentUser.getIdToken(options?.forceRefresh);
     const result: GetIdTokenResult = {
@@ -274,10 +282,8 @@ export class FirebaseAuthenticationWeb
   }
 
   public async linkWithPhoneNumber(
-    _options: LinkWithPhoneNumberOptions,
-  ): Promise<LinkResult> {
-    throw new Error('Not implemented on web.');
-  }
+    options: LinkWithPhoneNumberOptions,
+  ): Promise<LinkResult> {}
 
   public async linkWithPlayGames(): Promise<LinkResult> {
     throw new Error('Not available on web.');
@@ -314,7 +320,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return reload(currentUser);
   }
@@ -323,7 +329,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return sendEmailVerification(currentUser);
   }
@@ -463,9 +469,38 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithPhoneNumber(
-    _options: SignInWithPhoneNumberOptions,
+    options: SignInWithPhoneNumberOptions,
   ): Promise<SignInResult> {
-    throw new Error('Not implemented on web.');
+    const auth = getAuth();
+    (window as any).recaptchaVerifier = new RecaptchaVerifier(
+      'sign-in-button',
+      {
+        'size': 'invisible',
+        'callback': (response: any) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          onSignInSubmit();
+        },
+        'expired-callback': () => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          // ...
+        },
+      },
+      auth,
+    );
+    try {
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier,
+      );
+      window.confirmationResult = confirmationResult;
+      this.notifyListeners(FirebaseAuthenticationWeb.phoneCodeSentEvent, {});
+    } catch (error) {
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.phoneVerificationFailedEvent,
+        {},
+      );
+    }
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
@@ -511,7 +546,7 @@ export class FirebaseAuthenticationWeb
   public async unlink(options: UnlinkOptions): Promise<UnlinkResult> {
     const auth = getAuth();
     if (!auth.currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     const user = await unlink(auth.currentUser, options.providerId);
     const userResult = this.createUserResult(user);
@@ -525,7 +560,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return updateEmail(currentUser, options.newEmail);
   }
@@ -534,7 +569,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return updatePassword(currentUser, options.newPassword);
   }
@@ -543,7 +578,7 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return updateProfile(currentUser, options);
   }
@@ -564,7 +599,10 @@ export class FirebaseAuthenticationWeb
     const change: AuthStateChange = {
       user: userResult,
     };
-    this.notifyListeners('authStateChange', change);
+    this.notifyListeners(
+      FirebaseAuthenticationWeb.authStateChangeEvent,
+      change,
+    );
   }
 
   private applySignInOptions(
@@ -603,7 +641,7 @@ export class FirebaseAuthenticationWeb
   ): Promise<FirebaseUserCredential | never> {
     const auth = getAuth();
     if (!auth.currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     if (mode === 'redirect') {
       return linkWithRedirect(auth.currentUser, provider);
@@ -617,7 +655,7 @@ export class FirebaseAuthenticationWeb
   ): Promise<FirebaseUserCredential> {
     const auth = getAuth();
     if (!auth.currentUser) {
-      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
     }
     return linkWithCredential(auth.currentUser, credential);
   }
