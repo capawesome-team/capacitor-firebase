@@ -2,13 +2,14 @@ import { WebPlugin } from '@capacitor/core';
 import {
   AuthCredential as FirebaseAuthCredential,
   AuthProvider as FirebaseAuthProvider,
+  ConfirmationResult,
   CustomParameters as FirebaseCustomParameters,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
+  linkWithPhoneNumber,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
 } from 'firebase/auth';
 import {
+  signInWithPhoneNumber,
   EmailAuthProvider,
   FacebookAuthProvider,
   GithubAuthProvider,
@@ -63,6 +64,8 @@ import type {
   LinkWithEmailLinkOptions,
   LinkWithOAuthOptions,
   LinkWithPhoneNumberOptions,
+  PhoneCodeSent,
+  PhoneVerificationFailed,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -95,6 +98,12 @@ export class FirebaseAuthenticationWeb
   public static readonly recaptchaSolvedEvent = 'recaptchaSolved';
   public static readonly recaptchaExpiredEvent = 'recaptchaExpired';
   public static readonly errorNoUserSignedIn = 'No user is signed in.';
+  public static readonly errorPhoneNumberMissing =
+    'phoneNumber must be provided.';
+  public static readonly errorRecaptchaVerifierMissing =
+    'recaptchaVerifier must be provided.';
+
+  private lastConfirmationResult: ConfirmationResult | undefined;
 
   constructor() {
     super();
@@ -283,7 +292,43 @@ export class FirebaseAuthenticationWeb
 
   public async linkWithPhoneNumber(
     options: LinkWithPhoneNumberOptions,
-  ): Promise<LinkResult> {}
+  ): Promise<LinkResult> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.errorNoUserSignedIn);
+    }
+    if (!options.phoneNumber) {
+      throw new Error(FirebaseAuthenticationWeb.errorPhoneNumberMissing);
+    }
+    if (!options.recaptchaVerifier) {
+      throw new Error(FirebaseAuthenticationWeb.errorRecaptchaVerifierMissing);
+    }
+    try {
+      const confirmationResult = await linkWithPhoneNumber(
+        currentUser,
+        options.phoneNumber,
+        options.recaptchaVerifier,
+      );
+      const event: PhoneCodeSent = {
+        verificationId: confirmationResult.verificationId,
+      };
+      this.notifyListeners(FirebaseAuthenticationWeb.phoneCodeSentEvent, event);
+    } catch (error) {
+      const event: PhoneVerificationFailed = {
+        message: this.getErrorMessage(error),
+      };
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.phoneVerificationFailedEvent,
+        event,
+      );
+    }
+    return {
+      user: null,
+      credential: null,
+      additionalUserInfo: null,
+    };
+  }
 
   public async linkWithPlayGames(): Promise<LinkResult> {
     throw new Error('Not available on web.');
@@ -471,36 +516,40 @@ export class FirebaseAuthenticationWeb
   public async signInWithPhoneNumber(
     options: SignInWithPhoneNumberOptions,
   ): Promise<SignInResult> {
+    if (!options.phoneNumber) {
+      throw new Error(FirebaseAuthenticationWeb.errorPhoneNumberMissing);
+    }
+    if (!options.recaptchaVerifier) {
+      throw new Error(FirebaseAuthenticationWeb.errorRecaptchaVerifierMissing);
+    }
+    // TODO: new method `verifyPhoneNumber` to separate the process
     const auth = getAuth();
-    (window as any).recaptchaVerifier = new RecaptchaVerifier(
-      'sign-in-button',
-      {
-        'size': 'invisible',
-        'callback': (response: any) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          onSignInSubmit();
-        },
-        'expired-callback': () => {
-          // Response expired. Ask user to solve reCAPTCHA again.
-          // ...
-        },
-      },
-      auth,
-    );
     try {
       const confirmationResult = await signInWithPhoneNumber(
         auth,
-        phoneNumber,
-        appVerifier,
+        options.phoneNumber,
+        options.recaptchaVerifier,
       );
-      window.confirmationResult = confirmationResult;
-      this.notifyListeners(FirebaseAuthenticationWeb.phoneCodeSentEvent, {});
+      this.lastConfirmationResult = confirmationResult;
+      // TODO: confirmationResult.confirm(code)
+      const event: PhoneCodeSent = {
+        verificationId: confirmationResult.verificationId,
+      };
+      this.notifyListeners(FirebaseAuthenticationWeb.phoneCodeSentEvent, event);
     } catch (error) {
+      const event: PhoneVerificationFailed = {
+        message: this.getErrorMessage(error),
+      };
       this.notifyListeners(
         FirebaseAuthenticationWeb.phoneVerificationFailedEvent,
-        {},
+        event,
       );
     }
+    return {
+      user: null,
+      credential: null,
+      additionalUserInfo: null,
+    };
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
@@ -735,5 +784,16 @@ export class FirebaseAuthenticationWeb
       result.username = username;
     }
     return result;
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (
+      error instanceof Object &&
+      'message' in error &&
+      typeof error['message'] === 'string'
+    ) {
+      return error['message'];
+    }
+    return JSON.stringify(error);
   }
 }

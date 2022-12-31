@@ -1453,17 +1453,76 @@ Remove all listeners for this plugin.
 
 #### User
 
-| Prop                | Type                        | Since |
-| ------------------- | --------------------------- | ----- |
-| **`displayName`**   | <code>string \| null</code> | 0.1.0 |
-| **`email`**         | <code>string \| null</code> | 0.1.0 |
-| **`emailVerified`** | <code>boolean</code>        | 0.1.0 |
-| **`isAnonymous`**   | <code>boolean</code>        | 0.1.0 |
-| **`phoneNumber`**   | <code>string \| null</code> | 0.1.0 |
-| **`photoUrl`**      | <code>string \| null</code> | 0.1.0 |
-| **`providerId`**    | <code>string</code>         | 0.1.0 |
-| **`tenantId`**      | <code>string \| null</code> | 0.1.0 |
-| **`uid`**           | <code>string</code>         | 0.1.0 |
+A user account.
+
+| Prop                | Type                                                  | Description                                                                                                                                                      |
+| ------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`emailVerified`** | <code>boolean</code>                                  | Whether the email has been verified with {@link sendEmailVerification} and {@link applyActionCode}.                                                              |
+| **`isAnonymous`**   | <code>boolean</code>                                  | Whether the user is authenticated using the {@link <a href="#providerid">ProviderId</a>}.ANONYMOUS provider.                                                     |
+| **`metadata`**      | <code><a href="#usermetadata">UserMetadata</a></code> | Additional metadata around user creation and sign-in times.                                                                                                      |
+| **`providerData`**  | <code>UserInfo[]</code>                               | Additional per provider such as displayName and profile information.                                                                                             |
+| **`refreshToken`**  | <code>string</code>                                   | Refresh token used to reauthenticate the user. Avoid using this directly and prefer {@link <a href="#user">User.getIdToken</a>} to refresh the ID token instead. |
+| **`tenantId`**      | <code>string \| null</code>                           | The user's tenant ID.                                                                                                                                            |
+
+| Method               | Signature                                                                                             | Description                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **delete**           | () =&gt; Promise&lt;void&gt;                                                                          | Deletes and signs out the user.                                                               |
+| **getIdToken**       | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;string&gt;                                     | Returns a JSON Web Token (JWT) used to identify the user to a Firebase service.               |
+| **getIdTokenResult** | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;<a href="#idtokenresult">IdTokenResult</a>&gt; | Returns a deserialized JSON Web Token (JWT) used to identitfy the user to a Firebase service. |
+| **reload**           | () =&gt; Promise&lt;void&gt;                                                                          | Refreshes the user, if signed in.                                                             |
+| **toJSON**           | () =&gt; object                                                                                       | Returns a JSON-serializable representation of this object.                                    |
+
+
+#### IdTokenResult
+
+Interface representing ID token result obtained from {@link <a href="#user">User.getIdTokenResult</a>}.
+
+| Prop                     | Type                                                | Description                                                                                                                |
+| ------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **`authTime`**           | <code>string</code>                                 | The authentication time formatted as a UTC string.                                                                         |
+| **`expirationTime`**     | <code>string</code>                                 | The ID token expiration time formatted as a UTC string.                                                                    |
+| **`issuedAtTime`**       | <code>string</code>                                 | The ID token issuance time formatted as a UTC string.                                                                      |
+| **`signInProvider`**     | <code>string \| null</code>                         | The sign-in provider through which the ID token was obtained (anonymous, custom, phone, password, etc).                    |
+| **`signInSecondFactor`** | <code>string \| null</code>                         | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc). |
+| **`token`**              | <code>string</code>                                 | The Firebase Auth ID token JWT string.                                                                                     |
+| **`claims`**             | <code><a href="#parsedtoken">ParsedToken</a></code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.             |
+
+
+#### ParsedToken
+
+Interface representing a parsed ID token.
+
+| Prop              | Type                                                                        | Description                                                                         |
+| ----------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **`'exp'`**       | <code>string</code>                                                         | Expiration time of the token.                                                       |
+| **`'sub'`**       | <code>string</code>                                                         | UID of the user.                                                                    |
+| **`'auth_time'`** | <code>string</code>                                                         | Time at which authentication was performed.                                         |
+| **`'iat'`**       | <code>string</code>                                                         | Issuance time of the token.                                                         |
+| **`'firebase'`**  | <code>{ sign_in_provider?: string; sign_in_second_factor?: string; }</code> | Firebase specific claims, containing the provider(s) used to authenticate the user. |
+
+
+#### UserMetadata
+
+Interface representing a user's metadata.
+
+| Prop                 | Type                | Description                   |
+| -------------------- | ------------------- | ----------------------------- |
+| **`creationTime`**   | <code>string</code> | Time the user was created.    |
+| **`lastSignInTime`** | <code>string</code> | Time the user last signed in. |
+
+
+#### UserInfo
+
+<a href="#user">User</a> profile information, visible only to the Firebase project's apps.
+
+| Prop              | Type                        | Description                                                                               |
+| ----------------- | --------------------------- | ----------------------------------------------------------------------------------------- |
+| **`displayName`** | <code>string \| null</code> | The display name of the user.                                                             |
+| **`email`**       | <code>string \| null</code> | The email of the user.                                                                    |
+| **`phoneNumber`** | <code>string \| null</code> | The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user. |
+| **`photoURL`**    | <code>string \| null</code> | The profile photo URL of the user.                                                        |
+| **`providerId`**  | <code>string</code>         | The provider used to authenticate the user.                                               |
+| **`uid`**         | <code>string</code>         | The user's unique ID, scoped to the project.                                              |
 
 
 #### AuthCredential
@@ -1480,12 +1539,14 @@ Remove all listeners for this plugin.
 
 #### AdditionalUserInfo
 
-| Prop             | Type                                     | Description                                                 | Since |
-| ---------------- | ---------------------------------------- | ----------------------------------------------------------- | ----- |
-| **`isNewUser`**  | <code>boolean</code>                     | Whether the user is new (sign-up) or existing (sign-in).    | 0.5.1 |
-| **`profile`**    | <code>{ [key: string]: unknown; }</code> | Map containing IDP-specific user data.                      | 0.5.1 |
-| **`providerId`** | <code>string</code>                      | Identifier for the provider used to authenticate this user. | 0.5.1 |
-| **`username`**   | <code>string</code>                      | The username if the provider is GitHub or Twitter.          | 0.5.1 |
+A structure containing additional user information from a federated identity provider.
+
+| Prop             | Type                                                                     | Description                                                                              |
+| ---------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| **`isNewUser`**  | <code>boolean</code>                                                     | Whether the user is new (created via sign-up) or existing (authenticated using sign-in). |
+| **`profile`**    | <code><a href="#record">Record</a>&lt;string, unknown&gt; \| null</code> | Map containing IDP-specific user data.                                                   |
+| **`providerId`** | <code>string \| null</code>                                              | Identifier for the provider used to authenticate this user.                              |
+| **`username`**   | <code>string \| null</code>                                              | The username if the provider is GitHub or Twitter.                                       |
 
 
 #### CreateUserWithEmailAndPasswordOptions
@@ -1662,12 +1723,13 @@ bundle identifiers.
 
 #### SignInWithPhoneNumberOptions
 
-| Prop                   | Type                 | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
-| ---------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`phoneNumber`**      | <code>string</code>  | The phone number to be verified. Cannot be used in combination with `verificationId` and `verificationCode`. Use the `phoneVerificationCompleted` listener to be notified when the verification is completed. Use the `phoneVerificationFailed` listener to be notified when the verification is failed. Use the `phoneCodeSent` listener to get the verification id. |                    | 0.1.0 |
-| **`resendCode`**       | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. The `phoneNumber` option must also be provided. Only available for Android.                                                                                                                                                         | <code>false</code> | 1.3.0 |
-| **`verificationId`**   | <code>string</code>  | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                                                                                                                                                                                                                                                  |                    | 0.1.0 |
-| **`verificationCode`** | <code>string</code>  | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided.                                                                                                                                                                                                                    |                    | 0.1.0 |
+| Prop                    | Type                           | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
+| ----------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`phoneNumber`**       | <code>string</code>            | The phone number to be verified. Cannot be used in combination with `verificationId` and `verificationCode`. Use the `phoneVerificationCompleted` listener to be notified when the verification is completed. Use the `phoneVerificationFailed` listener to be notified when the verification is failed. Use the `phoneCodeSent` listener to get the verification id. |                    | 0.1.0 |
+| **`recaptchaVerifier`** | <code>RecaptchaVerifier</code> | Only available for Web.                                                                                                                                                                                                                                                                                                                                               |                    | 1.3.0 |
+| **`resendCode`**        | <code>boolean</code>           | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. The `phoneNumber` option must also be provided. Only available for Android.                                                                                                                                                         | <code>false</code> | 1.3.0 |
+| **`verificationId`**    | <code>string</code>            | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                                                                                                                                                                                                                                                  |                    | 0.1.0 |
+| **`verificationCode`**  | <code>string</code>            | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided.                                                                                                                                                                                                                    |                    | 0.1.0 |
 
 
 #### UnlinkResult
@@ -1728,7 +1790,35 @@ bundle identifiers.
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
 
 
+#### PhoneVerificationCompleted
+
+| Prop                   | Type                | Description                                            | Since |
+| ---------------------- | ------------------- | ------------------------------------------------------ | ----- |
+| **`verificationCode`** | <code>string</code> | The verification code sent to the user's phone number. | 1.3.0 |
+
+
+#### PhoneVerificationFailed
+
+| Prop          | Type                | Description        | Since |
+| ------------- | ------------------- | ------------------ | ----- |
+| **`message`** | <code>string</code> | The error message. | 1.3.0 |
+
+
+#### PhoneCodeSent
+
+| Prop                 | Type                | Description                                                             | Since |
+| -------------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
+| **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. | 1.3.0 |
+
+
 ### Type Aliases
+
+
+#### Record
+
+Construct a type with a set of properties K of type T
+
+<code>{ [P in K]: T; }</code>
 
 
 #### LinkWithOAuthOptions
@@ -1752,21 +1842,21 @@ Callback to receive the user's sign-in state change notifications.
 
 Callback to receive the verification code sent to the user's phone number.
 
-<code>(event: { verificationCode: string; }): void</code>
+<code>(event: <a href="#phoneverificationcompleted">PhoneVerificationCompleted</a>): void</code>
 
 
 #### PhoneVerificationFailedListener
 
 Callback to receive notifications of failed phone verification.
 
-<code>(event: { message: string; }): void</code>
+<code>(event: <a href="#phoneverificationfailed">PhoneVerificationFailed</a>): void</code>
 
 
 #### PhoneCodeSentListener
 
 Callback to receive the verification ID.
 
-<code>(event: { verificationId: string; }): void</code>
+<code>(event: <a href="#phonecodesent">PhoneCodeSent</a>): void</code>
 
 
 ### Enums

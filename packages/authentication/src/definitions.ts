@@ -1,6 +1,7 @@
 /// <reference types="@capacitor/cli" />
 
 import type { PluginListenerHandle } from '@capacitor/core';
+import type { RecaptchaVerifier } from 'firebase/auth';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -450,28 +451,6 @@ export interface FirebaseAuthenticationPlugin {
     listenerFunc: PhoneCodeSentListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
-   * Listen for a solved reCAPTCHA.
-   *
-   * Only available for Web.
-   *
-   * @since 1.3.0
-   */
-  addListener(
-    eventName: 'recaptchaSolved',
-    listenerFunc: RecaptchaSolvedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
-  /**
-   * Listen for a expired reCAPTCHA.
-   *
-   * Only available for Web.
-   *
-   * @since 1.3.0
-   */
-  addListener(
-    eventName: 'recaptchaExpired',
-    listenerFunc: RecaptchaExpiredListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
-  /**
    * Remove all listeners for this plugin.
    *
    * @since 0.1.0
@@ -698,15 +677,7 @@ export interface LinkWithEmailLinkOptions {
 /**
  * @since 1.1.0
  */
-export interface LinkWithPhoneNumberOptions {
-  /**
-   * The user's phone number in E.164 format.
-   *
-   * @example "+16505550101"
-   * @since 1.1.0
-   */
-  phoneNumber: string;
-}
+export type LinkWithPhoneNumberOptions = SignInWithPhoneNumberOptions;
 
 /**
  * @since 1.1.0
@@ -821,6 +792,14 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    * @since 0.1.0
    */
   phoneNumber?: string;
+  /**
+   *
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  recaptchaVerifier?: RecaptchaVerifier;
   /**
    * Resend the verification code to the specified phone number.
    * `signInWithPhoneNumber` must be called once before using this option.
@@ -1159,42 +1138,58 @@ export interface AuthStateChange {
  *
  * @since 1.3.0
  */
-export type PhoneVerificationCompletedListener = (event: {
+export type PhoneVerificationCompletedListener = (
+  event: PhoneVerificationCompleted,
+) => void;
+
+/**
+ * @since 1.3.0
+ */
+export interface PhoneVerificationCompleted {
   /**
    * The verification code sent to the user's phone number.
    *
    * @since 1.3.0
    */
   verificationCode: string;
-}) => void;
+}
 
 /**
  * Callback to receive notifications of failed phone verification.
  *
  * @since 1.3.0
  */
-export type PhoneVerificationFailedListener = (event: {
+export type PhoneVerificationFailedListener = (
+  event: PhoneVerificationFailed,
+) => void;
+
+/**
+ * @since 1.3.0
+ */
+export interface PhoneVerificationFailed {
   /**
    * The error message.
    *
    * @since 1.3.0
    */
   message: string;
-}) => void;
+}
 
 /**
  * Callback to receive the verification ID.
  *
  * @since 1.3.0
  */
-export type PhoneCodeSentListener = (event: {
+export type PhoneCodeSentListener = (event: PhoneCodeSent) => void;
+
+export interface PhoneCodeSent {
   /**
    * The verification ID, which is needed to identify the verification code.
    *
    * @since 1.3.0
    */
   verificationId: string;
-}) => void;
+}
 
 /**
  * An interface that defines the required continue/state URL with optional Android and iOS
