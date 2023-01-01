@@ -270,6 +270,28 @@ Callback to receive the token change event.
 
 </docgen-api>
 
+## Testing
+
+### Android
+
+Follow these steps to test your implementation on a real device:
+
+1. Start your app on the Android device.
+1. Run the following command to grab your temporary secret from the android logs:
+
+```
+adb logcat | grep DebugAppCheckProvider
+```
+
+The output should look like this:
+
+```
+D DebugAppCheckProvider: Enter this debug secret into the allow list in
+the Firebase Console for your project: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+```
+
+1. Next, open the [App Check project](https://console.firebase.google.com/u/0/project/_/appcheck/apps) in the Firebase Console and select Manage debug tokens from the overflow menu of your app. Then, register the debug secret from the output.
+
 ## Changelog
 
 See [CHANGELOG.md](/packages/app-check/CHANGELOG.md).
