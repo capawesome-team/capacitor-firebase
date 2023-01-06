@@ -8,6 +8,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
@@ -16,6 +17,9 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Facebo
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
+    public static final String PHONE_VERIFICATION_COMPLETED_EVENT = "phoneVerificationCompleted";
+    public static final String PHONE_VERIFICATION_FAILED_EVENT = "phoneVerificationFailed";
+    public static final String PHONE_CODE_SENT_EVENT = "phoneCodeSent";
     public static final String ERROR_PROVIDER_ID_MISSING = "providerId must be provided.";
     public static final String ERROR_NO_USER_SIGNED_IN = "No user is signed in.";
     public static final String ERROR_OOB_CODE_MISSING = "oobCode must be provided.";
@@ -27,6 +31,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
     public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
+    public static final String ERROR_PHONE_RESEND_TOKEN_MISSING =
+        "signInWithPhoneNumber must be called once before using the resendCode option.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
     public static final String ERROR_LINK_FAILED = "link failed.";
@@ -67,15 +73,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void createUserWithEmailAndPassword(PluginCall call) {
-        try {
-            implementation.createUserWithEmailAndPassword(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
-        }
-    }
-
-    @PluginMethod
     public void confirmPasswordReset(PluginCall call) {
         try {
             String oobCode = call.getString("oobCode");
@@ -89,6 +86,29 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void createUserWithEmailAndPassword(PluginCall call) {
+        try {
+            implementation.createUserWithEmailAndPassword(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void deleteUser(PluginCall call) {
+        try {
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.deleteUser(user, () -> call.resolve());
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
@@ -131,6 +151,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
+    }
+
+    @PluginMethod
+    public void getRedirectResult(PluginCall call) {
+        call.reject("Not available on Android.");
     }
 
     @PluginMethod
@@ -263,6 +288,20 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithYahoo(PluginCall call) {
         try {
             implementation.linkWithYahoo(call);
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void reload(PluginCall call) {
+        try {
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.reload(user, () -> call.resolve());
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
@@ -560,6 +599,22 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void updateProfile(PluginCall call) {
+        try {
+            String displayName = call.getString("displayName");
+            String photoUrl = call.getString("photoUrl");
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+            implementation.updateProfile(user, displayName, photoUrl, () -> call.resolve());
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
     public void useAppLanguage(PluginCall call) {
         try {
             implementation.useAppLanguage();
@@ -584,6 +639,24 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }
+    }
+
+    public void handlePhoneVerificationCompleted(String smsCode) {
+        JSObject result = new JSObject();
+        result.put("verificationCode", smsCode);
+        notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, result, true);
+    }
+
+    public void handlePhoneVerificationFailed(Exception exception) {
+        JSObject result = new JSObject();
+        result.put("message", exception.getLocalizedMessage());
+        notifyListeners(PHONE_VERIFICATION_FAILED_EVENT, result, true);
+    }
+
+    public void handlePhoneCodeSent(String verificationId) {
+        JSObject result = new JSObject();
+        result.put("verificationId", verificationId);
+        notifyListeners(PHONE_CODE_SENT_EVENT, result, true);
     }
 
     @Override

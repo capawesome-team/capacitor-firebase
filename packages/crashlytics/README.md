@@ -19,7 +19,7 @@ See [Add the Firebase Crashlytics plugin to your app](https://firebase.google.co
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `18.2.9`)
+- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `18.3.2`)
 
 ### iOS
 
@@ -102,7 +102,7 @@ const recordExceptionWithStacktrace = async (error: Error) => {
   const stacktrace = await StackTrace.fromError(error);
   await FirebaseCrashlytics.recordException({
     message: 'This is a non-fatal message.',
-    stacktrace
+    stacktrace,
   });
 };
 ```

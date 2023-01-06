@@ -6,8 +6,8 @@ import FBSDKLoginKit
 #endif
 
 class FacebookAuthProviderHandler: NSObject {
-    public let errorSignInCanceled = "Sign in canceled."
-    public let errorLinkCanceled = "Link canceled."
+    let errorSignInCanceled = "Sign in canceled."
+    let errorLinkCanceled = "Link canceled."
     private var pluginImplementation: FirebaseAuthentication
     #if RGCFA_INCLUDE_FACEBOOK
     private var loginManager: LoginManager

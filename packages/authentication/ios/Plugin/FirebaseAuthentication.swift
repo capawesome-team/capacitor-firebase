@@ -5,6 +5,7 @@ import FirebaseAuth
 
 public typealias AuthStateChangedObserver = () -> Void
 
+// swiftlint:disable type_body_length
 @objc public class FirebaseAuthentication: NSObject {
     public var authStateObserver: AuthStateChangedObserver?
     private let plugin: FirebaseAuthenticationPlugin
@@ -72,6 +73,12 @@ public typealias AuthStateChangedObserver = () -> Void
         return Auth.auth().confirmPasswordReset(withCode: oobCode, newPassword: newPassword, completion: { error in
             completion(error)
         })
+    }
+
+    @objc func deleteUser(user: User, completion: @escaping (Error?) -> Void) {
+        user.delete { error in
+            completion(error)
+        }
     }
 
     @objc func getCurrentUser() -> User? {
@@ -202,6 +209,12 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func linkWithYahoo(_ call: CAPPluginCall) {
         self.savedCall = call
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.yahoo)
+    }
+
+    @objc func reload(user: User, completion: @escaping (Error?) -> Void) {
+        user.reload { error in
+            completion(error)
+        }
     }
 
     @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
@@ -403,6 +416,21 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func updateProfile(user: User, displayName: String?, photoUrl: String?, completion: @escaping (Error?) -> Void) {
+        let changeRequest = user.createProfileChangeRequest()
+
+        if displayName != nil {
+            changeRequest.displayName = displayName
+        }
+        if photoUrl != nil {
+            changeRequest.photoURL = URL(string: photoUrl!)
+        }
+
+        changeRequest.commitChanges { error in
+            completion(error)
+        }
+    }
+
     @objc func useAppLanguage() {
         Auth.auth().useAppLanguage()
     }
@@ -477,6 +505,14 @@ public typealias AuthStateChangedObserver = () -> Void
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
         savedCall.reject(errorMessage, nil, error)
+    }
+
+    func handlePhoneVerificationFailed(_ error: Error) {
+        plugin.handlePhoneVerificationFailed(error)
+    }
+
+    func handlePhoneCodeSent(_ verificationId: String) {
+        plugin.handlePhoneCodeSent(verificationId)
     }
 
     func getPlugin() -> FirebaseAuthenticationPlugin {

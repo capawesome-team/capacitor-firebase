@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
@@ -118,6 +120,16 @@ public class FirebaseAuthentication {
     public void confirmPasswordReset(@NonNull String oobCode, @NonNull String newPassword, @NonNull Runnable callback) {
         firebaseAuthInstance
             .confirmPasswordReset(oobCode, newPassword)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
+    public void deleteUser(FirebaseUser user, @NonNull Runnable callback) {
+        user
+            .delete()
             .addOnCompleteListener(
                 task -> {
                     callback.run();
@@ -261,6 +273,16 @@ public class FirebaseAuthentication {
 
     public void linkWithYahoo(final PluginCall call) {
         oAuthProviderHandler.link(call, ProviderId.YAHOO);
+    }
+
+    public void reload(FirebaseUser user, @NonNull Runnable callback) {
+        user
+            .reload()
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
     }
 
     public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
@@ -512,6 +534,25 @@ public class FirebaseAuthentication {
             );
     }
 
+    public void updateProfile(FirebaseUser user, String displayName, String photoUrl, @NonNull Runnable callback) {
+        UserProfileChangeRequest.Builder profileUpdates = new UserProfileChangeRequest.Builder();
+
+        if (displayName != null) {
+            profileUpdates.setDisplayName(displayName);
+        }
+        if (photoUrl != null) {
+            profileUpdates.setPhotoUri(Uri.parse(photoUrl));
+        }
+
+        user
+            .updateProfile(profileUpdates.build())
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
     public void useAppLanguage() {
         firebaseAuthInstance.useAppLanguage();
     }
@@ -661,6 +702,18 @@ public class FirebaseAuthentication {
             message = exception.getLocalizedMessage();
         }
         call.reject(message, exception);
+    }
+
+    public void handlePhoneVerificationCompleted(String smsCode) {
+        plugin.handlePhoneVerificationCompleted(smsCode);
+    }
+
+    public void handlePhoneVerificationFailed(Exception exception) {
+        plugin.handlePhoneVerificationFailed(exception);
+    }
+
+    public void handlePhoneCodeSent(String verificationId) {
+        plugin.handlePhoneCodeSent(verificationId);
     }
 
     public FirebaseAuth getFirebaseAuthInstance() {

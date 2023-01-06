@@ -11,6 +11,14 @@ npx cap sync
 
 Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
 
+### Android
+
+#### Variables
+
+This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
+
+- `$firebaseCommonVersion` version of `com.google.firebase:firebase-common` (default: `20.2.0`)
+
 ## Configuration
 
 No configuration required for this plugin.

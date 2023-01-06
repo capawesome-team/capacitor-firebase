@@ -5,10 +5,12 @@
 // each method the plugin supports using the CAP_PLUGIN_METHOD macro.
 CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(applyActionCode, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(createUserWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(confirmPasswordReset, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(createUserWithEmailAndPassword, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(deleteUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCurrentUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getIdToken, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getRedirectResult, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getTenantId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(isSignInWithEmailLink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithApple, CAPPluginReturnPromise);
@@ -23,6 +25,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(linkWithPlayGames, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithTwitter, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(linkWithYahoo, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(reload, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendEmailVerification, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);
@@ -46,6 +49,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(unlink, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(updateEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(updatePassword, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(updateProfile, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useAppLanguage, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useEmulator, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(removeAllListeners, CAPPluginReturnNone);

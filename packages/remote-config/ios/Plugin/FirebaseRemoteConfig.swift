@@ -1,0 +1,54 @@
+import Foundation
+
+import FirebaseCore
+import FirebaseRemoteConfig
+
+@objc public class FirebaseRemoteConfig: NSObject {
+    private let plugin: FirebaseRemoteConfigPlugin
+
+    init(plugin: FirebaseRemoteConfigPlugin) {
+        self.plugin = plugin
+        super.init()
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+    }
+
+    @objc public func activate(completion: @escaping (Bool, String?) -> Void) {
+        RemoteConfig.remoteConfig().activate(completion: { result, error in
+            if let error = error {
+                completion(false, error.localizedDescription)
+                return
+            }
+            completion(result, nil)
+        })
+    }
+
+    @objc public func fetchAndActivate(completion: @escaping (Bool, String?) -> Void) {
+        RemoteConfig.remoteConfig().fetchAndActivate(completionHandler: { result, error in
+            if let error = error {
+                completion(false, error.localizedDescription)
+                return
+            }
+            if result == .error {
+                completion(false, self.plugin.errorFetchAndActivatefailed)
+            } else {
+                completion(true, nil)
+            }
+        })
+    }
+
+    @objc public func fetchConfig(minimumFetchIntervalInSeconds: Double, completion: @escaping (String?) -> Void) {
+        RemoteConfig.remoteConfig().fetch(withExpirationDuration: minimumFetchIntervalInSeconds, completionHandler: { _, error in
+            if let error = error {
+                completion(error.localizedDescription)
+                return
+            }
+            completion(nil)
+        })
+    }
+
+    @objc public func getValue(_ key: String) -> RemoteConfigValue {
+        return RemoteConfig.remoteConfig().configValue(forKey: key)
+    }
+}

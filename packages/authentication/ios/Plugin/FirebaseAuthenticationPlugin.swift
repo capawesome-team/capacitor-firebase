@@ -7,6 +7,7 @@ import FirebaseAuth
  * Please read the Capacitor iOS Plugin Development Guide
  * here: https://capacitorjs.com/docs/plugins/ios
  */
+// swiftlint:disable type_body_length
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorProviderIdMissing = "providerId must be provided."
@@ -33,6 +34,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         "signInAnonymously cannot be used in combination with skipNativeAuth."
     public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
     public let authStateChangeEvent = "authStateChange"
+    public let phoneVerificationFailedEvent = "phoneVerificationFailed"
+    public let phoneCodeSentEvent = "phoneCodeSent"
     private var implementation: FirebaseAuthentication?
 
     override public func load() {
@@ -57,10 +60,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
-    @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
-        implementation?.createUserWithEmailAndPassword(call)
-    }
-
     @objc func confirmPasswordReset(_ call: CAPPluginCall) {
         guard let oobCode = call.getString("oobCode") else {
             call.reject(errorOobCodeMissing)
@@ -72,6 +71,25 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
 
         implementation?.confirmPasswordReset(oobCode: oobCode, newPassword: newPassword, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
+    @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
+        implementation?.createUserWithEmailAndPassword(call)
+    }
+
+    @objc func deleteUser(_ call: CAPPluginCall) {
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.deleteUser(user: user, completion: { error in
             if let error = error {
                 call.reject(error.localizedDescription)
                 return
@@ -100,6 +118,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             result["token"] = token
             call.resolve(result)
         })
+    }
+
+    @objc func getRedirectResult(_ call: CAPPluginCall) {
+        call.reject("Not available on iOS.")
     }
 
     @objc func getTenantId(_ call: CAPPluginCall) {
@@ -174,6 +196,21 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func linkWithYahoo(_ call: CAPPluginCall) {
         implementation?.linkWithYahoo(call)
+    }
+
+    @objc func reload(_ call: CAPPluginCall) {
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.reload(user: user, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
     }
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
@@ -400,6 +437,24 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
+    @objc func updateProfile(_ call: CAPPluginCall) {
+        let displayName = call.getString("displayName")
+        let photoUrl = call.getString("photoUrl")
+
+        guard let user = implementation?.getCurrentUser() else {
+            call.reject(errorNoUserSignedIn)
+            return
+        }
+
+        implementation?.updateProfile(user: user, displayName: displayName, photoUrl: photoUrl, completion: { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func useAppLanguage(_ call: CAPPluginCall) {
         implementation?.useAppLanguage()
         call.resolve()
@@ -422,6 +477,18 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         var result = JSObject()
         result["user"] = userResult
         notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
+    }
+
+    @objc func handlePhoneVerificationFailed(_ error: Error) {
+        var result = JSObject()
+        result["message"] = error.localizedDescription
+        notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)
+    }
+
+    @objc func handlePhoneCodeSent(_ verificationId: String) {
+        var result = JSObject()
+        result["verificationId"] = verificationId
+        notifyListeners(phoneCodeSentEvent, data: result, retainUntilConsumed: true)
     }
 
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {

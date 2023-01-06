@@ -48,6 +48,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   applyActionCode(options: ApplyActionCodeOptions): Promise<void>;
   /**
+   * Completes the password reset process.
+   *
+   * @since 0.2.2
+   */
+  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
+  /**
    * Creates a new user account with email and password.
    * If the new account was created, the user is signed in automatically.
    *
@@ -57,11 +63,11 @@ export interface FirebaseAuthenticationPlugin {
     options: CreateUserWithEmailAndPasswordOptions,
   ): Promise<SignInResult>;
   /**
-   * Completes the password reset process.
+   * Deletes and signs out the user.
    *
-   * @since 0.2.2
+   * @since 1.3.0
    */
-  confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
+  deleteUser(): Promise<void>;
   /**
    * Fetches the currently signed-in user.
    *
@@ -74,6 +80,17 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
+  /**
+   * Returns the `SignInResult` from the redirect-based sign-in flow.
+   *
+   * If sign-in was unsuccessful, fails with an error.
+   * If no redirect operation was called, returns a `SignInResult` with a null user.
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  getRedirectResult(): Promise<SignInResult>;
   /**
    * Get the tenant id.
    *
@@ -203,6 +220,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithYahoo(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
+   * Reloads user account data, if signed in.
+   *
+   * @since 1.3.0
+   */
+  reload(): Promise<void>;
+  /**
    * Sends a verification email to the currently signed in user.
    *
    * @since 0.2.2
@@ -245,9 +268,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithApple(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithApple(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Custom Token sign-in flow.
    *
@@ -280,9 +301,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithFacebook(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithFacebook(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Game Center sign-in flow.
    *
@@ -298,25 +317,19 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithGithub(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGithub(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Google sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithGoogle(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGoogle(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Microsoft sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithMicrosoft(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithMicrosoft(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using a phone number.
    *
@@ -336,25 +349,19 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithPlayGames(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithPlayGames(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Twitter sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithTwitter(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithTwitter(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the Yahoo sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithYahoo(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithYahoo(options?: SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the sign-out flow.
    *
@@ -380,6 +387,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   updatePassword(options: UpdatePasswordOptions): Promise<void>;
   /**
+   * Updates a user's profile data.
+   *
+   * @since 1.3.0
+   */
+  updateProfile(options: UpdateProfileOptions): Promise<void>;
+  /**
    * Sets the user-facing language code to be the default app language.
    *
    * @since 0.1.0
@@ -399,6 +412,42 @@ export interface FirebaseAuthenticationPlugin {
   addListener(
     eventName: 'authStateChange',
     listenerFunc: AuthStateChangeListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Listen for a completed phone verification.
+   *
+   * This listener only fires in two situations:
+   * 1. **Instant verification**: In some cases the phone number can be instantly
+   * verified without needing to send or enter a verification code.
+   * 2. **Auto-retrieval**: On some devices Google Play services can automatically
+   * detect the incoming verification SMS and perform verification without
+   * user action.
+   *
+   * Only available for Android.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'phoneVerificationCompleted',
+    listenerFunc: PhoneVerificationCompletedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Listen for a failed phone verification.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'phoneVerificationFailed',
+    listenerFunc: PhoneVerificationFailedListener,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  /**
+   * Listen for a phone verification code.
+   *
+   * @since 1.3.0
+   */
+  addListener(
+    eventName: 'phoneCodeSent',
+    listenerFunc: PhoneCodeSentListener,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
   /**
    * Remove all listeners for this plugin.
@@ -561,6 +610,24 @@ export interface UpdatePasswordOptions {
 }
 
 /**
+ * @since 1.3.0
+ */
+export interface UpdateProfileOptions {
+  /**
+   * The user's display name.
+   *
+   * @since 1.3.0
+   */
+  displayName?: string | null;
+  /**
+   * The user's photo URL.
+   *
+   * @since 1.3.0
+   */
+  photoUrl?: string | null;
+}
+
+/**
  * @since 1.1.0
  */
 export type LinkOptions = SignInOptions;
@@ -575,13 +642,13 @@ export type LinkWithOAuthOptions = SignInWithOAuthOptions;
  */
 export interface LinkWithEmailAndPasswordOptions {
   /**
-   * The users email address.
+   * The user's email address.
    *
    * @since 1.1.0
    */
   email: string;
   /**
-   * The users password.
+   * The user's password.
    *
    * @since 1.1.0
    */
@@ -679,6 +746,14 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    */
   customParameters?: SignInCustomParameter[];
   /**
+   * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
+   * If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.
+   *
+   * @default 'popup'
+   * @since 1.3.0
+   */
+  mode?: 'popup' | 'redirect';
+  /**
    * Scopes to request from provider.
    *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
@@ -715,19 +790,39 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
   /**
    * The phone number to be verified.
    *
+   * Cannot be used in combination with `verificationId` and `verificationCode`.
+   *
+   * Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
+   * Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
+   * Use the `phoneCodeSent` listener to get the verification id.
+   *
    * @since 0.1.0
    */
   phoneNumber?: string;
   /**
-   * The verification ID which will be returned when `signInWithPhoneNumber` is called for the first time.
-   * The `verificationCode` must also be provided.
+   * Resend the verification code to the specified phone number.
+   * `signInWithPhoneNumber` must be called once before using this option.
+   *
+   * The `phoneNumber` option must also be provided.
+   *
+   * Only available for Android.
+   *
+   * @since 1.3.0
+   * @default false
+   */
+  resendCode?: boolean;
+  /**
+   * The verification ID received from the `phoneCodeSent` listener.
+   *
+   * The `verificationCode` option must also be provided.
    *
    * @since 0.1.0
    */
   verificationId?: string;
   /**
-   * The verification code from the SMS message.
-   * The `verificationId` must also be provided.
+   * The verification code either received from the `phoneCodeSent` listener or entered by the user.
+   *
+   * The `verificationId` option must also be provided.
    *
    * @since 0.1.0
    */
@@ -739,13 +834,13 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
  */
 export interface SignInWithEmailAndPasswordOptions extends SignInOptions {
   /**
-   * The users email address.
+   * The user's email address.
    *
    * @since 0.2.2
    */
   email: string;
   /**
-   * The users password.
+   * The user's password.
    *
    * @since 0.2.2
    */
@@ -896,6 +991,7 @@ export interface SignInWithPhoneNumberResult extends SignInResult {
    * The verification ID, which is needed to identify the verification code.
    *
    * @since 0.1.0
+   * @deprecated Use `addListener('phoneCodeSent', ...)` instead.
    */
   verificationId?: string;
 }
@@ -1016,6 +1112,7 @@ export interface AdditionalUserInfo {
    */
   username?: string;
 }
+
 /**
  * Callback to receive the user's sign-in state change notifications.
  *
@@ -1034,6 +1131,48 @@ export interface AuthStateChange {
    */
   user: User | null;
 }
+
+/**
+ * Callback to receive the verification code sent to the user's phone number.
+ *
+ * @since 1.3.0
+ */
+export type PhoneVerificationCompletedListener = (event: {
+  /**
+   * The verification code sent to the user's phone number.
+   *
+   * @since 1.3.0
+   */
+  verificationCode: string;
+}) => void;
+
+/**
+ * Callback to receive notifications of failed phone verification.
+ *
+ * @since 1.3.0
+ */
+export type PhoneVerificationFailedListener = (event: {
+  /**
+   * The error message.
+   *
+   * @since 1.3.0
+   */
+  message: string;
+}) => void;
+
+/**
+ * Callback to receive the verification ID.
+ *
+ * @since 1.3.0
+ */
+export type PhoneCodeSentListener = (event: {
+  /**
+   * The verification ID, which is needed to identify the verification code.
+   *
+   * @since 1.3.0
+   */
+  verificationId: string;
+}) => void;
 
 /**
  * An interface that defines the required continue/state URL with optional Android and iOS
