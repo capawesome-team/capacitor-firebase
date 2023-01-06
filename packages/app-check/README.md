@@ -38,6 +38,10 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/we
 
 No configuration required for this plugin.
 
+## Firebase JavaScript SDK
+
+[Here](/packages/app-check/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
+
 ## Demo
 
 A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
@@ -46,8 +50,6 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ```typescript
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { getApp } from 'firebase/app';
-import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 
 const getToken = async () => {
   const { token } = FirebaseAppCheck.getToken({
@@ -56,23 +58,10 @@ const getToken = async () => {
   return token;
 };
 
-const initializeOnWeb = async () => {
+const initialize = async () => {
   await FirebaseAppCheck.initialize({
     siteKey: 'myKey',
   });
-};
-
-// Only necessary if you want to use this plugin
-// with Firebase JS SDK on Android and iOS.
-const initializeOnNative = async () => {
-  await FirebaseAppCheck.initialize();
-  const provider = new CustomProvider({
-    getToken: () => {
-      return FirebaseAppCheck.getToken();
-    },
-  });
-  const app = getApp();
-  await initializeAppCheck(app, { provider });
 };
 
 const setTokenAutoRefreshEnabled = async () => {
