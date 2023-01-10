@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
 import android.app.NotificationChannel;
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
@@ -21,7 +22,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@CapacitorPlugin(name = "FirebaseMessaging", permissions = @Permission(strings = {}, alias = "receive"))
+@CapacitorPlugin(
+    name = "FirebaseMessaging",
+    permissions = @Permission(strings = { Manifest.permission.POST_NOTIFICATIONS }, alias = "receive")
+)
 public class FirebaseMessagingPlugin extends Plugin {
 
     public static final String TAG = "FirebaseMessaging";
