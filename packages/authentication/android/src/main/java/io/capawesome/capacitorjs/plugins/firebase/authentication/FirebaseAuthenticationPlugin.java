@@ -1,7 +1,11 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
+import android.util.Log;
+
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.Nullable;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -665,8 +669,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @Override
-    protected void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void handleOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.handleOnActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
         implementation.handleOnActivityResult(requestCode, resultCode, data);
     }
 
@@ -679,22 +686,34 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderSignInActivityResult(PluginCall call, ActivityResult result) {
+    private void handleGoogleAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handleGoogleAuthProviderSignInActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderLinkActivityResult(PluginCall call, ActivityResult result) {
+    private void handleGoogleAuthProviderLinkActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handleGoogleAuthProviderLinkActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderSignInActivityResult(PluginCall call, ActivityResult result) {
+    private void handlePlayGamesAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handlePlayGamesAuthProviderSignInActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderLinkActivityResult(PluginCall call, ActivityResult result) {
+    private void handlePlayGamesAuthProviderLinkActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handlePlayGamesAuthProviderLinkActivityResult(call, result);
     }
 
