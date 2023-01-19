@@ -3,6 +3,7 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 import android.content.Intent;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
@@ -47,7 +48,7 @@ public class PlayGamesAuthProviderHandler {
         mGoogleSignInClient.signOut();
     }
 
-    public void handleOnActivityResult(final PluginCall call, ActivityResult result, boolean isLink) {
+    public void handleOnActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result, boolean isLink) {
         Intent data = result.getData();
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {

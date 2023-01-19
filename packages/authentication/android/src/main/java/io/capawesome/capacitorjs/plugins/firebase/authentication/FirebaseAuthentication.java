@@ -565,23 +565,23 @@ public class FirebaseAuthentication {
         plugin.startActivityForResult(call, intent, callbackName);
     }
 
-    public void handleGoogleAuthProviderSignInActivityResult(final PluginCall call, ActivityResult result) {
+    public void handleGoogleAuthProviderSignInActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
         googleAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
-    public void handleGoogleAuthProviderLinkActivityResult(final PluginCall call, ActivityResult result) {
+    public void handleGoogleAuthProviderLinkActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
         googleAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
-    public void handlePlayGamesAuthProviderSignInActivityResult(final PluginCall call, ActivityResult result) {
+    public void handlePlayGamesAuthProviderSignInActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
         playGamesAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
-    public void handlePlayGamesAuthProviderLinkActivityResult(final PluginCall call, ActivityResult result) {
+    public void handlePlayGamesAuthProviderLinkActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
         playGamesAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
-    public void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
+    public void handleOnActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         if (requestCode == FacebookAuthProviderHandler.RC_FACEBOOK_AUTH && facebookAuthProviderHandler != null) {
             facebookAuthProviderHandler.handleOnActivityResult(requestCode, resultCode, data);
         }
