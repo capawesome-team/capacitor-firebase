@@ -2,10 +2,8 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
 import android.util.Log;
-
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
