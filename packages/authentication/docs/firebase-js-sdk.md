@@ -22,7 +22,8 @@ import {
   OAuthProvider,
   PhoneAuthProvider,
   signInWithCredential,
-  EmailAuthProvider
+  EmailAuthProvider,
+  signOut
 } from 'firebase/auth';
 
 const signInWithApple = async () => {
@@ -122,6 +123,14 @@ const signInWithEmailLink = async () => {
   // Clear email from storage.
   window.localStorage.removeItem('emailForSignIn');
   return result.user;
+};
+
+const signOut = async () => {
+  // 1. Sign out on the native layer
+  await FirebaseAuthentication.signOut();
+  // 1. Sign out on the web layer
+  const auth = getAuth();
+  await signOut(auth);
 };
 ```
 
