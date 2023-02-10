@@ -12,9 +12,6 @@ These are the required steps to **add Firebase to your Capacitor project**.
 
 ### Register your app with Firebase
 
-To use Firebase in your Android app, you need to register your app with your Firebase project.
-Registering your app is often called "adding" your app to your project.
-
 1. Go to the [Firebase console](https://console.firebase.google.com/).
 1. In the center of the project overview page, click the **Android** icon to launch the setup workflow.
    If you've already added an app to your Firebase project, click **Add app** to display the platform options.
@@ -37,9 +34,6 @@ Registering your app is often called "adding" your app to your project.
 
 ### Register your app with Firebase
 
-To use Firebase in your Apple app, you need to register your app with your Firebase project.
-Registering your app is often called "adding" your app to your project.
-
 1. Go to the [Firebase console](https://console.firebase.google.com/).
 1. In the center of the project overview page, click the **iOS+** icon to launch the setup workflow.
    If you've already added an app to your Firebase project, click **Add app** to display the platform options.
@@ -57,9 +51,6 @@ Registering your app is often called "adding" your app to your project.
 ## Web
 
 ### Register your app with Firebase
-
-To use Firebase in your JavaScript app, you need to register your app with your Firebase project.
-Registering your app is often called "adding" your app to your project.
 
 1. Go to the [Firebase console](https://console.firebase.google.com/).
 1. In the center of the project overview page, click the **Web+** icon to launch the setup workflow.
