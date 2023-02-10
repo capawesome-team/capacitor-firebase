@@ -9,7 +9,7 @@ npm install @capacitor-firebase/remote-config firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](/docs/firebase-setup.md#android) / [iOS](/docs/firebase-setup.md#ios) / [Web](/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -74,16 +74,16 @@ const getString = async () => {
 
 <docgen-index>
 
-* [`activate()`](#activate)
-* [`fetchAndActivate()`](#fetchandactivate)
-* [`fetchConfig(...)`](#fetchconfig)
-* [`getBoolean(...)`](#getboolean)
-* [`getNumber(...)`](#getnumber)
-* [`getString(...)`](#getstring)
-* [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
-* [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
-* [Enums](#enums)
+- [`activate()`](#activate)
+- [`fetchAndActivate()`](#fetchandactivate)
+- [`fetchConfig(...)`](#fetchconfig)
+- [`getBoolean(...)`](#getboolean)
+- [`getNumber(...)`](#getnumber)
+- [`getString(...)`](#getstring)
+- [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
+- [Enums](#enums)
 
 </docgen-index>
 
@@ -100,8 +100,7 @@ Make the last fetched configuration available to the getters.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### fetchAndActivate()
 
@@ -113,8 +112,7 @@ Perform fetch and activate operations.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### fetchConfig(...)
 
@@ -130,8 +128,7 @@ Fetch and cache configuration from the Remote Config service.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### getBoolean(...)
 
@@ -149,8 +146,7 @@ Get the value for the given key as a boolean.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### getNumber(...)
 
@@ -168,8 +164,7 @@ Get the value for the given key as a number.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### getString(...)
 
@@ -187,8 +182,7 @@ Get the value for the given key as a string.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### setMinimumFetchInterval(...)
 
@@ -206,18 +200,15 @@ Only available for Web.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### FetchConfigOptions
 
 | Prop                                | Type                | Description                                                                                                                                                                                                               | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. Only available for Android and iOS. | <code>43200</code> | 1.3.0 |
-
 
 #### GetBooleanResult
 
@@ -226,13 +217,11 @@ Only available for Web.
 | **`value`**  | <code>boolean</code>                                      | The value for the given key as a boolean.                                           | 1.3.0 |
 | **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
-
 #### GetOptions
 
 | Prop      | Type                | Description                  | Since |
 | --------- | ------------------- | ---------------------------- | ----- |
 | **`key`** | <code>string</code> | The key of the value to get. | 1.3.0 |
-
 
 #### GetNumberResult
 
@@ -241,7 +230,6 @@ Only available for Web.
 | **`value`**  | <code>number</code>                                       | The value for the given key as a number.                                            | 1.3.0 |
 | **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
-
 #### GetStringResult
 
 | Prop         | Type                                                      | Description                                                                         | Since |
@@ -249,34 +237,27 @@ Only available for Web.
 | **`value`**  | <code>string</code>                                       | The value for the given key as a string.                                            | 1.3.0 |
 | **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
-
 #### SetMinimumFetchIntervalOptions
 
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
 
-
 ### Type Aliases
-
 
 #### GetBooleanOptions
 
 <code><a href="#getoptions">GetOptions</a></code>
 
-
 #### GetNumberOptions
 
 <code><a href="#getoptions">GetOptions</a></code>
-
 
 #### GetStringOptions
 
 <code><a href="#getoptions">GetOptions</a></code>
 
-
 ### Enums
-
 
 #### GetValueSource
 

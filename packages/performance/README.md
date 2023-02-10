@@ -9,7 +9,7 @@ npm install @capacitor-firebase/performance firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](/docs/firebase-setup.md#android) / [iOS](/docs/firebase-setup.md#ios) / [Web](/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -64,12 +64,12 @@ const isEnabled = async () => {
 
 <docgen-index>
 
-* [`startTrace(...)`](#starttrace)
-* [`stopTrace(...)`](#stoptrace)
-* [`incrementMetric(...)`](#incrementmetric)
-* [`setEnabled(...)`](#setenabled)
-* [`isEnabled()`](#isenabled)
-* [Interfaces](#interfaces)
+- [`startTrace(...)`](#starttrace)
+- [`stopTrace(...)`](#stoptrace)
+- [`incrementMetric(...)`](#incrementmetric)
+- [`setEnabled(...)`](#setenabled)
+- [`isEnabled()`](#isenabled)
+- [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -90,8 +90,7 @@ Starts a trace.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### stopTrace(...)
 
@@ -107,8 +106,7 @@ Stops a trace.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### incrementMetric(...)
 
@@ -124,8 +122,7 @@ Atomically increments the metric with the given name for the selected trace by t
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### setEnabled(...)
 
@@ -142,8 +139,7 @@ Will be applied with the next start of the app.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### isEnabled()
 
@@ -157,25 +153,21 @@ Determines whether performance monitoring is enabled or disabled.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### Interfaces
 
-
 #### StartTraceOptions
 
-| Prop            | Type                | Description                                                                                                                                                                                     | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`traceName`** | <code>string</code> | Custom trace name. Names for custom code traces must meet the following requirements: no leading or trailing whitespace, no leading underscore (_) character, and max length is 100 characters. | 0.1.0 |
-
+| Prop            | Type                | Description                                                                                                                                                                                      | Since |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`traceName`** | <code>string</code> | Custom trace name. Names for custom code traces must meet the following requirements: no leading or trailing whitespace, no leading underscore (\_) character, and max length is 100 characters. | 0.1.0 |
 
 #### StopTraceOptions
 
 | Prop            | Type                | Description                                       | Since |
 | --------------- | ------------------- | ------------------------------------------------- | ----- |
 | **`traceName`** | <code>string</code> | Name of the trace that was set with `startTrace`. | 0.1.0 |
-
 
 #### IncrementMetricOptions
 
@@ -185,13 +177,11 @@ Determines whether performance monitoring is enabled or disabled.
 | **`metricName`**  | <code>string</code> | Name of the metric to be incremented.             |                | 0.1.0 |
 | **`incrementBy`** | <code>number</code> | Amount by which the metric has to be incremented. | <code>1</code> | 0.1.0 |
 
-
 #### SetEnabledOptions
 
 | Prop          | Type                 | Description                               | Since |
 | ------------- | -------------------- | ----------------------------------------- | ----- |
 | **`enabled`** | <code>boolean</code> | Should performance monitoring be enabled. | 0.1.0 |
-
 
 #### IsEnabledResult
 

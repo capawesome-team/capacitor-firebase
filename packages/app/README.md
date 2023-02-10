@@ -9,7 +9,7 @@ npm install @capacitor-firebase/app firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](/docs/firebase-setup.md#android) / [iOS](/docs/firebase-setup.md#ios) / [Web](/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -45,9 +45,9 @@ const getOptions = async () => {
 
 <docgen-index>
 
-* [`getName()`](#getname)
-* [`getOptions()`](#getoptions)
-* [Interfaces](#interfaces)
+- [`getName()`](#getname)
+- [`getOptions()`](#getoptions)
+- [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -66,8 +66,7 @@ Get the name for this app.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### getOptions()
 
@@ -81,18 +80,15 @@ Get the configuration options for this app.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### GetNameResult
 
 | Prop       | Type                | Description                  | Since |
 | ---------- | ------------------- | ---------------------------- | ----- |
 | **`name`** | <code>string</code> | The unique name of this app. | 0.1.0 |
-
 
 #### GetOptionsResult
 
