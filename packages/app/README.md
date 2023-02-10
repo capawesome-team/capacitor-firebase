@@ -45,9 +45,9 @@ const getOptions = async () => {
 
 <docgen-index>
 
-- [`getName()`](#getname)
-- [`getOptions()`](#getoptions)
-- [Interfaces](#interfaces)
+* [`getName()`](#getname)
+* [`getOptions()`](#getoptions)
+* [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -66,7 +66,8 @@ Get the name for this app.
 
 **Since:** 0.1.0
 
----
+--------------------
+
 
 ### getOptions()
 
@@ -80,15 +81,18 @@ Get the configuration options for this app.
 
 **Since:** 0.1.0
 
----
+--------------------
+
 
 ### Interfaces
+
 
 #### GetNameResult
 
 | Prop       | Type                | Description                  | Since |
 | ---------- | ------------------- | ---------------------------- | ----- |
 | **`name`** | <code>string</code> | The unique name of this app. | 0.1.0 |
+
 
 #### GetOptionsResult
 
