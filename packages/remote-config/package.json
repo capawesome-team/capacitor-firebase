@@ -76,6 +76,11 @@
     "@capacitor/core": "^4.0.0",
     "firebase": "^9.0.0"
   },
+  "peerDependenciesMeta": {
+    "firebase": {
+      "optional": true
+    }
+  },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "eslintConfig": {
