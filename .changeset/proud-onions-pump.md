@@ -1,5 +1,5 @@
 ---
-"@capacitor-firebase/analytics": major
+"@capacitor-firebase/analytics": minor
 ---
 
 feat: add method `getAppInstanceId`
