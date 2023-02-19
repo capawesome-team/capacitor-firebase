@@ -20,6 +20,15 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
         implementation = FirebaseAnalytics()
     }
 
+    @objc func getAppInstanceId(_ call: CAPPluginCall) {
+        let appInstanceId = implementation?.getAppInstanceId()
+        var result = JSObject()
+        if appInstanceId != nil {
+            result["appInstanceId"] = appInstanceId
+        }
+        call.resolve(result)
+    }
+
     @objc func setUserId(_ call: CAPPluginCall) {
         let userId = call.getString("userId")
         implementation?.setUserId(userId)

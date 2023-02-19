@@ -1,5 +1,13 @@
 export interface FirebaseAnalyticsPlugin {
   /**
+   * Retrieves the app instance id.
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 1.4.0
+   */
+  getAppInstanceId(): Promise<GetAppInstanceIdResult>;
+  /**
    * Sets the user ID property.
    *
    * @since 0.1.0
@@ -57,6 +65,20 @@ export interface FirebaseAnalyticsPlugin {
    * @since 0.1.0
    */
   resetAnalyticsData(): Promise<void>;
+}
+
+/**
+ * @since 1.4.0
+ */
+export interface GetAppInstanceIdResult {
+  /**
+   * The app instance id.
+   *
+   * Not defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`.
+   *
+   * @since 1.4.0
+   */
+  appInstanceId?: string;
 }
 
 /**

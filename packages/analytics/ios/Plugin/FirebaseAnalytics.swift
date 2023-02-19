@@ -12,6 +12,10 @@ import FirebaseAnalytics
         }
     }
 
+    @objc public func getAppInstanceId() -> String? {
+        return Analytics.appInstanceID()
+    }
+
     @objc public func setUserId(_ userId: String?) {
         Analytics.setUserID(userId)
     }
