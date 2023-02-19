@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -10,6 +11,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "FirebaseAnalytics")
 public class FirebaseAnalyticsPlugin extends Plugin {
 
+    public static final String TAG = "FirebaseAnalytics";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
     public static final String ERROR_NAME_MISSING = "name must be provided.";
@@ -17,6 +19,31 @@ public class FirebaseAnalyticsPlugin extends Plugin {
 
     public void load() {
         implementation = new FirebaseAnalytics(this.getContext(), this.getBridge());
+    }
+
+    @PluginMethod
+    public void getAppInstanceId(PluginCall call) {
+        try {
+            implementation.getAppInstanceId(
+                new GetAppInstanceIdCallback() {
+                    @Override
+                    public void success(@Nullable String appInstanceId) {
+                        JSObject result = new JSObject();
+                        if (appInstanceId != null) {
+                            result.put("appInstanceId", appInstanceId);
+                        }
+                        call.resolve(result);
+                    }
+
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
+                }
+            );
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
     }
 
     @PluginMethod

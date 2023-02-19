@@ -114,6 +114,7 @@ const resetAnalyticsData = async () => {
 
 <docgen-index>
 
+* [`getAppInstanceId()`](#getappinstanceid)
 * [`setUserId(...)`](#setuserid)
 * [`setUserProperty(...)`](#setuserproperty)
 * [`setCurrentScreen(...)`](#setcurrentscreen)
@@ -128,6 +129,23 @@ const resetAnalyticsData = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### getAppInstanceId()
+
+```typescript
+getAppInstanceId() => Promise<GetAppInstanceIdResult>
+```
+
+Retrieves the app instance id.
+
+Only available for Android and iOS.
+
+**Returns:** <code>Promise&lt;<a href="#getappinstanceidresult">GetAppInstanceIdResult</a>&gt;</code>
+
+**Since:** 1.4.0
+
+--------------------
+
 
 ### setUserId(...)
 
@@ -268,6 +286,13 @@ Only available for Android and iOS.
 
 
 ### Interfaces
+
+
+#### GetAppInstanceIdResult
+
+| Prop                | Type                | Description                                                                                                                                     | Since |
+| ------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`. | 1.4.0 |
 
 
 #### SetUserIdOptions
