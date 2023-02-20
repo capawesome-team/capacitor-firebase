@@ -86,12 +86,10 @@ public class FirebaseMessagingHelper {
     public static NotificationChannel createNotificationChannelFromPluginCall(PluginCall call, String packageName) {
         String id = call.getString("id");
         if (id == null) {
-            call.reject(FirebaseMessagingPlugin.ERROR_ID_MISSING);
             return null;
         }
         String name = call.getString("name");
         if (name == null) {
-            call.reject(FirebaseMessagingPlugin.ERROR_NAME_MISSING);
             return null;
         }
         int importance = call.getInt("importance", NotificationManager.IMPORTANCE_DEFAULT);
