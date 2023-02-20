@@ -31,7 +31,7 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
     public static final String ERROR_NOTIFICATIONS_MISSING = "notifications must be provided.";
     public static final String ERROR_ID_MISSING = "id must be provided.";
-    public static final String ERROR_NAME_MISSING = "name must be provided.";
+    public static final String ERROR_ID_OR_NAME_MISSING = "id and name must be provided.";
     public static Bridge staticBridge = null;
     public static String lastToken = null;
     public static RemoteMessage lastRemoteMessage = null;
@@ -223,6 +223,10 @@ public class FirebaseMessagingPlugin extends Plugin {
                 call,
                 getContext().getPackageName()
             );
+            if (notificationChannel == null) {
+                call.reject(ERROR_ID_OR_NAME_MISSING);
+                return;
+            }
             implementation.createChannel(notificationChannel);
             call.resolve();
         } catch (Exception ex) {
