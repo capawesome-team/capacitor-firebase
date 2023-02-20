@@ -15,4 +15,7 @@ CAP_PLUGIN(FirebaseMessagingPlugin, "FirebaseMessaging",
            CAP_PLUGIN_METHOD(removeAllListeners, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(subscribeToTopic, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(unsubscribeFromTopic, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(createChannel, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(deleteChannel, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(listChannels, CAPPluginReturnPromise);
 )

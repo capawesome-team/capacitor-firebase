@@ -141,6 +141,18 @@ public class FirebaseMessagingPlugin: CAPPlugin {
         })
     }
 
+    @objc func createChannel(_ call: CAPPluginCall) {
+        call.unimplemented("Not implemented on iOS.")
+    }
+
+    @objc func deleteChannel(_ call: CAPPluginCall) {
+        call.unimplemented("Not implemented on iOS.")
+    }
+
+    @objc func listChannels(_ call: CAPPluginCall) {
+        call.unimplemented("Not implemented on iOS.")
+    }
+
     func handleTokenReceived(token: String?) {
         var result = JSObject()
         result["token"] = token

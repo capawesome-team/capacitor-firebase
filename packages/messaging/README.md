@@ -229,12 +229,16 @@ const removeAllListeners = async () => {
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
 * [`subscribeToTopic(...)`](#subscribetotopic)
 * [`unsubscribeFromTopic(...)`](#unsubscribefromtopic)
+* [`createChannel(...)`](#createchannel)
+* [`deleteChannel(...)`](#deletechannel)
+* [`listChannels()`](#listchannels)
 * [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
 * [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -407,6 +411,61 @@ Only available for Android and iOS.
 --------------------
 
 
+### createChannel(...)
+
+```typescript
+createChannel(options: CreateChannelOptions) => Promise<void>
+```
+
+Create a notification channel.
+
+Only available for Android (SDK 26+).
+
+| Param         | Type                                        |
+| ------------- | ------------------------------------------- |
+| **`options`** | <code><a href="#channel">Channel</a></code> |
+
+**Since:** 1.4.0
+
+--------------------
+
+
+### deleteChannel(...)
+
+```typescript
+deleteChannel(options: DeleteChannelOptions) => Promise<void>
+```
+
+Delete a notification channel.
+
+Only available for Android (SDK 26+).
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletechanneloptions">DeleteChannelOptions</a></code> |
+
+**Since:** 1.4.0
+
+--------------------
+
+
+### listChannels()
+
+```typescript
+listChannels() => Promise<ListChannelsResult>
+```
+
+List the available notification channels.
+
+Only available for Android (SDK 26+).
+
+**Returns:** <code>Promise&lt;<a href="#listchannelsresult">ListChannelsResult</a>&gt;</code>
+
+**Since:** 1.4.0
+
+--------------------
+
+
 ### addListener('tokenReceived', ...)
 
 ```typescript
@@ -565,6 +624,35 @@ Remove all listeners for this plugin.
 | **`topic`** | <code>string</code> | The name of the topic to unsubscribe from. | 0.2.2 |
 
 
+#### Channel
+
+| Prop              | Type                                              | Description                                                                                                                                                                                                                                                | Since |
+| ----------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`description`** | <code>string</code>                               | The description of this channel (presented to the user).                                                                                                                                                                                                   | 1.4.0 |
+| **`id`**          | <code>string</code>                               | The channel identifier.                                                                                                                                                                                                                                    | 1.4.0 |
+| **`importance`**  | <code><a href="#importance">Importance</a></code> | The level of interruption for notifications posted to this channel.                                                                                                                                                                                        | 1.4.0 |
+| **`lightColor`**  | <code>string</code>                               | The light color for notifications posted to this channel. Only supported if lights are enabled on this channel and the device supports it. Supported color formats are `#RRGGBB` and `#RRGGBBAA`.                                                          | 1.4.0 |
+| **`lights`**      | <code>boolean</code>                              | Whether notifications posted to this channel should display notification lights, on devices that support it.                                                                                                                                               | 1.4.0 |
+| **`name`**        | <code>string</code>                               | The name of this channel (presented to the user).                                                                                                                                                                                                          | 1.4.0 |
+| **`sound`**       | <code>string</code>                               | The sound that should be played for notifications posted to this channel. Notification channels with an importance of at least `3` should have a sound. The file name of a sound file should be specified relative to the android app `res/raw` directory. | 1.4.0 |
+| **`vibration`**   | <code>boolean</code>                              | Whether notifications posted to this channel should vibrate.                                                                                                                                                                                               | 1.4.0 |
+| **`visibility`**  | <code><a href="#visibility">Visibility</a></code> | The visibility of notifications posted to this channel. This setting is for whether notifications posted to this channel appear on the lockscreen or not, and if so, whether they appear in a redacted form.                                               | 1.4.0 |
+
+
+#### DeleteChannelOptions
+
+| Prop     | Type                | Description             | Since |
+| -------- | ------------------- | ----------------------- | ----- |
+| **`id`** | <code>string</code> | The channel identifier. | 1.4.0 |
+
+
+#### ListChannelsResult
+
+| Prop           | Type                   |
+| -------------- | ---------------------- |
+| **`channels`** | <code>Channel[]</code> |
+
+
 #### PluginListenerHandle
 
 | Prop         | Type                                      |
@@ -603,6 +691,11 @@ Remove all listeners for this plugin.
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
 
+#### CreateChannelOptions
+
+<code><a href="#channel">Channel</a></code>
+
+
 #### TokenReceivedListener
 
 Callback to receive the token received event.
@@ -622,6 +715,29 @@ Callback to receive the notification received event.
 Callback to receive the notification action performed event.
 
 <code>(event: <a href="#notificationactionperformedevent">NotificationActionPerformedEvent</a>): void</code>
+
+
+### Enums
+
+
+#### Importance
+
+| Members       | Value          | Since |
+| ------------- | -------------- | ----- |
+| **`Min`**     | <code>1</code> | 1.4.0 |
+| **`Low`**     | <code>2</code> | 1.4.0 |
+| **`Default`** | <code>3</code> | 1.4.0 |
+| **`High`**    | <code>4</code> | 1.4.0 |
+| **`Max`**     | <code>5</code> | 1.4.0 |
+
+
+#### Visibility
+
+| Members       | Value           | Since |
+| ------------- | --------------- | ----- |
+| **`Secret`**  | <code>-1</code> | 1.4.0 |
+| **`Private`** | <code>0</code>  | 1.4.0 |
+| **`Public`**  | <code>1</code>  | 1.4.0 |
 
 </docgen-api>
 
