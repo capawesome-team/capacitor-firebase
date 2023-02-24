@@ -10,6 +10,30 @@ If you want to use the Firebase JS SDK on Android and iOS as well, follow the in
 
 Add Firebase to your JavaScript project if you haven't already (see [here](https://firebase.google.com/docs/web/setup)).
 
+Next you need to call `initializeAuth` with `persistence` set to `indexedDBLocalPersistence`:
+
+```ts
+import { Capacitor } from '@capacitor/core';
+import { getApp } from 'firebase/app';
+import {
+  getAuth,
+  indexedDBLocalPersistence,
+  initializeAuth
+} from 'firebase/auth';
+
+const getFirebaseAuth = async () => {
+  if (Capacitor.isNativePlatform()) {
+    return initializeAuth(getApp(), {
+      persistence: indexedDBLocalPersistence
+    });
+  } else {
+    return getAuth();
+  }
+};
+```
+
+This makes sure that the user is still signed in the next time the app is started.
+
 ## Usage
 
 Sign in the user on the native layer, create web credentials and sign in the user on the web layer using [`signInWithCredential`](https://firebase.google.com/docs/reference/js/auth.md#signinwithcredential).
