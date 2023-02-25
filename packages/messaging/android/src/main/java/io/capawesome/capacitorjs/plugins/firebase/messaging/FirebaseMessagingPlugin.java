@@ -1,9 +1,9 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
+import android.app.NotificationChannel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import com.getcapacitor.Bridge;
 import com.getcapacitor.JSArray;
@@ -30,6 +30,8 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String ERROR_NOTIFICATIONS_INVALID = "The provided notifications are invalid.";
     public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
     public static final String ERROR_NOTIFICATIONS_MISSING = "notifications must be provided.";
+    public static final String ERROR_ID_MISSING = "id must be provided.";
+    public static final String ERROR_ID_OR_NAME_MISSING = "id and name must be provided.";
     public static Bridge staticBridge = null;
     public static String lastToken = null;
     public static RemoteMessage lastRemoteMessage = null;
@@ -205,6 +207,69 @@ public class FirebaseMessagingPlugin extends Plugin {
             }
             implementation.unsubscribeFromTopic(topic);
             call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void createChannel(PluginCall call) {
+        try {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                call.unavailable();
+                return;
+            }
+            NotificationChannel notificationChannel = FirebaseMessagingHelper.createNotificationChannelFromPluginCall(
+                call,
+                getContext().getPackageName()
+            );
+            if (notificationChannel == null) {
+                call.reject(ERROR_ID_OR_NAME_MISSING);
+                return;
+            }
+            implementation.createChannel(notificationChannel);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void deleteChannel(PluginCall call) {
+        try {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                call.unavailable();
+                return;
+            }
+            String id = call.getString("id");
+            if (id == null) {
+                call.reject(ERROR_ID_MISSING);
+                return;
+            }
+
+            implementation.deleteChannelById(id);
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject(ex.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void listChannels(PluginCall call) {
+        try {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                call.unavailable();
+                return;
+            }
+            List<NotificationChannel> notificationChannels = implementation.getNotificationChannels();
+            JSArray channelsResult = new JSArray();
+            for (NotificationChannel notificationChannel : notificationChannels) {
+                JSObject channelResult = FirebaseMessagingHelper.createChannelResult(notificationChannel);
+                channelsResult.put(channelResult);
+            }
+            JSObject result = new JSObject();
+            result.put("channels", channelsResult);
+            call.resolve(result);
         } catch (Exception ex) {
             call.reject(ex.getLocalizedMessage());
         }

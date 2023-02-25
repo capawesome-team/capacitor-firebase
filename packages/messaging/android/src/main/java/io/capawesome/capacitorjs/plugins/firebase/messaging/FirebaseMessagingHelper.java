@@ -1,11 +1,22 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.ContentResolver;
+import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.util.WebColor;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseMessagingHelper {
@@ -68,5 +79,65 @@ public class FirebaseMessagingHelper {
         }
 
         return notificationResult;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Nullable
+    public static NotificationChannel createNotificationChannelFromPluginCall(PluginCall call, String packageName) {
+        String id = call.getString("id");
+        if (id == null) {
+            return null;
+        }
+        String name = call.getString("name");
+        if (name == null) {
+            return null;
+        }
+        int importance = call.getInt("importance", NotificationManager.IMPORTANCE_DEFAULT);
+        String description = call.getString("description", "");
+        int visibility = call.getInt("visibility", NotificationCompat.VISIBILITY_PUBLIC);
+        boolean vibrate = call.getBoolean("vibrate", false);
+        boolean lights = call.getBoolean("lights", false);
+        String lightColor = call.getString("lightColor", null);
+        String sound = call.getString("sound", null);
+
+        NotificationChannel notificationChannel = new NotificationChannel(id, name, importance);
+        notificationChannel.setDescription(description);
+        notificationChannel.setLockscreenVisibility(visibility);
+        notificationChannel.enableVibration(vibrate);
+        notificationChannel.enableLights(lights);
+        if (lightColor != null) {
+            try {
+                notificationChannel.setLightColor(WebColor.parseColor(lightColor));
+            } catch (Exception ex) {
+                Logger.error("setLightColor failed.", ex);
+            }
+        }
+        if (sound != null && !sound.isEmpty()) {
+            if (sound.contains(".")) {
+                sound = sound.substring(0, sound.lastIndexOf('.'));
+            }
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build();
+            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/raw/" + sound);
+            notificationChannel.setSound(soundUri, audioAttributes);
+        }
+        return notificationChannel;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static JSObject createChannelResult(@NonNull NotificationChannel notificationChannel) {
+        JSObject channelResult = new JSObject();
+        channelResult.put("id", notificationChannel.getId());
+        channelResult.put("name", notificationChannel.getName());
+        channelResult.put("description", notificationChannel.getDescription());
+        channelResult.put("importance", notificationChannel.getImportance());
+        channelResult.put("visibility", notificationChannel.getLockscreenVisibility());
+        channelResult.put("sound", notificationChannel.getSound());
+        channelResult.put("vibration", notificationChannel.shouldVibrate());
+        channelResult.put("lights", notificationChannel.shouldShowLights());
+        channelResult.put("lightColor", String.format("#%06X", (0xFFFFFF & notificationChannel.getLightColor())));
+        return channelResult;
     }
 }

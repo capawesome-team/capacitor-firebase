@@ -103,6 +103,30 @@ export interface FirebaseMessagingPlugin {
    */
   unsubscribeFromTopic(options: UnsubscribeFromTopicOptions): Promise<void>;
   /**
+   * Create a notification channel.
+   *
+   * Only available for Android (SDK 26+).
+   *
+   * @since 1.4.0
+   */
+  createChannel(options: CreateChannelOptions): Promise<void>;
+  /**
+   * Delete a notification channel.
+   *
+   * Only available for Android (SDK 26+).
+   *
+   * @since 1.4.0
+   */
+  deleteChannel(options: DeleteChannelOptions): Promise<void>;
+  /**
+   * List the available notification channels.
+   *
+   * Only available for Android (SDK 26+).
+   *
+   * @since 1.4.0
+   */
+  listChannels(): Promise<ListChannelsResult>;
+  /**
    * Called when a new FCM token is received.
    *
    * @since 0.2.2
@@ -238,6 +262,158 @@ export interface UnsubscribeFromTopicOptions {
    * @since 0.2.2
    */
   topic: string;
+}
+
+/**
+ * @since 1.4.0
+ */
+export type CreateChannelOptions = Channel;
+
+/**
+ * @since 1.4.0
+ */
+export interface DeleteChannelOptions {
+  /**
+   * The channel identifier.
+   *
+   * @since 1.4.0
+   */
+  id: string;
+}
+
+/**
+ * @since 1.4.0
+ */
+export interface ListChannelsResult {
+  channels: Channel[];
+}
+
+/**
+ * @since 1.4.0
+ */
+export interface Channel {
+  /**
+   * The description of this channel (presented to the user).
+   *
+   * @since 1.4.0
+   */
+  description?: string;
+  /**
+   * The channel identifier.
+   *
+   * @since 1.4.0
+   */
+  id: string;
+  /**
+   * The level of interruption for notifications posted to this channel.
+   *
+   * @since 1.4.0
+   */
+  importance?: Importance;
+  /**
+   * The light color for notifications posted to this channel.
+   *
+   * Only supported if lights are enabled on this channel and the device
+   * supports it.
+   *
+   * Supported color formats are `#RRGGBB` and `#RRGGBBAA`.
+   *
+   * @since 1.4.0
+   */
+  lightColor?: string;
+  /**
+   * Whether notifications posted to this channel should display notification
+   * lights, on devices that support it.
+   *
+   * @since 1.4.0
+   */
+  lights?: boolean;
+  /**
+   * The name of this channel (presented to the user).
+   *
+   * @since 1.4.0
+   */
+  name: string;
+  /**
+   * The sound that should be played for notifications posted to this channel.
+   *
+   * Notification channels with an importance of at least `3` should have a
+   * sound.
+   *
+   * The file name of a sound file should be specified relative to the android
+   * app `res/raw` directory.
+   *
+   * @since 1.4.0
+   * @example "jingle.wav"
+   */
+  sound?: string;
+  /**
+   * Whether notifications posted to this channel should vibrate.
+   *
+   * @since 1.4.0
+   */
+  vibration?: boolean;
+  /**
+   * The visibility of notifications posted to this channel.
+   *
+   * This setting is for whether notifications posted to this channel appear on
+   * the lockscreen or not, and if so, whether they appear in a redacted form.
+   *
+   * @since 1.4.0
+   */
+  visibility?: Visibility;
+}
+
+/**
+ * The importance level.
+ *
+ * For more details, see the [Android Developer Docs](https://developer.android.com/reference/android/app/NotificationManager#IMPORTANCE_DEFAULT)
+ *
+ * @since 1.4.0
+ */
+export enum Importance {
+  /**
+   * @since 1.4.0
+   */
+  Min = 1,
+  /**
+   * @since 1.4.0
+   */
+  Low = 2,
+  /**
+   * @since 1.4.0
+   */
+  Default = 3,
+  /**
+   * @since 1.4.0
+   */
+  High = 4,
+  /**
+   * @since 1.4.0
+   */
+  Max = 5,
+}
+
+/**
+ * The notification visibility.
+ *
+ * For more details, see the [Android Developer Docs](https://developer.android.com/reference/androidx/core/app/NotificationCompat#VISIBILITY_PRIVATE())
+ *
+ * @since 1.4.0
+ */
+export enum Visibility {
+  /**
+   * @since 1.4.0
+   */
+  Secret = -1,
+  /**
+   * @since 1.4.0
+   */
+  Private = 0,
+  /**
+   * @since 1.4.0
+   */
+  Public = 1,
 }
 
 /**

@@ -1,5 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import java.util.List;
@@ -76,5 +78,20 @@ public class FirebaseMessaging {
 
     public void unsubscribeFromTopic(String topic) {
         firebaseMessagingInstance.unsubscribeFromTopic(topic);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void createChannel(NotificationChannel notificationChannel) {
+        notificationManager.createNotificationChannel(notificationChannel);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void deleteChannelById(String id) {
+        notificationManager.deleteNotificationChannel(id);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<NotificationChannel> getNotificationChannels() {
+        return notificationManager.getNotificationChannels();
     }
 }
