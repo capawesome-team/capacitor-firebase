@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.0
+
+### Minor Changes
+
+- [`823d116`](https://github.com/capawesome-team/capacitor-firebase/commit/823d1164904bf046a7318b6fd0c7b857127d637d) ([#322](https://github.com/capawesome-team/capacitor-firebase/pull/322)): feat: add method `getAppInstanceId`
+
+### Patch Changes
+
+- [`1b9de05`](https://github.com/capawesome-team/capacitor-firebase/commit/1b9de05acd70f88362a6979507676effc5fb5a0f) ([#335](https://github.com/capawesome-team/capacitor-firebase/pull/335)): fix(ios): allow screen name to be set without screen class and vice-versa
+
 ## 1.3.0
 
 ### Minor Changes
