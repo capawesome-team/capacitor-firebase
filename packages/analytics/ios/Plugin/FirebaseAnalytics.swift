@@ -25,15 +25,12 @@ import FirebaseAnalytics
     }
 
     @objc public func setCurrentScreen(_ screenName: String?, _ screenClass: String?) {
-        var params: [String: Any]?
-        if screenName != nil && screenClass != nil {
-            params = [:]
-        }
+        var params = [String: Any]()
         if screenName != nil {
-            params?[AnalyticsParameterScreenName] = screenName
+            params[AnalyticsParameterScreenName] = screenName
         }
         if screenClass != nil {
-            params?[AnalyticsParameterScreenClass] = screenClass
+            params[AnalyticsParameterScreenClass] = screenClass
         }
         DispatchQueue.main.async {
             Analytics.logEvent(AnalyticsEventScreenView,
