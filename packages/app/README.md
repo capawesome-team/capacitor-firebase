@@ -1,6 +1,6 @@
 # @capacitor-firebase/app
 
-⚡️ Capacitor plugin for Firebase App.
+Unofficial Capacitor plugin for [Firebase App](https://firebase.google.com/docs).[^1]
 
 ## Installation
 
@@ -114,3 +114,5 @@ See [CHANGELOG.md](/packages/app/CHANGELOG.md).
 ## License
 
 See [LICENSE](/packages/app/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

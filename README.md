@@ -14,7 +14,7 @@
 
 ## Features
 
-Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use Firebase in your Capacitor project.
+Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use [Firebase](https://firebase.google.com/) in your Capacitor project.[^1]
 
 - 🔋 Supports **Android, iOS and the Web**
 - ⚡️ **Capacitor 4** support
@@ -77,3 +77,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## License
 
 See [LICENSE](./LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

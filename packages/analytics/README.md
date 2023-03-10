@@ -1,6 +1,6 @@
 # @capacitor-firebase/analytics
 
-⚡️ Capacitor plugin for Firebase Analytics.
+Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com/docs/analytics).[^1]
 
 ## Installation
 
@@ -355,3 +355,5 @@ See [CHANGELOG.md](/packages/analytics/CHANGELOG.md).
 ## License
 
 See [LICENSE](/packages/analytics/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

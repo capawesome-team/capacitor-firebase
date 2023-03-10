@@ -1,6 +1,6 @@
 # @capacitor-firebase/performance
 
-⚡️ Capacitor plugin for Firebase Performance Monitoring.
+Unofficial Capacitor plugin for [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon).[^1]
 
 ## Installation
 
@@ -208,3 +208,5 @@ See [CHANGELOG.md](/packages/performance/CHANGELOG.md).
 ## License
 
 See [LICENSE](/packages/performance/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

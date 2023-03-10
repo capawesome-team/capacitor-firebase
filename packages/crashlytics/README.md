@@ -1,6 +1,6 @@
 # @capacitor-firebase/crashlytics
 
-⚡️ Capacitor plugin for Firebase Crashlytics.
+Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 
 ## Installation
 
@@ -404,3 +404,5 @@ See [LICENSE](/packages/crashlytics/LICENSE).
 
 This plugin is based on the [Capacitor Community Firebase Crashlytics plugin](https://github.com/capacitor-community/firebase-crashlytics).
 Thanks to everyone who contributed to the project!
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

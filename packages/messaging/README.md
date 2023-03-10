@@ -1,6 +1,6 @@
 # @capacitor-firebase/messaging
 
-⚡️ Capacitor plugin for Firebase Cloud Messaging (FCM).
+Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging).[^1]
 
 ## Installation
 
@@ -748,3 +748,5 @@ See [CHANGELOG.md](/packages/messaging/CHANGELOG.md).
 ## License
 
 See [LICENSE](/packages/messaging/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

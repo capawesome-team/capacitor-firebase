@@ -1,6 +1,6 @@
 # @capacitor-firebase/remote-config
 
-⚡️ Capacitor plugin for Firebase Remote Config.
+Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config).[^1]
 
 ## Installation
 
@@ -295,3 +295,5 @@ See [CHANGELOG.md](/packages/remote-config/CHANGELOG.md).
 ## License
 
 See [LICENSE](/packages/remote-config/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

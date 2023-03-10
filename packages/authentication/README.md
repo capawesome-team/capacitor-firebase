@@ -1,6 +1,6 @@
 # @capacitor-firebase/authentication
 
-⚡️ Capacitor plugin for Firebase Authentication.
+Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 
 ## Installation
 
@@ -1805,3 +1805,5 @@ See [LICENSE](/packages/authentication/LICENSE).
 
 This plugin is based on the [Capacitor Firebase Authentication plugin](https://github.com/robingenz/capacitor-firebase-authentication).
 Thanks to everyone who contributed to the project!
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

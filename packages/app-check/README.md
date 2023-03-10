@@ -1,6 +1,6 @@
 # @capacitor-firebase/app-check
 
-⚡️ Capacitor plugin for Firebase App Check.
+Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
 ## Installation
 
@@ -288,3 +288,5 @@ See [CHANGELOG.md](/packages/app-check/CHANGELOG.md).
 ## License
 
 See [LICENSE](/packages/app-check/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.
