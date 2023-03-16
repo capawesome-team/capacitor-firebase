@@ -9,7 +9,7 @@ npm install @capacitor-firebase/authentication firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](/docs/firebase-setup.md#android) / [iOS](/docs/firebase-setup.md#ios) / [Web](/docs/firebase-setup.md#web)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 On **iOS**, verify that this function is included in your app's `AppDelegate.swift`:
 
@@ -34,20 +34,20 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 The further installation steps depend on the selected authentication method:
 
-- [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
-- [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
-- [Game Center Sign-In](/packages/authentication/docs/setup-game-center.md)
-- [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
-- [Google Sign-In](/packages/authentication/docs/setup-google.md)
-- [Microsoft Sign-In](/packages/authentication/docs/setup-microsoft.md)
-- [Play Games Sign-In](/packages/authentication/docs/setup-play-games.md)
-- [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
-- [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
+- [Apple Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-apple.md)
+- [Facebook Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-facebook.md)
+- [Game Center Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-game-center.md)
+- [GitHub Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-github.md)
+- [Google Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-google.md)
+- [Microsoft Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-microsoft.md)
+- [Play Games Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-play-games.md)
+- [Twitter Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-twitter.md)
+- [Yahoo Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-yahoo.md)
 
-- [Anonymous Sign-In](/packages/authentication/docs/setup-anonymous.md)
-- [Email Link Sign-In](/packages/authentication/docs/setup-email-link.md)
-- [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
-- [Custom Token Sign-In](/packages/authentication/docs/custom-token.md)
+- [Anonymous Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-anonymous.md)
+- [Email Link Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-email-link.md)
+- [Phone Number Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-phone.md)
+- [Custom Token Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
 These SDKs can initialize on their own and collect various data.
@@ -114,13 +114,13 @@ export default config;
    For native authentication, the native SDKs from Firebase, Google, etc. are used.
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
-   If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
+   If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md)).
 1. **How can I use this plugin with the Firebase JavaScript SDK?**  
-   See [here](/packages/authentication/docs/firebase-js-sdk.md).
+   See [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md).
 
 ## Firebase JavaScript SDK
 
-[Here](/packages/authentication/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
+[Here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
 
 ## Demo
 
@@ -1795,11 +1795,11 @@ Callback to receive the verification ID.
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/authentication/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/authentication/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/LICENSE).
 
 ## Credits
 

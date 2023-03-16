@@ -165,4 +165,4 @@ When using the Firebase JS SDK on Android and iOS, you must be aware of the foll
 - **Apple Sign-In** works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
 - **Twitter Sign-In** works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
 
-**Note**: The [`skipNativeAuth`](/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](/packages/authentication/README.md#signinoptions)).
+**Note**: The [`skipNativeAuth`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#signinoptions)).

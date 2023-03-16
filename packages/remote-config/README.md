@@ -9,11 +9,11 @@ npm install @capacitor-firebase/remote-config firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](/docs/firebase-setup.md#android) / [iOS](/docs/firebase-setup.md#ios) / [Web](/docs/firebase-setup.md#web)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
-Google Analytics is required for the [conditional targeting of app instances](https://firebase.google.com/docs/remote-config/parameters#conditions_rules_and_conditional_values) to user properties and audiences. Make sure that you install the [Capacitor Firebase Analytics](/packages/analytics) plugin in your project.
+Google Analytics is required for the [conditional targeting of app instances](https://firebase.google.com/docs/remote-config/parameters#conditions_rules_and_conditional_values) to user properties and audiences. Make sure that you install the [Capacitor Firebase Analytics](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics) plugin in your project.
 
 #### Variables
 
@@ -290,10 +290,10 @@ Only available for Web.
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/remote-config/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/remote-config/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/remote-config/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/remote-config/LICENSE).
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

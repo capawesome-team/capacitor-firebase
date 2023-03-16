@@ -394,11 +394,11 @@ If you get obfuscated crash reports for iOS, make sure you have [initialized Cra
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/crashlytics/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/crashlytics/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/LICENSE).
 
 ## Credits
 
