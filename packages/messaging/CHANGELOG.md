@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+
+### Minor Changes
+
+- [`92b0194`](https://github.com/capawesome-team/capacitor-firebase/commit/92b01943c75542b282dcee53567224ab5e00ed43) ([#326](https://github.com/capawesome-team/capacitor-firebase/pull/326)): feat(android): notification channels
+
 ## 1.3.0
 
 ### Minor Changes

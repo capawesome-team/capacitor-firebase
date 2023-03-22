@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+
+### Patch Changes
+
+- [`2d51ffc`](https://github.com/capawesome-team/capacitor-firebase/commit/2d51ffc13bc2a93c9170172ebd7c5cc4e28ba1cf) ([#305](https://github.com/capawesome-team/capacitor-firebase/pull/305)): fix(android): `NullPointerException` on Google Sign-In
+
 ## 1.3.0
 
 ### Minor Changes
