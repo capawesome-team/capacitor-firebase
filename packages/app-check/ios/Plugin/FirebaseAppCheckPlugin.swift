@@ -7,6 +7,7 @@ import Capacitor
  */
 @objc(FirebaseAppCheckPlugin)
 public class FirebaseAppCheckPlugin: CAPPlugin {
+    public let tag = "FirebaseApp"
     public let errorEnabledMissing = "enabled must be provided."
     public let errorGetTokenFailed = "Failed to get token."
     private var implementation: FirebaseAppCheck?
@@ -19,6 +20,7 @@ public class FirebaseAppCheckPlugin: CAPPlugin {
         let forceRefresh = call.getBool("forceRefresh") ?? false
         implementation?.getToken(forceRefresh: forceRefresh, completion: { token, expireTimeMillis, error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }

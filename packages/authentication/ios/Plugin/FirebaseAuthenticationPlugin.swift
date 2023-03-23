@@ -10,6 +10,7 @@ import FirebaseAuth
 // swiftlint:disable type_body_length
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin {
+    public let tag = "FirebaseAuthentication"
     public let errorProviderIdMissing = "providerId must be provided."
     public let errorNoUserSignedIn = "No user is signed in."
     public let errorOobCodeMissing = "oobCode must be provided."
@@ -53,6 +54,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.applyActionCode(oobCode: oobCode, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -72,6 +74,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.confirmPasswordReset(oobCode: oobCode, newPassword: newPassword, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -91,6 +94,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.deleteUser(user: user, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -206,6 +210,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.reload(user: user, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -221,6 +226,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.sendEmailVerification(user: user, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -236,6 +242,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.sendPasswordResetEmail(email: email, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -284,6 +291,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.sendSignInLinkToEmail(email: email, actionCodeSettings: actionCodeSettings, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -389,6 +397,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.unlink(user: user, providerId: providerId, completion: { user, error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -411,6 +420,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.updateEmail(user: user, newEmail: newEmail, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -430,6 +440,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.updatePassword(user: user, newPassword: newPassword, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -448,6 +459,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.updateProfile(user: user, displayName: displayName, photoUrl: photoUrl, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -480,6 +492,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func handlePhoneVerificationFailed(_ error: Error) {
+        CAPLog.print("[", self.plugin.tag, "] ", error)
         var result = JSObject()
         result["message"] = error.localizedDescription
         notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)

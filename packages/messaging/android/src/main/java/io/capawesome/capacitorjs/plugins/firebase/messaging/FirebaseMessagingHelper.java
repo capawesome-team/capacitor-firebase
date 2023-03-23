@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
+import static io.capawesome.capacitorjs.plugins.firebase.messaging.FirebaseMessagingPlugin.TAG;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -108,8 +110,8 @@ public class FirebaseMessagingHelper {
         if (lightColor != null) {
             try {
                 notificationChannel.setLightColor(WebColor.parseColor(lightColor));
-            } catch (Exception ex) {
-                Logger.error("setLightColor failed.", ex);
+            } catch (Exception exception) {
+                Logger.error(TAG, "setLightColor failed.", exception);
             }
         }
         if (sound != null && !sound.isEmpty()) {

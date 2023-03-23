@@ -41,8 +41,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -52,8 +53,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             String userId = call.getString("userId", null);
             implementation.setUserId(userId);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -68,8 +70,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             String value = call.getString("value", null);
             implementation.setUserProperty(key, value);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -80,8 +83,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             String screenClassOverride = call.getString("screenClassOverride", null);
             implementation.setCurrentScreen(screenName, screenClassOverride);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -96,8 +100,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             JSObject params = call.getObject("params");
             implementation.logEvent(name, params);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -107,8 +112,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             Long duration = call.getLong("duration", 1800000L);
             implementation.setSessionTimeoutDuration(duration);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -122,8 +128,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             }
             implementation.setEnabled(enabled);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -137,8 +144,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
         try {
             implementation.resetAnalyticsData();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 }

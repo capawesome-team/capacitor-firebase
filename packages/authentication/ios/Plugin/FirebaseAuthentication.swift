@@ -92,6 +92,7 @@ public typealias AuthStateChangedObserver = () -> Void
         }
         user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
             if let error = error {
+                CAPLog.print("[", self.plugin.tag, "] ", error)
                 completion(nil, error.localizedDescription)
                 return
             }
@@ -394,6 +395,7 @@ public typealias AuthStateChangedObserver = () -> Void
             facebookAuthProviderHandler?.signOut()
             call.resolve()
         } catch let signOutError as NSError {
+            CAPLog.print("[", self.plugin.tag, "] ", signOutError)
             call.reject("Error signing out: \(signOutError)")
         }
     }
@@ -473,6 +475,7 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
+        CAPLog.print("[", self.plugin.tag, "] ", error)
         savedCall.reject(errorMessage, nil, error)
     }
 
@@ -504,6 +507,7 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
+        CAPLog.print("[", self.plugin.tag, "] ", error)
         savedCall.reject(errorMessage, nil, error)
     }
 
