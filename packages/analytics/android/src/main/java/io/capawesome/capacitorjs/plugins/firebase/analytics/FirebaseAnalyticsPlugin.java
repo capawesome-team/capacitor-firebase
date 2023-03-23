@@ -3,6 +3,7 @@ package io.capawesome.capacitorjs.plugins.firebase.analytics;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;

@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.appcheck;
 
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
