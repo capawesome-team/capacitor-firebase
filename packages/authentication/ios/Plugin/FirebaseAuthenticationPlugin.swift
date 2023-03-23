@@ -492,7 +492,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func handlePhoneVerificationFailed(_ error: Error) {
-        CAPLog.print("[", self.plugin.tag, "] ", error)
+        CAPLog.print("[", self.tag, "] ", error)
         var result = JSObject()
         result["message"] = error.localizedDescription
         notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)

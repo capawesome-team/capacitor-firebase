@@ -2,6 +2,7 @@ import Foundation
 
 import FirebaseCore
 import FirebaseRemoteConfig
+import Capacitor
 
 @objc public class FirebaseRemoteConfig: NSObject {
     private let plugin: FirebaseRemoteConfigPlugin
