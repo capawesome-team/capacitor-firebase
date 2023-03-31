@@ -1803,7 +1803,7 @@ See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/pa
 
 ## Credits
 
-This plugin is based on the [Capacitor Firebase Authentication plugin](https://github.com/robingenz/capacitor-firebase-authentication).
+This plugin is based on the [Capacitor Firebase Authentication](https://github.com/robingenz/capacitor-firebase-authentication) plugin.
 Thanks to everyone who contributed to the project!
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.
