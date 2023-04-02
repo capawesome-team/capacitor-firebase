@@ -28,7 +28,7 @@ These are the required steps to **add Firebase to your Capacitor project**.
 
    1. In your **root-level (project-level)** Gradle file (`<project>/build.gradle`), add the Google services plugin as a buildscript dependency: https://github.com/robingenz/capacitor-firebase-plugin-demo/blob/9e0e2b245b1655271c7979357f32580a2a683168/android/build.gradle#L11
 
-   1. In your module (app-level) Gradle file (usually <project>/<app-module>/build.gradle), add the Google services plugin: https://github.com/robingenz/capacitor-firebase-plugin-demo/blob/9e0e2b245b1655271c7979357f32580a2a683168/android/app/build.gradle#L49
+   1. In your module (app-level) Gradle file (usually `<project>/<app-module>/build.gradle`), add the Google services plugin: https://github.com/robingenz/capacitor-firebase-plugin-demo/blob/9e0e2b245b1655271c7979357f32580a2a683168/android/app/build.gradle#L49
 
 ## iOS
 
