@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-- family-names: "Lisa"
-  given-names: "Mona"
+- family-names: "Genz"
+  given-names: "Robin"
   orcid: "https://orcid.org/0009-0004-8587-6112"
 title: "Capacitor Firebase"
 version: 1.4.0
