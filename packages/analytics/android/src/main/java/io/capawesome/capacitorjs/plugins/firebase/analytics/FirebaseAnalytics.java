@@ -61,7 +61,7 @@ public class FirebaseAnalytics {
             );
     }
 
-    public void logEvent(@NonNull String key, JSONObject json) {
+    public void logEvent(@NonNull String key, @Nullable JSONObject json) {
         Bundle bundle = FirebaseAnalyticsHelper.createBundleFromJson(json);
         analyticsInstance.logEvent(key, bundle);
     }
