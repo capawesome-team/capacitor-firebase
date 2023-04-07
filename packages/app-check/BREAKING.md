@@ -5,7 +5,6 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 ## Versions
 
 - [Version 5.x.x](#version-5xx)
-- [Version 1.x.x](#version-1xx)
 
 ## Version 5.x.x
 
