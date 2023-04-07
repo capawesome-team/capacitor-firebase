@@ -13,6 +13,7 @@ import FirebaseCore
 public class FirebaseMessagingPlugin: CAPPlugin {
     private var implementation: FirebaseMessaging?
 
+    public let tag = "FirebaseMessaging"
     public let tokenReceivedEvent = "tokenReceived"
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
@@ -40,8 +41,9 @@ public class FirebaseMessagingPlugin: CAPPlugin {
 
     @objc override public func requestPermissions(_ call: CAPPluginCall) {
         implementation?.requestPermissions(completion: { granted, error in
-            guard error == nil else {
-                call.reject(error!.localizedDescription)
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
                 return
             }
             call.resolve(["receive": granted ? "granted" : "denied"])
@@ -57,6 +59,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     @objc func getToken(_ call: CAPPluginCall) {
         implementation?.getToken(completion: { token, error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -69,6 +72,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     @objc func deleteToken(_ call: CAPPluginCall) {
         implementation?.deleteToken(completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -119,6 +123,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
 
         implementation?.subscribeToTopic(topic: topic, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
@@ -134,6 +139,7 @@ public class FirebaseMessagingPlugin: CAPPlugin {
 
         implementation?.unsubscribeFromTopic(topic: topic, completion: { error in
             if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }

@@ -7,6 +7,7 @@ import Capacitor
  */
 @objc(FirebaseRemoteConfigPlugin)
 public class FirebaseRemoteConfigPlugin: CAPPlugin {
+    public let tag = "FirebaseRemoteConfig"
     public let errorKeyMissing = "key must be provided."
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."
     private var implementation: FirebaseRemoteConfig?

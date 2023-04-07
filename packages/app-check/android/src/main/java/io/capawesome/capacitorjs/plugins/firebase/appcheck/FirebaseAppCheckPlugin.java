@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.appcheck;
 
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -35,8 +36,9 @@ public class FirebaseAppCheckPlugin extends Plugin {
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -47,8 +49,9 @@ public class FirebaseAppCheckPlugin extends Plugin {
             boolean isTokenAutoRefreshEnabled = call.getBoolean("isTokenAutoRefreshEnabled", false);
             implementation.initialize(debug, isTokenAutoRefreshEnabled);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -62,8 +65,9 @@ public class FirebaseAppCheckPlugin extends Plugin {
             }
             implementation.setTokenAutoRefreshEnabled(enabled);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 }

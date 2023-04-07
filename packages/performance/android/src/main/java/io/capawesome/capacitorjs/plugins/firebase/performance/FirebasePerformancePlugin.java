@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -10,6 +11,7 @@ import com.google.firebase.perf.metrics.Trace;
 @CapacitorPlugin(name = "FirebasePerformance")
 public class FirebasePerformancePlugin extends Plugin {
 
+    public static final String TAG = "FirebasePerformance";
     public static final String ERROR_TRACE_NAME_MISSING = "traceName must be provided.";
     public static final String ERROR_METRIC_NAME_MISSING = "metricName must be provided.";
     public static final String ERROR_TRACE_NAME_ALREADY_ASSIGNED = "traceName already assigned.";
@@ -32,8 +34,9 @@ public class FirebasePerformancePlugin extends Plugin {
             }
             implementation.startTrace(traceName);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -52,8 +55,9 @@ public class FirebasePerformancePlugin extends Plugin {
             }
             implementation.stopTrace(traceName);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -78,8 +82,9 @@ public class FirebasePerformancePlugin extends Plugin {
             }
             implementation.incrementMetric(traceName, metricName, incrementBy);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -93,8 +98,9 @@ public class FirebasePerformancePlugin extends Plugin {
             }
             implementation.setEnabled(enabled);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 
@@ -105,8 +111,9 @@ public class FirebasePerformancePlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("enabled", enabled);
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getLocalizedMessage());
         }
     }
 }

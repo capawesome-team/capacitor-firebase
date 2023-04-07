@@ -2,6 +2,7 @@ import Foundation
 
 import FirebaseCore
 import FirebaseRemoteConfig
+import Capacitor
 
 @objc public class FirebaseRemoteConfig: NSObject {
     private let plugin: FirebaseRemoteConfigPlugin
@@ -27,6 +28,7 @@ import FirebaseRemoteConfig
     @objc public func fetchAndActivate(completion: @escaping (Bool, String?) -> Void) {
         RemoteConfig.remoteConfig().fetchAndActivate(completionHandler: { result, error in
             if let error = error {
+                CAPLog.print("[", self.plugin.tag, "] ", error)
                 completion(false, error.localizedDescription)
                 return
             }
@@ -41,6 +43,7 @@ import FirebaseRemoteConfig
     @objc public func fetchConfig(minimumFetchIntervalInSeconds: Double, completion: @escaping (String?) -> Void) {
         RemoteConfig.remoteConfig().fetch(withExpirationDuration: minimumFetchIntervalInSeconds, completionHandler: { _, error in
             if let error = error {
+                CAPLog.print("[", self.plugin.tag, "] ", error)
                 completion(error.localizedDescription)
                 return
             }
