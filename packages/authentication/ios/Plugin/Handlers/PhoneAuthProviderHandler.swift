@@ -40,26 +40,8 @@ class PhoneAuthProviderHandler: NSObject {
             return
         }
         PhoneAuthProvider.provider()
-            .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
-                /**
-                 * @deprecated This code was replaced by event listener.
-                 *
-                 * Caution: The call must be resolved earlier.
-                 */
-                if let error = error {
-                    self.pluginImplementation.handlePhoneVerificationFailed(error)
-                    if isLink == true {
-                        self.pluginImplementation.handleFailedLink(message: nil, error: error)
-                    } else {
-                        self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
-                    }
-                    return
-                }
-
+            .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, _ in
                 self.pluginImplementation.handlePhoneCodeSent(verificationID ?? "")
-                var result = FirebaseAuthenticationHelper.createSignInResult(credential: nil, user: nil, idToken: nil, nonce: nil, accessToken: nil, additionalUserInfo: nil)
-                result["verificationId"] = verificationID
-                call.resolve(result)
             }
     }
 

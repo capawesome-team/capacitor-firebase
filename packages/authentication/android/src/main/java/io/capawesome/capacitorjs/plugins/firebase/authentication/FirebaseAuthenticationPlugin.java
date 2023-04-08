@@ -1,8 +1,8 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
-import android.util.Log;
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
@@ -11,10 +11,17 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.GetIdTokenResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.SignInResultCallback;
 
 @CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
 public class FirebaseAuthenticationPlugin extends Plugin {
@@ -33,7 +40,9 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_ACTION_CODE_SETTINGS_MISSING = "actionCodeSettings must be provided.";
     public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
-    public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
+    public static final String ERROR_PHONE_NUMBER_MISSING = "phoneNumber must be provided.";
+    public static final String ERROR_VERIFICATION_ID_MISSING = "verificationId must be provided.";
+    public static final String ERROR_VERIFICATION_CODE_MISSING = "verificationCode must be provided.";
     public static final String ERROR_PHONE_RESEND_TOKEN_MISSING =
         "signInWithPhoneNumber must be called once before using the resendCode option.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
@@ -90,6 +99,40 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void confirmVerificationCode(PluginCall call) {
+        try {
+            String verificationId = call.getString("verificationId");
+            if (verificationId == null) {
+                call.reject(ERROR_VERIFICATION_ID_MISSING);
+                return;
+            }
+            String verificationCode = call.getString("verificationCode");
+            if (verificationCode == null) {
+                call.reject(ERROR_VERIFICATION_CODE_MISSING);
+                return;
+            }
+            ConfirmVerificationCodeOptions options = new ConfirmVerificationCodeOptions(verificationId, verificationCode);
+            SignInResultCallback callback = new SignInResultCallback() {
+                @Override
+                public void success(SignInResult result) {
+                    call.resolve(result.toJSObject());
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+
+            implementation.confirmVerificationCode(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -270,15 +313,15 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithPhoneNumber(PluginCall call) {
         try {
             String phoneNumber = call.getString("phoneNumber");
-            String verificationId = call.getString("verificationId");
-            String verificationCode = call.getString("verificationCode");
-
-            if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
-                call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
+            if (phoneNumber == null) {
+                call.reject(ERROR_PHONE_NUMBER_MISSING);
                 return;
             }
+            boolean resendCode = call.getBoolean("resendCode", false);
+            LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode);
 
-            implementation.linkWithPhoneNumber(call);
+            implementation.linkWithPhoneNumber(options);
+            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -527,16 +570,17 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void signInWithPhoneNumber(PluginCall call) {
         try {
+            boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
             String phoneNumber = call.getString("phoneNumber");
-            String verificationId = call.getString("verificationId");
-            String verificationCode = call.getString("verificationCode");
-
-            if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
-                call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
+            if (phoneNumber == null) {
+                call.reject(ERROR_PHONE_NUMBER_MISSING);
                 return;
             }
+            boolean resendCode = call.getBoolean("resendCode", false);
+            SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode);
 
-            implementation.signInWithPhoneNumber(call);
+            implementation.signInWithPhoneNumber(options);
+            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -689,9 +733,17 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         }
     }
 
-    public void handlePhoneVerificationCompleted(String smsCode) {
+    public void handlePhoneVerificationCompleted(@NonNull PhoneAuthCredential credential) {
+        String smsCode = credential.getSmsCode();
+        JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(credential, null, null, null);
+
         JSObject result = new JSObject();
-        result.put("verificationCode", smsCode);
+        if (smsCode != null) {
+            result.put("verificationCode", smsCode);
+        }
+        if (credentialResult != null) {
+            result.put("credential", credentialResult);
+        }
         notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, result, true);
     }
 

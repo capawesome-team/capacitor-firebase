@@ -4,7 +4,6 @@ import static io.capawesome.capacitorjs.plugins.firebase.authentication.Firebase
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +11,7 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
@@ -20,14 +20,22 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.OAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PhoneAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PlayGamesAuthProviderHandler;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.GetIdTokenResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.SignInResultCallback;
 import java.util.Arrays;
 import java.util.List;
 
@@ -128,6 +136,10 @@ public class FirebaseAuthentication {
                     callback.run();
                 }
             );
+    }
+
+    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull SignInResultCallback callback) {
+        phoneAuthProviderHandler.confirmVerificationCode(options, callback);
     }
 
     public void deleteUser(FirebaseUser user, @NonNull Runnable callback) {
@@ -262,8 +274,8 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.link(call, ProviderId.MICROSOFT);
     }
 
-    public void linkWithPhoneNumber(final PluginCall call) {
-        phoneAuthProviderHandler.link(call);
+    public void linkWithPhoneNumber(@NonNull final LinkWithPhoneNumberOptions options) throws Exception {
+        phoneAuthProviderHandler.link(options);
     }
 
     public void linkWithPlayGames(final PluginCall call) {
@@ -440,8 +452,8 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.signIn(call, ProviderId.MICROSOFT);
     }
 
-    public void signInWithPhoneNumber(final PluginCall call) {
-        phoneAuthProviderHandler.signIn(call);
+    public void signInWithPhoneNumber(final SignInWithPhoneNumberOptions options) throws Exception {
+        phoneAuthProviderHandler.signIn(options);
     }
 
     public void signInWithPlayGames(final PluginCall call) {
@@ -590,6 +602,59 @@ public class FirebaseAuthentication {
         }
     }
 
+    public void signInWithCredential(
+        @NonNull SignInOptions options,
+        @NonNull SignInResultCallback callback,
+        @NonNull AuthCredential credential
+    ) {
+        boolean skipNativeAuth = options.getSkipNativeAuth();
+        if (skipNativeAuth) {
+            SignInResult result = new SignInResult(null, credential, null);
+            callback.success(result);
+            return;
+        }
+        firebaseAuthInstance
+            .signInWithCredential(credential)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Logger.debug(TAG, "signInWithCredential succeeded.");
+                        final AuthResult authResult = task.getResult();
+                        SignInResult result = new SignInResult(authResult);
+                        callback.success(result);
+                    } else {
+                        Logger.error(TAG, "signInWithCredential failed.", task.getException());
+                        callback.error(task.getException());
+                    }
+                }
+            );
+    }
+
+    public void linkWithCredential(@NonNull SignInResultCallback callback, @NonNull AuthCredential credential) {
+        FirebaseUser user = firebaseAuthInstance.getCurrentUser();
+        if (user == null) {
+            callback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));
+            return;
+        }
+        user
+            .linkWithCredential(credential)
+            .addOnCompleteListener(
+                plugin.getActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        Logger.debug(TAG, "linkWithCredential succeeded.");
+                        final AuthResult authResult = task.getResult();
+                        SignInResult result = new SignInResult(authResult);
+                        callback.success(result);
+                    } else {
+                        Logger.error(TAG, "linkWithCredential failed.", task.getException());
+                        callback.error(task.getException());
+                    }
+                }
+            );
+    }
+
     public void handleSuccessfulSignIn(
         final PluginCall call,
         @Nullable AuthCredential credential,
@@ -709,8 +774,8 @@ public class FirebaseAuthentication {
         call.reject(message, exception);
     }
 
-    public void handlePhoneVerificationCompleted(String smsCode) {
-        plugin.handlePhoneVerificationCompleted(smsCode);
+    public void handlePhoneVerificationCompleted(@NonNull final PhoneAuthCredential credential) {
+        plugin.handlePhoneVerificationCompleted(credential);
     }
 
     public void handlePhoneVerificationFailed(Exception exception) {
