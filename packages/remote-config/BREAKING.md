@@ -17,3 +17,9 @@ If you want to use this plugin with Capacitor 4, please install version `1.4.0`:
 ```
 npm i @capacitor-firebase/remote-config@1.4.0
 ```
+
+### Localized error messages
+
+On Android, error messages were previously generated with `getLocalizedMessage`. They are no longer localized and are generated with `getMessage` instead.
+
+You should therefore check your error handling.
