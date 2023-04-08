@@ -27,7 +27,7 @@ public class FirebaseAppPlugin extends Plugin {
             call.resolve(ret);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class FirebaseAppPlugin extends Plugin {
             call.resolve(ret);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 }

@@ -22,7 +22,7 @@ public class FirebaseAppCheck {
             .addOnFailureListener(
                 exception -> {
                     Log.w(FirebaseAppCheckPlugin.TAG, "Get App Check token failed.", exception);
-                    resultCallback.error(exception.getLocalizedMessage());
+                    resultCallback.error(exception.getMessage());
                 }
             );
     }
