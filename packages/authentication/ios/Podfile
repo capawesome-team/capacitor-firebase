@@ -27,6 +27,7 @@ post_install do |installer|
             config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
         end
       end
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
     end
   end
 end
