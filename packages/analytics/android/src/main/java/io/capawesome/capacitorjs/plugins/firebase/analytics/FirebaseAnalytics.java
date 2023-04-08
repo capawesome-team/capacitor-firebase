@@ -26,7 +26,7 @@ public class FirebaseAnalytics {
                     if (!task.isSuccessful()) {
                         Exception exception = task.getException();
                         Log.w(FirebaseAnalyticsPlugin.TAG, "Get AppInstanceId failed.", exception);
-                        resultCallback.error(exception.getLocalizedMessage());
+                        resultCallback.error(exception.getMessage());
                         return;
                     }
 

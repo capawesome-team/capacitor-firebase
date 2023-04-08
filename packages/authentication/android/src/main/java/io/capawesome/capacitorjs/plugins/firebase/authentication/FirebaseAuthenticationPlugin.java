@@ -72,7 +72,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.applyActionCode(oobCode, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -92,7 +92,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.createUserWithEmailAndPassword(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.deleteUser(user, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -131,7 +131,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -175,7 +175,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -192,7 +192,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -202,7 +202,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithApple(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -212,7 +212,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithEmailAndPassword(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -222,7 +222,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithEmailLink(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -232,7 +232,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithFacebook(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -242,7 +242,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithGithub(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -252,7 +252,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithGoogle(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -262,7 +262,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithMicrosoft(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -281,7 +281,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithPhoneNumber(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -291,7 +291,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithPlayGames(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -301,7 +301,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithTwitter(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -311,7 +311,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.linkWithYahoo(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -326,7 +326,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.reload(user, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -341,7 +341,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.sendEmailVerification(user, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -356,7 +356,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.sendPasswordResetEmail(email, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -395,7 +395,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.sendSignInLinkToEmail(email, actionCodeSettings.build(), () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -408,7 +408,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -425,7 +425,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -435,7 +435,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInAnonymously(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -445,7 +445,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithApple(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -460,7 +460,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithCustomToken(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -470,7 +470,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithEmailAndPassword(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -480,7 +480,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithEmailLink(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -490,7 +490,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithFacebook(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -500,7 +500,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithGithub(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -510,7 +510,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithGoogle(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -520,7 +520,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithMicrosoft(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -539,7 +539,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithPhoneNumber(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -549,7 +549,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithPlayGames(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -559,7 +559,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithTwitter(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -569,7 +569,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signInWithYahoo(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -579,7 +579,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.signOut(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -599,7 +599,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.unlink(call, user, providerId);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -619,7 +619,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.updateEmail(user, newEmail, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -639,7 +639,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.updatePassword(user, newPassword, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -656,7 +656,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             implementation.updateProfile(user, displayName, photoUrl, () -> call.resolve());
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -667,7 +667,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -685,7 +685,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -698,7 +698,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void handlePhoneVerificationFailed(Exception exception) {
         Logger.error(TAG, exception.getMessage(), exception);
         JSObject result = new JSObject();
-        result.put("message", exception.getLocalizedMessage());
+        result.put("message", exception.getMessage());
         notifyListeners(PHONE_VERIFICATION_FAILED_EVENT, result, true);
     }
 

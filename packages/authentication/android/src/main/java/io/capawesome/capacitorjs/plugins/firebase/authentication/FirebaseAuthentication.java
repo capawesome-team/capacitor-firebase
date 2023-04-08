@@ -158,7 +158,7 @@ public class FirebaseAuthentication {
                     String token = task.getResult().getToken();
                     resultCallback.success(token);
                 } else {
-                    String message = task.getException().getLocalizedMessage();
+                    String message = task.getException().getMessage();
                     resultCallback.error(message);
                 }
             }
@@ -351,7 +351,7 @@ public class FirebaseAuthentication {
                         call.resolve(signInResult);
                     } else {
                         Logger.error(TAG, "signInAnonymously failed.", task.getException());
-                        call.reject(task.getException().getLocalizedMessage());
+                        call.reject(task.getException().getMessage());
                     }
                 }
             );
@@ -649,7 +649,7 @@ public class FirebaseAuthentication {
     public void handleFailedSignIn(final PluginCall call, String message, Exception exception) {
         Logger.error(TAG, exception.getMessage(), exception);
         if (message == null && exception != null) {
-            message = exception.getLocalizedMessage();
+            message = exception.getMessage();
         }
         call.reject(message, exception);
     }
@@ -704,7 +704,7 @@ public class FirebaseAuthentication {
     public void handleFailedLink(final PluginCall call, String message, Exception exception) {
         Logger.error(TAG, exception.getMessage(), exception);
         if (message == null && exception != null) {
-            message = exception.getLocalizedMessage();
+            message = exception.getMessage();
         }
         call.reject(message, exception);
     }

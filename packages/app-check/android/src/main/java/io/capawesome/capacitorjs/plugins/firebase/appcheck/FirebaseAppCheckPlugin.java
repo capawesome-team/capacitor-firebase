@@ -38,7 +38,7 @@ public class FirebaseAppCheckPlugin extends Plugin {
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class FirebaseAppCheckPlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class FirebaseAppCheckPlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 }

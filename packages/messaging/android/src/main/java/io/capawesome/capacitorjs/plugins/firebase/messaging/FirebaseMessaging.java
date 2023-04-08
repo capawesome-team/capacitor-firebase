@@ -34,7 +34,7 @@ public class FirebaseMessaging {
                     if (!task.isSuccessful()) {
                         Exception exception = task.getException();
                         Log.w(FirebaseMessagingPlugin.TAG, "Fetching FCM registration token failed", exception);
-                        resultCallback.error(exception.getLocalizedMessage());
+                        resultCallback.error(exception.getMessage());
                         return;
                     }
 

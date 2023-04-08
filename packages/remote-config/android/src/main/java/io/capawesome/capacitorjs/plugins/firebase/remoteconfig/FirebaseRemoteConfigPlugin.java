@@ -32,7 +32,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -54,7 +54,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -97,7 +97,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
@@ -135,7 +135,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getLocalizedMessage());
+            call.reject(exception.getMessage());
         }
     }
 
