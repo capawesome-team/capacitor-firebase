@@ -50,19 +50,11 @@ body:
       description: A concise description of what you expected to happen.
     validations:
       required: true
-  - type: checkboxes
-    attributes:
-      label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the bug you encountered.
-      options:
-      - label: I have searched the existing issues
-        required: true
   - type: input
     attributes:
       label: Reproduction
       description: |
         Please provide a [Minimal, Reproducible Example]() in a public GitHub repository so that we can debug the issue.
-
         We have prepared a template repository that you can use: [capawesome-team/.capacitor-app](https://github.com/capawesome-team/.capacitor-app)
       placeholder: https://github.com/...
     validations:
@@ -80,7 +72,7 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Other information (optional)
+      label: Other information
       description: List any other information that is relevant to your issue. Device information, stack traces, screenshots, related issues, etc.
   - type: textarea
     attributes:
