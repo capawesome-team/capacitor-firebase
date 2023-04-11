@@ -1,7 +1,7 @@
 name: 🚨 Bug report
 title: "bug: "
 description: Create a bug report to help us improve
-labels: ["type: bug/fix", "triage"]
+labels: ["type: bug/fix", "state: needs triage"]
 
 body:
   - type: checkboxes
@@ -54,7 +54,7 @@ body:
     attributes:
       label: Reproduction
       description: |
-        Please provide a [Minimal, Reproducible Example]() in a public GitHub repository so that we can debug the issue.
+        Please provide a [Minimal, Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) in a public GitHub repository so that we can debug the issue.
         We have prepared a template repository that you can use: [capawesome-team/.capacitor-app](https://github.com/capawesome-team/.capacitor-app)
       placeholder: https://github.com/...
     validations:
