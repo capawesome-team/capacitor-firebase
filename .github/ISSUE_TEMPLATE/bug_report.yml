@@ -1,0 +1,90 @@
+name: 🚨 Bug report
+title: "bug: "
+description: Create a bug report to help us improve
+labels: ["type: bug/fix", "triage"]
+
+body:
+  - type: checkboxes
+    attributes:
+      label: Plugin(s)
+      description: Select the plugins that this bug affects.
+      options:
+        - label: Analytics
+        - label: App
+        - label: App Check
+        - label: Authentication
+        - label: Crashlytics
+        - label: Cloud Messaging
+        - label: Performance
+        - label: Remote Config
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Did you test the latest version?
+      description: |
+        Chances are that the bug you discovered has already been fixed in a subsequent version. 
+        Therefore, before reporting an issue, make sure you are using the latest version.
+      options:
+      - label: I use the latest version
+        required: true
+  - type: checkboxes
+    attributes:
+      label: Platform(s)
+      description: Select the platforms that this bug affects.
+      options:
+        - label: Android
+        - label: iOS
+        - label: Web
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Current behavior
+      description: A concise description of what you're experiencing.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+      - label: I have searched the existing issues
+        required: true
+  - type: input
+    attributes:
+      label: Reproduction
+      description: |
+        Please provide a [Minimal, Reproducible Example]() in a public GitHub repository so that we can debug the issue.
+
+        We have prepared a template repository that you can use: [capawesome-team/.capacitor-app](https://github.com/capawesome-team/.capacitor-app)
+      placeholder: https://github.com/...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behaviour using the provided example.
+      placeholder: |
+        1. In this environment...
+        2. With this config...
+        3. Run '...'
+        4. See error...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Other information (optional)
+      description: List any other information that is relevant to your issue. Device information, stack traces, screenshots, related issues, etc.
+  - type: textarea
+    attributes:
+      label: Capacitor doctor
+      description: Run `npx cap doctor` in a terminal and paste the output below.
+    validations:
+      required: true
