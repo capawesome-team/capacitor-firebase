@@ -82,5 +82,5 @@ body:
       description: |
         A well-written bug report allows the maintainers to quickly recreate the necessary conditions to inspect the bug and quickly find its root cause.
       options:
-      - label: I understand that incomplete problems (e.g. without reproduction) are closed.
+      - label: I understand that incomplete issues (e.g. without reproduction) are closed.
         required: true
