@@ -98,19 +98,20 @@ class RuntimeError: Error {
         return Auth.auth().currentUser
     }
 
-    @objc func getIdToken(_ forceRefresh: Bool, callback: ResultCallback) {
+    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (GetIdTokenResult?, Error?) -> Void) {
         guard let user = self.getCurrentUser() else {
             let error = RuntimeError(description: self.plugin.errorNoUserSignedIn)
-            callback.error(error)
+            completion(nil, error)
             return
         }
         user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.plugin.tag, "] ", error)
-                callback.error(error)
+                completion(nil, error)
                 return
             }
-            callback.success(result?.token ?? "")
+            let result = GetIdTokenResult(token: result?.token ?? "")
+            completion(result, nil)
         })
     }
 

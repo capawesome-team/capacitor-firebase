@@ -12,7 +12,6 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.auth.ActionCodeSettings;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
@@ -20,8 +19,8 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWit
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.GetIdTokenResultCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.SignInResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 
 @CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
 public class FirebaseAuthenticationPlugin extends Plugin {
@@ -119,9 +118,9 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             ConfirmVerificationCodeOptions options = new ConfirmVerificationCodeOptions(verificationId, verificationCode);
-            SignInResultCallback callback = new SignInResultCallback() {
+            ResultCallback callback = new ResultCallback() {
                 @Override
-                public void success(SignInResult result) {
+                public void success(Result result) {
                     call.resolve(result.toJSObject());
                 }
 
@@ -185,17 +184,16 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             implementation.getIdToken(
                 forceRefresh,
-                new GetIdTokenResultCallback() {
+                new ResultCallback() {
                     @Override
-                    public void success(String token) {
-                        JSObject result = new JSObject();
-                        result.put("token", token);
-                        call.resolve(result);
+                    public void success(Result result) {
+                        call.resolve(result.toJSObject());
                     }
 
                     @Override
-                    public void error(String message) {
-                        call.reject(message);
+                    public void error(Exception exception) {
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        call.reject(exception.getMessage());
                     }
                 }
             );

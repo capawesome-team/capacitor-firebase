@@ -8,8 +8,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 
-public class SignInResult {
+public class SignInResult implements Result {
 
     @Nullable
     private FirebaseUser user;

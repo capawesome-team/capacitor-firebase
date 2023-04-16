@@ -13,7 +13,9 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWit
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.SignInResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
+
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthProviderHandler {
@@ -42,7 +44,7 @@ public class PhoneAuthProviderHandler {
         verifyPhoneNumber(options, true);
     }
 
-    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull SignInResultCallback callback) {
+    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull ResultCallback callback) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(options.getVerificationId(), options.getVerificationCode());
         if (signInOnConfirm) {
             pluginImplementation.signInWithCredential(new SignInOptions(skipNativeAuthOnConfirm), callback, credential);
@@ -75,9 +77,9 @@ public class PhoneAuthProviderHandler {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                SignInResultCallback callback = new SignInResultCallback() {
+                ResultCallback callback = new ResultCallback() {
                     @Override
-                    public void success(SignInResult result) {
+                    public void success(Result result) {
                         pluginImplementation.handlePhoneVerificationCompleted(credential);
                     }
 

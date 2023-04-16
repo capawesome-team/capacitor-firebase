@@ -136,15 +136,14 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     @objc func getIdToken(_ call: CAPPluginCall) {
         let forceRefresh = call.getBool("forceRefresh", false)
         
-        let callback = ResultCallback(success: { result in
-            if let result = result.toJSObject() as? JSObject {
-                call.resolve(result)
+        implementation?.getIdToken(forceRefresh, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
             }
-        }, error: { error in
-            call.reject(error.localizedDescription)
+            call.resolve()
         })
-
-        implementation?.getIdToken(forceRefresh, callback: callback)
     }
 
     @objc func getRedirectResult(_ call: CAPPluginCall) {

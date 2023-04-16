@@ -1,9 +1,17 @@
-//
-//  GetIdTokenResult.swift
-//  Plugin
-//
-//  Created by Robin Genz on 16.04.23.
-//  Copyright © 2023 Max Lynch. All rights reserved.
-//
-
 import Foundation
+import FirebaseAuth
+import Capacitor
+
+@objc class GetIdTokenResult: NSObject {
+    let token: String
+    
+    init(token: String) {
+        self.token = token
+    }
+
+    func toJSObject() -> JSObject {
+        var result = JSObject()
+        result["token"] = self.token
+        return result
+    }
+}

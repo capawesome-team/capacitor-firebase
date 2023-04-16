@@ -11,7 +11,6 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
@@ -24,6 +23,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.GetIdTokenResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
@@ -34,8 +34,8 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Google
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.OAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PhoneAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PlayGamesAuthProviderHandler;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.GetIdTokenResultCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.SignInResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -138,7 +138,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull SignInResultCallback callback) {
+    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull ResultCallback callback) {
         phoneAuthProviderHandler.confirmVerificationCode(options, callback);
     }
 
@@ -157,10 +157,10 @@ public class FirebaseAuthentication {
         return firebaseAuthInstance.getCurrentUser();
     }
 
-    public void getIdToken(Boolean forceRefresh, final GetIdTokenResultCallback resultCallback) {
+    public void getIdToken(Boolean forceRefresh, @NonNull final ResultCallback resultCallback) {
         FirebaseUser user = getCurrentUser();
         if (user == null) {
-            resultCallback.error(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            resultCallback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));
             return;
         }
         Task<GetTokenResult> tokenResultTask = user.getIdToken(forceRefresh);
@@ -168,10 +168,11 @@ public class FirebaseAuthentication {
             task -> {
                 if (task.isSuccessful()) {
                     String token = task.getResult().getToken();
-                    resultCallback.success(token);
+                    GetIdTokenResult result = new GetIdTokenResult(token);
+                    resultCallback.success(result);
                 } else {
-                    String message = task.getException().getMessage();
-                    resultCallback.error(message);
+                    Exception exception = task.getException();
+                    resultCallback.error(exception);
                 }
             }
         );
@@ -604,7 +605,7 @@ public class FirebaseAuthentication {
 
     public void signInWithCredential(
         @NonNull SignInOptions options,
-        @NonNull SignInResultCallback callback,
+        @NonNull ResultCallback callback,
         @NonNull AuthCredential credential
     ) {
         boolean skipNativeAuth = options.getSkipNativeAuth();
@@ -631,7 +632,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void linkWithCredential(@NonNull SignInResultCallback callback, @NonNull AuthCredential credential) {
+    public void linkWithCredential(@NonNull ResultCallback callback, @NonNull AuthCredential credential) {
         FirebaseUser user = firebaseAuthInstance.getCurrentUser();
         if (user == null) {
             callback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));
