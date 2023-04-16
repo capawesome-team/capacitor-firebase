@@ -5,6 +5,15 @@ import FirebaseAuth
 
 public typealias AuthStateChangedObserver = () -> Void
 
+class RuntimeError: Error {
+
+    var localizedDescription: String
+
+    init(description: String) {
+        self.localizedDescription = description
+    }
+}
+
 // swiftlint:disable type_body_length
 @objc public class FirebaseAuthentication: NSObject {
     public var authStateObserver: AuthStateChangedObserver?
@@ -75,6 +84,10 @@ public typealias AuthStateChangedObserver = () -> Void
         })
     }
 
+    @objc func confirmVerificationCode(oobCode: String, newPassword: String, completion: @escaping (Error?) -> Void) {
+        self.phoneAuthProviderHandler?.confirmVerificationCode(call: call)
+    }
+
     @objc func deleteUser(user: User, completion: @escaping (Error?) -> Void) {
         user.delete { error in
             completion(error)
@@ -85,18 +98,19 @@ public typealias AuthStateChangedObserver = () -> Void
         return Auth.auth().currentUser
     }
 
-    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (String?, String?) -> Void) {
+    @objc func getIdToken(_ forceRefresh: Bool, callback: ResultCallback) {
         guard let user = self.getCurrentUser() else {
-            completion(nil, self.plugin.errorNoUserSignedIn)
+            let error = RuntimeError(description: self.plugin.errorNoUserSignedIn)
+            callback.error(error)
             return
         }
         user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.plugin.tag, "] ", error)
-                completion(nil, error.localizedDescription)
+                callback.error(error)
                 return
             }
-            completion(result?.token, nil)
+            callback.success(result?.token ?? "")
         })
     }
 

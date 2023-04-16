@@ -6,6 +6,7 @@
 CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(applyActionCode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(confirmPasswordReset, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(confirmVerificationCode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(createUserWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(deleteUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCurrentUser, CAPPluginReturnPromise);

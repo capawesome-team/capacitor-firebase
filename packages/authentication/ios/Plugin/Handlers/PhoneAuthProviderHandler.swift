@@ -13,14 +13,8 @@ class PhoneAuthProviderHandler: NSObject {
 
     func signIn(call: CAPPluginCall) {
         let phoneNumber = call.getString("phoneNumber")
-        let verificationId = call.getString("verificationId")
-        let verificationCode = call.getString("verificationCode")
-
-        if verificationCode == nil {
-            verifyPhoneNumber(call, phoneNumber, isLink: false)
-        } else {
-            handleVerificationCode(call, verificationId, verificationCode, isLink: false)
-        }
+        
+        verifyPhoneNumber(call, phoneNumber, isLink: false)
     }
 
     func link(call: CAPPluginCall) {
@@ -34,6 +28,8 @@ class PhoneAuthProviderHandler: NSObject {
             handleVerificationCode(call, verificationId, verificationCode, isLink: true)
         }
     }
+
+    func confirmVerificationCode()
 
     private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?, isLink: Bool) {
         guard let phoneNumber = phoneNumber else {
