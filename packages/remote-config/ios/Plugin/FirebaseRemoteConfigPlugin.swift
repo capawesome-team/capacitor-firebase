@@ -24,7 +24,6 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             }
             call.resolve()
         })
-        call.resolve()
     }
 
     @objc func fetchAndActivate(_ call: CAPPluginCall) {
@@ -35,7 +34,6 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             }
             call.resolve()
         })
-        call.resolve()
     }
 
     @objc func fetchConfig(_ call: CAPPluginCall) {
@@ -47,7 +45,6 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             }
             call.resolve()
         })
-        call.resolve()
     }
 
     @objc func getBoolean(_ call: CAPPluginCall) {
