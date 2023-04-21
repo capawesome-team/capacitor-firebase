@@ -4,7 +4,7 @@ This app uses the following SDKs, among others:
 
 | Provider | Android                                     | iOS                             | Web        |
 | -------- | ------------------------------------------- | ------------------------------- | ---------- |
-| Firebase | `com.google.firebase:firebase-auth`         | `Firebase/Auth`                 | `firebase` |
+| Firebase | `com.google.firebase:firebase-auth`         | `FirebaseAuth`                 | `firebase` |
 | Google   | `com.google.android.gms:play-services-auth` | `GoogleSignIn`                  | -          |
 | Facebook | `com.facebook.android:facebook-login`       | `FBSDKCoreKit`, `FBSDKLoginKit` | -          |
 
