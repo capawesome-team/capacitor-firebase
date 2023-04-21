@@ -19,8 +19,8 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/an
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `16.1.0`)
-- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `16.1.0`)
+- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `16.1.2`)
+- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `16.1.2`)
 
 ### iOS
 

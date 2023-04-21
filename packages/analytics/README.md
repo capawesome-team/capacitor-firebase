@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.2.0`)
+- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.2.2`)
 
 ### iOS
 
