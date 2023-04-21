@@ -3,7 +3,7 @@ ext {
     androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.6.1'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.5'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.5.1'
-    firebaseAnalyticsVersion = project.hasProperty('firebaseAnalyticsVersion') ? rootProject.ext.firebaseAnalyticsVersion : '21.2.0'
+    firebaseAnalyticsVersion = project.hasProperty('firebaseAnalyticsVersion') ? rootProject.ext.firebaseAnalyticsVersion : '21.2.2'
 }
 
 buildscript {
