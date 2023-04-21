@@ -9,10 +9,10 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'Firebase/Auth', '10.2.0'
-  pod 'GoogleSignIn', '6.2.4'
-  pod 'FBSDKCoreKit', '15.1.0'
-  pod 'FBSDKLoginKit', '15.1.0'
+  pod 'FirebaseAuth', '10.8.0'
+  pod 'GoogleSignIn', '7.0.0'
+  pod 'FBSDKCoreKit', '16.0.1'
+  pod 'FBSDKLoginKit', '16.0.1'
 end
 
 target 'PluginTests' do

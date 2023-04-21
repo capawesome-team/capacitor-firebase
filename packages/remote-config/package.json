@@ -64,7 +64,7 @@
     "@ionic/prettier-config": "1.0.1",
     "@ionic/swiftlint-config": "1.1.2",
     "eslint": "7.32.0",
-    "firebase": "9.6.4",
+    "firebase": "9.20.0",
     "prettier": "2.3.2",
     "prettier-plugin-java": "1.0.2",
     "rimraf": "3.0.2",
