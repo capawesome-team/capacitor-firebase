@@ -9,7 +9,7 @@ module.exports = {
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'all',
-  pluginSearchDirs: ['./node_modules', '../../node_modules'],
+  pluginSearchDirs: ['./node_modules'],
   plugins: [require('prettier-plugin-java')],
   overrides: [
     {
