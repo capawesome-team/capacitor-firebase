@@ -209,6 +209,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         let options = LinkWithPhoneNumberOptions(phoneNumber: phoneNumber)
 
         implementation?.linkWithPhoneNumber(options)
+        call.resolve()
     }
 
     @objc func linkWithPlayGames(_ call: CAPPluginCall) {
@@ -386,6 +387,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         let options = SignInWithPhoneNumberOptions(skipNativeAuth: skipNativeAuth, phoneNumber: phoneNumber)
 
         implementation?.signInWithPhoneNumber(options)
+        call.resolve()
     }
 
     @objc func signInWithPlayGames(_ call: CAPPluginCall) {

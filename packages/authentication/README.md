@@ -1532,8 +1532,8 @@ Remove all listeners for this plugin.
 
 | Prop                   | Type                | Description                                                                                                                                        | Since |
 | ---------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                               | 0.1.0 |
-| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided. | 0.1.0 |
+| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                               | 5.0.0 |
+| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided. | 5.0.0 |
 
 
 #### CreateUserWithEmailAndPasswordOptions

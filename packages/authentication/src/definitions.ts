@@ -510,7 +510,7 @@ export interface ConfirmVerificationCodeOptions {
    *
    * The `verificationCode` option must also be provided.
    *
-   * @since 0.1.0
+   * @since 5.0.0
    */
   verificationId: string;
   /**
@@ -518,7 +518,7 @@ export interface ConfirmVerificationCodeOptions {
    *
    * The `verificationId` option must also be provided.
    *
-   * @since 0.1.0
+   * @since 5.0.0
    */
   verificationCode: string;
 }
