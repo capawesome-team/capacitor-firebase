@@ -1133,22 +1133,23 @@ export interface AuthStateChange {
  *
  * @since 1.3.0
  */
-export type PhoneVerificationCompletedListener = (event: {
+export type PhoneVerificationCompletedListener = (
+  event: PhoneVerificationCompletedEvent,
+) => void;
+
+/**
+ * @since 5.0.0
+ */
+export interface PhoneVerificationCompletedEvent extends SignInResult {
   /**
    * The verification code sent to the user's phone number.
    *
    * If instant verification is used, this property is not set.
    *
-   * @since 1.3.0
-   */
-  verificationCode?: string;
-  /**
-   * Credentials returned by the phone number authentication provider.
-   *
    * @since 5.0.0
    */
-  credential?: AuthCredential;
-}) => void;
+  verificationCode?: string;
+}
 
 /**
  * Callback to receive notifications of failed phone verification.

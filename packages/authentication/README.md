@@ -293,19 +293,32 @@ const signInWithPlayGames = async () => {
 };
 
 const signInWithPhoneNumber = async () => {
-  const { verificationId } = await FirebaseAuthentication.signInWithPhoneNumber(
-    {
+  return new Promise(async resolve => {
+    // Attach `phoneCodeSent` listener to be notified as soon as the SMS is sent
+    await FirebaseAuthentication.addListener('phoneCodeSent', async event => {
+      // Ask the user for the SMS code
+      const verificationCode = window.prompt(
+        'Please enter the verification code that was sent to your mobile device.',
+      );
+      // Confirm the verification code
+      const result = await FirebaseAuthentication.confirmVerificationCode({
+        verificationId: event.verificationId,
+        verificationCode,
+      });
+      resolve(result.user);
+    });
+    // Attach `phoneVerificationCompleted` listener to be notified if phone verification could be finished automatically
+    await FirebaseAuthentication.addListener(
+      'phoneVerificationCompleted',
+      async event => {
+        resolve(event.result.user);
+      },
+    );
+    // Start sign in with phone number and send the SMS
+    await FirebaseAuthentication.signInWithPhoneNumber({
       phoneNumber: '123456789',
-    },
-  );
-  const verificationCode = window.prompt(
-    'Please enter the verification code that was sent to your mobile device.',
-  );
-  const result = await FirebaseAuthentication.signInWithPhoneNumber({
-    verificationId,
-    verificationCode,
+    });
   });
-  return result.user;
 };
 
 const signInWithTwitter = async () => {
@@ -462,6 +475,8 @@ confirmVerificationCode(options: ConfirmVerificationCodeOptions) => Promise<Sign
 ```
 
 Finishes the phone number verification process.
+
+Only available for Android and iOS.
 
 | Param         | Type                                                                                      |
 | ------------- | ----------------------------------------------------------------------------------------- |
@@ -1751,6 +1766,13 @@ bundle identifiers.
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
 
 
+#### PhoneVerificationCompletedEvent
+
+| Prop                   | Type                | Description                                                                                                       | Since |
+| ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------- | ----- |
+| **`verificationCode`** | <code>string</code> | The verification code sent to the user's phone number. If instant verification is used, this property is not set. | 5.0.0 |
+
+
 ### Type Aliases
 
 
@@ -1775,7 +1797,7 @@ Callback to receive the user's sign-in state change notifications.
 
 Callback to receive the verification code sent to the user's phone number.
 
-<code>(event: { verificationCode?: string; credential?: <a href="#authcredential">AuthCredential</a>; }): void</code>
+<code>(event: <a href="#phoneverificationcompletedevent">PhoneVerificationCompletedEvent</a>): void</code>
 
 
 #### PhoneVerificationFailedListener

@@ -10,6 +10,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthent
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
@@ -76,10 +77,16 @@ public class PhoneAuthProviderHandler {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                ResultCallback callback = new ResultCallback() {
+                ResultCallback callback = new ResultCallback<SignInResult>() {
                     @Override
-                    public void success(Result result) {
-                        pluginImplementation.handlePhoneVerificationCompleted(credential);
+                    public void success(SignInResult result) {
+                        PhoneVerificationCompletedEvent event = new PhoneVerificationCompletedEvent(
+                            result.getUser(),
+                            result.getCredential(),
+                            result.getAdditionalUserInfo(),
+                            credential.getSmsCode()
+                        );
+                        pluginImplementation.handlePhoneVerificationCompleted(event);
                     }
 
                     @Override

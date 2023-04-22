@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
@@ -731,18 +732,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         }
     }
 
-    public void handlePhoneVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-        String smsCode = credential.getSmsCode();
-        JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(credential, null, null, null);
-
-        JSObject result = new JSObject();
-        if (smsCode != null) {
-            result.put("verificationCode", smsCode);
-        }
-        if (credentialResult != null) {
-            result.put("credential", credentialResult);
-        }
-        notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, result, true);
+    public void handlePhoneVerificationCompleted(@NonNull final PhoneVerificationCompletedEvent event) {
+        notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, event.toJSObject(), true);
     }
 
     public void handlePhoneVerificationFailed(Exception exception) {
