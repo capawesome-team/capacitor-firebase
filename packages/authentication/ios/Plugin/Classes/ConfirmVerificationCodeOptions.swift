@@ -1,4 +1,6 @@
-class ConfirmVerificationCodeOptions {
+import Foundation
+
+@objc class ConfirmVerificationCodeOptions: NSObject {
     private var verificationId: String
     private var verificationCode: String
 

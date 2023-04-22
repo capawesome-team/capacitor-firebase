@@ -46,9 +46,9 @@ public class PhoneAuthProviderHandler {
     public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull ResultCallback callback) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(options.getVerificationId(), options.getVerificationCode());
         if (signInOnConfirm) {
-            pluginImplementation.signInWithCredential(new SignInOptions(skipNativeAuthOnConfirm), callback, credential);
+            pluginImplementation.signInWithCredential(new SignInOptions(skipNativeAuthOnConfirm), credential, callback);
         } else {
-            pluginImplementation.linkWithCredential(callback, credential);
+            pluginImplementation.linkWithCredential(credential, callback);
         }
     }
 
@@ -88,9 +88,9 @@ public class PhoneAuthProviderHandler {
                     }
                 };
                 if (isLink) {
-                    pluginImplementation.linkWithCredential(callback, credential);
+                    pluginImplementation.linkWithCredential(credential, callback);
                 } else {
-                    pluginImplementation.signInWithCredential(options, callback, credential);
+                    pluginImplementation.signInWithCredential(options, credential, callback);
                 }
             }
 

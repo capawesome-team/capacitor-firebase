@@ -7,6 +7,12 @@ import Capacitor
     let credential: AuthCredential?
     let additionalUserInfo: AdditionalUserInfo?
 
+    init(_ result: AuthDataResult) {
+        self.user = result.user
+        self.credential = result.credential
+        self.additionalUserInfo = result.additionalUserInfo
+    }
+
     init(user: User?, credential: AuthCredential?, additionalUserInfo: AdditionalUserInfo?) {
         self.user = user
         self.credential = credential

@@ -5,15 +5,6 @@ import FirebaseAuth
 
 public typealias AuthStateChangedObserver = () -> Void
 
-class RuntimeError: Error {
-
-    var localizedDescription: String
-
-    init(description: String) {
-        self.localizedDescription = description
-    }
-}
-
 // swiftlint:disable type_body_length
 @objc public class FirebaseAuthentication: NSObject {
     public var authStateObserver: AuthStateChangedObserver?
@@ -84,8 +75,8 @@ class RuntimeError: Error {
         })
     }
 
-    @objc func confirmVerificationCode(oobCode: String, newPassword: String, completion: @escaping (Error?) -> Void) {
-        self.phoneAuthProviderHandler?.confirmVerificationCode(call: call)
+    @objc func confirmVerificationCode(_ options: ConfirmVerificationCodeOptions, completion: @escaping (Result?, Error?) -> Void) {
+        self.phoneAuthProviderHandler?.confirmVerificationCode(options, completion: completion)
     }
 
     @objc func deleteUser(user: User, completion: @escaping (Error?) -> Void) {
@@ -100,7 +91,7 @@ class RuntimeError: Error {
 
     @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (GetIdTokenResult?, Error?) -> Void) {
         guard let user = self.getCurrentUser() else {
-            let error = RuntimeError(description: self.plugin.errorNoUserSignedIn)
+            let error = RuntimeError(self.plugin.errorNoUserSignedIn)
             completion(nil, error)
             return
         }
@@ -212,9 +203,8 @@ class RuntimeError: Error {
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.microsoft)
     }
 
-    @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
-        self.savedCall = call
-        self.phoneAuthProviderHandler?.link(call: call)
+    @objc func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) {
+        self.phoneAuthProviderHandler?.link(options)
     }
 
     @objc func linkWithTwitter(_ call: CAPPluginCall) {
@@ -388,9 +378,8 @@ class RuntimeError: Error {
         self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.microsoft)
     }
 
-    @objc func signInWithPhoneNumber(_ call: CAPPluginCall) {
-        self.savedCall = call
-        self.phoneAuthProviderHandler?.signIn(call: call)
+    @objc func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) {
+        self.phoneAuthProviderHandler?.signIn(options)
     }
 
     @objc func signInWithTwitter(_ call: CAPPluginCall) {
@@ -454,6 +443,49 @@ class RuntimeError: Error {
 
     @objc func useEmulator(_ host: String, _ port: Int) {
         Auth.auth().useEmulator(withHost: host, port: port)
+    }
+
+    @objc func signInWithCredential(
+        _ options: SignInOptions,
+        credential: AuthCredential,
+        completion: @escaping (Result?, Error?) -> Void
+    ) {
+        let skipNativeAuth = options.getSkipNativeAuth()
+        if skipNativeAuth == true {
+            let result = SignInResult(user: nil, credential: credential, additionalUserInfo: nil)
+            completion(result, nil)
+            return
+        }
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let authResult = authResult {
+                let result = SignInResult(authResult)
+                completion(result, nil)
+            }
+        }
+    }
+
+    @objc func linkWithCredential(
+        credential: AuthCredential,
+        completion: @escaping (Result?, Error?) -> Void
+    ) {
+        guard let user = getCurrentUser() else {
+            completion(nil, RuntimeError(plugin.errorNoUserSignedIn))
+            return
+        }
+        user.link(with: credential) { (authResult, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let authResult = authResult {
+                let result = SignInResult(authResult)
+                completion(result, nil)
+            }
+        }
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {

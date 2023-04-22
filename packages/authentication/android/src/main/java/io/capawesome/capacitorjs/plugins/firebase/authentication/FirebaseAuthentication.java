@@ -602,7 +602,7 @@ public class FirebaseAuthentication {
         }
     }
 
-    public void signInWithCredential(@NonNull SignInOptions options, @NonNull ResultCallback callback, @NonNull AuthCredential credential) {
+    public void signInWithCredential(@NonNull SignInOptions options, @NonNull AuthCredential credential, @NonNull ResultCallback callback) {
         boolean skipNativeAuth = options.getSkipNativeAuth();
         if (skipNativeAuth) {
             SignInResult result = new SignInResult(null, credential, null);
@@ -627,7 +627,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void linkWithCredential(@NonNull ResultCallback callback, @NonNull AuthCredential credential) {
+    public void linkWithCredential(@NonNull AuthCredential credential, @NonNull ResultCallback callback) {
         FirebaseUser user = firebaseAuthInstance.getCurrentUser();
         if (user == null) {
             callback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));

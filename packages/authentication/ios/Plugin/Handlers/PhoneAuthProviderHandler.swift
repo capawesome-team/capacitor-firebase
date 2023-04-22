@@ -4,55 +4,43 @@ import FirebaseCore
 import FirebaseAuth
 
 class PhoneAuthProviderHandler: NSObject {
-    var pluginImplementation: FirebaseAuthentication
+    private var pluginImplementation: FirebaseAuthentication
+    private var signInOnConfirm = true
+    private var skipNativeAuthOnConfirm = false
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
         super.init()
     }
 
-    func signIn(call: CAPPluginCall) {
-        let phoneNumber = call.getString("phoneNumber")
-
-        verifyPhoneNumber(call, phoneNumber, isLink: false)
+    func signIn(_ options: SignInWithPhoneNumberOptions) {
+        signInOnConfirm = true
+        skipNativeAuthOnConfirm = options.getSkipNativeAuth()
+        verifyPhoneNumber(options)
     }
 
-    func link(call: CAPPluginCall) {
-        let phoneNumber = call.getString("phoneNumber")
-        let verificationId = call.getString("verificationId")
-        let verificationCode = call.getString("verificationCode")
+    func link(_ options: LinkWithPhoneNumberOptions) {
+        signInOnConfirm = false
+        skipNativeAuthOnConfirm = options.getSkipNativeAuth()
+        verifyPhoneNumber(options)
+    }
 
-        if verificationCode == nil {
-            verifyPhoneNumber(call, phoneNumber, isLink: true)
+    func confirmVerificationCode(_ options: ConfirmVerificationCodeOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let credential = PhoneAuthProvider.provider().credential(
+            withVerificationID: options.getVerificationId(),
+            verificationCode: options.getVerificationCode()
+        )
+        if self.signInOnConfirm {
+            pluginImplementation.signInWithCredential(SignInOptions(skipNativeAuth: skipNativeAuthOnConfirm), credential: credential, completion: completion)
         } else {
-            handleVerificationCode(call, verificationId, verificationCode, isLink: true)
+            pluginImplementation.linkWithCredential(credential: credential, completion: completion)
         }
     }
 
-    func confirmVerificationCode()
-
-    private func verifyPhoneNumber(_ call: CAPPluginCall, _ phoneNumber: String?, isLink: Bool) {
-        guard let phoneNumber = phoneNumber else {
-            return
-        }
+    private func verifyPhoneNumber(_ options: SignInWithPhoneNumberOptions) {
         PhoneAuthProvider.provider()
-            .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, _ in
+            .verifyPhoneNumber(options.getPhoneNumber(), uiDelegate: nil) { verificationID, _ in
                 self.pluginImplementation.handlePhoneCodeSent(verificationID ?? "")
             }
-    }
-
-    private func handleVerificationCode(_ call: CAPPluginCall, _ verificationID: String?, _ verificationCode: String?, isLink: Bool) {
-        guard let verificationID = verificationID, let verificationCode = verificationCode else {
-            return
-        }
-        let credential = PhoneAuthProvider.provider().credential(
-            withVerificationID: verificationID,
-            verificationCode: verificationCode
-        )
-        if isLink == true {
-            self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
-        } else {
-            self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
-        }
     }
 }

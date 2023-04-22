@@ -22,6 +22,7 @@
     "affected:fmt": "turbo run fmt --since=origin/main",
     "affected:docgen": "turbo run docgen --since=origin/main",
     "affected:build": "turbo run build --since=origin/main",
+    "ios:pod:install": "turbo run ios:pod:install --concurrency=1 --no-cache",
     "changeset": "changeset",
     "release": "npm run build && changeset publish"
   },

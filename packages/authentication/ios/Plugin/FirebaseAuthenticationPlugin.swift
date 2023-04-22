@@ -95,13 +95,15 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
         let options = ConfirmVerificationCodeOptions(verificationId: verificationId, verificationCode: verificationCode)
 
-        implementation?.confirmVerificationCode(verificationId: verificationId, verificationCode: verificationCode, completion: { error in
+        implementation?.confirmVerificationCode(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
                 return
             }
-            call.resolve()
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
         })
     }
 
@@ -200,14 +202,13 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
-        let phoneNumber = call.getString("phoneNumber")
-        if phoneNumber == nil {
+        guard let phoneNumber = call.getString("phoneNumber") else {
             call.reject(errorPhoneNumberMissing)
             return
         }
-        let resendCode = call.getString("resendCode")
+        let options = LinkWithPhoneNumberOptions(phoneNumber: phoneNumber)
 
-        implementation?.linkWithPhoneNumber(call)
+        implementation?.linkWithPhoneNumber(options)
     }
 
     @objc func linkWithPlayGames(_ call: CAPPluginCall) {
@@ -377,13 +378,14 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func signInWithPhoneNumber(_ call: CAPPluginCall) {
-        let phoneNumber = call.getString("phoneNumber")
-        if phoneNumber == nil {
+        let skipNativeAuth = call.getBool("skipNativeAuth", firebaseAuthenticationConfig().skipNativeAuth)
+        guard let phoneNumber = call.getString("phoneNumber") else {
             call.reject(errorPhoneNumberMissing)
             return
         }
+        let options = SignInWithPhoneNumberOptions(skipNativeAuth: skipNativeAuth, phoneNumber: phoneNumber)
 
-        implementation?.signInWithPhoneNumber(call)
+        implementation?.signInWithPhoneNumber(options)
     }
 
     @objc func signInWithPlayGames(_ call: CAPPluginCall) {
