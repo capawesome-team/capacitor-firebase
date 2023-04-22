@@ -1,9 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.classes;
 
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 
 public class GetIdTokenResult implements Result {

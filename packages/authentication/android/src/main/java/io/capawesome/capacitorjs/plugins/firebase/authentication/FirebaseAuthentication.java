@@ -35,7 +35,6 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.OAuthP
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PhoneAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PlayGamesAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -603,11 +602,7 @@ public class FirebaseAuthentication {
         }
     }
 
-    public void signInWithCredential(
-        @NonNull SignInOptions options,
-        @NonNull ResultCallback callback,
-        @NonNull AuthCredential credential
-    ) {
+    public void signInWithCredential(@NonNull SignInOptions options, @NonNull ResultCallback callback, @NonNull AuthCredential credential) {
         boolean skipNativeAuth = options.getSkipNativeAuth();
         if (skipNativeAuth) {
             SignInResult result = new SignInResult(null, credential, null);

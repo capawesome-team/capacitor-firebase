@@ -4,7 +4,7 @@ import Capacitor
 
 @objc class GetIdTokenResult: NSObject {
     let token: String
-    
+
     init(token: String) {
         self.token = token
     }

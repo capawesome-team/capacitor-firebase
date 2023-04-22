@@ -13,7 +13,7 @@ class PhoneAuthProviderHandler: NSObject {
 
     func signIn(call: CAPPluginCall) {
         let phoneNumber = call.getString("phoneNumber")
-        
+
         verifyPhoneNumber(call, phoneNumber, isLink: false)
     }
 

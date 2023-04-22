@@ -135,8 +135,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func getIdToken(_ call: CAPPluginCall) {
         let forceRefresh = call.getBool("forceRefresh", false)
-        
-        implementation?.getIdToken(forceRefresh, completion: { result, error in
+
+        implementation?.getIdToken(forceRefresh, completion: { _, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)

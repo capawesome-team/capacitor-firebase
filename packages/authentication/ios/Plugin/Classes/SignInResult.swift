@@ -6,7 +6,7 @@ import Capacitor
     let user: User?
     let credential: AuthCredential?
     let additionalUserInfo: AdditionalUserInfo?
-    
+
     init(user: User?, credential: AuthCredential?, additionalUserInfo: AdditionalUserInfo?) {
         self.user = user
         self.credential = credential
