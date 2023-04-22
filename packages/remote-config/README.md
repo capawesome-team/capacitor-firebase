@@ -19,7 +19,7 @@ Google Analytics is required for the [conditional targeting of app instances](ht
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseConfigVersion` version of `com.google.firebase:firebase-config` (default: `21.2.0`)
+- `$firebaseConfigVersion` version of `com.google.firebase:firebase-config` (default: `21.3.0`)
 
 ## Configuration
 

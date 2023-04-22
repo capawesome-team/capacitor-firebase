@@ -9,4 +9,4 @@
 "@capacitor-firebase/remote-config": major
 ---
 
-refactor(android)!: use `getMessage` instead of `getLocalizedMessage`
+feat!: update native SDKs

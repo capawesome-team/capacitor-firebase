@@ -2,6 +2,10 @@
 
 Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging).[^1]
 
+## Guides
+
+- [The Push Notifications Guide for Capacitor](https://capawesome.io/blog/the-push-notifications-guide-for-capacitor/)
+
 ## Installation
 
 ```bash
@@ -17,7 +21,7 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `23.1.0`)
+- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `23.1.2`)
 
 #### Push Notification Icon
 

@@ -5,9 +5,9 @@ ext {
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.5.1'
     rgcfaIncludeGoogle = project.hasProperty('rgcfaIncludeGoogle') ? rootProject.ext.rgcfaIncludeGoogle : false
     rgcfaIncludeFacebook = project.hasProperty('rgcfaIncludeFacebook') ? rootProject.ext.rgcfaIncludeFacebook : false
-    firebaseAuthVersion = project.hasProperty('firebaseAuthVersion') ? rootProject.ext.firebaseAuthVersion : '21.1.0'
-    playServicesAuthVersion = project.hasProperty('playServicesAuthVersion') ? rootProject.ext.playServicesAuthVersion : '20.4.0'
-    facebookLoginVersion = project.hasProperty('facebookLoginVersion') ? rootProject.ext.facebookLoginVersion : '15.1.0'
+    firebaseAuthVersion = project.hasProperty('firebaseAuthVersion') ? rootProject.ext.firebaseAuthVersion : '21.2.0'
+    playServicesAuthVersion = project.hasProperty('playServicesAuthVersion') ? rootProject.ext.playServicesAuthVersion : '20.5.0'
+    facebookLoginVersion = project.hasProperty('facebookLoginVersion') ? rootProject.ext.facebookLoginVersion : '16.0.0'
 }
 
 buildscript {
@@ -16,7 +16,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.1'
+        classpath 'com.android.tools.build:gradle:8.0.0'
     }
 }
 
