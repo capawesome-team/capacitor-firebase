@@ -75,6 +75,10 @@ public typealias AuthStateChangedObserver = () -> Void
         })
     }
 
+    @objc func confirmVerificationCode(_ options: ConfirmVerificationCodeOptions, completion: @escaping (Result?, Error?) -> Void) {
+        self.phoneAuthProviderHandler?.confirmVerificationCode(options, completion: completion)
+    }
+
     @objc func deleteUser(user: User, completion: @escaping (Error?) -> Void) {
         user.delete { error in
             completion(error)
@@ -85,18 +89,20 @@ public typealias AuthStateChangedObserver = () -> Void
         return Auth.auth().currentUser
     }
 
-    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (String?, String?) -> Void) {
+    @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (GetIdTokenResult?, Error?) -> Void) {
         guard let user = self.getCurrentUser() else {
-            completion(nil, self.plugin.errorNoUserSignedIn)
+            let error = RuntimeError(self.plugin.errorNoUserSignedIn)
+            completion(nil, error)
             return
         }
         user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.plugin.tag, "] ", error)
-                completion(nil, error.localizedDescription)
+                completion(nil, error)
                 return
             }
-            completion(result?.token, nil)
+            let result = GetIdTokenResult(token: result?.token ?? "")
+            completion(result, nil)
         })
     }
 
@@ -197,9 +203,8 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.microsoft)
     }
 
-    @objc func linkWithPhoneNumber(_ call: CAPPluginCall) {
-        self.savedCall = call
-        self.phoneAuthProviderHandler?.link(call: call)
+    @objc func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) {
+        self.phoneAuthProviderHandler?.link(options)
     }
 
     @objc func linkWithTwitter(_ call: CAPPluginCall) {
@@ -373,9 +378,8 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.microsoft)
     }
 
-    @objc func signInWithPhoneNumber(_ call: CAPPluginCall) {
-        self.savedCall = call
-        self.phoneAuthProviderHandler?.signIn(call: call)
+    @objc func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) {
+        self.phoneAuthProviderHandler?.signIn(options)
     }
 
     @objc func signInWithTwitter(_ call: CAPPluginCall) {
@@ -439,6 +443,49 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func useEmulator(_ host: String, _ port: Int) {
         Auth.auth().useEmulator(withHost: host, port: port)
+    }
+
+    @objc func signInWithCredential(
+        _ options: SignInOptions,
+        credential: AuthCredential,
+        completion: @escaping (Result?, Error?) -> Void
+    ) {
+        let skipNativeAuth = options.getSkipNativeAuth()
+        if skipNativeAuth == true {
+            let result = SignInResult(user: nil, credential: credential, additionalUserInfo: nil)
+            completion(result, nil)
+            return
+        }
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let authResult = authResult {
+                let result = SignInResult(authResult)
+                completion(result, nil)
+            }
+        }
+    }
+
+    @objc func linkWithCredential(
+        credential: AuthCredential,
+        completion: @escaping (Result?, Error?) -> Void
+    ) {
+        guard let user = getCurrentUser() else {
+            completion(nil, RuntimeError(plugin.errorNoUserSignedIn))
+            return
+        }
+        user.link(with: credential) { (authResult, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let authResult = authResult {
+                let result = SignInResult(authResult)
+                completion(result, nil)
+            }
+        }
     }
 
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {

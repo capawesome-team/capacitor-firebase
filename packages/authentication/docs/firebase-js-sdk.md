@@ -2,7 +2,7 @@
 
 > The [Firebase JavaScript SDK](https://firebase.google.com/docs/reference/js) implements the client-side libraries used by applications using Firebase services.
 
-By default, this plugin uses the Firebase JS SDK on the Web, the native Firebase Android SDK on Android, and the native Firebase iOS SDK on iOS. 
+By default, this plugin uses the Firebase JS SDK on the Web, the native Firebase Android SDK on Android, and the native Firebase iOS SDK on iOS.
 This means, by default, this plugin signs the user in only on the native layer of the app.
 If you want to use the Firebase JS SDK on Android and iOS as well, follow the instructions in this guide.
 
@@ -18,13 +18,13 @@ import { getApp } from 'firebase/app';
 import {
   getAuth,
   indexedDBLocalPersistence,
-  initializeAuth
+  initializeAuth,
 } from 'firebase/auth';
 
 const getFirebaseAuth = async () => {
   if (Capacitor.isNativePlatform()) {
     return initializeAuth(getApp(), {
-      persistence: indexedDBLocalPersistence
+      persistence: indexedDBLocalPersistence,
     });
   } else {
     return getAuth();
@@ -47,12 +47,14 @@ import {
   PhoneAuthProvider,
   signInWithCredential,
   EmailAuthProvider,
-  signOut
+  signOut,
 } from 'firebase/auth';
 
 const signInWithApple = async () => {
   // 1. Create credentials on the native layer
-  const result = await FirebaseAuthentication.signInWithApple({ skipNativeAuth: true });
+  const result = await FirebaseAuthentication.signInWithApple({
+    skipNativeAuth: true,
+  });
   // 2. Sign in on the web layer using the id token and nonce
   const provider = new OAuthProvider('apple.com');
   const credential = provider.credential({
@@ -84,30 +86,38 @@ const signInWithGoogle = async () => {
 };
 
 const signInWithPhoneNumber = async () => {
-  // 1. Start phone number verification
-  const { verificationId } = await FirebaseAuthentication.signInWithPhoneNumber(
-    {
+  return new Promise(async resolve => {
+    await FirebaseAuthentication.addListener('phoneCodeSent', async event => {
+      // 2. Let the user enter the SMS code
+      const verificationCode = window.prompt(
+        'Please enter the verification code that was sent to your mobile device.',
+      );
+      // 3. Sign in on the web layer using the verification ID and verification code.
+      const credential = PhoneAuthProvider.credential(
+        verificationId: event.verificationId,
+        verificationCode,
+      );
+      const auth = getAuth();
+      await signInWithCredential(auth, credential);
+      resolve();
+    });
+    // 1. Start phone number verification
+    await FirebaseAuthentication.signInWithPhoneNumber({
       phoneNumber: '123456789',
-    },
-  );
-  // 2. Let the user enter the SMS code
-  const verificationCode = window.prompt(
-    'Please enter the verification code that was sent to your mobile device.',
-  );
-  // 3. Sign in on the web layer using the verification ID and verification code.
-  const credential = PhoneAuthProvider.credential(
-    verificationId || '',
-    verificationCode || '',
-  );
-  const auth = getAuth();
-  await signInWithCredential(auth, credential);
+    });
+  });
 };
 
 const signInWithTwitter = async () => {
   // 1. Create credentials on the native layer
-  const result = await FirebaseAuthentication.signInWithTwitter({ skipNativeAuth: false });
+  const result = await FirebaseAuthentication.signInWithTwitter({
+    skipNativeAuth: false,
+  });
   // 2. Sign in on the web layer using the id token and secret
-  const credential = TwitterAuthProvider.credential(result.credential?.idToken, result.credential?.secret);
+  const credential = TwitterAuthProvider.credential(
+    result.credential?.idToken,
+    result.credential?.secret,
+  );
   const auth = getAuth();
   await signInWithCredential(auth, credential);
 };
@@ -126,9 +136,10 @@ const signInWithEmailLink = async () => {
   // the flow on the same device where they started it.
   const emailLink = window.location.href;
   // Confirm the link is a sign-in with email link.
-  const { isSignInWithEmailLink } = await FirebaseAuthentication.isSignInWithEmailLink({
-    emailLink,
-  });
+  const { isSignInWithEmailLink } =
+    await FirebaseAuthentication.isSignInWithEmailLink({
+      emailLink,
+    });
   if (!isSignInWithEmailLink) {
     return;
   }
@@ -136,9 +147,7 @@ const signInWithEmailLink = async () => {
   if (!email) {
     // User opened the link on a different device. To prevent session fixation
     // attacks, ask the user to provide the associated email again.
-    email = window.prompt(
-      'Please provide your email for confirmation.',
-    );
+    email = window.prompt('Please provide your email for confirmation.');
   }
   // The client SDK will parse the code from the link for you.
   const credential = EmailAuthProvider.credentialWithLink(email, emailLink);
@@ -162,7 +171,8 @@ const signOut = async () => {
 
 When using the Firebase JS SDK on Android and iOS, you must be aware of the following:
 
-- **Apple Sign-In** works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
-- **Twitter Sign-In** works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
+- **Apple Sign-In**: Works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
+- **Twitter Sign-In**: Works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
+- **Phone Number Sign-In**: To create the `PhoneAuthCredential` in the Firebase JS SDK, the `verificationId` and the `verificationCode` are required. However, on Android, it may happen that no `verificationCode` is provided (see [`addListener('phoneVerificationCompleted', ...)`](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#addlistenerphoneverificationcompleted-)). In this case, the user cannot be additionally signed in to the Firebase JS SDK. Unfortunately, this behavior cannot be disabled on Android (see [firebase/quickstart-android#296](https://github.com/firebase/quickstart-android/issues/296)).
 
 **Note**: The [`skipNativeAuth`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#signinoptions)).

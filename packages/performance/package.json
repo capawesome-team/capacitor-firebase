@@ -52,6 +52,7 @@
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
+    "ios:pod:install": "cd ios && pod install --repo-update && cd ..",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -61,7 +62,6 @@
     "@capacitor/docgen": "0.2.1",
     "@capacitor/ios": "5.0.0-beta.1",
     "@ionic/eslint-config": "0.3.0",
-    "@ionic/prettier-config": "1.0.1",
     "@ionic/swiftlint-config": "1.1.2",
     "eslint": "7.32.0",
     "firebase": "9.20.0",
@@ -81,7 +81,6 @@
       "optional": true
     }
   },
-  "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "eslintConfig": {
     "extends": "@ionic/eslint-config/recommended"

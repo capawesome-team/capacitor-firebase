@@ -48,6 +48,7 @@ import type {
   AuthCredential,
   AuthStateChange,
   ConfirmPasswordResetOptions,
+  ConfirmVerificationCodeOptions,
   CreateUserWithEmailAndPasswordOptions,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
@@ -65,7 +66,6 @@ import type {
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
   SetTenantIdOptions,
-  SignInOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
   SignInWithEmailAndPasswordOptions,
@@ -116,6 +116,12 @@ export class FirebaseAuthenticationWeb
   ): Promise<void> {
     const auth = getAuth();
     return confirmPasswordReset(auth, options.oobCode, options.newPassword);
+  }
+
+  public async confirmVerificationCode(
+    _options: ConfirmVerificationCodeOptions,
+  ): Promise<SignInResult> {
+    throw new Error('Not implemented on web.');
   }
 
   public async deleteUser(): Promise<void> {
@@ -275,7 +281,7 @@ export class FirebaseAuthenticationWeb
 
   public async linkWithPhoneNumber(
     _options: LinkWithPhoneNumberOptions,
-  ): Promise<LinkResult> {
+  ): Promise<void> {
     throw new Error('Not implemented on web.');
   }
 
@@ -464,7 +470,7 @@ export class FirebaseAuthenticationWeb
 
   public async signInWithPhoneNumber(
     _options: SignInWithPhoneNumberOptions,
-  ): Promise<SignInResult> {
+  ): Promise<void> {
     throw new Error('Not implemented on web.');
   }
 
@@ -568,7 +574,7 @@ export class FirebaseAuthenticationWeb
   }
 
   private applySignInOptions(
-    options: SignInOptions,
+    options: SignInWithOAuthOptions,
     provider: OAuthProvider | GoogleAuthProvider | FacebookAuthProvider,
   ) {
     if (options.customParameters) {

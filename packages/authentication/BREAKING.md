@@ -26,6 +26,67 @@ On Android, error messages were previously generated with `getLocalizedMessage`.
 
 You should therefore check your error handling.
 
+### Phone Number Sign-In
+
+Deprecated parameters were removed from the API for Phone Number Sign-In and a new method `confirmVerificationCode(...)` was added.
+
+**Before**:
+
+```ts
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
+const signInWithPhoneNumber = async () => {
+  const { verificationId } = await FirebaseAuthentication.signInWithPhoneNumber(
+    {
+      phoneNumber: '123456789',
+    },
+  );
+  const verificationCode = window.prompt(
+    'Please enter the verification code that was sent to your mobile device.',
+  );
+  const result = await FirebaseAuthentication.signInWithPhoneNumber({
+    verificationId,
+    verificationCode,
+  });
+  return result.user;
+};
+```
+
+**Now**:
+
+```ts
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
+const signInWithPhoneNumber = async () => {
+  return new Promise(async resolve => {
+    // Attach `phoneCodeSent` listener to be notified as soon as the SMS is sent
+    await FirebaseAuthentication.addListener('phoneCodeSent', async event => {
+      // Ask the user for the SMS code
+      const verificationCode = window.prompt(
+        'Please enter the verification code that was sent to your mobile device.',
+      );
+      // Confirm the verification code
+      const result = await FirebaseAuthentication.confirmVerificationCode({
+        verificationId: event.verificationId,
+        verificationCode,
+      });
+      resolve(result.user);
+    });
+    // Attach `phoneVerificationCompleted` listener to be notified if phone verification could be finished automatically
+    await FirebaseAuthentication.addListener(
+      'phoneVerificationCompleted',
+      async event => {
+        resolve(event.result.user);
+      },
+    );
+    // Start sign in with phone number and send the SMS
+    await FirebaseAuthentication.signInWithPhoneNumber({
+      phoneNumber: '123456789',
+    });
+  });
+};
+```
+
 ## Version 1.x.x
 
 ### Capacitor 4
