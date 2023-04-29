@@ -117,13 +117,14 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "createUserWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
                         JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
-                        Logger.error(TAG, "createUserWithEmailAndPassword failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -215,12 +216,13 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "linkWithEmailAndPassword succeeded.");
                         JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(linkResult);
                     } else {
-                        Logger.error(TAG, "linkWithEmailAndPassword failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -249,12 +251,13 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "linkWithEmailLink succeeded.");
                         JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(linkResult);
                     } else {
-                        Logger.error(TAG, "linkWithEmailLink failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -352,7 +355,6 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "signInAnonymously succeeded.");
                         AuthResult authResult = task.getResult();
                         JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
                             authResult.getUser(),
@@ -364,8 +366,10 @@ public class FirebaseAuthentication {
                         );
                         call.resolve(signInResult);
                     } else {
-                        Logger.error(TAG, "signInAnonymously failed.", task.getException());
-                        call.reject(task.getException().getMessage());
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -391,13 +395,14 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "signInWithEmailAndPassword succeeded.");
                         FirebaseUser user = getCurrentUser();
                         JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
-                        Logger.error(TAG, "signInWithEmailAndPassword failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -419,7 +424,6 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "signInWithEmailLink succeeded.");
                         AuthResult authResult = task.getResult();
                         JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
                             authResult.getUser(),
@@ -431,8 +435,10 @@ public class FirebaseAuthentication {
                         );
                         call.resolve(signInResult);
                     } else {
-                        Logger.error(TAG, "signInWithEmailLink failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -485,13 +491,14 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "signInWithCustomToken succeeded.");
                         FirebaseUser user = getCurrentUser();
                         JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
                         call.resolve(signInResult);
                     } else {
-                        Logger.error(TAG, "signInWithCustomToken failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -517,15 +524,16 @@ public class FirebaseAuthentication {
             .addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "unlink succeeded.");
                         AuthResult authResult = task.getResult();
                         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
                         JSObject result = new JSObject();
                         result.put("user", userResult);
                         call.resolve(result);
                     } else {
-                        Logger.error(TAG, "unlink failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_UNLINK_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -680,12 +688,13 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "signInWithCredential succeeded.");
                         final AuthResult authResult = task.getResult();
                         handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken);
                     } else {
-                        Logger.error(TAG, "signInWithCredential failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -709,12 +718,13 @@ public class FirebaseAuthentication {
         call.resolve(signInResult);
     }
 
-    public void handleFailedSignIn(final PluginCall call, String message, Exception exception) {
-        Logger.error(TAG, exception.getMessage(), exception);
+    public void handleFailedSignIn(@NonNull final PluginCall call, @Nullable String message, @Nullable Exception exception) {
         if (message == null && exception != null) {
             message = exception.getMessage();
         }
-        call.reject(message, exception);
+        Logger.error(TAG, message, exception);
+        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+        call.reject(message, code);
     }
 
     public void handleSuccessfulLink(
@@ -735,12 +745,13 @@ public class FirebaseAuthentication {
                 plugin.getActivity(),
                 task -> {
                     if (task.isSuccessful()) {
-                        Logger.debug(TAG, "linkWithCredential succeeded.");
                         final AuthResult authResult = task.getResult();
                         handleSuccessfulLink(call, authResult, idToken, nonce, accessToken);
                     } else {
-                        Logger.error(TAG, "linkWithCredential failed.", task.getException());
-                        call.reject(FirebaseAuthenticationPlugin.ERROR_LINK_FAILED);
+                        Exception exception = task.getException();
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
@@ -765,11 +776,12 @@ public class FirebaseAuthentication {
     }
 
     public void handleFailedLink(final PluginCall call, String message, Exception exception) {
-        Logger.error(TAG, exception.getMessage(), exception);
         if (message == null && exception != null) {
             message = exception.getMessage();
         }
-        call.reject(message, exception);
+        Logger.error(TAG, message, exception);
+        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+        call.reject(message, code);
     }
 
     public void handlePhoneVerificationCompleted(@NonNull final PhoneVerificationCompletedEvent event) {

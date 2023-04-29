@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthCredential;
 import java.util.Map;
@@ -22,6 +23,18 @@ public class FirebaseAuthenticationHelper {
         public static final String YAHOO = "yahoo.com";
         public static final String PASSWORD = "password";
         public static final String PHONE = "phone";
+    }
+
+    @Nullable
+    public static String createErrorCode(@Nullable Exception exception) {
+        if (exception == null) {
+            return null;
+        } else if (exception instanceof FirebaseAuthException) {
+            String errorCode = ((FirebaseAuthException) exception).getErrorCode();
+            errorCode = errorCode.replaceFirst("ERROR_", "");
+            return snakeToKebabCase(errorCode);
+        }
+        return null;
     }
 
     public static JSObject createSignInResult(
@@ -121,5 +134,9 @@ public class FirebaseAuthenticationHelper {
             result.put("username", additionalUserInfo.getUsername());
         }
         return result;
+    }
+
+    private static String snakeToKebabCase(String snakeCase) {
+        return snakeCase.replaceAll("_+", "-").toLowerCase();
     }
 }

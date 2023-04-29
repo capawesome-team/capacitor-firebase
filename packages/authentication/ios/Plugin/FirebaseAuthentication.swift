@@ -398,9 +398,10 @@ public typealias AuthStateChangedObserver = () -> Void
             googleAuthProviderHandler?.signOut()
             facebookAuthProviderHandler?.signOut()
             call.resolve()
-        } catch let signOutError as NSError {
-            CAPLog.print("[", self.plugin.tag, "] ", signOutError)
-            call.reject("Error signing out: \(signOutError)")
+        } catch {
+            CAPLog.print("[", self.plugin.tag, "] ", error)
+            let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+            call.reject(error.localizedDescription, code)
         }
     }
 
@@ -522,8 +523,9 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
-        CAPLog.print("[", self.plugin.tag, "] ", error)
-        savedCall.reject(errorMessage, nil, error)
+        CAPLog.print("[", self.plugin.tag, "] ", errorMessage)
+        let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+        savedCall.reject(errorMessage, code)
     }
 
     func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
@@ -554,8 +556,9 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
-        CAPLog.print("[", self.plugin.tag, "] ", error)
-        savedCall.reject(errorMessage, nil, error)
+        CAPLog.print("[", self.plugin.tag, "] ", errorMessage)
+        let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+        savedCall.reject(errorMessage, code)
     }
 
     func handlePhoneVerificationFailed(_ error: Error) {
