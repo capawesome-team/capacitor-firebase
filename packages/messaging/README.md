@@ -257,6 +257,8 @@ checkPermissions() => Promise<PermissionStatus>
 
 Check permission to receive push notifications.
 
+On **Android**, this method only needs to be called on Android 13+.
+
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
 **Since:** 0.2.2
@@ -271,6 +273,8 @@ requestPermissions() => Promise<PermissionStatus>
 ```
 
 Request permission to receive push notifications.
+
+On **Android**, this method only needs to be called on Android 13+.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
