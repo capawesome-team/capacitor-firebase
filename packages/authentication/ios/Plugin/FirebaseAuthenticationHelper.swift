@@ -126,7 +126,7 @@ public class FirebaseAuthenticationHelper {
     }
 
     private static func convertErrorCodeToString(errorCode: Int) -> String? {
-        let ERROR_CODES: [Int: String] = [
+        let errorCodes: [Int: String] = [
             AuthErrorCode.invalidCustomToken.rawValue: "invalid-custom-token",
             AuthErrorCode.customTokenMismatch.rawValue: "custom-token-mismatch",
             AuthErrorCode.invalidCredential.rawValue: "invalid-credential",
@@ -186,6 +186,6 @@ public class FirebaseAuthenticationHelper {
             AuthErrorCode.malformedJWT.rawValue: "malformed-jwt"
         ]
 
-        return ERROR_CODES[errorCode]
+        return errorCodes[errorCode]
     }
 }
