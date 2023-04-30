@@ -398,9 +398,10 @@ public typealias AuthStateChangedObserver = () -> Void
             googleAuthProviderHandler?.signOut()
             facebookAuthProviderHandler?.signOut()
             call.resolve()
-        } catch let signOutError as NSError {
-            CAPLog.print("[", self.plugin.tag, "] ", signOutError)
-            call.reject("Error signing out: \(signOutError)")
+        } catch {
+            CAPLog.print("[", self.plugin.tag, "] ", error)
+            let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+            call.reject(error.localizedDescription, code)
         }
     }
 
@@ -499,7 +500,8 @@ public typealias AuthStateChangedObserver = () -> Void
         let skipNativeAuth = savedCall.getBool("skipNativeAuth", config.skipNativeAuth)
         if skipNativeAuth == true {
             let result = FirebaseAuthenticationHelper.createSignInResult(credential: credential, user: nil, idToken: idToken, nonce: nonce,
-                                                                         accessToken: accessToken, additionalUserInfo: nil, displayName: displayName, authorizationCode: authorizationCode)
+                                                                         accessToken: accessToken, additionalUserInfo: nil, displayName: displayName,
+                                                                         authorizationCode: authorizationCode)
             savedCall.resolve(result)
             return
         }
@@ -511,8 +513,9 @@ public typealias AuthStateChangedObserver = () -> Void
             guard let savedCall = self.savedCall else {
                 return
             }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo, displayName: displayName, authorizationCode: authorizationCode)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken,
+                                                                         nonce: nonce, accessToken: accessToken, additionalUserInfo: authResult?.additionalUserInfo,
+                                                                         displayName: displayName, authorizationCode: authorizationCode)
             savedCall.resolve(result)
         }
     }
@@ -522,12 +525,14 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
-        CAPLog.print("[", self.plugin.tag, "] ", error)
-        savedCall.reject(errorMessage, nil, error)
+        CAPLog.print("[", self.plugin.tag, "] ", errorMessage)
+        let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+        savedCall.reject(errorMessage, code)
     }
 
     func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil, authorizationCode: nil)
+        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce,
+                                  accessToken: accessToken, displayName: nil, authorizationCode: nil)
     }
 
     func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?, authorizationCode: String?) {
@@ -543,8 +548,9 @@ public typealias AuthStateChangedObserver = () -> Void
             guard let savedCall = self.savedCall else {
                 return
             }
-            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken, nonce: nonce, accessToken: accessToken,
-                                                                         additionalUserInfo: authResult?.additionalUserInfo, displayName: displayName, authorizationCode: authorizationCode)
+            let result = FirebaseAuthenticationHelper.createSignInResult(credential: authResult?.credential, user: authResult?.user, idToken: idToken,
+                                                                         nonce: nonce, accessToken: accessToken, additionalUserInfo: authResult?.additionalUserInfo,
+                                                                         displayName: displayName, authorizationCode: authorizationCode)
             savedCall.resolve(result)
         }
     }
@@ -554,8 +560,9 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         let errorMessage = message ?? error?.localizedDescription ?? ""
-        CAPLog.print("[", self.plugin.tag, "] ", error)
-        savedCall.reject(errorMessage, nil, error)
+        CAPLog.print("[", self.plugin.tag, "] ", errorMessage)
+        let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+        savedCall.reject(errorMessage, code)
     }
 
     func handlePhoneVerificationFailed(_ error: Error) {

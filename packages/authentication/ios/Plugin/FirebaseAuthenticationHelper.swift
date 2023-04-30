@@ -18,6 +18,13 @@ public struct ProviderId {
 }
 
 public class FirebaseAuthenticationHelper {
+    public static func createErrorCode(error: Error?) -> String? {
+        if let error = error as NSError? {
+            return convertErrorCodeToString(errorCode: error.code)
+        }
+        return nil
+    }
+
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
         return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: additionalUserInfo, displayName: nil)
     }
@@ -116,5 +123,69 @@ public class FirebaseAuthenticationHelper {
             result["username"] = username
         }
         return result
+    }
+
+    private static func convertErrorCodeToString(errorCode: Int) -> String? {
+        let errorCodes: [Int: String] = [
+            AuthErrorCode.invalidCustomToken.rawValue: "invalid-custom-token",
+            AuthErrorCode.customTokenMismatch.rawValue: "custom-token-mismatch",
+            AuthErrorCode.invalidCredential.rawValue: "invalid-credential",
+            AuthErrorCode.userDisabled.rawValue: "user-disabled",
+            AuthErrorCode.operationNotAllowed.rawValue: "operation-not-allowed",
+            AuthErrorCode.emailAlreadyInUse.rawValue: "email-already-in-use",
+            AuthErrorCode.invalidEmail.rawValue: "invalid-email",
+            AuthErrorCode.wrongPassword.rawValue: "wrong-password",
+            AuthErrorCode.tooManyRequests.rawValue: "too-many-requests",
+            AuthErrorCode.userNotFound.rawValue: "user-not-found",
+            AuthErrorCode.accountExistsWithDifferentCredential.rawValue: "account-exists-with-different-credential",
+            AuthErrorCode.requiresRecentLogin.rawValue: "requires-recent-login",
+            AuthErrorCode.providerAlreadyLinked.rawValue: "provider-already-linked",
+            AuthErrorCode.noSuchProvider.rawValue: "no-such-provider",
+            AuthErrorCode.invalidUserToken.rawValue: "invalid-user-token",
+            AuthErrorCode.networkError.rawValue: "network-request-failed",
+            AuthErrorCode.userTokenExpired.rawValue: "user-token-expired",
+            AuthErrorCode.invalidAPIKey.rawValue: "invalid-api-key",
+            AuthErrorCode.userMismatch.rawValue: "user-mismatch",
+            AuthErrorCode.credentialAlreadyInUse.rawValue: "credential-already-in-use",
+            AuthErrorCode.weakPassword.rawValue: "weak-password",
+            AuthErrorCode.appNotAuthorized.rawValue: "app-not-authorized",
+            AuthErrorCode.expiredActionCode.rawValue: "expired-action-code",
+            AuthErrorCode.invalidActionCode.rawValue: "invalid-action-code",
+            AuthErrorCode.invalidMessagePayload.rawValue: "invalid-message-payload",
+            AuthErrorCode.invalidSender.rawValue: "invalid-sender",
+            AuthErrorCode.invalidRecipientEmail.rawValue: "invalid-recipient-email",
+            AuthErrorCode.missingEmail.rawValue: "invalid-email",
+            AuthErrorCode.missingIosBundleID.rawValue: "missing-ios-bundle-id",
+            AuthErrorCode.missingAndroidPackageName.rawValue: "missing-android-pkg-name",
+            AuthErrorCode.unauthorizedDomain.rawValue: "unauthorized-domain",
+            AuthErrorCode.invalidContinueURI.rawValue: "invalid-continue-uri",
+            AuthErrorCode.missingContinueURI.rawValue: "missing-continue-uri",
+            AuthErrorCode.missingPhoneNumber.rawValue: "missing-phone-number",
+            AuthErrorCode.invalidPhoneNumber.rawValue: "invalid-phone-number",
+            AuthErrorCode.missingVerificationCode.rawValue: "missing-verification-code",
+            AuthErrorCode.invalidVerificationCode.rawValue: "invalid-verification-code",
+            AuthErrorCode.missingVerificationID.rawValue: "missing-verification-id",
+            AuthErrorCode.invalidVerificationID.rawValue: "invalid-verification-id",
+            AuthErrorCode.missingAppCredential.rawValue: "missing-app-credential",
+            AuthErrorCode.invalidAppCredential.rawValue: "invalid-app-credential",
+            AuthErrorCode.sessionExpired.rawValue: "code-expired",
+            AuthErrorCode.quotaExceeded.rawValue: "quota-exceeded",
+            AuthErrorCode.missingAppToken.rawValue: "missing-apns-token",
+            AuthErrorCode.notificationNotForwarded.rawValue: "notification-not-forwarded",
+            AuthErrorCode.appNotVerified.rawValue: "app-not-verified",
+            AuthErrorCode.captchaCheckFailed.rawValue: "captcha-check-failed",
+            AuthErrorCode.webContextAlreadyPresented.rawValue: "cancelled-popup-request",
+            AuthErrorCode.webContextCancelled.rawValue: "popup-closed-by-user",
+            AuthErrorCode.appVerificationUserInteractionFailure.rawValue: "app-verification-user-interaction-failure",
+            AuthErrorCode.invalidClientID.rawValue: "invalid-oauth-client-id",
+            AuthErrorCode.webNetworkRequestFailed.rawValue: "network-request-failed",
+            AuthErrorCode.webInternalError.rawValue: "internal-error",
+            AuthErrorCode.nullUser.rawValue: "null-user",
+            AuthErrorCode.keychainError.rawValue: "keychain-error",
+            AuthErrorCode.internalError.rawValue: "internal-error",
+            AuthErrorCode.malformedJWT.rawValue: "malformed-jwt"
+        ]
+
+        return errorCodes[errorCode]
     }
 }
