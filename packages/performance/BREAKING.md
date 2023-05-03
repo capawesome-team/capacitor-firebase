@@ -19,6 +19,15 @@ If you want to use this plugin with Capacitor 4, please install version `1.4.0`:
 npm i @capacitor-firebase/performance@1.4.0
 ```
 
+### Performance Monitoring Gradle plugin
+
+Update the Performance Monitoring Gradle plugin in your root-level (project-level) Gradle file (usually `android/build.gradle`) to version `1.4.2`:
+
+```diff
+- classpath 'com.google.firebase:perf-plugin::1.4.1'
++ classpath 'com.google.firebase:perf-plugin::1.4.2'
+```
+
 ### Localized error messages
 
 On Android, error messages were previously generated with `getLocalizedMessage`. They are no longer localized and are generated with `getMessage` instead.
