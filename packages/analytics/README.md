@@ -350,6 +350,10 @@ Only available for Android and iOS.
 
 </docgen-api>
 
+## Test your implementation
+
+[Here](https://firebase.google.com/docs/analytics/debugview) you can find more information on how to test the Firebase Analytics implementation using the **DebugView**.
+
 ## Changelog
 
 See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics/CHANGELOG.md).
