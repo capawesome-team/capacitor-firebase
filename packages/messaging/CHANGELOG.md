@@ -1,5 +1,19 @@
 # Changelog
 
+## 5.0.0
+
+### Major Changes
+
+- [`fe89573`](https://github.com/capawesome-team/capacitor-firebase/commit/fe89573f7c02c12d9f82c8531b3a513e32a21602) ([#357](https://github.com/capawesome-team/capacitor-firebase/pull/357)): refactor(android)!: use `getMessage` instead of `getLocalizedMessage`
+
+* [`9711b58`](https://github.com/capawesome-team/capacitor-firebase/commit/9711b58f077fec08c33c951e685ecf7346258cba) ([#355](https://github.com/capawesome-team/capacitor-firebase/pull/355)): feat!: update to Capacitor 5
+
+- [`b98f476`](https://github.com/capawesome-team/capacitor-firebase/commit/b98f4764623f9edabf3ba9e7e03ae63880103241) ([#366](https://github.com/capawesome-team/capacitor-firebase/pull/366)): feat!: update native SDKs
+
+### Patch Changes
+
+- [`ea4ad06`](https://github.com/capawesome-team/capacitor-firebase/commit/ea4ad06f8f28efc4763fcf119076b9bb10708c76) ([#344](https://github.com/capawesome-team/capacitor-firebase/pull/344)): fix: improve error logging
+
 ## 1.4.0
 
 ### Minor Changes
