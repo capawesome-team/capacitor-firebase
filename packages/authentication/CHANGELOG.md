@@ -1,5 +1,29 @@
 # Changelog
 
+## 5.0.0
+
+### Major Changes
+
+- [`fe89573`](https://github.com/capawesome-team/capacitor-firebase/commit/fe89573f7c02c12d9f82c8531b3a513e32a21602) ([#357](https://github.com/capawesome-team/capacitor-firebase/pull/357)): refactor(android)!: use `getMessage` instead of `getLocalizedMessage`
+
+* [`9711b58`](https://github.com/capawesome-team/capacitor-firebase/commit/9711b58f077fec08c33c951e685ecf7346258cba) ([#355](https://github.com/capawesome-team/capacitor-firebase/pull/355)): feat!: update to Capacitor 5
+
+- [`b98f476`](https://github.com/capawesome-team/capacitor-firebase/commit/b98f4764623f9edabf3ba9e7e03ae63880103241) ([#366](https://github.com/capawesome-team/capacitor-firebase/pull/366)): feat!: update native SDKs
+
+* [`41cf39f`](https://github.com/capawesome-team/capacitor-firebase/commit/41cf39f8a75638e056590f0ac5476cb840a0a219) ([#358](https://github.com/capawesome-team/capacitor-firebase/pull/358)): refactor!: remove deprecated params
+
+### Minor Changes
+
+- [`75e6fd1`](https://github.com/capawesome-team/capacitor-firebase/commit/75e6fd15eff8356106966f5040db9628877688b5) ([#374](https://github.com/capawesome-team/capacitor-firebase/pull/374)): feat(android): support Android 13+ notification permission
+
+* [`3c8b54f`](https://github.com/capawesome-team/capacitor-firebase/commit/3c8b54fca109229490402bc2a4a1a980d53cb927) ([#372](https://github.com/capawesome-team/capacitor-firebase/pull/372)): feat: provide error code
+
+- [`6951f3b`](https://github.com/capawesome-team/capacitor-firebase/commit/6951f3b4468df433655b69b3ab6b9c275f9a27f4) ([#368](https://github.com/capawesome-team/capacitor-firebase/pull/368)): feat(ios): pass `fullName` (Apple) to Firebase iOS SDK
+
+### Patch Changes
+
+- [`ea4ad06`](https://github.com/capawesome-team/capacitor-firebase/commit/ea4ad06f8f28efc4763fcf119076b9bb10708c76) ([#344](https://github.com/capawesome-team/capacitor-firebase/pull/344)): fix: improve error logging
+
 ## 1.4.0
 
 ### Patch Changes
