@@ -48,10 +48,10 @@ class GoogleAuthProviderHandler: NSObject {
                 }
 
                 guard let user = result?.user,
-                    let idToken = user.idToken?.tokenString
-                  else {
+                      let idToken = user.idToken?.tokenString
+                else {
                     return
-                  }
+                }
                 let accessToken = user.accessToken.tokenString
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
                 if isLink == true {
