@@ -1156,28 +1156,40 @@ export interface PhoneVerificationCompletedEvent extends SignInResult {
  *
  * @since 1.3.0
  */
-export type PhoneVerificationFailedListener = (event: {
+export type PhoneVerificationFailedListener = (
+  event: PhoneVerificationFailedEvent,
+) => void;
+
+/**
+ * @since 5.0.0
+ */
+export interface PhoneVerificationFailedEvent {
   /**
    * The error message.
    *
    * @since 1.3.0
    */
   message: string;
-}) => void;
+}
 
 /**
  * Callback to receive the verification ID.
  *
  * @since 1.3.0
  */
-export type PhoneCodeSentListener = (event: {
+export type PhoneCodeSentListener = (event: PhoneCodeSentEvent) => void;
+
+/**
+ * @since 5.0.0
+ */
+export interface PhoneCodeSentEvent {
   /**
    * The verification ID, which is needed to identify the verification code.
    *
    * @since 1.3.0
    */
   verificationId: string;
-}) => void;
+}
 
 /**
  * An interface that defines the required continue/state URL with optional Android and iOS
