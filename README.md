@@ -1,5 +1,3 @@
-## :tada: Big news! We're excited to announce our brand new [Capacitor ML Kit Barcode Scanning Plugin](https://capawesome.io/blog/announcing-the-capacitor-mlkit-barcode-scanner-plugin?utm_source=github&utm_medium=referral&utm_campaign=capacitor-mlkit-barcode-scanning&utm_term=capacitor-firebase&utm_content=big%20news). 
-
 <br />
 <div align="center">
   <h1>
