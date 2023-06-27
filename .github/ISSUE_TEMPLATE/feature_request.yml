@@ -1,7 +1,7 @@
 name: ⚡️ Feature request
 title: "feat: "
 description: Suggest an idea for this project
-labels: ["feature", "needs: triage"]
+labels: ["needs: triage"]
 
 body:
   - type: textarea
