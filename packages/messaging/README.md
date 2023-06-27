@@ -55,10 +55,7 @@ See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-fireb
 
 See [Upload the APNS Certificate or Key to Firebase](https://capacitorjs.com/docs/guides/push-notifications-firebase#upload-the-apns-certificate-or-key-to-firebase) and follow the instructions to upload the APNS Certificate or APNS Auth Key to Firebase.
 
-> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://www.raywenderlich.com/20201639-firebase-cloud-messaging-for-ios-push-notifications).
-> The steps are explained there in a quite understandable way.
-> But be aware that this guide is more detailed and covers more than you need.
-> Use it only for assistance.
+> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://capawesome.io/blog/the-push-notifications-guide-for-capacitor/#ios).
 
 Add the following to your app's `AppDelegate.swift`:
 
