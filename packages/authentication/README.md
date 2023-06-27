@@ -1773,6 +1773,20 @@ bundle identifiers.
 | **`verificationCode`** | <code>string</code> | The verification code sent to the user's phone number. If instant verification is used, this property is not set. | 5.0.0 |
 
 
+#### PhoneVerificationFailedEvent
+
+| Prop          | Type                | Description        | Since |
+| ------------- | ------------------- | ------------------ | ----- |
+| **`message`** | <code>string</code> | The error message. | 1.3.0 |
+
+
+#### PhoneCodeSentEvent
+
+| Prop                 | Type                | Description                                                             | Since |
+| -------------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
+| **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. | 1.3.0 |
+
+
 ### Type Aliases
 
 
@@ -1804,14 +1818,14 @@ Callback to receive the verification code sent to the user's phone number.
 
 Callback to receive notifications of failed phone verification.
 
-<code>(event: { message: string; }): void</code>
+<code>(event: <a href="#phoneverificationfailedevent">PhoneVerificationFailedEvent</a>): void</code>
 
 
 #### PhoneCodeSentListener
 
 Callback to receive the verification ID.
 
-<code>(event: { verificationId: string; }): void</code>
+<code>(event: <a href="#phonecodesentevent">PhoneCodeSentEvent</a>): void</code>
 
 
 ### Enums
