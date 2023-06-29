@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.1
+
+### Patch Changes
+
+- [`88ff4de`](https://github.com/capawesome-team/capacitor-firebase/commit/88ff4de76350bc3cbe33d73005ddcec2144f80f6) ([#377](https://github.com/capawesome-team/capacitor-firebase/pull/377)): fix(ios): pod `FirebaseAnalyticsWithoutAdIdSupport` does not exist
+
 ## 5.0.0
 
 ### Major Changes
