@@ -115,7 +115,7 @@ const signInWithTwitter = async () => {
   });
   // 2. Sign in on the web layer using the id token and secret
   const credential = TwitterAuthProvider.credential(
-    result.credential?.idToken,
+    result.credential?.accessToken,
     result.credential?.secret,
   );
   const auth = getAuth();
