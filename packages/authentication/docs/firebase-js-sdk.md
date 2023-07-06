@@ -113,9 +113,9 @@ const signInWithTwitter = async () => {
   const result = await FirebaseAuthentication.signInWithTwitter({
     skipNativeAuth: false,
   });
-  // 2. Sign in on the web layer using the id token and secret
+  // 2. Sign in on the web layer using the access token and secret
   const credential = TwitterAuthProvider.credential(
-    result.credential?.idToken,
+    result.credential?.accessToken,
     result.credential?.secret,
   );
   const auth = getAuth();
