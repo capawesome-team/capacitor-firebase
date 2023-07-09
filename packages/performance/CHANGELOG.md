@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.1.0
+
+### Minor Changes
+
+- [`98627e6`](https://github.com/capawesome-team/capacitor-firebase/commit/98627e60aeb669ce04641cf9bec3490e52ae27c0) ([#403](https://github.com/capawesome-team/capacitor-firebase/pull/403)): feat: support Firebase JS SDK 10
+
 ## 5.0.1
 
 ## 5.0.0
