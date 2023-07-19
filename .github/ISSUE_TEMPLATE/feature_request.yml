@@ -4,6 +4,19 @@ description: Suggest an idea for this project
 labels: ["feature", "needs: triage"]
 
 body:
+  - type: checkboxes
+    attributes:
+      label: Plugin(s)
+      description: Select the plugins that this feature request affects.
+      options:
+        - label: Analytics
+        - label: App
+        - label: App Check
+        - label: Authentication
+        - label: Crashlytics
+        - label: Cloud Messaging
+        - label: Performance
+        - label: Remote Config
   - type: textarea
     attributes:
       label: Current problem
