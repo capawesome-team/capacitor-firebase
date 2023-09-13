@@ -22,7 +22,22 @@ import FirebaseCore
     }
 
     public func requestPermissions(completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+        var options = UNAuthorizationOptions()
+        self.config.presentationOptions.forEach { option in
+            switch option {
+            case "alert":
+                options.insert(.alert)
+            case "badge":
+                options.insert(.badge)
+            case "sound":
+                options.insert(.sound)
+            case "criticalAlert":
+                options.insert(.criticalAlert)
+            default:
+                print("Unrecogizned authorization option: \(option)")
+            }
+        }
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
             completion(granted, error)
         }
     }
