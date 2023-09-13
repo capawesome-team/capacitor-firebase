@@ -398,6 +398,7 @@ const useEmulator = async () => {
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
+* [`setPersistence(...)`](#setpersistence)
 * [`setTenantId(...)`](#settenantid)
 * [`signInAnonymously()`](#signinanonymously)
 * [`signInWithApple(...)`](#signinwithapple)
@@ -955,6 +956,25 @@ Sets the user-facing language code for auth operations.
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### setPersistence(...)
+
+```typescript
+setPersistence(options: SetPersistenceOptions) => Promise<void>
+```
+
+Sets the type of persistence for the currently saved auth session.
+
+Only available for Web.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setpersistenceoptions">SetPersistenceOptions</a></code> |
+
+**Since:** 5.2.0
 
 --------------------
 
@@ -1663,6 +1683,22 @@ bundle identifiers.
 | **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
 
 
+#### SetPersistenceOptions
+
+| Prop              | Type                                                | Description            | Since |
+| ----------------- | --------------------------------------------------- | ---------------------- | ----- |
+| **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
+
+
+#### Persistence
+
+An interface covering the possible persistence mechanism types.
+
+| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
+
+
 #### SetTenantIdOptions
 
 | Prop           | Type                | Description    | Since |
@@ -1829,6 +1865,16 @@ Callback to receive the verification ID.
 
 
 ### Enums
+
+
+#### Persistence
+
+| Members              | Value                           | Description                                  | Since |
+| -------------------- | ------------------------------- | -------------------------------------------- | ----- |
+| **`IndexedDbLocal`** | <code>'INDEXED_DB_LOCAL'</code> | Long term persistence using IndexedDB.       | 5.2.0 |
+| **`InMemory`**       | <code>'IN_MEMORY'</code>        | No persistence.                              | 5.2.0 |
+| **`BrowserLocal`**   | <code>'BROWSER_LOCAL'</code>    | Long term persistence using local storage.   | 5.2.0 |
+| **`BrowserSession`** | <code>'BROWSER_SESSION'</code>  | Temporary persistence using session storage. | 5.2.0 |
 
 
 #### ProviderId
