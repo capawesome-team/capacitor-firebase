@@ -49,6 +49,7 @@ import type {
   QueryFieldFilterConstraint,
   QueryFilterConstraint,
   QueryNonFilterConstraint,
+  RemoveSnapshotListenerOptions,
   SetDocumentOptions,
 } from './definitions';
 
@@ -56,7 +57,7 @@ export class FirebaseFirestoreWeb
   extends WebPlugin
   implements FirebaseFirestorePlugin
 {
-  private readonly unsubscribes: Map<string, Unsubscribe> = new Map();
+  private readonly unsubscribesMap: Map<string, Unsubscribe> = new Map();
 
   public async addDocument(
     options: AddDocumentOptions,
@@ -170,7 +171,7 @@ export class FirebaseFirestoreWeb
       },
     );
     const id = Date.now().toString();
-    this.unsubscribes.set(id, unsubscribe);
+    this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
 
@@ -192,8 +193,26 @@ export class FirebaseFirestoreWeb
       callback(event);
     });
     const id = Date.now().toString();
-    this.unsubscribes.set(id, unsubscribe);
+    this.unsubscribesMap.set(id, unsubscribe);
     return id;
+  }
+
+  public async removeSnapshotListener(
+    options: RemoveSnapshotListenerOptions,
+  ): Promise<void> {
+    const unsubscribe = this.unsubscribesMap.get(options.callbackId);
+
+    if (!unsubscribe) {
+      return;
+    }
+
+    unsubscribe();
+    this.unsubscribesMap.delete(options.callbackId);
+  }
+
+  public async removeAllListeners(): Promise<void> {
+    this.unsubscribesMap.forEach(unsubscribe => unsubscribe());
+    this.unsubscribesMap.clear();
   }
 
   private buildCollectionQuery(

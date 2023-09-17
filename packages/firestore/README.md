@@ -50,6 +50,10 @@ const echo = async () => {
 * [`getCollectionGroup(...)`](#getcollectiongroup)
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
+* [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
+* [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
+* [`removeSnapshotListener(...)`](#removesnapshotlistener)
+* [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -210,6 +214,76 @@ Disables use of the network.
 --------------------
 
 
+### addDocumentSnapshotListener(...)
+
+```typescript
+addDocumentSnapshotListener<T extends DocumentData = DocumentData>(options: AddDocumentSnapshotListenerOptions, callback: AddDocumentSnapshotListenerCallback<T>) => Promise<CallbackId>
+```
+
+Adds a listener for document snapshot events.
+
+| Param          | Type                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------ |
+| **`options`**  | <code><a href="#adddocumentsnapshotlisteneroptions">AddDocumentSnapshotListenerOptions</a></code>            |
+| **`callback`** | <code><a href="#adddocumentsnapshotlistenercallback">AddDocumentSnapshotListenerCallback</a>&lt;T&gt;</code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+**Since:** 5.2.0
+
+--------------------
+
+
+### addCollectionSnapshotListener(...)
+
+```typescript
+addCollectionSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionSnapshotListenerOptions, callback: AddCollectionSnapshotListenerCallback<T>) => Promise<CallbackId>
+```
+
+Adds a listener for collection snapshot events.
+
+| Param          | Type                                                                                                             |
+| -------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **`options`**  | <code><a href="#addcollectionsnapshotlisteneroptions">AddCollectionSnapshotListenerOptions</a></code>            |
+| **`callback`** | <code><a href="#addcollectionsnapshotlistenercallback">AddCollectionSnapshotListenerCallback</a>&lt;T&gt;</code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+**Since:** 5.2.0
+
+--------------------
+
+
+### removeSnapshotListener(...)
+
+```typescript
+removeSnapshotListener(options: RemoveSnapshotListenerOptions) => Promise<void>
+```
+
+Remove a listener for document or collection snapshot events.
+
+| Param         | Type                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#removesnapshotlisteneroptions">RemoveSnapshotListenerOptions</a></code> |
+
+**Since:** 5.2.0
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Remove all listeners for this plugin.
+
+**Since:** 5.2.0
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -355,11 +429,34 @@ Disables use of the network.
 
 #### GetCollectionGroupOptions
 
-| Prop                   | Type                                          | Description                                                                                         | Since |
-| ---------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                           | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
-| **`compositeFilters`** | <code>QueryCompositeFilterConstraint[]</code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>       | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| Prop                   | Type                                                                                      | Description                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+
+
+#### AddDocumentSnapshotListenerOptions
+
+| Prop            | Type                | Description                                                                         | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+
+
+#### AddCollectionSnapshotListenerOptions
+
+| Prop                   | Type                                                                                      | Description                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+
+
+#### RemoveSnapshotListenerOptions
+
+| Prop             | Type                                              | Since |
+| ---------------- | ------------------------------------------------- | ----- |
+| **`callbackId`** | <code><a href="#callbackid">CallbackId</a></code> | 5.2.0 |
 
 
 ### Type Aliases
@@ -383,6 +480,31 @@ Disables use of the network.
 #### OrderByDirection
 
 <code>'desc' | 'asc'</code>
+
+
+#### AddDocumentSnapshotListenerCallback
+
+<code>(event: <a href="#adddocumentsnapshotlistenerevent">AddDocumentSnapshotListenerEvent</a>&lt;T&gt;, err?: any): void</code>
+
+
+#### AddDocumentSnapshotListenerEvent
+
+<code><a href="#getdocumentresult">GetDocumentResult</a>&lt;T&gt;</code>
+
+
+#### CallbackId
+
+<code>string</code>
+
+
+#### AddCollectionSnapshotListenerCallback
+
+<code>(event: <a href="#addcollectionsnapshotlistenerevent">AddCollectionSnapshotListenerEvent</a>&lt;T&gt;, err?: any): void</code>
+
+
+#### AddCollectionSnapshotListenerEvent
+
+<code><a href="#getcollectionresult">GetCollectionResult</a>&lt;T&gt;</code>
 
 </docgen-api>
 

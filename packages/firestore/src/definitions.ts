@@ -76,6 +76,18 @@ export interface FirebaseFirestorePlugin {
     options: AddCollectionSnapshotListenerOptions,
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<CallbackId>;
+  /**
+   * Remove a listener for document or collection snapshot events.
+   *
+   * @since 5.2.0
+   */
+  removeSnapshotListener(options: RemoveSnapshotListenerOptions): Promise<void>;
+  /**
+   * Remove all listeners for this plugin.
+   *
+   * @since 5.2.0
+   */
+  removeAllListeners(): Promise<void>;
 }
 
 /**
@@ -330,6 +342,16 @@ export type AddCollectionSnapshotListenerEvent<T> = GetCollectionResult<T>;
  * @since 5.2.0
  */
 export type CallbackId = string;
+
+/**
+ * @since 5.2.0
+ */
+export interface RemoveSnapshotListenerOptions {
+  /**
+   * @since 5.2.0
+   */
+  callbackId: CallbackId;
+}
 
 /**
  * @since 5.2.0
