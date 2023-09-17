@@ -478,6 +478,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void setPersistence(PluginCall call) {
+        call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
     public void setTenantId(PluginCall call) {
         try {
             String tenantId = call.getString("tenantId");

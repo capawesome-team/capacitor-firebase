@@ -266,6 +266,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
   /**
+   * Sets the type of persistence for the currently saved auth session.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   */
+  setPersistence(options: SetPersistenceOptions): Promise<void>;
+  /**
    * Sets the tenant id.
    *
    * @since 1.1.0
@@ -607,6 +615,48 @@ export interface SetLanguageCodeOptions {
    * @since 0.1.0
    */
   languageCode: string;
+}
+
+/**
+ * @since 5.2.0
+ */
+export interface SetPersistenceOptions {
+  /**
+   * The persistence types.
+   *
+   * @since 5.2.0
+   */
+  persistence: Persistence;
+}
+
+/**
+ * @since 5.2.0
+ */
+export enum Persistence {
+  /**
+   * Long term persistence using IndexedDB.
+   *
+   * @since 5.2.0
+   */
+  IndexedDbLocal = 'INDEXED_DB_LOCAL',
+  /**
+   * No persistence.
+   *
+   * @since 5.2.0
+   */
+  InMemory = 'IN_MEMORY',
+  /**
+   * Long term persistence using local storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserLocal = 'BROWSER_LOCAL',
+  /**
+   * Temporary persistence using session storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserSession = 'BROWSER_SESSION',
 }
 
 /**
