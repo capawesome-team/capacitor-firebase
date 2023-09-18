@@ -41,7 +41,7 @@ If you'd like to join them, please read more [here](https://github.com/sponsors/
 ### Base Sponsor
 
 <a href="https://appscreens.com/?_locale=en&utm_source=github&utm_medium=referral&utm_campaign=capawesome" target="_blank">
-<p align="center"><br><img src="https://github.com/capawesome-team/capacitor-firebase/assets/13857929/70f282c1-3e51-423f-9c07-ff5d5e291c3d" width="215" height="100" /></p>
+<p align="center"><br><img src="https://capawesome.io/assets/images/sponsors/appscreens-logo.png" width="215" height="100" /></p>
 <h4 align="center">AppScreens - A dedicated screenshot mockup generator</h4>
 </a>
 
