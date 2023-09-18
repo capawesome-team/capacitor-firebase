@@ -38,6 +38,15 @@ This is an Apache-2.0-licensed open source project.
 It can grow thanks to the support by these awesome people.
 If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).
 
+### Base Sponsor
+
+<a href="https://appscreens.com/?_locale=en&utm_source=github&utm_medium=referral&utm_campaign=capawesome" target="_blank">
+<p align="center"><br><img src="https://github.com/capawesome-team/capacitor-firebase/assets/13857929/70f282c1-3e51-423f-9c07-ff5d5e291c3d" width="215" height="100" /></p>
+<h4 align="center">AppScreens - A dedicated screenshot mockup generator</h4>
+</a>
+
+### Gold Sponsor
+
 <!-- gold-sponsors --><!-- gold-sponsors -->
 <!-- silver-sponsors --><!-- silver-sponsors -->
 <!-- bronze-sponsors --><!-- bronze-sponsors -->
