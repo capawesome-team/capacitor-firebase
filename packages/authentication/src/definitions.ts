@@ -1146,19 +1146,19 @@ export interface UserInfo {
  */
 export interface UserMetadata {
   /**
-   * Time the user was created as UTC string.
+   * Time the user was created in milliseconds since the epoch.
    *
    * @since 5.2.0
-   * @example "Wed, 14 Jun 2017 07:00:00 GMT"
+   * @example 1695130859034
    */
-  creationTime?: string;
+  creationTime?: number;
   /**
-   * Time the user last signed in as UTC string.
+   * Time the user last signed in in milliseconds since the epoch.
    *
    * @since 5.2.0
-   * @example "Wed, 21 Jun 2017 07:00:00 GMT"
+   * @example 1695130859034
    */
-  lastSignInTime?: string;
+  lastSignInTime?: number;
 }
 
 /**

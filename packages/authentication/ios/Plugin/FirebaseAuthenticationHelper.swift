@@ -130,10 +130,10 @@ public class FirebaseAuthenticationHelper {
     private static func createUserMetadataResult(_ metadata: UserMetadata) -> JSObject {
         var result = JSObject()
         if let creationDate = metadata.creationDate?.timeIntervalSince1970 {
-            result["creationTime"] = creationDate
+            result["creationTime"] = creationDate * 1000
         }
         if let lastSignInDate = metadata.lastSignInDate?.timeIntervalSince1970 {
-            result["lastSignInTime"] = lastSignInDate
+            result["lastSignInTime"] = lastSignInDate * 1000
         }
         return result
     }

@@ -712,10 +712,13 @@ export class FirebaseAuthenticationWeb
   private createUserMetadataResult(
     metadata: FirebaseUserMeatdata,
   ): UserMetadata {
-    const result: UserMetadata = {
-      creationTime: metadata.creationTime,
-      lastSignInTime: metadata.lastSignInTime,
-    };
+    const result: UserMetadata = {};
+    if (metadata.creationTime) {
+      result.creationTime = Date.parse(metadata.creationTime);
+    }
+    if (metadata.lastSignInTime) {
+      result.lastSignInTime = Date.parse(metadata.lastSignInTime);
+    }
     return result;
   }
 
