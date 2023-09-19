@@ -1530,10 +1530,10 @@ Remove all listeners for this plugin.
 
 #### UserMetadata
 
-| Prop                 | Type                | Description                                 | Since |
-| -------------------- | ------------------- | ------------------------------------------- | ----- |
-| **`creationTime`**   | <code>string</code> | Time the user was created as UTC string.    | 5.2.0 |
-| **`lastSignInTime`** | <code>string</code> | Time the user last signed in as UTC string. | 5.2.0 |
+| Prop                 | Type                | Description                                                   | Since |
+| -------------------- | ------------------- | ------------------------------------------------------------- | ----- |
+| **`creationTime`**   | <code>number</code> | Time the user was created in milliseconds since the epoch.    | 5.2.0 |
+| **`lastSignInTime`** | <code>number</code> | Time the user last signed in in milliseconds since the epoch. | 5.2.0 |
 
 
 #### UserInfo
