@@ -9,11 +9,9 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.UserInfo;
-
-import org.json.JSONObject;
-
 import java.util.List;
 import java.util.Map;
+import org.json.JSONObject;
 
 public class FirebaseAuthenticationHelper {
 
