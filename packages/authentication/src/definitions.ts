@@ -266,6 +266,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
   /**
+   * Sets the type of persistence for the currently saved auth session.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   */
+  setPersistence(options: SetPersistenceOptions): Promise<void>;
+  /**
    * Sets the tenant id.
    *
    * @since 1.1.0
@@ -607,6 +615,48 @@ export interface SetLanguageCodeOptions {
    * @since 0.1.0
    */
   languageCode: string;
+}
+
+/**
+ * @since 5.2.0
+ */
+export interface SetPersistenceOptions {
+  /**
+   * The persistence types.
+   *
+   * @since 5.2.0
+   */
+  persistence: Persistence;
+}
+
+/**
+ * @since 5.2.0
+ */
+export enum Persistence {
+  /**
+   * Long term persistence using IndexedDB.
+   *
+   * @since 5.2.0
+   */
+  IndexedDbLocal = 'INDEXED_DB_LOCAL',
+  /**
+   * No persistence.
+   *
+   * @since 5.2.0
+   */
+  InMemory = 'IN_MEMORY',
+  /**
+   * Long term persistence using local storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserLocal = 'BROWSER_LOCAL',
+  /**
+   * Temporary persistence using session storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserSession = 'BROWSER_SESSION',
 }
 
 /**
@@ -994,6 +1044,7 @@ export interface UseEmulatorOptions {
 
 /**
  * @since 0.1.0
+ * @see https://firebase.google.com/docs/reference/js/auth.user
  */
 export interface User {
   /**
@@ -1013,6 +1064,12 @@ export interface User {
    */
   isAnonymous: boolean;
   /**
+   * The user's metadata.
+   *
+   * @since 5.2.0
+   */
+  metadata: UserMetadata;
+  /**
    * @since 0.1.0
    */
   phoneNumber: string | null;
@@ -1020,6 +1077,12 @@ export interface User {
    * @since 0.1.0
    */
   photoUrl: string | null;
+  /**
+   * Additional per provider such as displayName and profile information.
+   *
+   * @since 5.2.0
+   */
+  providerData: UserInfo[];
   /**
    * @since 0.1.0
    */
@@ -1032,6 +1095,70 @@ export interface User {
    * @since 0.1.0
    */
   uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.userinfo
+ */
+export interface UserInfo {
+  /**
+   * The display name of the user.
+   *
+   * @since 5.2.0
+   */
+  displayName: string | null;
+  /**
+   * The email of the user.
+   *
+   * @since 5.2.0
+   */
+  email: string | null;
+  /**
+   * The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user.
+   *
+   * @since 5.2.0
+   */
+  phoneNumber: string | null;
+  /**
+   * The profile photo URL of the user.
+   *
+   * @since 5.2.0
+   */
+  photoUrl: string | null;
+  /**
+   * The provider used to authenticate the user.
+   *
+   * @since 5.2.0
+   */
+  providerId: string;
+  /**
+   * The user's unique ID.
+   *
+   * @since 5.2.0
+   */
+  uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.usermetadata
+ */
+export interface UserMetadata {
+  /**
+   * Time the user was created in milliseconds since the epoch.
+   *
+   * @since 5.2.0
+   * @example 1695130859034
+   */
+  creationTime?: number;
+  /**
+   * Time the user last signed in in milliseconds since the epoch.
+   *
+   * @since 5.2.0
+   * @example 1695130859034
+   */
+  lastSignInTime?: number;
 }
 
 /**

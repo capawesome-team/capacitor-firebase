@@ -5,6 +5,8 @@ import type {
   CustomParameters as FirebaseCustomParameters,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
+  UserInfo as FirebaseUserInfo,
+  UserMetadata as FirebaseUserMeatdata,
 } from 'firebase/auth';
 import {
   EmailAuthProvider,
@@ -15,6 +17,8 @@ import {
   OAuthProvider,
   TwitterAuthProvider,
   applyActionCode,
+  browserLocalPersistence,
+  browserSessionPersistence,
   confirmPasswordReset,
   connectAuthEmulator,
   createUserWithEmailAndPassword,
@@ -22,6 +26,8 @@ import {
   getAdditionalUserInfo,
   getAuth,
   getRedirectResult,
+  inMemoryPersistence,
+  indexedDBLocalPersistence,
   isSignInWithEmailLink,
   linkWithCredential,
   linkWithPopup,
@@ -30,6 +36,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
+  setPersistence,
   signInAnonymously,
   signInWithCustomToken,
   signInWithEmailAndPassword,
@@ -65,6 +72,7 @@ import type {
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
+  SetPersistenceOptions,
   SetTenantIdOptions,
   SignInResult,
   SignInWithCustomTokenOptions,
@@ -79,8 +87,10 @@ import type {
   UpdateProfileOptions,
   UseEmulatorOptions,
   User,
+  UserInfo,
+  UserMetadata,
 } from './definitions';
-import { ProviderId } from './definitions';
+import { Persistence, ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
@@ -357,15 +367,33 @@ export class FirebaseAuthenticationWeb
     auth.languageCode = options.languageCode;
   }
 
-  public async signInAnonymously(): Promise<SignInResult> {
+  public async setPersistence(options: SetPersistenceOptions): Promise<void> {
     const auth = getAuth();
-    const userCredential = await signInAnonymously(auth);
-    return this.createSignInResult(userCredential, null);
+    switch (options.persistence) {
+      case Persistence.BrowserLocal:
+        await setPersistence(auth, browserLocalPersistence);
+        break;
+      case Persistence.BrowserSession:
+        await setPersistence(auth, browserSessionPersistence);
+        break;
+      case Persistence.IndexedDbLocal:
+        await setPersistence(auth, indexedDBLocalPersistence);
+        break;
+      case Persistence.InMemory:
+        await setPersistence(auth, inMemoryPersistence);
+        break;
+    }
   }
 
   public async setTenantId(options: SetTenantIdOptions): Promise<void> {
     const auth = getAuth();
     auth.tenantId = options.tenantId;
+  }
+
+  public async signInAnonymously(): Promise<SignInResult> {
+    const auth = getAuth();
+    const userCredential = await signInAnonymously(auth);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async signInWithApple(
@@ -670,13 +698,41 @@ export class FirebaseAuthenticationWeb
       email: user.email,
       emailVerified: user.emailVerified,
       isAnonymous: user.isAnonymous,
+      metadata: this.createUserMetadataResult(user.metadata),
       phoneNumber: user.phoneNumber,
       photoUrl: user.photoURL,
+      providerData: this.createUserProviderDataResult(user.providerData),
       providerId: user.providerId,
       tenantId: user.tenantId,
       uid: user.uid,
     };
     return result;
+  }
+
+  private createUserMetadataResult(
+    metadata: FirebaseUserMeatdata,
+  ): UserMetadata {
+    const result: UserMetadata = {};
+    if (metadata.creationTime) {
+      result.creationTime = Date.parse(metadata.creationTime);
+    }
+    if (metadata.lastSignInTime) {
+      result.lastSignInTime = Date.parse(metadata.lastSignInTime);
+    }
+    return result;
+  }
+
+  private createUserProviderDataResult(
+    providerData: FirebaseUserInfo[],
+  ): UserInfo[] {
+    return providerData.map(data => ({
+      displayName: data.displayName,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      photoUrl: data.photoURL,
+      providerId: data.providerId,
+      uid: data.uid,
+    }));
   }
 
   private createAdditionalUserInfoResult(

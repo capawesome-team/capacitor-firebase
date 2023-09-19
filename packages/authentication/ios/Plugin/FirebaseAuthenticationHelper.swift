@@ -64,8 +64,10 @@ public class FirebaseAuthenticationHelper {
         result["email"] = user.email
         result["emailVerified"] = user.isEmailVerified
         result["isAnonymous"] = user.isAnonymous
+        result["metadata"] = self.createUserMetadataResult(user.metadata)
         result["phoneNumber"] = user.phoneNumber
         result["photoUrl"] = user.photoURL?.absoluteString
+        result["providerData"] = self.createUserProviderDataResult(user.providerData)
         result["providerId"] = user.providerID
         result["tenantId"] = user.tenantID
         result["uid"] = user.uid
@@ -121,6 +123,32 @@ public class FirebaseAuthenticationHelper {
         result["providerId"] = additionalUserInfo.providerID
         if let username = additionalUserInfo.username {
             result["username"] = username
+        }
+        return result
+    }
+
+    private static func createUserMetadataResult(_ metadata: UserMetadata) -> JSObject {
+        var result = JSObject()
+        if let creationDate = metadata.creationDate?.timeIntervalSince1970 {
+            result["creationTime"] = creationDate * 1000
+        }
+        if let lastSignInDate = metadata.lastSignInDate?.timeIntervalSince1970 {
+            result["lastSignInTime"] = lastSignInDate * 1000
+        }
+        return result
+    }
+
+    private static func createUserProviderDataResult(_ providerData: [UserInfo]) -> JSArray {
+        var result = JSArray()
+        for userInfo in providerData {
+            var userInfoResult = JSObject()
+            userInfoResult["displayName"] = userInfo.displayName
+            userInfoResult["email"] = userInfo.email
+            userInfoResult["phoneNumber"] = userInfo.phoneNumber
+            userInfoResult["photoUrl"] = userInfo.photoURL?.absoluteString
+            userInfoResult["providerId"] = userInfo.providerID
+            userInfoResult["uid"] = userInfo.uid
+            result.append(userInfoResult)
         }
         return result
     }

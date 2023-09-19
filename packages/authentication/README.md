@@ -398,6 +398,7 @@ const useEmulator = async () => {
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
+* [`setPersistence(...)`](#setpersistence)
 * [`setTenantId(...)`](#settenantid)
 * [`signInAnonymously()`](#signinanonymously)
 * [`signInWithApple(...)`](#signinwithapple)
@@ -959,6 +960,25 @@ Sets the user-facing language code for auth operations.
 --------------------
 
 
+### setPersistence(...)
+
+```typescript
+setPersistence(options: SetPersistenceOptions) => Promise<void>
+```
+
+Sets the type of persistence for the currently saved auth session.
+
+Only available for Web.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setpersistenceoptions">SetPersistenceOptions</a></code> |
+
+**Since:** 5.2.0
+
+--------------------
+
+
 ### setTenantId(...)
 
 ```typescript
@@ -1493,17 +1513,39 @@ Remove all listeners for this plugin.
 
 #### User
 
-| Prop                | Type                        | Since |
-| ------------------- | --------------------------- | ----- |
-| **`displayName`**   | <code>string \| null</code> | 0.1.0 |
-| **`email`**         | <code>string \| null</code> | 0.1.0 |
-| **`emailVerified`** | <code>boolean</code>        | 0.1.0 |
-| **`isAnonymous`**   | <code>boolean</code>        | 0.1.0 |
-| **`phoneNumber`**   | <code>string \| null</code> | 0.1.0 |
-| **`photoUrl`**      | <code>string \| null</code> | 0.1.0 |
-| **`providerId`**    | <code>string</code>         | 0.1.0 |
-| **`tenantId`**      | <code>string \| null</code> | 0.1.0 |
-| **`uid`**           | <code>string</code>         | 0.1.0 |
+| Prop                | Type                                                  | Description                                                          | Since |
+| ------------------- | ----------------------------------------------------- | -------------------------------------------------------------------- | ----- |
+| **`displayName`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`email`**         | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`emailVerified`** | <code>boolean</code>                                  |                                                                      | 0.1.0 |
+| **`isAnonymous`**   | <code>boolean</code>                                  |                                                                      | 0.1.0 |
+| **`metadata`**      | <code><a href="#usermetadata">UserMetadata</a></code> | The user's metadata.                                                 | 5.2.0 |
+| **`phoneNumber`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`photoUrl`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`providerData`**  | <code>UserInfo[]</code>                               | Additional per provider such as displayName and profile information. | 5.2.0 |
+| **`providerId`**    | <code>string</code>                                   |                                                                      | 0.1.0 |
+| **`tenantId`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`uid`**           | <code>string</code>                                   |                                                                      | 0.1.0 |
+
+
+#### UserMetadata
+
+| Prop                 | Type                | Description                                                   | Since |
+| -------------------- | ------------------- | ------------------------------------------------------------- | ----- |
+| **`creationTime`**   | <code>number</code> | Time the user was created in milliseconds since the epoch.    | 5.2.0 |
+| **`lastSignInTime`** | <code>number</code> | Time the user last signed in in milliseconds since the epoch. | 5.2.0 |
+
+
+#### UserInfo
+
+| Prop              | Type                        | Description                                                                               | Since |
+| ----------------- | --------------------------- | ----------------------------------------------------------------------------------------- | ----- |
+| **`displayName`** | <code>string \| null</code> | The display name of the user.                                                             | 5.2.0 |
+| **`email`**       | <code>string \| null</code> | The email of the user.                                                                    | 5.2.0 |
+| **`phoneNumber`** | <code>string \| null</code> | The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user. | 5.2.0 |
+| **`photoUrl`**    | <code>string \| null</code> | The profile photo URL of the user.                                                        | 5.2.0 |
+| **`providerId`**  | <code>string</code>         | The provider used to authenticate the user.                                               | 5.2.0 |
+| **`uid`**         | <code>string</code>         | The user's unique ID.                                                                     | 5.2.0 |
 
 
 #### AuthCredential
@@ -1661,6 +1703,22 @@ bundle identifiers.
 | Prop               | Type                | Description           | Since |
 | ------------------ | ------------------- | --------------------- | ----- |
 | **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
+
+
+#### SetPersistenceOptions
+
+| Prop              | Type                                                | Description            | Since |
+| ----------------- | --------------------------------------------------- | ---------------------- | ----- |
+| **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
+
+
+#### Persistence
+
+An interface covering the possible persistence mechanism types.
+
+| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
 
 
 #### SetTenantIdOptions
@@ -1829,6 +1887,16 @@ Callback to receive the verification ID.
 
 
 ### Enums
+
+
+#### Persistence
+
+| Members              | Value                           | Description                                  | Since |
+| -------------------- | ------------------------------- | -------------------------------------------- | ----- |
+| **`IndexedDbLocal`** | <code>'INDEXED_DB_LOCAL'</code> | Long term persistence using IndexedDB.       | 5.2.0 |
+| **`InMemory`**       | <code>'IN_MEMORY'</code>        | No persistence.                              | 5.2.0 |
+| **`BrowserLocal`**   | <code>'BROWSER_LOCAL'</code>    | Long term persistence using local storage.   | 5.2.0 |
+| **`BrowserSession`** | <code>'BROWSER_SESSION'</code>  | Temporary persistence using session storage. | 5.2.0 |
 
 
 #### ProviderId

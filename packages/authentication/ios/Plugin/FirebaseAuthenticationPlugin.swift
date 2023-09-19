@@ -337,6 +337,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         call.resolve()
     }
 
+    @objc func setPersistence(_ call: CAPPluginCall) {
+        call.reject("Not available on iOS.")
+    }
+
     @objc func setTenantId(_ call: CAPPluginCall) {
         guard let tenantId = call.getString("tenantId") else {
             call.reject(errorTenantIdMissing)
