@@ -5,6 +5,7 @@ import type {
   CustomParameters as FirebaseCustomParameters,
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
+  UserInfo as FirebaseUserInfo,
 } from 'firebase/auth';
 import {
   EmailAuthProvider,
@@ -85,6 +86,7 @@ import type {
   UpdateProfileOptions,
   UseEmulatorOptions,
   User,
+  UserInfo,
 } from './definitions';
 import { Persistence, ProviderId } from './definitions';
 
@@ -696,11 +698,25 @@ export class FirebaseAuthenticationWeb
       isAnonymous: user.isAnonymous,
       phoneNumber: user.phoneNumber,
       photoUrl: user.photoURL,
+      providerData: this.createUserProviderDataResult(user.providerData),
       providerId: user.providerId,
       tenantId: user.tenantId,
       uid: user.uid,
     };
     return result;
+  }
+
+  private createUserProviderDataResult(
+    providerData: FirebaseUserInfo[],
+  ): UserInfo[] {
+    return providerData.map(data => ({
+      displayName: data.displayName,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      photoUrl: data.photoURL,
+      providerId: data.providerId,
+      uid: data.uid,
+    }));
   }
 
   private createAdditionalUserInfoResult(

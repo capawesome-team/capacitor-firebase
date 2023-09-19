@@ -1044,6 +1044,7 @@ export interface UseEmulatorOptions {
 
 /**
  * @since 0.1.0
+ * @see https://firebase.google.com/docs/reference/js/auth.user
  */
 export interface User {
   /**
@@ -1071,6 +1072,12 @@ export interface User {
    */
   photoUrl: string | null;
   /**
+   * Additional per provider such as displayName and profile information.
+   *
+   * @since 5.2.0
+   */
+  providerData: UserInfo[];
+  /**
    * @since 0.1.0
    */
   providerId: string;
@@ -1080,6 +1087,49 @@ export interface User {
   tenantId: string | null;
   /**
    * @since 0.1.0
+   */
+  uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.userinfo
+ */
+export interface UserInfo {
+  /**
+   * The display name of the user.
+   *
+   * @since 5.2.0
+   */
+  displayName: string | null;
+  /**
+   * The email of the user.
+   *
+   * @since 5.2.0
+   */
+  email: string | null;
+  /**
+   * The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user.
+   *
+   * @since 5.2.0
+   */
+  phoneNumber: string | null;
+  /**
+   * The profile photo URL of the user.
+   *
+   * @since 5.2.0
+   */
+  photoUrl: string | null;
+  /**
+   * The provider used to authenticate the user.
+   *
+   * @since 5.2.0
+   */
+  providerId: string;
+  /**
+   * The user's unique ID.
+   *
+   * @since 5.2.0
    */
   uid: string;
 }

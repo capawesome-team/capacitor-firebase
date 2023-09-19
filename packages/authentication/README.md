@@ -1513,17 +1513,30 @@ Remove all listeners for this plugin.
 
 #### User
 
-| Prop                | Type                        | Since |
-| ------------------- | --------------------------- | ----- |
-| **`displayName`**   | <code>string \| null</code> | 0.1.0 |
-| **`email`**         | <code>string \| null</code> | 0.1.0 |
-| **`emailVerified`** | <code>boolean</code>        | 0.1.0 |
-| **`isAnonymous`**   | <code>boolean</code>        | 0.1.0 |
-| **`phoneNumber`**   | <code>string \| null</code> | 0.1.0 |
-| **`photoUrl`**      | <code>string \| null</code> | 0.1.0 |
-| **`providerId`**    | <code>string</code>         | 0.1.0 |
-| **`tenantId`**      | <code>string \| null</code> | 0.1.0 |
-| **`uid`**           | <code>string</code>         | 0.1.0 |
+| Prop                | Type                        | Description                                                          | Since |
+| ------------------- | --------------------------- | -------------------------------------------------------------------- | ----- |
+| **`displayName`**   | <code>string \| null</code> |                                                                      | 0.1.0 |
+| **`email`**         | <code>string \| null</code> |                                                                      | 0.1.0 |
+| **`emailVerified`** | <code>boolean</code>        |                                                                      | 0.1.0 |
+| **`isAnonymous`**   | <code>boolean</code>        |                                                                      | 0.1.0 |
+| **`phoneNumber`**   | <code>string \| null</code> |                                                                      | 0.1.0 |
+| **`photoUrl`**      | <code>string \| null</code> |                                                                      | 0.1.0 |
+| **`providerData`**  | <code>UserInfo[]</code>     | Additional per provider such as displayName and profile information. | 5.2.0 |
+| **`providerId`**    | <code>string</code>         |                                                                      | 0.1.0 |
+| **`tenantId`**      | <code>string \| null</code> |                                                                      | 0.1.0 |
+| **`uid`**           | <code>string</code>         |                                                                      | 0.1.0 |
+
+
+#### UserInfo
+
+| Prop              | Type                        | Description                                                                               | Since |
+| ----------------- | --------------------------- | ----------------------------------------------------------------------------------------- | ----- |
+| **`displayName`** | <code>string \| null</code> | The display name of the user.                                                             | 5.2.0 |
+| **`email`**       | <code>string \| null</code> | The email of the user.                                                                    | 5.2.0 |
+| **`phoneNumber`** | <code>string \| null</code> | The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user. | 5.2.0 |
+| **`photoUrl`**    | <code>string \| null</code> | The profile photo URL of the user.                                                        | 5.2.0 |
+| **`providerId`**  | <code>string</code>         | The provider used to authenticate the user.                                               | 5.2.0 |
+| **`uid`**         | <code>string</code>         | The user's unique ID.                                                                     | 5.2.0 |
 
 
 #### AuthCredential
