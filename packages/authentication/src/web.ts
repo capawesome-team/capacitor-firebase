@@ -6,6 +6,7 @@ import type {
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
   UserInfo as FirebaseUserInfo,
+  UserMetadata as FirebaseUserMeatdata,
 } from 'firebase/auth';
 import {
   EmailAuthProvider,
@@ -87,6 +88,7 @@ import type {
   UseEmulatorOptions,
   User,
   UserInfo,
+  UserMetadata,
 } from './definitions';
 import { Persistence, ProviderId } from './definitions';
 
@@ -696,12 +698,23 @@ export class FirebaseAuthenticationWeb
       email: user.email,
       emailVerified: user.emailVerified,
       isAnonymous: user.isAnonymous,
+      metadata: this.createUserMetadataResult(user.metadata),
       phoneNumber: user.phoneNumber,
       photoUrl: user.photoURL,
       providerData: this.createUserProviderDataResult(user.providerData),
       providerId: user.providerId,
       tenantId: user.tenantId,
       uid: user.uid,
+    };
+    return result;
+  }
+
+  private createUserMetadataResult(
+    metadata: FirebaseUserMeatdata,
+  ): UserMetadata {
+    const result: UserMetadata = {
+      creationTime: metadata.creationTime,
+      lastSignInTime: metadata.lastSignInTime,
     };
     return result;
   }

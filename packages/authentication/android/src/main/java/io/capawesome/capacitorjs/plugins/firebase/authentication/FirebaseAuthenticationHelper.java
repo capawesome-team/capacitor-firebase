@@ -7,6 +7,7 @@ import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.UserInfo;
 import java.util.List;
@@ -69,6 +70,7 @@ public class FirebaseAuthenticationHelper {
         result.put("email", user.getEmail());
         result.put("emailVerified", user.isEmailVerified());
         result.put("isAnonymous", user.isAnonymous());
+        result.put("metadata", FirebaseAuthenticationHelper.createUserMetadataResult(user.getMetadata()));
         result.put("phoneNumber", user.getPhoneNumber());
         result.put("photoUrl", user.getPhotoUrl());
         result.put("providerData", FirebaseAuthenticationHelper.createUserProviderDataResult(user.getProviderData()));
@@ -138,6 +140,16 @@ public class FirebaseAuthenticationHelper {
         if (additionalUserInfo.getUsername() != null) {
             result.put("username", additionalUserInfo.getUsername());
         }
+        return result;
+    }
+
+    private static JSObject createUserMetadataResult(@Nullable FirebaseUserMetadata metadata) {
+        JSObject result = new JSObject();
+        if (metadata == null) {
+            return result;
+        }
+        result.put("creationTime", metadata.getCreationTimestamp());
+        result.put("lastSignInTime", metadata.getLastSignInTimestamp());
         return result;
     }
 

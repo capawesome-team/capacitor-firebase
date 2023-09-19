@@ -1513,18 +1513,27 @@ Remove all listeners for this plugin.
 
 #### User
 
-| Prop                | Type                        | Description                                                          | Since |
-| ------------------- | --------------------------- | -------------------------------------------------------------------- | ----- |
-| **`displayName`**   | <code>string \| null</code> |                                                                      | 0.1.0 |
-| **`email`**         | <code>string \| null</code> |                                                                      | 0.1.0 |
-| **`emailVerified`** | <code>boolean</code>        |                                                                      | 0.1.0 |
-| **`isAnonymous`**   | <code>boolean</code>        |                                                                      | 0.1.0 |
-| **`phoneNumber`**   | <code>string \| null</code> |                                                                      | 0.1.0 |
-| **`photoUrl`**      | <code>string \| null</code> |                                                                      | 0.1.0 |
-| **`providerData`**  | <code>UserInfo[]</code>     | Additional per provider such as displayName and profile information. | 5.2.0 |
-| **`providerId`**    | <code>string</code>         |                                                                      | 0.1.0 |
-| **`tenantId`**      | <code>string \| null</code> |                                                                      | 0.1.0 |
-| **`uid`**           | <code>string</code>         |                                                                      | 0.1.0 |
+| Prop                | Type                                                  | Description                                                          | Since |
+| ------------------- | ----------------------------------------------------- | -------------------------------------------------------------------- | ----- |
+| **`displayName`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`email`**         | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`emailVerified`** | <code>boolean</code>                                  |                                                                      | 0.1.0 |
+| **`isAnonymous`**   | <code>boolean</code>                                  |                                                                      | 0.1.0 |
+| **`metadata`**      | <code><a href="#usermetadata">UserMetadata</a></code> | The user's metadata.                                                 | 5.2.0 |
+| **`phoneNumber`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`photoUrl`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`providerData`**  | <code>UserInfo[]</code>                               | Additional per provider such as displayName and profile information. | 5.2.0 |
+| **`providerId`**    | <code>string</code>                                   |                                                                      | 0.1.0 |
+| **`tenantId`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`uid`**           | <code>string</code>                                   |                                                                      | 0.1.0 |
+
+
+#### UserMetadata
+
+| Prop                 | Type                | Description                                 | Since |
+| -------------------- | ------------------- | ------------------------------------------- | ----- |
+| **`creationTime`**   | <code>string</code> | Time the user was created as UTC string.    | 5.2.0 |
+| **`lastSignInTime`** | <code>string</code> | Time the user last signed in as UTC string. | 5.2.0 |
 
 
 #### UserInfo

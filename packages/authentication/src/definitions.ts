@@ -1064,6 +1064,12 @@ export interface User {
    */
   isAnonymous: boolean;
   /**
+   * The user's metadata.
+   *
+   * @since 5.2.0
+   */
+  metadata: UserMetadata;
+  /**
    * @since 0.1.0
    */
   phoneNumber: string | null;
@@ -1132,6 +1138,27 @@ export interface UserInfo {
    * @since 5.2.0
    */
   uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.usermetadata
+ */
+export interface UserMetadata {
+  /**
+   * Time the user was created as UTC string.
+   *
+   * @since 5.2.0
+   * @example "Wed, 14 Jun 2017 07:00:00 GMT"
+   */
+  creationTime?: string;
+  /**
+   * Time the user last signed in as UTC string.
+   *
+   * @since 5.2.0
+   * @example "Wed, 21 Jun 2017 07:00:00 GMT"
+   */
+  lastSignInTime?: string;
 }
 
 /**

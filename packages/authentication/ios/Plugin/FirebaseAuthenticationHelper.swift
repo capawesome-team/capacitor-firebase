@@ -64,6 +64,7 @@ public class FirebaseAuthenticationHelper {
         result["email"] = user.email
         result["emailVerified"] = user.isEmailVerified
         result["isAnonymous"] = user.isAnonymous
+        result["metadata"] = self.createUserMetadataResult(user.metadata)
         result["phoneNumber"] = user.phoneNumber
         result["photoUrl"] = user.photoURL?.absoluteString
         result["providerData"] = self.createUserProviderDataResult(user.providerData)
@@ -122,6 +123,17 @@ public class FirebaseAuthenticationHelper {
         result["providerId"] = additionalUserInfo.providerID
         if let username = additionalUserInfo.username {
             result["username"] = username
+        }
+        return result
+    }
+
+    private static func createUserMetadataResult(_ metadata: UserMetadata) -> JSObject {
+        var result = JSObject()
+        if let creationDate = metadata.creationDate?.timeIntervalSince1970 {
+            result["creationTime"] = creationDate
+        }
+        if let lastSignInDate = metadata.lastSignInDate?.timeIntervalSince1970 {
+            result["lastSignInTime"] = lastSignInDate
         }
         return result
     }
