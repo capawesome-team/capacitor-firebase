@@ -392,11 +392,11 @@ export interface DocumentSnapshot<T> {
   /**
    * An object containing the data for the document.
    *
-   * Returns `undefined` if the document doesn't exist.
+   * Returns `null` if the document doesn't exist.
    *
    * @since 5.2.0
    */
-  data: T | undefined;
+  data: T | null;
 }
 
 /**
@@ -418,8 +418,6 @@ export interface QueryDocumentSnapshot<T> {
   /**
    * An object containing the data for the document.
    *
-   * Returns `undefined` if the document doesn't exist.
-   *
    * @since 5.2.0
    */
   data: T;
@@ -437,7 +435,9 @@ export type QueryFilterConstraint =
  */
 export type QueryNonFilterConstraint =
   | QueryOrderByConstraint
-  | QueryLimitConstraint;
+  | QueryLimitConstraint
+  | QueryStartAtConstraint
+  | QueryEndAtConstraint;
 
 /**
  * @since 5.2.0
@@ -457,8 +457,7 @@ export interface QueryCompositeFilterConstraint {
  */
 export type QueryConstraint =
   | QueryFieldFilterConstraint
-  | QueryOrderByConstraint
-  | QueryLimitConstraint; // | QueryStartAtConstraint | QueryEndAtConstraint;
+  | QueryNonFilterConstraint;
 
 /**
  * @since 5.2.0
@@ -487,7 +486,7 @@ export interface QueryFieldFilterConstraint {
    *
    * @since 5.2.0
    */
-  value: unknown;
+  value: string | number | boolean | null;
 }
 
 /**
@@ -532,19 +531,47 @@ export interface QueryLimitConstraint {
   limit: number;
 }
 
-// /**
-//  * @since 5.2.0
-//  */
-// export interface QueryStartAtConstraint {
-//   type: 'startAt' | 'startAfter';
-// }
+/**
+ * @since 5.2.0
+ */
+export interface QueryStartAtConstraint {
+  /**
+   * The type of the constraint.
+   *
+   * @since 5.2.0
+   */
+  type: 'startAt' | 'startAfter';
+  /**
+   * The reference to start at or after as a string, with path components separated by a forward slash (`/`).
+   *
+   * **Attention**: This requires an additional document read.
+   *
+   * @since 5.2.0
+   * @example 'users/Aorq09lkt1ynbR7xhTUx'
+   */
+  reference: string;
+}
 
-// /**
-//  * @since 5.2.0
-//  */
-// export interface QueryEndAtConstraint {
-//   type: 'endAt' | 'endBefore';
-// }
+/**
+ * @since 5.2.0
+ */
+export interface QueryEndAtConstraint {
+  /**
+   * The type of the constraint.
+   *
+   * @since 5.2.0
+   */
+  type: 'endAt' | 'endBefore';
+  /**
+   * The reference as to end at or before as a string, with path components separated by a forward slash (`/`).
+   *
+   * **Attention**: This requires an additional document read.
+   *
+   * @since 5.2.0
+   * @example 'users/Aorq09lkt1ynbR7xhTUx'
+   */
+  reference: string;
+}
 
 /**
  * @since 5.2.0

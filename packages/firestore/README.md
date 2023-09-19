@@ -331,11 +331,11 @@ Remove all listeners for this plugin.
 
 #### DocumentSnapshot
 
-| Prop       | Type                | Description                                                                                        | Since |
-| ---------- | ------------------- | -------------------------------------------------------------------------------------------------- | ----- |
-| **`id`**   | <code>string</code> | The document's identifier within its collection.                                                   | 5.2.0 |
-| **`path`** | <code>string</code> | The path of the document.                                                                          | 5.2.0 |
-| **`data`** | <code>T</code>      | An object containing the data for the document. Returns `undefined` if the document doesn't exist. | 5.2.0 |
+| Prop       | Type                   | Description                                                                                   | Since |
+| ---------- | ---------------------- | --------------------------------------------------------------------------------------------- | ----- |
+| **`id`**   | <code>string</code>    | The document's identifier within its collection.                                              | 5.2.0 |
+| **`path`** | <code>string</code>    | The path of the document.                                                                     | 5.2.0 |
+| **`data`** | <code>T \| null</code> | An object containing the data for the document. Returns `null` if the document doesn't exist. | 5.2.0 |
 
 
 #### GetDocumentOptions
@@ -369,11 +369,11 @@ Remove all listeners for this plugin.
 
 #### QueryDocumentSnapshot
 
-| Prop       | Type                | Description                                                                                        | Since |
-| ---------- | ------------------- | -------------------------------------------------------------------------------------------------- | ----- |
-| **`id`**   | <code>string</code> | The document's identifier within its collection.                                                   | 5.2.0 |
-| **`path`** | <code>string</code> | The path of the document.                                                                          | 5.2.0 |
-| **`data`** | <code>T</code>      | An object containing the data for the document. Returns `undefined` if the document doesn't exist. | 5.2.0 |
+| Prop       | Type                | Description                                      | Since |
+| ---------- | ------------------- | ------------------------------------------------ | ----- |
+| **`id`**   | <code>string</code> | The document's identifier within its collection. | 5.2.0 |
+| **`path`** | <code>string</code> | The path of the document.                        | 5.2.0 |
+| **`data`** | <code>T</code>      | An object containing the data for the document.  | 5.2.0 |
 
 
 #### GetCollectionOptions
@@ -400,7 +400,7 @@ Remove all listeners for this plugin.
 | **`type`**      | <code>'where'</code>                                    | The type of the constraint.    | 5.2.0 |
 | **`fieldPath`** | <code>string</code>                                     | The path to compare.           | 5.2.0 |
 | **`opStr`**     | <code><a href="#queryoperator">QueryOperator</a></code> | The operation string to apply. | 5.2.0 |
-| **`value`**     | <code>unknown</code>                                    | The value for comparison.      | 5.2.0 |
+| **`value`**     | <code>string \| number \| boolean \| null</code>        | The value for comparison.      | 5.2.0 |
 
 
 #### QueryOrderByConstraint
@@ -418,6 +418,22 @@ Remove all listeners for this plugin.
 | ----------- | ------------------------------------- | -------------------------------------- | ----- |
 | **`type`**  | <code>'limit' \| 'limitToLast'</code> | The type of the constraint.            | 5.2.0 |
 | **`limit`** | <code>number</code>                   | The maximum number of items to return. | 5.2.0 |
+
+
+#### QueryStartAtConstraint
+
+| Prop            | Type                                   | Description                                                                                                                                                        | Since |
+| --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`type`**      | <code>'startAt' \| 'startAfter'</code> | The type of the constraint.                                                                                                                                        | 5.2.0 |
+| **`reference`** | <code>string</code>                    | The reference to start at or after as a string, with path components separated by a forward slash (`/`). **Attention**: This requires an additional document read. | 5.2.0 |
+
+
+#### QueryEndAtConstraint
+
+| Prop            | Type                                | Description                                                                                                                                                          | Since |
+| --------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`type`**      | <code>'endAt' \| 'endBefore'</code> | The type of the constraint.                                                                                                                                          | 5.2.0 |
+| **`reference`** | <code>string</code>                 | The reference as to end at or before as a string, with path components separated by a forward slash (`/`). **Attention**: This requires an additional document read. | 5.2.0 |
 
 
 #### GetCollectionGroupResult
@@ -474,7 +490,7 @@ Remove all listeners for this plugin.
 
 #### QueryNonFilterConstraint
 
-<code><a href="#queryorderbyconstraint">QueryOrderByConstraint</a> | <a href="#querylimitconstraint">QueryLimitConstraint</a></code>
+<code><a href="#queryorderbyconstraint">QueryOrderByConstraint</a> | <a href="#querylimitconstraint">QueryLimitConstraint</a> | <a href="#querystartatconstraint">QueryStartAtConstraint</a> | <a href="#queryendatconstraint">QueryEndAtConstraint</a></code>
 
 
 #### OrderByDirection

@@ -14,6 +14,8 @@ import {
   collection,
   deleteDoc,
   doc,
+  endAt,
+  endBefore,
   getDoc,
   getDocs,
   getFirestore,
@@ -23,6 +25,8 @@ import {
   orderBy,
   query,
   setDoc,
+  startAfter,
+  startAt,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -90,11 +94,14 @@ export class FirebaseFirestoreWeb
     const firestore = getFirestore();
     const { reference } = options;
     const documentSnapshot = await getDoc(doc(firestore, reference));
+    const documentSnapshotData = documentSnapshot.data();
     return {
       snapshot: {
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
-        data: documentSnapshot.data() as T | undefined,
+        data: (documentSnapshotData === undefined
+          ? null
+          : documentSnapshotData) as T | null,
       },
     };
   }
@@ -117,7 +124,7 @@ export class FirebaseFirestoreWeb
   public async getCollection<T extends DocumentData>(
     options: GetCollectionOptions,
   ): Promise<GetCollectionResult<T>> {
-    const collectionQuery = this.buildCollectionQuery(options);
+    const collectionQuery = await this.buildCollectionQuery(options);
     const collectionSnapshot = await getDocs(collectionQuery);
     return {
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
@@ -131,7 +138,7 @@ export class FirebaseFirestoreWeb
   public async getCollectionGroup<T extends DocumentData>(
     options: GetCollectionGroupOptions,
   ): Promise<GetCollectionGroupResult<T>> {
-    const collectionQuery = this.buildCollectionQuery(options);
+    const collectionQuery = await this.buildCollectionQuery(options);
     const collectionSnapshot = await getDocs(collectionQuery);
     return {
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
@@ -160,11 +167,12 @@ export class FirebaseFirestoreWeb
     const unsubscribe = onSnapshot(
       doc(firestore, options.reference),
       snapshot => {
+        const data = snapshot.data();
         const event: AddDocumentSnapshotListenerEvent<T> = {
           snapshot: {
             id: snapshot.id,
             path: snapshot.ref.path,
-            data: snapshot.data() as T | undefined,
+            data: (data === undefined ? null : data) as T | null,
           },
         };
         callback(event);
@@ -181,7 +189,7 @@ export class FirebaseFirestoreWeb
     options: AddCollectionSnapshotListenerOptions,
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<string> {
-    const collectionQuery = this.buildCollectionQuery(options);
+    const collectionQuery = await this.buildCollectionQuery(options);
     const unsubscribe = onSnapshot(collectionQuery, snapshot => {
       const event: AddCollectionSnapshotListenerEvent<T> = {
         snapshots: snapshot.docs.map(documentSnapshot => ({
@@ -215,28 +223,30 @@ export class FirebaseFirestoreWeb
     this.unsubscribesMap.clear();
   }
 
-  private buildCollectionQuery(
+  private async buildCollectionQuery(
     options:
       | GetCollectionOptions
       | GetCollectionGroupOptions
-      | AddCollectionSnapshotListenerOptions, // TODO: merge types to CollectionQueryOptions
-  ): Query<DocumentData, DocumentData> {
+      | AddCollectionSnapshotListenerOptions,
+  ): Promise<Query<DocumentData, DocumentData>> {
     const firestore = getFirestore();
     let collectionQuery: Query;
     if (options.compositeFilter) {
-      const compositeFilter = this.buildFirebaseQueryCompositeFilterConstraint(
-        options.compositeFilter,
-      );
-      const queryConstraints = this.buildFirebaseQueryNonFilterConstraints(
-        options.queryConstraints || [],
-      );
+      const compositeFilter =
+        await this.buildFirebaseQueryCompositeFilterConstraint(
+          options.compositeFilter,
+        );
+      const queryConstraints =
+        await this.buildFirebaseQueryNonFilterConstraints(
+          options.queryConstraints || [],
+        );
       collectionQuery = query(
         collection(firestore, options.reference),
         compositeFilter,
         ...queryConstraints,
       );
     } else {
-      const queryConstraints = this.buildFirebaseQueryConstraints(
+      const queryConstraints = await this.buildFirebaseQueryConstraints(
         options.queryConstraints || [],
       );
       collectionQuery = query(
@@ -296,48 +306,74 @@ export class FirebaseFirestoreWeb
     );
   }
 
-  private buildFirebaseQueryNonFilterConstraints(
+  private async buildFirebaseQueryNonFilterConstraints(
     queryConstraints: QueryNonFilterConstraint[],
-  ): FirebaseQueryNonFilterConstraint[] {
+  ): Promise<FirebaseQueryNonFilterConstraint[]> {
     const firebaseQueryNonFilterConstraints: FirebaseQueryNonFilterConstraint[] =
       [];
     for (const queryConstraint of queryConstraints) {
       const firebaseQueryNonFilterConstraint =
-        this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
+        await this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
       firebaseQueryNonFilterConstraints.push(firebaseQueryNonFilterConstraint);
     }
     return firebaseQueryNonFilterConstraints;
   }
 
-  private buildFirebaseQueryNonFilterConstraint(
+  private async buildFirebaseQueryNonFilterConstraint(
     queryConstraints: QueryNonFilterConstraint,
-  ): FirebaseQueryNonFilterConstraint {
-    if (queryConstraints.type === 'orderBy') {
-      return orderBy(queryConstraints.fieldPath, queryConstraints.directionStr);
-    } else {
-      return limit(queryConstraints.limit);
+  ): Promise<FirebaseQueryNonFilterConstraint> {
+    switch (queryConstraints.type) {
+      case 'orderBy':
+        return orderBy(
+          queryConstraints.fieldPath,
+          queryConstraints.directionStr,
+        );
+      case 'limit':
+        return limit(queryConstraints.limit);
+      case 'limitToLast':
+        return limit(queryConstraints.limit);
+      case 'startAt':
+      case 'startAfter':
+      case 'endAt':
+      case 'endBefore': {
+        const firestore = getFirestore();
+        const documentSnapshot = await getDoc(
+          doc(firestore, queryConstraints.reference),
+        );
+        switch (queryConstraints.type) {
+          case 'startAt':
+            return startAt(documentSnapshot);
+          case 'startAfter':
+            return startAfter(documentSnapshot);
+          case 'endAt':
+            return endAt(documentSnapshot);
+          case 'endBefore':
+            return endBefore(documentSnapshot);
+        }
+      }
     }
   }
 
-  private buildFirebaseQueryConstraints(
+  private async buildFirebaseQueryConstraints(
     queryConstraints: QueryConstraint[],
-  ): FirebaseQueryConstraint[] {
+  ): Promise<FirebaseQueryConstraint[]> {
     const firebaseQueryConstraints: FirebaseQueryConstraint[] = [];
     for (const queryConstraint of queryConstraints) {
-      const firebaseQueryConstraint =
-        this.buildFirebaseQueryConstraint(queryConstraint);
+      const firebaseQueryConstraint = await this.buildFirebaseQueryConstraint(
+        queryConstraint,
+      );
       firebaseQueryConstraints.push(firebaseQueryConstraint);
     }
     return firebaseQueryConstraints;
   }
 
-  private buildFirebaseQueryConstraint(
+  private async buildFirebaseQueryConstraint(
     queryConstraint: QueryConstraint,
-  ): FirebaseQueryConstraint {
+  ): Promise<FirebaseQueryConstraint> {
     if (queryConstraint.type === 'where') {
       return this.buildFirebaseQueryFieldFilterConstraint(queryConstraint);
     } else {
-      return this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
+      return await this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
     }
   }
 }
