@@ -2,4 +2,4 @@
 '@capacitor-firebase/authentication': minor
 ---
 
-feat: expose `providerData` property
+feat: expose `providerData` and `metadata` property
