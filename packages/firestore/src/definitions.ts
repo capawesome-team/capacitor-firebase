@@ -113,6 +113,7 @@ export interface SetDocumentOptions {
    *
    * @since 5.2.0
    * @example true
+   * @default false
    */
   merge?: boolean;
 }
