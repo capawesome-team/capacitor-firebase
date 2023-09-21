@@ -1,10 +1,29 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
+import androidx.annotation.Nullable;
+
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.AddCollectionSnapshotListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.AddDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.AddDocumentSnapshotListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.DeleteDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.GetCollectionGroupOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.GetCollectionOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.GetDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.RemoveSnapshotListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.SetDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.UpdateDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.NonEmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.ResultCallback;
 
 @CapacitorPlugin(name = "FirebaseFirestore")
 public class FirebaseFirestorePlugin extends Plugin {
@@ -12,7 +31,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     public static final String TAG = "FirebaseFirestore";
     public static final String ERROR_REFERENCE_MISSING = "reference must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
-    public static final String ERROR_ERROR_DATA_MISSING = "data must be provided.";
+    public static final String ERROR_DATA_MISSING = "data must be provided.";
 
     private FirebaseFirestore implementation;
 
@@ -35,7 +54,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             AddDocumentOptions options = new AddDocumentOptions(reference, data);
-            ResultCallback callback = new ResultCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -70,8 +89,8 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
             boolean merge = call.getBoolean("merge", false);
 
-            SetDocumentOptions options = new SetDocumentOptions(reference, data);
-            ResultCallback callback = new ResultCallback() {
+            SetDocumentOptions options = new SetDocumentOptions(reference, data, merge);
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
@@ -101,7 +120,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             GetDocumentOptions options = new GetDocumentOptions(reference);
-            ResultCallback callback = new ResultCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -136,7 +155,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             UpdateDocumentOptions options = new UpdateDocumentOptions(reference, data);
-            ResultCallback callback = new ResultCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
@@ -166,7 +185,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             DeleteDocumentOptions options = new DeleteDocumentOptions(reference);
-            ResultCallback callback = new ResultCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
@@ -194,11 +213,11 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
-            JSObject compositeFilter = call.getObject("compositeFilter");
-            JSArray queryConstraints = call.getArray("queryConstraints");
+            JSObject compositeFilter = call.getObject("compositeFilter", null);
+            JSArray queryConstraints = call.getArray("queryConstraints", null);
 
             GetCollectionOptions options = new GetCollectionOptions(reference, compositeFilter, queryConstraints);
-            ResultCallback callback = new ResultCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -230,7 +249,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSArray queryConstraints = call.getArray("queryConstraints");
 
             GetCollectionGroupOptions options = new GetCollectionGroupOptions(reference, compositeFilter, queryConstraints);
-            ResultCallback callback = new ResultCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -253,7 +272,20 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void enableNetwork(PluginCall call) {
         try {
-            implementation.enableNetwork();
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    call.resolve();
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+
+            implementation.enableNetwork(callback);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -264,7 +296,20 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void disableNetwork(PluginCall call) {
         try {
-            implementation.disableNetwork();
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    call.resolve();
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+
+            implementation.disableNetwork(callback);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -280,9 +325,10 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            String callbackId = call.getCallbackId();
 
-            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(reference);
-            ResultCallback callback = new ResultCallback() {
+            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(reference, callbackId);
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -310,9 +356,10 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            String callbackId = call.getCallbackId();
 
-            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(reference);
-            ResultCallback callback = new ResultCallback() {
+            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(reference, callbackId);
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -341,7 +388,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
 
-            RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(listenerId);
+            RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(callbackId);
             implementation.removeSnapshotListener(options);
             call.resolve();
         } catch (Exception exception) {

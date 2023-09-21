@@ -444,6 +444,11 @@ export type QueryNonFilterConstraint =
  * @since 5.2.0
  */
 export interface QueryCompositeFilterConstraint {
+  /**
+   * The type of the constraint.
+   *
+   * @since 5.2.0
+   */
   type: 'and' | 'or';
   /**
    * The filters to apply.
@@ -596,15 +601,23 @@ export type QueryOperator =
   | '>='
   | '>'
   | '!='
-  | 'array-contains'
-  | 'array-contains-any'
-  | 'in'
-  | 'not-in';
+  | 'array-contains';
+// | 'array-contains-any'
+// | 'in'
+// | 'not-in';
 
 /**
  * @since 5.2.0
  */
-export type QueryConstraintType = 'where' | 'orderBy' | 'limit' | 'limitToLast'; // | 'startAt' | 'startAfter' | 'endAt' | 'endBefore';
+export type QueryConstraintType =
+  | 'where'
+  | 'orderBy'
+  | 'limit'
+  | 'limitToLast'
+  | 'startAt'
+  | 'startAfter'
+  | 'endAt'
+  | 'endBefore';
 
 /**
  * @since 5.2.0
