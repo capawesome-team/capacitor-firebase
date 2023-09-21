@@ -315,11 +315,11 @@ Remove all listeners for this plugin.
 
 #### SetDocumentOptions
 
-| Prop            | Type                                                  | Description                                                                         | Since |
-| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
-| **`merge`**     | <code>boolean</code>                                  | Whether to merge the provided data with an existing document.                       | 5.2.0 |
+| Prop            | Type                                                  | Description                                                                         | Default            | Since |
+| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). |                    | 5.2.0 |
+| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 |                    | 5.2.0 |
+| **`merge`**     | <code>boolean</code>                                  | Whether to merge the provided data with an existing document.                       | <code>false</code> | 5.2.0 |
 
 
 #### GetDocumentResult
@@ -387,10 +387,10 @@ Remove all listeners for this plugin.
 
 #### QueryCompositeFilterConstraint
 
-| Prop                   | Type                                 | Description           | Since |
-| ---------------------- | ------------------------------------ | --------------------- | ----- |
-| **`type`**             | <code>'and' \| 'or'</code>           |                       |       |
-| **`queryConstraints`** | <code>QueryFilterConstraint[]</code> | The filters to apply. | 5.2.0 |
+| Prop                   | Type                                 | Description                 | Since |
+| ---------------------- | ------------------------------------ | --------------------------- | ----- |
+| **`type`**             | <code>'and' \| 'or'</code>           | The type of the constraint. | 5.2.0 |
+| **`queryConstraints`** | <code>QueryFilterConstraint[]</code> | The filters to apply.       | 5.2.0 |
 
 
 #### QueryFieldFilterConstraint
@@ -485,7 +485,7 @@ Remove all listeners for this plugin.
 
 #### QueryOperator
 
-<code>'&lt;' | '&lt;=' | '==' | '&gt;=' | '&gt;' | '!=' | 'array-contains' | 'array-contains-any' | 'in' | 'not-in'</code>
+<code>'&lt;' | '&lt;=' | '==' | '&gt;=' | '&gt;' | '!=' | 'array-contains'</code>
 
 
 #### QueryNonFilterConstraint
