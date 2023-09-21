@@ -16,6 +16,30 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* FirebaseFirestorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseFirestorePlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseFirestorePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */; };
+		7C00700E2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00700D2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift */; };
+		7C0070102ABC1EE0000C0F28 /* AddDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00700F2ABC1EE0000C0F28 /* AddDocumentOptions.swift */; };
+		7C0070122ABC1F03000C0F28 /* AddDocumentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070112ABC1F03000C0F28 /* AddDocumentResult.swift */; };
+		7C0070142ABC1F0F000C0F28 /* AddDocumentSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070132ABC1F0F000C0F28 /* AddDocumentSnapshotListenerOptions.swift */; };
+		7C0070162ABC1F18000C0F28 /* DeleteDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070152ABC1F18000C0F28 /* DeleteDocumentOptions.swift */; };
+		7C0070182ABC1F20000C0F28 /* GetCollectionGroupOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070172ABC1F20000C0F28 /* GetCollectionGroupOptions.swift */; };
+		7C00701A2ABC1F29000C0F28 /* GetCollectionGroupResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070192ABC1F29000C0F28 /* GetCollectionGroupResult.swift */; };
+		7C00701C2ABC1F31000C0F28 /* GetCollectionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00701B2ABC1F31000C0F28 /* GetCollectionOptions.swift */; };
+		7C00701E2ABC1F38000C0F28 /* GetCollectionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00701D2ABC1F38000C0F28 /* GetCollectionResult.swift */; };
+		7C0070202ABC1F42000C0F28 /* GetDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00701F2ABC1F42000C0F28 /* GetDocumentOptions.swift */; };
+		7C0070222ABC1F4A000C0F28 /* GetDocumentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070212ABC1F4A000C0F28 /* GetDocumentResult.swift */; };
+		7C0070242ABC1F53000C0F28 /* QueryCompositeFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070232ABC1F53000C0F28 /* QueryCompositeFilterConstraint.swift */; };
+		7C0070262ABC1F62000C0F28 /* QueryEndAtConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070252ABC1F62000C0F28 /* QueryEndAtConstraint.swift */; };
+		7C0070282ABC1F6D000C0F28 /* QueryFieldFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070272ABC1F6D000C0F28 /* QueryFieldFilterConstraint.swift */; };
+		7C00702B2ABC1F7B000C0F28 /* QueryLimitConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00702A2ABC1F7B000C0F28 /* QueryLimitConstraint.swift */; };
+		7C00702D2ABC1FA1000C0F28 /* QueryOrderByConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00702C2ABC1FA1000C0F28 /* QueryOrderByConstraint.swift */; };
+		7C00702F2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00702E2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift */; };
+		7C0070322ABC1FC5000C0F28 /* RemoveSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070312ABC1FC5000C0F28 /* RemoveSnapshotListenerOptions.swift */; };
+		7C0070342ABC1FCD000C0F28 /* SetDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070332ABC1FCD000C0F28 /* SetDocumentOptions.swift */; };
+		7C0070362ABC1FD7000C0F28 /* UpdateDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070352ABC1FD7000C0F28 /* UpdateDocumentOptions.swift */; };
+		7C00703A2ABC21D0000C0F28 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070392ABC21D0000C0F28 /* Result.swift */; };
+		7C00703C2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703B2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift */; };
+		7C00703E2ABC21FB000C0F28 /* QueryFilterConstraintType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703D2ABC21FB000C0F28 /* QueryFilterConstraintType.swift */; };
+		7C0070402ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +65,30 @@
 		50ADFFA72020EE4F00D50D53 /* FirebaseFirestorePlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseFirestorePlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFirestorePlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
+		7C00700D2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionSnapshotListenerOptions.swift; sourceTree = "<group>"; };
+		7C00700F2ABC1EE0000C0F28 /* AddDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDocumentOptions.swift; sourceTree = "<group>"; };
+		7C0070112ABC1F03000C0F28 /* AddDocumentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDocumentResult.swift; sourceTree = "<group>"; };
+		7C0070132ABC1F0F000C0F28 /* AddDocumentSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDocumentSnapshotListenerOptions.swift; sourceTree = "<group>"; };
+		7C0070152ABC1F18000C0F28 /* DeleteDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDocumentOptions.swift; sourceTree = "<group>"; };
+		7C0070172ABC1F20000C0F28 /* GetCollectionGroupOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCollectionGroupOptions.swift; sourceTree = "<group>"; };
+		7C0070192ABC1F29000C0F28 /* GetCollectionGroupResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCollectionGroupResult.swift; sourceTree = "<group>"; };
+		7C00701B2ABC1F31000C0F28 /* GetCollectionOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCollectionOptions.swift; sourceTree = "<group>"; };
+		7C00701D2ABC1F38000C0F28 /* GetCollectionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCollectionResult.swift; sourceTree = "<group>"; };
+		7C00701F2ABC1F42000C0F28 /* GetDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDocumentOptions.swift; sourceTree = "<group>"; };
+		7C0070212ABC1F4A000C0F28 /* GetDocumentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDocumentResult.swift; sourceTree = "<group>"; };
+		7C0070232ABC1F53000C0F28 /* QueryCompositeFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCompositeFilterConstraint.swift; sourceTree = "<group>"; };
+		7C0070252ABC1F62000C0F28 /* QueryEndAtConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryEndAtConstraint.swift; sourceTree = "<group>"; };
+		7C0070272ABC1F6D000C0F28 /* QueryFieldFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryFieldFilterConstraint.swift; sourceTree = "<group>"; };
+		7C00702A2ABC1F7B000C0F28 /* QueryLimitConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryLimitConstraint.swift; sourceTree = "<group>"; };
+		7C00702C2ABC1FA1000C0F28 /* QueryOrderByConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryOrderByConstraint.swift; sourceTree = "<group>"; };
+		7C00702E2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStartAtConstraint.swift; sourceTree = "<group>"; };
+		7C0070312ABC1FC5000C0F28 /* RemoveSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveSnapshotListenerOptions.swift; sourceTree = "<group>"; };
+		7C0070332ABC1FCD000C0F28 /* SetDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetDocumentOptions.swift; sourceTree = "<group>"; };
+		7C0070352ABC1FD7000C0F28 /* UpdateDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDocumentOptions.swift; sourceTree = "<group>"; };
+		7C0070392ABC21D0000C0F28 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7C00703B2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCompositeFilterConstraintType.swift; sourceTree = "<group>"; };
+		7C00703D2ABC21FB000C0F28 /* QueryFilterConstraintType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryFilterConstraintType.swift; sourceTree = "<group>"; };
+		7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreHelper.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,11 +140,15 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7C00700C2ABC1EBA000C0F28 /* Enums */,
+				7C00700B2ABC1E88000C0F28 /* Protocols */,
+				7C00700A2ABC1E7F000C0F28 /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseFirestore.swift */,
 				50ADFF8B201F53D600D50D53 /* FirebaseFirestorePlugin.h */,
 				50ADFFA72020EE4F00D50D53 /* FirebaseFirestorePlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
+				7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -108,6 +160,74 @@
 				50ADFF98201F53D600D50D53 /* Info.plist */,
 			);
 			path = PluginTests;
+			sourceTree = "<group>";
+		};
+		7C00700A2ABC1E7F000C0F28 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7C0070382ABC2007000C0F28 /* Results */,
+				7C0070372ABC1FFC000C0F28 /* Constraints */,
+				7C0070302ABC1FB6000C0F28 /* Options */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7C00700B2ABC1E88000C0F28 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7C0070392ABC21D0000C0F28 /* Result.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7C00700C2ABC1EBA000C0F28 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7C00703B2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift */,
+				7C00703D2ABC21FB000C0F28 /* QueryFilterConstraintType.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7C0070302ABC1FB6000C0F28 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7C00700D2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift */,
+				7C00700F2ABC1EE0000C0F28 /* AddDocumentOptions.swift */,
+				7C0070132ABC1F0F000C0F28 /* AddDocumentSnapshotListenerOptions.swift */,
+				7C0070152ABC1F18000C0F28 /* DeleteDocumentOptions.swift */,
+				7C0070172ABC1F20000C0F28 /* GetCollectionGroupOptions.swift */,
+				7C00701B2ABC1F31000C0F28 /* GetCollectionOptions.swift */,
+				7C0070312ABC1FC5000C0F28 /* RemoveSnapshotListenerOptions.swift */,
+				7C0070332ABC1FCD000C0F28 /* SetDocumentOptions.swift */,
+				7C0070352ABC1FD7000C0F28 /* UpdateDocumentOptions.swift */,
+				7C00701F2ABC1F42000C0F28 /* GetDocumentOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7C0070372ABC1FFC000C0F28 /* Constraints */ = {
+			isa = PBXGroup;
+			children = (
+				7C0070232ABC1F53000C0F28 /* QueryCompositeFilterConstraint.swift */,
+				7C0070252ABC1F62000C0F28 /* QueryEndAtConstraint.swift */,
+				7C0070272ABC1F6D000C0F28 /* QueryFieldFilterConstraint.swift */,
+				7C00702A2ABC1F7B000C0F28 /* QueryLimitConstraint.swift */,
+				7C00702C2ABC1FA1000C0F28 /* QueryOrderByConstraint.swift */,
+				7C00702E2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift */,
+			);
+			path = Constraints;
+			sourceTree = "<group>";
+		};
+		7C0070382ABC2007000C0F28 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7C0070112ABC1F03000C0F28 /* AddDocumentResult.swift */,
+				7C0070192ABC1F29000C0F28 /* GetCollectionGroupResult.swift */,
+				7C00701D2ABC1F38000C0F28 /* GetCollectionResult.swift */,
+				7C0070212ABC1F4A000C0F28 /* GetDocumentResult.swift */,
+			);
+			path = Results;
 			sourceTree = "<group>";
 		};
 		8C8E7744173064A9F6D438E3 /* Pods */ = {
@@ -270,11 +390,35 @@
 				"${PODS_ROOT}/Target Support Files/Pods-PluginTests/Pods-PluginTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework",
 				"${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseFirestore/FirebaseFirestore.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Libuv-gRPC/uv.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Capacitor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cordova.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFirestore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/uv.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -306,9 +450,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0070362ABC1FD7000C0F28 /* UpdateDocumentOptions.swift in Sources */,
+				7C0070322ABC1FC5000C0F28 /* RemoveSnapshotListenerOptions.swift in Sources */,
+				7C00703C2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift in Sources */,
+				7C0070242ABC1F53000C0F28 /* QueryCompositeFilterConstraint.swift in Sources */,
+				7C0070282ABC1F6D000C0F28 /* QueryFieldFilterConstraint.swift in Sources */,
+				7C00702D2ABC1FA1000C0F28 /* QueryOrderByConstraint.swift in Sources */,
+				7C0070142ABC1F0F000C0F28 /* AddDocumentSnapshotListenerOptions.swift in Sources */,
+				7C00703A2ABC21D0000C0F28 /* Result.swift in Sources */,
+				7C00700E2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseFirestorePlugin.swift in Sources */,
+				7C00702B2ABC1F7B000C0F28 /* QueryLimitConstraint.swift in Sources */,
+				7C0070202ABC1F42000C0F28 /* GetDocumentOptions.swift in Sources */,
+				7C00701E2ABC1F38000C0F28 /* GetCollectionResult.swift in Sources */,
+				7C00702F2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift in Sources */,
+				7C0070182ABC1F20000C0F28 /* GetCollectionGroupOptions.swift in Sources */,
+				7C00703E2ABC21FB000C0F28 /* QueryFilterConstraintType.swift in Sources */,
+				7C0070102ABC1EE0000C0F28 /* AddDocumentOptions.swift in Sources */,
+				7C0070162ABC1F18000C0F28 /* DeleteDocumentOptions.swift in Sources */,
+				7C0070122ABC1F03000C0F28 /* AddDocumentResult.swift in Sources */,
+				7C0070402ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseFirestore.swift in Sources */,
+				7C0070222ABC1F4A000C0F28 /* GetDocumentResult.swift in Sources */,
+				7C0070262ABC1F62000C0F28 /* QueryEndAtConstraint.swift in Sources */,
+				7C00701C2ABC1F31000C0F28 /* GetCollectionOptions.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* FirebaseFirestorePlugin.m in Sources */,
+				7C0070342ABC1FCD000C0F28 /* SetDocumentOptions.swift in Sources */,
+				7C00701A2ABC1F29000C0F28 /* GetCollectionGroupResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

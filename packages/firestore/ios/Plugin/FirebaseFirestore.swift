@@ -1,9 +1,12 @@
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
 
 @objc public class FirebaseFirestore: NSObject {
-    private let plugin: FirebaseAuthenticationPlugin
+    private let plugin: FirebaseFirestorePlugin
+    private var listenerRegistrationMap: [String: ListenerRegistration] = [:]
 
-    init(plugin: FirebaseAuthenticationPlugin) {
+    init(plugin: FirebaseFirestorePlugin) {
         self.plugin = plugin
         super.init()
         if FirebaseApp.app() == nil {
@@ -12,23 +15,70 @@ import Foundation
     }
 
     @objc public func addDocument(_ options: AddDocumentOptions, completion: @escaping (Result?, Error?) -> Void) {
-
+        let reference = options.getReference()
+        let data = options.getData()
+        
+        var documentReference: DocumentReference? = nil
+        documentReference = Firestore.firestore().collection(reference).addDocument(data: data) { error in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                let result = AddDocumentResult(documentReference!.documentID)
+                completion(result, nil)
+            }
+        }
     }
 
     @objc public func setDocument(_ options: SetDocumentOptions, completion: @escaping (Error?) -> Void) {
-
+        let reference = options.getReference()
+        let data = options.getData()
+        let merge = options.getMerge()
+        
+        Firestore.firestore().document(reference).setData(data, merge: merge) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
     }
 
     @objc public func getDocument(_ options: GetDocumentOptions, completion: @escaping (Result?, Error?) -> Void) {
-
+        let reference = options.getReference()
+        
+        Firestore.firestore().document(reference).getDocument() { documentSnapshot, error in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                let result = GetDocumentResult(documentSnapshot!)
+                completion(result, nil)
+            }
+        }
     }
 
     @objc public func updateDocument(_ options: UpdateDocumentOptions, completion: @escaping (Error?) -> Void) {
-
+        let reference = options.getReference()
+        let data = options.getData()
+        
+        Firestore.firestore().document(reference).updateData(data) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
     }
 
     @objc public func deleteDocument(_ options: DeleteDocumentOptions, completion: @escaping (Error?) -> Void) {
-
+        let reference = options.getReference()
+        
+        Firestore.firestore().document(reference).delete() { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
     }
 
     @objc public func getCollection(_ options: GetCollectionOptions, completion: @escaping (Result?, Error?) -> Void) {
@@ -39,27 +89,61 @@ import Foundation
 
     }
 
-    @objc public func enableNetwork() {
-
+    @objc public func enableNetwork(completion: @escaping (Error?) -> Void) {
+        Firestore.firestore().enableNetwork() { error in
+            completion(error)
+        }
     }
 
-    @objc public func disableNetwork() {
-
+    @objc public func disableNetwork(completion: @escaping (Error?) -> Void) {
+        Firestore.firestore().disableNetwork() { error in
+            completion(error)
+        }
     }
 
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let reference = options.getReference()
+        let callbackId = options.getCallbackId()
 
+        let listenerRegistration = Firestore.firestore().document(reference).addSnapshotListener { documentSnapshot, error in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                let result = GetDocumentResult(documentSnapshot!)
+                completion(result, nil)
+            }
+        }
+        self.listenerRegistrationMap[callbackId] = listenerRegistration
     }
 
     @objc public func addCollectionSnapshotListener(_ options: AddCollectionSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let reference = options.getReference()
+        let callbackId = options.getCallbackId()
 
+        let listenerRegistration = Firestore.firestore().collection(reference).addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                let result = GetCollectionResult(querySnapshot!)
+                completion(result, nil)
+            }
+        }
+        self.listenerRegistrationMap[callbackId] = listenerRegistration
     }
 
     @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions) {
-
+        let callbackId = options.getCallbackId()
+            
+        if let listenerRegistration = self.listenerRegistrationMap[callbackId] {
+            listenerRegistration.remove()
+        }
+        self.listenerRegistrationMap.removeValue(forKey: callbackId)
     }
 
     @objc public func removeAllListeners() {
-
+        for listenerRegistration in self.listenerRegistrationMap.values {
+            listenerRegistration.remove()
+        }
+        self.listenerRegistrationMap.removeAll()
     }
 }
