@@ -3,5 +3,5 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces;
 import com.google.firebase.firestore.Query;
 
 public interface QueryNonFilterConstraint<T extends Query> {
-    T toQuery(T query);
+    T toQuery(T query, com.google.firebase.firestore.FirebaseFirestore firestoreInstance) throws Exception;
 }

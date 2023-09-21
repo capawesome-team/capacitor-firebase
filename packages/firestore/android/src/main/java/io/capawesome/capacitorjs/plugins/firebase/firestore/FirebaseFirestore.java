@@ -106,7 +106,7 @@ public class FirebaseFirestore {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void getCollection(@NonNull GetCollectionOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void getCollection(@NonNull GetCollectionOptions options, @NonNull NonEmptyResultCallback callback) throws Exception {
         String reference = options.getReference();
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
         QueryNonFilterConstraint<CollectionReference>[] queryConstraints = options.getQueryConstraints();
@@ -118,7 +118,7 @@ public class FirebaseFirestore {
         }
         if (queryConstraints.length > 0) {
             for (QueryNonFilterConstraint<CollectionReference> queryConstraint : queryConstraints) {
-                collectionReference = queryConstraint.toQuery(collectionReference);
+                collectionReference = queryConstraint.toQuery(collectionReference, this.firestoreInstance);
             }
         }
         collectionReference
@@ -132,7 +132,7 @@ public class FirebaseFirestore {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void getCollectionGroup(@NonNull GetCollectionGroupOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void getCollectionGroup(@NonNull GetCollectionGroupOptions options, @NonNull NonEmptyResultCallback callback) throws Exception {
         String reference = options.getReference();
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
         QueryNonFilterConstraint<Query>[] queryConstraints = options.getQueryConstraints();
@@ -144,7 +144,7 @@ public class FirebaseFirestore {
         }
         if (queryConstraints.length > 0) {
             for (QueryNonFilterConstraint<Query> queryConstraint : queryConstraints) {
-                query = queryConstraint.toQuery(query);
+                query = queryConstraint.toQuery(query, this.firestoreInstance);
             }
         }
         query
