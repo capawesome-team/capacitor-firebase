@@ -2,23 +2,24 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
 import org.json.JSONException;
 
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
-
 public class GetCollectionOptions {
+
     @NonNull
     private String reference;
+
     @Nullable
     private QueryCompositeFilterConstraint compositeFilter;
+
     @NonNull
     private QueryNonFilterConstraint[] queryConstraints;
 
-    public GetCollectionOptions(String reference, @Nullable JSObject compositeFilter, @Nullable JSArray queryConstraints) throws JSONException {
+    public GetCollectionOptions(String reference, @Nullable JSObject compositeFilter, @Nullable JSArray queryConstraints)
+        throws JSONException {
         this.reference = reference;
         if (compositeFilter == null) {
             this.compositeFilter = null;

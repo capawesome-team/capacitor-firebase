@@ -2,19 +2,19 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
-
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
 import org.json.JSONException;
 
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
-
 public class QueryFieldFilterConstraint implements QueryFilterConstraint {
+
     @NonNull
     private String fieldPath;
+
     @NonNull
     private String opStr;
+
     @NonNull
     private Object value;
 

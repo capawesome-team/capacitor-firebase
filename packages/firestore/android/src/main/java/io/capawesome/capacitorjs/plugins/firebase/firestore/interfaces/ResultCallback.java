@@ -5,5 +5,3 @@ import androidx.annotation.NonNull;
 public interface ResultCallback {
     void error(Exception exception);
 }
-
-

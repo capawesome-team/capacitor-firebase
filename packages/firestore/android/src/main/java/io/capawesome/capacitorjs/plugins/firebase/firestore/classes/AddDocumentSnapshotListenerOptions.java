@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 public class AddDocumentSnapshotListenerOptions {
+
     private String reference;
     private String callbackId;
 

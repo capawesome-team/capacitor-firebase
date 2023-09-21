@@ -1,10 +1,10 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import com.getcapacitor.JSObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
 
 public class AddDocumentResult implements Result {
+
     private String id;
 
     public AddDocumentResult(String id) {

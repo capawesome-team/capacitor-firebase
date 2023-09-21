@@ -2,19 +2,18 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
-
+import io.capawesome.capacitorjs.plugins.firebase.firestore.enums.QueryCompositeFilterConstraintType;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import io.capawesome.capacitorjs.plugins.firebase.firestore.enums.QueryCompositeFilterConstraintType;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
-
 public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
+
     @NonNull
     private QueryCompositeFilterConstraintType type;
+
     @NonNull
     private QueryFilterConstraint[] queryConstraints;
 
@@ -63,4 +62,3 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
         return filter;
     }
 }
-

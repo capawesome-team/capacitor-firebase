@@ -1,13 +1,12 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
 import com.getcapacitor.JSObject;
-
-import org.json.JSONException;
-
 import java.util.HashMap;
 import java.util.Iterator;
+import org.json.JSONException;
 
 public class FirebaseFirestoreHelper {
+
     public static HashMap<String, Object> createHashMapFromJSObject(JSObject object) throws JSONException {
         HashMap<String, Object> map = new HashMap<>();
         Iterator<String> keys = object.keys();

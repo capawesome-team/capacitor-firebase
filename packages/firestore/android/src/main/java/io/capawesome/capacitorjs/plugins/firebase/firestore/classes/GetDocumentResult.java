@@ -2,10 +2,10 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentSnapshot;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
 
 public class GetDocumentResult implements Result {
+
     private DocumentSnapshot documentSnapshot;
 
     public GetDocumentResult(DocumentSnapshot documentSnapshot) {

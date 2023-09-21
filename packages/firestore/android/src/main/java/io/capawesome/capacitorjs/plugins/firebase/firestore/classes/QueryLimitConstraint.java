@@ -1,12 +1,11 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import com.getcapacitor.JSObject;
-
+import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
 import org.json.JSONException;
 
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
-
 public class QueryLimitConstraint implements QueryNonFilterConstraint {
+
     private int limit;
 
     public QueryLimitConstraint(JSObject queryConstraint) throws JSONException {

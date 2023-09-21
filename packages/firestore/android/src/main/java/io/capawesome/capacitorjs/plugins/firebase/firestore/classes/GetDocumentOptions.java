@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 public class GetDocumentOptions {
+
     private String reference;
 
     public GetDocumentOptions(String reference) {

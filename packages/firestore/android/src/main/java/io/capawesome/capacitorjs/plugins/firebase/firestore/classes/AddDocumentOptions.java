@@ -1,14 +1,12 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
 
 import com.getcapacitor.JSObject;
-
+import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
+import java.util.Map;
 import org.json.JSONException;
 
-import java.util.Map;
-
-import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
-
 public class AddDocumentOptions {
+
     private String reference;
     private Map<String, Object> data;
 

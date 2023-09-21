@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
@@ -9,7 +8,6 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.AddDocumentSnapshotListenerOptions;
