@@ -1,4 +1,4 @@
-package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
+package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

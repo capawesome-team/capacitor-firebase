@@ -1,4 +1,4 @@
-package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
+package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;

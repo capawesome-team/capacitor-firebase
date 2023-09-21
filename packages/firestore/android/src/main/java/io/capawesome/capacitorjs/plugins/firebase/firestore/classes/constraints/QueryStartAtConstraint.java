@@ -1,13 +1,13 @@
-package io.capawesome.capacitorjs.plugins.firebase.firestore.classes;
+package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints;
 
 import com.getcapacitor.JSObject;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
 
-public class QueryEndAtConstraint implements QueryNonFilterConstraint {
+public class QueryStartAtConstraint implements QueryNonFilterConstraint {
 
     private String reference;
 
-    public QueryEndAtConstraint(JSObject queryConstraint) {
+    public QueryStartAtConstraint(JSObject queryConstraint) {
         this.reference = queryConstraint.getString("reference");
     }
 
