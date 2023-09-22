@@ -1,15 +1,27 @@
 import Foundation
+import FirebaseFirestore
 import Capacitor
 
 @objc public class GetCollectionGroupResult: NSObject, Result {
-    let id: String
+    let querySnapshot: QuerySnapshot
 
-    init(_ id: String) {
-        self.id = id
+    init(_ querySnapshot: QuerySnapshot) {
+        self.querySnapshot = querySnapshot
     }
-    func toJSObject() -> AnyObject {
+    
+    public func toJSObject() -> AnyObject {
+        var snapshotsResult = JSArray()
+        for documentSnapshot in querySnapshot.documents {
+            let documentSnapshotData = documentSnapshot.data()
+            var snapshotResult = JSObject()
+            snapshotResult["id"] = documentSnapshot.documentID
+            snapshotResult["path"] = documentSnapshot.reference.path
+            snapshotResult["data"] = FirebaseFirestoreHelper.createJSObjectFromHashMap(documentSnapshotData)
+            snapshotsResult.append(snapshotResult)
+        }
+        
         var result = JSObject()
-        result["id"] = self.id
+        result["snapshots"] = snapshotsResult
         return result as AnyObject
     }
 }

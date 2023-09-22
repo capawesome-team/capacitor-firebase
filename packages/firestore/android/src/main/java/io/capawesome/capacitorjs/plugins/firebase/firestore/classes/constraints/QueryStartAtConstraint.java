@@ -22,7 +22,6 @@ public class QueryStartAtConstraint implements QueryNonFilterConstraint {
         return reference;
     }
 
-
     public Query toQuery(Query query, com.google.firebase.firestore.FirebaseFirestore firestoreInstance) throws Exception {
         Task<DocumentSnapshot> task = firestoreInstance.document(reference).get();
         DocumentSnapshot documentSnapshot = Tasks.await(task);

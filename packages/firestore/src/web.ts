@@ -20,6 +20,7 @@ import {
   getDocs,
   getFirestore,
   limit,
+  limitToLast,
   onSnapshot,
   or,
   orderBy,
@@ -331,7 +332,7 @@ export class FirebaseFirestoreWeb
       case 'limit':
         return limit(queryConstraints.limit);
       case 'limitToLast':
-        return limit(queryConstraints.limit);
+        return limitToLast(queryConstraints.limit);
       case 'startAt':
       case 'startAfter':
       case 'endAt':

@@ -8,9 +8,11 @@ import org.json.JSONException;
 
 public class QueryLimitConstraint implements QueryNonFilterConstraint {
 
+    private String type;
     private int limit;
 
     public QueryLimitConstraint(JSObject queryConstraint) throws JSONException {
+        this.type = queryConstraint.getString("type");
         this.limit = queryConstraint.getInt("limit");
     }
 
@@ -19,6 +21,10 @@ public class QueryLimitConstraint implements QueryNonFilterConstraint {
     }
 
     public Query toQuery(Query query, com.google.firebase.firestore.FirebaseFirestore firestoreInstance) {
-        return query.limit(limit);
+        if (type.equals("limit")) {
+            return query.limit(limit);
+        } else {
+            return query.limitToLast(limit);
+        }
     }
 }

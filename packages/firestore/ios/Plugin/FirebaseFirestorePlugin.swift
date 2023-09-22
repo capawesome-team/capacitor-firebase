@@ -50,8 +50,9 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorDataMissing)
             return
         }
+        let merge = call.getBool("merge", false)
 
-        let options = SetDocumentOptions(reference: reference, data: data)
+        let options = SetDocumentOptions(reference: reference, data: data, merge: merge)
 
         implementation?.setDocument(options, completion: { error in
             if let error = error {
@@ -131,7 +132,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
 
-        let options = GetCollectionOptions(reference: reference)
+        let options = GetCollectionOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints)
 
         implementation?.getCollection(options, completion: { result, error in
             if let error = error {
@@ -146,14 +147,14 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     }
 
     @objc func getCollectionGroup(_ call: CAPPluginCall) {
-        guard let collectionId = call.getString("collectionId") else {
+        guard let reference = call.getString("reference") else {
             call.reject("collectionId must be provided.")
             return
         }
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
 
-        let options = GetCollectionGroupOptions(collectionId: collectionId)
+        let options = GetCollectionGroupOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints)
 
         implementation?.getCollectionGroup(options, completion: { result, error in
             if let error = error {
@@ -194,8 +195,12 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorReferenceMissing)
             return
         }
+        guard let callbackId = call.callbackId else {
+            call.reject(errorCallbackIdMissing)
+            return
+        }
 
-        let options = AddDocumentSnapshotListenerOptions(reference: reference)
+        let options = AddDocumentSnapshotListenerOptions(reference: reference, callbackId: callbackId)
 
         implementation?.addDocumentSnapshotListener(options, completion: { result, error in
             if let error = error {
@@ -214,8 +219,12 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorReferenceMissing)
             return
         }
+        guard let callbackId = call.callbackId else {
+            call.reject(errorCallbackIdMissing)
+            return
+        }
 
-        let options = AddCollectionSnapshotListenerOptions(reference: reference)
+        let options = AddCollectionSnapshotListenerOptions(reference: reference, callbackId: callbackId)
 
         implementation?.addCollectionSnapshotListener(options, completion: { result, error in
             if let error = error {
@@ -235,24 +244,14 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             return
         }
 
-        let options = RemoveSnapshotListenerOptions(listenerId: listenerId)
+        let options = RemoveSnapshotListenerOptions(callbackId: callbackId)
 
-        implementation?.removeSnapshotListener(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-            }
-            call.resolve()
-        })
+        implementation?.removeSnapshotListener(options)
+        call.resolve()
     }
 
-    @objc func removeAllListeners(_ call: CAPPluginCall) {
-        implementation?.removeAllListeners(completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-            }
-            call.resolve()
-        })
+    @objc public override func removeAllListeners(_ call: CAPPluginCall) {
+        implementation?.removeAllListeners()
+        call.resolve()
     }
 }

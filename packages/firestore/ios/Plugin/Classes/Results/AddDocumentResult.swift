@@ -7,7 +7,8 @@ import Capacitor
     init(_ id: String) {
         self.id = id
     }
-    func toJSObject() -> AnyObject {
+    
+    public func toJSObject() -> AnyObject {
         var result = JSObject()
         result["id"] = self.id
         return result as AnyObject
