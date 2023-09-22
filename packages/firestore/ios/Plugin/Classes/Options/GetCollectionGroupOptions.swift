@@ -5,8 +5,8 @@ import Capacitor
     private var reference: String
     private var compositeFilter: QueryCompositeFilterConstraint?
     private var queryConstraints: [QueryNonFilterConstraint]
-    
-    init(reference: String, compositeFilter: JSObject?, queryConstraints: Array<JSObject>?) {
+
+    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?) {
         self.reference = reference
         if let compositeFilter = compositeFilter {
             self.compositeFilter = QueryCompositeFilterConstraint(compositeFilter)
@@ -35,22 +35,22 @@ import Capacitor
                     self.queryConstraints.append(queryEndAtConstraint)
                     break
                 default:
-                    break;
+                    break
                 }
             }
         } else {
             self.queryConstraints = []
         }
     }
-    
+
     func getReference() -> String {
         return reference
     }
-    
+
     func getCompositeFilter() -> QueryCompositeFilterConstraint? {
         return compositeFilter
     }
-    
+
     func getQueryConstraints() -> [QueryNonFilterConstraint] {
         return queryConstraints
     }

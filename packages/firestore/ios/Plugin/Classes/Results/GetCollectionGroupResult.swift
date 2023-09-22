@@ -8,7 +8,7 @@ import Capacitor
     init(_ querySnapshot: QuerySnapshot) {
         self.querySnapshot = querySnapshot
     }
-    
+
     public func toJSObject() -> AnyObject {
         var snapshotsResult = JSArray()
         for documentSnapshot in querySnapshot.documents {
@@ -19,7 +19,7 @@ import Capacitor
             snapshotResult["data"] = FirebaseFirestoreHelper.createJSObjectFromHashMap(documentSnapshotData)
             snapshotsResult.append(snapshotResult)
         }
-        
+
         var result = JSObject()
         result["snapshots"] = snapshotsResult
         return result as AnyObject

@@ -17,8 +17,8 @@ import FirebaseFirestore
     @objc public func addDocument(_ options: AddDocumentOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
         let data = options.getData()
-        
-        var documentReference: DocumentReference? = nil
+
+        var documentReference: DocumentReference?
         documentReference = Firestore.firestore().collection(reference).addDocument(data: data) { error in
             if let error = error {
                 completion(nil, error)
@@ -33,7 +33,7 @@ import FirebaseFirestore
         let reference = options.getReference()
         let data = options.getData()
         let merge = options.getMerge()
-        
+
         Firestore.firestore().document(reference).setData(data, merge: merge) { error in
             if let error = error {
                 completion(error)
@@ -45,8 +45,8 @@ import FirebaseFirestore
 
     @objc public func getDocument(_ options: GetDocumentOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
-        
-        Firestore.firestore().document(reference).getDocument() { documentSnapshot, error in
+
+        Firestore.firestore().document(reference).getDocument { documentSnapshot, error in
             if let error = error {
                 completion(nil, error)
             } else {
@@ -59,7 +59,7 @@ import FirebaseFirestore
     @objc public func updateDocument(_ options: UpdateDocumentOptions, completion: @escaping (Error?) -> Void) {
         let reference = options.getReference()
         let data = options.getData()
-        
+
         Firestore.firestore().document(reference).updateData(data) { error in
             if let error = error {
                 completion(error)
@@ -71,8 +71,8 @@ import FirebaseFirestore
 
     @objc public func deleteDocument(_ options: DeleteDocumentOptions, completion: @escaping (Error?) -> Void) {
         let reference = options.getReference()
-        
-        Firestore.firestore().document(reference).delete() { error in
+
+        Firestore.firestore().document(reference).delete { error in
             if let error = error {
                 completion(error)
             } else {
@@ -90,13 +90,13 @@ import FirebaseFirestore
     }
 
     @objc public func enableNetwork(completion: @escaping (Error?) -> Void) {
-        Firestore.firestore().enableNetwork() { error in
+        Firestore.firestore().enableNetwork { error in
             completion(error)
         }
     }
 
     @objc public func disableNetwork(completion: @escaping (Error?) -> Void) {
-        Firestore.firestore().disableNetwork() { error in
+        Firestore.firestore().disableNetwork { error in
             completion(error)
         }
     }
@@ -133,7 +133,7 @@ import FirebaseFirestore
 
     @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions) {
         let callbackId = options.getCallbackId()
-            
+
         if let listenerRegistration = self.listenerRegistrationMap[callbackId] {
             listenerRegistration.remove()
         }

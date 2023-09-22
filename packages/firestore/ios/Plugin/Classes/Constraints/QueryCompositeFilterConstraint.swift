@@ -4,12 +4,12 @@ import Capacitor
 
 @objc public class QueryCompositeFilterConstraint: NSObject, QueryFilterConstraint {
     private var type: QueryCompositeFilterConstraintType
-        
+
     private var queryConstraints: [QueryFilterConstraint]
-    
+
     public init(_ compositeFilter: JSObject) {
         self.type = QueryCompositeFilterConstraintType(rawValue: compositeFilter["type"] as! String)!
-        let queryConstraints = compositeFilter["queryConstraints"] as! Array<JSObject>
+        let queryConstraints = compositeFilter["queryConstraints"] as! [JSObject]
         self.queryConstraints = []
         for queryConstraint in queryConstraints {
             let queryConstraintType = queryConstraint["type"] as! String
@@ -22,15 +22,15 @@ import Capacitor
             }
         }
     }
-    
+
     public func getType() -> QueryCompositeFilterConstraintType {
         return type
     }
-    
+
     public func getConstraints() -> [QueryFilterConstraint] {
         return queryConstraints
     }
-    
+
     public func toFilter() -> Filter? {
         var filters: [Filter] = []
         for constraint in queryConstraints {

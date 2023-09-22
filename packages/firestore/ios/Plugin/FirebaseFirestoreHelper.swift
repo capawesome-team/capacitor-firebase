@@ -11,7 +11,7 @@ public class FirebaseFirestoreHelper {
         }
         return map
     }
-    
+
     public static func createJSObjectFromHashMap(_ map: [String: Any]?) -> JSObject? {
         guard let map = map else {
             return nil
@@ -22,7 +22,7 @@ public class FirebaseFirestoreHelper {
         }
         return object
     }
-    
+
     private static func createJSValue(value: Any?) -> JSValue? {
         guard let value = value else {
             return nil

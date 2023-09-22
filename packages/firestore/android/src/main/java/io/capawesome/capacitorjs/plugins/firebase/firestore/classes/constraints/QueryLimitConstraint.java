@@ -2,7 +2,6 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints
 
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Query;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
 import org.json.JSONException;
 

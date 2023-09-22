@@ -250,7 +250,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         call.resolve()
     }
 
-    @objc public override func removeAllListeners(_ call: CAPPluginCall) {
+    @objc override public func removeAllListeners(_ call: CAPPluginCall) {
         implementation?.removeAllListeners()
         call.resolve()
     }
