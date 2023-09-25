@@ -1,4 +1,5 @@
 import Foundation
+import FirebaseFirestore
 import Capacitor
 
 public class FirebaseFirestoreHelper {
@@ -40,7 +41,7 @@ public class FirebaseFirestoreHelper {
                 case "orderBy":
                     let queryOrderByConstraint = QueryOrderByConstraint(queryConstraint)
                     queryNonFilterConstraint.append(queryOrderByConstraint)
-                case "limit":
+                case "limit", "limitToLast":
                     let queryLimitConstraint = QueryLimitConstraint(queryConstraint)
                     queryNonFilterConstraint.append(queryLimitConstraint)
                 case "startAt", "startAfter":
@@ -57,6 +58,27 @@ public class FirebaseFirestoreHelper {
         } else {
             return []
         }
+    }
+    
+    // async await is not supported by Capacitor
+    public static func appendQueryNonFilterConstraintsToQuery(query: Query, queryConstraints: [QueryNonFilterConstraint], completion: @escaping (Query, Error?) -> Void) {
+        FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, error: nil, completion: completion)
+    }
+    
+    private static func appendQueryNonFilterConstraintsToQuery(query: Query, queryConstraints: [QueryNonFilterConstraint], error: Error?, completion: @escaping (Query, Error?) -> Void) {
+        if let error = error {
+            completion(query, error)
+            return
+        }
+        guard let queryConstraint = queryConstraints.first else {
+            completion(query, nil)
+            return
+        }
+        queryConstraint.toQuery(query, completion: { newQuery, newError in
+            var newQueryConstraints = queryConstraints
+            newQueryConstraints.removeFirst()
+            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: newQuery, queryConstraints: newQueryConstraints, error: newError, completion: completion)
+        })
     }
 
     private static func createJSValue(value: Any?) -> JSValue? {

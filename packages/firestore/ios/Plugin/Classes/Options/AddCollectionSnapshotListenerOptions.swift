@@ -17,6 +17,14 @@ import Capacitor
     func getReference() -> String {
         return reference
     }
+    
+    func getCompositeFilter() -> QueryCompositeFilterConstraint? {
+        return compositeFilter
+    }
+    
+    func getQueryConstraints() -> [QueryNonFilterConstraint] {
+        return queryConstraints
+    }
 
     func getCallbackId() -> String {
         return callbackId

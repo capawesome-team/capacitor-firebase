@@ -11,12 +11,14 @@ import Capacitor
         self.limit = queryConstraint["limit"] as! Int
     }
 
-    public func toQuery(query: Query) async throws -> Query {
+    public func toQuery(_ query: Query, completion: @escaping (Query, Error?) -> Void) {
+        var newQuery: Query
         switch self.type {
         case "limit":
-            return query.limit(to: self.limit)
+            newQuery = query.limit(to: self.limit)
         default:
-            return query.limit(toLast: self.limit)
+            newQuery = query.limit(toLast: self.limit)
         }
+        completion(newQuery, nil)
     }
 }

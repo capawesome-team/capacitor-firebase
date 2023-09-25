@@ -82,11 +82,81 @@ import FirebaseFirestore
     }
 
     @objc public func getCollection(_ options: GetCollectionOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let reference = options.getReference()
+        let compositeFilter = options.getCompositeFilter()
+        let queryConstraints = options.getQueryConstraints()
 
+        let collectionReference = Firestore.firestore().collection(reference)
+        var query = collectionReference as Query
+        if let compositeFilter = compositeFilter {
+            if let filter = compositeFilter.toFilter() {
+                query.whereFilter(filter)
+            }
+        }
+        let dispatchGroup = DispatchGroup()
+        var error: Error?
+        if !queryConstraints.isEmpty {
+            dispatchGroup.enter()
+            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, completion: { newQuery, newError in
+                query = newQuery
+                error = newError
+                dispatchGroup.leave()
+            })
+        }
+        if let error = error {
+            completion(nil, error)
+            return
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            query.getDocuments() { querySnapshot, error in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    let result = GetCollectionResult(querySnapshot!)
+                    completion(result, nil)
+                }
+            }
+        }
     }
 
     @objc public func getCollectionGroup(_ options: GetCollectionGroupOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let reference = options.getReference()
+        let compositeFilter = options.getCompositeFilter()
+        let queryConstraints = options.getQueryConstraints()
 
+        let collectionReference = Firestore.firestore().collectionGroup(reference)
+        var query = collectionReference as Query
+        if let compositeFilter = compositeFilter {
+            if let filter = compositeFilter.toFilter() {
+                query.whereFilter(filter)
+            }
+        }
+        let dispatchGroup = DispatchGroup()
+        var error: Error?
+        if !queryConstraints.isEmpty {
+            dispatchGroup.enter()
+            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, completion: { newQuery, newError in
+                query = newQuery
+                error = newError
+                dispatchGroup.leave()
+            })
+        }
+        if let error = error {
+            completion(nil, error)
+            return
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            query.getDocuments() { querySnapshot, error in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    let result = GetCollectionResult(querySnapshot!)
+                    completion(result, nil)
+                }
+            }
+        }
     }
 
     @objc public func enableNetwork(completion: @escaping (Error?) -> Void) {
@@ -118,17 +188,43 @@ import FirebaseFirestore
 
     @objc public func addCollectionSnapshotListener(_ options: AddCollectionSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
+        let compositeFilter = options.getCompositeFilter()
+        let queryConstraints = options.getQueryConstraints()
         let callbackId = options.getCallbackId()
 
-        let listenerRegistration = Firestore.firestore().collection(reference).addSnapshotListener { querySnapshot, error in
-            if let error = error {
-                completion(nil, error)
-            } else {
-                let result = GetCollectionResult(querySnapshot!)
-                completion(result, nil)
+        let collectionReference = Firestore.firestore().collection(reference)
+        var query = collectionReference as Query
+        if let compositeFilter = compositeFilter {
+            if let filter = compositeFilter.toFilter() {
+                query.whereFilter(filter)
             }
         }
-        self.listenerRegistrationMap[callbackId] = listenerRegistration
+        let dispatchGroup = DispatchGroup()
+        var error: Error?
+        if !queryConstraints.isEmpty {
+            dispatchGroup.enter()
+            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, completion: { newQuery, newError in
+                query = newQuery
+                error = newError
+                dispatchGroup.leave()
+            })
+        }
+        if let error = error {
+            completion(nil, error)
+            return
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    let result = GetCollectionResult(querySnapshot!)
+                    completion(result, nil)
+                }
+            }
+            self.listenerRegistrationMap[callbackId] = listenerRegistration
+        }
     }
 
     @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions) {

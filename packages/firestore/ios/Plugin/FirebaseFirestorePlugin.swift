@@ -237,16 +237,21 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
         let options = AddCollectionSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, callbackId: callbackId)
 
-        implementation?.addCollectionSnapshotListener(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
+        do {
+            implementation?.addCollectionSnapshotListener(options, completion: { result, error in
+                if let error = error {
+                    CAPLog.print("[", self.tag, "] ", error)
+                    call.reject(error.localizedDescription)
+                    return
+                }
+                if let result = result?.toJSObject() as? JSObject {
+                    call.resolve(result)
+                }
+            })
+        } catch {
+            CAPLog.print("[", self.tag, "] ", error)
+            call.reject(error.localizedDescription)
+        }
     }
 
     @objc func removeSnapshotListener(_ call: CAPPluginCall) {
