@@ -7,8 +7,8 @@ import Capacitor
     private var reference: String
 
     public init(_ queryConstraint: JSObject) {
-        self.type = queryConstraint["type"] as! String
-        self.reference = queryConstraint["reference"] as! String
+        self.type = queryConstraint["type"] as? String ?? ""
+        self.reference = queryConstraint["reference"] as? String ?? ""
     }
 
     public func toQuery(query: Query) async throws -> Query {

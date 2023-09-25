@@ -36,7 +36,7 @@ public class FirebaseFirestoreHelper {
         if let queryConstraints = queryConstraints {
             var queryNonFilterConstraint: [QueryNonFilterConstraint] = []
             for queryConstraint in queryConstraints {
-                let queryConstraintType = queryConstraint["type"] as! String
+                let queryConstraintType = queryConstraint["type"] as? String
                 switch queryConstraintType {
                 case "orderBy":
                     let queryOrderByConstraint = QueryOrderByConstraint(queryConstraint)

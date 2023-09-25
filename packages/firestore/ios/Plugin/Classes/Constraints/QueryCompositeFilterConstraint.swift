@@ -4,21 +4,22 @@ import Capacitor
 
 @objc public class QueryCompositeFilterConstraint: NSObject, QueryFilterConstraint {
     private var type: String
-
     private var queryConstraints: [QueryFilterConstraint]
 
     public init(_ compositeFilter: JSObject) {
-        self.type = compositeFilter["type"] as! String
-        let queryConstraints = compositeFilter["queryConstraints"] as! [JSObject]
+        self.type = compositeFilter["type"] as? String ?? ""
+        let queryConstraints = compositeFilter["queryConstraints"] as? [JSObject]
         self.queryConstraints = []
-        for queryConstraint in queryConstraints {
-            let queryConstraintType = queryConstraint["type"] as! String
-            if queryConstraintType == "where" {
-                let queryFieldFilterConstraint = QueryFieldFilterConstraint(queryConstraint)
-                self.queryConstraints.append(queryFieldFilterConstraint)
-            } else {
-                let queryCompositeFilterConstraint = QueryCompositeFilterConstraint(queryConstraint)
-                self.queryConstraints.append(queryCompositeFilterConstraint)
+        if let queryConstraints = queryConstraints {
+            for queryConstraint in queryConstraints {
+                let queryConstraintType = queryConstraint["type"] as? String ?? ""
+                if queryConstraintType == "where" {
+                    let queryFieldFilterConstraint = QueryFieldFilterConstraint(queryConstraint)
+                    self.queryConstraints.append(queryFieldFilterConstraint)
+                } else {
+                    let queryCompositeFilterConstraint = QueryCompositeFilterConstraint(queryConstraint)
+                    self.queryConstraints.append(queryCompositeFilterConstraint)
+                }
             }
         }
     }

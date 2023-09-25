@@ -7,8 +7,8 @@ import Capacitor
     private var limit: Int
 
     public init(_ queryConstraint: JSObject) {
-        self.type = queryConstraint["type"] as! String
-        self.limit = queryConstraint["limit"] as! Int
+        self.type = queryConstraint["type"] as? String ?? ""
+        self.limit = queryConstraint["limit"] as? Int ?? 0
     }
 
     public func toQuery(query: Query) async throws -> Query {

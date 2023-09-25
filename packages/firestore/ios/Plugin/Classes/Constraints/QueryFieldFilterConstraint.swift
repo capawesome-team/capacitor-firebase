@@ -8,8 +8,8 @@ import FirebaseFirestore
     private var value: AnyObject
 
     public init(_ queryConstraint: JSObject) {
-        self.fieldPath = queryConstraint["fieldPath"] as! String
-        self.opStr = queryConstraint["opStr"] as! String
+        self.fieldPath = queryConstraint["fieldPath"] as? String ?? ""
+        self.opStr = queryConstraint["opStr"] as? String ?? ""
         self.value = queryConstraint["value"] as AnyObject
     }
 
