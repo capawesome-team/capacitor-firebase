@@ -86,36 +86,26 @@ import FirebaseFirestore
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
 
-        let collectionReference = Firestore.firestore().collection(reference)
-        var query = collectionReference as Query
-        if let compositeFilter = compositeFilter {
-            if let filter = compositeFilter.toFilter() {
-                query.whereFilter(filter)
-            }
-        }
-        let dispatchGroup = DispatchGroup()
-        var error: Error?
-        if !queryConstraints.isEmpty {
-            dispatchGroup.enter()
-            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, completion: { newQuery, newError in
-                query = newQuery
-                error = newError
-                dispatchGroup.leave()
-            })
-        }
-        if let error = error {
-            completion(nil, error)
-            return
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            query.getDocuments { querySnapshot, error in
-                if let error = error {
-                    completion(nil, error)
-                } else {
-                    let result = GetCollectionResult(querySnapshot!)
-                    completion(result, nil)
+        Task {
+            do {
+                let collectionReference = Firestore.firestore().collection(reference)
+                var query = collectionReference as Query
+                if let compositeFilter = compositeFilter {
+                    if let filter = compositeFilter.toFilter() {
+                        query.whereFilter(filter)
+                    }
                 }
+                if !queryConstraints.isEmpty {
+                    for queryConstraint in queryConstraints {
+                        query = try await queryConstraint.toQuery(query: query)
+                    }
+                }
+
+                let querySnapshot = try await query.getDocuments()
+                let result = GetCollectionResult(querySnapshot)
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
             }
         }
     }
@@ -125,36 +115,26 @@ import FirebaseFirestore
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
 
-        let collectionReference = Firestore.firestore().collectionGroup(reference)
-        var query = collectionReference as Query
-        if let compositeFilter = compositeFilter {
-            if let filter = compositeFilter.toFilter() {
-                query.whereFilter(filter)
-            }
-        }
-        let dispatchGroup = DispatchGroup()
-        var error: Error?
-        if !queryConstraints.isEmpty {
-            dispatchGroup.enter()
-            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, completion: { newQuery, newError in
-                query = newQuery
-                error = newError
-                dispatchGroup.leave()
-            })
-        }
-        if let error = error {
-            completion(nil, error)
-            return
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            query.getDocuments { querySnapshot, error in
-                if let error = error {
-                    completion(nil, error)
-                } else {
-                    let result = GetCollectionResult(querySnapshot!)
-                    completion(result, nil)
+        Task {
+            do {
+                let collectionReference = Firestore.firestore().collectionGroup(reference)
+                var query = collectionReference as Query
+                if let compositeFilter = compositeFilter {
+                    if let filter = compositeFilter.toFilter() {
+                        query.whereFilter(filter)
+                    }
                 }
+                if !queryConstraints.isEmpty {
+                    for queryConstraint in queryConstraints {
+                        query = try await queryConstraint.toQuery(query: query)
+                    }
+                }
+
+                let querySnapshot = try await query.getDocuments()
+                let result = GetCollectionResult(querySnapshot)
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
             }
         }
     }
@@ -192,38 +172,33 @@ import FirebaseFirestore
         let queryConstraints = options.getQueryConstraints()
         let callbackId = options.getCallbackId()
 
-        let collectionReference = Firestore.firestore().collection(reference)
-        var query = collectionReference as Query
-        if let compositeFilter = compositeFilter {
-            if let filter = compositeFilter.toFilter() {
-                query.whereFilter(filter)
-            }
-        }
-        let dispatchGroup = DispatchGroup()
-        var error: Error?
-        if !queryConstraints.isEmpty {
-            dispatchGroup.enter()
-            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, completion: { newQuery, newError in
-                query = newQuery
-                error = newError
-                dispatchGroup.leave()
-            })
-        }
-        if let error = error {
-            completion(nil, error)
-            return
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
-                if let error = error {
-                    completion(nil, error)
-                } else {
-                    let result = GetCollectionResult(querySnapshot!)
-                    completion(result, nil)
+        Task {
+            do {
+                let collectionReference = Firestore.firestore().collection(reference)
+                var query = collectionReference as Query
+                if let compositeFilter = compositeFilter {
+                    if let filter = compositeFilter.toFilter() {
+                        query.whereFilter(filter)
+                    }
                 }
+                if !queryConstraints.isEmpty {
+                    for queryConstraint in queryConstraints {
+                        query = try await queryConstraint.toQuery(query: query)
+                    }
+                }
+
+                let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+                    if let error = error {
+                        completion(nil, error)
+                    } else {
+                        let result = GetCollectionResult(querySnapshot!)
+                        completion(result, nil)
+                    }
+                }
+                self.listenerRegistrationMap[callbackId] = listenerRegistration
+            } catch {
+                completion(nil, error)
             }
-            self.listenerRegistrationMap[callbackId] = listenerRegistration
         }
     }
 

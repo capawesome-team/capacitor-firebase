@@ -11,8 +11,7 @@ import Capacitor
         self.directionStr = queryConstraint["directionStr"] as! String
     }
 
-    public func toQuery(_ query: Query, completion: @escaping (Query, Error?) -> Void) {
-        let newQuery = query.order(by: self.fieldPath, descending: self.directionStr == "desc" ? true : false)
-        completion(newQuery, nil)
+    public func toQuery(query: Query) async throws -> Query {
+        return query.order(by: self.fieldPath, descending: self.directionStr == "desc" ? true : false)
     }
 }

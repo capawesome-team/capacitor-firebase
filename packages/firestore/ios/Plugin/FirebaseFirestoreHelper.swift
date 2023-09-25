@@ -60,27 +60,6 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    // async await is not supported by Capacitor
-    public static func appendQueryNonFilterConstraintsToQuery(query: Query, queryConstraints: [QueryNonFilterConstraint], completion: @escaping (Query, Error?) -> Void) {
-        FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, error: nil, completion: completion)
-    }
-
-    private static func appendQueryNonFilterConstraintsToQuery(query: Query, queryConstraints: [QueryNonFilterConstraint], error: Error?, completion: @escaping (Query, Error?) -> Void) {
-        if let error = error {
-            completion(query, error)
-            return
-        }
-        guard let queryConstraint = queryConstraints.first else {
-            completion(query, nil)
-            return
-        }
-        queryConstraint.toQuery(query, completion: { newQuery, newError in
-            var newQueryConstraints = queryConstraints
-            newQueryConstraints.removeFirst()
-            FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: newQuery, queryConstraints: newQueryConstraints, error: newError, completion: completion)
-        })
-    }
-
     private static func createJSValue(value: Any?) -> JSValue? {
         guard let value = value else {
             return nil

@@ -11,20 +11,13 @@ import Capacitor
         self.reference = queryConstraint["reference"] as! String
     }
 
-    public func toQuery(_ query: Query, completion: @escaping (Query, Error?) -> Void) {
-        Firestore.firestore().document(reference).getDocument { documentSnapshot, error in
-            if let error = error {
-                completion(query, error)
-            } else {
-                var newQuery: Query
-                switch self.type {
-                case "endAt":
-                    newQuery = query.end(atDocument: documentSnapshot!)
-                default:
-                    newQuery = query.end(beforeDocument: documentSnapshot!)
-                }
-                completion(newQuery, nil)
-            }
+    public func toQuery(query: Query) async throws -> Query {
+        let documentSnapshot = try await Firestore.firestore().document(reference).getDocument()
+        switch self.type {
+        case "endAt":
+            return query.end(atDocument: documentSnapshot)
+        default:
+            return query.end(beforeDocument: documentSnapshot)
         }
     }
 }
