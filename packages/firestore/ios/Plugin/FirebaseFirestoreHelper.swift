@@ -23,7 +23,7 @@ public class FirebaseFirestoreHelper {
         }
         return object
     }
-    
+
     public static func createQueryCompositeFilterConstraintFromJSObject(_ compositeFilter: JSObject?) -> QueryCompositeFilterConstraint? {
         if let compositeFilter = compositeFilter {
             return QueryCompositeFilterConstraint(compositeFilter)
@@ -31,7 +31,7 @@ public class FirebaseFirestoreHelper {
             return nil
         }
     }
-    
+
     public static func createQueryNonFilterConstraintArrayFromJSArray(_ queryConstraints: [JSObject]?) -> [QueryNonFilterConstraint] {
         if let queryConstraints = queryConstraints {
             var queryNonFilterConstraint: [QueryNonFilterConstraint] = []
@@ -59,12 +59,12 @@ public class FirebaseFirestoreHelper {
             return []
         }
     }
-    
+
     // async await is not supported by Capacitor
     public static func appendQueryNonFilterConstraintsToQuery(query: Query, queryConstraints: [QueryNonFilterConstraint], completion: @escaping (Query, Error?) -> Void) {
         FirebaseFirestoreHelper.appendQueryNonFilterConstraintsToQuery(query: query, queryConstraints: queryConstraints, error: nil, completion: completion)
     }
-    
+
     private static func appendQueryNonFilterConstraintsToQuery(query: Query, queryConstraints: [QueryNonFilterConstraint], error: Error?, completion: @escaping (Query, Error?) -> Void) {
         if let error = error {
             completion(query, error)

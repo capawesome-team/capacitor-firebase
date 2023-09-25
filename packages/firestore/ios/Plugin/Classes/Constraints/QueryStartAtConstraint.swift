@@ -12,7 +12,7 @@ import Capacitor
     }
 
     public func toQuery(_ query: Query, completion: @escaping (Query, Error?) -> Void) {
-        Firestore.firestore().document(reference).getDocument() { documentSnapshot, error in
+        Firestore.firestore().document(reference).getDocument { documentSnapshot, error in
             if let error = error {
                 completion(query, error)
             } else {

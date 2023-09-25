@@ -109,7 +109,7 @@ import FirebaseFirestore
         }
 
         dispatchGroup.notify(queue: .main) {
-            query.getDocuments() { querySnapshot, error in
+            query.getDocuments { querySnapshot, error in
                 if let error = error {
                     completion(nil, error)
                 } else {
@@ -148,7 +148,7 @@ import FirebaseFirestore
         }
 
         dispatchGroup.notify(queue: .main) {
-            query.getDocuments() { querySnapshot, error in
+            query.getDocuments { querySnapshot, error in
                 if let error = error {
                     completion(nil, error)
                 } else {

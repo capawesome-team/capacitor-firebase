@@ -8,11 +8,6 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
@@ -27,6 +22,9 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.EmptyResu
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.ResultCallback;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @CapacitorPlugin(name = "FirebaseFirestore")
 public class FirebaseFirestorePlugin extends Plugin {
@@ -373,7 +371,12 @@ public class FirebaseFirestorePlugin extends Plugin {
 
             this.pluginCallMap.put(callbackId, call);
 
-            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(reference, compositeFilter, queryConstraints, callbackId);
+            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(
+                reference,
+                compositeFilter,
+                queryConstraints,
+                callbackId
+            );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {

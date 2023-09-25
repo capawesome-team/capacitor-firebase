@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
 import androidx.annotation.NonNull;
-
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -227,18 +226,16 @@ public class FirebaseFirestore {
             }
         }
 
-        ListenerRegistration listenerRegistration =
-                query
-                .addSnapshotListener(
-                    (querySnapshot, exception) -> {
-                        if (exception != null) {
-                            callback.error(exception);
-                        } else {
-                            GetCollectionResult result = new GetCollectionResult(querySnapshot);
-                            callback.success(result);
-                        }
-                    }
-                );
+        ListenerRegistration listenerRegistration = query.addSnapshotListener(
+            (querySnapshot, exception) -> {
+                if (exception != null) {
+                    callback.error(exception);
+                } else {
+                    GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                    callback.success(result);
+                }
+            }
+        );
         this.listenerRegistrationMap.put(callbackId, listenerRegistration);
     }
 

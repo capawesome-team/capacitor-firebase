@@ -4,7 +4,6 @@ import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
 

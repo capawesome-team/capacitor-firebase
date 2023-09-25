@@ -193,7 +193,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
     @objc func addDocumentSnapshotListener(_ call: CAPPluginCall) {
         call.keepAlive = true
-        
+
         guard let reference = call.getString("reference") else {
             call.reject(errorReferenceMissing)
             return
@@ -221,7 +221,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
     @objc func addCollectionSnapshotListener(_ call: CAPPluginCall) {
         call.keepAlive = true
-        
+
         guard let reference = call.getString("reference") else {
             call.reject(errorReferenceMissing)
             return
@@ -259,7 +259,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorCallbackIdMissing)
             return
         }
-        
+
         let savedCall = self.pluginCallMap[callbackId]
         if let savedCall = savedCall {
             bridge?.releaseCall(savedCall)

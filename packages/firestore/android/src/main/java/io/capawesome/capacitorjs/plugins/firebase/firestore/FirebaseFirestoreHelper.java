@@ -2,21 +2,18 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.json.JSONException;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryEndAtConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryLimitConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryOrderByConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryStartAtConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.json.JSONException;
 
 public class FirebaseFirestoreHelper {
 
@@ -45,7 +42,8 @@ public class FirebaseFirestoreHelper {
     }
 
     @Nullable
-    public static QueryCompositeFilterConstraint createQueryCompositeFilterConstraintFromJSObject(@Nullable JSObject compositeFilter) throws JSONException {
+    public static QueryCompositeFilterConstraint createQueryCompositeFilterConstraintFromJSObject(@Nullable JSObject compositeFilter)
+        throws JSONException {
         if (compositeFilter == null) {
             return null;
         } else {
@@ -54,7 +52,8 @@ public class FirebaseFirestoreHelper {
     }
 
     @NonNull
-    public static QueryNonFilterConstraint[] createQueryNonFilterConstraintArrayFromJSArray(@Nullable JSArray queryConstraints) throws JSONException {
+    public static QueryNonFilterConstraint[] createQueryNonFilterConstraintArrayFromJSArray(@Nullable JSArray queryConstraints)
+        throws JSONException {
         if (queryConstraints == null) {
             return new QueryNonFilterConstraint[0];
         } else {

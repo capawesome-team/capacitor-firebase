@@ -2,7 +2,6 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results;
 
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentReference;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
 
 public class AddDocumentResult implements Result {
