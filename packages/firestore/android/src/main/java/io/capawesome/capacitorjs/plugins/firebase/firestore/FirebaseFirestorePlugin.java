@@ -8,6 +8,11 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
@@ -30,6 +35,8 @@ public class FirebaseFirestorePlugin extends Plugin {
     public static final String ERROR_REFERENCE_MISSING = "reference must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
     public static final String ERROR_DATA_MISSING = "data must be provided.";
+
+    private Map<String, PluginCall> pluginCallMap = new HashMap<>();
 
     private FirebaseFirestore implementation;
 
@@ -318,12 +325,16 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void addDocumentSnapshotListener(PluginCall call) {
         try {
+            call.setKeepAlive(true);
+
             String reference = call.getString("reference");
             if (reference == null) {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
             String callbackId = call.getCallbackId();
+
+            this.pluginCallMap.put(callbackId, call);
 
             AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(reference, callbackId);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
@@ -349,14 +360,20 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void addCollectionSnapshotListener(PluginCall call) {
         try {
+            call.setKeepAlive(true);
+
             String reference = call.getString("reference");
             if (reference == null) {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            JSObject compositeFilter = call.getObject("compositeFilter");
+            JSArray queryConstraints = call.getArray("queryConstraints");
             String callbackId = call.getCallbackId();
 
-            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(reference, callbackId);
+            this.pluginCallMap.put(callbackId, call);
+
+            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(reference, compositeFilter, queryConstraints, callbackId);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -386,6 +403,9 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
 
+            PluginCall savedCall = this.pluginCallMap.remove(callbackId);
+            savedCall.release(this.bridge);
+
             RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(callbackId);
             implementation.removeSnapshotListener(options);
             call.resolve();
@@ -398,6 +418,14 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void removeAllListeners(PluginCall call) {
         try {
+            Iterator<Map.Entry<String, PluginCall>> iterator = this.pluginCallMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, PluginCall> entry = iterator.next();
+                PluginCall savedCall = entry.getValue();
+                savedCall.release(this.bridge);
+                iterator.remove();
+            }
+
             implementation.removeAllListeners();
             call.resolve();
         } catch (Exception exception) {

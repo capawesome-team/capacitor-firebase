@@ -1,6 +1,8 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
 import androidx.annotation.NonNull;
+
+import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,7 +49,7 @@ public class FirebaseFirestore {
             .add(data)
             .addOnSuccessListener(
                 documentReference -> {
-                    AddDocumentResult result = new AddDocumentResult(documentReference.getId());
+                    AddDocumentResult result = new AddDocumentResult(documentReference);
                     callback.success(result);
                 }
             )
@@ -208,12 +210,25 @@ public class FirebaseFirestore {
     public void addCollectionSnapshotListener(
         @NonNull AddCollectionSnapshotListenerOptions options,
         @NonNull NonEmptyResultCallback callback
-    ) {
+    ) throws Exception {
         String reference = options.getReference();
+        QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
+        QueryNonFilterConstraint<Query>[] queryConstraints = options.getQueryConstraints();
         String callbackId = options.getCallbackId();
 
+        Query query = this.firestoreInstance.collection(reference);
+        if (compositeFilter != null) {
+            Filter filter = compositeFilter.toFilter();
+            query.where(filter);
+        }
+        if (queryConstraints.length > 0) {
+            for (QueryNonFilterConstraint<Query> queryConstraint : queryConstraints) {
+                query = queryConstraint.toQuery(query, this.firestoreInstance);
+            }
+        }
+
         ListenerRegistration listenerRegistration =
-            this.firestoreInstance.collection(reference)
+                query
                 .addSnapshotListener(
                     (querySnapshot, exception) -> {
                         if (exception != null) {

@@ -1,11 +1,16 @@
 import Foundation
+import Capacitor
 
 @objc public class AddCollectionSnapshotListenerOptions: NSObject {
     private var reference: String
+    private var compositeFilter: QueryCompositeFilterConstraint?
+    private var queryConstraints: [QueryNonFilterConstraint]
     private var callbackId: String
 
-    init(reference: String, callbackId: String) {
+    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, callbackId: String) {
         self.reference = reference
+        self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter)
+        self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
         self.callbackId = callbackId
     }
 

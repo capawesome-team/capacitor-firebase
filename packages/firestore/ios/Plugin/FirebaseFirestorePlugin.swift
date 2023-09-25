@@ -12,6 +12,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     public let errorDataMissing = "data must be provided."
     public let errorCallbackIdMissing = "callbackId must be provided."
     private var implementation: FirebaseFirestore?
+    private var pluginCallMap: [String: CAPPluginCall] = [:]
 
     override public func load() {
         self.implementation = FirebaseFirestore(plugin: self)
@@ -191,6 +192,8 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     }
 
     @objc func addDocumentSnapshotListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+        
         guard let reference = call.getString("reference") else {
             call.reject(errorReferenceMissing)
             return
@@ -199,6 +202,8 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorCallbackIdMissing)
             return
         }
+
+        self.pluginCallMap[callbackId] = call
 
         let options = AddDocumentSnapshotListenerOptions(reference: reference, callbackId: callbackId)
 
@@ -215,16 +220,22 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     }
 
     @objc func addCollectionSnapshotListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+        
         guard let reference = call.getString("reference") else {
             call.reject(errorReferenceMissing)
             return
         }
+        let compositeFilter = call.getObject("compositeFilter")
+        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
         }
 
-        let options = AddCollectionSnapshotListenerOptions(reference: reference, callbackId: callbackId)
+        self.pluginCallMap[callbackId] = call
+
+        let options = AddCollectionSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, callbackId: callbackId)
 
         implementation?.addCollectionSnapshotListener(options, completion: { result, error in
             if let error = error {
@@ -243,6 +254,12 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorCallbackIdMissing)
             return
         }
+        
+        let savedCall = self.pluginCallMap[callbackId]
+        if let savedCall = savedCall {
+            bridge?.releaseCall(savedCall)
+        }
+        self.pluginCallMap.removeValue(forKey: callbackId)
 
         let options = RemoveSnapshotListenerOptions(callbackId: callbackId)
 
@@ -251,6 +268,11 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     }
 
     @objc override public func removeAllListeners(_ call: CAPPluginCall) {
+        for (_, savedCall) in self.pluginCallMap {
+            bridge?.releaseCall(savedCall)
+        }
+        self.pluginCallMap.removeAll()
+
         implementation?.removeAllListeners()
         call.resolve()
     }

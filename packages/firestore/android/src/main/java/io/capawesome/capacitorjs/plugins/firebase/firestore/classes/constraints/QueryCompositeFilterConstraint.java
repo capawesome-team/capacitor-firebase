@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.enums.QueryCompositeFilterConstraintType;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,13 +11,13 @@ import org.json.JSONException;
 public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
 
     @NonNull
-    private QueryCompositeFilterConstraintType type;
+    private String type;
 
     @NonNull
     private QueryFilterConstraint[] queryConstraints;
 
     public QueryCompositeFilterConstraint(JSObject compositeFilter) throws JSONException {
-        this.type = QueryCompositeFilterConstraintType.valueOf(compositeFilter.getString("type").toUpperCase());
+        this.type = compositeFilter.getString("type");
         JSONArray queryConstraints = compositeFilter.getJSONArray("queryConstraints");
         this.queryConstraints = new QueryFilterConstraint[queryConstraints.length()];
         for (int i = 0; i < queryConstraints.length(); i++) {
@@ -33,7 +32,7 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
     }
 
     @NonNull
-    public QueryCompositeFilterConstraintType getType() {
+    public String getType() {
         return type;
     }
 
@@ -50,10 +49,10 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
                 filter = constraint.toFilter();
             } else {
                 switch (type) {
-                    case AND:
+                    case "and":
                         filter = filter.and(constraint.toFilter());
                         break;
-                    case OR:
+                    case "or":
                         filter = filter.or(constraint.toFilter());
                         break;
                 }

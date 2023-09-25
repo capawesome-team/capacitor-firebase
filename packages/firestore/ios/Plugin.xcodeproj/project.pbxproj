@@ -37,8 +37,6 @@
 		7C0070342ABC1FCD000C0F28 /* SetDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070332ABC1FCD000C0F28 /* SetDocumentOptions.swift */; };
 		7C0070362ABC1FD7000C0F28 /* UpdateDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070352ABC1FD7000C0F28 /* UpdateDocumentOptions.swift */; };
 		7C00703A2ABC21D0000C0F28 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070392ABC21D0000C0F28 /* Result.swift */; };
-		7C00703C2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703B2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift */; };
-		7C00703E2ABC21FB000C0F28 /* QueryFilterConstraintType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703D2ABC21FB000C0F28 /* QueryFilterConstraintType.swift */; };
 		7C0070402ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */; };
 		7C0070422ABC97E5000C0F28 /* QueryNonFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070412ABC97E5000C0F28 /* QueryNonFilterConstraint.swift */; };
 		7C0070442ABC9AE9000C0F28 /* QueryFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */; };
@@ -88,8 +86,6 @@
 		7C0070332ABC1FCD000C0F28 /* SetDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetDocumentOptions.swift; sourceTree = "<group>"; };
 		7C0070352ABC1FD7000C0F28 /* UpdateDocumentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDocumentOptions.swift; sourceTree = "<group>"; };
 		7C0070392ABC21D0000C0F28 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		7C00703B2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCompositeFilterConstraintType.swift; sourceTree = "<group>"; };
-		7C00703D2ABC21FB000C0F28 /* QueryFilterConstraintType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryFilterConstraintType.swift; sourceTree = "<group>"; };
 		7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreHelper.swift; sourceTree = "<group>"; };
 		7C0070412ABC97E5000C0F28 /* QueryNonFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryNonFilterConstraint.swift; sourceTree = "<group>"; };
 		7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryFilterConstraint.swift; sourceTree = "<group>"; };
@@ -144,7 +140,6 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
-				7C00700C2ABC1EBA000C0F28 /* Enums */,
 				7C00700B2ABC1E88000C0F28 /* Protocols */,
 				7C00700A2ABC1E7F000C0F28 /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */,
@@ -184,15 +179,6 @@
 				7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */,
 			);
 			path = Protocols;
-			sourceTree = "<group>";
-		};
-		7C00700C2ABC1EBA000C0F28 /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				7C00703B2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift */,
-				7C00703D2ABC21FB000C0F28 /* QueryFilterConstraintType.swift */,
-			);
-			path = Enums;
 			sourceTree = "<group>";
 		};
 		7C0070302ABC1FB6000C0F28 /* Options */ = {
@@ -458,7 +444,6 @@
 			files = (
 				7C0070362ABC1FD7000C0F28 /* UpdateDocumentOptions.swift in Sources */,
 				7C0070322ABC1FC5000C0F28 /* RemoveSnapshotListenerOptions.swift in Sources */,
-				7C00703C2ABC21EC000C0F28 /* QueryCompositeFilterConstraintType.swift in Sources */,
 				7C0070242ABC1F53000C0F28 /* QueryCompositeFilterConstraint.swift in Sources */,
 				7C0070282ABC1F6D000C0F28 /* QueryFieldFilterConstraint.swift in Sources */,
 				7C00702D2ABC1FA1000C0F28 /* QueryOrderByConstraint.swift in Sources */,
@@ -472,7 +457,6 @@
 				7C00701E2ABC1F38000C0F28 /* GetCollectionResult.swift in Sources */,
 				7C00702F2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift in Sources */,
 				7C0070182ABC1F20000C0F28 /* GetCollectionGroupOptions.swift in Sources */,
-				7C00703E2ABC21FB000C0F28 /* QueryFilterConstraintType.swift in Sources */,
 				7C0070102ABC1EE0000C0F28 /* AddDocumentOptions.swift in Sources */,
 				7C0070162ABC1F18000C0F28 /* DeleteDocumentOptions.swift in Sources */,
 				7C0070122ABC1F03000C0F28 /* AddDocumentResult.swift in Sources */,
