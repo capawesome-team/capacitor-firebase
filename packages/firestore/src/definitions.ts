@@ -126,7 +126,7 @@ export interface AddDocumentOptions {
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
    * @since 5.2.0
-   * @example 'users/Aorq09lkt1ynbR7xhTUx'
+   * @example 'users'
    */
   reference: string;
   /**
