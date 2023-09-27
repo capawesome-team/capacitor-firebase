@@ -86,13 +86,13 @@ public class AppleAuthProviderHandler {
         pluginImplementation
             .getCurrentUser()
             .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }
 
     private void finishActivityForLink(final PluginCall call, Task<AuthResult> pendingResultTask) {
         pendingResultTask
-            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null))
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }
 

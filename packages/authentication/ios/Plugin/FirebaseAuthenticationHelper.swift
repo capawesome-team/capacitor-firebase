@@ -35,8 +35,13 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
+        return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, serverAuthCode: nil, additionalUserInfo: additionalUserInfo, displayName: nil,
+                                  authorizationCode: nil)
+    }
+
+    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, serverAuthCode: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
         let userResult = self.createUserResult(user, displayName: displayName)
-        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode)
+        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode, serverAuthCode: serverAuthCode)
         let additionalUserInfoResult = self.createAdditionalUserInfoResult(additionalUserInfo)
         var result = JSObject()
         result["user"] = userResult
@@ -74,7 +79,7 @@ public class FirebaseAuthenticationHelper {
         return result
     }
 
-    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?, authorizationCode: String?) -> JSObject? {
+    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?, authorizationCode: String?, serverAuthCode: String?) -> JSObject? {
         if credential == nil && idToken == nil && nonce == nil && accessToken == nil && authorizationCode == nil {
             return nil
         }
@@ -107,6 +112,9 @@ public class FirebaseAuthenticationHelper {
         }
         if let authorizationCode = authorizationCode {
             result["authorizationCode"] = authorizationCode
+        }
+        if let serverAuthCode = serverAuthCode {
+            result["serverAuthCode"] = serverAuthCode
         }
         return result
     }

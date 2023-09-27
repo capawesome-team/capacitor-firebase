@@ -831,6 +831,8 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
    * If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.
    *
+   * Only available for Web.
+   *
    * @default 'popup'
    * @since 1.3.0
    */
@@ -1204,6 +1206,14 @@ export interface AuthCredential {
    * @since 0.1.0
    */
   secret?: string;
+  /**
+   * The server auth code.
+   *
+   * Only available for Google Sign-in and Play Games Sign-In on Android and iOS.
+   *
+   * @since 5.2.0
+   */
+  serverAuthCode?: string;
 }
 
 /**

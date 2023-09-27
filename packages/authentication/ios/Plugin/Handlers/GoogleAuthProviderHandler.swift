@@ -37,7 +37,7 @@ class GoogleAuthProviderHandler: NSObject {
         let scopes = call.getArray("scopes", String.self) ?? []
 
         DispatchQueue.main.async {
-            GIDSignIn.sharedInstance.signIn(withPresenting: controller, scopes: scopes) { [unowned self] result, error in
+            GIDSignIn.sharedInstance.signIn(withPresenting: controller, hint: nil, additionalScopes: scopes) { [unowned self] result, error in
                 if let error = error {
                     if isLink == true {
                         self.pluginImplementation.handleFailedLink(message: nil, error: error)
@@ -53,11 +53,12 @@ class GoogleAuthProviderHandler: NSObject {
                     return
                 }
                 let accessToken = user.accessToken.tokenString
+                let serverAuthCode = result?.serverAuthCode
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
                 if isLink == true {
-                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken, serverAuthCode: serverAuthCode)
                 } else {
-                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken, displayName: nil, authorizationCode: nil, serverAuthCode: serverAuthCode)
                 }
             }
         }

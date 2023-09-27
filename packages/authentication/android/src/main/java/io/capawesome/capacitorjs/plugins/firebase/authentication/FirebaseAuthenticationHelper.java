@@ -50,8 +50,26 @@ public class FirebaseAuthenticationHelper {
         @Nullable String accessToken,
         @Nullable AdditionalUserInfo additionalUserInfo
     ) {
+        return FirebaseAuthenticationHelper.createSignInResult(user, credential, idToken, nonce, accessToken, null, additionalUserInfo);
+    }
+
+    public static JSObject createSignInResult(
+        @Nullable FirebaseUser user,
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode,
+        @Nullable AdditionalUserInfo additionalUserInfo
+    ) {
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
-        JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(credential, idToken, nonce, accessToken);
+        JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(
+            credential,
+            idToken,
+            nonce,
+            accessToken,
+            serverAuthCode
+        );
         JSObject additionalUserInfoResult = FirebaseAuthenticationHelper.createAdditionalUserInfoResult(additionalUserInfo);
         JSObject result = new JSObject();
         result.put("user", userResult);
@@ -85,7 +103,8 @@ public class FirebaseAuthenticationHelper {
         @Nullable AuthCredential credential,
         @Nullable String idToken,
         @Nullable String nonce,
-        @Nullable String accessToken
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode
     ) {
         if (credential == null && idToken == null && nonce == null && accessToken == null) {
             return null;
@@ -116,6 +135,9 @@ public class FirebaseAuthenticationHelper {
         }
         if (accessToken != null) {
             result.put("accessToken", accessToken);
+        }
+        if (serverAuthCode != null) {
+            result.put("serverAuthCode", serverAuthCode);
         }
         return result;
     }
