@@ -23,9 +23,9 @@ This plugin will use the following project variables (defined in your app’s `v
 
 No configuration required for this plugin.
 
-## Demo
+<!-- ## Demo
 
-A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
+A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo) -->
 
 ## Usage
 
@@ -670,10 +670,10 @@ Remove all listeners for this plugin.
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/firestore/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/firestore/LICENSE).
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.
