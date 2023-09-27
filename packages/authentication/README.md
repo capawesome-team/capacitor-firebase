@@ -477,8 +477,6 @@ confirmVerificationCode(options: ConfirmVerificationCodeOptions) => Promise<Sign
 
 Finishes the phone number verification process.
 
-Only available for Android and iOS.
-
 | Param         | Type                                                                                      |
 | ------------- | ----------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#confirmverificationcodeoptions">ConfirmVerificationCodeOptions</a></code> |
@@ -804,9 +802,9 @@ Use the `phoneVerificationCompleted` listener to be notified when the verificati
 Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
 Use the `phoneCodeSent` listener to get the verification id.
 
-| Param         | Type                                                                              |
-| ------------- | --------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#linkwithphonenumberoptions">LinkWithPhoneNumberOptions</a></code> |
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
 
 **Since:** 1.1.0
 
@@ -1662,12 +1660,13 @@ Remove all listeners for this plugin.
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
-#### LinkWithPhoneNumberOptions
+#### SignInWithPhoneNumberOptions
 
-| Prop              | Type                 | Description                                                                                                                                                 | Default            | Since |
-| ----------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`phoneNumber`** | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                            |                    | 1.1.0 |
-| **`resendCode`**  | <code>boolean</code> | Resend the verification code to the specified phone number. `linkWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 5.0.0 |
+| Prop                    | Type                 | Description                                                                                                                                                   | Default            | Since |
+| ----------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`phoneNumber`**       | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                              |                    | 0.1.0 |
+| **`recaptchaVerifier`** | <code>unknown</code> | The reCAPTCHA verifier. Must be an instance of `firebase.auth.RecaptchaVerifier`. Only available for Web.                                                     |                    | 1.3.0 |
+| **`resendCode`**        | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 
 
 #### SendPasswordResetEmailOptions
@@ -1757,14 +1756,6 @@ An interface covering the possible persistence mechanism types.
 | Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
 | -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
 | **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
-
-
-#### SignInWithPhoneNumberOptions
-
-| Prop              | Type                 | Description                                                                                                                                                   | Default            | Since |
-| ----------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`phoneNumber`** | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                              |                    | 0.1.0 |
-| **`resendCode`**  | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 
 
 #### UnlinkResult
@@ -1857,6 +1848,11 @@ An interface covering the possible persistence mechanism types.
 #### LinkResult
 
 <code><a href="#signinresult">SignInResult</a></code>
+
+
+#### LinkWithPhoneNumberOptions
+
+<code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
 
 
 #### AuthStateChangeListener

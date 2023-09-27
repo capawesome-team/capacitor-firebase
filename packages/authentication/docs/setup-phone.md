@@ -18,4 +18,4 @@
 
 ## Web
 
-🚧 Currently not supported.
+1. See [Enable Phone Number sign-in for your Firebase project](https://firebase.google.com/docs/auth/web/phone-auth#enable-phone-number-sign-in-for-your-firebase-project) and follow the instructions to configure sign-in using a Phone Number correctly.

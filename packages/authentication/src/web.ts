@@ -1,5 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 import type {
+  ConfirmationResult,
   AuthCredential as FirebaseAuthCredential,
   AuthProvider as FirebaseAuthProvider,
   CustomParameters as FirebaseCustomParameters,
@@ -15,6 +16,7 @@ import {
   GoogleAuthProvider,
   OAuthCredential,
   OAuthProvider,
+  RecaptchaVerifier,
   TwitterAuthProvider,
   applyActionCode,
   browserLocalPersistence,
@@ -30,6 +32,7 @@ import {
   indexedDBLocalPersistence,
   isSignInWithEmailLink,
   linkWithCredential,
+  linkWithPhoneNumber,
   linkWithPopup,
   linkWithRedirect,
   reload,
@@ -41,6 +44,7 @@ import {
   signInWithCustomToken,
   signInWithEmailAndPassword,
   signInWithEmailLink,
+  signInWithPhoneNumber,
   signInWithPopup,
   signInWithRedirect,
   unlink,
@@ -69,6 +73,8 @@ import type {
   LinkWithEmailLinkOptions,
   LinkWithOAuthOptions,
   LinkWithPhoneNumberOptions,
+  PhoneCodeSentEvent,
+  PhoneVerificationFailedEvent,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -96,7 +102,19 @@ export class FirebaseAuthenticationWeb
   extends WebPlugin
   implements FirebaseAuthenticationPlugin
 {
+  public static readonly AUTH_STATE_CHANGE_EVENT = 'authStateChange';
+  public static readonly PHONE_CODE_SENT_EVENT = 'phoneCodeSent';
+  public static readonly PHONE_VERIFICATION_FAILED_EVENT =
+    'phoneVerificationFailed';
   public static readonly ERROR_NO_USER_SIGNED_IN = 'No user is signed in.';
+  public static readonly ERROR_PHONE_NUMBER_MISSING =
+    'phoneNumber must be provided.';
+  public static readonly ERROR_RECAPTCHA_VERIFIER_MISSING =
+    'recaptchaVerifier must be provided and must be an instance of RecaptchaVerifier.';
+  public static readonly ERROR_CONFIRMATION_RESULT_MISSING =
+    'No confirmation result with this verification id was found.';
+
+  private lastConfirmationResult: Map<string, ConfirmationResult> = new Map();
 
   constructor() {
     super();
@@ -129,9 +147,17 @@ export class FirebaseAuthenticationWeb
   }
 
   public async confirmVerificationCode(
-    _options: ConfirmVerificationCodeOptions,
+    options: ConfirmVerificationCodeOptions,
   ): Promise<SignInResult> {
-    throw new Error('Not implemented on web.');
+    const { verificationCode, verificationId } = options;
+    const confirmationResult = this.lastConfirmationResult.get(verificationId);
+    if (!confirmationResult) {
+      throw new Error(
+        FirebaseAuthenticationWeb.ERROR_CONFIRMATION_RESULT_MISSING,
+      );
+    }
+    const userCredential = await confirmationResult.confirm(verificationCode);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async deleteUser(): Promise<void> {
@@ -290,9 +316,48 @@ export class FirebaseAuthenticationWeb
   }
 
   public async linkWithPhoneNumber(
-    _options: LinkWithPhoneNumberOptions,
+    options: LinkWithPhoneNumberOptions,
   ): Promise<void> {
-    throw new Error('Not implemented on web.');
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    if (!options.phoneNumber) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_PHONE_NUMBER_MISSING);
+    }
+    if (
+      !options.recaptchaVerifier ||
+      !(options.recaptchaVerifier instanceof RecaptchaVerifier)
+    ) {
+      throw new Error(
+        FirebaseAuthenticationWeb.ERROR_RECAPTCHA_VERIFIER_MISSING,
+      );
+    }
+    try {
+      const confirmationResult = await linkWithPhoneNumber(
+        currentUser,
+        options.phoneNumber,
+        options.recaptchaVerifier,
+      );
+      const { verificationId } = confirmationResult;
+      this.lastConfirmationResult.set(verificationId, confirmationResult);
+      const event: PhoneCodeSentEvent = {
+        verificationId,
+      };
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.PHONE_CODE_SENT_EVENT,
+        event,
+      );
+    } catch (error) {
+      const event: PhoneVerificationFailedEvent = {
+        message: this.getErrorMessage(error),
+      };
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.PHONE_VERIFICATION_FAILED_EVENT,
+        event,
+      );
+    }
   }
 
   public async linkWithPlayGames(): Promise<LinkResult> {
@@ -497,9 +562,44 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithPhoneNumber(
-    _options: SignInWithPhoneNumberOptions,
+    options: SignInWithPhoneNumberOptions,
   ): Promise<void> {
-    throw new Error('Not implemented on web.');
+    if (!options.phoneNumber) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_PHONE_NUMBER_MISSING);
+    }
+    if (
+      !options.recaptchaVerifier ||
+      !(options.recaptchaVerifier instanceof RecaptchaVerifier)
+    ) {
+      throw new Error(
+        FirebaseAuthenticationWeb.ERROR_RECAPTCHA_VERIFIER_MISSING,
+      );
+    }
+    const auth = getAuth();
+    try {
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        options.phoneNumber,
+        options.recaptchaVerifier,
+      );
+      const { verificationId } = confirmationResult;
+      this.lastConfirmationResult.set(verificationId, confirmationResult);
+      const event: PhoneCodeSentEvent = {
+        verificationId,
+      };
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.PHONE_CODE_SENT_EVENT,
+        event,
+      );
+    } catch (error) {
+      const event: PhoneVerificationFailedEvent = {
+        message: this.getErrorMessage(error),
+      };
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.PHONE_VERIFICATION_FAILED_EVENT,
+        event,
+      );
+    }
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
@@ -598,7 +698,10 @@ export class FirebaseAuthenticationWeb
     const change: AuthStateChange = {
       user: userResult,
     };
-    this.notifyListeners('authStateChange', change);
+    this.notifyListeners(
+      FirebaseAuthenticationWeb.AUTH_STATE_CHANGE_EVENT,
+      change,
+    );
   }
 
   private applySignInOptions(
@@ -759,5 +862,16 @@ export class FirebaseAuthenticationWeb
       result.username = username;
     }
     return result;
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (
+      error instanceof Object &&
+      'message' in error &&
+      typeof error['message'] === 'string'
+    ) {
+      return error['message'];
+    }
+    return JSON.stringify(error);
   }
 }

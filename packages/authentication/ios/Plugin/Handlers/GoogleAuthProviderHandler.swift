@@ -56,10 +56,10 @@ class GoogleAuthProviderHandler: NSObject {
                 let serverAuthCode = result?.serverAuthCode
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
                 if isLink == true {
-                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken, 
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken,
                                                                    serverAuthCode: serverAuthCode)
                 } else {
-                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken, 
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken,
                                                                      displayName: nil, authorizationCode: nil, serverAuthCode: serverAuthCode)
                 }
             }

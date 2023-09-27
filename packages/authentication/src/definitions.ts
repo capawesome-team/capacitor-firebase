@@ -56,8 +56,6 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Finishes the phone number verification process.
    *
-   * Only available for Android and iOS.
-   *
    * @since 5.0.0
    */
   confirmVerificationCode(
@@ -762,25 +760,7 @@ export interface LinkWithEmailLinkOptions {
 /**
  * @since 1.1.0
  */
-export interface LinkWithPhoneNumberOptions {
-  /**
-   * The phone number to be verified in E.164 format.
-   *
-   * @example "+16505550101"
-   * @since 1.1.0
-   */
-  phoneNumber: string;
-  /**
-   * Resend the verification code to the specified phone number.
-   * `linkWithPhoneNumber` must be called once before using this option.
-   *
-   * Only available for Android.
-   *
-   * @since 5.0.0
-   * @default false
-   */
-  resendCode?: boolean;
-}
+export type LinkWithPhoneNumberOptions = SignInWithPhoneNumberOptions;
 
 /**
  * @since 1.1.0
@@ -878,6 +858,15 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    * @since 0.1.0
    */
   phoneNumber: string;
+  /**
+   * The reCAPTCHA verifier.
+   * Must be an instance of `firebase.auth.RecaptchaVerifier`.
+   *
+   * Only available for Web.
+   *
+   * @since 1.3.0
+   */
+  recaptchaVerifier?: unknown;
   /**
    * Resend the verification code to the specified phone number.
    * `signInWithPhoneNumber` must be called once before using this option.
