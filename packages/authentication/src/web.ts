@@ -16,6 +16,7 @@ import {
   GoogleAuthProvider,
   OAuthCredential,
   OAuthProvider,
+  RecaptchaVerifier,
   TwitterAuthProvider,
   applyActionCode,
   browserLocalPersistence,
@@ -105,15 +106,15 @@ export class FirebaseAuthenticationWeb
   public static readonly phoneCodeSentEvent = 'phoneCodeSent';
   public static readonly phoneVerificationFailedEvent =
     'phoneVerificationFailed';
-  public static readonly recaptchaSolvedEvent = 'recaptchaSolved';
-  public static readonly recaptchaExpiredEvent = 'recaptchaExpired';
   public static readonly errorNoUserSignedIn = 'No user is signed in.';
   public static readonly errorPhoneNumberMissing =
     'phoneNumber must be provided.';
   public static readonly errorRecaptchaVerifierMissing =
-    'recaptchaVerifier must be provided.';
+    'recaptchaVerifier must be provided and must be an instance of RecaptchaVerifier.';
+  public static readonly errorConfirmationResultMissing =
+    'No confirmation result with this verification id was found.';
 
-  private lastConfirmationResult: ConfirmationResult | undefined;
+  private lastConfirmationResult: Map<string, ConfirmationResult> = new Map();
 
   constructor() {
     super();
@@ -146,9 +147,15 @@ export class FirebaseAuthenticationWeb
   }
 
   public async confirmVerificationCode(
-    _options: ConfirmVerificationCodeOptions,
+    options: ConfirmVerificationCodeOptions,
   ): Promise<SignInResult> {
-    throw new Error('Not implemented on web.');
+    const { verificationCode, verificationId } = options;
+    const confirmationResult = this.lastConfirmationResult.get(verificationId);
+    if (!confirmationResult) {
+      throw new Error(FirebaseAuthenticationWeb.errorConfirmationResultMissing);
+    }
+    const userCredential = await confirmationResult.confirm(verificationCode);
+    return this.createSignInResult(userCredential, null);
   }
 
   public async deleteUser(): Promise<void> {
@@ -317,7 +324,10 @@ export class FirebaseAuthenticationWeb
     if (!options.phoneNumber) {
       throw new Error(FirebaseAuthenticationWeb.errorPhoneNumberMissing);
     }
-    if (!options.recaptchaVerifier) {
+    if (
+      !options.recaptchaVerifier ||
+      !(options.recaptchaVerifier instanceof RecaptchaVerifier)
+    ) {
       throw new Error(FirebaseAuthenticationWeb.errorRecaptchaVerifierMissing);
     }
     try {
@@ -326,8 +336,10 @@ export class FirebaseAuthenticationWeb
         options.phoneNumber,
         options.recaptchaVerifier,
       );
+      const { verificationId } = confirmationResult;
+      this.lastConfirmationResult.set(verificationId, confirmationResult);
       const event: PhoneCodeSentEvent = {
-        verificationId: confirmationResult.verificationId,
+        verificationId,
       };
       this.notifyListeners(FirebaseAuthenticationWeb.phoneCodeSentEvent, event);
     } catch (error) {
@@ -548,10 +560,12 @@ export class FirebaseAuthenticationWeb
     if (!options.phoneNumber) {
       throw new Error(FirebaseAuthenticationWeb.errorPhoneNumberMissing);
     }
-    if (!options.recaptchaVerifier) {
+    if (
+      !options.recaptchaVerifier ||
+      !(options.recaptchaVerifier instanceof RecaptchaVerifier)
+    ) {
       throw new Error(FirebaseAuthenticationWeb.errorRecaptchaVerifierMissing);
     }
-    // TODO: new method `verifyPhoneNumber` to separate the process
     const auth = getAuth();
     try {
       const confirmationResult = await signInWithPhoneNumber(
@@ -559,10 +573,10 @@ export class FirebaseAuthenticationWeb
         options.phoneNumber,
         options.recaptchaVerifier,
       );
-      this.lastConfirmationResult = confirmationResult;
-      // TODO: confirmationResult.confirm(code)
+      const { verificationId } = confirmationResult;
+      this.lastConfirmationResult.set(verificationId, confirmationResult);
       const event: PhoneCodeSentEvent = {
-        verificationId: confirmationResult.verificationId,
+        verificationId,
       };
       this.notifyListeners(FirebaseAuthenticationWeb.phoneCodeSentEvent, event);
     } catch (error) {

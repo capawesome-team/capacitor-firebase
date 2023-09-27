@@ -1,7 +1,6 @@
 /// <reference types="@capacitor/cli" />
 
 import type { PluginListenerHandle } from '@capacitor/core';
-import type { RecaptchaVerifier } from 'firebase/auth';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -56,8 +55,6 @@ export interface FirebaseAuthenticationPlugin {
   confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
   /**
    * Finishes the phone number verification process.
-   *
-   * Only available for Android and iOS.
    *
    * @since 5.0.0
    */
@@ -862,13 +859,14 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    */
   phoneNumber: string;
   /**
-   *
+   * The reCAPTCHA verifier.
+   * Must be an instance of `firebase.auth.RecaptchaVerifier`.
    *
    * Only available for Web.
    *
    * @since 1.3.0
    */
-  recaptchaVerifier?: RecaptchaVerifier;
+  recaptchaVerifier?: unknown;
   /**
    * Resend the verification code to the specified phone number.
    * `signInWithPhoneNumber` must be called once before using this option.
