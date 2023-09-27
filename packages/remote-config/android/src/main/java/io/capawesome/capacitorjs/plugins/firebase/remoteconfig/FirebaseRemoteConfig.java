@@ -22,7 +22,7 @@ public class FirebaseRemoteConfig {
             .addOnFailureListener(
                 exception -> {
                     Log.w(FirebaseRemoteConfigPlugin.TAG, "Activate config failed.", exception);
-                    resultCallback.error(exception.getLocalizedMessage());
+                    resultCallback.error(exception.getMessage());
                 }
             );
     }
@@ -38,7 +38,7 @@ public class FirebaseRemoteConfig {
             .addOnFailureListener(
                 exception -> {
                     Log.w(FirebaseRemoteConfigPlugin.TAG, "Fetch and activate config failed.", exception);
-                    resultCallback.error(exception.getLocalizedMessage());
+                    resultCallback.error(exception.getMessage());
                 }
             );
     }
@@ -54,7 +54,7 @@ public class FirebaseRemoteConfig {
             .addOnFailureListener(
                 exception -> {
                     Log.w(FirebaseRemoteConfigPlugin.TAG, "Fetch config failed.", exception);
-                    resultCallback.error(exception.getLocalizedMessage());
+                    resultCallback.error(exception.getMessage());
                 }
             );
     }

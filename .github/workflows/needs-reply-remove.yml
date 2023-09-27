@@ -11,7 +11,7 @@ permissions:
 jobs:
   needs-reply:
     runs-on: ubuntu-latest
-    if: github.event.comment.author_association != 'MEMBER'
+    if: github.repository == 'capawesome-team/capacitor-firebase' && github.event.comment.author_association != 'MEMBER'
     steps:
       - name: Remove needs-reply label
         run: |

@@ -1,6 +1,6 @@
 # @capacitor-firebase/analytics
 
-⚡️ Capacitor plugin for Firebase Analytics.
+Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com/docs/analytics).[^1]
 
 ## Installation
 
@@ -9,7 +9,7 @@ npm install @capacitor-firebase/analytics firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.2.0`)
+- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.2.2`)
 
 ### iOS
 
@@ -30,6 +30,8 @@ capacitor_pods
 +  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
 end
 ```
+
+**Attention**: Do not add the pod in the section `def capacitor_pods`, but under the comment `# Add your Pods here` ([example](https://github.com/robingenz/capacitor-firebase-plugin-demo/blob/e1684a0af6871442ed0a87dceeeba6fd9ce0185d/ios/App/Podfile#L30)).
 
 #### Disable Analytics data collection
 
@@ -114,6 +116,7 @@ const resetAnalyticsData = async () => {
 
 <docgen-index>
 
+* [`getAppInstanceId()`](#getappinstanceid)
 * [`setUserId(...)`](#setuserid)
 * [`setUserProperty(...)`](#setuserproperty)
 * [`setCurrentScreen(...)`](#setcurrentscreen)
@@ -128,6 +131,23 @@ const resetAnalyticsData = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### getAppInstanceId()
+
+```typescript
+getAppInstanceId() => Promise<GetAppInstanceIdResult>
+```
+
+Retrieves the app instance id.
+
+Only available for Android and iOS.
+
+**Returns:** <code>Promise&lt;<a href="#getappinstanceidresult">GetAppInstanceIdResult</a>&gt;</code>
+
+**Since:** 1.4.0
+
+--------------------
+
 
 ### setUserId(...)
 
@@ -270,6 +290,13 @@ Only available for Android and iOS.
 ### Interfaces
 
 
+#### GetAppInstanceIdResult
+
+| Prop                | Type                | Description                                                                                                                                     | Since |
+| ------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`. | 1.4.0 |
+
+
 #### SetUserIdOptions
 
 | Prop         | Type                        | Since |
@@ -323,10 +350,16 @@ Only available for Android and iOS.
 
 </docgen-api>
 
+## Test your implementation
+
+[Here](https://firebase.google.com/docs/analytics/debugview) you can find more information on how to test the Firebase Analytics implementation using the **DebugView**.
+
 ## Changelog
 
-See [CHANGELOG.md](/packages/analytics/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/analytics/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

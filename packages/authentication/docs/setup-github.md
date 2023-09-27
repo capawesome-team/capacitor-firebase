@@ -10,7 +10,7 @@
 
 1. Add `github.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1. See [Before you begin](https://firebase.google.com/docs/auth/ios/github-auth#before_you_begin) and follow the instructions to configure and enable sign-in with GitHub correctly.  
-   **Attention**: Skip step 2. The `Firebase/Auth` pod is already added by the plugin.
+   **Attention**: Skip step 2. The `FirebaseAuth` pod is already added by the plugin.
 1. Add custom URL schemes to your Xcode project:
    1. Open your project configuration.
       Select your app from the **TARGETS** section, then select the **Info** tab, and expand the **URL Types** section.

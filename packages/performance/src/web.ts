@@ -30,6 +30,7 @@ export class FirebasePerformanceWeb
       return;
     }
     trace.stop();
+    delete this.traces[options.traceName];
   }
 
   public async incrementMetric(options: IncrementMetricOptions): Promise<void> {

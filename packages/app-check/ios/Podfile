@@ -9,7 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'Firebase/AppCheck', '10.2.0'
+  pod 'FirebaseAppCheck', '10.8.0'
 end
 
 target 'PluginTests' do

@@ -1,6 +1,6 @@
 # @capacitor-firebase/app
 
-⚡️ Capacitor plugin for Firebase App.
+Unofficial Capacitor plugin for [Firebase App](https://firebase.google.com/docs).[^1]
 
 ## Installation
 
@@ -9,7 +9,7 @@ npm install @capacitor-firebase/app firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseCommonVersion` version of `com.google.firebase:firebase-common` (default: `20.2.0`)
+- `$firebaseCommonVersion` version of `com.google.firebase:firebase-common` (default: `20.3.2`)
 
 ## Configuration
 
@@ -109,8 +109,10 @@ Get the configuration options for this app.
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/app/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/app/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/app/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/app/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

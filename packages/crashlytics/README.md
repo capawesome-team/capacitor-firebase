@@ -1,6 +1,6 @@
 # @capacitor-firebase/crashlytics
 
-⚡️ Capacitor plugin for Firebase Crashlytics.
+Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 
 ## Installation
 
@@ -9,7 +9,7 @@ npm install @capacitor-firebase/crashlytics
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios)).
 
 ### Android
 
@@ -19,7 +19,7 @@ See [Add the Firebase Crashlytics plugin to your app](https://firebase.google.co
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `18.3.2`)
+- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `18.3.6`)
 
 ### iOS
 
@@ -394,13 +394,15 @@ If you get obfuscated crash reports for iOS, make sure you have [initialized Cra
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/crashlytics/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/crashlytics/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/LICENSE).
 
 ## Credits
 
-This plugin is based on the [Capacitor Community Firebase Crashlytics plugin](https://github.com/capacitor-community/firebase-crashlytics).
+This plugin is based on the [Capacitor Community Firebase Crashlytics](https://github.com/capacitor-community/firebase-crashlytics) plugin.
 Thanks to everyone who contributed to the project!
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

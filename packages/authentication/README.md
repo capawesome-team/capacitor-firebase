@@ -1,6 +1,6 @@
 # @capacitor-firebase/authentication
 
-⚡️ Capacitor plugin for Firebase Authentication.
+Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 
 ## Installation
 
@@ -9,7 +9,7 @@ npm install @capacitor-firebase/authentication firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 On **iOS**, verify that this function is included in your app's `AppDelegate.swift`:
 
@@ -34,24 +34,24 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 The further installation steps depend on the selected authentication method:
 
-- [Apple Sign-In](/packages/authentication/docs/setup-apple.md)
-- [Facebook Sign-In](/packages/authentication/docs/setup-facebook.md)
-- [Game Center Sign-In](/packages/authentication/docs/setup-game-center.md)
-- [GitHub Sign-In](/packages/authentication/docs/setup-github.md)
-- [Google Sign-In](/packages/authentication/docs/setup-google.md)
-- [Microsoft Sign-In](/packages/authentication/docs/setup-microsoft.md)
-- [Play Games Sign-In](/packages/authentication/docs/setup-play-games.md)
-- [Twitter Sign-In](/packages/authentication/docs/setup-twitter.md)
-- [Yahoo Sign-In](/packages/authentication/docs/setup-yahoo.md)
+- [Apple Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-apple.md)
+- [Facebook Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-facebook.md)
+- [Game Center Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-game-center.md)
+- [GitHub Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-github.md)
+- [Google Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-google.md)
+- [Microsoft Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-microsoft.md)
+- [Play Games Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-play-games.md)
+- [Twitter Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-twitter.md)
+- [Yahoo Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-yahoo.md)
 
-- [Anonymous Sign-In](/packages/authentication/docs/setup-anonymous.md)
-- [Email Link Sign-In](/packages/authentication/docs/setup-email-link.md)
-- [Phone Number Sign-In](/packages/authentication/docs/setup-phone.md)
-- [Custom Token Sign-In](/packages/authentication/docs/custom-token.md)
+- [Anonymous Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-anonymous.md)
+- [Email Link Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-email-link.md)
+- [Phone Number Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-phone.md)
+- [Custom Token Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
 These SDKs can initialize on their own and collect various data.
-[Here](docs/third-party-sdks.md) you can find more information.
+For more information, see [Third-Party SDKs](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/third-party-sdks.md).
 
 ## Configuration
 
@@ -83,7 +83,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor/firebase-authentication" />
+/// <reference types="@capacitor-firebase/authentication" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
@@ -114,9 +114,13 @@ export default config;
    For native authentication, the native SDKs from Firebase, Google, etc. are used.
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
-   If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](/packages/authentication/docs/firebase-js-sdk.md)).
+   If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md)).
 1. **How can I use this plugin with the Firebase JavaScript SDK?**  
-   See [here](/packages/authentication/docs/firebase-js-sdk.md).
+   See [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md).
+
+## Firebase JavaScript SDK
+
+[Here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
 
 ## Demo
 
@@ -193,7 +197,7 @@ const sendSignInLinkToEmail = async () => {
         minimumVersion: '12',
       },
       dynamicLinkDomain: 'example.page.link',
-    }
+    },
   });
   // The link was successfully sent. Inform the user.
   // Save the email locally so you don't need to ask the user for it again
@@ -240,9 +244,10 @@ const signInWithEmailLink = async () => {
   // the flow on the same device where they started it.
   const emailLink = window.location.href;
   // Confirm the link is a sign-in with email link.
-  const { isSignInWithEmailLink } = await FirebaseAuthentication.isSignInWithEmailLink({
-    emailLink,
-  });
+  const { isSignInWithEmailLink } =
+    await FirebaseAuthentication.isSignInWithEmailLink({
+      emailLink,
+    });
   if (!isSignInWithEmailLink) {
     return;
   }
@@ -250,9 +255,7 @@ const signInWithEmailLink = async () => {
   if (!email) {
     // User opened the link on a different device. To prevent session fixation
     // attacks, ask the user to provide the associated email again.
-    email = window.prompt(
-      'Please provide your email for confirmation.',
-    );
+    email = window.prompt('Please provide your email for confirmation.');
   }
   // The client SDK will parse the code from the link for you.
   const result = await FirebaseAuthentication.signInWithEmailLink({
@@ -290,19 +293,32 @@ const signInWithPlayGames = async () => {
 };
 
 const signInWithPhoneNumber = async () => {
-  const { verificationId } = await FirebaseAuthentication.signInWithPhoneNumber(
-    {
+  return new Promise(async resolve => {
+    // Attach `phoneCodeSent` listener to be notified as soon as the SMS is sent
+    await FirebaseAuthentication.addListener('phoneCodeSent', async event => {
+      // Ask the user for the SMS code
+      const verificationCode = window.prompt(
+        'Please enter the verification code that was sent to your mobile device.',
+      );
+      // Confirm the verification code
+      const result = await FirebaseAuthentication.confirmVerificationCode({
+        verificationId: event.verificationId,
+        verificationCode,
+      });
+      resolve(result.user);
+    });
+    // Attach `phoneVerificationCompleted` listener to be notified if phone verification could be finished automatically
+    await FirebaseAuthentication.addListener(
+      'phoneVerificationCompleted',
+      async event => {
+        resolve(event.result.user);
+      },
+    );
+    // Start sign in with phone number and send the SMS
+    await FirebaseAuthentication.signInWithPhoneNumber({
       phoneNumber: '123456789',
-    },
-  );
-  const verificationCode = window.prompt(
-    'Please enter the verification code that was sent to your mobile device.',
-  );
-  const result = await FirebaseAuthentication.signInWithPhoneNumber({
-    verificationId,
-    verificationCode,
+    });
   });
-  return result.user;
 };
 
 const signInWithTwitter = async () => {
@@ -357,6 +373,7 @@ const useEmulator = async () => {
 
 * [`applyActionCode(...)`](#applyactioncode)
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
+* [`confirmVerificationCode(...)`](#confirmverificationcode)
 * [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
 * [`deleteUser()`](#deleteuser)
 * [`getCurrentUser()`](#getcurrentuser)
@@ -381,6 +398,7 @@ const useEmulator = async () => {
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
+* [`setPersistence(...)`](#setpersistence)
 * [`setTenantId(...)`](#settenantid)
 * [`signInAnonymously()`](#signinanonymously)
 * [`signInWithApple(...)`](#signinwithapple)
@@ -447,6 +465,27 @@ Completes the password reset process.
 | **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
 
 **Since:** 0.2.2
+
+--------------------
+
+
+### confirmVerificationCode(...)
+
+```typescript
+confirmVerificationCode(options: ConfirmVerificationCodeOptions) => Promise<SignInResult>
+```
+
+Finishes the phone number verification process.
+
+Only available for Android and iOS.
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#confirmverificationcodeoptions">ConfirmVerificationCodeOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 5.0.0
 
 --------------------
 
@@ -753,7 +792,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithPhoneNumber(...)
 
 ```typescript
-linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => Promise<LinkResult>
+linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => Promise<void>
 ```
 
 Links the user account with Phone Number authentication provider.
@@ -761,11 +800,13 @@ Links the user account with Phone Number authentication provider.
 The user must be logged in on the native layer.
 The `skipNativeAuth` configuration option has no effect here.
 
-| Param         | Type                                                                              |
-| ------------- | --------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#linkwithphonenumberoptions">LinkWithPhoneNumberOptions</a></code> |
+Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
+Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
+Use the `phoneCodeSent` listener to get the verification id.
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
 
 **Since:** 1.1.0
 
@@ -915,6 +956,25 @@ Sets the user-facing language code for auth operations.
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### setPersistence(...)
+
+```typescript
+setPersistence(options: SetPersistenceOptions) => Promise<void>
+```
+
+Sets the type of persistence for the currently saved auth session.
+
+Only available for Web.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setpersistenceoptions">SetPersistenceOptions</a></code> |
+
+**Since:** 5.2.0
 
 --------------------
 
@@ -1130,20 +1190,20 @@ Starts the Microsoft sign-in flow.
 ### signInWithPhoneNumber(...)
 
 ```typescript
-signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<SignInWithPhoneNumberResult>
+signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<void>
 ```
 
 Starts the sign-in flow using a phone number.
 
-Either the phone number or the verification code and verification ID must be provided.
+Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
+Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
+Use the `phoneCodeSent` listener to get the verification id.
 
 Only available for Android and iOS.
 
 | Param         | Type                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#signinwithphonenumberresult">SignInWithPhoneNumberResult</a>&gt;</code>
 
 **Since:** 0.1.0
 
@@ -1464,13 +1524,13 @@ A user account.
 | **`refreshToken`**  | <code>string</code>                                   | Refresh token used to reauthenticate the user. Avoid using this directly and prefer {@link <a href="#user">User.getIdToken</a>} to refresh the ID token instead. |
 | **`tenantId`**      | <code>string \| null</code>                           | The user's tenant ID.                                                                                                                                            |
 
-| Method               | Signature                                                                                             | Description                                                                                   |
-| -------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **delete**           | () =&gt; Promise&lt;void&gt;                                                                          | Deletes and signs out the user.                                                               |
-| **getIdToken**       | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;string&gt;                                     | Returns a JSON Web Token (JWT) used to identify the user to a Firebase service.               |
-| **getIdTokenResult** | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;<a href="#idtokenresult">IdTokenResult</a>&gt; | Returns a deserialized JSON Web Token (JWT) used to identitfy the user to a Firebase service. |
-| **reload**           | () =&gt; Promise&lt;void&gt;                                                                          | Refreshes the user, if signed in.                                                             |
-| **toJSON**           | () =&gt; object                                                                                       | Returns a JSON-serializable representation of this object.                                    |
+| Method               | Signature                                                                                             | Description                                                                                  |
+| -------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **delete**           | () =&gt; Promise&lt;void&gt;                                                                          | Deletes and signs out the user.                                                              |
+| **getIdToken**       | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;string&gt;                                     | Returns a JSON Web Token (JWT) used to identify the user to a Firebase service.              |
+| **getIdTokenResult** | (forceRefresh?: boolean \| undefined) =&gt; Promise&lt;<a href="#idtokenresult">IdTokenResult</a>&gt; | Returns a deserialized JSON Web Token (JWT) used to identify the user to a Firebase service. |
+| **reload**           | () =&gt; Promise&lt;void&gt;                                                                          | Refreshes the user, if signed in.                                                            |
+| **toJSON**           | () =&gt; object                                                                                       | Returns a JSON-serializable representation of this object.                                   |
 
 
 #### IdTokenResult
@@ -1492,13 +1552,13 @@ Interface representing ID token result obtained from {@link <a href="#user">User
 
 Interface representing a parsed ID token.
 
-| Prop              | Type                                                                        | Description                                                                         |
-| ----------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **`'exp'`**       | <code>string</code>                                                         | Expiration time of the token.                                                       |
-| **`'sub'`**       | <code>string</code>                                                         | UID of the user.                                                                    |
-| **`'auth_time'`** | <code>string</code>                                                         | Time at which authentication was performed.                                         |
-| **`'iat'`**       | <code>string</code>                                                         | Issuance time of the token.                                                         |
-| **`'firebase'`**  | <code>{ sign_in_provider?: string; sign_in_second_factor?: string; }</code> | Firebase specific claims, containing the provider(s) used to authenticate the user. |
+| Prop              | Type                                                                                                                                         | Description                                                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **`'exp'`**       | <code>string</code>                                                                                                                          | Expiration time of the token.                                                       |
+| **`'sub'`**       | <code>string</code>                                                                                                                          | UID of the user.                                                                    |
+| **`'auth_time'`** | <code>string</code>                                                                                                                          | Time at which authentication was performed.                                         |
+| **`'iat'`**       | <code>string</code>                                                                                                                          | Issuance time of the token.                                                         |
+| **`'firebase'`**  | <code>{ sign_in_provider?: string; sign_in_second_factor?: string; identities?: <a href="#record">Record</a>&lt;string, string&gt;; }</code> | Firebase specific claims, containing the provider(s) used to authenticate the user. |
 
 
 #### UserMetadata
@@ -1535,6 +1595,7 @@ Interface representing a user's metadata.
 | **`nonce`**             | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. | 0.1.0 |
 | **`providerId`**        | <code>string</code> | The authentication provider ID for the credential.                                                                                       | 0.1.0 |
 | **`secret`**            | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     | 0.1.0 |
+| **`serverAuthCode`**    | <code>string</code> | The server auth code. Only available for Google Sign-in and Play Games Sign-In on Android and iOS.                                       | 5.2.0 |
 
 
 #### AdditionalUserInfo
@@ -1547,6 +1608,14 @@ A structure containing additional user information from a federated identity pro
 | **`profile`**    | <code><a href="#record">Record</a>&lt;string, unknown&gt; \| null</code> | Map containing IDP-specific user data.                                                   |
 | **`providerId`** | <code>string \| null</code>                                              | Identifier for the provider used to authenticate this user.                              |
 | **`username`**   | <code>string \| null</code>                                              | The username if the provider is GitHub or Twitter.                                       |
+
+
+#### ConfirmVerificationCodeOptions
+
+| Prop                   | Type                | Description                                                                                                                                        | Since |
+| ---------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                               | 5.0.0 |
+| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided. | 5.0.0 |
 
 
 #### CreateUserWithEmailAndPasswordOptions
@@ -1604,8 +1673,8 @@ A structure containing additional user information from a federated identity pro
 | Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                       | Default              | Since |
 | ---------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- |
 | **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS. |                      | 1.1.0 |
-| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.                                                                                                     | <code>'popup'</code> | 1.3.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                              |                      | 1.1.0 |
+| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                             | <code>'popup'</code> | 1.3.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                      |                      | 1.1.0 |
 
 
 #### SignInCustomParameter
@@ -1632,11 +1701,13 @@ A structure containing additional user information from a federated identity pro
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
-#### LinkWithPhoneNumberOptions
+#### SignInWithPhoneNumberOptions
 
-| Prop              | Type                | Description                              | Since |
-| ----------------- | ------------------- | ---------------------------------------- | ----- |
-| **`phoneNumber`** | <code>string</code> | The user's phone number in E.164 format. | 1.1.0 |
+| Prop                    | Type                           | Description                                                                                                                                                   | Default            | Since |
+| ----------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`phoneNumber`**       | <code>string</code>            | The phone number to be verified in E.164 format.                                                                                                              |                    | 0.1.0 |
+| **`recaptchaVerifier`** | <code>RecaptchaVerifier</code> | Only available for Web.                                                                                                                                       |                    | 1.3.0 |
+| **`resendCode`**        | <code>boolean</code>           | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 
 
 #### SendPasswordResetEmailOptions
@@ -1675,6 +1746,22 @@ bundle identifiers.
 | **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
 
 
+#### SetPersistenceOptions
+
+| Prop              | Type                                                | Description            | Since |
+| ----------------- | --------------------------------------------------- | ---------------------- | ----- |
+| **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
+
+
+#### Persistence
+
+An interface covering the possible persistence mechanism types.
+
+| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
+
+
 #### SetTenantIdOptions
 
 | Prop           | Type                | Description    | Since |
@@ -1707,29 +1794,9 @@ bundle identifiers.
 
 #### SignInOptions
 
-| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
-| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.                                                                                                                                                                                                                                                                                                                                                                                                                        | 0.1.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 0.3.1 |
-| **`skipNativeAuth`**   | <code>boolean</code>                 | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
-
-
-#### SignInWithPhoneNumberResult
-
-| Prop                 | Type                | Description                                                             | Since |
-| -------------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
-| **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. | 0.1.0 |
-
-
-#### SignInWithPhoneNumberOptions
-
-| Prop                    | Type                           | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
-| ----------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`phoneNumber`**       | <code>string</code>            | The phone number to be verified. Cannot be used in combination with `verificationId` and `verificationCode`. Use the `phoneVerificationCompleted` listener to be notified when the verification is completed. Use the `phoneVerificationFailed` listener to be notified when the verification is failed. Use the `phoneCodeSent` listener to get the verification id. |                    | 0.1.0 |
-| **`recaptchaVerifier`** | <code>RecaptchaVerifier</code> | Only available for Web.                                                                                                                                                                                                                                                                                                                                               |                    | 1.3.0 |
-| **`resendCode`**        | <code>boolean</code>           | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. The `phoneNumber` option must also be provided. Only available for Android.                                                                                                                                                         | <code>false</code> | 1.3.0 |
-| **`verificationId`**    | <code>string</code>            | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                                                                                                                                                                                                                                                  |                    | 0.1.0 |
-| **`verificationCode`**  | <code>string</code>            | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided.                                                                                                                                                                                                                    |                    | 0.1.0 |
+| Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
+| -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
 
 
 #### UnlinkResult
@@ -1790,21 +1857,21 @@ bundle identifiers.
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
 
 
-#### PhoneVerificationCompleted
+#### PhoneVerificationCompletedEvent
 
-| Prop                   | Type                | Description                                            | Since |
-| ---------------------- | ------------------- | ------------------------------------------------------ | ----- |
-| **`verificationCode`** | <code>string</code> | The verification code sent to the user's phone number. | 1.3.0 |
+| Prop                   | Type                | Description                                                                                                       | Since |
+| ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------- | ----- |
+| **`verificationCode`** | <code>string</code> | The verification code sent to the user's phone number. If instant verification is used, this property is not set. | 5.0.0 |
 
 
-#### PhoneVerificationFailed
+#### PhoneVerificationFailedEvent
 
 | Prop          | Type                | Description        | Since |
 | ------------- | ------------------- | ------------------ | ----- |
 | **`message`** | <code>string</code> | The error message. | 1.3.0 |
 
 
-#### PhoneCodeSent
+#### PhoneCodeSentEvent
 
 | Prop                 | Type                | Description                                                             | Since |
 | -------------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
@@ -1831,6 +1898,11 @@ Construct a type with a set of properties K of type T
 <code><a href="#signinresult">SignInResult</a></code>
 
 
+#### LinkWithPhoneNumberOptions
+
+<code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
+
+
 #### AuthStateChangeListener
 
 Callback to receive the user's sign-in state change notifications.
@@ -1842,24 +1914,34 @@ Callback to receive the user's sign-in state change notifications.
 
 Callback to receive the verification code sent to the user's phone number.
 
-<code>(event: <a href="#phoneverificationcompleted">PhoneVerificationCompleted</a>): void</code>
+<code>(event: <a href="#phoneverificationcompletedevent">PhoneVerificationCompletedEvent</a>): void</code>
 
 
 #### PhoneVerificationFailedListener
 
 Callback to receive notifications of failed phone verification.
 
-<code>(event: <a href="#phoneverificationfailed">PhoneVerificationFailed</a>): void</code>
+<code>(event: <a href="#phoneverificationfailedevent">PhoneVerificationFailedEvent</a>): void</code>
 
 
 #### PhoneCodeSentListener
 
 Callback to receive the verification ID.
 
-<code>(event: <a href="#phonecodesent">PhoneCodeSent</a>): void</code>
+<code>(event: <a href="#phonecodesentevent">PhoneCodeSentEvent</a>): void</code>
 
 
 ### Enums
+
+
+#### Persistence
+
+| Members              | Value                           | Description                                  | Since |
+| -------------------- | ------------------------------- | -------------------------------------------- | ----- |
+| **`IndexedDbLocal`** | <code>'INDEXED_DB_LOCAL'</code> | Long term persistence using IndexedDB.       | 5.2.0 |
+| **`InMemory`**       | <code>'IN_MEMORY'</code>        | No persistence.                              | 5.2.0 |
+| **`BrowserLocal`**   | <code>'BROWSER_LOCAL'</code>    | Long term persistence using local storage.   | 5.2.0 |
+| **`BrowserSession`** | <code>'BROWSER_SESSION'</code>  | Temporary persistence using session storage. | 5.2.0 |
 
 
 #### ProviderId
@@ -1882,13 +1964,15 @@ Callback to receive the verification ID.
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/authentication/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/authentication/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/LICENSE).
 
 ## Credits
 
-This plugin is based on the [Capacitor Firebase Authentication plugin](https://github.com/robingenz/capacitor-firebase-authentication).
+This plugin is based on the [Capacitor Firebase Authentication](https://github.com/robingenz/capacitor-firebase-authentication) plugin.
 Thanks to everyone who contributed to the project!
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

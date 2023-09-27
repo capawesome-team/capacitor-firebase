@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.remoteconfig;
 
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -29,8 +30,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -50,15 +52,16 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
     @PluginMethod
     public void fetchConfig(PluginCall call) {
         try {
-            long minimumFetchIntervalInSeconds = call.getLong("minimumFetchIntervalInSeconds", 43200L);
+            int minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", 43200);
             implementation.fetchConfig(
                 minimumFetchIntervalInSeconds,
                 new FetchConfigResultCallback() {
@@ -73,8 +76,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -91,8 +95,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             result.put("value", getValueResult.value);
             result.put("source", getValueResult.source);
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -109,8 +114,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             result.put("value", getValueResult.value);
             result.put("source", getValueResult.source);
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -127,8 +133,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             result.put("value", getValueResult.value);
             result.put("source", getValueResult.source);
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 

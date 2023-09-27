@@ -6,6 +6,7 @@
 CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(applyActionCode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(confirmPasswordReset, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(confirmVerificationCode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(createUserWithEmailAndPassword, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(deleteUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCurrentUser, CAPPluginReturnPromise);
@@ -30,6 +31,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setLanguageCode, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setPersistence, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setTenantId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInAnonymously, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithApple, CAPPluginReturnPromise);

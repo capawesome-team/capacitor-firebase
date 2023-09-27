@@ -1,6 +1,6 @@
 # @capacitor-firebase/app-check
 
-⚡️ Capacitor plugin for Firebase App Check.
+Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
 ## Installation
 
@@ -9,7 +9,7 @@ npm install @capacitor-firebase/app-check firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -19,8 +19,8 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/an
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `16.1.0`)
-- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `16.1.0`)
+- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `16.1.2`)
+- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `16.1.2`)
 
 ### iOS
 
@@ -38,6 +38,10 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/we
 
 No configuration required for this plugin.
 
+## Firebase JavaScript SDK
+
+[Here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/app-check/docs/firebase-js-sdk.md) you can find information on how to use the plugin with the Firebase JS SDK.
+
 ## Demo
 
 A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
@@ -46,8 +50,6 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ```typescript
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { getApp } from 'firebase/app';
-import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 
 const getToken = async () => {
   const { token } = FirebaseAppCheck.getToken({
@@ -56,23 +58,10 @@ const getToken = async () => {
   return token;
 };
 
-const initializeOnWeb = async () => {
+const initialize = async () => {
   await FirebaseAppCheck.initialize({
     siteKey: 'myKey',
   });
-};
-
-// Only necessary if you want to use this plugin
-// with Firebase JS SDK on Android and iOS.
-const initializeOnNative = async () => {
-  await FirebaseAppCheck.initialize();
-  const provider = new CustomProvider({
-    getToken: () => {
-      return FirebaseAppCheck.getToken();
-    },
-  });
-  const app = getApp();
-  await initializeAppCheck(app, { provider });
 };
 
 const setTokenAutoRefreshEnabled = async () => {
@@ -270,10 +259,34 @@ Callback to receive the token change event.
 
 </docgen-api>
 
+## Testing
+
+### Android
+
+Follow these steps to test your implementation on a real device:
+
+1. Start your app on the Android device.
+1. Run the following command to grab your temporary secret from the android logs:
+
+```
+adb logcat | grep DebugAppCheckProvider
+```
+
+The output should look like this:
+
+```
+D DebugAppCheckProvider: Enter this debug secret into the allow list in
+the Firebase Console for your project: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+```
+
+1. Next, open the [App Check project](https://console.firebase.google.com/u/0/project/_/appcheck/apps) in the Firebase Console and select Manage debug tokens from the overflow menu of your app. Then, register the debug secret from the output.
+
 ## Changelog
 
-See [CHANGELOG.md](/packages/app-check/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/app-check/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/app-check/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/app-check/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

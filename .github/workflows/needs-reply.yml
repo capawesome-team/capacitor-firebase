@@ -14,6 +14,7 @@ concurrency:
 jobs:
   needs-reply:
     runs-on: ubuntu-latest
+    if: github.repository == 'capawesome-team/capacitor-firebase'
     steps:
       - name: Close old issues that need reply
         uses: dwieeb/needs-reply@v2

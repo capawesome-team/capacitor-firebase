@@ -1,27 +1,37 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
+import android.Manifest;
+import android.app.NotificationChannel;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import com.getcapacitor.Bridge;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
+import com.getcapacitor.PermissionState;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginHandle;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
+import com.getcapacitor.annotation.PermissionCallback;
 import com.google.firebase.messaging.RemoteMessage;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@CapacitorPlugin(name = "FirebaseMessaging", permissions = @Permission(strings = {}, alias = "receive"))
+@CapacitorPlugin(
+    name = "FirebaseMessaging",
+    permissions = @Permission(strings = { Manifest.permission.POST_NOTIFICATIONS }, alias = FirebaseMessagingPlugin.PUSH_NOTIFICATIONS)
+)
 public class FirebaseMessagingPlugin extends Plugin {
+
+    public static final String PUSH_NOTIFICATIONS = "receive";
 
     public static final String TAG = "FirebaseMessaging";
     public static final String TOKEN_RECEIVED_EVENT = "tokenReceived";
@@ -30,6 +40,8 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String ERROR_NOTIFICATIONS_INVALID = "The provided notifications are invalid.";
     public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
     public static final String ERROR_NOTIFICATIONS_MISSING = "notifications must be provided.";
+    public static final String ERROR_ID_MISSING = "id must be provided.";
+    public static final String ERROR_ID_OR_NAME_MISSING = "id and name must be provided.";
     public static Bridge staticBridge = null;
     public static String lastToken = null;
     public static RemoteMessage lastRemoteMessage = null;
@@ -76,6 +88,34 @@ public class FirebaseMessagingPlugin extends Plugin {
         }
     }
 
+    @Override
+    @PluginMethod
+    public void checkPermissions(PluginCall call) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            JSObject result = new JSObject();
+            result.put("receive", "granted");
+            call.resolve(result);
+        } else {
+            super.checkPermissions(call);
+        }
+    }
+
+    @Override
+    @PluginMethod
+    public void requestPermissions(PluginCall call) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            JSObject result = new JSObject();
+            result.put("receive", "granted");
+            call.resolve(result);
+        } else {
+            if (getPermissionState(PUSH_NOTIFICATIONS) == PermissionState.GRANTED) {
+                this.checkPermissions(call);
+            } else {
+                requestPermissionForAlias(PUSH_NOTIFICATIONS, call, "permissionsCallback");
+            }
+        }
+    }
+
     @PluginMethod
     public void isSupported(PluginCall call) {
         JSObject result = new JSObject();
@@ -101,8 +141,9 @@ public class FirebaseMessagingPlugin extends Plugin {
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -111,8 +152,9 @@ public class FirebaseMessagingPlugin extends Plugin {
         try {
             implementation.deleteToken();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -129,8 +171,9 @@ public class FirebaseMessagingPlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("notifications", notificationsResult);
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -165,8 +208,9 @@ public class FirebaseMessagingPlugin extends Plugin {
 
             implementation.removeDeliveredNotifications(tags, ids);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -175,8 +219,9 @@ public class FirebaseMessagingPlugin extends Plugin {
         try {
             implementation.removeAllDeliveredNotifications();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -190,8 +235,9 @@ public class FirebaseMessagingPlugin extends Plugin {
             }
             implementation.subscribeToTopic(topic);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -205,9 +251,81 @@ public class FirebaseMessagingPlugin extends Plugin {
             }
             implementation.unsubscribeFromTopic(topic);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
+    }
+
+    @PluginMethod
+    public void createChannel(PluginCall call) {
+        try {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                call.unavailable();
+                return;
+            }
+            NotificationChannel notificationChannel = FirebaseMessagingHelper.createNotificationChannelFromPluginCall(
+                call,
+                getContext().getPackageName()
+            );
+            if (notificationChannel == null) {
+                call.reject(ERROR_ID_OR_NAME_MISSING);
+                return;
+            }
+            implementation.createChannel(notificationChannel);
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void deleteChannel(PluginCall call) {
+        try {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                call.unavailable();
+                return;
+            }
+            String id = call.getString("id");
+            if (id == null) {
+                call.reject(ERROR_ID_MISSING);
+                return;
+            }
+
+            implementation.deleteChannelById(id);
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void listChannels(PluginCall call) {
+        try {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                call.unavailable();
+                return;
+            }
+            List<NotificationChannel> notificationChannels = implementation.getNotificationChannels();
+            JSArray channelsResult = new JSArray();
+            for (NotificationChannel notificationChannel : notificationChannels) {
+                JSObject channelResult = FirebaseMessagingHelper.createChannelResult(notificationChannel);
+                channelsResult.put(channelResult);
+            }
+            JSObject result = new JSObject();
+            result.put("channels", channelsResult);
+            call.resolve(result);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PermissionCallback
+    private void permissionsCallback(PluginCall call) {
+        this.checkPermissions(call);
     }
 
     private void handleTokenReceived(@NonNull String token) {

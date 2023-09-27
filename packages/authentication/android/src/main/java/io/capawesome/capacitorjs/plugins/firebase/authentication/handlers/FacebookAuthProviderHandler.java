@@ -110,9 +110,9 @@ public class FacebookAuthProviderHandler {
             return;
         }
         if (isLink) {
-            pluginImplementation.handleSuccessfulLink(savedCall, credential, null, null, accessTokenString);
+            pluginImplementation.handleSuccessfulLink(savedCall, credential, null, null, accessTokenString, null);
         } else {
-            pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString, null);
+            pluginImplementation.handleSuccessfulSignIn(savedCall, credential, null, null, accessTokenString, null, null);
         }
     }
 

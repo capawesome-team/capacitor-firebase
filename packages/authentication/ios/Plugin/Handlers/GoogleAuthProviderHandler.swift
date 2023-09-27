@@ -32,11 +32,12 @@ class GoogleAuthProviderHandler: NSObject {
         #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientId)
+        GIDSignIn.sharedInstance.configuration = config
         guard let controller = self.pluginImplementation.getPlugin().bridge?.viewController else { return }
         let scopes = call.getArray("scopes", String.self) ?? []
 
         DispatchQueue.main.async {
-            GIDSignIn.sharedInstance.signIn(with: config, presenting: controller, hint: nil, additionalScopes: scopes, callback: { user, error in
+            GIDSignIn.sharedInstance.signIn(withPresenting: controller, hint: nil, additionalScopes: scopes) { [unowned self] result, error in
                 if let error = error {
                     if isLink == true {
                         self.pluginImplementation.handleFailedLink(message: nil, error: error)
@@ -46,17 +47,22 @@ class GoogleAuthProviderHandler: NSObject {
                     return
                 }
 
-                guard let authentication = user?.authentication else { return }
-                guard let idToken = authentication.idToken else { return }
-                let accessToken = authentication.accessToken
-
-                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-                if isLink == true {
-                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
-                } else {
-                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                guard let user = result?.user,
+                      let idToken = user.idToken?.tokenString
+                else {
+                    return
                 }
-            })
+                let accessToken = user.accessToken.tokenString
+                let serverAuthCode = result?.serverAuthCode
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+                if isLink == true {
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken,
+                                                                   serverAuthCode: serverAuthCode)
+                } else {
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken,
+                                                                     displayName: nil, authorizationCode: nil, serverAuthCode: serverAuthCode)
+                }
+            }
         }
         #endif
     }

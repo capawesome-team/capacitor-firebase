@@ -18,6 +18,13 @@ public struct ProviderId {
 }
 
 public class FirebaseAuthenticationHelper {
+    public static func createErrorCode(error: Error?) -> String? {
+        if let error = error as NSError? {
+            return convertErrorCodeToString(errorCode: error.code)
+        }
+        return nil
+    }
+
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
         return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, additionalUserInfo: additionalUserInfo, displayName: nil)
     }
@@ -28,8 +35,14 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
+        return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken,
+                                  serverAuthCode: nil, additionalUserInfo: additionalUserInfo, displayName: nil, authorizationCode: nil)
+    }
+
+    // swiftlint:disable function_parameter_count
+    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, serverAuthCode: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
         let userResult = self.createUserResult(user, displayName: displayName)
-        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode)
+        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode, serverAuthCode: serverAuthCode)
         let additionalUserInfoResult = self.createAdditionalUserInfoResult(additionalUserInfo)
         var result = JSObject()
         result["user"] = userResult
@@ -57,15 +70,17 @@ public class FirebaseAuthenticationHelper {
         result["email"] = user.email
         result["emailVerified"] = user.isEmailVerified
         result["isAnonymous"] = user.isAnonymous
+        result["metadata"] = self.createUserMetadataResult(user.metadata)
         result["phoneNumber"] = user.phoneNumber
         result["photoUrl"] = user.photoURL?.absoluteString
+        result["providerData"] = self.createUserProviderDataResult(user.providerData)
         result["providerId"] = user.providerID
         result["tenantId"] = user.tenantID
         result["uid"] = user.uid
         return result
     }
 
-    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?, authorizationCode: String?) -> JSObject? {
+    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?, authorizationCode: String?, serverAuthCode: String?) -> JSObject? {
         if credential == nil && idToken == nil && nonce == nil && accessToken == nil && authorizationCode == nil {
             return nil
         }
@@ -99,6 +114,9 @@ public class FirebaseAuthenticationHelper {
         if let authorizationCode = authorizationCode {
             result["authorizationCode"] = authorizationCode
         }
+        if let serverAuthCode = serverAuthCode {
+            result["serverAuthCode"] = serverAuthCode
+        }
         return result
     }
 
@@ -116,5 +134,95 @@ public class FirebaseAuthenticationHelper {
             result["username"] = username
         }
         return result
+    }
+
+    private static func createUserMetadataResult(_ metadata: UserMetadata) -> JSObject {
+        var result = JSObject()
+        if let creationDate = metadata.creationDate?.timeIntervalSince1970 {
+            result["creationTime"] = creationDate * 1000
+        }
+        if let lastSignInDate = metadata.lastSignInDate?.timeIntervalSince1970 {
+            result["lastSignInTime"] = lastSignInDate * 1000
+        }
+        return result
+    }
+
+    private static func createUserProviderDataResult(_ providerData: [UserInfo]) -> JSArray {
+        var result = JSArray()
+        for userInfo in providerData {
+            var userInfoResult = JSObject()
+            userInfoResult["displayName"] = userInfo.displayName
+            userInfoResult["email"] = userInfo.email
+            userInfoResult["phoneNumber"] = userInfo.phoneNumber
+            userInfoResult["photoUrl"] = userInfo.photoURL?.absoluteString
+            userInfoResult["providerId"] = userInfo.providerID
+            userInfoResult["uid"] = userInfo.uid
+            result.append(userInfoResult)
+        }
+        return result
+    }
+
+    private static func convertErrorCodeToString(errorCode: Int) -> String? {
+        let errorCodes: [Int: String] = [
+            AuthErrorCode.invalidCustomToken.rawValue: "invalid-custom-token",
+            AuthErrorCode.customTokenMismatch.rawValue: "custom-token-mismatch",
+            AuthErrorCode.invalidCredential.rawValue: "invalid-credential",
+            AuthErrorCode.userDisabled.rawValue: "user-disabled",
+            AuthErrorCode.operationNotAllowed.rawValue: "operation-not-allowed",
+            AuthErrorCode.emailAlreadyInUse.rawValue: "email-already-in-use",
+            AuthErrorCode.invalidEmail.rawValue: "invalid-email",
+            AuthErrorCode.wrongPassword.rawValue: "wrong-password",
+            AuthErrorCode.tooManyRequests.rawValue: "too-many-requests",
+            AuthErrorCode.userNotFound.rawValue: "user-not-found",
+            AuthErrorCode.accountExistsWithDifferentCredential.rawValue: "account-exists-with-different-credential",
+            AuthErrorCode.requiresRecentLogin.rawValue: "requires-recent-login",
+            AuthErrorCode.providerAlreadyLinked.rawValue: "provider-already-linked",
+            AuthErrorCode.noSuchProvider.rawValue: "no-such-provider",
+            AuthErrorCode.invalidUserToken.rawValue: "invalid-user-token",
+            AuthErrorCode.networkError.rawValue: "network-request-failed",
+            AuthErrorCode.userTokenExpired.rawValue: "user-token-expired",
+            AuthErrorCode.invalidAPIKey.rawValue: "invalid-api-key",
+            AuthErrorCode.userMismatch.rawValue: "user-mismatch",
+            AuthErrorCode.credentialAlreadyInUse.rawValue: "credential-already-in-use",
+            AuthErrorCode.weakPassword.rawValue: "weak-password",
+            AuthErrorCode.appNotAuthorized.rawValue: "app-not-authorized",
+            AuthErrorCode.expiredActionCode.rawValue: "expired-action-code",
+            AuthErrorCode.invalidActionCode.rawValue: "invalid-action-code",
+            AuthErrorCode.invalidMessagePayload.rawValue: "invalid-message-payload",
+            AuthErrorCode.invalidSender.rawValue: "invalid-sender",
+            AuthErrorCode.invalidRecipientEmail.rawValue: "invalid-recipient-email",
+            AuthErrorCode.missingEmail.rawValue: "invalid-email",
+            AuthErrorCode.missingIosBundleID.rawValue: "missing-ios-bundle-id",
+            AuthErrorCode.missingAndroidPackageName.rawValue: "missing-android-pkg-name",
+            AuthErrorCode.unauthorizedDomain.rawValue: "unauthorized-domain",
+            AuthErrorCode.invalidContinueURI.rawValue: "invalid-continue-uri",
+            AuthErrorCode.missingContinueURI.rawValue: "missing-continue-uri",
+            AuthErrorCode.missingPhoneNumber.rawValue: "missing-phone-number",
+            AuthErrorCode.invalidPhoneNumber.rawValue: "invalid-phone-number",
+            AuthErrorCode.missingVerificationCode.rawValue: "missing-verification-code",
+            AuthErrorCode.invalidVerificationCode.rawValue: "invalid-verification-code",
+            AuthErrorCode.missingVerificationID.rawValue: "missing-verification-id",
+            AuthErrorCode.invalidVerificationID.rawValue: "invalid-verification-id",
+            AuthErrorCode.missingAppCredential.rawValue: "missing-app-credential",
+            AuthErrorCode.invalidAppCredential.rawValue: "invalid-app-credential",
+            AuthErrorCode.sessionExpired.rawValue: "code-expired",
+            AuthErrorCode.quotaExceeded.rawValue: "quota-exceeded",
+            AuthErrorCode.missingAppToken.rawValue: "missing-apns-token",
+            AuthErrorCode.notificationNotForwarded.rawValue: "notification-not-forwarded",
+            AuthErrorCode.appNotVerified.rawValue: "app-not-verified",
+            AuthErrorCode.captchaCheckFailed.rawValue: "captcha-check-failed",
+            AuthErrorCode.webContextAlreadyPresented.rawValue: "cancelled-popup-request",
+            AuthErrorCode.webContextCancelled.rawValue: "popup-closed-by-user",
+            AuthErrorCode.appVerificationUserInteractionFailure.rawValue: "app-verification-user-interaction-failure",
+            AuthErrorCode.invalidClientID.rawValue: "invalid-oauth-client-id",
+            AuthErrorCode.webNetworkRequestFailed.rawValue: "network-request-failed",
+            AuthErrorCode.webInternalError.rawValue: "internal-error",
+            AuthErrorCode.nullUser.rawValue: "null-user",
+            AuthErrorCode.keychainError.rawValue: "keychain-error",
+            AuthErrorCode.internalError.rawValue: "internal-error",
+            AuthErrorCode.malformedJWT.rawValue: "malformed-jwt"
+        ]
+
+        return errorCodes[errorCode]
     }
 }

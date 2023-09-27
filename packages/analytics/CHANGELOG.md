@@ -1,5 +1,49 @@
 # Changelog
 
+## 5.1.0
+
+### Minor Changes
+
+- [`98627e6`](https://github.com/capawesome-team/capacitor-firebase/commit/98627e60aeb669ce04641cf9bec3490e52ae27c0) ([#403](https://github.com/capawesome-team/capacitor-firebase/pull/403)): feat: support Firebase JS SDK 10
+
+## 5.0.1
+
+### Patch Changes
+
+- [`88ff4de`](https://github.com/capawesome-team/capacitor-firebase/commit/88ff4de76350bc3cbe33d73005ddcec2144f80f6) ([#377](https://github.com/capawesome-team/capacitor-firebase/pull/377)): fix(ios): pod `FirebaseAnalyticsWithoutAdIdSupport` does not exist
+
+## 5.0.0
+
+### Major Changes
+
+- [`fe89573`](https://github.com/capawesome-team/capacitor-firebase/commit/fe89573f7c02c12d9f82c8531b3a513e32a21602) ([#357](https://github.com/capawesome-team/capacitor-firebase/pull/357)): refactor(android)!: use `getMessage` instead of `getLocalizedMessage`
+
+* [`9711b58`](https://github.com/capawesome-team/capacitor-firebase/commit/9711b58f077fec08c33c951e685ecf7346258cba) ([#355](https://github.com/capawesome-team/capacitor-firebase/pull/355)): feat!: update to Capacitor 5
+
+- [`b98f476`](https://github.com/capawesome-team/capacitor-firebase/commit/b98f4764623f9edabf3ba9e7e03ae63880103241) ([#366](https://github.com/capawesome-team/capacitor-firebase/pull/366)): feat!: update native SDKs
+
+### Patch Changes
+
+- [`da09a78`](https://github.com/capawesome-team/capacitor-firebase/commit/da09a78115d0c1a868291b89df32c321cd3c82a5): fix(android): `logEvent(...)` throws an exception if no params are given
+
+* [`ea4ad06`](https://github.com/capawesome-team/capacitor-firebase/commit/ea4ad06f8f28efc4763fcf119076b9bb10708c76) ([#344](https://github.com/capawesome-team/capacitor-firebase/pull/344)): fix: improve error logging
+
+## 1.4.0
+
+### Minor Changes
+
+- [`823d116`](https://github.com/capawesome-team/capacitor-firebase/commit/823d1164904bf046a7318b6fd0c7b857127d637d) ([#322](https://github.com/capawesome-team/capacitor-firebase/pull/322)): feat: add method `getAppInstanceId`
+
+### Patch Changes
+
+- [`1b9de05`](https://github.com/capawesome-team/capacitor-firebase/commit/1b9de05acd70f88362a6979507676effc5fb5a0f) ([#335](https://github.com/capawesome-team/capacitor-firebase/pull/335)): fix(ios): allow screen name to be set without screen class and vice-versa
+
+## 1.3.0
+
+### Minor Changes
+
+- [`5665835`](https://github.com/capawesome-team/capacitor-firebase/commit/566583561a10f803002639b7b477c6d00cf8dedf) ([#265](https://github.com/capawesome-team/capacitor-firebase/pull/265)): feat: update all native SDKs
+
 ## 1.2.0
 
 ## 1.1.0

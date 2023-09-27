@@ -9,6 +9,7 @@ import {
 
 import type {
   FirebaseAnalyticsPlugin,
+  GetAppInstanceIdResult,
   IsEnabledResult,
   LogEventOptions,
   SetCurrentScreenOptions,
@@ -22,6 +23,10 @@ export class FirebaseAnalyticsWeb
   extends WebPlugin
   implements FirebaseAnalyticsPlugin
 {
+  public async getAppInstanceId(): Promise<GetAppInstanceIdResult> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
   public async setUserId(options: SetUserIdOptions): Promise<void> {
     const analytics = getAnalytics();
     setUserId(analytics, options.userId || '');

@@ -7,6 +7,7 @@ import Capacitor
  */
 @objc(FirebaseRemoteConfigPlugin)
 public class FirebaseRemoteConfigPlugin: CAPPlugin {
+    public let tag = "FirebaseRemoteConfig"
     public let errorKeyMissing = "key must be provided."
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."
     private var implementation: FirebaseRemoteConfig?
@@ -23,7 +24,6 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             }
             call.resolve()
         })
-        call.resolve()
     }
 
     @objc func fetchAndActivate(_ call: CAPPluginCall) {
@@ -34,7 +34,6 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             }
             call.resolve()
         })
-        call.resolve()
     }
 
     @objc func fetchConfig(_ call: CAPPluginCall) {
@@ -46,7 +45,6 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
             }
             call.resolve()
         })
-        call.resolve()
     }
 
     @objc func getBoolean(_ call: CAPPluginCall) {

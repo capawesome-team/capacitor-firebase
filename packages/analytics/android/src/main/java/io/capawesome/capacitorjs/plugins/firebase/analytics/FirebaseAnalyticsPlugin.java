@@ -1,7 +1,9 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -10,6 +12,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "FirebaseAnalytics")
 public class FirebaseAnalyticsPlugin extends Plugin {
 
+    public static final String TAG = "FirebaseAnalytics";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
     public static final String ERROR_NAME_MISSING = "name must be provided.";
@@ -20,13 +23,40 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void getAppInstanceId(PluginCall call) {
+        try {
+            implementation.getAppInstanceId(
+                new GetAppInstanceIdCallback() {
+                    @Override
+                    public void success(@Nullable String appInstanceId) {
+                        JSObject result = new JSObject();
+                        if (appInstanceId != null) {
+                            result.put("appInstanceId", appInstanceId);
+                        }
+                        call.resolve(result);
+                    }
+
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
+                }
+            );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
     public void setUserId(PluginCall call) {
         try {
             String userId = call.getString("userId", null);
             implementation.setUserId(userId);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -41,8 +71,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             String value = call.getString("value", null);
             implementation.setUserProperty(key, value);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -53,8 +84,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             String screenClassOverride = call.getString("screenClassOverride", null);
             implementation.setCurrentScreen(screenName, screenClassOverride);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -69,8 +101,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             JSObject params = call.getObject("params");
             implementation.logEvent(name, params);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -80,8 +113,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             Long duration = call.getLong("duration", 1800000L);
             implementation.setSessionTimeoutDuration(duration);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -95,8 +129,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             }
             implementation.setEnabled(enabled);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -110,8 +145,9 @@ public class FirebaseAnalyticsPlugin extends Plugin {
         try {
             implementation.resetAnalyticsData();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 }

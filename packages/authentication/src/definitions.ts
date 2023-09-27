@@ -55,6 +55,16 @@ export interface FirebaseAuthenticationPlugin {
    */
   confirmPasswordReset(options: ConfirmPasswordResetOptions): Promise<void>;
   /**
+   * Finishes the phone number verification process.
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 5.0.0
+   */
+  confirmVerificationCode(
+    options: ConfirmVerificationCodeOptions,
+  ): Promise<SignInResult>;
+  /**
    * Creates a new user account with email and password.
    * If the new account was created, the user is signed in automatically.
    *
@@ -188,9 +198,13 @@ export interface FirebaseAuthenticationPlugin {
    * The user must be logged in on the native layer.
    * The `skipNativeAuth` configuration option has no effect here.
    *
+   * Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
+   * Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
+   * Use the `phoneCodeSent` listener to get the verification id.
+   *
    * @since 1.1.0
    */
-  linkWithPhoneNumber(options: LinkWithPhoneNumberOptions): Promise<LinkResult>;
+  linkWithPhoneNumber(options: LinkWithPhoneNumberOptions): Promise<void>;
   /**
    * Links the user account with Play Games authentication provider.
    *
@@ -252,6 +266,14 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
+  /**
+   * Sets the type of persistence for the currently saved auth session.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   */
+  setPersistence(options: SetPersistenceOptions): Promise<void>;
   /**
    * Sets the tenant id.
    *
@@ -334,15 +356,15 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Starts the sign-in flow using a phone number.
    *
-   * Either the phone number or the verification code and verification ID must be provided.
+   * Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
+   * Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
+   * Use the `phoneCodeSent` listener to get the verification id.
    *
    * Only available for Android and iOS.
    *
    * @since 0.1.0
    */
-  signInWithPhoneNumber(
-    options: SignInWithPhoneNumberOptions,
-  ): Promise<SignInWithPhoneNumberResult>;
+  signInWithPhoneNumber(options: SignInWithPhoneNumberOptions): Promise<void>;
   /**
    * Starts the Play Games sign-in flow.
    *
@@ -489,6 +511,28 @@ export interface ConfirmPasswordResetOptions {
 }
 
 /**
+ * @since 5.0.0
+ */
+export interface ConfirmVerificationCodeOptions {
+  /**
+   * The verification ID received from the `phoneCodeSent` listener.
+   *
+   * The `verificationCode` option must also be provided.
+   *
+   * @since 5.0.0
+   */
+  verificationId: string;
+  /**
+   * The verification code either received from the `phoneCodeSent` listener or entered by the user.
+   *
+   * The `verificationId` option must also be provided.
+   *
+   * @since 5.0.0
+   */
+  verificationCode: string;
+}
+
+/**
  * @since 0.2.2
  */
 export interface CreateUserWithEmailAndPasswordOptions {
@@ -572,6 +616,48 @@ export interface SetLanguageCodeOptions {
    * @since 0.1.0
    */
   languageCode: string;
+}
+
+/**
+ * @since 5.2.0
+ */
+export interface SetPersistenceOptions {
+  /**
+   * The persistence types.
+   *
+   * @since 5.2.0
+   */
+  persistence: Persistence;
+}
+
+/**
+ * @since 5.2.0
+ */
+export enum Persistence {
+  /**
+   * Long term persistence using IndexedDB.
+   *
+   * @since 5.2.0
+   */
+  IndexedDbLocal = 'INDEXED_DB_LOCAL',
+  /**
+   * No persistence.
+   *
+   * @since 5.2.0
+   */
+  InMemory = 'IN_MEMORY',
+  /**
+   * Long term persistence using local storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserLocal = 'BROWSER_LOCAL',
+  /**
+   * Temporary persistence using session storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserSession = 'BROWSER_SESSION',
 }
 
 /**
@@ -694,20 +780,6 @@ export type LinkResult = SignInResult;
  */
 export interface SignInOptions {
   /**
-   * Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.
-   *
-   * @since 0.1.0
-   * @deprecated Use `SignInWithOAuthOptions` interface instead.
-   */
-  customParameters?: SignInCustomParameter[];
-  /**
-   * Scopes to request from provider.
-   *
-   * @since 0.3.1
-   * @deprecated Use `SignInWithOAuthOptions` interface instead.
-   */
-  scopes?: string[];
-  /**
    * Whether the plugin should skip the native authentication or not.
    * Only needed if you want to use the Firebase JavaScript SDK.
    * This value overwrites the configrations value of the `skipNativeAuth` option.
@@ -742,6 +814,8 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
    * If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.
    *
+   * Only available for Web.
+   *
    * @default 'popup'
    * @since 1.3.0
    */
@@ -750,7 +824,7 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * Scopes to request from provider.
    *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
-   * Supports Apple, GitHub, Microsoft, Twitter, Yahoo and Play Games on Android.
+   * Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android.
    * Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.
    *
    * @since 1.1.0
@@ -781,17 +855,12 @@ export interface SignInCustomParameter {
  */
 export interface SignInWithPhoneNumberOptions extends SignInOptions {
   /**
-   * The phone number to be verified.
+   * The phone number to be verified in E.164 format.
    *
-   * Cannot be used in combination with `verificationId` and `verificationCode`.
-   *
-   * Use the `phoneVerificationCompleted` listener to be notified when the verification is completed.
-   * Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
-   * Use the `phoneCodeSent` listener to get the verification id.
-   *
+   * @example "+16505550101"
    * @since 0.1.0
    */
-  phoneNumber?: string;
+  phoneNumber: string;
   /**
    *
    *
@@ -804,30 +873,12 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    * Resend the verification code to the specified phone number.
    * `signInWithPhoneNumber` must be called once before using this option.
    *
-   * The `phoneNumber` option must also be provided.
-   *
    * Only available for Android.
    *
    * @since 1.3.0
    * @default false
    */
   resendCode?: boolean;
-  /**
-   * The verification ID received from the `phoneCodeSent` listener.
-   *
-   * The `verificationCode` option must also be provided.
-   *
-   * @since 0.1.0
-   */
-  verificationId?: string;
-  /**
-   * The verification code either received from the `phoneCodeSent` listener or entered by the user.
-   *
-   * The `verificationId` option must also be provided.
-   *
-   * @since 0.1.0
-   */
-  verificationCode?: string;
 }
 
 /**
@@ -986,19 +1037,7 @@ export interface UseEmulatorOptions {
 
 /**
  * @since 0.1.0
- */
-export interface SignInWithPhoneNumberResult extends SignInResult {
-  /**
-   * The verification ID, which is needed to identify the verification code.
-   *
-   * @since 0.1.0
-   * @deprecated Use `addListener('phoneCodeSent', ...)` instead.
-   */
-  verificationId?: string;
-}
-
-/**
- * @since 0.1.0
+ * @see https://firebase.google.com/docs/reference/js/auth.user
  */
 export interface User {
   /**
@@ -1018,6 +1057,12 @@ export interface User {
    */
   isAnonymous: boolean;
   /**
+   * The user's metadata.
+   *
+   * @since 5.2.0
+   */
+  metadata: UserMetadata;
+  /**
    * @since 0.1.0
    */
   phoneNumber: string | null;
@@ -1025,6 +1070,12 @@ export interface User {
    * @since 0.1.0
    */
   photoUrl: string | null;
+  /**
+   * Additional per provider such as displayName and profile information.
+   *
+   * @since 5.2.0
+   */
+  providerData: UserInfo[];
   /**
    * @since 0.1.0
    */
@@ -1037,6 +1088,70 @@ export interface User {
    * @since 0.1.0
    */
   uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.userinfo
+ */
+export interface UserInfo {
+  /**
+   * The display name of the user.
+   *
+   * @since 5.2.0
+   */
+  displayName: string | null;
+  /**
+   * The email of the user.
+   *
+   * @since 5.2.0
+   */
+  email: string | null;
+  /**
+   * The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user.
+   *
+   * @since 5.2.0
+   */
+  phoneNumber: string | null;
+  /**
+   * The profile photo URL of the user.
+   *
+   * @since 5.2.0
+   */
+  photoUrl: string | null;
+  /**
+   * The provider used to authenticate the user.
+   *
+   * @since 5.2.0
+   */
+  providerId: string;
+  /**
+   * The user's unique ID.
+   *
+   * @since 5.2.0
+   */
+  uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.usermetadata
+ */
+export interface UserMetadata {
+  /**
+   * Time the user was created in milliseconds since the epoch.
+   *
+   * @since 5.2.0
+   * @example 1695130859034
+   */
+  creationTime?: number;
+  /**
+   * Time the user last signed in in milliseconds since the epoch.
+   *
+   * @since 5.2.0
+   * @example 1695130859034
+   */
+  lastSignInTime?: number;
 }
 
 /**
@@ -1082,6 +1197,14 @@ export interface AuthCredential {
    * @since 0.1.0
    */
   secret?: string;
+  /**
+   * The server auth code.
+   *
+   * Only available for Google Sign-in and Play Games Sign-In on Android and iOS.
+   *
+   * @since 5.2.0
+   */
+  serverAuthCode?: string;
 }
 
 /**
@@ -1139,19 +1262,21 @@ export interface AuthStateChange {
  * @since 1.3.0
  */
 export type PhoneVerificationCompletedListener = (
-  event: PhoneVerificationCompleted,
+  event: PhoneVerificationCompletedEvent,
 ) => void;
 
 /**
- * @since 1.3.0
+ * @since 5.0.0
  */
-export interface PhoneVerificationCompleted {
+export interface PhoneVerificationCompletedEvent extends SignInResult {
   /**
    * The verification code sent to the user's phone number.
    *
-   * @since 1.3.0
+   * If instant verification is used, this property is not set.
+   *
+   * @since 5.0.0
    */
-  verificationCode: string;
+  verificationCode?: string;
 }
 
 /**
@@ -1160,13 +1285,13 @@ export interface PhoneVerificationCompleted {
  * @since 1.3.0
  */
 export type PhoneVerificationFailedListener = (
-  event: PhoneVerificationFailed,
+  event: PhoneVerificationFailedEvent,
 ) => void;
 
 /**
- * @since 1.3.0
+ * @since 5.0.0
  */
-export interface PhoneVerificationFailed {
+export interface PhoneVerificationFailedEvent {
   /**
    * The error message.
    *
@@ -1180,9 +1305,12 @@ export interface PhoneVerificationFailed {
  *
  * @since 1.3.0
  */
-export type PhoneCodeSentListener = (event: PhoneCodeSent) => void;
+export type PhoneCodeSentListener = (event: PhoneCodeSentEvent) => void;
 
-export interface PhoneCodeSent {
+/**
+ * @since 5.0.0
+ */
+export interface PhoneCodeSentEvent {
   /**
    * The verification ID, which is needed to identify the verification code.
    *

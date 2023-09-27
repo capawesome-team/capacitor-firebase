@@ -1,6 +1,10 @@
 # @capacitor-firebase/messaging
 
-⚡️ Capacitor plugin for Firebase Cloud Messaging (FCM).
+Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging).[^1]
+
+## Guides
+
+- [The Push Notifications Guide for Capacitor](https://capawesome.io/blog/the-push-notifications-guide-for-capacitor/)
 
 ## Installation
 
@@ -9,7 +13,7 @@ npm install @capacitor-firebase/messaging firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://firebase.google.com/docs/android/setup) / [iOS](https://firebase.google.com/docs/ios/setup) / [Web](https://firebase.google.com/docs/web/setup)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -17,7 +21,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `23.1.0`)
+- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `23.1.2`)
 
 #### Push Notification Icon
 
@@ -51,10 +55,7 @@ See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-fireb
 
 See [Upload the APNS Certificate or Key to Firebase](https://capacitorjs.com/docs/guides/push-notifications-firebase#upload-the-apns-certificate-or-key-to-firebase) and follow the instructions to upload the APNS Certificate or APNS Auth Key to Firebase.
 
-> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://www.raywenderlich.com/20201639-firebase-cloud-messaging-for-ios-push-notifications).
-> The steps are explained there in a quite understandable way.
-> But be aware that this guide is more detailed and covers more than you need.
-> Use it only for assistance.
+> If you have difficulties with the instructions, you can also look at the corresponding sections of [this guide](https://capawesome.io/blog/the-push-notifications-guide-for-capacitor/#ios).
 
 Add the following to your app's `AppDelegate.swift`:
 
@@ -103,9 +104,9 @@ If you prefer to prevent token autogeneration, disable FCM auto initialization b
 
 On iOS you can configure the way the push notifications are displayed when the app is in foreground.
 
-| Prop                      | Type                              | Description                                                                                                                                                                                                                                                                                                                                                                                 | Default                                  | Since |
-| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
-| **`presentationOptions`** | <code>PresentationOption[]</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["badge", "sound", "alert"]</code> | 0.2.2 |
+| Prop                      | Type                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Default                                  | Since |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
+| **`presentationOptions`** | <code>PresentationOption[]</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["badge", "sound", "alert"]</code> | 0.2.2 |
 
 ### Examples
 
@@ -124,7 +125,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor/firebase-messaging" />
+/// <reference types="@capacitor-firebase/messaging" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
@@ -229,12 +230,16 @@ const removeAllListeners = async () => {
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
 * [`subscribeToTopic(...)`](#subscribetotopic)
 * [`unsubscribeFromTopic(...)`](#unsubscribefromtopic)
+* [`createChannel(...)`](#createchannel)
+* [`deleteChannel(...)`](#deletechannel)
+* [`listChannels()`](#listchannels)
 * [`addListener('tokenReceived', ...)`](#addlistenertokenreceived)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived)
 * [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -248,6 +253,8 @@ checkPermissions() => Promise<PermissionStatus>
 ```
 
 Check permission to receive push notifications.
+
+On **Android**, this method only needs to be called on Android 13+.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
@@ -263,6 +270,8 @@ requestPermissions() => Promise<PermissionStatus>
 ```
 
 Request permission to receive push notifications.
+
+On **Android**, this method only needs to be called on Android 13+.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
@@ -403,6 +412,61 @@ Only available for Android and iOS.
 | **`options`** | <code><a href="#unsubscribefromtopicoptions">UnsubscribeFromTopicOptions</a></code> |
 
 **Since:** 0.2.2
+
+--------------------
+
+
+### createChannel(...)
+
+```typescript
+createChannel(options: CreateChannelOptions) => Promise<void>
+```
+
+Create a notification channel.
+
+Only available for Android (SDK 26+).
+
+| Param         | Type                                        |
+| ------------- | ------------------------------------------- |
+| **`options`** | <code><a href="#channel">Channel</a></code> |
+
+**Since:** 1.4.0
+
+--------------------
+
+
+### deleteChannel(...)
+
+```typescript
+deleteChannel(options: DeleteChannelOptions) => Promise<void>
+```
+
+Delete a notification channel.
+
+Only available for Android (SDK 26+).
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletechanneloptions">DeleteChannelOptions</a></code> |
+
+**Since:** 1.4.0
+
+--------------------
+
+
+### listChannels()
+
+```typescript
+listChannels() => Promise<ListChannelsResult>
+```
+
+List the available notification channels.
+
+Only available for Android (SDK 26+).
+
+**Returns:** <code>Promise&lt;<a href="#listchannelsresult">ListChannelsResult</a>&gt;</code>
+
+**Since:** 1.4.0
 
 --------------------
 
@@ -565,6 +629,35 @@ Remove all listeners for this plugin.
 | **`topic`** | <code>string</code> | The name of the topic to unsubscribe from. | 0.2.2 |
 
 
+#### Channel
+
+| Prop              | Type                                              | Description                                                                                                                                                                                                                                                | Since |
+| ----------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`description`** | <code>string</code>                               | The description of this channel (presented to the user).                                                                                                                                                                                                   | 1.4.0 |
+| **`id`**          | <code>string</code>                               | The channel identifier.                                                                                                                                                                                                                                    | 1.4.0 |
+| **`importance`**  | <code><a href="#importance">Importance</a></code> | The level of interruption for notifications posted to this channel.                                                                                                                                                                                        | 1.4.0 |
+| **`lightColor`**  | <code>string</code>                               | The light color for notifications posted to this channel. Only supported if lights are enabled on this channel and the device supports it. Supported color formats are `#RRGGBB` and `#RRGGBBAA`.                                                          | 1.4.0 |
+| **`lights`**      | <code>boolean</code>                              | Whether notifications posted to this channel should display notification lights, on devices that support it.                                                                                                                                               | 1.4.0 |
+| **`name`**        | <code>string</code>                               | The name of this channel (presented to the user).                                                                                                                                                                                                          | 1.4.0 |
+| **`sound`**       | <code>string</code>                               | The sound that should be played for notifications posted to this channel. Notification channels with an importance of at least `3` should have a sound. The file name of a sound file should be specified relative to the android app `res/raw` directory. | 1.4.0 |
+| **`vibration`**   | <code>boolean</code>                              | Whether notifications posted to this channel should vibrate.                                                                                                                                                                                               | 1.4.0 |
+| **`visibility`**  | <code><a href="#visibility">Visibility</a></code> | The visibility of notifications posted to this channel. This setting is for whether notifications posted to this channel appear on the lockscreen or not, and if so, whether they appear in a redacted form.                                               | 1.4.0 |
+
+
+#### DeleteChannelOptions
+
+| Prop     | Type                | Description             | Since |
+| -------- | ------------------- | ----------------------- | ----- |
+| **`id`** | <code>string</code> | The channel identifier. | 1.4.0 |
+
+
+#### ListChannelsResult
+
+| Prop           | Type                   |
+| -------------- | ---------------------- |
+| **`channels`** | <code>Channel[]</code> |
+
+
 #### PluginListenerHandle
 
 | Prop         | Type                                      |
@@ -603,6 +696,11 @@ Remove all listeners for this plugin.
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
 
+#### CreateChannelOptions
+
+<code><a href="#channel">Channel</a></code>
+
+
 #### TokenReceivedListener
 
 Callback to receive the token received event.
@@ -623,12 +721,37 @@ Callback to receive the notification action performed event.
 
 <code>(event: <a href="#notificationactionperformedevent">NotificationActionPerformedEvent</a>): void</code>
 
+
+### Enums
+
+
+#### Importance
+
+| Members       | Value          | Since |
+| ------------- | -------------- | ----- |
+| **`Min`**     | <code>1</code> | 1.4.0 |
+| **`Low`**     | <code>2</code> | 1.4.0 |
+| **`Default`** | <code>3</code> | 1.4.0 |
+| **`High`**    | <code>4</code> | 1.4.0 |
+| **`Max`**     | <code>5</code> | 1.4.0 |
+
+
+#### Visibility
+
+| Members       | Value           | Since |
+| ------------- | --------------- | ----- |
+| **`Secret`**  | <code>-1</code> | 1.4.0 |
+| **`Private`** | <code>0</code>  | 1.4.0 |
+| **`Public`**  | <code>1</code>  | 1.4.0 |
+
 </docgen-api>
 
 ## Changelog
 
-See [CHANGELOG.md](/packages/messaging/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/messaging/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](/packages/messaging/LICENSE).
+See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/messaging/LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

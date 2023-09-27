@@ -12,6 +12,7 @@
       "@capacitor-firebase/app-check",
       "@capacitor-firebase/authentication",
       "@capacitor-firebase/crashlytics",
+      "@capacitor-firebase/firestore",
       "@capacitor-firebase/messaging",
       "@capacitor-firebase/performance",
       "@capacitor-firebase/remote-config"

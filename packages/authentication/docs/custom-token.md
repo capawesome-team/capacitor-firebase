@@ -8,7 +8,7 @@
 ## iOS
 
 1. See [Before you begin](https://firebase.google.com/docs/auth/ios/custom-auth#before-you-begin) and follow the instructions to configure and enable sign-in with Custom Token correctly.  
-   **Attention**: Skip step 2. The `Firebase/Auth` pod is already added by the plugin.
+   **Attention**: Skip step 2. The `FirebaseAuth` pod is already added by the plugin.
 
 ## Web
 

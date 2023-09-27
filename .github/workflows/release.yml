@@ -11,12 +11,13 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
-  NODE_VERSION: 16
+  NODE_VERSION: 18
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    if: github.repository == 'capawesome-team/capacitor-firebase'
     steps:
       - name: Checkout
         uses: actions/checkout@v3

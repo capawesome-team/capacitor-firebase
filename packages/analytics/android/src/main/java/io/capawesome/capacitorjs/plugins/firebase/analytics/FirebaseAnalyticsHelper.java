@@ -112,7 +112,7 @@ public class FirebaseAnalyticsHelper {
                         bundle.putString(key, (String) value);
                 }
             }
-        } catch (JSONException exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
         return bundle;

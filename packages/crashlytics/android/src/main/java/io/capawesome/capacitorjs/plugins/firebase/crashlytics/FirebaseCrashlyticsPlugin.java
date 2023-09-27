@@ -2,6 +2,7 @@ package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -10,6 +11,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "FirebaseCrashlytics")
 public class FirebaseCrashlyticsPlugin extends Plugin {
 
+    public static final String TAG = "FirebaseCrashlytics";
     public static final String ERROR_MESSAGE_MISSING = "message must be provided.";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_VALUE_MISSING = "value must be provided.";
@@ -49,8 +51,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             String type = call.getString("type", "string");
             implementation.setCustomKey(key, type, call);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -64,8 +67,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             }
             implementation.setUserId(userId);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -79,8 +83,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             }
             implementation.log(message);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -94,8 +99,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             }
             implementation.setEnabled(enabled);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -111,8 +117,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             JSObject ret = new JSObject();
             ret.put("crashed", crashed);
             call.resolve(ret);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -121,8 +128,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
         try {
             implementation.sendUnsentReports();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -131,8 +139,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
         try {
             implementation.deleteUnsentReports();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -148,8 +157,9 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             JSArray stacktrace = call.getArray("stacktrace", null);
             implementation.recordException(message, stacktrace);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 }

@@ -1,12 +1,18 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import androidx.annotation.Nullable;
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.OAuthCredential;
+import com.google.firebase.auth.UserInfo;
+import java.util.List;
 import java.util.Map;
+import org.json.JSONObject;
 
 public class FirebaseAuthenticationHelper {
 
@@ -24,6 +30,18 @@ public class FirebaseAuthenticationHelper {
         public static final String PHONE = "phone";
     }
 
+    @Nullable
+    public static String createErrorCode(@Nullable Exception exception) {
+        if (exception == null) {
+            return null;
+        } else if (exception instanceof FirebaseAuthException) {
+            String errorCode = ((FirebaseAuthException) exception).getErrorCode();
+            errorCode = errorCode.replaceFirst("ERROR_", "");
+            return snakeToKebabCase(errorCode);
+        }
+        return null;
+    }
+
     public static JSObject createSignInResult(
         @Nullable FirebaseUser user,
         @Nullable AuthCredential credential,
@@ -32,8 +50,26 @@ public class FirebaseAuthenticationHelper {
         @Nullable String accessToken,
         @Nullable AdditionalUserInfo additionalUserInfo
     ) {
+        return FirebaseAuthenticationHelper.createSignInResult(user, credential, idToken, nonce, accessToken, null, additionalUserInfo);
+    }
+
+    public static JSObject createSignInResult(
+        @Nullable FirebaseUser user,
+        @Nullable AuthCredential credential,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode,
+        @Nullable AdditionalUserInfo additionalUserInfo
+    ) {
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
-        JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(credential, idToken, nonce, accessToken);
+        JSObject credentialResult = FirebaseAuthenticationHelper.createCredentialResult(
+            credential,
+            idToken,
+            nonce,
+            accessToken,
+            serverAuthCode
+        );
         JSObject additionalUserInfoResult = FirebaseAuthenticationHelper.createAdditionalUserInfoResult(additionalUserInfo);
         JSObject result = new JSObject();
         result.put("user", userResult);
@@ -52,8 +88,10 @@ public class FirebaseAuthenticationHelper {
         result.put("email", user.getEmail());
         result.put("emailVerified", user.isEmailVerified());
         result.put("isAnonymous", user.isAnonymous());
+        result.put("metadata", FirebaseAuthenticationHelper.createUserMetadataResult(user.getMetadata()));
         result.put("phoneNumber", user.getPhoneNumber());
         result.put("photoUrl", user.getPhotoUrl());
+        result.put("providerData", FirebaseAuthenticationHelper.createUserProviderDataResult(user.getProviderData()));
         result.put("providerId", user.getProviderId());
         result.put("tenantId", user.getTenantId());
         result.put("uid", user.getUid());
@@ -65,7 +103,8 @@ public class FirebaseAuthenticationHelper {
         @Nullable AuthCredential credential,
         @Nullable String idToken,
         @Nullable String nonce,
-        @Nullable String accessToken
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode
     ) {
         if (credential == null && idToken == null && nonce == null && accessToken == null) {
             return null;
@@ -97,6 +136,9 @@ public class FirebaseAuthenticationHelper {
         if (accessToken != null) {
             result.put("accessToken", accessToken);
         }
+        if (serverAuthCode != null) {
+            result.put("serverAuthCode", serverAuthCode);
+        }
         return result;
     }
 
@@ -121,5 +163,34 @@ public class FirebaseAuthenticationHelper {
             result.put("username", additionalUserInfo.getUsername());
         }
         return result;
+    }
+
+    private static JSObject createUserMetadataResult(@Nullable FirebaseUserMetadata metadata) {
+        JSObject result = new JSObject();
+        if (metadata == null) {
+            return result;
+        }
+        result.put("creationTime", metadata.getCreationTimestamp());
+        result.put("lastSignInTime", metadata.getLastSignInTimestamp());
+        return result;
+    }
+
+    private static JSArray createUserProviderDataResult(List<? extends UserInfo> providerData) {
+        JSArray result = new JSArray();
+        for (UserInfo userInfo : providerData) {
+            JSObject userInfoResult = new JSObject();
+            userInfoResult.put("displayName", (userInfo.getDisplayName() == null ? JSONObject.NULL : userInfo.getDisplayName()));
+            userInfoResult.put("email", (userInfo.getEmail() == null ? JSONObject.NULL : userInfo.getEmail()));
+            userInfoResult.put("phoneNumber", (userInfo.getPhoneNumber() == null ? JSONObject.NULL : userInfo.getPhoneNumber()));
+            userInfoResult.put("photoUrl", (userInfo.getPhotoUrl() == null ? JSONObject.NULL : userInfo.getPhotoUrl()));
+            userInfoResult.put("providerId", userInfo.getProviderId());
+            userInfoResult.put("uid", userInfo.getUid());
+            result.put(userInfoResult);
+        }
+        return result;
+    }
+
+    private static String snakeToKebabCase(String snakeCase) {
+        return snakeCase.replaceAll("_+", "-").toLowerCase();
     }
 }

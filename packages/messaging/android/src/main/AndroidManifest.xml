@@ -1,6 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.capawesome.capacitorjs.plugins.firebase.messaging">
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application>
         <service android:name="io.capawesome.capacitorjs.plugins.firebase.messaging.MessagingService" android:exported="false">
             <intent-filter>
@@ -8,4 +6,5 @@
             </intent-filter>
         </service>
     </application>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 </manifest>

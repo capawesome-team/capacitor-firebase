@@ -1,10 +1,12 @@
 <br />
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/13857929/161965231-b2c7f586-2ee8-4342-a71a-0532bb8b4c1f.png" width="720" />
+  <h1>
+    <img src="https://user-images.githubusercontent.com/13857929/161965231-b2c7f586-2ee8-4342-a71a-0532bb8b4c1f.png" alt="Capacitor Firebase" width="720" />
+  </h1>
 </div>
 <br />
 <p align="center">
-  <a href="https://github.com/capawesome-team/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2022?style=flat-square" /></a>
+  <a href="https://github.com/capawesome-team/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2023?style=flat-square" /></a>
   <a href="https://github.com/capawesome-team/capacitor-firebase/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/capawesome-team/capacitor-firebase/ci.yml?branch=main&style=flat-square" /></a>
   <a href="https://github.com/capawesome-team/capacitor-firebase"><img src="https://img.shields.io/github/license/capawesome-team/capacitor-firebase?style=flat-square" /></a>
   <a href="https://github.com/capawesome-team"><img src="https://img.shields.io/badge/part%20of-capawesome-%234f46e5?style=flat-square" /></a>
@@ -14,10 +16,10 @@
 
 ## Features
 
-Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use Firebase in your Capacitor project.
+Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use [Firebase](https://firebase.google.com/) in your Capacitor project.[^1]
 
 - 🔋 Supports **Android, iOS and the Web**
-- ⚡️ **Capacitor 4** support
+- ⚡️ **Capacitor 5** support
 - 🔥 **Firebase Web SDK version 9** (modular) support
 - 🦋 Consistent versioning (no more SDK versions conflicts)
 - 👁 Unified Typescript definitions
@@ -35,6 +37,15 @@ Capacitor Firebase is a collection of Capacitor plugins that make it easier for 
 This is an Apache-2.0-licensed open source project.
 It can grow thanks to the support by these awesome people.
 If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).
+
+### Base Sponsor
+
+<a href="https://appscreens.com/?_locale=en&utm_source=github&utm_medium=referral&utm_campaign=capawesome&gclid=capawesome" target="_blank">
+<p align="center"><br><img src="https://capawesome.io/assets/images/sponsors/appscreens-logo.png" width="215" height="100" /></p>
+<p align="center">AppScreens - A dedicated screenshot mockup generator</p>
+</a>
+
+### Gold Sponsor
 
 <!-- gold-sponsors --><!-- gold-sponsors -->
 <!-- silver-sponsors --><!-- silver-sponsors -->
@@ -56,6 +67,7 @@ Click on the name of the desired plugin under the [`Plugins`](#plugins) section 
 | [App Check](./packages/app-check)                | `@capacitor-firebase/app-check`      | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/app-check?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app-check)           | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/app-check?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/app-check)           |
 | [Authentication](./packages/authentication)      | `@capacitor-firebase/authentication` | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/authentication?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/authentication) | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/authentication?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/authentication) |
 | [Crashlytics](./packages/crashlytics)            | `@capacitor-firebase/crashlytics`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/crashlytics?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/crashlytics)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/crashlytics?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/crashlytics)       |
+| [Cloud Firestore](./packages/firestore)          | `@capacitor-firebase/firestore`      | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/firestore?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/firestore)           | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/firestore?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/firestore)           |
 | [Cloud Messaging](./packages/messaging)          | `@capacitor-firebase/messaging`      | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)           | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/messaging?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/messaging)           |
 | [Performance Monitoring](./packages/performance) | `@capacitor-firebase/performance`    | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/performance?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/performance)       | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/performance?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/performance)       |
 | [Remote Config](./packages/remote-config)        | `@capacitor-firebase/remote-config`  | [![npm badge](https://img.shields.io/npm/v/@capacitor-firebase/remote-config?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/remote-config)   | [![npm downloads](https://img.shields.io/npm/dw/@capacitor-firebase/remote-config?style=flat-square)](https://www.npmjs.com/package/@capacitor-firebase/remote-config)   |
@@ -77,3 +89,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## License
 
 See [LICENSE](./LICENSE).
+
+[^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

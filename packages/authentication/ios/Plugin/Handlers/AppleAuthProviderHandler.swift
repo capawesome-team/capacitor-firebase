@@ -124,7 +124,9 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
                 displayName = "\(givenName) \(familyName)"
             }
         }
-        let credential = OAuthProvider.credential(withProviderID: ProviderId.apple, idToken: idTokenString, rawNonce: nonce)
+        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
+                                                       rawNonce: nonce,
+                                                       fullName: appleIDCredential.fullName)
         guard let isLink = self.isLink else {
             return
         }

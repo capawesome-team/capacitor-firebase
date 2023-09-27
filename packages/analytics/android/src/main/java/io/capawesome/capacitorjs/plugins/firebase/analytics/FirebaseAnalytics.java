@@ -2,6 +2,7 @@ package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.Bridge;
@@ -15,6 +16,24 @@ public class FirebaseAnalytics {
     public FirebaseAnalytics(Context context, Bridge bridge) {
         this.analyticsInstance = com.google.firebase.analytics.FirebaseAnalytics.getInstance(context);
         this.bridge = bridge;
+    }
+
+    @Nullable
+    public void getAppInstanceId(@NonNull final GetAppInstanceIdCallback resultCallback) {
+        this.analyticsInstance.getAppInstanceId()
+            .addOnCompleteListener(
+                task -> {
+                    if (!task.isSuccessful()) {
+                        Exception exception = task.getException();
+                        Log.w(FirebaseAnalyticsPlugin.TAG, "Get AppInstanceId failed.", exception);
+                        resultCallback.error(exception.getMessage());
+                        return;
+                    }
+
+                    String appInstanceId = task.getResult();
+                    resultCallback.success(appInstanceId);
+                }
+            );
     }
 
     public void setUserId(@Nullable String userId) {
@@ -42,7 +61,7 @@ public class FirebaseAnalytics {
             );
     }
 
-    public void logEvent(@NonNull String key, JSONObject json) {
+    public void logEvent(@NonNull String key, @Nullable JSONObject json) {
         Bundle bundle = FirebaseAnalyticsHelper.createBundleFromJson(json);
         analyticsInstance.logEvent(key, bundle);
     }

@@ -2,16 +2,26 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import android.content.Intent;
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 
 @CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
 public class FirebaseAuthenticationPlugin extends Plugin {
@@ -30,14 +40,12 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_ACTION_CODE_SETTINGS_MISSING = "actionCodeSettings must be provided.";
     public static final String ERROR_PASSWORD_MISSING = "password must be provided.";
     public static final String ERROR_NEW_PASSWORD_MISSING = "newPassword must be provided.";
-    public static final String ERROR_PHONE_NUMBER_SMS_CODE_MISSING = "phoneNumber or verificationId and verificationCode must be provided.";
+    public static final String ERROR_PHONE_NUMBER_MISSING = "phoneNumber must be provided.";
+    public static final String ERROR_VERIFICATION_ID_MISSING = "verificationId must be provided.";
+    public static final String ERROR_VERIFICATION_CODE_MISSING = "verificationCode must be provided.";
     public static final String ERROR_PHONE_RESEND_TOKEN_MISSING =
         "signInWithPhoneNumber must be called once before using the resendCode option.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
-    public static final String ERROR_SIGN_IN_FAILED = "signIn failed.";
-    public static final String ERROR_LINK_FAILED = "link failed.";
-    public static final String ERROR_UNLINK_FAILED = "unlink failed.";
-    public static final String ERROR_CREATE_USER_WITH_EMAIL_AND_PASSWORD_FAILED = "createUserWithEmailAndPassword failed.";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH =
@@ -67,8 +75,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.applyActionCode(oobCode, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -86,8 +96,46 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
+        }
+    }
+
+    @PluginMethod
+    public void confirmVerificationCode(PluginCall call) {
+        try {
+            String verificationId = call.getString("verificationId");
+            if (verificationId == null) {
+                call.reject(ERROR_VERIFICATION_ID_MISSING);
+                return;
+            }
+            String verificationCode = call.getString("verificationCode");
+            if (verificationCode == null) {
+                call.reject(ERROR_VERIFICATION_CODE_MISSING);
+                return;
+            }
+            ConfirmVerificationCodeOptions options = new ConfirmVerificationCodeOptions(verificationId, verificationCode);
+            ResultCallback callback = new ResultCallback() {
+                @Override
+                public void success(Result result) {
+                    call.resolve(result.toJSObject());
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                    call.reject(exception.getMessage(), code);
+                }
+            };
+
+            implementation.confirmVerificationCode(options, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -95,8 +143,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void createUserWithEmailAndPassword(PluginCall call) {
         try {
             implementation.createUserWithEmailAndPassword(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -109,8 +159,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.deleteUser(user, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -122,8 +174,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("user", userResult);
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -134,22 +188,24 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             implementation.getIdToken(
                 forceRefresh,
-                new GetIdTokenResultCallback() {
+                new ResultCallback() {
                     @Override
-                    public void success(String token) {
-                        JSObject result = new JSObject();
-                        result.put("token", token);
-                        call.resolve(result);
+                    public void success(Result result) {
+                        call.resolve(result.toJSObject());
                     }
 
                     @Override
-                    public void error(String message) {
-                        call.reject(message);
+                    public void error(Exception exception) {
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
                     }
                 }
             );
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -164,8 +220,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("tenantId", implementation.getTenantId());
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -180,8 +238,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("isSignInWithEmailLink", implementation.isSignInWithEmailLink(emailLink));
             call.resolve(result);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -189,8 +249,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithApple(PluginCall call) {
         try {
             implementation.linkWithApple(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -198,8 +260,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithEmailAndPassword(PluginCall call) {
         try {
             implementation.linkWithEmailAndPassword(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -207,8 +271,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithEmailLink(PluginCall call) {
         try {
             implementation.linkWithEmailLink(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -216,8 +282,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithFacebook(PluginCall call) {
         try {
             implementation.linkWithFacebook(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -225,8 +293,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithGithub(PluginCall call) {
         try {
             implementation.linkWithGithub(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -234,8 +304,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithGoogle(PluginCall call) {
         try {
             implementation.linkWithGoogle(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -243,8 +315,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithMicrosoft(PluginCall call) {
         try {
             implementation.linkWithMicrosoft(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -252,17 +326,19 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithPhoneNumber(PluginCall call) {
         try {
             String phoneNumber = call.getString("phoneNumber");
-            String verificationId = call.getString("verificationId");
-            String verificationCode = call.getString("verificationCode");
-
-            if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
-                call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
+            if (phoneNumber == null) {
+                call.reject(ERROR_PHONE_NUMBER_MISSING);
                 return;
             }
+            boolean resendCode = call.getBoolean("resendCode", false);
+            LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode);
 
-            implementation.linkWithPhoneNumber(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+            implementation.linkWithPhoneNumber(options);
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -270,8 +346,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithPlayGames(PluginCall call) {
         try {
             implementation.linkWithPlayGames(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -279,8 +357,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithTwitter(PluginCall call) {
         try {
             implementation.linkWithTwitter(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -288,8 +368,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithYahoo(PluginCall call) {
         try {
             implementation.linkWithYahoo(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -302,8 +384,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.reload(user, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -316,8 +400,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.sendEmailVerification(user, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -330,8 +416,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.sendPasswordResetEmail(email, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -368,8 +456,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             if (dynamicLinkDomain != null) actionCodeSettings.setDynamicLinkDomain(dynamicLinkDomain);
 
             implementation.sendSignInLinkToEmail(email, actionCodeSettings.build(), () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -380,9 +470,16 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             implementation.setLanguageCode(languageCode);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
+    }
+
+    @PluginMethod
+    public void setPersistence(PluginCall call) {
+        call.reject("Not available on Android.");
     }
 
     @PluginMethod
@@ -396,8 +493,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             implementation.setTenantId(tenantId);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -405,8 +504,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInAnonymously(PluginCall call) {
         try {
             implementation.signInAnonymously(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -414,8 +515,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithApple(PluginCall call) {
         try {
             implementation.signInWithApple(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -428,8 +531,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithCustomToken(PluginCall call) {
         try {
             implementation.signInWithCustomToken(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -437,8 +542,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithEmailAndPassword(PluginCall call) {
         try {
             implementation.signInWithEmailAndPassword(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -446,8 +553,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithEmailLink(PluginCall call) {
         try {
             implementation.signInWithEmailLink(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -455,8 +564,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithFacebook(PluginCall call) {
         try {
             implementation.signInWithFacebook(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -464,8 +575,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithGithub(PluginCall call) {
         try {
             implementation.signInWithGithub(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -473,8 +586,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithGoogle(PluginCall call) {
         try {
             implementation.signInWithGoogle(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -482,26 +597,31 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithMicrosoft(PluginCall call) {
         try {
             implementation.signInWithMicrosoft(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
     @PluginMethod
     public void signInWithPhoneNumber(PluginCall call) {
         try {
+            boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
             String phoneNumber = call.getString("phoneNumber");
-            String verificationId = call.getString("verificationId");
-            String verificationCode = call.getString("verificationCode");
-
-            if (phoneNumber == null && (verificationId == null || verificationCode == null)) {
-                call.reject(ERROR_PHONE_NUMBER_SMS_CODE_MISSING);
+            if (phoneNumber == null) {
+                call.reject(ERROR_PHONE_NUMBER_MISSING);
                 return;
             }
+            boolean resendCode = call.getBoolean("resendCode", false);
+            SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode);
 
-            implementation.signInWithPhoneNumber(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+            implementation.signInWithPhoneNumber(options);
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -509,8 +629,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithPlayGames(PluginCall call) {
         try {
             implementation.signInWithPlayGames(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -518,8 +640,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithTwitter(PluginCall call) {
         try {
             implementation.signInWithTwitter(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -527,8 +651,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithYahoo(PluginCall call) {
         try {
             implementation.signInWithYahoo(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -536,8 +662,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signOut(PluginCall call) {
         try {
             implementation.signOut(call);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -555,8 +683,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.unlink(call, user, providerId);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -574,8 +704,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.updateEmail(user, newEmail, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -593,8 +725,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.updatePassword(user, newPassword, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -609,8 +743,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.updateProfile(user, displayName, photoUrl, () -> call.resolve());
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -619,8 +755,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         try {
             implementation.useAppLanguage();
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
@@ -636,20 +774,21 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             implementation.useEmulator(host, port);
             call.resolve();
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
         }
     }
 
-    public void handlePhoneVerificationCompleted(String smsCode) {
-        JSObject result = new JSObject();
-        result.put("verificationCode", smsCode);
-        notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, result, true);
+    public void handlePhoneVerificationCompleted(@NonNull final PhoneVerificationCompletedEvent event) {
+        notifyListeners(PHONE_VERIFICATION_COMPLETED_EVENT, event.toJSObject(), true);
     }
 
     public void handlePhoneVerificationFailed(Exception exception) {
+        Logger.error(TAG, exception.getMessage(), exception);
         JSObject result = new JSObject();
-        result.put("message", exception.getLocalizedMessage());
+        result.put("message", exception.getMessage());
         notifyListeners(PHONE_VERIFICATION_FAILED_EVENT, result, true);
     }
 
@@ -665,8 +804,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @Override
-    protected void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void handleOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.handleOnActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
         implementation.handleOnActivityResult(requestCode, resultCode, data);
     }
 
@@ -679,22 +821,34 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderSignInActivityResult(PluginCall call, ActivityResult result) {
+    private void handleGoogleAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handleGoogleAuthProviderSignInActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handleGoogleAuthProviderLinkActivityResult(PluginCall call, ActivityResult result) {
+    private void handleGoogleAuthProviderLinkActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handleGoogleAuthProviderLinkActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderSignInActivityResult(PluginCall call, ActivityResult result) {
+    private void handlePlayGamesAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handlePlayGamesAuthProviderSignInActivityResult(call, result);
     }
 
     @ActivityCallback
-    private void handlePlayGamesAuthProviderLinkActivityResult(PluginCall call, ActivityResult result) {
+    private void handlePlayGamesAuthProviderLinkActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
         implementation.handlePlayGamesAuthProviderLinkActivityResult(call, result);
     }
 

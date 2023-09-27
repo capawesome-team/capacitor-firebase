@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.app;
 
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -11,6 +12,7 @@ import com.google.firebase.FirebaseOptions;
 @CapacitorPlugin(name = "FirebaseApp")
 public class FirebaseAppPlugin extends Plugin {
 
+    public static final String TAG = "FirebaseApp";
     private FirebaseApp firebaseAppInstance;
 
     public void load() {
@@ -23,8 +25,9 @@ public class FirebaseAppPlugin extends Plugin {
             JSObject ret = new JSObject();
             ret.put("name", firebaseAppInstance.getName());
             call.resolve(ret);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 
@@ -40,8 +43,9 @@ public class FirebaseAppPlugin extends Plugin {
             ret.put("projectId", options.getProjectId());
             ret.put("storageBucket", options.getStorageBucket());
             call.resolve(ret);
-        } catch (Exception ex) {
-            call.reject(ex.getLocalizedMessage());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
         }
     }
 }

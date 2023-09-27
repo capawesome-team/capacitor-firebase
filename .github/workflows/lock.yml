@@ -15,6 +15,7 @@ concurrency:
 jobs:
   action:
     runs-on: ubuntu-latest
+    if: github.repository == 'capawesome-team/capacitor-firebase'
     steps:
       - uses: dessant/lock-threads@v3
         with:

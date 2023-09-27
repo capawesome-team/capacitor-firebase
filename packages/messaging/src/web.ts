@@ -10,11 +10,14 @@ import {
 } from 'firebase/messaging';
 
 import type {
+  Channel,
+  DeleteChannelOptions,
   FirebaseMessagingPlugin,
   GetDeliveredNotificationsResult,
   GetTokenOptions,
   GetTokenResult,
   IsSupportedResult,
+  ListChannelsResult,
   NotificationReceivedEvent,
   PermissionStatus,
   RemoveDeliveredNotificationsOptions,
@@ -105,6 +108,18 @@ export class FirebaseMessagingWeb
   public async unsubscribeFromTopic(
     _options: UnsubscribeFromTopicOptions,
   ): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async createChannel(_options: Channel): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async deleteChannel(_options: DeleteChannelOptions): Promise<void> {
+    this.throwUnavailableError();
+  }
+
+  public async listChannels(): Promise<ListChannelsResult> {
     this.throwUnavailableError();
   }
 
