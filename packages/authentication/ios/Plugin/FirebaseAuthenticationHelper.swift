@@ -35,10 +35,11 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
-        return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, serverAuthCode: nil, additionalUserInfo: additionalUserInfo, displayName: nil,
-                                  authorizationCode: nil)
+        return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken, 
+                                  serverAuthCode: nil, additionalUserInfo: additionalUserInfo, displayName: nil, authorizationCode: nil)
     }
 
+    // swiftlint:disable function_parameter_count
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, serverAuthCode: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
         let userResult = self.createUserResult(user, displayName: displayName)
         let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode, serverAuthCode: serverAuthCode)
