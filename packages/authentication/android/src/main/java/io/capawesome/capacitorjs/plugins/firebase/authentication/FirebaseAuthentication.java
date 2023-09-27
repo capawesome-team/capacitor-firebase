@@ -691,7 +691,7 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         final AuthResult authResult = task.getResult();
-                        handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken);
+                        handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken, serverAuthCode);
                     } else {
                         Exception exception = task.getException();
                         Logger.error(TAG, exception.getMessage(), exception);
@@ -715,6 +715,26 @@ public class FirebaseAuthentication {
             idToken,
             nonce,
             accessToken,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(signInResult);
+    }
+
+    public void handleSuccessfulSignIn(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode
+    ) {
+        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            serverAuthCode,
             authResult.getAdditionalUserInfo()
         );
         call.resolve(signInResult);
