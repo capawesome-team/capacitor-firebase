@@ -864,7 +864,7 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    *
    * Only available for Web.
    *
-   * @since 1.3.0
+   * @since 5.2.0
    */
   recaptchaVerifier?: unknown;
   /**
