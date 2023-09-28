@@ -23,7 +23,7 @@ import FirebaseFirestore
             if let error = error {
                 completion(nil, error)
             } else {
-                let result = AddDocumentResult(documentReference!.documentID)
+                let result = AddDocumentResult(documentReference!)
                 completion(result, nil)
             }
         }

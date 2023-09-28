@@ -1,16 +1,20 @@
 import Foundation
+import FirebaseFirestore
 import Capacitor
 
 @objc public class AddDocumentResult: NSObject, Result {
-    let id: String
+    let documentReference: DocumentReference
 
-    init(_ id: String) {
-        self.id = id
+    init(_ documentReference: DocumentReference) {
+        self.documentReference = documentReference
     }
 
     public func toJSObject() -> AnyObject {
+        var referenceResult = JSObject()
+        referenceResult["id"] = self.documentReference.documentID
+
         var result = JSObject()
-        result["id"] = self.id
+        result["reference"] = referenceResult
         return result as AnyObject
     }
 }
