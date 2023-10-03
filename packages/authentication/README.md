@@ -1665,7 +1665,7 @@ Remove all listeners for this plugin.
 | Prop                    | Type                 | Description                                                                                                                                                   | Default            | Since |
 | ----------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`phoneNumber`**       | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                              |                    | 0.1.0 |
-| **`recaptchaVerifier`** | <code>unknown</code> | The reCAPTCHA verifier. Must be an instance of `firebase.auth.RecaptchaVerifier`. Only available for Web.                                                     |                    | 1.3.0 |
+| **`recaptchaVerifier`** | <code>unknown</code> | The reCAPTCHA verifier. Must be an instance of `firebase.auth.RecaptchaVerifier`. Only available for Web.                                                     |                    | 5.2.0 |
 | **`resendCode`**        | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 
 
