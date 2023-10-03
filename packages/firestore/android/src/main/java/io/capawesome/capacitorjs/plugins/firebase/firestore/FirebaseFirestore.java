@@ -159,6 +159,20 @@ public class FirebaseFirestore {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
+    public void clearPersistence(@NonNull EmptyResultCallback callback) {
+        this.firestoreInstance.clearPersistence()
+            .addOnSuccessListener(
+                unused -> {
+                    callback.success();
+                }
+            )
+            .addOnFailureListener(
+                exception -> {
+                    callback.error(exception);
+                }
+            );
+    }
+
     public void enableNetwork(@NonNull EmptyResultCallback callback) {
         this.firestoreInstance.enableNetwork()
             .addOnSuccessListener(

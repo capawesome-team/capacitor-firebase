@@ -169,6 +169,17 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         })
     }
 
+    @objc func clearPersistence(_ call: CAPPluginCall) {
+        implementation?.clearPersistence(completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func enableNetwork(_ call: CAPPluginCall) {
         implementation?.enableNetwork(completion: { error in
             if let error = error {

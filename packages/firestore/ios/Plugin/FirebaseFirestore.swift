@@ -139,6 +139,12 @@ import FirebaseFirestore
         }
     }
 
+    @objc public func clearPersistence(completion: @escaping (Error?) -> Void) {
+        Firestore.firestore().clearPersistence { error in
+            completion(error)
+        }
+    }
+
     @objc public func enableNetwork(completion: @escaping (Error?) -> Void) {
         Firestore.firestore().enableNetwork { error in
             completion(error)
