@@ -94,7 +94,7 @@ const signInWithPhoneNumber = async () => {
       );
       // 3. Sign in on the web layer using the verification ID and verification code.
       const credential = PhoneAuthProvider.credential(
-        verificationId: event.verificationId,
+        event.verificationId,
         verificationCode,
       );
       const auth = getAuth();
