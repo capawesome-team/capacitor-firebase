@@ -5,7 +5,7 @@ ext {
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.5.1'
     rgcfaIncludeGoogle = project.hasProperty('rgcfaIncludeGoogle') ? rootProject.ext.rgcfaIncludeGoogle : false
     rgcfaIncludeFacebook = project.hasProperty('rgcfaIncludeFacebook') ? rootProject.ext.rgcfaIncludeFacebook : false
-    firebaseAuthVersion = project.hasProperty('firebaseAuthVersion') ? rootProject.ext.firebaseAuthVersion : '21.2.0'
+    firebaseAuthVersion = project.hasProperty('firebaseAuthVersion') ? rootProject.ext.firebaseAuthVersion : '22.1.2'
     playServicesAuthVersion = project.hasProperty('playServicesAuthVersion') ? rootProject.ext.playServicesAuthVersion : '20.5.0'
     facebookLoginVersion = project.hasProperty('facebookLoginVersion') ? rootProject.ext.facebookLoginVersion : '16.0.0'
 }
