@@ -47,6 +47,14 @@ export interface FirebaseFirestorePlugin {
     options: GetCollectionGroupOptions,
   ): Promise<GetCollectionGroupResult<T>>;
   /**
+   * Clears the persistent storage. This includes pending writes and cached documents.
+   *
+   * Must be called after the app is shutdown or when the app is first initialized.
+   *
+   * @since 5.2.0
+   */
+  clearPersistence(): Promise<void>;
+  /**
    * Re-enables use of the network.
    *
    * @since 5.2.0

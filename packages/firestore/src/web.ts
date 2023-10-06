@@ -11,6 +11,7 @@ import type {
 import {
   addDoc,
   and,
+  clearIndexedDbPersistence,
   collection,
   deleteDoc,
   doc,
@@ -148,6 +149,11 @@ export class FirebaseFirestoreWeb
         data: documentSnapshot.data() as T,
       })),
     };
+  }
+
+  public async clearPersistence(): Promise<void> {
+    const firestore = getFirestore();
+    await clearIndexedDbPersistence(firestore);
   }
 
   public async enableNetwork(): Promise<void> {

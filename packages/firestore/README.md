@@ -192,6 +192,7 @@ const removeAllListeners = async () => {
 * [`deleteDocument(...)`](#deletedocument)
 * [`getCollection(...)`](#getcollection)
 * [`getCollectionGroup(...)`](#getcollectiongroup)
+* [`clearPersistence()`](#clearpersistence)
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
 * [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
@@ -328,6 +329,21 @@ Reads the collection group referenced by the specified reference.
 | **`options`** | <code><a href="#getcollectiongroupoptions">GetCollectionGroupOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;&gt;</code>
+
+--------------------
+
+
+### clearPersistence()
+
+```typescript
+clearPersistence() => Promise<void>
+```
+
+Clears the persistent storage. This includes pending writes and cached documents.
+
+Must be called after the app is shutdown or when the app is first initialized.
+
+**Since:** 5.2.0
 
 --------------------
 

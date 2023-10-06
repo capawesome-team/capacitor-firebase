@@ -273,6 +273,28 @@ public class FirebaseFirestorePlugin extends Plugin {
     }
 
     @PluginMethod
+    public void clearPersistence(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    call.resolve();
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+            implementation.clearPersistence(callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
     public void enableNetwork(PluginCall call) {
         try {
             EmptyResultCallback callback = new EmptyResultCallback() {
