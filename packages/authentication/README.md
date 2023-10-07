@@ -47,7 +47,7 @@ The further installation steps depend on the selected authentication method:
 - [Anonymous Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-anonymous.md)
 - [Email Link Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-email-link.md)
 - [Phone Number Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-phone.md)
-- [Custom Token Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/custom-token.md)
+- [Custom Token Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
 These SDKs can initialize on their own and collect various data.
