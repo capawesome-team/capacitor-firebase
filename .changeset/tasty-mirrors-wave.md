@@ -2,4 +2,4 @@
 '@capacitor-firebase/authentication': patch
 ---
 
-feat(authentication): update Firebase Auth for Android to 22.1.2
+feat(android): update `com.google.firebase:firebase-auth` to version `22.1.2`
