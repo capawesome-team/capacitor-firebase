@@ -742,7 +742,7 @@ public class FirebaseAuthentication {
 
     public void handleFailedSignIn(@NonNull final PluginCall call, @Nullable String message, @Nullable Exception exception) {
         if (message == null && exception != null) {
-            message = exception.getMessage();
+            message = exception.toString();
         }
         Logger.error(TAG, message, exception);
         String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -802,7 +802,7 @@ public class FirebaseAuthentication {
 
     public void handleFailedLink(final PluginCall call, String message, Exception exception) {
         if (message == null && exception != null) {
-            message = exception.getMessage();
+            message = exception.toString();
         }
         Logger.error(TAG, message, exception);
         String code = FirebaseAuthenticationHelper.createErrorCode(exception);
