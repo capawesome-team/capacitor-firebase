@@ -12,7 +12,7 @@ public class UpdateDocumentOptions {
 
     public UpdateDocumentOptions(String reference, JSObject data) throws JSONException {
         this.reference = reference;
-        this.data = FirebaseFirestoreHelper.createHashMapFromJSObject(data);
+        this.data = FirebaseFirestoreHelper.createHashMapFromJSONObject(data);
     }
 
     public String getReference() {

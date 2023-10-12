@@ -10,24 +10,30 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryOrderByConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryStartAtConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FirebaseFirestoreHelper {
 
-    public static HashMap<String, Object> createHashMapFromJSObject(JSObject object) throws JSONException {
+    public static HashMap<String, Object> createHashMapFromJSONObject(JSONObject object) throws JSONException {
         HashMap<String, Object> map = new HashMap<>();
         Iterator<String> keys = object.keys();
         while (keys.hasNext()) {
             String key = keys.next();
             Object value = object.get(key);
             if (value.toString().equals("null")) {
-                map.put(key, null);
-            } else {
-                map.put(key, value);
+                value = null;
+            } else if (value instanceof JSONObject) {
+                value = createHashMapFromJSONObject((JSONObject) value);
+            } else if (value instanceof JSONArray) {
+                value = createArrayListFromJSONArray((JSONArray) value);
             }
+            map.put(key, value);
         }
         return map;
     }
@@ -36,6 +42,11 @@ public class FirebaseFirestoreHelper {
         JSObject object = new JSObject();
         for (String key : map.keySet()) {
             Object value = map.get(key);
+            if (value instanceof ArrayList) {
+                value = createJSArrayFromArrayList((ArrayList) value);
+            } else if (value instanceof Map) {
+                value = createJSObjectFromMap((Map<String, Object>) value);
+            }
             object.put(key, value);
         }
         return object;
@@ -80,5 +91,30 @@ public class FirebaseFirestoreHelper {
             }
             return queryNonFilterConstraint;
         }
+    }
+
+    private static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        for (int x = 0; x < array.length(); x++) {
+            Object value = array.get(x);
+            if (value instanceof JSONObject) {
+                value = createHashMapFromJSONObject((JSONObject) value);
+            } else if (value instanceof JSONArray) {
+                value = createArrayListFromJSONArray((JSONArray) value);
+            }
+            arrayList.add(value);
+        }
+        return arrayList;
+    }
+
+    private static JSArray createJSArrayFromArrayList(ArrayList arrayList) {
+        JSArray array = new JSArray();
+        for (Object value : arrayList) {
+            if (value instanceof Map) {
+                value = createJSObjectFromMap((Map<String, Object>) value);
+            }
+            array.put(value);
+        }
+        return array;
     }
 }

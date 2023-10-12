@@ -13,7 +13,7 @@ public class SetDocumentOptions {
 
     public SetDocumentOptions(String reference, JSObject data, boolean merge) throws JSONException {
         this.reference = reference;
-        this.data = FirebaseFirestoreHelper.createHashMapFromJSObject(data);
+        this.data = FirebaseFirestoreHelper.createHashMapFromJSONObject(data);
         this.merge = merge;
     }
 
