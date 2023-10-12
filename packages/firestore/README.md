@@ -30,7 +30,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+import { FirebaseFirestore, FieldValue } from '@capacitor-firebase/firestore';
 
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({
@@ -38,7 +38,8 @@ const addDocument = async () => {
     data: { 
       first: 'Alan', 
       last: 'Turing', 
-      born: 1912 
+      born: 1912,
+      createdAt: FieldValue.ServerTimestamp,
     },
   });
 };
@@ -49,7 +50,7 @@ const setDocument = async () => {
     data: { 
       first: 'Alan', 
       last: 'Turing', 
-      born: 1912 
+      born: 1912
     },
     merge: true,
   });
@@ -68,7 +69,7 @@ const updateDocument = async () => {
     data: { 
       first: 'Alan', 
       last: 'Turing', 
-      born: 1912 
+      born: 1912
     },
   });
 };

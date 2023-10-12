@@ -1,5 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
-import type {
+import {
+  FieldValue as FirebaseFieldValue,
   QueryCompositeFilterConstraint as FirebaseQueryCompositeFilterConstraint,
   QueryConstraint as FirebaseQueryConstraint,
   QueryFieldFilterConstraint as FirebaseQueryFieldFilterConstraint,
@@ -7,8 +8,6 @@ import type {
   QueryNonFilterConstraint as FirebaseQueryNonFilterConstraint,
   Query,
   Unsubscribe,
-} from 'firebase/firestore';
-import {
   addDoc,
   and,
   clearIndexedDbPersistence,
@@ -33,7 +32,7 @@ import {
   where,
 } from 'firebase/firestore';
 
-import type {
+import {
   AddCollectionSnapshotListenerCallback,
   AddCollectionSnapshotListenerEvent,
   AddCollectionSnapshotListenerOptions,
@@ -43,6 +42,7 @@ import type {
   AddDocumentSnapshotListenerEvent,
   AddDocumentSnapshotListenerOptions,
   DocumentData,
+  FieldValue,
   FirebaseFirestorePlugin,
   GetCollectionGroupOptions,
   GetCollectionGroupResult,
@@ -69,7 +69,8 @@ export class FirebaseFirestoreWeb
     options: AddDocumentOptions,
   ): Promise<AddDocumentResult> {
     const firestore = getFirestore();
-    const { reference, data } = options;
+    const reference = options.reference;
+    const data = this.replaceFieldValues(options.data);
     const documentReference = await addDoc<DocumentData, DocumentData>(
       collection(firestore, reference),
       data,
@@ -80,6 +81,25 @@ export class FirebaseFirestoreWeb
         path: documentReference.path,
       },
     };
+  }
+  private replaceFieldValues(data: DocumentData): FirebaseFieldValue {
+    const updatedData: FirebaseFieldValue = {};
+    for (const key in data) {
+      let value = data[key];
+      if (value instanceof String) {
+        if (value === FieldValue.ArrayRemove) {
+          value = FirebaseFieldValue.arrayRemove;
+        }
+      } else if (
+        typeof value === 'object' &&
+        value !== null &&
+        !Array.isArray(value)
+      ) {
+        value = this.replaceFieldValues(value);
+      }
+      updatedData[key] = value;
+    }
+    return updatedData;
   }
 
   public async setDocument(options: SetDocumentOptions): Promise<void> {

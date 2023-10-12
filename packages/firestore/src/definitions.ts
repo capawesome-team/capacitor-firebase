@@ -631,3 +631,44 @@ export type QueryConstraintType =
  * @since 5.2.0
  */
 export type OrderByDirection = 'desc' | 'asc';
+
+/**
+ * @since 5.2.0
+ */
+export enum FieldValue {
+  /**
+   * Special value that can be used with `addDocument(...)`, `setDocument(...)` or `updateDocument(...)`
+   * that tells the server to remove the given elements from any array value that already exists on the server.
+   *
+   * @since 5.2.0
+   */
+  ArrayRemove = '##ARRAY_REMOVE##',
+  /**
+   * Special value that can be used with `addDocument(...)`, `setDocument(...)` or `updateDocument(...)`
+   * that tells the server to union the given elements with any array value that already exists on the server.
+   *
+   * @since 5.2.0
+   */
+  ArrayUnion = '##ARRAY_UNION##',
+  /**
+   * Special value that can be used with `setDocument(...)` with `{ merge: true }` or `updateDocument(...)`
+   * to mark a field for deletion.
+   *
+   * @since 5.2.0
+   */
+  Delete = '##DELETE##',
+  /**
+   * Special value that can be used with `addDocument(...)`, `setDocument(...)` or `updateDocument(...)`
+   * that tells the server to increment the field's current value by the given value.
+   *
+   * @since 5.2.0
+   */
+  Increment = '##INCREMENT##',
+  /**
+   * Special value that can be used with `addDocument(...)`, `setDocument(...)` or `updateDocument(...)`
+   * that tells the server to set the field to the current server timestamp.
+   *
+   * @since 5.2.0
+   */
+  ServerTimestamp = '##SERVER_TIMESTAMP##',
+}
