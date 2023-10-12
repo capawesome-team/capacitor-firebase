@@ -92,7 +92,7 @@ import FirebaseFirestore
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
                     if let filter = compositeFilter.toFilter() {
-                        query.whereFilter(filter)
+                        query = query.whereFilter(filter)
                     }
                 }
                 if !queryConstraints.isEmpty {
@@ -121,7 +121,7 @@ import FirebaseFirestore
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
                     if let filter = compositeFilter.toFilter() {
-                        query.whereFilter(filter)
+                        query = query.whereFilter(filter)
                     }
                 }
                 if !queryConstraints.isEmpty {
@@ -184,7 +184,7 @@ import FirebaseFirestore
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
                     if let filter = compositeFilter.toFilter() {
-                        query.whereFilter(filter)
+                        query = query.whereFilter(filter)
                     }
                 }
                 if !queryConstraints.isEmpty {
