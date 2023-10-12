@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
-
-import org.json.JSONException;
-
 import java.util.List;
+import org.json.JSONException;
 
 public class QueryFieldFilterConstraint implements QueryFilterConstraint {
 
