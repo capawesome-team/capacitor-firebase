@@ -29,12 +29,12 @@ import FirebaseFirestore
             return Filter.whereField(self.fieldPath, isNotEqualTo: self.value)
         case "array-contains":
             return Filter.whereField(self.fieldPath, arrayContains: self.value)
-        /*case "array-contains-any":
-         return Filter.whereField(self.fieldPath, arrayContainsAny: self.value as! [Any])
-         case "in":
-         return Filter.whereField(self.fieldPath, in: self.value as! [Any])
-         case "not-in":
-         return Filter.whereField(self.fieldPath, notIn: self.value as! [Any])*/
+        case "array-contains-any":
+            return Filter.whereField(self.fieldPath, arrayContainsAny: self.value as! [Any])
+        case "in":
+            return Filter.whereField(self.fieldPath, in: self.value as! [Any])
+        case "not-in":
+            return Filter.whereField(self.fieldPath, notIn: self.value as! [Any])
         default:
             return nil
         }

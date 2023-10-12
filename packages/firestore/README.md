@@ -560,7 +560,7 @@ Remove all listeners for this plugin.
 | **`type`**      | <code>'where'</code>                                    | The type of the constraint.    | 5.2.0 |
 | **`fieldPath`** | <code>string</code>                                     | The path to compare.           | 5.2.0 |
 | **`opStr`**     | <code><a href="#queryoperator">QueryOperator</a></code> | The operation string to apply. | 5.2.0 |
-| **`value`**     | <code>string \| number \| boolean \| null</code>        | The value for comparison.      | 5.2.0 |
+| **`value`**     | <code>any</code>                                        | The value for comparison.      | 5.2.0 |
 
 
 #### QueryOrderByConstraint
@@ -645,7 +645,7 @@ Remove all listeners for this plugin.
 
 #### QueryOperator
 
-<code>'&lt;' | '&lt;=' | '==' | '&gt;=' | '&gt;' | '!=' | 'array-contains'</code>
+<code>'&lt;' | '&lt;=' | '==' | '&gt;=' | '&gt;' | '!=' | 'array-contains' | 'array-contains-any' | 'in' | 'not-in'</code>
 
 
 #### QueryNonFilterConstraint
