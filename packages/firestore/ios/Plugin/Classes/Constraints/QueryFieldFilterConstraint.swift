@@ -30,10 +30,13 @@ import FirebaseFirestore
         case "array-contains":
             return Filter.whereField(self.fieldPath, arrayContains: self.value)
         case "array-contains-any":
+            // swiftlint:disable force_cast
             return Filter.whereField(self.fieldPath, arrayContainsAny: self.value as! [Any])
         case "in":
+            // swiftlint:disable force_cast
             return Filter.whereField(self.fieldPath, in: self.value as! [Any])
         case "not-in":
+            // swiftlint:disable force_cast
             return Filter.whereField(self.fieldPath, notIn: self.value as! [Any])
         default:
             return nil
