@@ -500,7 +500,7 @@ export interface QueryFieldFilterConstraint {
    *
    * @since 5.2.0
    */
-  value: string | number | boolean | null;
+  value: any;
 }
 
 /**
@@ -609,10 +609,10 @@ export type QueryOperator =
   | '>='
   | '>'
   | '!='
-  | 'array-contains';
-// | 'array-contains-any'
-// | 'in'
-// | 'not-in';
+  | 'array-contains'
+  | 'array-contains-any'
+  | 'in'
+  | 'not-in';
 
 /**
  * @since 5.2.0

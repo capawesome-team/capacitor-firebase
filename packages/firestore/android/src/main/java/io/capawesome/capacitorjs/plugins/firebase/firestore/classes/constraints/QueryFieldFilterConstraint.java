@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
+import java.util.List;
 import org.json.JSONException;
 
 public class QueryFieldFilterConstraint implements QueryFilterConstraint {
@@ -21,7 +23,7 @@ public class QueryFieldFilterConstraint implements QueryFilterConstraint {
     public QueryFieldFilterConstraint(JSObject queryConstraint) throws JSONException {
         this.fieldPath = queryConstraint.getString("fieldPath", "");
         this.opStr = queryConstraint.getString("opStr", "");
-        this.value = queryConstraint.get("value");
+        this.value = FirebaseFirestoreHelper.createObjectFromJSValue(queryConstraint.get("value"));
     }
 
     @Nullable
@@ -41,12 +43,12 @@ public class QueryFieldFilterConstraint implements QueryFilterConstraint {
                 return Filter.notEqualTo(fieldPath, value);
             case "array-contains":
                 return Filter.arrayContains(fieldPath, value);
-            /*case "array-contains-any":
-                return Filter.arrayContainsAny(fieldPath, value);
+            case "array-contains-any":
+                return Filter.arrayContainsAny(fieldPath, (List<? extends Object>) value);
             case "in":
-                return Filter.inArray(fieldPath, value);
+                return Filter.inArray(fieldPath, (List<? extends Object>) value);
             case "not-in":
-                return Filter.notInArray(fieldPath, value);*/
+                return Filter.notInArray(fieldPath, (List<? extends Object>) value);
             default:
                 return null;
         }
