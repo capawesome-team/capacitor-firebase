@@ -110,19 +110,19 @@ public class FirebaseFirestore {
     public void getCollection(@NonNull GetCollectionOptions options, @NonNull NonEmptyResultCallback callback) throws Exception {
         String reference = options.getReference();
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
-        QueryNonFilterConstraint<CollectionReference>[] queryConstraints = options.getQueryConstraints();
+        QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
 
-        CollectionReference collectionReference = this.firestoreInstance.collection(reference);
+        Query query = this.firestoreInstance.collection(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
-            collectionReference.where(filter);
+            query = query.where(filter);
         }
         if (queryConstraints.length > 0) {
-            for (QueryNonFilterConstraint<CollectionReference> queryConstraint : queryConstraints) {
-                collectionReference = queryConstraint.toQuery(collectionReference, this.firestoreInstance);
+            for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
+                query = queryConstraint.toQuery(query, this.firestoreInstance);
             }
         }
-        collectionReference
+        query
             .get()
             .addOnSuccessListener(
                 querySnapshot -> {
@@ -136,15 +136,15 @@ public class FirebaseFirestore {
     public void getCollectionGroup(@NonNull GetCollectionGroupOptions options, @NonNull NonEmptyResultCallback callback) throws Exception {
         String reference = options.getReference();
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
-        QueryNonFilterConstraint<Query>[] queryConstraints = options.getQueryConstraints();
+        QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
 
         Query query = this.firestoreInstance.collectionGroup(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
-            query.where(filter);
+            query = query.where(filter);
         }
         if (queryConstraints.length > 0) {
-            for (QueryNonFilterConstraint<Query> queryConstraint : queryConstraints) {
+            for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
                 query = queryConstraint.toQuery(query, this.firestoreInstance);
             }
         }
@@ -226,16 +226,16 @@ public class FirebaseFirestore {
     ) throws Exception {
         String reference = options.getReference();
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
-        QueryNonFilterConstraint<Query>[] queryConstraints = options.getQueryConstraints();
+        QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
         String callbackId = options.getCallbackId();
 
         Query query = this.firestoreInstance.collection(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
-            query.where(filter);
+            query = query.where(filter);
         }
         if (queryConstraints.length > 0) {
-            for (QueryNonFilterConstraint<Query> queryConstraint : queryConstraints) {
+            for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
                 query = queryConstraint.toQuery(query, this.firestoreInstance);
             }
         }
