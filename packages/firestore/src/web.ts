@@ -35,12 +35,12 @@ import {
 
 import type {
   AddCollectionSnapshotListenerCallback,
-  AddCollectionSnapshotListenerEvent,
+  AddCollectionSnapshotListenerCallbackEvent,
   AddCollectionSnapshotListenerOptions,
   AddDocumentOptions,
   AddDocumentResult,
   AddDocumentSnapshotListenerCallback,
-  AddDocumentSnapshotListenerEvent,
+  AddDocumentSnapshotListenerCallbackEvent,
   AddDocumentSnapshotListenerOptions,
   DocumentData,
   FirebaseFirestorePlugin,
@@ -175,7 +175,7 @@ export class FirebaseFirestoreWeb
       doc(firestore, options.reference),
       snapshot => {
         const data = snapshot.data();
-        const event: AddDocumentSnapshotListenerEvent<T> = {
+        const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {
             id: snapshot.id,
             path: snapshot.ref.path,
@@ -198,7 +198,7 @@ export class FirebaseFirestoreWeb
   ): Promise<string> {
     const collectionQuery = await this.buildCollectionQuery(options);
     const unsubscribe = onSnapshot(collectionQuery, snapshot => {
-      const event: AddCollectionSnapshotListenerEvent<T> = {
+      const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
         snapshots: snapshot.docs.map(documentSnapshot => ({
           id: documentSnapshot.id,
           path: documentSnapshot.ref.path,

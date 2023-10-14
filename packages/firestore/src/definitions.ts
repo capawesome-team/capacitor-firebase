@@ -301,14 +301,14 @@ export interface AddDocumentSnapshotListenerOptions {
  * @since 5.2.0
  */
 export type AddDocumentSnapshotListenerCallback<T> = (
-  event: AddDocumentSnapshotListenerEvent<T>,
-  err?: any,
+  event: AddDocumentSnapshotListenerCallbackEvent<T> | null,
+  error: any,
 ) => void;
 
 /**
  * @since 5.2.0
  */
-export type AddDocumentSnapshotListenerEvent<T> = GetDocumentResult<T>;
+export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 
 /**
  * @since 5.2.0
@@ -338,14 +338,15 @@ export interface AddCollectionSnapshotListenerOptions {
  * @since 5.2.0
  */
 export type AddCollectionSnapshotListenerCallback<T> = (
-  event: AddCollectionSnapshotListenerEvent<T>,
-  err?: any,
+  event: AddCollectionSnapshotListenerCallbackEvent<T> | null,
+  error: any,
 ) => void;
 
 /**
  * @since 5.2.0
  */
-export type AddCollectionSnapshotListenerEvent<T> = GetCollectionResult<T>;
+export type AddCollectionSnapshotListenerCallbackEvent<T> =
+  GetCollectionResult<T>;
 
 /**
  * @since 5.2.0
