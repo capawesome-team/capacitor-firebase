@@ -47,7 +47,7 @@ The further installation steps depend on the selected authentication method:
 - [Anonymous Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-anonymous.md)
 - [Email Link Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-email-link.md)
 - [Phone Number Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-phone.md)
-- [Custom Token Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/custom-token.md)
+- [Custom Token Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-custom-token.md)
 
 **Attention**: Please note that this plugin uses third-party SDKs to offer native sign-in.
 These SDKs can initialize on their own and collect various data.
@@ -398,6 +398,7 @@ const useEmulator = async () => {
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
+* [`setPersistence(...)`](#setpersistence)
 * [`setTenantId(...)`](#settenantid)
 * [`signInAnonymously()`](#signinanonymously)
 * [`signInWithApple(...)`](#signinwithapple)
@@ -475,8 +476,6 @@ confirmVerificationCode(options: ConfirmVerificationCodeOptions) => Promise<Sign
 ```
 
 Finishes the phone number verification process.
-
-Only available for Android and iOS.
 
 | Param         | Type                                                                                      |
 | ------------- | ----------------------------------------------------------------------------------------- |
@@ -803,9 +802,9 @@ Use the `phoneVerificationCompleted` listener to be notified when the verificati
 Use the `phoneVerificationFailed` listener to be notified when the verification is failed.
 Use the `phoneCodeSent` listener to get the verification id.
 
-| Param         | Type                                                                              |
-| ------------- | --------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#linkwithphonenumberoptions">LinkWithPhoneNumberOptions</a></code> |
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
 
 **Since:** 1.1.0
 
@@ -955,6 +954,25 @@ Sets the user-facing language code for auth operations.
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### setPersistence(...)
+
+```typescript
+setPersistence(options: SetPersistenceOptions) => Promise<void>
+```
+
+Sets the type of persistence for the currently saved auth session.
+
+Only available for Web.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setpersistenceoptions">SetPersistenceOptions</a></code> |
+
+**Since:** 5.2.0
 
 --------------------
 
@@ -1493,17 +1511,39 @@ Remove all listeners for this plugin.
 
 #### User
 
-| Prop                | Type                        | Since |
-| ------------------- | --------------------------- | ----- |
-| **`displayName`**   | <code>string \| null</code> | 0.1.0 |
-| **`email`**         | <code>string \| null</code> | 0.1.0 |
-| **`emailVerified`** | <code>boolean</code>        | 0.1.0 |
-| **`isAnonymous`**   | <code>boolean</code>        | 0.1.0 |
-| **`phoneNumber`**   | <code>string \| null</code> | 0.1.0 |
-| **`photoUrl`**      | <code>string \| null</code> | 0.1.0 |
-| **`providerId`**    | <code>string</code>         | 0.1.0 |
-| **`tenantId`**      | <code>string \| null</code> | 0.1.0 |
-| **`uid`**           | <code>string</code>         | 0.1.0 |
+| Prop                | Type                                                  | Description                                                          | Since |
+| ------------------- | ----------------------------------------------------- | -------------------------------------------------------------------- | ----- |
+| **`displayName`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`email`**         | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`emailVerified`** | <code>boolean</code>                                  |                                                                      | 0.1.0 |
+| **`isAnonymous`**   | <code>boolean</code>                                  |                                                                      | 0.1.0 |
+| **`metadata`**      | <code><a href="#usermetadata">UserMetadata</a></code> | The user's metadata.                                                 | 5.2.0 |
+| **`phoneNumber`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`photoUrl`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`providerData`**  | <code>UserInfo[]</code>                               | Additional per provider such as displayName and profile information. | 5.2.0 |
+| **`providerId`**    | <code>string</code>                                   |                                                                      | 0.1.0 |
+| **`tenantId`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
+| **`uid`**           | <code>string</code>                                   |                                                                      | 0.1.0 |
+
+
+#### UserMetadata
+
+| Prop                 | Type                | Description                                                   | Since |
+| -------------------- | ------------------- | ------------------------------------------------------------- | ----- |
+| **`creationTime`**   | <code>number</code> | Time the user was created in milliseconds since the epoch.    | 5.2.0 |
+| **`lastSignInTime`** | <code>number</code> | Time the user last signed in in milliseconds since the epoch. | 5.2.0 |
+
+
+#### UserInfo
+
+| Prop              | Type                        | Description                                                                               | Since |
+| ----------------- | --------------------------- | ----------------------------------------------------------------------------------------- | ----- |
+| **`displayName`** | <code>string \| null</code> | The display name of the user.                                                             | 5.2.0 |
+| **`email`**       | <code>string \| null</code> | The email of the user.                                                                    | 5.2.0 |
+| **`phoneNumber`** | <code>string \| null</code> | The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user. | 5.2.0 |
+| **`photoUrl`**    | <code>string \| null</code> | The profile photo URL of the user.                                                        | 5.2.0 |
+| **`providerId`**  | <code>string</code>         | The provider used to authenticate the user.                                               | 5.2.0 |
+| **`uid`**         | <code>string</code>         | The user's unique ID.                                                                     | 5.2.0 |
 
 
 #### AuthCredential
@@ -1516,6 +1556,7 @@ Remove all listeners for this plugin.
 | **`nonce`**             | <code>string</code> | The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request. | 0.1.0 |
 | **`providerId`**        | <code>string</code> | The authentication provider ID for the credential.                                                                                       | 0.1.0 |
 | **`secret`**            | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     | 0.1.0 |
+| **`serverAuthCode`**    | <code>string</code> | The server auth code. Only available for Google Sign-in and Play Games Sign-In on Android and iOS.                                       | 5.2.0 |
 
 
 #### AdditionalUserInfo
@@ -1591,8 +1632,8 @@ Remove all listeners for this plugin.
 | Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                       | Default              | Since |
 | ---------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- |
 | **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS. |                      | 1.1.0 |
-| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.                                                                                                     | <code>'popup'</code> | 1.3.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                              |                      | 1.1.0 |
+| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                             | <code>'popup'</code> | 1.3.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                      |                      | 1.1.0 |
 
 
 #### SignInCustomParameter
@@ -1619,12 +1660,13 @@ Remove all listeners for this plugin.
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
-#### LinkWithPhoneNumberOptions
+#### SignInWithPhoneNumberOptions
 
-| Prop              | Type                 | Description                                                                                                                                                 | Default            | Since |
-| ----------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`phoneNumber`** | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                            |                    | 1.1.0 |
-| **`resendCode`**  | <code>boolean</code> | Resend the verification code to the specified phone number. `linkWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 5.0.0 |
+| Prop                    | Type                 | Description                                                                                                                                                   | Default            | Since |
+| ----------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`phoneNumber`**       | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                              |                    | 0.1.0 |
+| **`recaptchaVerifier`** | <code>unknown</code> | The reCAPTCHA verifier. Must be an instance of `firebase.auth.RecaptchaVerifier`. Only available for Web.                                                     |                    | 5.2.0 |
+| **`resendCode`**        | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 
 
 #### SendPasswordResetEmailOptions
@@ -1663,6 +1705,22 @@ bundle identifiers.
 | **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
 
 
+#### SetPersistenceOptions
+
+| Prop              | Type                                                | Description            | Since |
+| ----------------- | --------------------------------------------------- | ---------------------- | ----- |
+| **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
+
+
+#### Persistence
+
+An interface covering the possible persistence mechanism types.
+
+| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
+
+
 #### SetTenantIdOptions
 
 | Prop           | Type                | Description    | Since |
@@ -1698,14 +1756,6 @@ bundle identifiers.
 | Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
 | -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
 | **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
-
-
-#### SignInWithPhoneNumberOptions
-
-| Prop              | Type                 | Description                                                                                                                                                   | Default            | Since |
-| ----------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`phoneNumber`** | <code>string</code>  | The phone number to be verified in E.164 format.                                                                                                              |                    | 0.1.0 |
-| **`resendCode`**  | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 
 
 #### UnlinkResult
@@ -1800,6 +1850,11 @@ bundle identifiers.
 <code><a href="#signinresult">SignInResult</a></code>
 
 
+#### LinkWithPhoneNumberOptions
+
+<code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
+
+
 #### AuthStateChangeListener
 
 Callback to receive the user's sign-in state change notifications.
@@ -1829,6 +1884,16 @@ Callback to receive the verification ID.
 
 
 ### Enums
+
+
+#### Persistence
+
+| Members              | Value                           | Description                                  | Since |
+| -------------------- | ------------------------------- | -------------------------------------------- | ----- |
+| **`IndexedDbLocal`** | <code>'INDEXED_DB_LOCAL'</code> | Long term persistence using IndexedDB.       | 5.2.0 |
+| **`InMemory`**       | <code>'IN_MEMORY'</code>        | No persistence.                              | 5.2.0 |
+| **`BrowserLocal`**   | <code>'BROWSER_LOCAL'</code>    | Long term persistence using local storage.   | 5.2.0 |
+| **`BrowserSession`** | <code>'BROWSER_SESSION'</code>  | Temporary persistence using session storage. | 5.2.0 |
 
 
 #### ProviderId

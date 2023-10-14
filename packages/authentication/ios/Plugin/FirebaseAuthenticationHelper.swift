@@ -35,8 +35,14 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
+        return createSignInResult(credential: credential, user: user, idToken: idToken, nonce: nonce, accessToken: accessToken,
+                                  serverAuthCode: nil, additionalUserInfo: additionalUserInfo, displayName: nil, authorizationCode: nil)
+    }
+
+    // swiftlint:disable function_parameter_count
+    public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, serverAuthCode: String?, additionalUserInfo: AdditionalUserInfo?, displayName: String?, authorizationCode: String?) -> JSObject {
         let userResult = self.createUserResult(user, displayName: displayName)
-        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode)
+        let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode, serverAuthCode: serverAuthCode)
         let additionalUserInfoResult = self.createAdditionalUserInfoResult(additionalUserInfo)
         var result = JSObject()
         result["user"] = userResult
@@ -64,15 +70,17 @@ public class FirebaseAuthenticationHelper {
         result["email"] = user.email
         result["emailVerified"] = user.isEmailVerified
         result["isAnonymous"] = user.isAnonymous
+        result["metadata"] = self.createUserMetadataResult(user.metadata)
         result["phoneNumber"] = user.phoneNumber
         result["photoUrl"] = user.photoURL?.absoluteString
+        result["providerData"] = self.createUserProviderDataResult(user.providerData)
         result["providerId"] = user.providerID
         result["tenantId"] = user.tenantID
         result["uid"] = user.uid
         return result
     }
 
-    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?, authorizationCode: String?) -> JSObject? {
+    public static func createCredentialResult(_ credential: AuthCredential?, idToken: String?, nonce: String?, accessToken: String?, authorizationCode: String?, serverAuthCode: String?) -> JSObject? {
         if credential == nil && idToken == nil && nonce == nil && accessToken == nil && authorizationCode == nil {
             return nil
         }
@@ -106,6 +114,9 @@ public class FirebaseAuthenticationHelper {
         if let authorizationCode = authorizationCode {
             result["authorizationCode"] = authorizationCode
         }
+        if let serverAuthCode = serverAuthCode {
+            result["serverAuthCode"] = serverAuthCode
+        }
         return result
     }
 
@@ -121,6 +132,32 @@ public class FirebaseAuthenticationHelper {
         result["providerId"] = additionalUserInfo.providerID
         if let username = additionalUserInfo.username {
             result["username"] = username
+        }
+        return result
+    }
+
+    private static func createUserMetadataResult(_ metadata: UserMetadata) -> JSObject {
+        var result = JSObject()
+        if let creationDate = metadata.creationDate?.timeIntervalSince1970 {
+            result["creationTime"] = creationDate * 1000
+        }
+        if let lastSignInDate = metadata.lastSignInDate?.timeIntervalSince1970 {
+            result["lastSignInTime"] = lastSignInDate * 1000
+        }
+        return result
+    }
+
+    private static func createUserProviderDataResult(_ providerData: [UserInfo]) -> JSArray {
+        var result = JSArray()
+        for userInfo in providerData {
+            var userInfoResult = JSObject()
+            userInfoResult["displayName"] = userInfo.displayName
+            userInfoResult["email"] = userInfo.email
+            userInfoResult["phoneNumber"] = userInfo.phoneNumber
+            userInfoResult["photoUrl"] = userInfo.photoURL?.absoluteString
+            userInfoResult["providerId"] = userInfo.providerID
+            userInfoResult["uid"] = userInfo.uid
+            result.append(userInfoResult)
         }
         return result
     }

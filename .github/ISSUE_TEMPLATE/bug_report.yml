@@ -14,6 +14,7 @@ body:
         - label: App Check
         - label: Authentication
         - label: Crashlytics
+        - label: Cloud Firestore
         - label: Cloud Messaging
         - label: Performance
         - label: Remote Config

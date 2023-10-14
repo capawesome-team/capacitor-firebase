@@ -667,6 +667,7 @@ public class FirebaseAuthentication {
         @Nullable String idToken,
         @Nullable String nonce,
         @Nullable String accessToken,
+        @Nullable String serverAuthCode,
         @Nullable AdditionalUserInfo additionalUserInfo
     ) {
         boolean skipNativeAuth = call.getBoolean("skipNativeAuth", this.config.getSkipNativeAuth());
@@ -677,6 +678,7 @@ public class FirebaseAuthentication {
                 idToken,
                 nonce,
                 accessToken,
+                serverAuthCode,
                 additionalUserInfo
             );
             call.resolve(signInResult);
@@ -689,7 +691,7 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         final AuthResult authResult = task.getResult();
-                        handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken);
+                        handleSuccessfulSignIn(call, authResult, idToken, nonce, accessToken, serverAuthCode);
                     } else {
                         Exception exception = task.getException();
                         Logger.error(TAG, exception.getMessage(), exception);
@@ -718,6 +720,26 @@ public class FirebaseAuthentication {
         call.resolve(signInResult);
     }
 
+    public void handleSuccessfulSignIn(
+        final PluginCall call,
+        final AuthResult authResult,
+        @Nullable String idToken,
+        @Nullable String nonce,
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode
+    ) {
+        JSObject signInResult = FirebaseAuthenticationHelper.createSignInResult(
+            authResult.getUser(),
+            authResult.getCredential(),
+            idToken,
+            nonce,
+            accessToken,
+            serverAuthCode,
+            authResult.getAdditionalUserInfo()
+        );
+        call.resolve(signInResult);
+    }
+
     public void handleFailedSignIn(@NonNull final PluginCall call, @Nullable String message, @Nullable Exception exception) {
         if (message == null && exception != null) {
             message = exception.getMessage();
@@ -732,7 +754,8 @@ public class FirebaseAuthentication {
         @Nullable AuthCredential credential,
         @Nullable String idToken,
         @Nullable String nonce,
-        @Nullable String accessToken
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode
     ) {
         FirebaseUser user = firebaseAuthInstance.getCurrentUser();
         if (user == null) {
@@ -746,7 +769,7 @@ public class FirebaseAuthentication {
                 task -> {
                     if (task.isSuccessful()) {
                         final AuthResult authResult = task.getResult();
-                        handleSuccessfulLink(call, authResult, idToken, nonce, accessToken);
+                        handleSuccessfulLink(call, authResult, idToken, nonce, accessToken, serverAuthCode);
                     } else {
                         Exception exception = task.getException();
                         Logger.error(TAG, exception.getMessage(), exception);
@@ -762,7 +785,8 @@ public class FirebaseAuthentication {
         final AuthResult authResult,
         @Nullable String idToken,
         @Nullable String nonce,
-        @Nullable String accessToken
+        @Nullable String accessToken,
+        @Nullable String serverAuthCode
     ) {
         JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(
             authResult.getUser(),
@@ -770,6 +794,7 @@ public class FirebaseAuthentication {
             idToken,
             nonce,
             accessToken,
+            serverAuthCode,
             authResult.getAdditionalUserInfo()
         );
         call.resolve(linkResult);
