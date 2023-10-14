@@ -660,10 +660,10 @@ Remove all listeners for this plugin.
 
 #### AddDocumentSnapshotListenerCallback
 
-<code>(event: <a href="#adddocumentsnapshotlistenerevent">AddDocumentSnapshotListenerEvent</a>&lt;T&gt;, err?: any): void</code>
+<code>(event: <a href="#adddocumentsnapshotlistenercallbackevent">AddDocumentSnapshotListenerCallbackEvent</a>&lt;T&gt; | null, error: any): void</code>
 
 
-#### AddDocumentSnapshotListenerEvent
+#### AddDocumentSnapshotListenerCallbackEvent
 
 <code><a href="#getdocumentresult">GetDocumentResult</a>&lt;T&gt;</code>
 
@@ -675,10 +675,10 @@ Remove all listeners for this plugin.
 
 #### AddCollectionSnapshotListenerCallback
 
-<code>(event: <a href="#addcollectionsnapshotlistenerevent">AddCollectionSnapshotListenerEvent</a>&lt;T&gt;, err?: any): void</code>
+<code>(event: <a href="#addcollectionsnapshotlistenercallbackevent">AddCollectionSnapshotListenerCallbackEvent</a>&lt;T&gt; | null, error: any): void</code>
 
 
-#### AddCollectionSnapshotListenerEvent
+#### AddCollectionSnapshotListenerCallbackEvent
 
 <code><a href="#getcollectionresult">GetCollectionResult</a>&lt;T&gt;</code>
 
