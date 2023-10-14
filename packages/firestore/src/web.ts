@@ -182,7 +182,7 @@ export class FirebaseFirestoreWeb
             data: (data === undefined ? null : data) as T | null,
           },
         };
-        callback(event);
+        callback(event, undefined);
       },
     );
     const id = Date.now().toString();
@@ -205,7 +205,7 @@ export class FirebaseFirestoreWeb
           data: documentSnapshot.data() as T,
         })),
       };
-      callback(event);
+      callback(event, undefined);
     });
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
