@@ -1,5 +1,9 @@
 import { WebPlugin } from '@capacitor/core';
-import type { ListOptions, SettableMetadata } from 'firebase/storage';
+import type {
+  ListOptions,
+  SettableMetadata,
+  UploadTaskSnapshot,
+} from 'firebase/storage';
 import {
   deleteObject,
   getDownloadURL,
@@ -25,6 +29,7 @@ import type {
   UploadFileCallbackEvent,
   UploadFileOptions,
 } from './definitions';
+import { UploadFileState } from './definitions';
 
 export class FirebaseStorageWeb
   extends WebPlugin
@@ -55,13 +60,13 @@ export class FirebaseStorageWeb
     const metadata = await getMetadata(storageRef);
     const result: GetMetadataResult = {
       bucket: metadata.bucket,
-      createdAt: metadata.timeCreated,
+      createdAt: new Date(metadata.timeCreated).getTime(),
       generation: metadata.generation,
-      metageneration: metadata.metageneration,
+      metadataGeneration: metadata.metageneration,
       name: metadata.name,
       path: metadata.fullPath,
       size: metadata.size,
-      updatedAt: metadata.updated,
+      updatedAt: new Date(metadata.updated).getTime(),
     };
     if (metadata.md5Hash) {
       result.md5Hash = metadata.md5Hash;
@@ -116,25 +121,39 @@ export class FirebaseStorageWeb
     const uploadTask = uploadBytesResumable(storageRef, options.blob);
     uploadTask.on('state_changed', {
       next: snapshot => {
-        const result: UploadFileCallbackEvent = {
-          progress: (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-          bytesTransferred: snapshot.bytesTransferred,
-          totalBytes: snapshot.totalBytes,
-        };
+        const result = this.createUploadFileCallbackEvent(snapshot);
         callback(result, undefined);
       },
       error: error => {
         callback(null, error);
       },
       complete: () => {
-        const result: UploadFileCallbackEvent = {
-          progress: 100,
-          bytesTransferred: uploadTask.snapshot.bytesTransferred,
-          totalBytes: uploadTask.snapshot.totalBytes,
-        };
+        const result = this.createUploadFileCallbackEvent(uploadTask.snapshot);
         callback(result, undefined);
       },
     });
     return Date.now().toString();
+  }
+
+  private createUploadFileCallbackEvent(
+    snapshot: UploadTaskSnapshot,
+  ): UploadFileCallbackEvent {
+    const state: UploadFileState =
+      snapshot.state === 'running'
+        ? UploadFileState.Running
+        : snapshot.state === 'paused'
+        ? UploadFileState.Paused
+        : snapshot.state === 'success'
+        ? UploadFileState.Success
+        : snapshot.state === 'canceled'
+        ? UploadFileState.Canceled
+        : UploadFileState.Error;
+    const result: UploadFileCallbackEvent = {
+      progress: (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+      bytesTransferred: snapshot.bytesTransferred,
+      totalBytes: snapshot.totalBytes,
+      state,
+    };
+    return result;
   }
 }

@@ -105,11 +105,12 @@ export interface GetMetadataResult {
    */
   bucket: string;
   /**
-   * A date string representing when this object was created.
+   * The timestamp at which the file was created in milliseconds since the epoch.
    *
    * @since 5.2.0
+   * @example 1697304435933
    */
-  createdAt: string;
+  createdAt: number;
   /**
    * The object's generation.
    *
@@ -124,12 +125,12 @@ export interface GetMetadataResult {
    */
   md5Hash?: string;
   /**
-   * The object's metageneration.
+   * The object's metadata generation.
    *
    * @since 5.2.0
    * @see https://cloud.google.com/storage/docs/metadata#generation-number
    */
-  metageneration: string;
+  metadataGeneration: string;
   /**
    * The short name of this file, which is the last component of the full path.
    *
@@ -151,11 +152,12 @@ export interface GetMetadataResult {
    */
   size: number;
   /**
-   * A date string representing when this object was last updated.
+   * The timestamp at which the file was last updated in milliseconds since the epoch.
    *
    * @since 5.2.0
+   * @example 1697304435933
    */
-  updatedAt: string;
+  updatedAt: number;
 }
 
 /**
@@ -338,21 +340,63 @@ export interface UploadFileCallbackEvent {
    * @since 5.2.0
    * @example 50
    */
-  progress: number;
+  progress?: number;
   /**
    * The number of bytes that have been transferred.
    *
    * @since 5.2.0
    * @example 1000
    */
-  bytesTransferred: number;
+  bytesTransferred?: number;
   /**
    * The total number of bytes to be transferred.
    *
    * @since 5.2.0
    * @example 2000
    */
-  totalBytes: number;
+  totalBytes?: number;
+  /**
+   * The current state of the upload.
+   *
+   * @since 5.2.0
+   */
+  state: UploadFileState;
+}
+
+/**
+ * @since 5.2.0
+ */
+export enum UploadFileState {
+  /**
+   * The upload is canceled.
+   *
+   * @since 5.2.0
+   */
+  Canceled = 'CANCELED',
+  /**
+   * The upload has failed.
+   *
+   * @since 5.2.0
+   */
+  Error = 'ERROR',
+  /**
+   * The upload is paused.
+   *
+   * @since 5.2.0
+   */
+  Paused = 'PAUSED',
+  /**
+   * The upload is running.
+   *
+   * @since 5.2.0
+   */
+  Running = 'RUNNING',
+  /**
+   * The upload is completed.
+   *
+   * @since 5.2.0
+   */
+  Success = 'SUCCESS',
 }
 
 /**
