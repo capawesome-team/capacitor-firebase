@@ -16,6 +16,17 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* FirebaseStoragePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseStoragePlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseStoragePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */; };
+		7C7A8D6C2ADBCD1200C195CB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D6B2ADBCD1200C195CB /* Result.swift */; };
+		7C7A8D6E2ADBCD2E00C195CB /* GetDownloadUrlResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D6D2ADBCD2E00C195CB /* GetDownloadUrlResult.swift */; };
+		7C7A8D702ADBCD3A00C195CB /* GetMetadataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D6F2ADBCD3A00C195CB /* GetMetadataResult.swift */; };
+		7C7A8D722ADBCD4300C195CB /* ListFilesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D712ADBCD4300C195CB /* ListFilesResult.swift */; };
+		7C7A8D762ADBCD6200C195CB /* DeleteFileOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D752ADBCD6200C195CB /* DeleteFileOptions.swift */; };
+		7C7A8D782ADBCD6B00C195CB /* GetDownloadUrlOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D772ADBCD6B00C195CB /* GetDownloadUrlOptions.swift */; };
+		7C7A8D7A2ADBCD7400C195CB /* GetMetadataOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D792ADBCD7400C195CB /* GetMetadataOptions.swift */; };
+		7C7A8D7C2ADBCD7C00C195CB /* ListFilesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D7B2ADBCD7C00C195CB /* ListFilesOptions.swift */; };
+		7C7A8D7E2ADBCD8400C195CB /* UpdateMetadataOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D7D2ADBCD8400C195CB /* UpdateMetadataOptions.swift */; };
+		7C7A8D802ADBCD8C00C195CB /* UploadFileOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D7F2ADBCD8C00C195CB /* UploadFileOptions.swift */; };
+		7C7A8D832ADBCD9C00C195CB /* UploadFileCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +52,17 @@
 		50ADFFA72020EE4F00D50D53 /* FirebaseStoragePlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseStoragePlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStoragePlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
+		7C7A8D6B2ADBCD1200C195CB /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7C7A8D6D2ADBCD2E00C195CB /* GetDownloadUrlResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDownloadUrlResult.swift; sourceTree = "<group>"; };
+		7C7A8D6F2ADBCD3A00C195CB /* GetMetadataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMetadataResult.swift; sourceTree = "<group>"; };
+		7C7A8D712ADBCD4300C195CB /* ListFilesResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilesResult.swift; sourceTree = "<group>"; };
+		7C7A8D752ADBCD6200C195CB /* DeleteFileOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFileOptions.swift; sourceTree = "<group>"; };
+		7C7A8D772ADBCD6B00C195CB /* GetDownloadUrlOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDownloadUrlOptions.swift; sourceTree = "<group>"; };
+		7C7A8D792ADBCD7400C195CB /* GetMetadataOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMetadataOptions.swift; sourceTree = "<group>"; };
+		7C7A8D7B2ADBCD7C00C195CB /* ListFilesOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilesOptions.swift; sourceTree = "<group>"; };
+		7C7A8D7D2ADBCD8400C195CB /* UpdateMetadataOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMetadataOptions.swift; sourceTree = "<group>"; };
+		7C7A8D7F2ADBCD8C00C195CB /* UploadFileOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileOptions.swift; sourceTree = "<group>"; };
+		7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileCallbackEvent.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +114,8 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7C7A8D682ADBCCE700C195CB /* Protocols */,
+				7C7A8D672ADBCCD400C195CB /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseStorage.swift */,
 				50ADFF8B201F53D600D50D53 /* FirebaseStoragePlugin.h */,
@@ -108,6 +132,55 @@
 				50ADFF98201F53D600D50D53 /* Info.plist */,
 			);
 			path = PluginTests;
+			sourceTree = "<group>";
+		};
+		7C7A8D672ADBCCD400C195CB /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A8D812ADBCD9500C195CB /* Events */,
+				7C7A8D6A2ADBCCF600C195CB /* Results */,
+				7C7A8D692ADBCCF000C195CB /* Options */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7C7A8D682ADBCCE700C195CB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A8D6B2ADBCD1200C195CB /* Result.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7C7A8D692ADBCCF000C195CB /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A8D752ADBCD6200C195CB /* DeleteFileOptions.swift */,
+				7C7A8D772ADBCD6B00C195CB /* GetDownloadUrlOptions.swift */,
+				7C7A8D792ADBCD7400C195CB /* GetMetadataOptions.swift */,
+				7C7A8D7B2ADBCD7C00C195CB /* ListFilesOptions.swift */,
+				7C7A8D7D2ADBCD8400C195CB /* UpdateMetadataOptions.swift */,
+				7C7A8D7F2ADBCD8C00C195CB /* UploadFileOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7C7A8D6A2ADBCCF600C195CB /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A8D6D2ADBCD2E00C195CB /* GetDownloadUrlResult.swift */,
+				7C7A8D6F2ADBCD3A00C195CB /* GetMetadataResult.swift */,
+				7C7A8D712ADBCD4300C195CB /* ListFilesResult.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		7C7A8D812ADBCD9500C195CB /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 		8C8E7744173064A9F6D438E3 /* Pods */ = {
@@ -270,11 +343,29 @@
 				"${PODS_ROOT}/Target Support Files/Pods-PluginTests/Pods-PluginTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework",
 				"${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseAuthInterop/FirebaseAuthInterop.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreExtension/FirebaseCoreExtension.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseStorage/FirebaseStorage.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Capacitor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cordova.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheckInterop.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuthInterop.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseStorage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -306,9 +397,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C7A8D782ADBCD6B00C195CB /* GetDownloadUrlOptions.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseStoragePlugin.swift in Sources */,
+				7C7A8D7E2ADBCD8400C195CB /* UpdateMetadataOptions.swift in Sources */,
+				7C7A8D762ADBCD6200C195CB /* DeleteFileOptions.swift in Sources */,
+				7C7A8D832ADBCD9C00C195CB /* UploadFileCallbackEvent.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseStorage.swift in Sources */,
+				7C7A8D7A2ADBCD7400C195CB /* GetMetadataOptions.swift in Sources */,
+				7C7A8D702ADBCD3A00C195CB /* GetMetadataResult.swift in Sources */,
+				7C7A8D6C2ADBCD1200C195CB /* Result.swift in Sources */,
+				7C7A8D7C2ADBCD7C00C195CB /* ListFilesOptions.swift in Sources */,
+				7C7A8D802ADBCD8C00C195CB /* UploadFileOptions.swift in Sources */,
+				7C7A8D6E2ADBCD2E00C195CB /* GetDownloadUrlResult.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* FirebaseStoragePlugin.m in Sources */,
+				7C7A8D722ADBCD4300C195CB /* ListFilesResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

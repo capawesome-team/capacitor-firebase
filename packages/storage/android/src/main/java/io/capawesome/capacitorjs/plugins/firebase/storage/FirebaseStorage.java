@@ -104,21 +104,9 @@ public class FirebaseStorage {
         StorageReference storageReference = firebaseStorageInstance.getReference(path);
         UploadTask uploadTask = storageReference.putFile(uri);
         uploadTask
-            .addOnCanceledListener(
-                () -> {
-                    UploadFileCallbackEvent result = new UploadFileCallbackEvent(null, UploadFileState.CANCELED);
-                    callback.success(result);
-                }
-            )
             .addOnProgressListener(
                 taskSnapshot -> {
                     UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.RUNNING);
-                    callback.success(result);
-                }
-            )
-            .addOnPausedListener(
-                taskSnapshot -> {
-                    UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.PAUSED);
                     callback.success(result);
                 }
             )

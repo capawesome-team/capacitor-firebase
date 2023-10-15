@@ -29,7 +29,6 @@ import type {
   UploadFileCallbackEvent,
   UploadFileOptions,
 } from './definitions';
-import { UploadFileState } from './definitions';
 
 export class FirebaseStorageWeb
   extends WebPlugin
@@ -138,21 +137,11 @@ export class FirebaseStorageWeb
   private createUploadFileCallbackEvent(
     snapshot: UploadTaskSnapshot,
   ): UploadFileCallbackEvent {
-    const state: UploadFileState =
-      snapshot.state === 'running'
-        ? UploadFileState.Running
-        : snapshot.state === 'paused'
-        ? UploadFileState.Paused
-        : snapshot.state === 'success'
-        ? UploadFileState.Success
-        : snapshot.state === 'canceled'
-        ? UploadFileState.Canceled
-        : UploadFileState.Error;
     const result: UploadFileCallbackEvent = {
       progress: (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
       bytesTransferred: snapshot.bytesTransferred,
       totalBytes: snapshot.totalBytes,
-      state,
+      completed: snapshot.state === 'success',
     };
     return result;
   }

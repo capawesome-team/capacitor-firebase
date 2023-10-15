@@ -9,43 +9,21 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.Result;
 
 public class UploadFileCallbackEvent implements Result {
 
-    @Nullable
     private UploadTask.TaskSnapshot taskSnapshot;
 
-    @NonNull
     private UploadFileState state;
 
-    public UploadFileCallbackEvent(@Nullable UploadTask.TaskSnapshot taskSnapshot, @NonNull UploadFileState state) {
+    public UploadFileCallbackEvent(UploadTask.TaskSnapshot taskSnapshot, UploadFileState state) {
         this.taskSnapshot = taskSnapshot;
         this.state = state;
     }
 
     public JSObject toJSObject() {
         JSObject result = new JSObject();
-        if (this.taskSnapshot != null) {
-            result.put("progress", (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
-            result.put("bytesTransferred", taskSnapshot.getBytesTransferred());
-            result.put("totalBytes", taskSnapshot.getTotalByteCount());
-        }
-        result.put("state", this.convertUploadFileStateToString(state));
+        result.put("progress", (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
+        result.put("bytesTransferred", taskSnapshot.getBytesTransferred());
+        result.put("totalBytes", taskSnapshot.getTotalByteCount());
+        result.put("completed", state == UploadFileState.SUCCESS);
         return result;
-    }
-
-    @Nullable
-    private String convertUploadFileStateToString(UploadFileState state) {
-        switch (state) {
-            case CANCELED:
-                return "CANCELED";
-            case ERROR:
-                return "ERROR";
-            case PAUSED:
-                return "PAUSED";
-            case RUNNING:
-                return "RUNNING";
-            case SUCCESS:
-                return "SUCCESS";
-            default:
-                return null;
-        }
     }
 }

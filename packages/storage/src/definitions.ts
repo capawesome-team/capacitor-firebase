@@ -110,7 +110,7 @@ export interface GetMetadataResult {
    * @since 5.2.0
    * @example 1697304435933
    */
-  createdAt: number;
+  createdAt?: number;
   /**
    * The object's generation.
    *
@@ -137,14 +137,14 @@ export interface GetMetadataResult {
    * @since 5.2.0
    * @example 'mountains.jpg'
    */
-  name: string;
+  name?: string;
   /**
    * The full path to the file, including the file name.
    *
    * @since 5.2.0
    * @example 'images/mountains.jpg'
    */
-  path: string;
+  path?: string;
   /**
    * The size of the file in bytes.
    *
@@ -340,9 +340,11 @@ export interface UploadFileCallbackEvent {
    * @since 5.2.0
    * @example 50
    */
-  progress?: number;
+  progress: number;
   /**
    * The number of bytes that have been transferred.
+   *
+   * Only available on Android and Web.
    *
    * @since 5.2.0
    * @example 1000
@@ -351,52 +353,18 @@ export interface UploadFileCallbackEvent {
   /**
    * The total number of bytes to be transferred.
    *
+   * Only available on Android and Web.
+   *
    * @since 5.2.0
    * @example 2000
    */
   totalBytes?: number;
   /**
-   * The current state of the upload.
+   * Whether the upload is completed or not.
    *
    * @since 5.2.0
    */
-  state: UploadFileState;
-}
-
-/**
- * @since 5.2.0
- */
-export enum UploadFileState {
-  /**
-   * The upload is canceled.
-   *
-   * @since 5.2.0
-   */
-  Canceled = 'CANCELED',
-  /**
-   * The upload has failed.
-   *
-   * @since 5.2.0
-   */
-  Error = 'ERROR',
-  /**
-   * The upload is paused.
-   *
-   * @since 5.2.0
-   */
-  Paused = 'PAUSED',
-  /**
-   * The upload is running.
-   *
-   * @since 5.2.0
-   */
-  Running = 'RUNNING',
-  /**
-   * The upload is completed.
-   *
-   * @since 5.2.0
-   */
-  Success = 'SUCCESS',
+  completed: boolean;
 }
 
 /**
