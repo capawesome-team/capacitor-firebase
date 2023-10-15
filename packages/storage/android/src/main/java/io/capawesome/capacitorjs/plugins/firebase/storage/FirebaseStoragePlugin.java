@@ -13,6 +13,7 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.ListFi
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UpdateMetadataOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UploadFileOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyEventCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.Result;
 
@@ -185,6 +186,8 @@ public class FirebaseStoragePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void uploadFile(PluginCall call) {
         try {
+            call.setKeepAlive(true);
+
             String path = call.getString("path");
             if (path == null) {
                 call.reject(ERROR_PATH_MISSING);
@@ -198,7 +201,7 @@ public class FirebaseStoragePlugin extends Plugin {
             String callbackId = call.getCallbackId();
 
             UploadFileOptions options = new UploadFileOptions(path, uri, callbackId);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            NonEmptyEventCallback callback = new NonEmptyEventCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -208,6 +211,11 @@ public class FirebaseStoragePlugin extends Plugin {
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
                     call.reject(exception.getMessage());
+                }
+
+                @Override
+                public void release() {
+                    call.release(bridge);
                 }
             };
 

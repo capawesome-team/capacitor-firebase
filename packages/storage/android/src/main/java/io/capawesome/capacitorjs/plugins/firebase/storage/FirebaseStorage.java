@@ -2,6 +2,8 @@ package io.capawesome.capacitorjs.plugins.firebase.storage;
 
 import android.net.Uri;
 import androidx.annotation.NonNull;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -17,6 +19,7 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.GetMet
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.ListFilesResult;
 import io.capawesome.capacitorjs.plugins.firebase.storage.enums.UploadFileState;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyEventCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyResultCallback;
 
 public class FirebaseStorage {
@@ -75,8 +78,13 @@ public class FirebaseStorage {
         String pageToken = options.getPageToken();
 
         StorageReference storageReference = firebaseStorageInstance.getReference(path);
-        storageReference
-            .list(maxResults, pageToken)
+        Task<ListResult> task;
+        if (pageToken == null) {
+            task = storageReference.list(maxResults);
+        } else {
+            task = storageReference.list(maxResults, pageToken);
+        }
+        task
             .addOnSuccessListener(
                 listResult -> {
                     ListFilesResult result = new ListFilesResult(listResult);
@@ -97,7 +105,7 @@ public class FirebaseStorage {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void uploadFile(@NonNull UploadFileOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void uploadFile(@NonNull UploadFileOptions options, @NonNull NonEmptyEventCallback callback) {
         String path = options.getPath();
         Uri uri = options.getUri();
 
@@ -114,8 +122,14 @@ public class FirebaseStorage {
                 taskSnapshot -> {
                     UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.SUCCESS);
                     callback.success(result);
+                    callback.release();
                 }
             )
-            .addOnFailureListener(exception -> callback.error(exception));
+            .addOnFailureListener(
+                exception -> {
+                    callback.error(exception);
+                    callback.release();
+                }
+            );
     }
 }

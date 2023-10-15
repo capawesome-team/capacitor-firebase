@@ -123,7 +123,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
 
     @objc func uploadFile(_ call: CAPPluginCall) {
         call.keepAlive = true
-        
+
         guard let path = call.getString("path") else {
             call.reject(errorPathMissing)
             return
