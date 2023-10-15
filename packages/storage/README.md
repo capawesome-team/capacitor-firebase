@@ -49,7 +49,6 @@ const echo = async () => {
 * [`uploadFile(...)`](#uploadfile)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
-* [Enums](#enums)
 
 </docgen-index>
 
@@ -270,12 +269,12 @@ Upload a file.
 
 #### UploadFileCallbackEvent
 
-| Prop                   | Type                                                        | Description                                         | Since |
-| ---------------------- | ----------------------------------------------------------- | --------------------------------------------------- | ----- |
-| **`progress`**         | <code>number</code>                                         | The upload progress, as a percentage from 0 to 100. | 5.2.0 |
-| **`bytesTransferred`** | <code>number</code>                                         | The number of bytes that have been transferred.     | 5.2.0 |
-| **`totalBytes`**       | <code>number</code>                                         | The total number of bytes to be transferred.        | 5.2.0 |
-| **`state`**            | <code><a href="#uploadfilestate">UploadFileState</a></code> | The current state of the upload.                    | 5.2.0 |
+| Prop                   | Type                 | Description                                                                        | Since |
+| ---------------------- | -------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`progress`**         | <code>number</code>  | The upload progress, as a percentage from 0 to 100.                                | 5.2.0 |
+| **`bytesTransferred`** | <code>number</code>  | The number of bytes that have been transferred. Only available on Android and Web. | 5.2.0 |
+| **`totalBytes`**       | <code>number</code>  | The total number of bytes to be transferred. Only available on Android and Web.    | 5.2.0 |
+| **`completed`**        | <code>boolean</code> | Whether the upload is completed or not.                                            | 5.2.0 |
 
 
 ### Type Aliases
@@ -289,20 +288,6 @@ Upload a file.
 #### CallbackId
 
 <code>string</code>
-
-
-### Enums
-
-
-#### UploadFileState
-
-| Members        | Value                   | Description              | Since |
-| -------------- | ----------------------- | ------------------------ | ----- |
-| **`Canceled`** | <code>'CANCELED'</code> | The upload is canceled.  | 5.2.0 |
-| **`Error`**    | <code>'ERROR'</code>    | The upload has failed.   | 5.2.0 |
-| **`Paused`**   | <code>'PAUSED'</code>   | The upload is paused.    | 5.2.0 |
-| **`Running`**  | <code>'RUNNING'</code>  | The upload is running.   | 5.2.0 |
-| **`Success`**  | <code>'SUCCESS'</code>  | The upload is completed. | 5.2.0 |
 
 </docgen-api>
 
