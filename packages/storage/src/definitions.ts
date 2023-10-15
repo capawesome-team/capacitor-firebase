@@ -48,8 +48,8 @@ export interface DeleteFileOptions {
    * The full path to the file to delete, including the file name.
    *
    * @since 5.2.0
-   * @example 'mountains.jpg'
-   * @example 'images/mountains.jpg'
+   * @example 'mountains.png'
+   * @example 'images/mountains.png'
    */
   path: string;
 }
@@ -62,8 +62,8 @@ export interface GetDownloadUrlOptions {
    * The full path to the file to get the download url for, including the file name.
    *
    * @since 5.2.0
-   * @example 'mountains.jpg'
-   * @example 'images/mountains.jpg'
+   * @example 'mountains.png'
+   * @example 'images/mountains.png'
    */
   path: string;
 }
@@ -88,8 +88,8 @@ export interface GetMetadataOptions {
    * The full path to the file to get the metadata for, including the file name.
    *
    * @since 5.2.0
-   * @example 'mountains.jpg'
-   * @example 'images/mountains.jpg'
+   * @example 'mountains.png'
+   * @example 'images/mountains.png'
    */
   path: string;
 }
@@ -135,14 +135,14 @@ export interface GetMetadataResult {
    * The short name of this file, which is the last component of the full path.
    *
    * @since 5.2.0
-   * @example 'mountains.jpg'
+   * @example 'mountains.png'
    */
   name?: string;
   /**
    * The full path to the file, including the file name.
    *
    * @since 5.2.0
-   * @example 'images/mountains.jpg'
+   * @example 'images/mountains.png'
    */
   path?: string;
   /**
@@ -219,14 +219,14 @@ export interface StorageReference {
    * The full path to the file, including the file name.
    *
    * @since 5.2.0
-   * @example 'images/mountains.jpg'
+   * @example 'images/mountains.png'
    */
   path: string;
   /**
    * The short name of this file, which is the last component of the full path.
    *
    * @since 5.2.0
-   * @example 'mountains.jpg'
+   * @example 'mountains.png'
    */
   name: string;
 }
@@ -307,8 +307,8 @@ export interface UploadFileOptions {
    * The full path where data should be uploaded, including the file name.
    *
    * @since 5.2.0
-   * @example 'mountains.jpg'
-   * @example 'images/mountains.jpg'
+   * @example 'mountains.png'
+   * @example 'images/mountains.png'
    */
   path: string;
   /**
@@ -317,7 +317,8 @@ export interface UploadFileOptions {
    * Only available on Android and iOS.
    *
    * @since 5.2.0
-   * @example '/storage/emulated/0/DCIM/Camera/IMG_20220808_1234.jpg'
+   * @example 'content://com.google.android.apps.photos.contentprovider/-1/1/content://media/external/images/media/1000000214/ORIGINAL/NONE/image/png/mountains'
+   * @example 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/092F8464-DE60-40B3-8A23-EB83160D9F9F/mountains.png'
    */
   uri?: string;
 }
