@@ -95,7 +95,7 @@ import FirebaseStorage
         }
     }
 
-    @objc public func uploadFile(_ options: UploadFileOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func uploadFile(_ options: UploadFileOptions, completion: @escaping (Result?, Error?, Bool) -> Void) {
         let path = options.getPath()
         let uri = options.getUri()
 
@@ -103,14 +103,14 @@ import FirebaseStorage
         let uploadTask = storageRef.putFile(from: uri)
         uploadTask.observe(.progress) { snapshot in
             let result = UploadFileCallbackEvent(snapshot: snapshot)
-            completion(result, nil)
+            completion(result, nil, false)
         }
         uploadTask.observe(.success) { snapshot in
             let result = UploadFileCallbackEvent(snapshot: snapshot)
-            completion(result, nil)
+            completion(result, nil, true)
         }
         uploadTask.observe(.failure) { snapshot in
-            completion(nil, snapshot.error)
+            completion(nil, snapshot.error, true)
         }
     }
 }

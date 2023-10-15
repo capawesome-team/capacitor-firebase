@@ -122,6 +122,8 @@ public class FirebaseStoragePlugin: CAPPlugin {
     }
 
     @objc func uploadFile(_ call: CAPPluginCall) {
+        call.keepAlive = true
+        
         guard let path = call.getString("path") else {
             call.reject(errorPathMissing)
             return
@@ -141,7 +143,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
 
         let options = UploadFileOptions(path: path, uri: url, callbackId: callbackId)
 
-        implementation?.uploadFile(options, completion: { result, error in
+        implementation?.uploadFile(options, completion: { result, error, releaseCall in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)
@@ -149,6 +151,9 @@ public class FirebaseStoragePlugin: CAPPlugin {
             }
             if let result = result?.toJSObject() as? JSObject {
                 call.resolve(result)
+            }
+            if releaseCall == true {
+                self.bridge?.releaseCall(call)
             }
         })
     }
