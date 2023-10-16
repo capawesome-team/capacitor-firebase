@@ -14,7 +14,9 @@ import {
   clearIndexedDbPersistence,
   collection,
   deleteDoc,
+  disableNetwork,
   doc,
+  enableNetwork,
   endAt,
   endBefore,
   getDoc,
@@ -157,11 +159,13 @@ export class FirebaseFirestoreWeb
   }
 
   public async enableNetwork(): Promise<void> {
-    throw this.unimplemented('Not implemented on web.');
+    const firestore = getFirestore();
+    await enableNetwork(firestore);
   }
 
   public async disableNetwork(): Promise<void> {
-    throw this.unimplemented('Not implemented on web.');
+    const firestore = getFirestore();
+    await disableNetwork(firestore);
   }
 
   public async addDocumentSnapshotListener<
