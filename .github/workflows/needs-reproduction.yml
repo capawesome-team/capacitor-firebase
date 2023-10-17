@@ -11,7 +11,8 @@ permissions:
 jobs:
   add-comment:
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'needs: reproduction'
+    if: |
+      ${{ github.event.label.name == 'needs: reproduction' }}
     steps:
       - name: Add comment
         uses: peter-evans/create-or-update-comment@v3
