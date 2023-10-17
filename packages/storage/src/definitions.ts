@@ -298,7 +298,7 @@ export interface UploadFileOptions {
   /**
    * The data to upload.
    *
-   * Only available on Web.
+   * Only available for Web.
    *
    * @since 5.3.0
    */
@@ -314,7 +314,7 @@ export interface UploadFileOptions {
   /**
    * The uri to the file to upload.
    *
-   * Only available on Android and iOS.
+   * Only available for Android and iOS.
    *
    * @since 5.3.0
    * @example 'content://com.google.android.apps.photos.contentprovider/-1/1/content://media/external/images/media/1000000214/ORIGINAL/NONE/image/png/mountains'
@@ -345,7 +345,7 @@ export interface UploadFileCallbackEvent {
   /**
    * The number of bytes that have been transferred.
    *
-   * Only available on Android and Web.
+   * Only available for Android and Web.
    *
    * @since 5.3.0
    * @example 1000
@@ -354,7 +354,7 @@ export interface UploadFileCallbackEvent {
   /**
    * The total number of bytes to be transferred.
    *
-   * Only available on Android and Web.
+   * Only available for Android and Web.
    *
    * @since 5.3.0
    * @example 2000

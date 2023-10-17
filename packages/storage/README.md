@@ -328,19 +328,19 @@ Upload a file.
 
 | Prop       | Type                | Description                                                           | Since |
 | ---------- | ------------------- | --------------------------------------------------------------------- | ----- |
-| **`blob`** | <code>Blob</code>   | The data to upload. Only available on Web.                            | 5.3.0 |
+| **`blob`** | <code>Blob</code>   | The data to upload. Only available for Web.                           | 5.3.0 |
 | **`path`** | <code>string</code> | The full path where data should be uploaded, including the file name. | 5.3.0 |
-| **`uri`**  | <code>string</code> | The uri to the file to upload. Only available on Android and iOS.     | 5.3.0 |
+| **`uri`**  | <code>string</code> | The uri to the file to upload. Only available for Android and iOS.    | 5.3.0 |
 
 
 #### UploadFileCallbackEvent
 
-| Prop                   | Type                 | Description                                                                        | Since |
-| ---------------------- | -------------------- | ---------------------------------------------------------------------------------- | ----- |
-| **`progress`**         | <code>number</code>  | The upload progress, as a percentage from 0 to 100.                                | 5.3.0 |
-| **`bytesTransferred`** | <code>number</code>  | The number of bytes that have been transferred. Only available on Android and Web. | 5.3.0 |
-| **`totalBytes`**       | <code>number</code>  | The total number of bytes to be transferred. Only available on Android and Web.    | 5.3.0 |
-| **`completed`**        | <code>boolean</code> | Whether the upload is completed or not.                                            | 5.3.0 |
+| Prop                   | Type                 | Description                                                                         | Since |
+| ---------------------- | -------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`progress`**         | <code>number</code>  | The upload progress, as a percentage from 0 to 100.                                 | 5.3.0 |
+| **`bytesTransferred`** | <code>number</code>  | The number of bytes that have been transferred. Only available for Android and Web. | 5.3.0 |
+| **`totalBytes`**       | <code>number</code>  | The total number of bytes to be transferred. Only available for Android and Web.    | 5.3.0 |
+| **`completed`**        | <code>boolean</code> | Whether the upload is completed or not.                                             | 5.3.0 |
 
 
 ### Type Aliases
