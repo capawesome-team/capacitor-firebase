@@ -18,6 +18,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Please provide a [Minimal, Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) 
-            using [this template](https://github.com/capawesome-team/.capacitor-app) in a public GitHub repository 
-            so we can debug the issue.
+            Please provide a [Minimal, Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) using [this template](https://github.com/capawesome-team/.capacitor-app) in a public GitHub repository so we can debug the issue.
