@@ -690,7 +690,12 @@ export class FirebaseAuthenticationWeb
   public async useEmulator(options: UseEmulatorOptions): Promise<void> {
     const auth = getAuth();
     const port = options.port || 9099;
-    connectAuthEmulator(auth, `${options.host}:${port}`);
+    const scheme = options.scheme || 'http';
+    if (options.host.includes('://')) {
+      connectAuthEmulator(auth, `${options.host}:${port}`);
+    } else {
+      connectAuthEmulator(auth, `${scheme}://${options.host}:${port}`);
+    }
   }
 
   private handleAuthStateChange(user: FirebaseUser | null): void {

@@ -1019,18 +1019,30 @@ export interface UnlinkResult {
  */
 export interface UseEmulatorOptions {
   /**
-   * The emulator host (e.g. `10.0.2.2`).
+   * The emulator host without any port or scheme.
    *
    * @since 0.2.0
+   * @example "127.0.0.1"
    */
   host: string;
   /**
-   * The emulator port (e.g. `9099`).
+   * The emulator port.
    *
-   * @default 9099
    * @since 0.2.0
+   * @default 9099
+   * @example 9099
    */
   port?: number;
+  /**
+   * The emulator scheme.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   * @default "http"
+   * @example "https"
+   */
+  scheme?: string;
 }
 
 /**

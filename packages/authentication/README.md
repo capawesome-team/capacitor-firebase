@@ -1796,10 +1796,11 @@ An interface covering the possible persistence mechanism types.
 
 #### UseEmulatorOptions
 
-| Prop       | Type                | Description                          | Default           | Since |
-| ---------- | ------------------- | ------------------------------------ | ----------------- | ----- |
-| **`host`** | <code>string</code> | The emulator host (e.g. `10.0.2.2`). |                   | 0.2.0 |
-| **`port`** | <code>number</code> | The emulator port (e.g. `9099`).     | <code>9099</code> | 0.2.0 |
+| Prop         | Type                | Description                                   | Default             | Since |
+| ------------ | ------------------- | --------------------------------------------- | ------------------- | ----- |
+| **`host`**   | <code>string</code> | The emulator host without any port or scheme. |                     | 0.2.0 |
+| **`port`**   | <code>number</code> | The emulator port.                            | <code>9099</code>   | 0.2.0 |
+| **`scheme`** | <code>string</code> | The emulator scheme. Only available for Web.  | <code>"http"</code> | 5.2.0 |
 
 
 #### PluginListenerHandle
