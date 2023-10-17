@@ -1,5 +1,23 @@
 # Changelog
 
+## 5.2.0
+
+### Minor Changes
+
+- [`16a802c`](https://github.com/capawesome-team/capacitor-firebase/commit/16a802c15be9de41aef8e9947a0ad151a73a6290) ([#288](https://github.com/capawesome-team/capacitor-firebase/pull/288)): feat(web): support `signInWithPhoneNumber` and `linkWithPhoneNumber`
+
+* [`2ea241b`](https://github.com/capawesome-team/capacitor-firebase/commit/2ea241b767960b2d29d3e5bdaa7e2a1c46d42a5b) ([#440](https://github.com/capawesome-team/capacitor-firebase/pull/440)): feat(ios): support `scopes` option for Google Sign-In
+
+- [`f50db1c`](https://github.com/capawesome-team/capacitor-firebase/commit/f50db1c7b06ad543a1a42b43221c03656c06fe19) ([#432](https://github.com/capawesome-team/capacitor-firebase/pull/432)): feat: expose `providerData` and `metadata` property
+
+* [`642f508`](https://github.com/capawesome-team/capacitor-firebase/commit/642f508d79a0577946757b6fb099148321e25dcb) ([#430](https://github.com/capawesome-team/capacitor-firebase/pull/430)): feat(web): add method `setPersistence`
+
+- [`12e0052`](https://github.com/capawesome-team/capacitor-firebase/commit/12e00524a728f2544388d2eb72719bb5d01fae73) ([#442](https://github.com/capawesome-team/capacitor-firebase/pull/442)): feat: support `forceCodeForRefreshToken` for Google Sign-in
+
+* [`f845e3c`](https://github.com/capawesome-team/capacitor-firebase/commit/f845e3c590640119f00cadb804ebac971c8f102a) ([#447](https://github.com/capawesome-team/capacitor-firebase/pull/447)): feat(android): update `com.google.firebase:firebase-auth` to version `22.1.2`
+
+- [`36bd3f7`](https://github.com/capawesome-team/capacitor-firebase/commit/36bd3f7c4a5df19ba9e3a8f7b3347dbcc7765c70) ([#461](https://github.com/capawesome-team/capacitor-firebase/pull/461)): feat(web): add option `scheme` to `useEmulator` method
+
 ## 5.1.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/remote-config",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "Capacitor plugin for Firebase Remote Config.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
