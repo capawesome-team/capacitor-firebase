@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.2.0
+
+### Minor Changes
+
+- [`2085bb8`](https://github.com/capawesome-team/capacitor-firebase/commit/2085bb84414a9a74f8d5587b61e8391ff4598a8c) ([#428](https://github.com/capawesome-team/capacitor-firebase/pull/428)): feat(ios): add support for `criticalAlert`
+
 ## 5.1.0
 
 ### Minor Changes
