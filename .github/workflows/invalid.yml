@@ -1,0 +1,23 @@
+name: Close incomplete issues
+
+on:
+  issues:
+    types:
+      - labeled
+
+permissions:
+    issues: write
+
+jobs:
+  add-comment:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'invalid'
+    steps:
+      - name: Close Issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: |
+            > I understand that incomplete issues (e.g. without reproduction) are closed.
+          
+            This issue is closed because not enough information was provided.
