@@ -77,12 +77,8 @@ public class FirebaseFirestore {
             .get()
             .addOnSuccessListener(
                 documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        GetDocumentResult result = new GetDocumentResult(documentSnapshot);
-                        callback.success(result);
-                    } else {
-                        callback.success(null);
-                    }
+                    GetDocumentResult result = new GetDocumentResult(documentSnapshot);
+                    callback.success(result);
                 }
             )
             .addOnFailureListener(exception -> callback.error(exception));

@@ -4,6 +4,7 @@ import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentSnapshot;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
+import org.json.JSONObject;
 
 public class GetDocumentResult implements Result {
 
@@ -14,7 +15,12 @@ public class GetDocumentResult implements Result {
     }
 
     public JSObject toJSObject() {
-        JSObject snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(documentSnapshot.getData());
+        Object snapshotDataResult;
+        if (documentSnapshot.exists()) {
+            snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(documentSnapshot.getData());
+        } else {
+            snapshotDataResult = JSONObject.NULL;
+        }
 
         JSObject snapshotResult = new JSObject();
         snapshotResult.put("id", documentSnapshot.getId());
