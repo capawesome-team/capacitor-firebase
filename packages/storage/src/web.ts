@@ -138,7 +138,7 @@ export class FirebaseStorageWeb
     snapshot: UploadTaskSnapshot,
   ): UploadFileCallbackEvent {
     const result: UploadFileCallbackEvent = {
-      progress: (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+      progress: snapshot.bytesTransferred / snapshot.totalBytes,
       bytesTransferred: snapshot.bytesTransferred,
       totalBytes: snapshot.totalBytes,
       completed: snapshot.state === 'success',

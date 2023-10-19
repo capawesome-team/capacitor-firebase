@@ -20,7 +20,7 @@ public class UploadFileCallbackEvent implements Result {
 
     public JSObject toJSObject() {
         JSObject result = new JSObject();
-        result.put("progress", (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
+        result.put("progress", taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
         result.put("bytesTransferred", taskSnapshot.getBytesTransferred());
         result.put("totalBytes", taskSnapshot.getTotalByteCount());
         result.put("completed", state == UploadFileState.SUCCESS);

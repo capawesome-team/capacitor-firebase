@@ -336,10 +336,10 @@ export type UploadFileCallback = (
  */
 export interface UploadFileCallbackEvent {
   /**
-   * The upload progress, as a percentage from 0 to 100.
+   * The upload progress, as a percentage between 0 and 1.
    *
    * @since 5.3.0
-   * @example 50
+   * @example 0.5
    */
   progress: number;
   /**
@@ -364,6 +364,7 @@ export interface UploadFileCallbackEvent {
    * Whether the upload is completed or not.
    *
    * @since 5.3.0
+   * @example true
    */
   completed: boolean;
 }
