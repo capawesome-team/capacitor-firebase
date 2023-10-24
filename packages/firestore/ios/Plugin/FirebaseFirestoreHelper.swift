@@ -7,7 +7,21 @@ public class FirebaseFirestoreHelper {
         var map: [String: Any] = [:]
         for key in object.keys {
             if let value = object[key] {
-                map[key] = value
+                if value is Dictionary<String, JSValue> {
+                    let val = value as! Dictionary<String, JSValue>
+                    if (val.keys.contains("type")) {
+                        let s = Int64(val["seconds"] as! String) ?? 0;
+                        let n = Int32(val["nanoseconds"] as! String) ?? 0;
+                        let t = Timestamp(seconds: s, nanoseconds: n);
+                        // b. serialized timestamp converstion
+                        print("CONVERTED A TIMESTAMP", t);
+                        map[key] = t;
+                    } else {
+                        map[key] = value
+                    }
+                } else {
+                    map[key] = value
+                }
             }
         }
         return map
@@ -61,6 +75,11 @@ public class FirebaseFirestoreHelper {
     }
 
     private static func createJSValue(value: Any?) -> JSValue? {
+        if value is Timestamp {
+            let val = value as! Timestamp;
+            return [ "type": "timestamp", "seconds": String(val.seconds), "nanoseconds": String(val.nanoseconds) ];
+        }
+
         guard let value = value else {
             return nil
         }
