@@ -11,8 +11,8 @@ public class FirebaseFirestoreHelper {
         }
         
         // 2. resolve timestamps
-        map = convertFromSerializedTimestamps(obj: map);
-        return map
+        let res = convertFromSerializedTimestamps(obj: map);
+        return res
     }
 
     public static func createJSObjectFromHashMap(_ map: [String: Any]?) -> JSObject? {
@@ -96,15 +96,21 @@ public class FirebaseFirestoreHelper {
                 let val = value as! Dictionary<String, JSValue>;
                 // a. timestamp
                 if (val.keys.contains("type")) {
-                    let s = Int64(val["seconds"] as! String) ?? 0;
-                    let n = Int32(val["nanoseconds"] as! String) ?? 0;
+                    let stringSeconds = val["seconds"] as! String;
+                    let s = Int64(stringSeconds) ?? 0;
+                    
+                    let stringNanoseconds = val["nanoseconds"] as! String;
+                    let n = Int32(stringNanoseconds) ?? 0;
+                                  
                     let t = Timestamp(seconds: s, nanoseconds: n);
                     // b. serialized timestamp converstion
-                    print("NATIVE LAYER: CONVERTED serialized -> Timestamp", t);
+                    print("NATIVE LAYER: CONVERTED serialized -> Timestamp with s: \(stringSeconds) and \(stringNanoseconds)", t);
                     object[key] = t;
-                }
+                } 
                 // b. non-timestamp - check sub objects
-                object[key] = convertFromSerializedTimestamps(obj: val);
+                else {
+                    object[key] = convertFromSerializedTimestamps(obj: val);
+                }
             }
         }
         return object;

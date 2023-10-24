@@ -17,8 +17,8 @@ function fromNativeTimestamp(ts:SerializedTimeStamp): Timestamp {
 function toNativeTimestamp(ts:Timestamp): SerializedTimeStamp {
     return {
         type: 'timestamp',
-        seconds: ts.seconds.toString(),
-        nanoseconds: ts.nanoseconds.toString(),
+        seconds: Math.round(ts.seconds).toString(),
+        nanoseconds: Math.round(ts.nanoseconds).toString(),
     }
 }
 
@@ -74,7 +74,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
 
     addDocument(options: AddDocumentOptions): Promise<AddDocumentResult> {
         // web -> native
-        formatDocumentToNative(options.data);
+        options.data = formatDocumentToNative(options.data);
         return this.nativeRef.addDocument(options);
     }
 
