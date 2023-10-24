@@ -27,11 +27,17 @@ function toNativeTimestamp(ts:Timestamp): SerializedTimeStamp {
  * @param data DocumentSnapshot.data 
  */
 function formatDocumentToNative(data:any): any {
-    // 1. format timestamps
     for (let key in data) {
         let val = data[key];
+        // 1. format timestamps
         if (val instanceof Timestamp) {
             data[key] = toNativeTimestamp(val)
+            continue;
+        }
+
+        // 2. format recursively on sub-objects
+        if (val instanceof Object) {
+            data[key] = formatDocumentToNative(val);
         }
     }
     return data;
@@ -44,11 +50,17 @@ function formatDocumentToNative(data:any): any {
  * @returns 
  */
 function formatDocumentFromNative(data:any): any {
-    // 1. format timestamps
     for (let key in data) {
         let val = data[key];
+
+        // 1. format timestamps
         if (val.hasOwnProperty("type") && val.type == 'timestamp') {
             data[key] = fromNativeTimestamp(val)
+            continue;
+        }
+
+        if (val instanceof Object) {
+            data[key] = formatDocumentFromNative(val);
         }
     }
     return data;
