@@ -54,7 +54,7 @@ function formatDocumentFromNative(data:any): any {
         let val = data[key];
 
         // 1. format timestamps
-        if (val.hasOwnProperty("type") && val.type == 'timestamp') {
+        if (val && val.hasOwnProperty("type") && val.type == 'timestamp') {
             data[key] = fromNativeTimestamp(val)
             continue;
         }
@@ -80,7 +80,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
 
     setDocument(options: SetDocumentOptions): Promise<void> {
         // web -> native
-        formatDocumentToNative(options.data);
+        options.data = formatDocumentToNative(options.data);
         return this.nativeRef.setDocument(options);
     }
 
@@ -89,14 +89,14 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
         return this.nativeRef.getDocument(options)
             .then(res => {
                 // native -> web
-                formatDocumentFromNative(res.snapshot.data);
+                res.snapshot.data = formatDocumentFromNative(res.snapshot.data);
                 return res as GetDocumentResult<T>;
             })
     }
 
     updateDocument(options: UpdateDocumentOptions): Promise<void> {
         // web -> native
-        formatDocumentToNative(options.data);
+        options.data = formatDocumentToNative(options.data);
         return this.nativeRef.updateDocument(options);
     }
 
@@ -109,7 +109,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
             .then(res => {
                 // native -> web
                 for (let snap of res.snapshots) {
-                    formatDocumentFromNative(snap.data);
+                    snap.data = formatDocumentFromNative(snap.data);
                 }
                 return res as GetCollectionGroupResult<T>;
             });
@@ -120,7 +120,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
             .then(res => {
                 // native -> web
                 for (let snap of res.snapshots) {
-                    formatDocumentFromNative(snap.data);
+                    snap.data = formatDocumentFromNative(snap.data);
                 }
                 return res as GetCollectionGroupResult<T>;
             });
@@ -142,7 +142,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
         return this.nativeRef.addDocumentSnapshotListener(options, (event:AddDocumentSnapshotListenerCallbackEvent<T> | null, error) => {
             if (event) {
                 // native -> web
-                formatDocumentFromNative(event.snapshot.data);
+                event.snapshot.data = formatDocumentFromNative(event.snapshot.data);
             }
             callback(event, error);
         });
@@ -153,7 +153,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
             if (event) {
                 // native -> web
                 for (let snap of event.snapshots) {
-                    formatDocumentFromNative(snap.data);
+                    snap.data = formatDocumentFromNative(snap.data);
                 }
             }
             callback(event, error);
