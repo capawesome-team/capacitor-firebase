@@ -4,26 +4,14 @@ import Capacitor
 
 public class FirebaseFirestoreHelper {
     public static func createHashMapFromJSObject(_ object: JSObject) -> [String: Any] {
+        // 1. create map
         var map: [String: Any] = [:]
         for key in object.keys {
-            if let value = object[key] {
-                if value is Dictionary<String, JSValue> {
-                    let val = value as! Dictionary<String, JSValue>
-                    if (val.keys.contains("type")) {
-                        let s = Int64(val["seconds"] as! String) ?? 0;
-                        let n = Int32(val["nanoseconds"] as! String) ?? 0;
-                        let t = Timestamp(seconds: s, nanoseconds: n);
-                        // b. serialized timestamp converstion
-                        print("CONVERTED A TIMESTAMP", t);
-                        map[key] = t;
-                    } else {
-                        map[key] = value
-                    }
-                } else {
-                    map[key] = value
-                }
-            }
+            map[key] = object[key];
         }
+        
+        // 2. resolve timestamps
+        map = convertFromSerializedTimestamps(obj: map);
         return map
     }
 
@@ -31,9 +19,13 @@ public class FirebaseFirestoreHelper {
         guard let map = map else {
             return nil
         }
+        // 1. resolve timestamps
+        let localMap = convertToSerializedTimestamps(obj: map);
+        
+        // 2. convert from map
         var object: JSObject = [:]
-        for key in map.keys {
-            object[key] = self.createJSValue(value: map[key])
+        for key in localMap.keys {
+            object[key] = self.createJSValue(value: localMap[key])
         }
         return object
     }
@@ -74,12 +66,51 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    private static func createJSValue(value: Any?) -> JSValue? {
-        if value is Timestamp {
-            let val = value as! Timestamp;
-            return [ "type": "timestamp", "seconds": String(val.seconds), "nanoseconds": String(val.nanoseconds) ];
+    private static func convertToSerializedTimestamps(obj:[String: Any]) -> [String: Any] {
+        var localObj = obj;
+        for key in obj.keys {
+            let value = obj[key];
+            // 1. convert timestamps
+            if value is Timestamp {
+                let val = value as! Timestamp;
+                let st = [ "type": "timestamp", "seconds": String(val.seconds), "nanoseconds": String(val.nanoseconds) ];
+                localObj[key] = st;
+                print("NATIVE LAYER: CONVERTED Timestamp -> serialized", st);
+            }
+            
+            // 2. check sub-objects
+            if value is JSObject {
+                localObj[key] = self.convertToSerializedTimestamps(obj: value as! JSObject);
+            }
         }
-
+        
+        return localObj;
+    }
+    
+    private static func convertFromSerializedTimestamps(obj: [String:Any]) -> [String:Any] {
+        var object = obj;
+        for key in object.keys {
+            // 1. check for sub-objects
+            let value = object[key];
+            if (value != nil && value is Dictionary<String, JSValue>) {
+                let val = value as! Dictionary<String, JSValue>;
+                // a. timestamp
+                if (val.keys.contains("type")) {
+                    let s = Int64(val["seconds"] as! String) ?? 0;
+                    let n = Int32(val["nanoseconds"] as! String) ?? 0;
+                    let t = Timestamp(seconds: s, nanoseconds: n);
+                    // b. serialized timestamp converstion
+                    print("NATIVE LAYER: CONVERTED serialized -> Timestamp", t);
+                    object[key] = t;
+                }
+                // b. non-timestamp - check sub objects
+                object[key] = convertFromSerializedTimestamps(obj: val);
+            }
+        }
+        return object;
+    }
+    
+    private static func createJSValue(value: Any?) -> JSValue? {
         guard let value = value else {
             return nil
         }
