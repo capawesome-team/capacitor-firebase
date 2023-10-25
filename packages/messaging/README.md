@@ -479,6 +479,8 @@ addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => 
 
 Called when a new FCM token is received.
 
+Only available for Android and iOS.
+
 | Param              | Type                                                                    |
 | ------------------ | ----------------------------------------------------------------------- |
 | **`eventName`**    | <code>'tokenReceived'</code>                                            |

@@ -134,6 +134,8 @@ export interface FirebaseMessagingPlugin {
   /**
    * Called when a new FCM token is received.
    *
+   * Only available for Android and iOS.
+   *
    * @since 0.2.2
    */
   addListener(
