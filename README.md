@@ -1,3 +1,4 @@
+<div id="top"></div>
 <br />
 <div align="center">
   <h1>
@@ -92,3 +93,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 See [LICENSE](./LICENSE).
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.
+<p align="right"><a href="#top">🔼 Back to top</a></p>
