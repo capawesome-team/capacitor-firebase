@@ -22,7 +22,6 @@ function toNativeTimestamp(ts:Timestamp): SerializedTimeStamp {
     }
 }
 
-
 /**
  * @param data DocumentSnapshot.data 
  */
@@ -30,7 +29,8 @@ function formatDocumentToNative(data:any): any {
     for (let key in data) {
         let val = data[key];
         // 1. format timestamps
-        if (val instanceof Timestamp) {
+        if (val && val.hasOwnProperty("nanoseconds") && val.hasOwnProperty("seconds") ) {
+            // we're assuming it's a timestamp...
             data[key] = toNativeTimestamp(val)
             continue;
         }
@@ -55,6 +55,7 @@ function formatDocumentFromNative(data:any): any {
 
         // 1. format timestamps
         if (val && val.hasOwnProperty("type") && val.type == 'timestamp') {
+            console.log("WEB LAYER: CONVERTING SERIALIZED TIMESTAMP TO TIMESTAMP", val);
             data[key] = fromNativeTimestamp(val)
             continue;
         }
@@ -97,6 +98,7 @@ export class FirebaseFirestoreNative implements FirebaseFirestorePlugin {
     updateDocument(options: UpdateDocumentOptions): Promise<void> {
         // web -> native
         options.data = formatDocumentToNative(options.data);
+        console.log("20231026: Updating document data", options.data);
         return this.nativeRef.updateDocument(options);
     }
 
