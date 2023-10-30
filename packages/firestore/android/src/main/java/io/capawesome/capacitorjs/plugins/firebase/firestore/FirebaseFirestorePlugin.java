@@ -452,7 +452,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             implementation.removeAllListeners();
-            call.resolve();
+            super.removeAllListeners(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());

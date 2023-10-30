@@ -290,6 +290,6 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         self.pluginCallMap.removeAll()
 
         implementation?.removeAllListeners()
-        call.resolve()
+        super.removeAllListeners(call)
     }
 }

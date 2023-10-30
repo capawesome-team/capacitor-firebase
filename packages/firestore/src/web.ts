@@ -232,6 +232,7 @@ export class FirebaseFirestoreWeb
   public async removeAllListeners(): Promise<void> {
     this.unsubscribesMap.forEach(unsubscribe => unsubscribe());
     this.unsubscribesMap.clear();
+    await super.removeAllListeners();
   }
 
   private async buildCollectionQuery(
