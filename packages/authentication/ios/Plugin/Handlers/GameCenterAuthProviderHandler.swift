@@ -55,10 +55,12 @@ class GameCenterAuthProviderHandler: NSObject {
                     }
                     return
                 }
-                if isLink {
-                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+                if isLink == true {
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil,
+                                                                   accessToken: nil, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
                 } else {
-                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil,
+                                                                     accessToken: nil, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
                 }
             }
         }

@@ -53,7 +53,8 @@ class OAuthProviderHandler: NSObject {
                 return
             }
             if let credential = credential {
-                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+                self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil,
+                                                               accessToken: nil, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
             }
         }
     }
@@ -65,7 +66,8 @@ class OAuthProviderHandler: NSObject {
                 return
             }
             if let credential = credential {
-                self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: nil)
+                self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil,
+                                                                 accessToken: nil, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
             }
         }
     }
