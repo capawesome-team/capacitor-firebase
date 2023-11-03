@@ -489,14 +489,6 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        self.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil, authorizationCode: nil)
-    }
-
-    func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?, authorizationCode: String?) {
-        self.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nonce, accessToken: accessToken, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
-    }
-
     func handleSuccessfulSignIn(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?, authorizationCode: String?, serverAuthCode: String?) {
         guard let savedCall = self.savedCall else {
             return
@@ -534,21 +526,6 @@ public typealias AuthStateChangedObserver = () -> Void
         CAPLog.print("[", self.plugin.tag, "] ", errorMessage)
         let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
         savedCall.reject(errorMessage, code)
-    }
-
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?) {
-        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce,
-                                  accessToken: accessToken, displayName: nil, authorizationCode: nil)
-    }
-
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, serverAuthCode: String?) {
-        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce,
-                                  accessToken: accessToken, displayName: nil, authorizationCode: nil)
-    }
-
-    func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, displayName: String?, authorizationCode: String?) {
-        self.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nonce,
-                                  accessToken: accessToken, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
     }
 
     func handleSuccessfulLink(credential: AuthCredential, idToken: String?, nonce: String?, accessToken: String?, serverAuthCode: String?, displayName: String?, authorizationCode: String?) {
