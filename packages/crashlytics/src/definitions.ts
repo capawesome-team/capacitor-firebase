@@ -43,7 +43,7 @@ export interface FirebaseCrashlyticsPlugin {
   /**
    * Returns whether or not automatic data collection is enabled.
    *
-   * Only available for iOS.
+   * Only available for Android and iOS.
    *
    * @since 0.1.0
    */

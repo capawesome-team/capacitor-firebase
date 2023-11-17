@@ -1,14 +1,27 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
+import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
 import org.json.JSONException;
 
 public class FirebaseCrashlytics {
 
-    private final com.google.firebase.crashlytics.FirebaseCrashlytics crashlyticsInstance;
+    private static final String KEY_CRASHLYTICS_AUTO_COLLECTION_ENABLED = "crashlytics_auto_collection_enabled";
+    private static final String KEY_CRASHLYTICS_SHARED_PREFS = "com.google.firebase.crashlytics";
 
-    FirebaseCrashlytics() {
+    private final com.google.firebase.crashlytics.FirebaseCrashlytics crashlyticsInstance;
+    private final FirebaseCrashlyticsPlugin plugin;
+
+    FirebaseCrashlytics(FirebaseCrashlyticsPlugin plugin) {
+        this.plugin = plugin;
         crashlyticsInstance = com.google.firebase.crashlytics.FirebaseCrashlytics.getInstance();
     }
 
@@ -50,6 +63,18 @@ public class FirebaseCrashlytics {
         crashlyticsInstance.setCrashlyticsCollectionEnabled(enabled);
     }
 
+    public boolean isEnabled() {
+        boolean enabled;
+        SharedPreferences sharedPreferences = this.getFirebaseCrashlyticsSharedPreferences();
+        if (sharedPreferences.contains(FirebaseCrashlytics.KEY_CRASHLYTICS_AUTO_COLLECTION_ENABLED)) {
+            enabled = sharedPreferences.getBoolean(FirebaseCrashlytics.KEY_CRASHLYTICS_AUTO_COLLECTION_ENABLED, true);
+        } else {
+            Bundle metaData = this.getApplicationMetaData();
+            enabled = metaData.getBoolean(FirebaseCrashlytics.KEY_CRASHLYTICS_AUTO_COLLECTION_ENABLED, true);
+        }
+        return enabled;
+    }
+
     public boolean didCrashOnPreviousExecution() {
         return crashlyticsInstance.didCrashOnPreviousExecution();
     }
@@ -65,6 +90,27 @@ public class FirebaseCrashlytics {
     public void recordException(String message, JSArray stacktrace) {
         Throwable throwable = getJavaScriptException(message, stacktrace);
         crashlyticsInstance.recordException(throwable);
+    }
+
+    private SharedPreferences getFirebaseCrashlyticsSharedPreferences() {
+        Context context = this.plugin.getActivity().getApplicationContext();
+        return context.getSharedPreferences(FirebaseCrashlytics.KEY_CRASHLYTICS_SHARED_PREFS, Context.MODE_PRIVATE);
+    }
+
+    @Nullable
+    private Bundle getApplicationMetaData() {
+        Context context = this.plugin.getActivity().getApplicationContext();
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            if (packageManager == null) {
+                return null;
+            }
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return applicationInfo.metaData;
+        } catch (PackageManager.NameNotFoundException exception) {
+            // Ignore
+        }
+        return null;
     }
 
     private JavaScriptException getJavaScriptException(String message, JSArray stacktrace) {
