@@ -38,20 +38,16 @@ This is an Apache-2.0-licensed open source project.
 It can grow thanks to the support by these awesome people.
 If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).
 
-### Base Sponsor
-
 <a href="https://appscreens.com/?_locale=en&utm_source=github&utm_medium=referral&utm_campaign=capawesome&gclid=capawesome" target="_blank">
 <p align="center"><br><img src="https://capawesome.io/assets/images/sponsors/appscreens-logo.png" width="215" /></p>
 <p align="center">AppScreens - A dedicated screenshot mockup generator</p>
 </a>
 
-### Gold Sponsor
-
-<!-- gold-sponsors --><!-- gold-sponsors -->
-<!-- silver-sponsors --><!-- silver-sponsors -->
-<!-- bronze-sponsors --><a href="https://github.com/Cap-go"><img src="https://github.com/Cap-go.png" alt="Cap-go" width="50px"></a><!-- bronze-sponsors -->
-
-<a href="https://github.com/cycraft"><img src="https://github.com/cycraft.png" alt="cycraft" style="max-width: 100%;" width="50px"></a>
+<p align="center">
+  <a href="https://raw.githubusercontent.com/capawesome-team/static/main/images/sponsors/sponsors.svg">
+    <img src="https://raw.githubusercontent.com/capawesome-team/static/main/images/sponsors/sponsors.svg" />
+  </a>
+</p>
 
 ## Installation
 
