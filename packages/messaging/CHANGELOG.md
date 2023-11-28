@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.3.0
+
+### Patch Changes
+
+- [`65a9d0c`](https://github.com/capawesome-team/capacitor-firebase/commit/65a9d0c0eca055ef56024b76fdf0058568e7c38b): fix(ios): set correct return type for `removeAllListeners()`
+
 ## 5.2.0
 
 ### Minor Changes
