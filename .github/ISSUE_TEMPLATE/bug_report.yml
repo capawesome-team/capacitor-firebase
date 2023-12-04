@@ -22,9 +22,7 @@ body:
     attributes:
       label: Version
       description: |
-        Let us know the version number of each affected plugin.
-        Please make sure you are using the latest version before reporting an issue.
-        Chances are that the bug you discovered has already been fixed in a subsequent version.
+        Let us know the version number of each affected plugin. Please make sure you are using the latest version before reporting an issue. Chances are that the bug you discovered has already been fixed in a subsequent version.
       placeholder: 5.0.0
     validations:
       required: true
