@@ -18,4 +18,8 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
+            This issue has been labeled as `needs: reproduction`. This label is added to issues that need a code reproduction.
+
             Please provide a [Minimal, Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) using [this template](https://github.com/capawesome-team/.capacitor-app) in a public GitHub repository so we can debug the issue.
+
+            If you have already provided a code snippet and are seeing this message, it is likely that the code snippet was not enough for us to reproduce the issue.

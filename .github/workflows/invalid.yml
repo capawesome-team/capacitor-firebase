@@ -18,6 +18,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           comment: |
-            > I understand that incomplete issues (e.g. without reproduction) are closed.
-          
-            This issue is closed because not enough information was provided.
+            This issue has been labeled as `invalid`. This label is added to issues that are incomplete and do not provide enough information for us to help you. Please reach out if you have any questions or concerns.
