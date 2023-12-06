@@ -16,6 +16,7 @@ body:
         - label: Crashlytics
         - label: Cloud Firestore
         - label: Cloud Messaging
+        - label: Cloud Storage
         - label: Performance
         - label: Remote Config
   - type: input
