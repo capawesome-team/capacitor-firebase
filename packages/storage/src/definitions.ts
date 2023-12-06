@@ -35,7 +35,9 @@ export interface FirebaseStoragePlugin {
    * @since 5.3.0
    */
   uploadFile(
-    options: UploadFileOptions,
+    // [-] Original: options: UploadFileOptions
+    // [+] Issue #506: UploadFileOptionsWithMetadata added in options
+    options: UploadFileOptionsWithMetadata,
     callback: UploadFileCallback,
   ): Promise<CallbackId>;
 }
@@ -321,6 +323,18 @@ export interface UploadFileOptions {
    * @example 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/092F8464-DE60-40B3-8A23-EB83160D9F9F/mountains.png'
    */
   uri?: string;
+}
+
+// [+] Issue: #506, Adding interface for UploadFileOptions with metadata: UploadFileOptionsWithMetadata
+export interface UploadFileOptionsWithMetadata extends UploadFileOptions {
+  metadata?: {
+    cacheControl?: string | undefined; 
+    contentDisposition?: string | undefined;
+    contentEncoding?: string | undefined;
+    contentLanguage?: string | undefined;
+    contentType?: string | undefined;
+    customMetadata?: { [key: string]: string } | undefined;
+  };
 }
 
 /**

@@ -7,6 +7,7 @@ export default {
       name: 'capacitorFirebaseStorage',
       globals: {
         '@capacitor/core': 'capacitorExports',
+        'firebase/storage': 'firebaseStorage',
       },
       sourcemap: true,
       inlineDynamicImports: true,
@@ -18,5 +19,5 @@ export default {
       inlineDynamicImports: true,
     },
   ],
-  external: ['@capacitor/core'],
+  external: ['@capacitor/core', 'firebase/storage'],
 };
