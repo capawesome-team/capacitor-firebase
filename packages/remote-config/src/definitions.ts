@@ -52,8 +52,8 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * @since 5.3.0
    */
-  addOnConfigUpdateListener(
-    callback: AddOnConfigUpdateListenerOptionsCallback,
+  addConfigUpdateListener(
+    callback: AddConfigUpdateListenerOptionsCallback,
   ): Promise<CallbackId>;
   /**
    * Remove a listener for the config update event.
@@ -195,15 +195,15 @@ export interface SetMinimumFetchIntervalOptions {
 /**
  * @since 5.3.0
  */
-export type AddOnConfigUpdateListenerOptionsCallback = (
-  event: AddOnConfigUpdateListenerOptionsCallbackEvent | null,
+export type AddConfigUpdateListenerOptionsCallback = (
+  event: AddConfigUpdateListenerOptionsCallbackEvent | null,
   error: any,
 ) => void;
 
 /**
  * @since 5.3.0
  */
-export interface AddOnConfigUpdateListenerOptionsCallbackEvent {
+export interface AddConfigUpdateListenerOptionsCallbackEvent {
   /**
    * Parameter keys whose values have been updated from the currently activated values.
    *
