@@ -31,6 +31,7 @@ export interface FirebasePerformancePlugin {
    */
   isEnabled(): Promise<IsEnabledResult>;
 
+  // [+] Issue 505: adding start/stop params
   /**
    * Records a trace from given parameters. This provides a direct way to use trace without a need to start/stop.
    * This is useful for use cases in which the trace cannot directly be used
@@ -41,12 +42,14 @@ export interface FirebasePerformancePlugin {
    * @param options - Additional options for recording the trace.
    * @since 0.1.0
    */
+  // [+] Issue 505: adding record
   record(
     startTime: number,
     duration: number,
     options?: RecordOptions
   ): void;
 
+  // [+] Issue 505: getAttribute
   /**
    * Retrieves the value which a custom attribute is set to.
    *
@@ -56,6 +59,8 @@ export interface FirebasePerformancePlugin {
    */
   getAttribute(attr: string): string | undefined;
 
+  
+  // [+] Issue 505: getAttributes
   /**
    * Returns a map of all custom attributes of a trace instance.
    *
@@ -64,6 +69,7 @@ export interface FirebasePerformancePlugin {
    */
   getAttributes(): { [key: string]: string };
 
+   // [+] Issue 505: removeAttribute
   /**
    * Removes the specified custom attribute from a trace instance.
    *
@@ -72,6 +78,7 @@ export interface FirebasePerformancePlugin {
    */
   removeAttribute(attr: string): void;
 
+  // [+] Issue 505: putMetric
   /**
    * Sets the value of the specified custom metric to the given number.
    * The value will be floored down to an integer.
@@ -82,6 +89,7 @@ export interface FirebasePerformancePlugin {
    */
   putMetric(metricName: string, num: number): void;
 
+  // [+] Issue 505: getMetric
   /**
    * Returns the value of the custom metric by that name.
    * If a custom metric with that name does not exist, it will return zero.
@@ -168,6 +176,7 @@ export interface IsEnabledResult {
   enabled: boolean;
 }
 
+// [+] Issue 505: RecordOptions Interface
 export interface RecordOptions {
   /**
    * Custom metrics associated with the trace.
@@ -192,6 +201,8 @@ export interface RecordOptions {
  * Options for adding a custom attribute.
  * @since 0.1.0
  */
+
+// [+] Issue 505: PutAttributeOptions Interface
 export interface PutAttributeOptions {
   /**
    * Name of the attribute to be added.
