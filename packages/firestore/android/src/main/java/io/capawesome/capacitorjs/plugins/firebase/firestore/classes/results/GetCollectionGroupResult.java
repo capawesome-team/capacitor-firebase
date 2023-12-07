@@ -4,6 +4,9 @@ import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONObject;
+
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
 
@@ -19,12 +22,16 @@ public class GetCollectionGroupResult implements Result {
     public JSObject toJSObject() {
         JSArray snapshotsResult = new JSArray();
         for (QueryDocumentSnapshot document : querySnapshot) {
-            JSObject dataResult = FirebaseFirestoreHelper.createJSObjectFromMap(document.getData());
+            JSObject snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(document.getData());
 
             JSObject snapshotResult = new JSObject();
             snapshotResult.put("id", document.getId());
             snapshotResult.put("path", document.getReference().getPath());
-            snapshotResult.put("data", dataResult);
+            if (snapshotDataResult == null) {
+                snapshotResult.put("data", JSONObject.NULL);
+            } else {
+                snapshotResult.put("data", snapshotDataResult);
+            }
             snapshotsResult.put(snapshotResult);
         }
 
