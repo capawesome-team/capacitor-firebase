@@ -172,7 +172,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             FirebaseUser user = implementation.getCurrentUser();
             JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
             JSObject result = new JSObject();
-            result.put("user", userResult);
+            result.put("user", (userResult == null ? JSONObject.NULL : userResult));
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -217,8 +217,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void getTenantId(PluginCall call) {
         try {
+            String tenantId = implementation.getTenantId();
+
             JSObject result = new JSObject();
-            result.put("tenantId", implementation.getTenantId());
+            result.put("tenantId", (tenantId == null ? JSONObject.NULL : tenantId));
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -816,7 +818,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         FirebaseUser user = implementation.getCurrentUser();
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
         JSObject result = new JSObject();
-        result.put("user", userResult);
+        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
         notifyListeners(AUTH_STATE_CHANGE_EVENT, result, true);
     }
 

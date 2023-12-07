@@ -527,7 +527,7 @@ public class FirebaseAuthentication {
                         AuthResult authResult = task.getResult();
                         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
                         JSObject result = new JSObject();
-                        result.put("user", userResult);
+                        result.put("user", userResult ? JSONObject.NULL : userResult);
                         call.resolve(result);
                     } else {
                         Exception exception = task.getException();
