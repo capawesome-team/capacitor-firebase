@@ -2,6 +2,7 @@ package io.capawesome.capacitorjs.plugins.firebase.storage;
 
 import android.net.Uri;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageMetadata;
@@ -108,9 +109,16 @@ public class FirebaseStorage {
     public void uploadFile(@NonNull UploadFileOptions options, @NonNull NonEmptyEventCallback callback) {
         String path = options.getPath();
         Uri uri = options.getUri();
+        @Nullable
+        StorageMetadata metadata = options.getMetadata();
 
         StorageReference storageReference = firebaseStorageInstance.getReference(path);
-        UploadTask uploadTask = storageReference.putFile(uri);
+        UploadTask uploadTask;
+        if (metadata == null) {
+            uploadTask = storageReference.putFile(uri);
+        } else {
+            uploadTask = storageReference.putFile(uri, metadata);
+        }
         uploadTask
             .addOnProgressListener(
                 taskSnapshot -> {

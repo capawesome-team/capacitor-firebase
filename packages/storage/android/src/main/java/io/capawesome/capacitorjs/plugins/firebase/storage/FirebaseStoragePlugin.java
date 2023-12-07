@@ -198,9 +198,10 @@ public class FirebaseStoragePlugin extends Plugin {
                 call.reject(ERROR_URI_MISSING);
                 return;
             }
+            JSObject metadata = call.getObject("metadata");
             String callbackId = call.getCallbackId();
 
-            UploadFileOptions options = new UploadFileOptions(path, uri, callbackId);
+            UploadFileOptions options = new UploadFileOptions(path, uri, metadata, callbackId);
             NonEmptyEventCallback callback = new NonEmptyEventCallback() {
                 @Override
                 public void success(Result result) {
