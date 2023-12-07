@@ -246,7 +246,8 @@ export interface GetCollectionResult<T> {
    *
    * @since 5.2.0
    */
-  snapshots: QueryDocumentSnapshot<T>[];
+  // Replaced QueryDocumentSnapshot with DocumentSnapshot
+  snapshots: DocumentSnapshot<T>[];
 }
 
 /**
@@ -282,7 +283,7 @@ export interface GetCollectionGroupResult<T> {
    *
    * @since 5.2.0
    */
-  snapshots: QueryDocumentSnapshot<T>[];
+  snapshots: DocumentSnapshot<T>[];
 }
 
 /**
@@ -412,26 +413,26 @@ export interface DocumentSnapshot<T> {
 /**
  * @since 5.2.0
  */
-export interface QueryDocumentSnapshot<T> {
-  /**
-   * The document's identifier within its collection.
-   *
-   * @since 5.2.0
-   */
-  id: string;
-  /**
-   * The path of the document.
-   *
-   * @since 5.2.0
-   */
-  path: string;
-  /**
-   * An object containing the data for the document.
-   *
-   * @since 5.2.0
-   */
-  data: T;
-}
+// export interface QueryDocumentSnapshot<T> {
+//   /**
+//    * The document's identifier within its collection.
+//    *
+//    * @since 5.2.0
+//    */
+//   id: string;
+//   /**
+//    * The path of the document.
+//    *
+//    * @since 5.2.0
+//    */
+//   path: string;
+//   /**
+//    * An object containing the data for the document.
+//    *
+//    * @since 5.2.0
+//    */
+//   data: T | null;
+// }
 
 /**
  * @since 5.2.0
