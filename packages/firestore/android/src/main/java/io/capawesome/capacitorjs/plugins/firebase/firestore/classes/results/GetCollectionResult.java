@@ -25,10 +25,10 @@ public class GetCollectionResult implements Result {
             JSObject snapshotResult = new JSObject();
             snapshotResult.put("id", document.getId());
             snapshotResult.put("path", document.getReference().getPath());
-            if (dataResult == null) {
+            if (snapshotDataResult == null) {
                 snapshotResult.put("data", JSONObject.NULL);
             } else {
-                snapshotResult.put("data", dataResult);
+                snapshotResult.put("data", snapshotDataResult);
             }
             snapshotsResult.put(snapshotResult);
         }
