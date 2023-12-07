@@ -98,9 +98,15 @@ import FirebaseStorage
     @objc public func uploadFile(_ options: UploadFileOptions, completion: @escaping (Result?, Error?, Bool) -> Void) {
         let path = options.getPath()
         let uri = options.getUri()
+        let metadata = options.getMetadata()
 
         let storageRef = Storage.storage().reference(withPath: path)
-        let uploadTask = storageRef.putFile(from: uri)
+        let uploadTask: StorageUploadTask
+        if let metadata = metadata {
+            uploadTask = storageRef.putFile(from: uri, metadata: metadata)
+        } else {
+            uploadTask = storageRef.putFile(from: uri)
+        }
         uploadTask.observe(.progress) { snapshot in
             let result = UploadFileCallbackEvent(snapshot: snapshot)
             completion(result, nil, false)

@@ -2,6 +2,7 @@ import { WebPlugin } from '@capacitor/core';
 import type {
   ListOptions,
   SettableMetadata,
+  UploadMetadata,
   UploadTaskSnapshot,
 } from 'firebase/storage';
 import {
@@ -117,7 +118,19 @@ export class FirebaseStorageWeb
     }
     const storage = getStorage();
     const storageRef = ref(storage, options.path);
-    const uploadTask = uploadBytesResumable(storageRef, options.blob);
+    let metadata: UploadMetadata | undefined;
+    if (options.metadata) {
+      metadata = {
+        cacheControl: options.metadata.cacheControl,
+        contentDisposition: options.metadata.contentDisposition,
+        contentEncoding: options.metadata.contentEncoding,
+        contentLanguage: options.metadata.contentLanguage,
+        contentType: options.metadata.contentType,
+        md5Hash: options.metadata.md5Hash,
+        customMetadata: options.metadata.customMetadata,
+      };
+    }
+    const uploadTask = uploadBytesResumable(storageRef, options.blob, metadata);
     uploadTask.on('state_changed', {
       next: snapshot => {
         const result = this.createUploadFileCallbackEvent(snapshot);
