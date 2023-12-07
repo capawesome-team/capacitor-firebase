@@ -13,7 +13,7 @@ import Capacitor
         var snapshotsResult = JSArray()
         for documentSnapshot in querySnapshot.documents {
             let snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromHashMap(documentSnapshot.data())
-            
+
             var snapshotResult = JSObject()
             snapshotResult["id"] = documentSnapshot.documentID
             snapshotResult["path"] = documentSnapshot.reference.path

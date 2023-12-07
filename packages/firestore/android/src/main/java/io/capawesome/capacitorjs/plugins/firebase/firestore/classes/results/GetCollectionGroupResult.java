@@ -4,11 +4,9 @@ import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.json.JSONObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
+import org.json.JSONObject;
 
 public class GetCollectionGroupResult implements Result {
 
