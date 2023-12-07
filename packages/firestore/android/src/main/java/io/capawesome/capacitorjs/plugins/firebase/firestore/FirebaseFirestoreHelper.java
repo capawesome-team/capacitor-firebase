@@ -31,7 +31,11 @@ public class FirebaseFirestoreHelper {
         return map;
     }
 
-    public static JSObject createJSObjectFromMap(Map<String, Object> map) {
+    @Nullable
+    public static JSObject createJSObjectFromMap(@Nullable Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
         JSObject object = new JSObject();
         for (String key : map.keySet()) {
             Object value = map.get(key);

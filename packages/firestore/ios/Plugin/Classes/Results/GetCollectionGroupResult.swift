@@ -12,11 +12,16 @@ import Capacitor
     public func toJSObject() -> AnyObject {
         var snapshotsResult = JSArray()
         for documentSnapshot in querySnapshot.documents {
-            let documentSnapshotData = documentSnapshot.data()
+            let snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromHashMap(documentSnapshot.data())
+
             var snapshotResult = JSObject()
             snapshotResult["id"] = documentSnapshot.documentID
             snapshotResult["path"] = documentSnapshot.reference.path
-            snapshotResult["data"] = FirebaseFirestoreHelper.createJSObjectFromHashMap(documentSnapshotData)
+            if let snapshotDataResult = snapshotDataResult {
+                snapshotResult["data"] = snapshotDataResult
+            } else {
+                snapshotResult["data"] = NSNull()
+            }
             snapshotsResult.append(snapshotResult)
         }
 

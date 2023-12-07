@@ -15,17 +15,16 @@ public class GetDocumentResult implements Result {
     }
 
     public JSObject toJSObject() {
-        Object snapshotDataResult;
-        if (documentSnapshot.exists()) {
-            snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(documentSnapshot.getData());
-        } else {
-            snapshotDataResult = JSONObject.NULL;
-        }
+        Object snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(documentSnapshot.getData());
 
         JSObject snapshotResult = new JSObject();
         snapshotResult.put("id", documentSnapshot.getId());
         snapshotResult.put("path", documentSnapshot.getReference().getPath());
-        snapshotResult.put("data", snapshotDataResult);
+        if (snapshotDataResult == null) {
+            snapshotResult.put("data", JSONObject.NULL);
+        } else {
+            snapshotResult.put("data", snapshotDataResult);
+        }
 
         JSObject result = new JSObject();
         result.put("snapshot", snapshotResult);
