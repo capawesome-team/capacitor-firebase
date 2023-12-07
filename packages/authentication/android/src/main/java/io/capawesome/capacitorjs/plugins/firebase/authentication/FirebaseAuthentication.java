@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import org.json.JSONObject;
+
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.GetIdTokenResult;
@@ -527,7 +530,7 @@ public class FirebaseAuthentication {
                         AuthResult authResult = task.getResult();
                         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
                         JSObject result = new JSObject();
-                        result.put("user", userResult ? JSONObject.NULL : userResult);
+                        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
                         call.resolve(result);
                     } else {
                         Exception exception = task.getException();
