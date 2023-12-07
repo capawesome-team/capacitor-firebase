@@ -45,9 +45,9 @@ public class FirebaseAuthenticationHelper {
         let credentialResult = self.createCredentialResult(credential, idToken: idToken, nonce: nonce, accessToken: accessToken, authorizationCode: authorizationCode, serverAuthCode: serverAuthCode)
         let additionalUserInfoResult = self.createAdditionalUserInfoResult(additionalUserInfo)
         var result = JSObject()
-        result["user"] = userResult
-        result["credential"] = credentialResult
-        result["additionalUserInfo"] = additionalUserInfoResult
+        result["user"] = userResult ?? NSNull()
+        result["credential"] = credentialResult ?? NSNull()
+        result["additionalUserInfo"] = additionalUserInfoResult ?? NSNull()
         return result
     }
 
@@ -66,16 +66,16 @@ public class FirebaseAuthenticationHelper {
             }
         }
         var result = JSObject()
-        result["displayName"] = displayName ?? user.displayName
-        result["email"] = user.email
+        result["displayName"] = displayName ?? user.displayName ?? NSNull()
+        result["email"] = user.email ?? NSNull()
         result["emailVerified"] = user.isEmailVerified
         result["isAnonymous"] = user.isAnonymous
         result["metadata"] = self.createUserMetadataResult(user.metadata)
-        result["phoneNumber"] = user.phoneNumber
-        result["photoUrl"] = user.photoURL?.absoluteString
+        result["phoneNumber"] = user.phoneNumber ?? NSNull()
+        result["photoUrl"] = user.photoURL?.absoluteString ?? NSNull()
         result["providerData"] = self.createUserProviderDataResult(user.providerData)
         result["providerId"] = user.providerID
-        result["tenantId"] = user.tenantID
+        result["tenantId"] = user.tenantID ?? NSNull()
         result["uid"] = user.uid
         return result
     }
@@ -151,10 +151,10 @@ public class FirebaseAuthenticationHelper {
         var result = JSArray()
         for userInfo in providerData {
             var userInfoResult = JSObject()
-            userInfoResult["displayName"] = userInfo.displayName
-            userInfoResult["email"] = userInfo.email
-            userInfoResult["phoneNumber"] = userInfo.phoneNumber
-            userInfoResult["photoUrl"] = userInfo.photoURL?.absoluteString
+            userInfoResult["displayName"] = userInfo.displayName ?? NSNull()
+            userInfoResult["email"] = userInfo.email ?? NSNull()
+            userInfoResult["phoneNumber"] = userInfo.phoneNumber ?? NSNull()
+            userInfoResult["photoUrl"] = userInfo.photoURL?.absoluteString ?? NSNull()
             userInfoResult["providerId"] = userInfo.providerID
             userInfoResult["uid"] = userInfo.uid
             result.append(userInfoResult)

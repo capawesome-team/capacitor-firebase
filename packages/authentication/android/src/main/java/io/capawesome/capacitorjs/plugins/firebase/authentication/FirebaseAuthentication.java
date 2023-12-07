@@ -39,6 +39,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Resu
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONObject;
 
 public class FirebaseAuthentication {
 
@@ -527,7 +528,7 @@ public class FirebaseAuthentication {
                         AuthResult authResult = task.getResult();
                         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
                         JSObject result = new JSObject();
-                        result.put("user", userResult);
+                        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
                         call.resolve(result);
                     } else {
                         Exception exception = task.getException();
