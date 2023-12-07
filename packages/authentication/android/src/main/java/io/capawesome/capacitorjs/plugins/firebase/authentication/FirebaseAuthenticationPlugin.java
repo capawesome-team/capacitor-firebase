@@ -14,9 +14,6 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
-
-import org.json.JSONObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
@@ -25,6 +22,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInW
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
 public class FirebaseAuthenticationPlugin extends Plugin {

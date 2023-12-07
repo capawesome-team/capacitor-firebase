@@ -21,9 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
-
-import org.json.JSONObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.GetIdTokenResult;
@@ -42,6 +39,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Resu
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONObject;
 
 public class FirebaseAuthentication {
 
