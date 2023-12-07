@@ -321,6 +321,12 @@ export interface UploadFileOptions {
    * @example 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/092F8464-DE60-40B3-8A23-EB83160D9F9F/mountains.png'
    */
   uri?: string;
+  /**
+   * The metadata to set for the file.
+   *
+   * @since 5.4.0
+   */
+  metadata?: SettableMetadata;
 }
 
 /**
