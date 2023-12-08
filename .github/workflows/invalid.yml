@@ -14,8 +14,6 @@ jobs:
     if: github.event.label.name == 'invalid'
     steps:
       - name: Close Issue
-        uses: peter-evans/close-issue@v3
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          comment: |
-            This issue has been labeled as `invalid`. This label is added to issues that are incomplete and do not provide enough information for us to help you. Please reach out if you have any questions or concerns.
+        run: gh issue close ${{ github.event.issue.number }} --comment "This issue has been labeled as `invalid`. This label is added to issues that are incomplete and do not provide enough information for us to help you. Please reach out if you have any questions or concerns."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
