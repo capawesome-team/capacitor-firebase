@@ -50,7 +50,7 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * Only available for Android and iOS.
    *
-   * @since 5.3.0
+   * @since 5.4.0
    */
   addConfigUpdateListener(
     callback: AddConfigUpdateListenerOptionsCallback,
@@ -60,7 +60,7 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * Only available for Android and iOS.
    *
-   * @since 5.3.0
+   * @since 5.4.0
    */
   removeConfigUpdateListener(
     options: RemoveConfigUpdateListenerOptions,
@@ -68,7 +68,7 @@ export interface FirebaseRemoteConfigPlugin {
   /**
    * Remove all listeners for this plugin.
    *
-   * @since 5.3.0
+   * @since 5.4.0
    */
   removeAllListeners(): Promise<void>;
 }
@@ -187,13 +187,13 @@ export interface SetMinimumFetchIntervalOptions {
    *
    * @since 1.3.0
    * @default 43200
-   * @see https://firebase.google.com/docs/reference/js/firebase.remoteconfig.RemoteConfigSettings#minimumfetchintervalmillis
+   * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
    */
   minimumFetchIntervalInSeconds: number;
 }
 
 /**
- * @since 5.3.0
+ * @since 5.4.0
  */
 export type AddConfigUpdateListenerOptionsCallback = (
   event: AddConfigUpdateListenerOptionsCallbackEvent | null,
@@ -201,30 +201,30 @@ export type AddConfigUpdateListenerOptionsCallback = (
 ) => void;
 
 /**
- * @since 5.3.0
+ * @since 5.4.0
  */
 export interface AddConfigUpdateListenerOptionsCallbackEvent {
   /**
    * Parameter keys whose values have been updated from the currently activated values.
    *
-   * @since 5.3.0
+   * @since 5.4.0
    */
   updatedKeys: string[];
 }
 
 /**
- * @since 5.3.0
+ * @since 5.4.0
  */
 export type CallbackId = string;
 
 /**
- * @since 5.3.0
+ * @since 5.4.0
  */
 export interface RemoveConfigUpdateListenerOptions {
   /**
    * The id of the listener to remove.
    *
-   * @since 5.3.0
+   * @since 5.4.0
    */
   id: CallbackId;
 }
