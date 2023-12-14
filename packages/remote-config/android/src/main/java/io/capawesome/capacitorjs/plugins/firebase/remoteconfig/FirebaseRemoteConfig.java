@@ -101,9 +101,8 @@ public class FirebaseRemoteConfig {
                     new ConfigUpdateListener() {
                         @Override
                         public void onUpdate(ConfigUpdate configUpdate) {
-                            Set<String> updatedKeys = configUpdate.getUpdatedKeys();
                             AddConfigUpdateListenerOptionsCallbackEvent event = new AddConfigUpdateListenerOptionsCallbackEvent(
-                                updatedKeys
+                                configUpdate
                             );
                             callback.success(event);
                         }
