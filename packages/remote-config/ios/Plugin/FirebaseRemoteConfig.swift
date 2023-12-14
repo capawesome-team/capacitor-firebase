@@ -6,6 +6,7 @@ import Capacitor
 
 @objc public class FirebaseRemoteConfig: NSObject {
     private let plugin: FirebaseRemoteConfigPlugin
+    private var listenerRegistrationMap: [String: ConfigUpdateListenerRegistration] = [:]
 
     init(plugin: FirebaseRemoteConfigPlugin) {
         self.plugin = plugin
@@ -53,5 +54,35 @@ import Capacitor
 
     @objc public func getValue(_ key: String) -> RemoteConfigValue {
         return RemoteConfig.remoteConfig().configValue(forKey: key)
+    }
+
+    @objc public func addConfigUpdateListener(_ options: AddConfigUpdateListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let callbackId = options.getCallbackId()
+
+        let listenerRegistration = RemoteConfig.remoteConfig().addOnConfigUpdateListener { configUpdate, error in
+            if let error = error {
+                completion(nil, error)
+            } else if let configUpdate = configUpdate {
+                let result = AddConfigUpdateListenerOptionsCallbackEvent(configUpdate: configUpdate)
+                completion(result, nil)
+            }
+        }
+        self.listenerRegistrationMap[callbackId] = listenerRegistration
+    }
+
+    @objc public func removeConfigUpdateListener(_ options: RemoveConfigUpdateListenerOptions) {
+        let callbackId = options.getCallbackId()
+
+        if let listenerRegistration = self.listenerRegistrationMap[callbackId] {
+            listenerRegistration.remove()
+        }
+        self.listenerRegistrationMap.removeValue(forKey: callbackId)
+    }
+
+    @objc public func removeAllListeners() {
+        for listenerRegistration in self.listenerRegistrationMap.values {
+            listenerRegistration.remove()
+        }
+        self.listenerRegistrationMap.removeAll()
     }
 }

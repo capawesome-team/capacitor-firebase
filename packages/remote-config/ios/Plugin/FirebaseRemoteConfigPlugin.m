@@ -11,4 +11,7 @@ CAP_PLUGIN(FirebaseRemoteConfigPlugin, "FirebaseRemoteConfig",
            CAP_PLUGIN_METHOD(getNumber, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getString, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setMinimumFetchInterval, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(addConfigUpdateListener, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(removeConfigUpdateListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(removeAllListeners, CAPPluginReturnPromise);
 )

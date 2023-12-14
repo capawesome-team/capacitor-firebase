@@ -10,7 +10,10 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
     public let tag = "FirebaseRemoteConfig"
     public let errorKeyMissing = "key must be provided."
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."
+    public let errorCallbackIdMissing = "callbackId must be provided."
+
     private var implementation: FirebaseRemoteConfig?
+    private var pluginCallMap: [String: CAPPluginCall] = [:]
 
     override public func load() {
         implementation = FirebaseRemoteConfig(plugin: self)
@@ -85,5 +88,57 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
 
     @objc func setMinimumFetchInterval(_ call: CAPPluginCall) {
         call.reject("Not available on iOS.")
+    }
+
+    @objc func addConfigUpdateListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+
+        guard let callbackId = call.callbackId else {
+            call.reject(errorCallbackIdMissing)
+            return
+        }
+
+        self.pluginCallMap[callbackId] = call
+
+        let options = AddConfigUpdateListenerOptions(callbackId: callbackId)
+
+        implementation?.addConfigUpdateListener(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
+    }
+
+    @objc func removeConfigUpdateListener(_ call: CAPPluginCall) {
+        guard let callbackId = call.getString("callbackId") else {
+            call.reject(errorCallbackIdMissing)
+            return
+        }
+
+        let savedCall = self.pluginCallMap[callbackId]
+        if let savedCall = savedCall {
+            bridge?.releaseCall(savedCall)
+        }
+        self.pluginCallMap.removeValue(forKey: callbackId)
+
+        let options = RemoveConfigUpdateListenerOptions(callbackId: callbackId)
+
+        implementation?.removeConfigUpdateListener(options)
+        call.resolve()
+    }
+
+    @objc override public func removeAllListeners(_ call: CAPPluginCall) {
+        for (_, savedCall) in self.pluginCallMap {
+            bridge?.releaseCall(savedCall)
+        }
+        self.pluginCallMap.removeAll()
+
+        implementation?.removeAllListeners()
+        super.removeAllListeners(call)
     }
 }

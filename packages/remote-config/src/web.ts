@@ -10,11 +10,13 @@ import {
 } from 'firebase/remote-config';
 
 import type {
+  AddConfigUpdateListenerOptionsCallback,
   FirebaseRemoteConfigPlugin,
   GetBooleanResult,
   GetNumberResult,
   GetOptions,
   GetStringResult,
+  RemoveConfigUpdateListenerOptions,
   SetMinimumFetchIntervalOptions,
 } from './definitions';
 
@@ -61,5 +63,21 @@ export class FirebaseRemoteConfigWeb
     const remoteConfig = getRemoteConfig();
     remoteConfig.settings.minimumFetchIntervalMillis =
       options.minimumFetchIntervalInSeconds * 1000;
+  }
+
+  public async addConfigUpdateListener(
+    _callback: AddConfigUpdateListenerOptionsCallback,
+  ): Promise<string> {
+    this.throwUnimplementedError();
+  }
+
+  public async removeConfigUpdateListener(
+    _options: RemoveConfigUpdateListenerOptions,
+  ): Promise<void> {
+    this.throwUnimplementedError();
+  }
+
+  private throwUnimplementedError(): never {
+    throw this.unimplemented('Not implemented on web.');
   }
 }
