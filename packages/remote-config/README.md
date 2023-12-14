@@ -68,6 +68,29 @@ const getString = async () => {
   });
   return value;
 };
+
+const addConfigUpdateListener = async () => {
+  const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
+    (event, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(event);
+      }
+    }
+  );
+  return callbackId;
+};
+
+const removeConfigUpdateListener = async (callbackId: string) => {
+  await FirebaseRemoteConfig.removeConfigUpdateListener({
+    callbackId,
+  });
+};
+
+const removeAllListeners = async () => {
+  await FirebaseRemoteConfig.removeAllListeners();
+};
 ```
 
 ## API
