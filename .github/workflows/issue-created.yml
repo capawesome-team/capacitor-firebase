@@ -1,0 +1,28 @@
+name: Add comment when issue is created
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+    issues: write
+
+jobs:
+  add-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add comment to bug report
+        if: contains(github.event.issue.labels.*.name, 'bug/fix')
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Thanks for the issue!
+      - name: Add comment to feature request
+        if: contains(github.event.issue.labels.*.name, 'feature')
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Thanks for the issue!
