@@ -57,7 +57,7 @@ public class PhoneAuthProviderHandler {
         PhoneAuthOptions.Builder builder = PhoneAuthOptions
             .newBuilder(pluginImplementation.getFirebaseAuthInstance())
             .setPhoneNumber(options.getPhoneNumber())
-            .setTimeout(60L, TimeUnit.SECONDS)
+            .setTimeout(options.getTimeout(), TimeUnit.SECONDS)
             .setActivity(pluginImplementation.getPlugin().getActivity())
             .setCallbacks(createCallbacks(options, isLink));
         if (options.getResendCode()) {

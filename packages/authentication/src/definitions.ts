@@ -877,6 +877,18 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    * @default false
    */
   resendCode?: boolean;
+  /**
+   * The maximum amount of time in seconds to wait for the SMS auto-retrieval.
+   *
+   * Use 0 to disable SMS-auto-retrieval.
+   *
+   * Only available for Android.
+   *
+   * @since 5.4.0
+   * @default 60
+   * @see https://firebase.google.com/docs/reference/android/com/google/firebase/auth/PhoneAuthOptions.Builder#setTimeout(java.lang.Long,java.util.concurrent.TimeUnit)
+   */
+  timeout?: number;
 }
 
 /**

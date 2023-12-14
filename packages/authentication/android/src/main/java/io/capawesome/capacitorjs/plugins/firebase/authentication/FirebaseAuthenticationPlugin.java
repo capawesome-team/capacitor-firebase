@@ -334,7 +334,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode);
+            Long timeout = call.getLong("timeout", 60L);
+            LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode, timeout);
 
             implementation.linkWithPhoneNumber(options);
             call.resolve();
@@ -617,7 +618,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode);
+            Long timeout = call.getLong("timeout", 60L);
+            SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode, timeout);
 
             implementation.signInWithPhoneNumber(options);
             call.resolve();
