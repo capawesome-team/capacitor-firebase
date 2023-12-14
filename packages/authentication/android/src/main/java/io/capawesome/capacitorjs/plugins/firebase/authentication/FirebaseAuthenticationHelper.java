@@ -72,9 +72,9 @@ public class FirebaseAuthenticationHelper {
         );
         JSObject additionalUserInfoResult = FirebaseAuthenticationHelper.createAdditionalUserInfoResult(additionalUserInfo);
         JSObject result = new JSObject();
-        result.put("user", userResult);
-        result.put("credential", credentialResult);
-        result.put("additionalUserInfo", additionalUserInfoResult);
+        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
+        result.put("credential", (credentialResult == null ? JSONObject.NULL : credentialResult));
+        result.put("additionalUserInfo", (additionalUserInfoResult == null ? JSONObject.NULL : additionalUserInfoResult));
         return result;
     }
 
@@ -84,16 +84,16 @@ public class FirebaseAuthenticationHelper {
             return null;
         }
         JSObject result = new JSObject();
-        result.put("displayName", user.getDisplayName());
-        result.put("email", user.getEmail());
+        result.put("displayName", (user.getDisplayName() == null ? JSONObject.NULL : user.getDisplayName()));
+        result.put("email", (user.getEmail() == null ? JSONObject.NULL : user.getEmail()));
         result.put("emailVerified", user.isEmailVerified());
         result.put("isAnonymous", user.isAnonymous());
         result.put("metadata", FirebaseAuthenticationHelper.createUserMetadataResult(user.getMetadata()));
-        result.put("phoneNumber", user.getPhoneNumber());
-        result.put("photoUrl", user.getPhotoUrl());
+        result.put("phoneNumber", (user.getPhoneNumber() == null ? JSONObject.NULL : user.getPhoneNumber()));
+        result.put("photoUrl", (user.getPhotoUrl() == null ? JSONObject.NULL : user.getPhotoUrl()));
         result.put("providerData", FirebaseAuthenticationHelper.createUserProviderDataResult(user.getProviderData()));
         result.put("providerId", user.getProviderId());
-        result.put("tenantId", user.getTenantId());
+        result.put("tenantId", (user.getTenantId() == null ? JSONObject.NULL : user.getTenantId()));
         result.put("uid", user.getUid());
         return result;
     }

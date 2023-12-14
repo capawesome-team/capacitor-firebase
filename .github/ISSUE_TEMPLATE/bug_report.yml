@@ -16,17 +16,17 @@ body:
         - label: Crashlytics
         - label: Cloud Firestore
         - label: Cloud Messaging
+        - label: Cloud Storage
         - label: Performance
         - label: Remote Config
-  - type: checkboxes
+  - type: input
     attributes:
-      label: Did you test the latest version?
+      label: Version
       description: |
-        Chances are that the bug you discovered has already been fixed in a subsequent version. 
-        Therefore, before reporting an issue, make sure you are using the latest version.
-      options:
-      - label: I use the latest version
-        required: true
+        Let us know the version number of each affected plugin. Please make sure you are using the latest version before reporting an issue. Chances are that the bug you discovered has already been fixed in a subsequent version.
+      placeholder: 5.0.0
+    validations:
+      required: true
   - type: checkboxes
     attributes:
       label: Platform(s)
@@ -82,6 +82,11 @@ body:
       label:  Before submitting 
       description: |
         A well-written bug report allows the maintainers to quickly recreate the necessary conditions to inspect the bug and quickly find its root cause.
+        Please ensure your bug report fulfills all of the following requirements.
       options:
+      - label: I have read and followed the [bug report guidelines](https://capawesome.io/contributing/bug-reports/).
+        required: true
+      - label: I have attached links to possibly related issues and discussions.
+        required: true
       - label: I understand that incomplete issues (e.g. without reproduction) are closed.
         required: true

@@ -140,8 +140,9 @@ public class FirebaseStoragePlugin: CAPPlugin {
             call.reject(errorCallbackIdMissing)
             return
         }
+        let metadata = call.getObject("metadata")
 
-        let options = UploadFileOptions(path: path, uri: url, callbackId: callbackId)
+        let options = UploadFileOptions(path: path, uri: url, metadata: metadata, callbackId: callbackId)
 
         implementation?.uploadFile(options, completion: { result, error, releaseCall in
             if let error = error {

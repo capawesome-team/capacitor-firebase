@@ -2,4 +2,4 @@
 '@capacitor-firebase/firestore': patch
 ---
 
-fix: remove all listeners correctly
+fix: return `null` if no data exists

@@ -326,11 +326,19 @@ Upload a file.
 
 #### UploadFileOptions
 
-| Prop       | Type                | Description                                                           | Since |
-| ---------- | ------------------- | --------------------------------------------------------------------- | ----- |
-| **`blob`** | <code>Blob</code>   | The data to upload. Only available for Web.                           | 5.3.0 |
-| **`path`** | <code>string</code> | The full path where data should be uploaded, including the file name. | 5.3.0 |
-| **`uri`**  | <code>string</code> | The uri to the file to upload. Only available for Android and iOS.    | 5.3.0 |
+| Prop           | Type                                                      | Description                                                           | Since |
+| -------------- | --------------------------------------------------------- | --------------------------------------------------------------------- | ----- |
+| **`blob`**     | <code>Blob</code>                                         | The data to upload. Only available for Web.                           | 5.3.0 |
+| **`path`**     | <code>string</code>                                       | The full path where data should be uploaded, including the file name. | 5.3.0 |
+| **`uri`**      | <code>string</code>                                       | The uri to the file to upload. Only available for Android and iOS.    | 5.3.0 |
+| **`metadata`** | <code><a href="#uploadmetadata">UploadMetadata</a></code> | The metadata to set for the file.                                     | 5.4.0 |
+
+
+#### UploadMetadata
+
+| Prop          | Type                | Description                                                      | Since |
+| ------------- | ------------------- | ---------------------------------------------------------------- | ----- |
+| **`md5Hash`** | <code>string</code> | The base64-encoded MD5 hash of the file. Only available for Web. | 5.4.0 |
 
 
 #### UploadFileCallbackEvent

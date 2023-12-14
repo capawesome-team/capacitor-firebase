@@ -2,4 +2,4 @@
 '@capacitor-firebase/storage': minor
 ---
 
-Initial release 🎉
+feat: support `metadata` property on upload

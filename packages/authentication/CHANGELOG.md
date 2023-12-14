@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.3.0
+
+### Patch Changes
+
+- [`1b135c5`](https://github.com/capawesome-team/capacitor-firebase/commit/1b135c5153278ecf3110e7270f0952f41fc60fb2) ([#482](https://github.com/capawesome-team/capacitor-firebase/pull/482)): fix(ios): `displayName` was not returned on Apple sign-in
+
+* [`65a9d0c`](https://github.com/capawesome-team/capacitor-firebase/commit/65a9d0c0eca055ef56024b76fdf0058568e7c38b): fix(ios): set correct return type for `removeAllListeners()`
+
 ## 5.2.0
 
 ### Minor Changes
