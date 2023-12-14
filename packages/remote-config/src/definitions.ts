@@ -62,8 +62,8 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * @since 5.3.0
    */
-  removeOnConfigUpdateListener(
-    options: RemoveOnConfigUpdateListenerOptions,
+  removeConfigUpdateListener(
+    options: RemoveConfigUpdateListenerOptions,
   ): Promise<void>;
   /**
    * Remove all listeners for this plugin.
@@ -220,7 +220,7 @@ export type CallbackId = string;
 /**
  * @since 5.3.0
  */
-export interface RemoveOnConfigUpdateListenerOptions {
+export interface RemoveConfigUpdateListenerOptions {
   /**
    * The id of the listener to remove.
    *
