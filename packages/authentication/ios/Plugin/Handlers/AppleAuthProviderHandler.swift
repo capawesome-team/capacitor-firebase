@@ -132,10 +132,10 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
         }
         if isLink == true {
             self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce,
-                                                           accessToken: nil, displayName: displayName, authorizationCode: authorizationCode)
+                                                           accessToken: nil, serverAuthCode: nil, displayName: displayName, authorizationCode: authorizationCode)
         } else {
             self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce,
-                                                             accessToken: nil, displayName: displayName, authorizationCode: authorizationCode)
+                                                             accessToken: nil, displayName: displayName, authorizationCode: authorizationCode, serverAuthCode: nil)
         }
     }
 

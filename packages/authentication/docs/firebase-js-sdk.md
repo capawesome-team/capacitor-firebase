@@ -94,7 +94,7 @@ const signInWithPhoneNumber = async () => {
       );
       // 3. Sign in on the web layer using the verification ID and verification code.
       const credential = PhoneAuthProvider.credential(
-        verificationId: event.verificationId,
+        event.verificationId,
         verificationCode,
       );
       const auth = getAuth();
@@ -104,6 +104,7 @@ const signInWithPhoneNumber = async () => {
     // 1. Start phone number verification
     await FirebaseAuthentication.signInWithPhoneNumber({
       phoneNumber: '123456789',
+      timeout: 0, // Disable SMS auto-retrieval
     });
   });
 };
@@ -172,7 +173,7 @@ const signOut = async () => {
 When using the Firebase JS SDK on Android and iOS, you must be aware of the following:
 
 - **Apple Sign-In**: Works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
+- **Microsoft Sign-In**: Not supported (see https://github.com/capawesome-team/capacitor-firebase/discussions/216#discussioncomment-3803525)
 - **Twitter Sign-In**: Works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
-- **Phone Number Sign-In**: To create the `PhoneAuthCredential` in the Firebase JS SDK, the `verificationId` and the `verificationCode` are required. However, on Android, it may happen that no `verificationCode` is provided (see [`addListener('phoneVerificationCompleted', ...)`](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#addlistenerphoneverificationcompleted-)). In this case, the user cannot be additionally signed in to the Firebase JS SDK. Unfortunately, this behavior cannot be disabled on Android (see [firebase/quickstart-android#296](https://github.com/firebase/quickstart-android/issues/296)).
 
 **Note**: The [`skipNativeAuth`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#signinoptions)).

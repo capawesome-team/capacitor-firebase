@@ -22,6 +22,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInW
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
 public class FirebaseAuthenticationPlugin extends Plugin {
@@ -172,7 +173,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             FirebaseUser user = implementation.getCurrentUser();
             JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
             JSObject result = new JSObject();
-            result.put("user", userResult);
+            result.put("user", (userResult == null ? JSONObject.NULL : userResult));
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -217,8 +218,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void getTenantId(PluginCall call) {
         try {
+            String tenantId = implementation.getTenantId();
+
             JSObject result = new JSObject();
-            result.put("tenantId", implementation.getTenantId());
+            result.put("tenantId", (tenantId == null ? JSONObject.NULL : tenantId));
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -331,7 +334,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode);
+            Long timeout = call.getLong("timeout", 60L);
+            LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode, timeout);
 
             implementation.linkWithPhoneNumber(options);
             call.resolve();
@@ -478,6 +482,11 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void setPersistence(PluginCall call) {
+        call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
     public void setTenantId(PluginCall call) {
         try {
             String tenantId = call.getString("tenantId");
@@ -609,7 +618,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode);
+            Long timeout = call.getLong("timeout", 60L);
+            SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode, timeout);
 
             implementation.signInWithPhoneNumber(options);
             call.resolve();
@@ -811,7 +821,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         FirebaseUser user = implementation.getCurrentUser();
         JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
         JSObject result = new JSObject();
-        result.put("user", userResult);
+        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
         notifyListeners(AUTH_STATE_CHANGE_EVENT, result, true);
     }
 

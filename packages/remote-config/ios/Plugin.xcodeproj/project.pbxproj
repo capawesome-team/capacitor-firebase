@@ -17,6 +17,10 @@
 		50ADFFA82020EE4F00D50D53 /* FirebaseRemoteConfigPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseRemoteConfigPlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift */; };
 		7C2425692925898B003FE3BB /* FirebaseRemoteConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2425682925898B003FE3BB /* FirebaseRemoteConfigHelper.swift */; };
+		7CE12B132B2B37290018854A /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B122B2B37290018854A /* Result.swift */; };
+		7CE12B152B2B373A0018854A /* AddConfigUpdateListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B142B2B373A0018854A /* AddConfigUpdateListenerOptions.swift */; };
+		7CE12B172B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B162B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift */; };
+		7CE12B192B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B182B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +47,10 @@
 		50E1A94720377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseRemoteConfigPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C2425682925898B003FE3BB /* FirebaseRemoteConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoteConfigHelper.swift; sourceTree = "<group>"; };
+		7CE12B122B2B37290018854A /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7CE12B142B2B373A0018854A /* AddConfigUpdateListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConfigUpdateListenerOptions.swift; sourceTree = "<group>"; };
+		7CE12B162B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveConfigUpdateListenerOptions.swift; sourceTree = "<group>"; };
+		7CE12B182B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConfigUpdateListenerOptionsCallbackEvent.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +102,8 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7CE12B102B2B370D0018854A /* Protocols */,
+				7CE12B0C2B2B36F30018854A /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift */,
 				7C2425682925898B003FE3BB /* FirebaseRemoteConfigHelper.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseRemoteConfig.swift */,
@@ -111,6 +121,40 @@
 				50ADFF98201F53D600D50D53 /* Info.plist */,
 			);
 			path = PluginTests;
+			sourceTree = "<group>";
+		};
+		7CE12B0C2B2B36F30018854A /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7CE12B0E2B2B37000018854A /* Options */,
+				7CE12B0D2B2B36F90018854A /* Events */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7CE12B0D2B2B36F90018854A /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				7CE12B182B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		7CE12B0E2B2B37000018854A /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7CE12B142B2B373A0018854A /* AddConfigUpdateListenerOptions.swift */,
+				7CE12B162B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7CE12B102B2B370D0018854A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7CE12B122B2B37290018854A /* Result.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		8C8E7744173064A9F6D438E3 /* Pods */ = {
@@ -324,9 +368,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C2425692925898B003FE3BB /* FirebaseRemoteConfigHelper.swift in Sources */,
+				7CE12B172B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift in Sources */,
+				7CE12B152B2B373A0018854A /* AddConfigUpdateListenerOptions.swift in Sources */,
+				7CE12B132B2B37290018854A /* Result.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseRemoteConfig.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* FirebaseRemoteConfigPlugin.m in Sources */,
+				7CE12B192B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.3.0
+
+### Minor Changes
+
+- [`5e4a2c8`](https://github.com/capawesome-team/capacitor-firebase/commit/5e4a2c8f8ea46434f86476d2812e3550a23e936f) ([#464](https://github.com/capawesome-team/capacitor-firebase/pull/464)): feat(android): update Firebase App Check to 17.0.1
+
+## 5.2.0
+
 ## 5.1.0
 
 ### Minor Changes

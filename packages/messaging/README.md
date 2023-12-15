@@ -104,9 +104,9 @@ If you prefer to prevent token autogeneration, disable FCM auto initialization b
 
 On iOS you can configure the way the push notifications are displayed when the app is in foreground.
 
-| Prop                      | Type                              | Description                                                                                                                                                                                                                                                                                                                                                                                 | Default                                  | Since |
-| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
-| **`presentationOptions`** | <code>PresentationOption[]</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["badge", "sound", "alert"]</code> | 0.2.2 |
+| Prop                      | Type                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Default                                  | Since |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
+| **`presentationOptions`** | <code>PresentationOption[]</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["badge", "sound", "alert"]</code> | 0.2.2 |
 
 ### Examples
 
@@ -478,6 +478,8 @@ addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => 
 ```
 
 Called when a new FCM token is received.
+
+Only available for Android and iOS.
 
 | Param              | Type                                                                    |
 | ------------------ | ----------------------------------------------------------------------- |

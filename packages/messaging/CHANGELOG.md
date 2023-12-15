@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.3.0
+
+### Patch Changes
+
+- [`65a9d0c`](https://github.com/capawesome-team/capacitor-firebase/commit/65a9d0c0eca055ef56024b76fdf0058568e7c38b): fix(ios): set correct return type for `removeAllListeners()`
+
+## 5.2.0
+
+### Minor Changes
+
+- [`2085bb8`](https://github.com/capawesome-team/capacitor-firebase/commit/2085bb84414a9a74f8d5587b61e8391ff4598a8c) ([#428](https://github.com/capawesome-team/capacitor-firebase/pull/428)): feat(ios): add support for `criticalAlert`
+
 ## 5.1.0
 
 ### Minor Changes

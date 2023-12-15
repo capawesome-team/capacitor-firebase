@@ -39,8 +39,13 @@ class PhoneAuthProviderHandler: NSObject {
 
     private func verifyPhoneNumber(_ options: SignInWithPhoneNumberOptions) {
         PhoneAuthProvider.provider()
-            .verifyPhoneNumber(options.getPhoneNumber(), uiDelegate: nil) { verificationID, _ in
-                self.pluginImplementation.handlePhoneCodeSent(verificationID ?? "")
+            .verifyPhoneNumber(options.getPhoneNumber(), uiDelegate: nil) { verificationID, error in
+                if let error = error {
+                    self.pluginImplementation.handlePhoneVerificationFailed(error)
+                } else {
+                    self.pluginImplementation.handlePhoneCodeSent(verificationID ?? "")
+                }
             }
     }
+
 }

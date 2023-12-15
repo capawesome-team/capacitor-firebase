@@ -133,7 +133,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         let user = implementation?.getCurrentUser()
         let userResult = FirebaseAuthenticationHelper.createUserResult(user)
         var result = JSObject()
-        result["user"] = userResult
+        result["user"] = userResult ?? NSNull()
         call.resolve(result)
     }
 
@@ -158,8 +158,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func getTenantId(_ call: CAPPluginCall) {
+        let tenantId = implementation?.getTenantId()
+
         var result = JSObject()
-        result["tenantId"] = implementation?.getTenantId()
+        result["tenantId"] = tenantId ?? NSNull()
         call.resolve(result)
     }
 
@@ -337,6 +339,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         call.resolve()
     }
 
+    @objc func setPersistence(_ call: CAPPluginCall) {
+        call.reject("Not available on iOS.")
+    }
+
     @objc func setTenantId(_ call: CAPPluginCall) {
         guard let tenantId = call.getString("tenantId") else {
             call.reject(errorTenantIdMissing)
@@ -434,7 +440,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             }
             let userResult = FirebaseAuthenticationHelper.createUserResult(user)
             var result = JSObject()
-            result["user"] = userResult
+            result["user"] = userResult ?? NSNull()
             call.resolve(result)
         })
     }
@@ -521,7 +527,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         let user = implementation?.getCurrentUser()
         let userResult = FirebaseAuthenticationHelper.createUserResult(user)
         var result = JSObject()
-        result["user"] = userResult
+        result["user"] = userResult ?? NSNull()
         notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
     }
 

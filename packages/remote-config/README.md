@@ -68,6 +68,29 @@ const getString = async () => {
   });
   return value;
 };
+
+const addConfigUpdateListener = async () => {
+  const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
+    (event, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(event);
+      }
+    }
+  );
+  return callbackId;
+};
+
+const removeConfigUpdateListener = async (callbackId: string) => {
+  await FirebaseRemoteConfig.removeConfigUpdateListener({
+    callbackId,
+  });
+};
+
+const removeAllListeners = async () => {
+  await FirebaseRemoteConfig.removeAllListeners();
+};
 ```
 
 ## API
@@ -81,6 +104,9 @@ const getString = async () => {
 * [`getNumber(...)`](#getnumber)
 * [`getString(...)`](#getstring)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
+* [`removeConfigUpdateListener(...)`](#removeconfigupdatelistener)
+* [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 * [Enums](#enums)
@@ -209,6 +235,59 @@ Only available for Web.
 --------------------
 
 
+### addConfigUpdateListener(...)
+
+```typescript
+addConfigUpdateListener(callback: AddConfigUpdateListenerOptionsCallback) => Promise<CallbackId>
+```
+
+Add a listener for the config update event.
+
+Only available for Android and iOS.
+
+| Param          | Type                                                                                                      |
+| -------------- | --------------------------------------------------------------------------------------------------------- |
+| **`callback`** | <code><a href="#addconfigupdatelisteneroptionscallback">AddConfigUpdateListenerOptionsCallback</a></code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+**Since:** 5.4.0
+
+--------------------
+
+
+### removeConfigUpdateListener(...)
+
+```typescript
+removeConfigUpdateListener(options: RemoveConfigUpdateListenerOptions) => Promise<void>
+```
+
+Remove a listener for the config update event.
+
+Only available for Android and iOS.
+
+| Param         | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#removeconfigupdatelisteneroptions">RemoveConfigUpdateListenerOptions</a></code> |
+
+**Since:** 5.4.0
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Remove all listeners for this plugin.
+
+**Since:** 5.4.0
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -257,6 +336,20 @@ Only available for Web.
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
 
 
+#### AddConfigUpdateListenerOptionsCallbackEvent
+
+| Prop              | Type                  | Description                                                                        | Since |
+| ----------------- | --------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`updatedKeys`** | <code>string[]</code> | Parameter keys whose values have been updated from the currently activated values. | 5.4.0 |
+
+
+#### RemoveConfigUpdateListenerOptions
+
+| Prop     | Type                                              | Description                       | Since |
+| -------- | ------------------------------------------------- | --------------------------------- | ----- |
+| **`id`** | <code><a href="#callbackid">CallbackId</a></code> | The id of the listener to remove. | 5.4.0 |
+
+
 ### Type Aliases
 
 
@@ -273,6 +366,16 @@ Only available for Web.
 #### GetStringOptions
 
 <code><a href="#getoptions">GetOptions</a></code>
+
+
+#### AddConfigUpdateListenerOptionsCallback
+
+<code>(event: <a href="#addconfigupdatelisteneroptionscallbackevent">AddConfigUpdateListenerOptionsCallbackEvent</a> | null, error: any): void</code>
+
+
+#### CallbackId
+
+<code>string</code>
 
 
 ### Enums

@@ -2,7 +2,7 @@
 
 import type { PermissionState, PluginListenerHandle } from '@capacitor/core';
 
-export type PresentationOption = 'badge' | 'sound' | 'alert';
+export type PresentationOption = 'badge' | 'sound' | 'alert' | 'criticalAlert';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -15,6 +15,7 @@ declare module '@capacitor/cli' {
        *   - `badge`: badge count on the app icon is updated (default value)
        *   - `sound`: the device will ring/vibrate when the push notification is received
        *   - `alert`: the push notification is displayed in a native dialog
+       *   - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch
        *
        * An empty array can be provided if none of the options are desired.
        *
@@ -132,6 +133,8 @@ export interface FirebaseMessagingPlugin {
   listChannels(): Promise<ListChannelsResult>;
   /**
    * Called when a new FCM token is received.
+   *
+   * Only available for Android and iOS.
    *
    * @since 0.2.2
    */

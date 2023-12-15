@@ -1,0 +1,23 @@
+name: Close incomplete issues
+
+on:
+  issues:
+    types:
+      - labeled
+
+permissions:
+    issues: write
+
+jobs:
+  add-comment:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'invalid'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Close Issue
+        run: gh issue close ${{ github.event.issue.number }} --comment "This issue has been labeled as invalid. This label is added to issues that are incomplete and do not provide enough information for us to help you. Please reach out if you have any questions or concerns."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

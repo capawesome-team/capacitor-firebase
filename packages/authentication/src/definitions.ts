@@ -56,8 +56,6 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Finishes the phone number verification process.
    *
-   * Only available for Android and iOS.
-   *
    * @since 5.0.0
    */
   confirmVerificationCode(
@@ -265,6 +263,14 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   setLanguageCode(options: SetLanguageCodeOptions): Promise<void>;
+  /**
+   * Sets the type of persistence for the currently saved auth session.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   */
+  setPersistence(options: SetPersistenceOptions): Promise<void>;
   /**
    * Sets the tenant id.
    *
@@ -610,6 +616,48 @@ export interface SetLanguageCodeOptions {
 }
 
 /**
+ * @since 5.2.0
+ */
+export interface SetPersistenceOptions {
+  /**
+   * The persistence types.
+   *
+   * @since 5.2.0
+   */
+  persistence: Persistence;
+}
+
+/**
+ * @since 5.2.0
+ */
+export enum Persistence {
+  /**
+   * Long term persistence using IndexedDB.
+   *
+   * @since 5.2.0
+   */
+  IndexedDbLocal = 'INDEXED_DB_LOCAL',
+  /**
+   * No persistence.
+   *
+   * @since 5.2.0
+   */
+  InMemory = 'IN_MEMORY',
+  /**
+   * Long term persistence using local storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserLocal = 'BROWSER_LOCAL',
+  /**
+   * Temporary persistence using session storage.
+   *
+   * @since 5.2.0
+   */
+  BrowserSession = 'BROWSER_SESSION',
+}
+
+/**
  * @since 1.1.0
  */
 export interface SetTenantIdOptions {
@@ -712,25 +760,7 @@ export interface LinkWithEmailLinkOptions {
 /**
  * @since 1.1.0
  */
-export interface LinkWithPhoneNumberOptions {
-  /**
-   * The phone number to be verified in E.164 format.
-   *
-   * @example "+16505550101"
-   * @since 1.1.0
-   */
-  phoneNumber: string;
-  /**
-   * Resend the verification code to the specified phone number.
-   * `linkWithPhoneNumber` must be called once before using this option.
-   *
-   * Only available for Android.
-   *
-   * @since 5.0.0
-   * @default false
-   */
-  resendCode?: boolean;
-}
+export type LinkWithPhoneNumberOptions = SignInWithPhoneNumberOptions;
 
 /**
  * @since 1.1.0
@@ -781,6 +811,8 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.
    * If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.
    *
+   * Only available for Web.
+   *
    * @default 'popup'
    * @since 1.3.0
    */
@@ -789,7 +821,7 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    * Scopes to request from provider.
    *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
-   * Supports Apple, GitHub, Microsoft, Twitter, Yahoo and Play Games on Android.
+   * Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android.
    * Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.
    *
    * @since 1.1.0
@@ -827,6 +859,15 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    */
   phoneNumber: string;
   /**
+   * The reCAPTCHA verifier.
+   * Must be an instance of `firebase.auth.RecaptchaVerifier`.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   */
+  recaptchaVerifier?: unknown;
+  /**
    * Resend the verification code to the specified phone number.
    * `signInWithPhoneNumber` must be called once before using this option.
    *
@@ -836,6 +877,18 @@ export interface SignInWithPhoneNumberOptions extends SignInOptions {
    * @default false
    */
   resendCode?: boolean;
+  /**
+   * The maximum amount of time in seconds to wait for the SMS auto-retrieval.
+   *
+   * Use 0 to disable SMS-auto-retrieval.
+   *
+   * Only available for Android.
+   *
+   * @since 5.4.0
+   * @default 60
+   * @see https://firebase.google.com/docs/reference/android/com/google/firebase/auth/PhoneAuthOptions.Builder#setTimeout(java.lang.Long,java.util.concurrent.TimeUnit)
+   */
+  timeout?: number;
 }
 
 /**
@@ -978,22 +1031,35 @@ export interface UnlinkResult {
  */
 export interface UseEmulatorOptions {
   /**
-   * The emulator host (e.g. `10.0.2.2`).
+   * The emulator host without any port or scheme.
    *
    * @since 0.2.0
+   * @example "127.0.0.1"
    */
   host: string;
   /**
-   * The emulator port (e.g. `9099`).
+   * The emulator port.
    *
-   * @default 9099
    * @since 0.2.0
+   * @default 9099
+   * @example 9099
    */
   port?: number;
+  /**
+   * The emulator scheme.
+   *
+   * Only available for Web.
+   *
+   * @since 5.2.0
+   * @default "http"
+   * @example "https"
+   */
+  scheme?: string;
 }
 
 /**
  * @since 0.1.0
+ * @see https://firebase.google.com/docs/reference/js/auth.user
  */
 export interface User {
   /**
@@ -1013,6 +1079,12 @@ export interface User {
    */
   isAnonymous: boolean;
   /**
+   * The user's metadata.
+   *
+   * @since 5.2.0
+   */
+  metadata: UserMetadata;
+  /**
    * @since 0.1.0
    */
   phoneNumber: string | null;
@@ -1020,6 +1092,12 @@ export interface User {
    * @since 0.1.0
    */
   photoUrl: string | null;
+  /**
+   * Additional per provider such as displayName and profile information.
+   *
+   * @since 5.2.0
+   */
+  providerData: UserInfo[];
   /**
    * @since 0.1.0
    */
@@ -1032,6 +1110,70 @@ export interface User {
    * @since 0.1.0
    */
   uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.userinfo
+ */
+export interface UserInfo {
+  /**
+   * The display name of the user.
+   *
+   * @since 5.2.0
+   */
+  displayName: string | null;
+  /**
+   * The email of the user.
+   *
+   * @since 5.2.0
+   */
+  email: string | null;
+  /**
+   * The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user.
+   *
+   * @since 5.2.0
+   */
+  phoneNumber: string | null;
+  /**
+   * The profile photo URL of the user.
+   *
+   * @since 5.2.0
+   */
+  photoUrl: string | null;
+  /**
+   * The provider used to authenticate the user.
+   *
+   * @since 5.2.0
+   */
+  providerId: string;
+  /**
+   * The user's unique ID.
+   *
+   * @since 5.2.0
+   */
+  uid: string;
+}
+
+/**
+ * @since 5.2.0
+ * @see https://firebase.google.com/docs/reference/js/auth.usermetadata
+ */
+export interface UserMetadata {
+  /**
+   * Time the user was created in milliseconds since the epoch.
+   *
+   * @since 5.2.0
+   * @example 1695130859034
+   */
+  creationTime?: number;
+  /**
+   * Time the user last signed in in milliseconds since the epoch.
+   *
+   * @since 5.2.0
+   * @example 1695130859034
+   */
+  lastSignInTime?: number;
 }
 
 /**
@@ -1077,6 +1219,14 @@ export interface AuthCredential {
    * @since 0.1.0
    */
   secret?: string;
+  /**
+   * The server auth code.
+   *
+   * Only available for Google Sign-in and Play Games Sign-In on Android and iOS.
+   *
+   * @since 5.2.0
+   */
+  serverAuthCode?: string;
 }
 
 /**

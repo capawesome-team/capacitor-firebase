@@ -31,13 +31,13 @@ class GoogleAuthProviderHandler: NSObject {
     private func startSignInWithGoogleFlow(_ call: CAPPluginCall, isLink: Bool) {
         #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientId)
+        let config = GIDConfiguration(clientID: clientId, serverClientID: clientId)
         GIDSignIn.sharedInstance.configuration = config
         guard let controller = self.pluginImplementation.getPlugin().bridge?.viewController else { return }
         let scopes = call.getArray("scopes", String.self) ?? []
 
         DispatchQueue.main.async {
-            GIDSignIn.sharedInstance.signIn(withPresenting: controller) { [unowned self] result, error in
+            GIDSignIn.sharedInstance.signIn(withPresenting: controller, hint: nil, additionalScopes: scopes) { [unowned self] result, error in
                 if let error = error {
                     if isLink == true {
                         self.pluginImplementation.handleFailedLink(message: nil, error: error)
@@ -53,11 +53,14 @@ class GoogleAuthProviderHandler: NSObject {
                     return
                 }
                 let accessToken = user.accessToken.tokenString
+                let serverAuthCode = result?.serverAuthCode
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
                 if isLink == true {
-                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idToken, nonce: nil,
+                                                                   accessToken: accessToken, serverAuthCode: serverAuthCode, displayName: nil, authorizationCode: nil)
                 } else {
-                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil, accessToken: accessToken)
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idToken, nonce: nil,
+                                                                     accessToken: accessToken, displayName: nil, authorizationCode: nil, serverAuthCode: serverAuthCode)
                 }
             }
         }

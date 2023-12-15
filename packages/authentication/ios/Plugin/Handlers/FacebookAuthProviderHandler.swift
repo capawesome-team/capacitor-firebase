@@ -61,9 +61,11 @@ class FacebookAuthProviderHandler: NSObject {
                 let accessTokenString = accessToken.tokenString
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
                 if isLink == true {
-                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString)
+                    self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil,
+                                                                   accessToken: accessTokenString, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
                 } else {
-                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil, accessToken: accessTokenString)
+                    self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil,
+                                                                     accessToken: accessTokenString, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
                 }
             }
         }

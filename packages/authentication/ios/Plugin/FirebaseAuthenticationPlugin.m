@@ -31,6 +31,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(sendPasswordResetEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendSignInLinkToEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setLanguageCode, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setPersistence, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setTenantId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInAnonymously, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(signInWithApple, CAPPluginReturnPromise);
@@ -53,5 +54,5 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(updateProfile, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useAppLanguage, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useEmulator, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(removeAllListeners, CAPPluginReturnNone);
+           CAP_PLUGIN_METHOD(removeAllListeners, CAPPluginReturnPromise);
 )
