@@ -13,6 +13,7 @@ import {
   and,
   clearIndexedDbPersistence,
   collection,
+  collectionGroup,
   deleteDoc,
   disableNetwork,
   doc,
@@ -128,7 +129,10 @@ export class FirebaseFirestoreWeb
   public async getCollection<T extends DocumentData>(
     options: GetCollectionOptions,
   ): Promise<GetCollectionResult<T>> {
-    const collectionQuery = await this.buildCollectionQuery(options);
+    const collectionQuery = await this.buildCollectionQuery(
+      options,
+      'collection',
+    );
     const collectionSnapshot = await getDocs(collectionQuery);
     return {
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
@@ -142,7 +146,10 @@ export class FirebaseFirestoreWeb
   public async getCollectionGroup<T extends DocumentData>(
     options: GetCollectionGroupOptions,
   ): Promise<GetCollectionGroupResult<T>> {
-    const collectionQuery = await this.buildCollectionQuery(options);
+    const collectionQuery = await this.buildCollectionQuery(
+      options,
+      'collectionGroup',
+    );
     const collectionSnapshot = await getDocs(collectionQuery);
     return {
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
@@ -200,7 +207,10 @@ export class FirebaseFirestoreWeb
     options: AddCollectionSnapshotListenerOptions,
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<string> {
-    const collectionQuery = await this.buildCollectionQuery(options);
+    const collectionQuery = await this.buildCollectionQuery(
+      options,
+      'collection',
+    );
     const unsubscribe = onSnapshot(collectionQuery, snapshot => {
       const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
         snapshots: snapshot.docs.map(documentSnapshot => ({
@@ -240,20 +250,22 @@ export class FirebaseFirestoreWeb
       | GetCollectionOptions
       | GetCollectionGroupOptions
       | AddCollectionSnapshotListenerOptions,
+    type: 'collection' | 'collectionGroup',
   ): Promise<Query<DocumentData, DocumentData>> {
     const firestore = getFirestore();
     let collectionQuery: Query;
     if (options.compositeFilter) {
-      const compositeFilter =
-        await this.buildFirebaseQueryCompositeFilterConstraint(
-          options.compositeFilter,
-        );
+      const compositeFilter = this.buildFirebaseQueryCompositeFilterConstraint(
+        options.compositeFilter,
+      );
       const queryConstraints =
         await this.buildFirebaseQueryNonFilterConstraints(
           options.queryConstraints || [],
         );
       collectionQuery = query(
-        collection(firestore, options.reference),
+        type === 'collection'
+          ? collection(firestore, options.reference)
+          : collectionGroup(firestore, options.reference),
         compositeFilter,
         ...queryConstraints,
       );
@@ -262,7 +274,9 @@ export class FirebaseFirestoreWeb
         options.queryConstraints || [],
       );
       collectionQuery = query(
-        collection(firestore, options.reference),
+        type === 'collection'
+          ? collection(firestore, options.reference)
+          : collectionGroup(firestore, options.reference),
         ...queryConstraints,
       );
     }
