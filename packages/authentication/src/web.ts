@@ -25,6 +25,7 @@ import {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   deleteUser,
+  reauthenticateWithCredential as firebaseReauthenticateWithCredential,
   getAdditionalUserInfo,
   getAuth,
   getRedirectResult,
@@ -75,6 +76,7 @@ import type {
   LinkWithPhoneNumberOptions,
   PhoneCodeSentEvent,
   PhoneVerificationFailedEvent,
+  ReauthenticateWithCredentialOptions,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -389,6 +391,21 @@ export class FirebaseAuthenticationWeb
     );
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
+  }
+
+  public async reauthenticateWithCredential(
+    options: ReauthenticateWithCredentialOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    const credential = EmailAuthProvider.credential(
+      options.email,
+      options.password,
+    );
+    await firebaseReauthenticateWithCredential(currentUser, credential);
   }
 
   public async reload(): Promise<void> {
