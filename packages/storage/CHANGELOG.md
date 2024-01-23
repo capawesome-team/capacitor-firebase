@@ -1,5 +1,11 @@
 # @capacitor-firebase/storage
 
+## 5.4.0
+
+### Minor Changes
+
+- [`419cd1e`](https://github.com/capawesome-team/capacitor-firebase/commit/419cd1e9671c930c191f41965e79b6ad16e177d2) ([#514](https://github.com/capawesome-team/capacitor-firebase/pull/514)): feat: support `metadata` property on upload
+
 ## 5.3.0
 
 ### Minor Changes

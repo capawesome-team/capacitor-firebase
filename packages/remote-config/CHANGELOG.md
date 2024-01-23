@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.4.0
+
+### Minor Changes
+
+- [`6ea9328`](https://github.com/capawesome-team/capacitor-firebase/commit/6ea9328fd8e953b555cea9b5190fddcdfa9301ca) ([#502](https://github.com/capawesome-team/capacitor-firebase/pull/502)): feat: support realtime config updates
+
 ## 5.3.0
 
 ## 5.2.0

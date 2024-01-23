@@ -1,5 +1,13 @@
 # @capacitor-firebase/firestore
 
+## 5.4.0
+
+### Patch Changes
+
+- [`2b1d4d7`](https://github.com/capawesome-team/capacitor-firebase/commit/2b1d4d7138c2603f2c38d6eec458b37c17d52006) ([#535](https://github.com/capawesome-team/capacitor-firebase/pull/535)): fix(web): `getCollectionGroup(...)` returns no data
+
+* [`02b5e3b`](https://github.com/capawesome-team/capacitor-firebase/commit/02b5e3bff13f565bafda0d5aabc8be8a6ef075fd) ([#511](https://github.com/capawesome-team/capacitor-firebase/pull/511)): fix: return `null` if no data exists
+
 ## 5.3.0
 
 ### Patch Changes
