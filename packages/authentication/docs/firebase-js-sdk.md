@@ -43,6 +43,8 @@ import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import {
   getAuth,
   GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
   OAuthProvider,
   PhoneAuthProvider,
   signInWithCredential,
