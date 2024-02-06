@@ -23,12 +23,28 @@ This plugin will use the following project variables (defined in your app’s `v
 
 ### iOS
 
-See [Set up Xcode to automatically upload dSYM files](https://firebase.google.com/docs/crashlytics/get-started?platform=ios#set-up-dsym-uploading) and follow the instructions to set up Xcode correctly.  
-**Attention**: The path used in section `4.c` of the guide should be:
+To generate human readable crash reports, Crashlytics needs your project's debug symbol (dSYM) files.
+The following steps describe how to automatically upload dSYM files to Firebase whenever you build your app:
 
-```shell
-"${PODS_ROOT}/FirebaseCrashlytics/run"
-```
+1. Open your project's Xcode workspace, then select its project file in the left navigator.
+2. From the **TARGETS** list, select your main build target.
+3. Click the **Build Settings** tab, then complete the following steps so that Xcode produces dSYMs for your builds.
+   1. Click **All**, then search for `debug information format`.
+   2. Set **Debug Information Format** to `DWARF with dSYM File` for all your build types.
+4. Click the **Build Phases** tab and complete the following steps:
+   1. Click the **+** button, then select **New Run Script Phase**.
+   2. Expand the new **Run Script** section.
+   3. In the script field (located under the *Shell* label), add the following run script:
+      ```
+      "${PODS_ROOT}/FirebaseCrashlytics/run"
+      ```
+   4. In the Input Files section, add the paths for the locations of the following files:
+      ```
+      ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
+      ```
+      ```
+      $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
+      ```
 
 ## Configuration
 
