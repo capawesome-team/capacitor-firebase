@@ -111,7 +111,9 @@ public class FirebaseFirestore {
         Query query = this.firestoreInstance.collection(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
-            query = query.where(filter);
+            if (filter != null) {
+                query = query.where(filter);
+            }
         }
         if (queryConstraints.length > 0) {
             for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
