@@ -1388,6 +1388,8 @@ addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener)
 
 Listen for the user's sign-in state changes.
 
+**Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
+
 | Param              | Type                                                                        |
 | ------------------ | --------------------------------------------------------------------------- |
 | **`eventName`**    | <code>'authStateChange'</code>                                              |
