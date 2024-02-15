@@ -12,6 +12,7 @@ import Capacitor
     public func toJSObject() -> AnyObject {
         var referenceResult = JSObject()
         referenceResult["id"] = self.documentReference.documentID
+        referenceResult["path"] = self.documentReference.path
 
         var result = JSObject()
         result["reference"] = referenceResult
