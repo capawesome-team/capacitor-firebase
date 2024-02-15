@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.4.1
+
+### Patch Changes
+
+- [`f0cd1f9`](https://github.com/capawesome-team/capacitor-firebase/commit/f0cd1f970ea967170153667a64acc6e350f0ee46) ([#561](https://github.com/capawesome-team/capacitor-firebase/pull/561)): fix: `authStateChange` event is not fired right after the listener is registered
+
 ## 5.4.0
 
 ### Minor Changes

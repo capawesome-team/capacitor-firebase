@@ -1,5 +1,15 @@
 # @capacitor-firebase/firestore
 
+## 5.4.1
+
+### Patch Changes
+
+- [`0e07179`](https://github.com/capawesome-team/capacitor-firebase/commit/0e071793d8025fd0337102403bf333707b91b47a): fix(ios): add missing `path` property
+
+* [`1105fcd`](https://github.com/capawesome-team/capacitor-firebase/commit/1105fcd3a1d816a0a19376dc9b0b2a52c3f5c7c5): fix(android): add `null` check
+
+- [`2005662`](https://github.com/capawesome-team/capacitor-firebase/commit/200566258b51d9e16339e5d4b5028d90dd944d31) ([#562](https://github.com/capawesome-team/capacitor-firebase/pull/562)): fix(android): only last `QueryFilterConstraint` was applied
+
 ## 5.4.0
 
 ### Patch Changes
