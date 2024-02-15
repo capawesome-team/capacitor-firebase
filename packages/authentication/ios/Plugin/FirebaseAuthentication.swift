@@ -7,7 +7,6 @@ public typealias AuthStateChangedObserver = () -> Void
 
 // swiftlint:disable type_body_length
 @objc public class FirebaseAuthentication: NSObject {
-    public var authStateObserver: AuthStateChangedObserver?
     private let plugin: FirebaseAuthenticationPlugin
     private let config: FirebaseAuthenticationConfig
     private var appleAuthProviderHandler: AppleAuthProviderHandler?
@@ -27,7 +26,7 @@ public typealias AuthStateChangedObserver = () -> Void
         }
         self.initAuthProviderHandlers(config: config)
         Auth.auth().addStateDidChangeListener {_, _ in
-            self.authStateObserver?()
+            self.plugin.handleAuthStateChange()
         }
     }
 

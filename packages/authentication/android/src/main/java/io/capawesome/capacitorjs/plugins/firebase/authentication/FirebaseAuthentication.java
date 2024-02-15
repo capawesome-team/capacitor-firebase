@@ -43,13 +43,6 @@ import org.json.JSONObject;
 
 public class FirebaseAuthentication {
 
-    interface AuthStateChangeListener {
-        void onAuthStateChanged();
-    }
-
-    @Nullable
-    private AuthStateChangeListener authStateChangeListener;
-
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
     private FirebaseAuth firebaseAuthInstance;
@@ -68,20 +61,9 @@ public class FirebaseAuthentication {
         this.initAuthProviderHandlers(config);
         this.firebaseAuthStateListener =
             firebaseAuth -> {
-                if (authStateChangeListener != null) {
-                    authStateChangeListener.onAuthStateChanged();
-                }
+                this.plugin.handleAuthStateChange();
             };
         firebaseAuthInstance.addAuthStateListener(this.firebaseAuthStateListener);
-    }
-
-    public void setAuthStateChangeListener(@Nullable AuthStateChangeListener listener) {
-        this.authStateChangeListener = listener;
-    }
-
-    @Nullable
-    public AuthStateChangeListener getAuthStateChangeListener() {
-        return authStateChangeListener;
     }
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
