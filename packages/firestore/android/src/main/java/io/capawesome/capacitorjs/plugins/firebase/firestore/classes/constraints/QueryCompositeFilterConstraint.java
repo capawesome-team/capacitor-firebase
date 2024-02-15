@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryFilterConstraint;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -43,21 +44,20 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
 
     @Nullable
     public Filter toFilter() {
-        Filter filter = null;
+        ArrayList<Filter> filters = new ArrayList<>();
         for (QueryFilterConstraint constraint : queryConstraints) {
-            if (filter == null) {
-                filter = constraint.toFilter();
-            } else {
-                switch (type) {
-                    case "and":
-                        filter = filter.and(constraint.toFilter());
-                        break;
-                    case "or":
-                        filter = filter.or(constraint.toFilter());
-                        break;
-                }
+            Filter filter = constraint.toFilter();
+            if (filter != null) {
+                filters.add(filter);
             }
         }
-        return filter;
+        switch (type) {
+            case "and":
+                return Filter.and(filters.toArray(new Filter[0]));
+            case "or":
+                return Filter.or(filters.toArray(new Filter[0]));
+            default:
+                return null;
+        }
     }
 }
