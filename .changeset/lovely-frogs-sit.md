@@ -2,4 +2,4 @@
 '@capacitor-firebase/firestore': patch
 ---
 
-fix(ios): only last `QueryFilterConstraint` was applied
+fix(android): only last `QueryFilterConstraint` was applied
