@@ -42,6 +42,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 public class FirebaseAuthentication {
+
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
     private FirebaseAuth firebaseAuthInstance;
