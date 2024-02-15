@@ -64,7 +64,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void load() {
         config = getFirebaseAuthenticationConfig();
         implementation = new FirebaseAuthentication(this, config);
-        implementation.setAuthStateChangeListener(this::updateAuthState);
     }
 
     @PluginMethod
@@ -808,6 +807,14 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         super.startActivityForResult(call, intent, callbackName);
     }
 
+    public void handleAuthStateChange() {
+        FirebaseUser user = implementation.getCurrentUser();
+        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
+        JSObject result = new JSObject();
+        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
+        notifyListeners(AUTH_STATE_CHANGE_EVENT, result, true);
+    }
+
     @Override
     protected void handleOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.handleOnActivityResult(requestCode, resultCode, data);
@@ -815,14 +822,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             return;
         }
         implementation.handleOnActivityResult(requestCode, resultCode, data);
-    }
-
-    private void updateAuthState() {
-        FirebaseUser user = implementation.getCurrentUser();
-        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
-        JSObject result = new JSObject();
-        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
-        notifyListeners(AUTH_STATE_CHANGE_EVENT, result, true);
     }
 
     @ActivityCallback

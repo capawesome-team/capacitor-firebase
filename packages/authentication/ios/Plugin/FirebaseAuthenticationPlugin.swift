@@ -41,9 +41,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     override public func load() {
         self.implementation = FirebaseAuthentication(plugin: self, config: firebaseAuthenticationConfig())
-        self.implementation?.authStateObserver = { [weak self] in
-            self?.handleAuthStateChange()
-        }
     }
 
     @objc func applyActionCode(_ call: CAPPluginCall) {
