@@ -23,9 +23,14 @@ This plugin will use the following project variables (defined in your app’s `v
 
 No configuration required for this plugin.
 
-<!-- ## Demo
+## Demo
 
-A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo) -->
+A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
+
+## Starter Templates
+
+The following starter templates are available:
+- [Ionstarter Angular Firebase](https://ionstarter.dev/)
 
 ## Usage
 

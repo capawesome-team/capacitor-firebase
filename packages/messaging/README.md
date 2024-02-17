@@ -146,6 +146,11 @@ export default config;
 
 A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
 
+## Starter Templates
+
+The following starter templates are available:
+- [Ionstarter Angular Firebase](https://ionstarter.dev/)
+
 ## Usage
 
 ```typescript
