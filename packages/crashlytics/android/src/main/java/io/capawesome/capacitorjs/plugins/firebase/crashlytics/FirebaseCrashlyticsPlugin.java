@@ -21,7 +21,7 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
 
     @Override
     public void load() {
-        implementation = new FirebaseCrashlytics();
+        implementation = new FirebaseCrashlytics(this);
     }
 
     @PluginMethod
@@ -107,7 +107,16 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
 
     @PluginMethod
     public void isEnabled(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
+        try {
+            boolean enabled = implementation.isEnabled();
+
+            JSObject result = new JSObject();
+            result.put("enabled", enabled);
+            call.resolve(result);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
     }
 
     @PluginMethod

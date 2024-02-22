@@ -254,7 +254,7 @@ isEnabled() => Promise<IsEnabledResult>
 
 Returns whether or not automatic data collection is enabled.
 
-Only available for iOS.
+Only available for Android and iOS.
 
 **Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
 
