@@ -94,23 +94,21 @@ public class FirebaseRemoteConfig {
     public void addConfigUpdateListener(@NonNull AddConfigUpdateListenerOptions options, @NonNull NonEmptyResultCallback callback) {
         String callbackId = options.getCallbackId();
 
-        ConfigUpdateListenerRegistration listenerRegistration =
-            getFirebaseRemoteConfigInstance().addOnConfigUpdateListener(
-                    new ConfigUpdateListener() {
-                        @Override
-                        public void onUpdate(ConfigUpdate configUpdate) {
-                            AddConfigUpdateListenerOptionsCallbackEvent event = new AddConfigUpdateListenerOptionsCallbackEvent(
-                                configUpdate
-                            );
-                            callback.success(event);
-                        }
-
-                        @Override
-                        public void onError(FirebaseRemoteConfigException error) {
-                            callback.error(error);
-                        }
+        ConfigUpdateListenerRegistration listenerRegistration = getFirebaseRemoteConfigInstance()
+            .addOnConfigUpdateListener(
+                new ConfigUpdateListener() {
+                    @Override
+                    public void onUpdate(ConfigUpdate configUpdate) {
+                        AddConfigUpdateListenerOptionsCallbackEvent event = new AddConfigUpdateListenerOptionsCallbackEvent(configUpdate);
+                        callback.success(event);
                     }
-                );
+
+                    @Override
+                    public void onError(FirebaseRemoteConfigException error) {
+                        callback.error(error);
+                    }
+                }
+            );
         this.listenerRegistrationMap.put(callbackId, listenerRegistration);
     }
 

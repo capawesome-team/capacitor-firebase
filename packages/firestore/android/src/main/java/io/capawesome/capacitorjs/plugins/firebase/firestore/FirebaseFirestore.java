@@ -42,7 +42,8 @@ public class FirebaseFirestore {
         String reference = options.getReference();
         Map<String, Object> data = options.getData();
 
-        getFirebaseFirestoreInstance().collection(reference)
+        getFirebaseFirestoreInstance()
+            .collection(reference)
             .add(data)
             .addOnSuccessListener(
                 documentReference -> {
@@ -71,7 +72,8 @@ public class FirebaseFirestore {
     public void getDocument(@NonNull GetDocumentOptions options, @NonNull NonEmptyResultCallback callback) {
         String reference = options.getReference();
 
-        getFirebaseFirestoreInstance().document(reference)
+        getFirebaseFirestoreInstance()
+            .document(reference)
             .get()
             .addOnSuccessListener(
                 documentSnapshot -> {
@@ -86,7 +88,8 @@ public class FirebaseFirestore {
         String reference = options.getReference();
         Map<String, Object> data = options.getData();
 
-        getFirebaseFirestoreInstance().document(reference)
+        getFirebaseFirestoreInstance()
+            .document(reference)
             .update(data)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -95,7 +98,8 @@ public class FirebaseFirestore {
     public void deleteDocument(@NonNull DeleteDocumentOptions options, @NonNull EmptyResultCallback callback) {
         String reference = options.getReference();
 
-        getFirebaseFirestoreInstance().document(reference)
+        getFirebaseFirestoreInstance()
+            .document(reference)
             .delete()
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -156,7 +160,8 @@ public class FirebaseFirestore {
     }
 
     public void clearPersistence(@NonNull EmptyResultCallback callback) {
-        getFirebaseFirestoreInstance().clearPersistence()
+        getFirebaseFirestoreInstance()
+            .clearPersistence()
             .addOnSuccessListener(
                 unused -> {
                     callback.success();
@@ -170,7 +175,8 @@ public class FirebaseFirestore {
     }
 
     public void enableNetwork(@NonNull EmptyResultCallback callback) {
-        getFirebaseFirestoreInstance().enableNetwork()
+        getFirebaseFirestoreInstance()
+            .enableNetwork()
             .addOnSuccessListener(
                 unused -> {
                     callback.success();
@@ -184,7 +190,8 @@ public class FirebaseFirestore {
     }
 
     public void disableNetwork(@NonNull EmptyResultCallback callback) {
-        getFirebaseFirestoreInstance().disableNetwork()
+        getFirebaseFirestoreInstance()
+            .disableNetwork()
             .addOnSuccessListener(
                 unused -> {
                     callback.success();
@@ -201,18 +208,18 @@ public class FirebaseFirestore {
         String reference = options.getReference();
         String callbackId = options.getCallbackId();
 
-        ListenerRegistration listenerRegistration =
-            getFirebaseFirestoreInstance().document(reference)
-                .addSnapshotListener(
-                    (documentSnapshot, exception) -> {
-                        if (exception != null) {
-                            callback.error(exception);
-                        } else {
-                            GetDocumentResult result = new GetDocumentResult(documentSnapshot);
-                            callback.success(result);
-                        }
+        ListenerRegistration listenerRegistration = getFirebaseFirestoreInstance()
+            .document(reference)
+            .addSnapshotListener(
+                (documentSnapshot, exception) -> {
+                    if (exception != null) {
+                        callback.error(exception);
+                    } else {
+                        GetDocumentResult result = new GetDocumentResult(documentSnapshot);
+                        callback.success(result);
                     }
-                );
+                }
+            );
         this.listenerRegistrationMap.put(callbackId, listenerRegistration);
     }
 

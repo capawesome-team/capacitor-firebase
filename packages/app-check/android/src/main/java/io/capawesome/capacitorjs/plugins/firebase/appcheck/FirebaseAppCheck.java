@@ -7,7 +7,8 @@ import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderF
 public class FirebaseAppCheck {
 
     public void getToken(boolean forceRefresh, final GetTokenResultCallback resultCallback) {
-        getFirebaseAppCheckInstance().getAppCheckToken(forceRefresh)
+        getFirebaseAppCheckInstance()
+            .getAppCheckToken(forceRefresh)
             .addOnSuccessListener(
                 appCheckToken -> {
                     resultCallback.success(appCheckToken.getToken(), appCheckToken.getExpireTimeMillis());
@@ -23,12 +24,11 @@ public class FirebaseAppCheck {
 
     public void initialize(boolean debug, boolean isTokenAutoRefreshEnabled) {
         if (debug) {
-            getFirebaseAppCheckInstance().installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
+            getFirebaseAppCheckInstance()
+                .installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
         } else {
-            getFirebaseAppCheckInstance().installAppCheckProviderFactory(
-                    PlayIntegrityAppCheckProviderFactory.getInstance(),
-                    isTokenAutoRefreshEnabled
-                );
+            getFirebaseAppCheckInstance()
+                .installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
         }
     }
 

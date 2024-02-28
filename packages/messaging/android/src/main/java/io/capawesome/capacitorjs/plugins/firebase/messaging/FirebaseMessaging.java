@@ -26,7 +26,8 @@ public class FirebaseMessaging {
 
     public void getToken(final GetTokenResultCallback resultCallback) {
         getFirebaseMessagingInstance().setAutoInitEnabled(true);
-        getFirebaseMessagingInstance().getToken()
+        getFirebaseMessagingInstance()
+            .getToken()
             .addOnCompleteListener(
                 task -> {
                     if (!task.isSuccessful()) {

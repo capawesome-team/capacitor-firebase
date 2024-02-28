@@ -20,7 +20,8 @@ public class FirebaseAnalytics {
 
     @Nullable
     public void getAppInstanceId(@NonNull final GetAppInstanceIdCallback resultCallback) {
-        getFirebaseAnalyticsInstance().getAppInstanceId()
+        getFirebaseAnalyticsInstance()
+            .getAppInstanceId()
             .addOnCompleteListener(
                 task -> {
                     if (!task.isSuccessful()) {
