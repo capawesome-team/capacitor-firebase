@@ -45,7 +45,6 @@ public class FirebaseAuthentication {
 
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
-    private FirebaseAuth firebaseAuthInstance;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private AppleAuthProviderHandler appleAuthProviderHandler;
     private FacebookAuthProviderHandler facebookAuthProviderHandler;
@@ -57,17 +56,16 @@ public class FirebaseAuthentication {
     public FirebaseAuthentication(FirebaseAuthenticationPlugin plugin, FirebaseAuthenticationConfig config) {
         this.plugin = plugin;
         this.config = config;
-        firebaseAuthInstance = FirebaseAuth.getInstance();
         this.initAuthProviderHandlers(config);
         this.firebaseAuthStateListener =
             firebaseAuth -> {
                 this.plugin.handleAuthStateChange();
             };
-        firebaseAuthInstance.addAuthStateListener(this.firebaseAuthStateListener);
+        getFirebaseAuthInstance().addAuthStateListener(this.firebaseAuthStateListener);
     }
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .applyActionCode(oobCode)
             .addOnCompleteListener(
                 task -> {
@@ -94,7 +92,7 @@ public class FirebaseAuthentication {
             return;
         }
 
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -114,7 +112,7 @@ public class FirebaseAuthentication {
     }
 
     public void confirmPasswordReset(@NonNull String oobCode, @NonNull String newPassword, @NonNull Runnable callback) {
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .confirmPasswordReset(oobCode, newPassword)
             .addOnCompleteListener(
                 task -> {
@@ -139,7 +137,7 @@ public class FirebaseAuthentication {
 
     @Nullable
     public FirebaseUser getCurrentUser() {
-        return firebaseAuthInstance.getCurrentUser();
+        return getFirebaseAuthInstance().getCurrentUser();
     }
 
     public void getIdToken(Boolean forceRefresh, @NonNull final ResultCallback resultCallback) {
@@ -165,11 +163,11 @@ public class FirebaseAuthentication {
 
     @Nullable
     public String getTenantId() {
-        return firebaseAuthInstance.getTenantId();
+        return getFirebaseAuthInstance().getTenantId();
     }
 
     public boolean isSignInWithEmailLink(@NonNull String emailLink) {
-        return firebaseAuthInstance.isSignInWithEmailLink(emailLink);
+        return getFirebaseAuthInstance().isSignInWithEmailLink(emailLink);
     }
 
     public void linkWithApple(final PluginCall call) {
@@ -299,7 +297,7 @@ public class FirebaseAuthentication {
     }
 
     public void sendPasswordResetEmail(@NonNull String email, @NonNull Runnable callback) {
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .sendPasswordResetEmail(email)
             .addOnCompleteListener(
                 task -> {
@@ -309,7 +307,7 @@ public class FirebaseAuthentication {
     }
 
     public void sendSignInLinkToEmail(@NonNull String email, @NonNull ActionCodeSettings actionCodeSettings, @NonNull Runnable callback) {
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .sendSignInLinkToEmail(email, actionCodeSettings)
             .addOnCompleteListener(
                 task -> {
@@ -319,11 +317,11 @@ public class FirebaseAuthentication {
     }
 
     public void setLanguageCode(String languageCode) {
-        firebaseAuthInstance.setLanguageCode(languageCode);
+        getFirebaseAuthInstance().setLanguageCode(languageCode);
     }
 
     public void setTenantId(String tenantId) {
-        firebaseAuthInstance.setTenantId(tenantId);
+        getFirebaseAuthInstance().setTenantId(tenantId);
     }
 
     public void signInAnonymously(final PluginCall call) {
@@ -332,7 +330,7 @@ public class FirebaseAuthentication {
             call.reject(FirebaseAuthenticationPlugin.ERROR_SIGN_IN_ANONYMOUSLY_SKIP_NATIVE_AUTH);
             return;
         }
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .signInAnonymously()
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -372,7 +370,7 @@ public class FirebaseAuthentication {
         String email = call.getString("email", "");
         String password = call.getString("password", "");
 
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -401,7 +399,7 @@ public class FirebaseAuthentication {
         String email = call.getString("email", "");
         String emailLink = call.getString("emailLink", "");
 
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .signInWithEmailLink(email, emailLink)
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -468,7 +466,7 @@ public class FirebaseAuthentication {
 
         String token = call.getString("token", "");
 
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .signInWithCustomToken(token)
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -562,11 +560,11 @@ public class FirebaseAuthentication {
     }
 
     public void useAppLanguage() {
-        firebaseAuthInstance.useAppLanguage();
+        getFirebaseAuthInstance().useAppLanguage();
     }
 
     public void useEmulator(@NonNull String host, int port) {
-        firebaseAuthInstance.useEmulator(host, port);
+        getFirebaseAuthInstance().useEmulator(host, port);
     }
 
     public void startActivityForResult(final PluginCall call, Intent intent, String callbackName) {
@@ -602,7 +600,7 @@ public class FirebaseAuthentication {
             callback.success(result);
             return;
         }
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .signInWithCredential(credential)
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -621,7 +619,7 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithCredential(@NonNull AuthCredential credential, @NonNull ResultCallback callback) {
-        FirebaseUser user = firebaseAuthInstance.getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
             callback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));
             return;
@@ -667,7 +665,7 @@ public class FirebaseAuthentication {
             call.resolve(signInResult);
             return;
         }
-        firebaseAuthInstance
+        getFirebaseAuthInstance()
             .signInWithCredential(credential)
             .addOnCompleteListener(
                 plugin.getActivity(),
@@ -740,7 +738,7 @@ public class FirebaseAuthentication {
         @Nullable String accessToken,
         @Nullable String serverAuthCode
     ) {
-        FirebaseUser user = firebaseAuthInstance.getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;
@@ -805,7 +803,7 @@ public class FirebaseAuthentication {
     }
 
     public FirebaseAuth getFirebaseAuthInstance() {
-        return firebaseAuthInstance;
+        return FirebaseAuth.getInstance();
     }
 
     public FirebaseAuthenticationPlugin getPlugin() {

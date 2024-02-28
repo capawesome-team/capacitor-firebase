@@ -13,18 +13,15 @@ import com.google.firebase.FirebaseOptions;
 public class FirebaseAppPlugin extends Plugin {
 
     public static final String TAG = "FirebaseApp";
-    private FirebaseApp firebaseAppInstance;
-
-    public void load() {
-        firebaseAppInstance = FirebaseApp.getInstance();
-    }
 
     @PluginMethod
     public void getName(PluginCall call) {
         try {
-            JSObject ret = new JSObject();
-            ret.put("name", firebaseAppInstance.getName());
-            call.resolve(ret);
+            String name = getFirebaseAppInstance().getName();
+
+            JSObject result = new JSObject();
+            result.put("name", name);
+            call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -34,18 +31,23 @@ public class FirebaseAppPlugin extends Plugin {
     @PluginMethod
     public void getOptions(PluginCall call) {
         try {
-            FirebaseOptions options = firebaseAppInstance.getOptions();
-            JSObject ret = new JSObject();
-            ret.put("apiKey", options.getApiKey());
-            ret.put("applicationId", options.getApplicationId());
-            ret.put("databaseUrl", options.getDatabaseUrl());
-            ret.put("gcmSenderId", options.getGcmSenderId());
-            ret.put("projectId", options.getProjectId());
-            ret.put("storageBucket", options.getStorageBucket());
-            call.resolve(ret);
+            FirebaseOptions options = getFirebaseAppInstance().getOptions();
+
+            JSObject result = new JSObject();
+            result.put("apiKey", options.getApiKey());
+            result.put("applicationId", options.getApplicationId());
+            result.put("databaseUrl", options.getDatabaseUrl());
+            result.put("gcmSenderId", options.getGcmSenderId());
+            result.put("projectId", options.getProjectId());
+            result.put("storageBucket", options.getStorageBucket());
+            call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
         }
+    }
+
+    private FirebaseApp getFirebaseAppInstance() {
+        return FirebaseApp.getInstance();
     }
 }

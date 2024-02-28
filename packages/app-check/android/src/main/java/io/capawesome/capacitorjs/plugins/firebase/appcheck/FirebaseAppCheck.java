@@ -6,14 +6,9 @@ import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderF
 
 public class FirebaseAppCheck {
 
-    private final com.google.firebase.appcheck.FirebaseAppCheck appCheckInstance;
-
-    public FirebaseAppCheck() {
-        this.appCheckInstance = com.google.firebase.appcheck.FirebaseAppCheck.getInstance();
-    }
-
     public void getToken(boolean forceRefresh, final GetTokenResultCallback resultCallback) {
-        this.appCheckInstance.getAppCheckToken(forceRefresh)
+        getFirebaseAppCheckInstance()
+            .getAppCheckToken(forceRefresh)
             .addOnSuccessListener(
                 appCheckToken -> {
                     resultCallback.success(appCheckToken.getToken(), appCheckToken.getExpireTimeMillis());
@@ -29,16 +24,19 @@ public class FirebaseAppCheck {
 
     public void initialize(boolean debug, boolean isTokenAutoRefreshEnabled) {
         if (debug) {
-            this.appCheckInstance.installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
+            getFirebaseAppCheckInstance()
+                .installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
         } else {
-            this.appCheckInstance.installAppCheckProviderFactory(
-                    PlayIntegrityAppCheckProviderFactory.getInstance(),
-                    isTokenAutoRefreshEnabled
-                );
+            getFirebaseAppCheckInstance()
+                .installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
         }
     }
 
     public void setTokenAutoRefreshEnabled(boolean enabled) {
-        this.appCheckInstance.setTokenAutoRefreshEnabled(enabled);
+        getFirebaseAppCheckInstance().setTokenAutoRefreshEnabled(enabled);
+    }
+
+    private com.google.firebase.appcheck.FirebaseAppCheck getFirebaseAppCheckInstance() {
+        return com.google.firebase.appcheck.FirebaseAppCheck.getInstance();
     }
 }

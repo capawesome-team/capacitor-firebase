@@ -22,16 +22,14 @@ import java.util.Set;
 public class FirebaseRemoteConfig {
 
     private final FirebaseRemoteConfigPlugin plugin;
-    private final com.google.firebase.remoteconfig.FirebaseRemoteConfig remoteConfigInstance;
     private final Map<String, ConfigUpdateListenerRegistration> listenerRegistrationMap = new HashMap<>();
 
     public FirebaseRemoteConfig(FirebaseRemoteConfigPlugin plugin) {
         this.plugin = plugin;
-        this.remoteConfigInstance = com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance();
     }
 
     public void activate(final ActivateResultCallback resultCallback) {
-        remoteConfigInstance
+        getFirebaseRemoteConfigInstance()
             .activate()
             .addOnSuccessListener(
                 result -> {
@@ -47,7 +45,7 @@ public class FirebaseRemoteConfig {
     }
 
     public void fetchAndActivate(final ActivateResultCallback resultCallback) {
-        remoteConfigInstance
+        getFirebaseRemoteConfigInstance()
             .fetchAndActivate()
             .addOnSuccessListener(
                 result -> {
@@ -63,7 +61,7 @@ public class FirebaseRemoteConfig {
     }
 
     public void fetchConfig(long minimumFetchIntervalInSeconds, final FetchConfigResultCallback resultCallback) {
-        remoteConfigInstance
+        getFirebaseRemoteConfigInstance()
             .fetch(minimumFetchIntervalInSeconds)
             .addOnSuccessListener(
                 result -> {
@@ -79,40 +77,38 @@ public class FirebaseRemoteConfig {
     }
 
     public GetValueResult<Boolean> getBoolean(String key) {
-        FirebaseRemoteConfigValue value = remoteConfigInstance.getValue(key);
+        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
         return new GetValueResult<Boolean>(value.asBoolean(), value.getSource());
     }
 
     public GetValueResult<Double> getNumber(String key) {
-        FirebaseRemoteConfigValue value = remoteConfigInstance.getValue(key);
+        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
         return new GetValueResult<Double>(value.asDouble(), value.getSource());
     }
 
     public GetValueResult<String> getString(String key) {
-        FirebaseRemoteConfigValue value = remoteConfigInstance.getValue(key);
+        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
         return new GetValueResult<String>(value.asString(), value.getSource());
     }
 
     public void addConfigUpdateListener(@NonNull AddConfigUpdateListenerOptions options, @NonNull NonEmptyResultCallback callback) {
         String callbackId = options.getCallbackId();
 
-        ConfigUpdateListenerRegistration listenerRegistration =
-            this.remoteConfigInstance.addOnConfigUpdateListener(
-                    new ConfigUpdateListener() {
-                        @Override
-                        public void onUpdate(ConfigUpdate configUpdate) {
-                            AddConfigUpdateListenerOptionsCallbackEvent event = new AddConfigUpdateListenerOptionsCallbackEvent(
-                                configUpdate
-                            );
-                            callback.success(event);
-                        }
-
-                        @Override
-                        public void onError(FirebaseRemoteConfigException error) {
-                            callback.error(error);
-                        }
+        ConfigUpdateListenerRegistration listenerRegistration = getFirebaseRemoteConfigInstance()
+            .addOnConfigUpdateListener(
+                new ConfigUpdateListener() {
+                    @Override
+                    public void onUpdate(ConfigUpdate configUpdate) {
+                        AddConfigUpdateListenerOptionsCallbackEvent event = new AddConfigUpdateListenerOptionsCallbackEvent(configUpdate);
+                        callback.success(event);
                     }
-                );
+
+                    @Override
+                    public void onError(FirebaseRemoteConfigException error) {
+                        callback.error(error);
+                    }
+                }
+            );
         this.listenerRegistrationMap.put(callbackId, listenerRegistration);
     }
 
@@ -131,5 +127,9 @@ public class FirebaseRemoteConfig {
             listenerRegistration.remove();
         }
         this.listenerRegistrationMap.clear();
+    }
+
+    private com.google.firebase.remoteconfig.FirebaseRemoteConfig getFirebaseRemoteConfigInstance() {
+        return com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance();
     }
 }

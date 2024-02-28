@@ -10,17 +10,18 @@ import org.json.JSONObject;
 
 public class FirebaseAnalytics {
 
-    private final com.google.firebase.analytics.FirebaseAnalytics analyticsInstance;
+    private final Context context;
     private final Bridge bridge;
 
     public FirebaseAnalytics(Context context, Bridge bridge) {
-        this.analyticsInstance = com.google.firebase.analytics.FirebaseAnalytics.getInstance(context);
+        this.context = context;
         this.bridge = bridge;
     }
 
     @Nullable
     public void getAppInstanceId(@NonNull final GetAppInstanceIdCallback resultCallback) {
-        this.analyticsInstance.getAppInstanceId()
+        getFirebaseAnalyticsInstance()
+            .getAppInstanceId()
             .addOnCompleteListener(
                 task -> {
                     if (!task.isSuccessful()) {
@@ -37,11 +38,11 @@ public class FirebaseAnalytics {
     }
 
     public void setUserId(@Nullable String userId) {
-        analyticsInstance.setUserId(userId);
+        getFirebaseAnalyticsInstance().setUserId(userId);
     }
 
     public void setUserProperty(@NonNull String key, @Nullable String value) {
-        analyticsInstance.setUserProperty(key, value);
+        getFirebaseAnalyticsInstance().setUserProperty(key, value);
     }
 
     public void setCurrentScreen(String screenName, String screenClass) {
@@ -55,7 +56,7 @@ public class FirebaseAnalytics {
                 new Runnable() {
                     @Override
                     public void run() {
-                        analyticsInstance.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
+                        getFirebaseAnalyticsInstance().logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
                     }
                 }
             );
@@ -63,18 +64,22 @@ public class FirebaseAnalytics {
 
     public void logEvent(@NonNull String key, @Nullable JSONObject json) {
         Bundle bundle = FirebaseAnalyticsHelper.createBundleFromJson(json);
-        analyticsInstance.logEvent(key, bundle);
+        getFirebaseAnalyticsInstance().logEvent(key, bundle);
     }
 
     public void setSessionTimeoutDuration(long duration) {
-        analyticsInstance.setSessionTimeoutDuration(duration);
+        getFirebaseAnalyticsInstance().setSessionTimeoutDuration(duration);
     }
 
     public void setEnabled(boolean enabled) {
-        analyticsInstance.setAnalyticsCollectionEnabled(enabled);
+        getFirebaseAnalyticsInstance().setAnalyticsCollectionEnabled(enabled);
     }
 
     public void resetAnalyticsData() {
-        analyticsInstance.resetAnalyticsData();
+        getFirebaseAnalyticsInstance().resetAnalyticsData();
+    }
+
+    private com.google.firebase.analytics.FirebaseAnalytics getFirebaseAnalyticsInstance() {
+        return com.google.firebase.analytics.FirebaseAnalytics.getInstance(context);
     }
 }

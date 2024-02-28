@@ -26,17 +26,15 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyRes
 public class FirebaseStorage {
 
     private FirebaseStoragePlugin plugin;
-    private com.google.firebase.storage.FirebaseStorage firebaseStorageInstance;
 
     public FirebaseStorage(FirebaseStoragePlugin plugin) {
         this.plugin = plugin;
-        firebaseStorageInstance = com.google.firebase.storage.FirebaseStorage.getInstance();
     }
 
     public void deleteFile(@NonNull DeleteFileOptions options, @NonNull EmptyResultCallback callback) {
         String path = options.getPath();
 
-        StorageReference storageReference = firebaseStorageInstance.getReference(path);
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
             .delete()
             .addOnSuccessListener(aVoid -> callback.success())
@@ -46,7 +44,7 @@ public class FirebaseStorage {
     public void getDownloadUrl(@NonNull GetDownloadUrlOptions options, @NonNull NonEmptyResultCallback callback) {
         String path = options.getPath();
 
-        StorageReference storageReference = firebaseStorageInstance.getReference(path);
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
             .getDownloadUrl()
             .addOnSuccessListener(
@@ -61,7 +59,7 @@ public class FirebaseStorage {
     public void getMetadata(@NonNull GetMetadataOptions options, @NonNull NonEmptyResultCallback callback) {
         String path = options.getPath();
 
-        StorageReference storageReference = firebaseStorageInstance.getReference(path);
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
             .getMetadata()
             .addOnSuccessListener(
@@ -78,7 +76,7 @@ public class FirebaseStorage {
         int maxResults = options.getMaxResults();
         String pageToken = options.getPageToken();
 
-        StorageReference storageReference = firebaseStorageInstance.getReference(path);
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         Task<ListResult> task;
         if (pageToken == null) {
             task = storageReference.list(maxResults);
@@ -99,7 +97,7 @@ public class FirebaseStorage {
         String path = options.getPath();
         StorageMetadata metadata = options.getMetadata();
 
-        StorageReference storageReference = firebaseStorageInstance.getReference(path);
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
             .updateMetadata(metadata)
             .addOnSuccessListener(aVoid -> callback.success())
@@ -112,7 +110,7 @@ public class FirebaseStorage {
         @Nullable
         StorageMetadata metadata = options.getMetadata();
 
-        StorageReference storageReference = firebaseStorageInstance.getReference(path);
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         UploadTask uploadTask;
         if (metadata == null) {
             uploadTask = storageReference.putFile(uri);
@@ -139,5 +137,9 @@ public class FirebaseStorage {
                     callback.release();
                 }
             );
+    }
+
+    private com.google.firebase.storage.FirebaseStorage getFirebaseStorageInstance() {
+        return com.google.firebase.storage.FirebaseStorage.getInstance();
     }
 }

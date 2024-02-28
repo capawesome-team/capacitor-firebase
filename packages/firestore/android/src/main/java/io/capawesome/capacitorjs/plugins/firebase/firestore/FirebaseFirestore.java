@@ -32,19 +32,18 @@ import java.util.Map;
 public class FirebaseFirestore {
 
     private FirebaseFirestorePlugin plugin;
-    private com.google.firebase.firestore.FirebaseFirestore firestoreInstance;
     private Map<String, ListenerRegistration> listenerRegistrationMap = new HashMap<>();
 
     public FirebaseFirestore(FirebaseFirestorePlugin plugin) {
         this.plugin = plugin;
-        firestoreInstance = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     }
 
     public void addDocument(@NonNull AddDocumentOptions options, @NonNull NonEmptyResultCallback callback) {
         String reference = options.getReference();
         Map<String, Object> data = options.getData();
 
-        this.firestoreInstance.collection(reference)
+        getFirebaseFirestoreInstance()
+            .collection(reference)
             .add(data)
             .addOnSuccessListener(
                 documentReference -> {
@@ -60,7 +59,7 @@ public class FirebaseFirestore {
         Map<String, Object> data = options.getData();
         boolean merge = options.getMerge();
 
-        DocumentReference documentReference = this.firestoreInstance.document(reference);
+        DocumentReference documentReference = getFirebaseFirestoreInstance().document(reference);
         Task<Void> task;
         if (merge) {
             task = documentReference.set(data, SetOptions.merge());
@@ -73,7 +72,8 @@ public class FirebaseFirestore {
     public void getDocument(@NonNull GetDocumentOptions options, @NonNull NonEmptyResultCallback callback) {
         String reference = options.getReference();
 
-        this.firestoreInstance.document(reference)
+        getFirebaseFirestoreInstance()
+            .document(reference)
             .get()
             .addOnSuccessListener(
                 documentSnapshot -> {
@@ -88,7 +88,8 @@ public class FirebaseFirestore {
         String reference = options.getReference();
         Map<String, Object> data = options.getData();
 
-        this.firestoreInstance.document(reference)
+        getFirebaseFirestoreInstance()
+            .document(reference)
             .update(data)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -97,7 +98,8 @@ public class FirebaseFirestore {
     public void deleteDocument(@NonNull DeleteDocumentOptions options, @NonNull EmptyResultCallback callback) {
         String reference = options.getReference();
 
-        this.firestoreInstance.document(reference)
+        getFirebaseFirestoreInstance()
+            .document(reference)
             .delete()
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -108,7 +110,7 @@ public class FirebaseFirestore {
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
         QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
 
-        Query query = this.firestoreInstance.collection(reference);
+        Query query = getFirebaseFirestoreInstance().collection(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
             if (filter != null) {
@@ -117,7 +119,7 @@ public class FirebaseFirestore {
         }
         if (queryConstraints.length > 0) {
             for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
-                query = queryConstraint.toQuery(query, this.firestoreInstance);
+                query = queryConstraint.toQuery(query, getFirebaseFirestoreInstance());
             }
         }
         query
@@ -136,14 +138,14 @@ public class FirebaseFirestore {
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
         QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
 
-        Query query = this.firestoreInstance.collectionGroup(reference);
+        Query query = getFirebaseFirestoreInstance().collectionGroup(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
             query = query.where(filter);
         }
         if (queryConstraints.length > 0) {
             for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
-                query = queryConstraint.toQuery(query, this.firestoreInstance);
+                query = queryConstraint.toQuery(query, getFirebaseFirestoreInstance());
             }
         }
         query
@@ -158,7 +160,8 @@ public class FirebaseFirestore {
     }
 
     public void clearPersistence(@NonNull EmptyResultCallback callback) {
-        this.firestoreInstance.clearPersistence()
+        getFirebaseFirestoreInstance()
+            .clearPersistence()
             .addOnSuccessListener(
                 unused -> {
                     callback.success();
@@ -172,7 +175,8 @@ public class FirebaseFirestore {
     }
 
     public void enableNetwork(@NonNull EmptyResultCallback callback) {
-        this.firestoreInstance.enableNetwork()
+        getFirebaseFirestoreInstance()
+            .enableNetwork()
             .addOnSuccessListener(
                 unused -> {
                     callback.success();
@@ -186,7 +190,8 @@ public class FirebaseFirestore {
     }
 
     public void disableNetwork(@NonNull EmptyResultCallback callback) {
-        this.firestoreInstance.disableNetwork()
+        getFirebaseFirestoreInstance()
+            .disableNetwork()
             .addOnSuccessListener(
                 unused -> {
                     callback.success();
@@ -203,18 +208,18 @@ public class FirebaseFirestore {
         String reference = options.getReference();
         String callbackId = options.getCallbackId();
 
-        ListenerRegistration listenerRegistration =
-            this.firestoreInstance.document(reference)
-                .addSnapshotListener(
-                    (documentSnapshot, exception) -> {
-                        if (exception != null) {
-                            callback.error(exception);
-                        } else {
-                            GetDocumentResult result = new GetDocumentResult(documentSnapshot);
-                            callback.success(result);
-                        }
+        ListenerRegistration listenerRegistration = getFirebaseFirestoreInstance()
+            .document(reference)
+            .addSnapshotListener(
+                (documentSnapshot, exception) -> {
+                    if (exception != null) {
+                        callback.error(exception);
+                    } else {
+                        GetDocumentResult result = new GetDocumentResult(documentSnapshot);
+                        callback.success(result);
                     }
-                );
+                }
+            );
         this.listenerRegistrationMap.put(callbackId, listenerRegistration);
     }
 
@@ -227,14 +232,14 @@ public class FirebaseFirestore {
         QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
         String callbackId = options.getCallbackId();
 
-        Query query = this.firestoreInstance.collection(reference);
+        Query query = getFirebaseFirestoreInstance().collection(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
             query = query.where(filter);
         }
         if (queryConstraints.length > 0) {
             for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
-                query = queryConstraint.toQuery(query, this.firestoreInstance);
+                query = queryConstraint.toQuery(query, getFirebaseFirestoreInstance());
             }
         }
 
@@ -266,5 +271,9 @@ public class FirebaseFirestore {
             listenerRegistration.remove();
         }
         this.listenerRegistrationMap.clear();
+    }
+
+    private com.google.firebase.firestore.FirebaseFirestore getFirebaseFirestoreInstance() {
+        return com.google.firebase.firestore.FirebaseFirestore.getInstance();
     }
 }
