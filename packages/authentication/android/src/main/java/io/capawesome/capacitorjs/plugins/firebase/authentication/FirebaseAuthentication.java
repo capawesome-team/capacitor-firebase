@@ -802,10 +802,6 @@ public class FirebaseAuthentication {
         plugin.handlePhoneCodeSent(verificationId);
     }
 
-    public FirebaseAuth getFirebaseAuthInstance() {
-        return firebaseAuthInstance;
-    }
-
     public FirebaseAuthenticationPlugin getPlugin() {
         return plugin;
     }
