@@ -802,16 +802,16 @@ public class FirebaseAuthentication {
         plugin.handlePhoneCodeSent(verificationId);
     }
 
+    public FirebaseAuth getFirebaseAuthInstance() {
+        return FirebaseAuth.getInstance();
+    }
+
     public FirebaseAuthenticationPlugin getPlugin() {
         return plugin;
     }
 
     public FirebaseAuthenticationConfig getConfig() {
         return config;
-    }
-
-    private FirebaseAuth getFirebaseAuthInstance() {
-        return FirebaseAuth.getInstance();
     }
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {
