@@ -18,17 +18,15 @@ public class FirebaseMessaging {
 
     private FirebaseMessagingPlugin plugin;
     private NotificationManager notificationManager;
-    private com.google.firebase.messaging.FirebaseMessaging firebaseMessagingInstance;
 
     public FirebaseMessaging(FirebaseMessagingPlugin plugin) {
         this.plugin = plugin;
         this.notificationManager = (NotificationManager) plugin.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        this.firebaseMessagingInstance = com.google.firebase.messaging.FirebaseMessaging.getInstance();
     }
 
     public void getToken(final GetTokenResultCallback resultCallback) {
-        this.firebaseMessagingInstance.setAutoInitEnabled(true);
-        this.firebaseMessagingInstance.getToken()
+        getFirebaseMessagingInstance().setAutoInitEnabled(true);
+        getFirebaseMessagingInstance().getToken()
             .addOnCompleteListener(
                 task -> {
                     if (!task.isSuccessful()) {
@@ -45,7 +43,7 @@ public class FirebaseMessaging {
     }
 
     public void deleteToken() {
-        this.firebaseMessagingInstance.deleteToken();
+        getFirebaseMessagingInstance().deleteToken();
     }
 
     public StatusBarNotification[] getDeliveredNotifications() {
@@ -73,11 +71,11 @@ public class FirebaseMessaging {
     }
 
     public void subscribeToTopic(String topic) {
-        firebaseMessagingInstance.subscribeToTopic(topic);
+        getFirebaseMessagingInstance().subscribeToTopic(topic);
     }
 
     public void unsubscribeFromTopic(String topic) {
-        firebaseMessagingInstance.unsubscribeFromTopic(topic);
+        getFirebaseMessagingInstance().unsubscribeFromTopic(topic);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -93,5 +91,9 @@ public class FirebaseMessaging {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<NotificationChannel> getNotificationChannels() {
         return notificationManager.getNotificationChannels();
+    }
+
+    private com.google.firebase.messaging.FirebaseMessaging getFirebaseMessagingInstance() {
+        return com.google.firebase.messaging.FirebaseMessaging.getInstance();
     }
 }
