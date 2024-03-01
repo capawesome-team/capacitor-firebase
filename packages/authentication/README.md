@@ -162,7 +162,7 @@ const getCurrentUser = async () => {
 };
 
 const getIdToken = async () => {
-  const currentUser = getCurrentUser();
+  const currentUser = await getCurrentUser();
   if (!currentUser) {
     return;
   }
@@ -171,7 +171,7 @@ const getIdToken = async () => {
 };
 
 const sendEmailVerification = async () => {
-  const currentUser = getCurrentUser();
+  const currentUser = await getCurrentUser();
   if (!currentUser) {
     return;
   }
@@ -342,7 +342,7 @@ const signOut = async () => {
 };
 
 const updateEmail = async () => {
-  const currentUser = getCurrentUser();
+  const currentUser = await getCurrentUser();
   if (!currentUser) {
     return;
   }
@@ -352,7 +352,7 @@ const updateEmail = async () => {
 };
 
 const updatePassword = async () => {
-  const currentUser = getCurrentUser();
+  const currentUser = await getCurrentUser();
   if (!currentUser) {
     return;
   }
