@@ -1,5 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.storage;
 
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.storage.StorageMetadata;
 import java.util.Iterator;
@@ -8,7 +9,11 @@ import org.json.JSONObject;
 
 public class FirebaseStorageHelper {
 
-    public static StorageMetadata buildStorageMetadata(JSObject metadata) throws JSONException {
+    @Nullable
+    public static StorageMetadata buildStorageMetadata(@Nullable JSObject metadata) throws JSONException {
+        if (metadata == null) {
+            return null;
+        }
         String cacheControl = metadata.getString("cacheControl");
         String contentDisposition = metadata.getString("contentDisposition");
         String contentEncoding = metadata.getString("contentEncoding");
