@@ -45,23 +45,19 @@ public class FirebaseAuthentication {
 
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
-    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private AppleAuthProviderHandler appleAuthProviderHandler;
     private FacebookAuthProviderHandler facebookAuthProviderHandler;
     private GoogleAuthProviderHandler googleAuthProviderHandler;
     private OAuthProviderHandler oAuthProviderHandler;
     private PhoneAuthProviderHandler phoneAuthProviderHandler;
     private PlayGamesAuthProviderHandler playGamesAuthProviderHandler;
+    @Nullable
+    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
 
     public FirebaseAuthentication(FirebaseAuthenticationPlugin plugin, FirebaseAuthenticationConfig config) {
         this.plugin = plugin;
         this.config = config;
         this.initAuthProviderHandlers(config);
-        this.firebaseAuthStateListener =
-            firebaseAuth -> {
-                this.plugin.handleAuthStateChange();
-            };
-        getFirebaseAuthInstance().addAuthStateListener(this.firebaseAuthStateListener);
     }
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
@@ -565,6 +561,17 @@ public class FirebaseAuthentication {
 
     public void useEmulator(@NonNull String host, int port) {
         getFirebaseAuthInstance().useEmulator(host, port);
+    }
+
+    public void addAuthStateListener() {
+        if (firebaseAuthStateListener != null) {
+            return;
+        }
+        firebaseAuthStateListener =
+                firebaseAuth -> {
+                    this.plugin.handleAuthStateChange();
+                };
+        getFirebaseAuthInstance().addAuthStateListener(firebaseAuthStateListener);
     }
 
     public void startActivityForResult(final PluginCall call, Intent intent, String callbackName) {
