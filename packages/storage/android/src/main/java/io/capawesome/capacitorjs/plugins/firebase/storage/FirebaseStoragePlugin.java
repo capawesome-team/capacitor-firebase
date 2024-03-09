@@ -23,6 +23,7 @@ public class FirebaseStoragePlugin extends Plugin {
     public static final String TAG = "FirebaseStorage";
     public static final String ERROR_PATH_MISSING = "path must be provided.";
     public static final String ERROR_URI_MISSING = "uri must be provided.";
+    public static final String ERROR_METADATA_MISSING = "metadata must be provided.";
 
     private FirebaseStorage implementation;
 
@@ -161,6 +162,10 @@ public class FirebaseStoragePlugin extends Plugin {
                 return;
             }
             JSObject metadata = call.getObject("metadata");
+            if (metadata == null) {
+                call.reject(ERROR_METADATA_MISSING);
+                return;
+            }
 
             UpdateMetadataOptions options = new UpdateMetadataOptions(path, metadata);
             EmptyResultCallback callback = new EmptyResultCallback() {
