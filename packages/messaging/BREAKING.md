@@ -4,10 +4,17 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
 - [Version 0.3.x](#version-03x)
+
+## Version 6.x.x
+
+### Variables
+
+- On Android, the `firebaseMessagingVersion` variable has been updated to `23.4.1`.
 
 ## Version 5.x.x
 

@@ -11,3 +11,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 ### `QueryDocumentSnapshot` interface
 
 The `QueryDocumentSnapshot` interface has been replaced with the `DocumentSnapshot` interface.
+
+### Variables
+
+- On Android, the `firebaseFirestoreVersion` variable has been updated to `24.10.3`.
