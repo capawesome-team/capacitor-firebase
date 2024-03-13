@@ -11,8 +11,8 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseAppCheckPlayIntegrityVersion` variable has been updated to `17.1.2`.
-- `firebaseAppCheckDebugVersion` variable has been updated to `17.1.2`.
+- On Android, the `firebaseAppCheckPlayIntegrityVersion` variable has been updated to `17.1.2`.
+- On Android, the `firebaseAppCheckDebugVersion` variable has been updated to `17.1.2`.
 
 ## Version 5.x.x
 

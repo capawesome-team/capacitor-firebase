@@ -13,9 +13,9 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseAuthVersion` variable has been updated to `22.3.1`.
-- `playServicesAuthVersion` variable has been updated to `21.0.0`.
-- `facebookLoginVersion` variable has been updated to `16.3.0`.
+- On Android, the `firebaseAuthVersion` variable has been updated to `22.3.1`.
+- On Android, the `playServicesAuthVersion` variable has been updated to `21.0.0`.
+- On Android, the `facebookLoginVersion` variable has been updated to `16.3.0`.
 
 ## Version 5.x.x
 

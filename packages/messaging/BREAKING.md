@@ -14,7 +14,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseMessagingVersion` variable has been updated to `23.4.1`.
+- On Android, the `firebaseMessagingVersion` variable has been updated to `23.4.1`.
 
 ## Version 5.x.x
 

@@ -10,4 +10,4 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseStorageVersion` variable has been updated to `20.3.0`.
+- On Android, the `firebaseStorageVersion` variable has been updated to `20.3.0`.

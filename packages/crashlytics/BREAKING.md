@@ -12,7 +12,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseCrashlyticsVersion` variable has been updated to `18.6.2`.
+- On Android, the `firebaseCrashlyticsVersion` variable has been updated to `18.6.2`.
 
 ## Version 5.x.x
 

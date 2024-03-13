@@ -12,7 +12,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebasePerfVersion` variable has been updated to `20.5.2`.
+- On Android, the `firebasePerfVersion` variable has been updated to `20.5.2`.
 
 ## Version 5.x.x
 

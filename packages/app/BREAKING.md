@@ -12,7 +12,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseCommonVersion` variable has been updated to `20.4.2`.
+- On Android, the `firebaseCommonVersion` variable has been updated to `20.4.2`.
 
 ## Version 5.x.x
 

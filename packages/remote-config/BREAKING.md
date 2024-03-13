@@ -11,7 +11,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseConfigVersion` variable has been updated to `21.6.3`.
+- On Android, the `firebaseConfigVersion` variable has been updated to `21.6.3`.
 
 ## Version 5.x.x
 

@@ -12,7 +12,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ### Variables
 
-- `firebaseAnalyticsVersion` variable has been updated to `20.5.1`.
+- On Android, the `firebaseAnalyticsVersion` variable has been updated to `20.5.1`.
 
 ## Version 5.x.x
 
