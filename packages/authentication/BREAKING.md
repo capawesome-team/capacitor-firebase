@@ -4,9 +4,18 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
+
+## Version 6.x.x
+
+### Variables
+
+- `firebaseAuthVersion` variable has been updated to `22.3.1`.
+- `playServicesAuthVersion` variable has been updated to `21.0.0`.
+- `facebookLoginVersion` variable has been updated to `16.3.0`.
 
 ## Version 5.x.x
 
