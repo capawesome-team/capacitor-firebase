@@ -232,6 +232,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   linkWithYahoo(options?: LinkWithOAuthOptions): Promise<LinkResult>;
   /**
+   * Reauthenticates the current user with the provided credential.
+   *
+   * @since 1.1.0
+   */
+  reauthenticateWithCredential(
+    options: ReauthenticateWithCredentialOptions,
+  ): Promise<void>;
+  /**
    * Reloads user account data, if signed in.
    *
    * @since 1.3.0
@@ -592,6 +600,15 @@ export interface GetTenantIdResult {
    * @since 1.1.0
    */
   tenantId: string | null;
+}
+
+export interface ReauthenticateWithCredentialOptions {
+  /**
+   * The credential to reauthenticate.
+   *
+   * @since 5.3.0
+   */
+  credential: AuthCredential;
 }
 
 /**
