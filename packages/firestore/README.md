@@ -528,18 +528,9 @@ Remove all listeners for this plugin.
 
 #### GetCollectionResult
 
-| Prop            | Type                                                                               | Description                      | Since |
-| --------------- | ---------------------------------------------------------------------------------- | -------------------------------- | ----- |
-| **`snapshots`** | <code><a href="#querydocumentsnapshot">QueryDocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
-
-
-#### QueryDocumentSnapshot
-
-| Prop       | Type                | Description                                      | Since |
-| ---------- | ------------------- | ------------------------------------------------ | ----- |
-| **`id`**   | <code>string</code> | The document's identifier within its collection. | 5.2.0 |
-| **`path`** | <code>string</code> | The path of the document.                        | 5.2.0 |
-| **`data`** | <code>T</code>      | An object containing the data for the document.  | 5.2.0 |
+| Prop            | Type                                                                     | Description                      | Since |
+| --------------- | ------------------------------------------------------------------------ | -------------------------------- | ----- |
+| **`snapshots`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
 
 
 #### GetCollectionOptions
@@ -604,9 +595,9 @@ Remove all listeners for this plugin.
 
 #### GetCollectionGroupResult
 
-| Prop            | Type                                                                               | Description                      | Since |
-| --------------- | ---------------------------------------------------------------------------------- | -------------------------------- | ----- |
-| **`snapshots`** | <code><a href="#querydocumentsnapshot">QueryDocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
+| Prop            | Type                                                                     | Description                      | Since |
+| --------------- | ------------------------------------------------------------------------ | -------------------------------- | ----- |
+| **`snapshots`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
 
 
 #### GetCollectionGroupOptions
