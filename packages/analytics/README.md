@@ -117,6 +117,7 @@ const resetAnalyticsData = async () => {
 <docgen-index>
 
 * [`getAppInstanceId()`](#getappinstanceid)
+* [`setConsent(...)`](#setconsent)
 * [`setUserId(...)`](#setuserid)
 * [`setUserProperty(...)`](#setuserproperty)
 * [`setCurrentScreen(...)`](#setcurrentscreen)
@@ -126,6 +127,7 @@ const resetAnalyticsData = async () => {
 * [`isEnabled()`](#isenabled)
 * [`resetAnalyticsData()`](#resetanalyticsdata)
 * [Interfaces](#interfaces)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -145,6 +147,23 @@ Only available for Android and iOS.
 **Returns:** <code>Promise&lt;<a href="#getappinstanceidresult">GetAppInstanceIdResult</a>&gt;</code>
 
 **Since:** 1.4.0
+
+--------------------
+
+
+### setConsent(...)
+
+```typescript
+setConsent(options: SetConsentOptions) => Promise<void>
+```
+
+Sets the user's consent mode.
+
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#setconsentoptions">SetConsentOptions</a></code> |
+
+**Since:** 6.0.0
 
 --------------------
 
@@ -292,9 +311,17 @@ Only available for Android and iOS.
 
 #### GetAppInstanceIdResult
 
-| Prop                | Type                | Description                                                                                                                                     | Since |
-| ------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`. | 1.4.0 |
+| Prop                | Type                | Description                                                                                                                                                                                             | Since |
+| ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.<a href="#consenttype">ConsentType</a>.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.<a href="#consentstatus">ConsentStatus</a>.DENIED`. | 1.4.0 |
+
+
+#### SetConsentOptions
+
+| Prop         | Type                                                    | Description         | Since |
+| ------------ | ------------------------------------------------------- | ------------------- | ----- |
+| **`type`**   | <code><a href="#consenttype">ConsentType</a></code>     | The consent type.   | 6.0.0 |
+| **`status`** | <code><a href="#consentstatus">ConsentStatus</a></code> | The consent status. | 6.0.0 |
 
 
 #### SetUserIdOptions
@@ -347,6 +374,29 @@ Only available for Android and iOS.
 | Prop          | Type                 | Since |
 | ------------- | -------------------- | ----- |
 | **`enabled`** | <code>boolean</code> | 0.1.0 |
+
+
+### Enums
+
+
+#### ConsentType
+
+| Members                      | Value                                  | Since |
+| ---------------------------- | -------------------------------------- | ----- |
+| **`AdPersonalization`**      | <code>'AD_PERSONALIZATION'</code>      | 6.0.0 |
+| **`AdStorage`**              | <code>'AD_STORAGE'</code>              | 6.0.0 |
+| **`AdUserData`**             | <code>'AD_USER_DATA'</code>            | 6.0.0 |
+| **`AnalyticsStorage`**       | <code>'ANALYTICS_STORAGE'</code>       | 6.0.0 |
+| **`FunctionalityStorage`**   | <code>'FUNCTIONALITY_STORAGE'</code>   | 6.0.0 |
+| **`PersonalizationStorage`** | <code>'PERSONALIZATION_STORAGE'</code> | 6.0.0 |
+
+
+#### ConsentStatus
+
+| Members       | Value                  | Since |
+| ------------- | ---------------------- | ----- |
+| **`Granted`** | <code>'GRANTED'</code> | 6.0.0 |
+| **`Denied`**  | <code>'DENIED'</code>  | 6.0.0 |
 
 </docgen-api>
 
