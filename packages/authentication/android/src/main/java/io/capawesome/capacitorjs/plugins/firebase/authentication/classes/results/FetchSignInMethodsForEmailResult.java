@@ -13,8 +13,13 @@ public class FetchSignInMethodsForEmailResult implements Result {
     }
 
     public JSObject toJSObject() {
+        JSArray signInMethodsResult = new JSArray();
+        for (String signInMethod : signInMethods) {
+            signInMethodsResult.put(signInMethod);
+        }
+
         JSObject result = new JSObject();
-        result.put("signInMethods", signInMethods.toArray(new String[0]));
+        result.put("signInMethods", signInMethodsResult);
         return result;
     }
 }
