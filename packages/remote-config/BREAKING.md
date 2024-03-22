@@ -9,6 +9,10 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Version 6.x.x
 
+### Dependencies
+
+- The Firebase Javascript SDK has been updated to `10.9.0`.
+
 ### Variables
 
 - On Android, the `firebaseConfigVersion` variable has been updated to `21.6.3`.
