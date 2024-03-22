@@ -16,6 +16,8 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */; };
+		7C0C050B2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */; };
+		7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */; };
 		7C3D92CA26D3CC62000C0B29 /* PhoneAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */; };
 		7C461AFC29EC3B8E00DD31E9 /* SignInResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */; };
 		7C461AFE29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */; };
@@ -58,6 +60,8 @@
 		50ADFFA72020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseAuthenticationPlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthenticationPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
+		7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailOptions.swift; sourceTree = "<group>"; };
+		7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailResult.swift; sourceTree = "<group>"; };
 		7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthProviderHandler.swift; sourceTree = "<group>"; };
 		7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResult.swift; sourceTree = "<group>"; };
 		7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmVerificationCodeOptions.swift; sourceTree = "<group>"; };
@@ -149,9 +153,27 @@
 			path = PluginTests;
 			sourceTree = "<group>";
 		};
+		7C0C05082BAD80BF004252BE /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7C0C05092BAD80CF004252BE /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
 		7C461AF829EC356000DD31E9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7C0C05092BAD80CF004252BE /* Results */,
+				7C0C05082BAD80BF004252BE /* Options */,
 				7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */,
 				7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */,
 				7C461B0729EC43ED00DD31E9 /* ResultCallback.swift */,
@@ -414,9 +436,11 @@
 				7C461AFC29EC3B8E00DD31E9 /* SignInResult.swift in Sources */,
 				7CE70B7526D1AA220025E915 /* FacebookAuthProviderHandler.swift in Sources */,
 				D8872AD52913A78800CF6CED /* GameCenterAuthProviderHandler.swift in Sources */,
+				7C0C050B2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift in Sources */,
 				7C8E530826656FD100FF4B87 /* GoogleAuthProviderHandler.swift in Sources */,
 				7C3D92CA26D3CC62000C0B29 /* PhoneAuthProviderHandler.swift in Sources */,
 				7CD588F02688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift in Sources */,
+				7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */,
 				7C579FFB29F3FBD000B7778B /* SignInOptions.swift in Sources */,
 				7C461B0529EC430D00DD31E9 /* Result.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */,

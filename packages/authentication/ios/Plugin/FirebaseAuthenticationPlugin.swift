@@ -126,6 +126,27 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
+    @objc func fetchSignInMethodsForEmail(_ call: CAPPluginCall) {
+        guard let email = call.getString("email") else {
+            call.reject(errorEmailMissing)
+            return
+        }
+
+        let options = FetchSignInMethodsForEmailOptions(email: email)
+
+        implementation?.fetchSignInMethodsForEmail(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+                call.reject(error.localizedDescription, code)
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
+    }
+
     @objc func getCurrentUser(_ call: CAPPluginCall) {
         let user = implementation?.getCurrentUser()
         let userResult = FirebaseAuthenticationHelper.createUserResult(user)

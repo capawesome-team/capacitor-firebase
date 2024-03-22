@@ -29,6 +29,8 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVe
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.FetchSignInMethodsForEmailOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.results.FetchSignInMethodsForEmailResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.GoogleAuthProviderHandler;
@@ -131,6 +133,25 @@ public class FirebaseAuthentication {
             .addOnCompleteListener(
                 task -> {
                     callback.run();
+                }
+            );
+    }
+
+    public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final ResultCallback resultCallback) {
+        String email = options.getEmail();
+
+        getFirebaseAuthInstance()
+            .fetchSignInMethodsForEmail(email)
+            .addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        List<String> signInMethods = task.getResult().getSignInMethods();
+                        FetchSignInMethodsForEmailResult result = new FetchSignInMethodsForEmailResult(signInMethods);
+                        resultCallback.success(result);
+                    } else {
+                        Exception exception = task.getException();
+                        resultCallback.error(exception);
+                    }
                 }
             );
     }
