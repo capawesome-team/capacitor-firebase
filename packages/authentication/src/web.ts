@@ -25,6 +25,7 @@ import {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   deleteUser,
+  fetchSignInMethodsForEmail,
   getAdditionalUserInfo,
   getAuth,
   getRedirectResult,
@@ -61,6 +62,8 @@ import type {
   ConfirmPasswordResetOptions,
   ConfirmVerificationCodeOptions,
   CreateUserWithEmailAndPasswordOptions,
+  FetchSignInMethodsForEmailOptions,
+  FetchSignInMethodsForEmailResult,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
   GetIdTokenOptions,
@@ -167,6 +170,16 @@ export class FirebaseAuthenticationWeb
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
     return deleteUser(currentUser);
+  }
+
+  public async fetchSignInMethodsForEmail(
+    options: FetchSignInMethodsForEmailOptions,
+  ): Promise<FetchSignInMethodsForEmailResult> {
+    const auth = getAuth();
+    const signInMethods = await fetchSignInMethodsForEmail(auth, options.email);
+    return {
+      signInMethods,
+    };
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {

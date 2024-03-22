@@ -84,6 +84,19 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func fetchSignInMethodsForEmail(_ options: FetchSignInMethodsForEmailOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let email = options.getEmail()
+
+        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            let result = FetchSignInMethodsForEmailResult(signInMethods ?? [])
+            completion(result, nil)
+        }
+    }
+
     @objc func getCurrentUser() -> User? {
         return Auth.auth().currentUser
     }

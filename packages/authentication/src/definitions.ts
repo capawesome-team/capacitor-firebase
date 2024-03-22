@@ -77,6 +77,16 @@ export interface FirebaseAuthenticationPlugin {
    */
   deleteUser(): Promise<void>;
   /**
+   * Fetches the sign-in methods for an email address.
+   *
+   * @since 6.0.0
+   * @deprecated Migrating off of this method is recommended as a security best-practice.
+   * Learn more in the Identity Platform documentation for [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection).
+   */
+  fetchSignInMethodsForEmail(
+    options: FetchSignInMethodsForEmailOptions,
+  ): Promise<FetchSignInMethodsForEmailResult>;
+  /**
    * Fetches the currently signed-in user.
    *
    * @since 0.1.0
@@ -543,6 +553,33 @@ export interface CreateUserWithEmailAndPasswordOptions {
    * @since 0.2.2
    */
   password: string;
+}
+
+/**
+ * @since 6.0.0
+ */
+export interface FetchSignInMethodsForEmailOptions {
+  /**
+   * The user's email address.
+   *
+   * @since 6.0.0
+   */
+  email: string;
+}
+
+/**
+ * @since 6.0.0
+ */
+export interface FetchSignInMethodsForEmailResult {
+  /**
+   * The sign-in methods for the specified email address.
+   *
+   * This list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)
+   * is enabled, irrespective of the number of authentication methods available for the given email.
+   *
+   * @since 6.0.0
+   */
+  signInMethods: string[];
 }
 
 /**

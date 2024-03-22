@@ -19,6 +19,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWit
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.FetchSignInMethodsForEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
@@ -159,6 +160,40 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             implementation.deleteUser(user, () -> call.resolve());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
+        }
+    }
+
+    @PluginMethod
+    public void fetchSignInMethodsForEmail(PluginCall call) {
+        try {
+            String email = call.getString("email");
+            if (email == null) {
+                call.reject(ERROR_EMAIL_MISSING);
+                return;
+            }
+
+            FetchSignInMethodsForEmailOptions options = new FetchSignInMethodsForEmailOptions(email);
+
+            implementation.fetchSignInMethodsForEmail(
+                options,
+                new ResultCallback() {
+                    @Override
+                    public void success(Result result) {
+                        call.resolve(result.toJSObject());
+                    }
+
+                    @Override
+                    public void error(Exception exception) {
+                        Logger.error(TAG, exception.getMessage(), exception);
+                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                        call.reject(exception.getMessage(), code);
+                    }
+                }
+            );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
