@@ -10,7 +10,7 @@ import Capacitor
 
     public func toJSObject() -> AnyObject {
         var result = JSObject()
-        result["providerIds"] = signInMethods
+        result["signInMethods"] = signInMethods
         return result as AnyObject
     }
 }

@@ -14,7 +14,7 @@ public class FetchSignInMethodsForEmailResult implements Result {
 
     public JSObject toJSObject() {
         JSObject result = new JSObject();
-        result.put("providerIds", signInMethods.toArray(new String[0]));
+        result.put("signInMethods", signInMethods.toArray(new String[0]));
         return result;
     }
 }

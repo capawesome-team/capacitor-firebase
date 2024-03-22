@@ -176,9 +176,9 @@ export class FirebaseAuthenticationWeb
     options: FetchSignInMethodsForEmailOptions,
   ): Promise<FetchSignInMethodsForEmailResult> {
     const auth = getAuth();
-    const providerIds = await fetchSignInMethodsForEmail(auth, options.email);
+    const signInMethods = await fetchSignInMethodsForEmail(auth, options.email);
     return {
-      providerIds,
+      signInMethods,
     };
   }
 

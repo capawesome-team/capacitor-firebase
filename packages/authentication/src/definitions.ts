@@ -574,9 +574,12 @@ export interface FetchSignInMethodsForEmailResult {
   /**
    * The sign-in methods for the specified email address.
    *
+   * This list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)
+   * is enabled, irrespective of the number of authentication methods available for the given email.
+   *
    * @since 6.0.0
    */
-  providerIds: string[];
+  signInMethods: string[];
 }
 
 /**

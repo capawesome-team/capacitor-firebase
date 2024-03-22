@@ -156,6 +156,17 @@ const confirmPasswordReset = async () => {
   });
 };
 
+const deleteUser = async () => {
+  await FirebaseAuthentication.deleteUser();
+};
+
+const fetchSignInMethodsForEmail = async () => {
+  const result = await FirebaseAuthentication.fetchSignInMethodsForEmail({
+    email: 'mail@example.tld',
+  });
+  return result.signInMethods;
+};
+
 const getCurrentUser = async () => {
   const result = await FirebaseAuthentication.getCurrentUser();
   return result.user;
@@ -377,129 +388,65 @@ const useEmulator = async () => {
 
 <docgen-index>
 
-- [@capacitor-firebase/authentication](#capacitor-firebaseauthentication)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-    - [Examples](#examples)
-  - [FAQ](#faq)
-  - [Firebase JavaScript SDK](#firebase-javascript-sdk)
-  - [Demo](#demo)
-  - [Starter Templates](#starter-templates)
-  - [Usage](#usage)
-  - [API](#api)
-    - [applyActionCode(...)](#applyactioncode)
-    - [confirmPasswordReset(...)](#confirmpasswordreset)
-    - [confirmVerificationCode(...)](#confirmverificationcode)
-    - [createUserWithEmailAndPassword(...)](#createuserwithemailandpassword)
-    - [deleteUser()](#deleteuser)
-    - [getCurrentUser()](#getcurrentuser)
-    - [getIdToken(...)](#getidtoken)
-    - [getRedirectResult()](#getredirectresult)
-    - [getTenantId()](#gettenantid)
-    - [isSignInWithEmailLink(...)](#issigninwithemaillink)
-    - [linkWithApple(...)](#linkwithapple)
-    - [linkWithEmailAndPassword(...)](#linkwithemailandpassword)
-    - [linkWithEmailLink(...)](#linkwithemaillink)
-    - [linkWithFacebook(...)](#linkwithfacebook)
-    - [linkWithGameCenter(...)](#linkwithgamecenter)
-    - [linkWithGithub(...)](#linkwithgithub)
-    - [linkWithGoogle(...)](#linkwithgoogle)
-    - [linkWithMicrosoft(...)](#linkwithmicrosoft)
-    - [linkWithPhoneNumber(...)](#linkwithphonenumber)
-    - [linkWithPlayGames(...)](#linkwithplaygames)
-    - [linkWithTwitter(...)](#linkwithtwitter)
-    - [linkWithYahoo(...)](#linkwithyahoo)
-    - [reload()](#reload)
-    - [sendEmailVerification()](#sendemailverification)
-    - [sendPasswordResetEmail(...)](#sendpasswordresetemail)
-    - [sendSignInLinkToEmail(...)](#sendsigninlinktoemail)
-    - [setLanguageCode(...)](#setlanguagecode)
-    - [setPersistence(...)](#setpersistence)
-    - [setTenantId(...)](#settenantid)
-    - [signInAnonymously()](#signinanonymously)
-    - [signInWithApple(...)](#signinwithapple)
-    - [signInWithCustomToken(...)](#signinwithcustomtoken)
-    - [signInWithEmailAndPassword(...)](#signinwithemailandpassword)
-    - [signInWithEmailLink(...)](#signinwithemaillink)
-    - [signInWithFacebook(...)](#signinwithfacebook)
-    - [signInWithGameCenter(...)](#signinwithgamecenter)
-    - [signInWithGithub(...)](#signinwithgithub)
-    - [signInWithGoogle(...)](#signinwithgoogle)
-    - [signInWithMicrosoft(...)](#signinwithmicrosoft)
-    - [signInWithPhoneNumber(...)](#signinwithphonenumber)
-    - [signInWithPlayGames(...)](#signinwithplaygames)
-    - [signInWithTwitter(...)](#signinwithtwitter)
-    - [signInWithYahoo(...)](#signinwithyahoo)
-    - [signOut()](#signout)
-    - [unlink(...)](#unlink)
-    - [updateEmail(...)](#updateemail)
-    - [updatePassword(...)](#updatepassword)
-    - [updateProfile(...)](#updateprofile)
-    - [useAppLanguage()](#useapplanguage)
-    - [useEmulator(...)](#useemulator)
-    - [addListener('authStateChange', ...)](#addlistenerauthstatechange-)
-    - [addListener('phoneVerificationCompleted', ...)](#addlistenerphoneverificationcompleted-)
-    - [addListener('phoneVerificationFailed', ...)](#addlistenerphoneverificationfailed-)
-    - [addListener('phoneCodeSent', ...)](#addlistenerphonecodesent-)
-    - [removeAllListeners()](#removealllisteners)
-    - [Interfaces](#interfaces)
-      - [ApplyActionCodeOptions](#applyactioncodeoptions)
-      - [ConfirmPasswordResetOptions](#confirmpasswordresetoptions)
-      - [SignInResult](#signinresult)
-      - [User](#user)
-      - [UserMetadata](#usermetadata)
-      - [UserInfo](#userinfo)
-      - [AuthCredential](#authcredential)
-      - [AdditionalUserInfo](#additionaluserinfo)
-      - [ConfirmVerificationCodeOptions](#confirmverificationcodeoptions)
-      - [CreateUserWithEmailAndPasswordOptions](#createuserwithemailandpasswordoptions)
-      - [GetCurrentUserResult](#getcurrentuserresult)
-      - [GetIdTokenResult](#getidtokenresult)
-      - [GetIdTokenOptions](#getidtokenoptions)
-      - [GetTenantIdResult](#gettenantidresult)
-      - [IsSignInWithEmailLinkResult](#issigninwithemaillinkresult)
-      - [IsSignInWithEmailLinkOptions](#issigninwithemaillinkoptions)
-      - [SignInWithOAuthOptions](#signinwithoauthoptions)
-      - [SignInCustomParameter](#signincustomparameter)
-      - [LinkWithEmailAndPasswordOptions](#linkwithemailandpasswordoptions)
-      - [LinkWithEmailLinkOptions](#linkwithemaillinkoptions)
-      - [SignInWithPhoneNumberOptions](#signinwithphonenumberoptions)
-      - [SendPasswordResetEmailOptions](#sendpasswordresetemailoptions)
-      - [SendSignInLinkToEmailOptions](#sendsigninlinktoemailoptions)
-      - [ActionCodeSettings](#actioncodesettings)
-      - [SetLanguageCodeOptions](#setlanguagecodeoptions)
-      - [SetPersistenceOptions](#setpersistenceoptions)
-      - [Persistence](#persistence)
-      - [SetTenantIdOptions](#settenantidoptions)
-      - [SignInWithCustomTokenOptions](#signinwithcustomtokenoptions)
-      - [SignInWithEmailAndPasswordOptions](#signinwithemailandpasswordoptions)
-      - [SignInWithEmailLinkOptions](#signinwithemaillinkoptions)
-      - [SignInOptions](#signinoptions)
-      - [UnlinkResult](#unlinkresult)
-      - [UnlinkOptions](#unlinkoptions)
-      - [UpdateEmailOptions](#updateemailoptions)
-      - [UpdatePasswordOptions](#updatepasswordoptions)
-      - [UpdateProfileOptions](#updateprofileoptions)
-      - [UseEmulatorOptions](#useemulatoroptions)
-      - [PluginListenerHandle](#pluginlistenerhandle)
-      - [AuthStateChange](#authstatechange)
-      - [PhoneVerificationCompletedEvent](#phoneverificationcompletedevent)
-      - [PhoneVerificationFailedEvent](#phoneverificationfailedevent)
-      - [PhoneCodeSentEvent](#phonecodesentevent)
-    - [Type Aliases](#type-aliases)
-      - [LinkWithOAuthOptions](#linkwithoauthoptions)
-      - [LinkResult](#linkresult)
-      - [LinkWithPhoneNumberOptions](#linkwithphonenumberoptions)
-      - [AuthStateChangeListener](#authstatechangelistener)
-      - [PhoneVerificationCompletedListener](#phoneverificationcompletedlistener)
-      - [PhoneVerificationFailedListener](#phoneverificationfailedlistener)
-      - [PhoneCodeSentListener](#phonecodesentlistener)
-    - [Enums](#enums)
-      - [Persistence](#persistence-1)
-      - [ProviderId](#providerid)
-  - [Changelog](#changelog)
-  - [License](#license)
-  - [Credits](#credits)
+* [`applyActionCode(...)`](#applyactioncode)
+* [`confirmPasswordReset(...)`](#confirmpasswordreset)
+* [`confirmVerificationCode(...)`](#confirmverificationcode)
+* [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
+* [`deleteUser()`](#deleteuser)
+* [`fetchSignInMethodsForEmail(...)`](#fetchsigninmethodsforemail)
+* [`getCurrentUser()`](#getcurrentuser)
+* [`getIdToken(...)`](#getidtoken)
+* [`getRedirectResult()`](#getredirectresult)
+* [`getTenantId()`](#gettenantid)
+* [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
+* [`linkWithApple(...)`](#linkwithapple)
+* [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
+* [`linkWithEmailLink(...)`](#linkwithemaillink)
+* [`linkWithFacebook(...)`](#linkwithfacebook)
+* [`linkWithGameCenter(...)`](#linkwithgamecenter)
+* [`linkWithGithub(...)`](#linkwithgithub)
+* [`linkWithGoogle(...)`](#linkwithgoogle)
+* [`linkWithMicrosoft(...)`](#linkwithmicrosoft)
+* [`linkWithPhoneNumber(...)`](#linkwithphonenumber)
+* [`linkWithPlayGames(...)`](#linkwithplaygames)
+* [`linkWithTwitter(...)`](#linkwithtwitter)
+* [`linkWithYahoo(...)`](#linkwithyahoo)
+* [`reload()`](#reload)
+* [`sendEmailVerification()`](#sendemailverification)
+* [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
+* [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
+* [`setLanguageCode(...)`](#setlanguagecode)
+* [`setPersistence(...)`](#setpersistence)
+* [`setTenantId(...)`](#settenantid)
+* [`signInAnonymously()`](#signinanonymously)
+* [`signInWithApple(...)`](#signinwithapple)
+* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
+* [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
+* [`signInWithEmailLink(...)`](#signinwithemaillink)
+* [`signInWithFacebook(...)`](#signinwithfacebook)
+* [`signInWithGameCenter(...)`](#signinwithgamecenter)
+* [`signInWithGithub(...)`](#signinwithgithub)
+* [`signInWithGoogle(...)`](#signinwithgoogle)
+* [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
+* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
+* [`signInWithPlayGames(...)`](#signinwithplaygames)
+* [`signInWithTwitter(...)`](#signinwithtwitter)
+* [`signInWithYahoo(...)`](#signinwithyahoo)
+* [`signOut()`](#signout)
+* [`unlink(...)`](#unlink)
+* [`updateEmail(...)`](#updateemail)
+* [`updatePassword(...)`](#updatepassword)
+* [`updateProfile(...)`](#updateprofile)
+* [`useAppLanguage()`](#useapplanguage)
+* [`useEmulator(...)`](#useemulator)
+* [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
+* [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted)
+* [`addListener('phoneVerificationFailed', ...)`](#addlistenerphoneverificationfailed)
+* [`addListener('phoneCodeSent', ...)`](#addlistenerphonecodesent)
+* [`removeAllListeners()`](#removealllisteners)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -588,6 +535,25 @@ deleteUser() => Promise<void>
 Deletes and signs out the user.
 
 **Since:** 1.3.0
+
+--------------------
+
+
+### fetchSignInMethodsForEmail(...)
+
+```typescript
+fetchSignInMethodsForEmail(options: FetchSignInMethodsForEmailOptions) => Promise<FetchSignInMethodsForEmailResult>
+```
+
+Fetches the sign-in methods for an email address.
+
+| Param         | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#fetchsigninmethodsforemailoptions">FetchSignInMethodsForEmailOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#fetchsigninmethodsforemailresult">FetchSignInMethodsForEmailResult</a>&gt;</code>
+
+**Since:** 6.0.0
 
 --------------------
 
@@ -1656,6 +1622,20 @@ Remove all listeners for this plugin.
 | -------------- | ------------------- | ----- |
 | **`email`**    | <code>string</code> | 0.2.2 |
 | **`password`** | <code>string</code> | 0.2.2 |
+
+
+#### FetchSignInMethodsForEmailResult
+
+| Prop                | Type                  | Description                                                                                                                                                                                                                                                                                     | Since |
+| ------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`signInMethods`** | <code>string[]</code> | The sign-in methods for the specified email address. This list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, irrespective of the number of authentication methods available for the given email. | 6.0.0 |
+
+
+#### FetchSignInMethodsForEmailOptions
+
+| Prop        | Type                | Description               | Since |
+| ----------- | ------------------- | ------------------------- | ----- |
+| **`email`** | <code>string</code> | The user's email address. | 6.0.0 |
 
 
 #### GetCurrentUserResult
