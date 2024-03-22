@@ -1,5 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.classes.results;
 
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import java.util.List;
