@@ -2,10 +2,9 @@ package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSObject;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import java.util.Iterator;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseAnalyticsHelper {
@@ -116,5 +115,33 @@ public class FirebaseAnalyticsHelper {
             exception.printStackTrace();
         }
         return bundle;
+    }
+
+    @Nullable
+    public static com.google.firebase.analytics.FirebaseAnalytics.ConsentType mapStringToConsentType(@Nullable String consentType) {
+        switch (consentType) {
+            case "AD_PERSONALIZATION":
+                return com.google.firebase.analytics.FirebaseAnalytics.ConsentType.AD_PERSONALIZATION;
+            case "AD_STORAGE":
+                return com.google.firebase.analytics.FirebaseAnalytics.ConsentType.AD_STORAGE;
+            case "AD_USER_DATA":
+                return com.google.firebase.analytics.FirebaseAnalytics.ConsentType.AD_USER_DATA;
+            case "ANALYTICS_STORAGE":
+                return com.google.firebase.analytics.FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE;
+            default:
+                return null;
+        }
+    }
+
+    @Nullable
+    public static com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus mapStringToConsentStatus(@Nullable String consentStatus) {
+        switch (consentStatus) {
+            case "GRANTED":
+                return com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus.GRANTED;
+            case "DENIED":
+                return com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus.DENIED;
+            default:
+                return null;
+        }
     }
 }
