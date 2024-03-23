@@ -36,7 +36,7 @@ The following steps describe how to automatically upload dSYM files to Firebase 
    2. Expand the new **Run Script** section.
    3. In the script field (located under the *Shell* label), add the following run script:
       ```
-      "${PODS_ROOT}/FirebaseCrashlytics/run"
+      ${PODS_ROOT}/FirebaseCrashlytics/run
       ```
    4. In the Input Files section, add the paths for the locations of the following files:
       ```
