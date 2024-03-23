@@ -19,6 +19,20 @@ This plugin will use the following project variables (defined in your app’s `v
 
 - `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.2.2`)
 
+#### Disable IDFA collection
+
+If you want to disable AD ID collection, add tools to the AndroidManifest.xml <manifest> tag:
+```
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+package="my.package">
+```
+and disable AD ID collection by adding to AndroidManifest.xml end:
+```
+<meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+<uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
+```
+
 ### iOS
 
 Add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
