@@ -16,6 +16,8 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
     public static final String ERROR_NAME_MISSING = "name must be provided.";
+    public static final String ERROR_CONSENT_TYPE_MISSING = "consentType must be provided.";
+    public static final String ERROR_CONSENT_STATUS_MISSING = "consentStatus must be provided.";
     private FirebaseAnalytics implementation;
 
     public void load() {
@@ -42,6 +44,31 @@ public class FirebaseAnalyticsPlugin extends Plugin {
                     }
                 }
             );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void setConsent(PluginCall call) {
+        try {
+            com.google.firebase.analytics.FirebaseAnalytics.ConsentType consentType = FirebaseAnalyticsHelper.mapStringToConsentType(
+                call.getString("consentType", null)
+            );
+            if (consentType == null) {
+                call.reject(ERROR_CONSENT_TYPE_MISSING);
+                return;
+            }
+            com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus consentStatus = FirebaseAnalyticsHelper.mapStringToConsentStatus(
+                call.getString("consentStatus", null)
+            );
+            if (consentStatus == null) {
+                call.reject(ERROR_CONSENT_STATUS_MISSING);
+                return;
+            }
+            implementation.setConsent(consentType, consentStatus);
+            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());

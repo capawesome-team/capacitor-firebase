@@ -8,6 +8,12 @@ export interface FirebaseAnalyticsPlugin {
    */
   getAppInstanceId(): Promise<GetAppInstanceIdResult>;
   /**
+   * Sets the user's consent mode.
+   *
+   * @since 6.0.0
+   */
+  setConsent(options: SetConsentOptions): Promise<void>;
+  /**
    * Sets the user ID property.
    *
    * @since 0.1.0
@@ -79,6 +85,24 @@ export interface GetAppInstanceIdResult {
    * @since 1.4.0
    */
   appInstanceId?: string;
+}
+
+/**
+ * @since 6.0.0
+ */
+export interface SetConsentOptions {
+  /**
+   * The consent type.
+   *
+   * @since 6.0.0
+   */
+  type: ConsentType;
+  /**
+   * The consent status.
+   *
+   * @since 6.0.0
+   */
+  status: ConsentStatus;
 }
 
 /**
@@ -171,4 +195,48 @@ export interface IsEnabledResult {
    * @since 0.1.0
    */
   enabled: boolean;
+}
+
+/**
+ * @since 6.0.0
+ */
+export enum ConsentType {
+  /**
+   * @since 6.0.0
+   */
+  AdPersonalization = 'AD_PERSONALIZATION',
+  /**
+   * @since 6.0.0
+   */
+  AdStorage = 'AD_STORAGE',
+  /**
+   * @since 6.0.0
+   */
+  AdUserData = 'AD_USER_DATA',
+  /**
+   * @since 6.0.0
+   */
+  AnalyticsStorage = 'ANALYTICS_STORAGE',
+  /**
+   * @since 6.0.0
+   */
+  FunctionalityStorage = 'FUNCTIONALITY_STORAGE',
+  /**
+   * @since 6.0.0
+   */
+  PersonalizationStorage = 'PERSONALIZATION_STORAGE',
+}
+
+/**
+ * @since 6.0.0
+ */
+export enum ConsentStatus {
+  /**
+   * @since 6.0.0
+   */
+  Granted = 'GRANTED',
+  /**
+   * @since 6.0.0
+   */
+  Denied = 'DENIED',
 }

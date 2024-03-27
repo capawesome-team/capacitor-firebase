@@ -16,6 +16,12 @@ import FirebaseAnalytics
         return Analytics.appInstanceID()
     }
 
+    @objc public func setConsent(consentType: ConsentType, consentStatus: ConsentStatus) {
+        var map = [ConsentType: ConsentStatus]()
+        map[consentType] = consentStatus
+        Analytics.setConsent(map)
+    }
+
     @objc public func setUserId(_ userId: String?) {
         Analytics.setUserID(userId)
     }

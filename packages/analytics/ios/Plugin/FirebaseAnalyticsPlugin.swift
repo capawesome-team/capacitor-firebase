@@ -14,6 +14,8 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
     public let errorValueMissing = "value must be provided."
     public let errorNameMissing = "name must be provided."
     public let errorEnabledMissing = "enabled must be provided."
+    public let errorConsentTypeMissing = "consentType must be provided."
+    public let errorConsentStatusMissing = "consentStatus must be provided."
     private var implementation: FirebaseAnalytics?
 
     override public func load() {
@@ -27,6 +29,19 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
             result["appInstanceId"] = appInstanceId
         }
         call.resolve(result)
+    }
+
+    @objc func setConsent(_ call: CAPPluginCall) {
+        guard let consentType = FirebaseAnalyticsHelper.mapStringToConsentType(call.getString("consentType")) else {
+            call.reject(errorConsentTypeMissing)
+            return
+        }
+        guard let consentStatus = FirebaseAnalyticsHelper.mapStringToConsentStatus(call.getString("consentStatus")) else {
+            call.reject(errorConsentStatusMissing)
+            return
+        }
+        implementation?.setConsent(consentType: consentType, consentStatus: consentStatus)
+        call.resolve()
     }
 
     @objc func setUserId(_ call: CAPPluginCall) {

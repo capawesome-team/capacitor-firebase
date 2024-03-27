@@ -1,8 +1,10 @@
 import { WebPlugin } from '@capacitor/core';
+import type { ConsentSettings, ConsentStatusString } from 'firebase/analytics';
 import {
   getAnalytics,
   logEvent,
   setAnalyticsCollectionEnabled,
+  setConsent,
   setUserId,
   setUserProperties,
 } from 'firebase/analytics';
@@ -12,12 +14,14 @@ import type {
   GetAppInstanceIdResult,
   IsEnabledResult,
   LogEventOptions,
+  SetConsentOptions,
   SetCurrentScreenOptions,
   SetEnabledOptions,
   SetSessionTimeoutDurationOptions,
   SetUserIdOptions,
   SetUserPropertyOptions,
 } from './definitions';
+import { ConsentStatus, ConsentType } from './definitions';
 
 export class FirebaseAnalyticsWeb
   extends WebPlugin
@@ -25,6 +29,33 @@ export class FirebaseAnalyticsWeb
 {
   public async getAppInstanceId(): Promise<GetAppInstanceIdResult> {
     throw this.unimplemented('Not implemented on web.');
+  }
+
+  public async setConsent(options: SetConsentOptions): Promise<void> {
+    const status: ConsentStatusString =
+      options.status === ConsentStatus.Granted ? 'granted' : 'denied';
+    const consentSettings: ConsentSettings = {};
+    switch (options.type) {
+      case ConsentType.AdPersonalization:
+        consentSettings.personalization_storage = status;
+        break;
+      case ConsentType.AdStorage:
+        consentSettings.ad_storage = status;
+        break;
+      case ConsentType.AdUserData:
+        consentSettings.ad_user_data = status;
+        break;
+      case ConsentType.AnalyticsStorage:
+        consentSettings.analytics_storage = status;
+        break;
+      case ConsentType.FunctionalityStorage:
+        consentSettings.functionality_storage = status;
+        break;
+      case ConsentType.PersonalizationStorage:
+        consentSettings.personalization_storage = status;
+        break;
+    }
+    setConsent(consentSettings);
   }
 
   public async setUserId(options: SetUserIdOptions): Promise<void> {
