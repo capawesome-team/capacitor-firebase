@@ -13,6 +13,14 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 ### Android
 
+#### Disable Analytics data collection
+
+See [Disable Analytics data collection](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_data_collection) if you want to disable Analytics data collection.
+
+#### Disable Advertising ID collection
+
+See [Disable Advertising ID collection](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_advertising_id_collection) if you want to disable Advertising ID collection.
+
 #### Variables
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
