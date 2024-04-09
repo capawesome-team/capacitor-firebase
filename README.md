@@ -38,11 +38,6 @@ This is an Apache-2.0-licensed open source project.
 It can grow thanks to the support by these awesome people.
 If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).
 
-<a href="https://appscreens.com/?_locale=en&utm_source=github&utm_medium=referral&utm_campaign=capawesome&gclid=capawesome" target="_blank">
-<p align="center"><br><img src="https://capawesome.io/assets/images/sponsors/appscreens-logo.png" width="215" /></p>
-<p align="center">AppScreens - A dedicated screenshot mockup generator</p>
-</a>
-
 <p align="center">
   <a href="https://cdn.jsdelivr.net/gh/capawesome-team/static/images/sponsors/sponsors.svg">
     <img src="https://cdn.jsdelivr.net/gh/capawesome-team/static/images/sponsors/sponsors.svg" />
