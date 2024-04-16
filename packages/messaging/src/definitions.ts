@@ -141,7 +141,7 @@ export interface FirebaseMessagingPlugin {
   addListener(
     eventName: 'tokenReceived',
     listenerFunc: TokenReceivedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Called when a new push notification is received.
    *
@@ -158,7 +158,7 @@ export interface FirebaseMessagingPlugin {
   addListener(
     eventName: 'notificationReceived',
     listenerFunc: NotificationReceivedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Called when a new push notification action is performed.
    *
@@ -169,7 +169,7 @@ export interface FirebaseMessagingPlugin {
   addListener(
     eventName: 'notificationActionPerformed',
     listenerFunc: NotificationActionPerformedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Remove all listeners for this plugin.
    *

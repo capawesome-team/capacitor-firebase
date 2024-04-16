@@ -1420,7 +1420,7 @@ Instrument your app to talk to the Authentication emulator.
 ### addListener('authStateChange', ...)
 
 ```typescript
-addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener) => Promise<PluginListenerHandle>
 ```
 
 Listen for the user's sign-in state changes.
@@ -1432,7 +1432,7 @@ Listen for the user's sign-in state changes.
 | **`eventName`**    | <code>'authStateChange'</code>                                              |
 | **`listenerFunc`** | <code><a href="#authstatechangelistener">AuthStateChangeListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 0.1.0
 
@@ -1442,7 +1442,7 @@ Listen for the user's sign-in state changes.
 ### addListener('phoneVerificationCompleted', ...)
 
 ```typescript
-addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerificationCompletedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerificationCompletedListener) => Promise<PluginListenerHandle>
 ```
 
 Listen for a completed phone verification.
@@ -1461,7 +1461,7 @@ Only available for Android.
 | **`eventName`**    | <code>'phoneVerificationCompleted'</code>                                                         |
 | **`listenerFunc`** | <code><a href="#phoneverificationcompletedlistener">PhoneVerificationCompletedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 1.3.0
 
@@ -1471,7 +1471,7 @@ Only available for Android.
 ### addListener('phoneVerificationFailed', ...)
 
 ```typescript
-addListener(eventName: 'phoneVerificationFailed', listenerFunc: PhoneVerificationFailedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'phoneVerificationFailed', listenerFunc: PhoneVerificationFailedListener) => Promise<PluginListenerHandle>
 ```
 
 Listen for a failed phone verification.
@@ -1481,7 +1481,7 @@ Listen for a failed phone verification.
 | **`eventName`**    | <code>'phoneVerificationFailed'</code>                                                      |
 | **`listenerFunc`** | <code><a href="#phoneverificationfailedlistener">PhoneVerificationFailedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 1.3.0
 
@@ -1491,7 +1491,7 @@ Listen for a failed phone verification.
 ### addListener('phoneCodeSent', ...)
 
 ```typescript
-addListener(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener) => Promise<PluginListenerHandle>
 ```
 
 Listen for a phone verification code.
@@ -1501,7 +1501,7 @@ Listen for a phone verification code.
 | **`eventName`**    | <code>'phoneCodeSent'</code>                                            |
 | **`listenerFunc`** | <code><a href="#phonecodesentlistener">PhoneCodeSentListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 1.3.0
 

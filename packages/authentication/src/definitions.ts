@@ -444,7 +444,7 @@ export interface FirebaseAuthenticationPlugin {
   addListener(
     eventName: 'authStateChange',
     listenerFunc: AuthStateChangeListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Listen for a completed phone verification.
    *
@@ -462,7 +462,7 @@ export interface FirebaseAuthenticationPlugin {
   addListener(
     eventName: 'phoneVerificationCompleted',
     listenerFunc: PhoneVerificationCompletedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Listen for a failed phone verification.
    *
@@ -471,7 +471,7 @@ export interface FirebaseAuthenticationPlugin {
   addListener(
     eventName: 'phoneVerificationFailed',
     listenerFunc: PhoneVerificationFailedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Listen for a phone verification code.
    *
@@ -480,7 +480,7 @@ export interface FirebaseAuthenticationPlugin {
   addListener(
     eventName: 'phoneCodeSent',
     listenerFunc: PhoneCodeSentListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Remove all listeners for this plugin.
    *

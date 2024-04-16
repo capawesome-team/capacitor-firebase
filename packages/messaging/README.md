@@ -480,7 +480,7 @@ Only available for Android (SDK 26+).
 ### addListener('tokenReceived', ...)
 
 ```typescript
-addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => Promise<PluginListenerHandle>
 ```
 
 Called when a new FCM token is received.
@@ -492,7 +492,7 @@ Only available for Android and iOS.
 | **`eventName`**    | <code>'tokenReceived'</code>                                            |
 | **`listenerFunc`** | <code><a href="#tokenreceivedlistener">TokenReceivedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 0.2.2
 
@@ -502,7 +502,7 @@ Only available for Android and iOS.
 ### addListener('notificationReceived', ...)
 
 ```typescript
-addListener(eventName: 'notificationReceived', listenerFunc: NotificationReceivedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'notificationReceived', listenerFunc: NotificationReceivedListener) => Promise<PluginListenerHandle>
 ```
 
 Called when a new push notification is received.
@@ -520,7 +520,7 @@ See https://developer.apple.com/library/archive/documentation/NetworkingInternet
 | **`eventName`**    | <code>'notificationReceived'</code>                                                   |
 | **`listenerFunc`** | <code><a href="#notificationreceivedlistener">NotificationReceivedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 0.2.2
 
@@ -530,7 +530,7 @@ See https://developer.apple.com/library/archive/documentation/NetworkingInternet
 ### addListener('notificationActionPerformed', ...)
 
 ```typescript
-addListener(eventName: 'notificationActionPerformed', listenerFunc: NotificationActionPerformedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'notificationActionPerformed', listenerFunc: NotificationActionPerformedListener) => Promise<PluginListenerHandle>
 ```
 
 Called when a new push notification action is performed.
@@ -542,7 +542,7 @@ Only available for Android and iOS.
 | **`eventName`**    | <code>'notificationActionPerformed'</code>                                                          |
 | **`listenerFunc`** | <code><a href="#notificationactionperformedlistener">NotificationActionPerformedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 0.2.2
 

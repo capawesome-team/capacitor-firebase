@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/messaging",
-  "version": "5.4.1",
+  "version": "6.0.0",
   "description": "Capacitor plugin for Firebase Cloud Messaging (FCM).",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -56,11 +56,11 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@capacitor/android": "5.0.0",
-    "@capacitor/cli": "5.0.0",
-    "@capacitor/core": "5.0.0",
+    "@capacitor/android": "6.0.0",
+    "@capacitor/cli": "6.0.0",
+    "@capacitor/core": "6.0.0",
     "@capacitor/docgen": "0.2.1",
-    "@capacitor/ios": "5.0.0",
+    "@capacitor/ios": "6.0.0",
     "@ionic/eslint-config": "0.3.0",
     "@ionic/swiftlint-config": "1.1.2",
     "eslint": "7.32.0",
@@ -73,7 +73,7 @@
     "typescript": "4.1.5"
   },
   "peerDependencies": {
-    "@capacitor/core": "^5.0.0",
+    "@capacitor/core": "^6.0.0",
     "firebase": "^10.9.0"
   },
   "peerDependenciesMeta": {
