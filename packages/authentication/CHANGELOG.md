@@ -1,5 +1,27 @@
 # Changelog
 
+## 6.0.0
+
+### Major Changes
+
+- [`4480c16`](https://github.com/capawesome-team/capacitor-firebase/commit/4480c16c6bdbcac6e393bdecafd2d37b669fdda3) ([#586](https://github.com/capawesome-team/capacitor-firebase/pull/586)): chore(deps): update Android SDKs
+
+* [`249ba0a`](https://github.com/capawesome-team/capacitor-firebase/commit/249ba0ab9f28a9cc372c018476a0d49b85b4bb76) ([#612](https://github.com/capawesome-team/capacitor-firebase/pull/612)): chore(deps): update Firebase iOS SDK to `10.24.0`
+
+- [`6703b9d`](https://github.com/capawesome-team/capacitor-firebase/commit/6703b9d8e2e2ee7fb1260f0eac90f02963af0944) ([#594](https://github.com/capawesome-team/capacitor-firebase/pull/594)): chore(deps): update the `firebase` dependency to `10.9.0`
+
+* [`8ad8035`](https://github.com/capawesome-team/capacitor-firebase/commit/8ad8035747761d45254fc75e79de34bfd9fc3421): feat: update to Capacitor 6
+
+### Minor Changes
+
+- [`4d21118`](https://github.com/capawesome-team/capacitor-firebase/commit/4d2111872d1b08e12d7a111d0516912f5f957238) ([#572](https://github.com/capawesome-team/capacitor-firebase/pull/572)): feat(android): support dynamic Firebase config
+
+* [`69e5768`](https://github.com/capawesome-team/capacitor-firebase/commit/69e57682ed71cb3e07aa2d982def960b10b9b320) ([#593](https://github.com/capawesome-team/capacitor-firebase/pull/593)): feat: add `fetchSignInMethodsForEmail(...)` method
+
+### Patch Changes
+
+- [`b91b3a4`](https://github.com/capawesome-team/capacitor-firebase/commit/b91b3a421a3ed1909d015ebcba650c2426d7ce38) ([#613](https://github.com/capawesome-team/capacitor-firebase/pull/613)): fix(web): `authStateChange` listener fires too early
+
 ## 5.4.1
 
 ### Patch Changes
