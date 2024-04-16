@@ -32,7 +32,7 @@ export interface FirebaseAppCheckPlugin {
   addListener(
     eventName: 'tokenChanged',
     listenerFunc: TokenChangedListener,
-  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   /**
    * Remove all listeners for this plugin.
    *

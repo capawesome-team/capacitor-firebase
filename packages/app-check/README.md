@@ -153,7 +153,7 @@ Set whether the App Check token should be refreshed automatically or not.
 ### addListener('tokenChanged', ...)
 
 ```typescript
-addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => Promise<PluginListenerHandle>
 ```
 
 Called when the App Check token changed.
@@ -165,7 +165,7 @@ Only available for Web.
 | **`eventName`**    | <code>'tokenChanged'</code>                                           |
 | **`listenerFunc`** | <code><a href="#tokenchangedlistener">TokenChangedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 1.3.0
 
