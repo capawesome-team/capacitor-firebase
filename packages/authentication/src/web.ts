@@ -719,6 +719,7 @@ export class FirebaseAuthenticationWeb
     this.notifyListeners(
       FirebaseAuthenticationWeb.AUTH_STATE_CHANGE_EVENT,
       change,
+      true,
     );
   }
 
