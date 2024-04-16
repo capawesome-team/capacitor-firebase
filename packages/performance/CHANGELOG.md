@@ -1,5 +1,17 @@
 # Changelog
 
+## 6.0.0
+
+### Major Changes
+
+- [`4480c16`](https://github.com/capawesome-team/capacitor-firebase/commit/4480c16c6bdbcac6e393bdecafd2d37b669fdda3) ([#586](https://github.com/capawesome-team/capacitor-firebase/pull/586)): chore(deps): update Android SDKs
+
+* [`249ba0a`](https://github.com/capawesome-team/capacitor-firebase/commit/249ba0ab9f28a9cc372c018476a0d49b85b4bb76) ([#612](https://github.com/capawesome-team/capacitor-firebase/pull/612)): chore(deps): update Firebase iOS SDK to `10.24.0`
+
+- [`6703b9d`](https://github.com/capawesome-team/capacitor-firebase/commit/6703b9d8e2e2ee7fb1260f0eac90f02963af0944) ([#594](https://github.com/capawesome-team/capacitor-firebase/pull/594)): chore(deps): update the `firebase` dependency to `10.9.0`
+
+* [`8ad8035`](https://github.com/capawesome-team/capacitor-firebase/commit/8ad8035747761d45254fc75e79de34bfd9fc3421): feat: update to Capacitor 6
+
 ## 5.4.1
 
 ## 5.4.0
