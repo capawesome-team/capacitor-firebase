@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.Bridge;
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONObject;
 
 public class FirebaseAnalytics {
@@ -35,6 +37,15 @@ public class FirebaseAnalytics {
                     resultCallback.success(appInstanceId);
                 }
             );
+    }
+
+    public void setConsent(
+        @NonNull com.google.firebase.analytics.FirebaseAnalytics.ConsentType consentType,
+        @NonNull com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus consentStatus
+    ) {
+        Map<com.google.firebase.analytics.FirebaseAnalytics.ConsentType, com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus> map = new HashMap<>();
+        map.put(consentType, consentStatus);
+        getFirebaseAnalyticsInstance().setConsent(map);
     }
 
     public void setUserId(@Nullable String userId) {
