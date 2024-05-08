@@ -88,6 +88,7 @@ import type {
   SignInWithEmailAndPasswordOptions,
   SignInWithEmailLinkOptions,
   SignInWithOAuthOptions,
+  SignInWithOpenIdConnectOptions,
   SignInWithPhoneNumberOptions,
   UnlinkOptions,
   UnlinkResult,
@@ -180,6 +181,10 @@ export class FirebaseAuthenticationWeb
     return {
       signInMethods,
     };
+  }
+
+  public async getPendingAuthResult(): Promise<SignInResult> {
+    this.throwNotAvailableError();
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
@@ -284,7 +289,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async linkWithGameCenter(): Promise<LinkResult> {
-    throw new Error('Not available on web.');
+    this.throwNotAvailableError();
   }
 
   public async linkWithGithub(
@@ -323,6 +328,19 @@ export class FirebaseAuthenticationWeb
     const userCredential = await this.linkCurrentUserWithPopupOrRedirect(
       provider,
       options?.mode,
+    );
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
+  }
+
+  public async linkWithOpenIdConnect(
+    options: SignInWithOpenIdConnectOptions,
+  ): Promise<SignInResult> {
+    const provider = new OAuthProvider(options.providerId);
+    this.applySignInOptions(options, provider);
+    const userCredential = await this.linkCurrentUserWithPopupOrRedirect(
+      provider,
+      options.mode,
     );
     const authCredential = OAuthProvider.credentialFromResult(userCredential);
     return this.createSignInResult(userCredential, authCredential);
@@ -374,7 +392,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async linkWithPlayGames(): Promise<LinkResult> {
-    throw new Error('Not available on web.');
+    this.throwNotAvailableError();
   }
 
   public async linkWithTwitter(
@@ -574,6 +592,19 @@ export class FirebaseAuthenticationWeb
     return this.createSignInResult(userCredential, authCredential);
   }
 
+  public async signInWithOpenIdConnect(
+    options: SignInWithOpenIdConnectOptions,
+  ): Promise<SignInResult> {
+    const provider = new OAuthProvider(options.providerId);
+    this.applySignInOptions(options, provider);
+    const userCredential = await this.signInWithPopupOrRedirect(
+      provider,
+      options.mode,
+    );
+    const authCredential = OAuthProvider.credentialFromResult(userCredential);
+    return this.createSignInResult(userCredential, authCredential);
+  }
+
   public async signInWithPhoneNumber(
     options: SignInWithPhoneNumberOptions,
   ): Promise<void> {
@@ -616,11 +647,11 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
-    throw new Error('Not available on web.');
+    this.throwNotAvailableError();
   }
 
   public async signInWithGameCenter(): Promise<SignInResult> {
-    throw new Error('Not available on web.');
+    this.throwNotAvailableError();
   }
 
   public async signInWithTwitter(
@@ -892,5 +923,9 @@ export class FirebaseAuthenticationWeb
       return error['message'];
     }
     return JSON.stringify(error);
+  }
+
+  private throwNotAvailableError(): never {
+    throw new Error('Not available on web.');
   }
 }

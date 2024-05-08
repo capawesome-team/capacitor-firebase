@@ -93,6 +93,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   getCurrentUser(): Promise<GetCurrentUserResult>;
   /**
+   * Returns the `SignInResult` if your app launched a web sign-in flow and the OS cleans up the app while in the background.
+   *
+   * Only available for Android.
+   *
+   * @since 6.0.0
+   */
+  getPendingAuthResult(): Promise<SignInResult>;
+  /**
    * Fetches the Firebase Auth ID Token for the currently signed-in user.
    *
    * @since 0.1.0
@@ -199,6 +207,14 @@ export interface FirebaseAuthenticationPlugin {
    * @since 1.1.0
    */
   linkWithMicrosoft(options?: LinkWithOAuthOptions): Promise<LinkResult>;
+  /**
+   * Links the user account with an OpenID Connect provider.
+   *
+   * @since 6.0.0
+   */
+  linkWithOpenIdConnect(
+    options: LinkWithOpenIdConnectOptions,
+  ): Promise<LinkResult>;
   /**
    * Links the user account with Phone Number authentication provider.
    *
@@ -360,6 +376,14 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   signInWithMicrosoft(options?: SignInWithOAuthOptions): Promise<SignInResult>;
+  /**
+   * Starts the OpenID Connect sign-in flow.
+   *
+   * @since 6.0.0
+   */
+  signInWithOpenIdConnect(
+    options: SignInWithOpenIdConnectOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using a phone number.
    *
@@ -797,6 +821,11 @@ export interface LinkWithEmailLinkOptions {
 }
 
 /**
+ * @since 6.0.0
+ */
+export type LinkWithOpenIdConnectOptions = SignInWithOpenIdConnectOptions;
+
+/**
  * @since 1.1.0
  */
 export type LinkWithPhoneNumberOptions = SignInWithPhoneNumberOptions;
@@ -884,6 +913,19 @@ export interface SignInCustomParameter {
    * @since 0.1.0
    */
   value: string;
+}
+
+/**
+ * @since 6.0.0
+ */
+export interface SignInWithOpenIdConnectOptions extends SignInWithOAuthOptions {
+  /**
+   * The OpenID Connect provider ID.
+   *
+   * @since 6.0.0
+   * @example oidc.example-provider
+   */
+  providerId: string;
 }
 
 /**

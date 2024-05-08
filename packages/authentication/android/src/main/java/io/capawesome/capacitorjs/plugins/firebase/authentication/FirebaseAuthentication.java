@@ -182,6 +182,10 @@ public class FirebaseAuthentication {
         );
     }
 
+    public void getPendingAuthResult(PluginCall call) {
+        oAuthProviderHandler.getPendingAuthResult(call);
+    }
+
     @Nullable
     public String getTenantId() {
         return getFirebaseAuthInstance().getTenantId();
@@ -279,6 +283,10 @@ public class FirebaseAuthentication {
 
     public void linkWithMicrosoft(final PluginCall call) {
         oAuthProviderHandler.link(call, ProviderId.MICROSOFT);
+    }
+
+    public void linkWithOpenIdConnect(final PluginCall call, final String providerId) {
+        oAuthProviderHandler.link(call, providerId);
     }
 
     public void linkWithPhoneNumber(@NonNull final LinkWithPhoneNumberOptions options) throws Exception {
@@ -460,6 +468,10 @@ public class FirebaseAuthentication {
 
     public void signInWithMicrosoft(final PluginCall call) {
         oAuthProviderHandler.signIn(call, ProviderId.MICROSOFT);
+    }
+
+    public void signInWithOpenIdConnect(final PluginCall call, final String providerId) {
+        oAuthProviderHandler.signIn(call, providerId);
     }
 
     public void signInWithPhoneNumber(final SignInWithPhoneNumberOptions options) throws Exception {

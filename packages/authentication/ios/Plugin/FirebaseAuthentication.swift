@@ -215,6 +215,11 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.link(call: call, providerId: ProviderId.microsoft)
     }
 
+    @objc func linkWithOpenIdConnect(_ call: CAPPluginCall, providerId: String) {
+        self.savedCall = call
+        self.oAuthProviderHandler?.link(call: call, providerId: providerId)
+    }
+
     @objc func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) {
         self.phoneAuthProviderHandler?.link(options)
     }
@@ -388,6 +393,11 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func signInWithMicrosoft(_ call: CAPPluginCall) {
         self.savedCall = call
         self.oAuthProviderHandler?.signIn(call: call, providerId: ProviderId.microsoft)
+    }
+
+    @objc func signInWithOpenIdConnect(_ call: CAPPluginCall, providerId: String) {
+        self.savedCall = call
+        self.oAuthProviderHandler?.signIn(call: call, providerId: providerId)
     }
 
     @objc func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) {
