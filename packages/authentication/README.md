@@ -173,6 +173,11 @@ const getCurrentUser = async () => {
   return result.user;
 };
 
+const getPendingAuthResult = async () => {
+  const result = await FirebaseAuthentication.getPendingAuthResult();
+  return result.user;
+};
+
 const getIdToken = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
