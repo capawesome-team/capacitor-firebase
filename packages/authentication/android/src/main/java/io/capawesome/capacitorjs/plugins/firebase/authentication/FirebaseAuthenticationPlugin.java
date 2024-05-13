@@ -670,6 +670,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         }
     }
 
+    @PluginMethod
     public void signInWithOpenIdConnect(PluginCall call) {
         try {
             String providerId = call.getString("providerId");
