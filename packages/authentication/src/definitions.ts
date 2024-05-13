@@ -210,7 +210,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Links the user account with an OpenID Connect provider.
    *
-   * @since 6.0.0
+   * @since 6.1.0
    */
   linkWithOpenIdConnect(
     options: LinkWithOpenIdConnectOptions,
@@ -379,7 +379,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Starts the OpenID Connect sign-in flow.
    *
-   * @since 6.0.0
+   * @since 6.1.0
    */
   signInWithOpenIdConnect(
     options: SignInWithOpenIdConnectOptions,
@@ -821,7 +821,7 @@ export interface LinkWithEmailLinkOptions {
 }
 
 /**
- * @since 6.0.0
+ * @since 6.1.0
  */
 export type LinkWithOpenIdConnectOptions = SignInWithOpenIdConnectOptions;
 
@@ -916,13 +916,13 @@ export interface SignInCustomParameter {
 }
 
 /**
- * @since 6.0.0
+ * @since 6.1.0
  */
 export interface SignInWithOpenIdConnectOptions extends SignInWithOAuthOptions {
   /**
    * The OpenID Connect provider ID.
    *
-   * @since 6.0.0
+   * @since 6.1.0
    * @example oidc.example-provider
    */
   providerId: string;

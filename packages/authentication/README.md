@@ -876,7 +876,7 @@ Links the user account with an OpenID Connect provider.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
-**Since:** 6.0.0
+**Since:** 6.1.0
 
 --------------------
 
@@ -1293,7 +1293,7 @@ Starts the OpenID Connect sign-in flow.
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
-**Since:** 6.0.0
+**Since:** 6.1.0
 
 --------------------
 
@@ -1793,7 +1793,7 @@ Remove all listeners for this plugin.
 
 | Prop             | Type                | Description                     | Since |
 | ---------------- | ------------------- | ------------------------------- | ----- |
-| **`providerId`** | <code>string</code> | The OpenID Connect provider ID. | 6.0.0 |
+| **`providerId`** | <code>string</code> | The OpenID Connect provider ID. | 6.1.0 |
 
 
 #### SignInWithPhoneNumberOptions
