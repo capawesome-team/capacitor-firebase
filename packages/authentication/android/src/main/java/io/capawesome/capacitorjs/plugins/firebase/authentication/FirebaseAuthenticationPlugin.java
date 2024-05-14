@@ -245,6 +245,17 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void getPendingAuthResult(PluginCall call) {
+        try {
+            implementation.getPendingAuthResult(call);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
+        }
+    }
+
+    @PluginMethod
     public void getRedirectResult(PluginCall call) {
         call.reject("Not available on Android.");
     }
@@ -352,6 +363,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void linkWithMicrosoft(PluginCall call) {
         try {
             implementation.linkWithMicrosoft(call);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
+        }
+    }
+
+    @PluginMethod
+    public void linkWithOpenIdConnect(PluginCall call) {
+        try {
+            String providerId = call.getString("providerId");
+            if (providerId == null) {
+                call.reject(ERROR_PROVIDER_ID_MISSING);
+                return;
+            }
+
+            implementation.linkWithOpenIdConnect(call, providerId);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -635,6 +663,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public void signInWithMicrosoft(PluginCall call) {
         try {
             implementation.signInWithMicrosoft(call);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
+        }
+    }
+
+    @PluginMethod
+    public void signInWithOpenIdConnect(PluginCall call) {
+        try {
+            String providerId = call.getString("providerId");
+            if (providerId == null) {
+                call.reject(ERROR_PROVIDER_ID_MISSING);
+                return;
+            }
+
+            implementation.signInWithOpenIdConnect(call, providerId);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);

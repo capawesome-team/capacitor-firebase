@@ -23,6 +23,18 @@ public class OAuthProviderHandler {
         this.pluginImplementation = pluginImplementation;
     }
 
+    public void getPendingAuthResult(PluginCall call) {
+        Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
+        if (pendingResultTask == null) {
+            pluginImplementation.handleSuccessfulSignIn(call, null, null, null, null);
+            return;
+        }
+
+        pendingResultTask
+            .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulSignIn(call, authResult, null, null, null))
+            .addOnFailureListener(exception -> pluginImplementation.handleFailedSignIn(call, null, exception));
+    }
+
     public void signIn(PluginCall call, String providerId) {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
         applySignInOptions(call, provider);

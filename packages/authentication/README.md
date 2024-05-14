@@ -40,6 +40,7 @@ The further installation steps depend on the selected authentication method:
 - [GitHub Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-github.md)
 - [Google Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-google.md)
 - [Microsoft Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-microsoft.md)
+- [OpenID Connect Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-oidc.md)
 - [Play Games Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-play-games.md)
 - [Twitter Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-twitter.md)
 - [Yahoo Sign-In](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-yahoo.md)
@@ -172,6 +173,11 @@ const getCurrentUser = async () => {
   return result.user;
 };
 
+const getPendingAuthResult = async () => {
+  const result = await FirebaseAuthentication.getPendingAuthResult();
+  return result.user;
+};
+
 const getIdToken = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
@@ -179,6 +185,11 @@ const getIdToken = async () => {
   }
   const result = await FirebaseAuthentication.getIdToken();
   return result.token;
+};
+
+const getPendingAuthResult = async () => {
+  const result = await FirebaseAuthentication.getPendingAuthResult();
+  return result.user;
 };
 
 const sendEmailVerification = async () => {
@@ -236,11 +247,6 @@ const signInWithApple = async () => {
   return result.user;
 };
 
-const signInWithGameCenter = async () => {
-  const result = await FirebaseAuthentication.signInWithGameCenter();
-  return result.user;
-};
-
 const signInWithCustomToken = async () => {
   const result = await FirebaseAuthentication.signInWithCustomToken({
     token: '1234',
@@ -289,6 +295,11 @@ const signInWithFacebook = async () => {
   return result.user;
 };
 
+const signInWithGameCenter = async () => {
+  const result = await FirebaseAuthentication.signInWithGameCenter();
+  return result.user;
+};
+
 const signInWithGithub = async () => {
   const result = await FirebaseAuthentication.signInWithGithub();
   return result.user;
@@ -301,6 +312,13 @@ const signInWithGoogle = async () => {
 
 const signInWithMicrosoft = async () => {
   const result = await FirebaseAuthentication.signInWithMicrosoft();
+  return result.user;
+};
+
+const signInWithOpenIdConnect = async () => {
+  const result = await FirebaseAuthentication.signInWithOpenIdConnect({
+    providerId: 'oidc.example.com',
+  });
   return result.user;
 };
 
@@ -395,6 +413,7 @@ const useEmulator = async () => {
 * [`deleteUser()`](#deleteuser)
 * [`fetchSignInMethodsForEmail(...)`](#fetchsigninmethodsforemail)
 * [`getCurrentUser()`](#getcurrentuser)
+* [`getPendingAuthResult()`](#getpendingauthresult)
 * [`getIdToken(...)`](#getidtoken)
 * [`getRedirectResult()`](#getredirectresult)
 * [`getTenantId()`](#gettenantid)
@@ -407,6 +426,7 @@ const useEmulator = async () => {
 * [`linkWithGithub(...)`](#linkwithgithub)
 * [`linkWithGoogle(...)`](#linkwithgoogle)
 * [`linkWithMicrosoft(...)`](#linkwithmicrosoft)
+* [`linkWithOpenIdConnect(...)`](#linkwithopenidconnect)
 * [`linkWithPhoneNumber(...)`](#linkwithphonenumber)
 * [`linkWithPlayGames(...)`](#linkwithplaygames)
 * [`linkWithTwitter(...)`](#linkwithtwitter)
@@ -428,6 +448,7 @@ const useEmulator = async () => {
 * [`signInWithGithub(...)`](#signinwithgithub)
 * [`signInWithGoogle(...)`](#signinwithgoogle)
 * [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
+* [`signInWithOpenIdConnect(...)`](#signinwithopenidconnect)
 * [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
 * [`signInWithPlayGames(...)`](#signinwithplaygames)
 * [`signInWithTwitter(...)`](#signinwithtwitter)
@@ -569,6 +590,23 @@ Fetches the currently signed-in user.
 **Returns:** <code>Promise&lt;<a href="#getcurrentuserresult">GetCurrentUserResult</a>&gt;</code>
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### getPendingAuthResult()
+
+```typescript
+getPendingAuthResult() => Promise<SignInResult>
+```
+
+Returns the <a href="#signinresult">`SignInResult`</a> if your app launched a web sign-in flow and the OS cleans up the app while in the background.
+
+Only available for Android.
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 6.0.0
 
 --------------------
 
@@ -820,6 +858,25 @@ The `skipNativeAuth` configuration option has no effect here.
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
 **Since:** 1.1.0
+
+--------------------
+
+
+### linkWithOpenIdConnect(...)
+
+```typescript
+linkWithOpenIdConnect(options: LinkWithOpenIdConnectOptions) => Promise<LinkResult>
+```
+
+Links the user account with an OpenID Connect provider.
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithopenidconnectoptions">SignInWithOpenIdConnectOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -1218,6 +1275,25 @@ Starts the Microsoft sign-in flow.
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### signInWithOpenIdConnect(...)
+
+```typescript
+signInWithOpenIdConnect(options: SignInWithOpenIdConnectOptions) => Promise<SignInResult>
+```
+
+Starts the OpenID Connect sign-in flow.
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithopenidconnectoptions">SignInWithOpenIdConnectOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -1713,6 +1789,13 @@ Remove all listeners for this plugin.
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
+#### SignInWithOpenIdConnectOptions
+
+| Prop             | Type                | Description                     | Since |
+| ---------------- | ------------------- | ------------------------------- | ----- |
+| **`providerId`** | <code>string</code> | The OpenID Connect provider ID. | 6.1.0 |
+
+
 #### SignInWithPhoneNumberOptions
 
 | Prop                    | Type                 | Description                                                                                                                                                   | Default            | Since |
@@ -1903,6 +1986,11 @@ An interface covering the possible persistence mechanism types.
 #### LinkResult
 
 <code><a href="#signinresult">SignInResult</a></code>
+
+
+#### LinkWithOpenIdConnectOptions
+
+<code><a href="#signinwithopenidconnectoptions">SignInWithOpenIdConnectOptions</a></code>
 
 
 #### LinkWithPhoneNumberOptions
