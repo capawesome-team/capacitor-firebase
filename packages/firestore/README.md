@@ -41,10 +41,10 @@ import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({
     reference: 'users',
-    data: { 
-      first: 'Alan', 
-      last: 'Turing', 
-      born: 1912 
+    data: {
+      first: 'Alan',
+      last: 'Turing',
+      born: 1912,
     },
   });
 };
@@ -52,10 +52,10 @@ const addDocument = async () => {
 const setDocument = async () => {
   await FirebaseFirestore.setDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
-    data: { 
-      first: 'Alan', 
-      last: 'Turing', 
-      born: 1912 
+    data: {
+      first: 'Alan',
+      last: 'Turing',
+      born: 1912,
     },
     merge: true,
   });
@@ -71,10 +71,10 @@ const getDocument = async () => {
 const updateDocument = async () => {
   await FirebaseFirestore.updateDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
-    data: { 
-      first: 'Alan', 
-      last: 'Turing', 
-      born: 1912 
+    data: {
+      first: 'Alan',
+      last: 'Turing',
+      born: 1912,
     },
   });
 };
@@ -133,7 +133,7 @@ const addDocumentSnapshotListener = async () => {
       } else {
         console.log(event);
       }
-    }
+    },
   );
   return callbackId;
 };
@@ -171,7 +171,45 @@ const addCollectionSnapshotListener = async () => {
       } else {
         console.log(event);
       }
-    }
+    },
+  );
+  return callbackId;
+};
+
+const addCollectionGroupSnapshotListener = async () => {
+  const callbackId = await FirebaseFirestore.addCollectionGroupSnapshotListener(
+    {
+      reference: 'users',
+      compositeFilter: {
+        type: 'and',
+        queryConstraints: [
+          {
+            type: 'where',
+            fieldPath: 'born',
+            opStr: '==',
+            value: 1912,
+          },
+        ],
+      },
+      queryConstraints: [
+        {
+          type: 'orderBy',
+          fieldPath: 'born',
+          directionStr: 'desc',
+        },
+        {
+          type: 'limit',
+          limit: 10,
+        },
+      ],
+    },
+    (event, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(event);
+      }
+    },
   );
   return callbackId;
 };
@@ -191,22 +229,23 @@ const removeAllListeners = async () => {
 
 <docgen-index>
 
-* [`addDocument(...)`](#adddocument)
-* [`setDocument(...)`](#setdocument)
-* [`getDocument(...)`](#getdocument)
-* [`updateDocument(...)`](#updatedocument)
-* [`deleteDocument(...)`](#deletedocument)
-* [`getCollection(...)`](#getcollection)
-* [`getCollectionGroup(...)`](#getcollectiongroup)
-* [`clearPersistence()`](#clearpersistence)
-* [`enableNetwork()`](#enablenetwork)
-* [`disableNetwork()`](#disablenetwork)
-* [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
-* [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
-* [`removeSnapshotListener(...)`](#removesnapshotlistener)
-* [`removeAllListeners()`](#removealllisteners)
-* [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
+- [`addDocument(...)`](#adddocument)
+- [`setDocument(...)`](#setdocument)
+- [`getDocument(...)`](#getdocument)
+- [`updateDocument(...)`](#updatedocument)
+- [`deleteDocument(...)`](#deletedocument)
+- [`getCollection(...)`](#getcollection)
+- [`getCollectionGroup(...)`](#getcollectiongroup)
+- [`clearPersistence()`](#clearpersistence)
+- [`enableNetwork()`](#enablenetwork)
+- [`disableNetwork()`](#disablenetwork)
+- [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
+- [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
+- [`addCollectionGroupSnapshotListener(...)`](#addcollectiongroupsnapshotlistener)
+- [`removeSnapshotListener(...)`](#removesnapshotlistener)
+- [`removeAllListeners()`](#removealllisteners)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -229,8 +268,7 @@ Adds a new document to a collection with the given data.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### setDocument(...)
 
@@ -247,8 +285,7 @@ If the document does not yet exist, it will be created.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### getDocument(...)
 
@@ -266,8 +303,7 @@ Reads the document referred to by the specified reference.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### updateDocument(...)
 
@@ -283,8 +319,7 @@ Updates fields in the document referred to by the specified reference.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### deleteDocument(...)
 
@@ -300,8 +335,7 @@ Deletes the document referred to by the specified reference.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### getCollection(...)
 
@@ -319,8 +353,7 @@ Reads the collection referenced by the specified reference.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### getCollectionGroup(...)
 
@@ -336,8 +369,7 @@ Reads the collection group referenced by the specified reference.
 
 **Returns:** <code>Promise&lt;<a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;&gt;</code>
 
---------------------
-
+---
 
 ### clearPersistence()
 
@@ -351,8 +383,7 @@ Must be called after the app is shutdown or when the app is first initialized.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### enableNetwork()
 
@@ -364,8 +395,7 @@ Re-enables use of the network.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### disableNetwork()
 
@@ -377,8 +407,7 @@ Disables use of the network.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### addDocumentSnapshotListener(...)
 
@@ -397,8 +426,7 @@ Adds a listener for document snapshot events.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### addCollectionSnapshotListener(...)
 
@@ -417,8 +445,26 @@ Adds a listener for collection snapshot events.
 
 **Since:** 5.2.0
 
---------------------
+---
 
+### addCollectionGroupSnapshotListener(...)
+
+```typescript
+addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(options: GetCollectionGroupOptions, callback: AddCollectionGroupSnapshotListenerCallback<T>) => Promise<CallbackId>
+```
+
+Adds a listener for collection group snapshot events.
+
+| Param          | Type                                                                                                                       |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **`options`**  | <code><a href="#getcollectiongroupoptions">GetCollectionGroupOptions</a></code>                                            |
+| **`callback`** | <code><a href="#addcollectiongroupsnapshotlistenercallback">AddCollectionGroupSnapshotListenerCallback</a>&lt;T&gt;</code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+**Since:** TODO
+
+---
 
 ### removeSnapshotListener(...)
 
@@ -434,8 +480,7 @@ Remove a listener for document or collection snapshot events.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### removeAllListeners()
 
@@ -447,18 +492,15 @@ Remove all listeners for this plugin.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### AddDocumentResult
 
 | Prop            | Type                                                            | Description                                | Since |
 | --------------- | --------------------------------------------------------------- | ------------------------------------------ | ----- |
 | **`reference`** | <code><a href="#documentreference">DocumentReference</a></code> | The reference of the newly added document. | 5.2.0 |
-
 
 #### DocumentReference
 
@@ -467,7 +509,6 @@ Remove all listeners for this plugin.
 | **`id`**   | <code>string</code> | The document's identifier within its collection. | 5.2.0 |
 | **`path`** | <code>string</code> | The path of the document.                        | 5.2.0 |
 
-
 #### AddDocumentOptions
 
 | Prop            | Type                                                  | Description                                                                         | Since |
@@ -475,9 +516,7 @@ Remove all listeners for this plugin.
 | **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
 
-
 #### DocumentData
-
 
 #### SetDocumentOptions
 
@@ -487,13 +526,11 @@ Remove all listeners for this plugin.
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 |                    | 5.2.0 |
 | **`merge`**     | <code>boolean</code>                                  | Whether to merge the provided data with an existing document.                       | <code>false</code> | 5.2.0 |
 
-
 #### GetDocumentResult
 
 | Prop           | Type                                                                   | Description                    | Since |
 | -------------- | ---------------------------------------------------------------------- | ------------------------------ | ----- |
 | **`snapshot`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;</code> | The current document contents. | 5.2.0 |
-
 
 #### DocumentSnapshot
 
@@ -503,13 +540,11 @@ Remove all listeners for this plugin.
 | **`path`** | <code>string</code>    | The path of the document.                                                                     | 5.2.0 |
 | **`data`** | <code>T \| null</code> | An object containing the data for the document. Returns `null` if the document doesn't exist. | 5.2.0 |
 
-
 #### GetDocumentOptions
 
 | Prop            | Type                | Description                                                                         | Since |
 | --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-
 
 #### UpdateDocumentOptions
 
@@ -518,20 +553,17 @@ Remove all listeners for this plugin.
 | **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
 
-
 #### DeleteDocumentOptions
 
 | Prop            | Type                | Description                                                                         | Since |
 | --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
 
-
 #### GetCollectionResult
 
 | Prop            | Type                                                                     | Description                      | Since |
 | --------------- | ------------------------------------------------------------------------ | -------------------------------- | ----- |
 | **`snapshots`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
-
 
 #### GetCollectionOptions
 
@@ -541,14 +573,12 @@ Remove all listeners for this plugin.
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
-
 #### QueryCompositeFilterConstraint
 
 | Prop                   | Type                                 | Description                 | Since |
 | ---------------------- | ------------------------------------ | --------------------------- | ----- |
 | **`type`**             | <code>'and' \| 'or'</code>           | The type of the constraint. | 5.2.0 |
 | **`queryConstraints`** | <code>QueryFilterConstraint[]</code> | The filters to apply.       | 5.2.0 |
-
 
 #### QueryFieldFilterConstraint
 
@@ -559,7 +589,6 @@ Remove all listeners for this plugin.
 | **`opStr`**     | <code><a href="#queryoperator">QueryOperator</a></code> | The operation string to apply. | 5.2.0 |
 | **`value`**     | <code>any</code>                                        | The value for comparison.      | 5.2.0 |
 
-
 #### QueryOrderByConstraint
 
 | Prop               | Type                                                          | Description                 | Since |
@@ -568,14 +597,12 @@ Remove all listeners for this plugin.
 | **`fieldPath`**    | <code>string</code>                                           | The path to compare.        | 5.2.0 |
 | **`directionStr`** | <code><a href="#orderbydirection">OrderByDirection</a></code> | The direction to sort by.   | 5.2.0 |
 
-
 #### QueryLimitConstraint
 
 | Prop        | Type                                  | Description                            | Since |
 | ----------- | ------------------------------------- | -------------------------------------- | ----- |
 | **`type`**  | <code>'limit' \| 'limitToLast'</code> | The type of the constraint.            | 5.2.0 |
 | **`limit`** | <code>number</code>                   | The maximum number of items to return. | 5.2.0 |
-
 
 #### QueryStartAtConstraint
 
@@ -584,7 +611,6 @@ Remove all listeners for this plugin.
 | **`type`**      | <code>'startAt' \| 'startAfter'</code> | The type of the constraint.                                                                                                                                        | 5.2.0 |
 | **`reference`** | <code>string</code>                    | The reference to start at or after as a string, with path components separated by a forward slash (`/`). **Attention**: This requires an additional document read. | 5.2.0 |
 
-
 #### QueryEndAtConstraint
 
 | Prop            | Type                                | Description                                                                                                                                                          | Since |
@@ -592,13 +618,11 @@ Remove all listeners for this plugin.
 | **`type`**      | <code>'endAt' \| 'endBefore'</code> | The type of the constraint.                                                                                                                                          | 5.2.0 |
 | **`reference`** | <code>string</code>                 | The reference as to end at or before as a string, with path components separated by a forward slash (`/`). **Attention**: This requires an additional document read. | 5.2.0 |
 
-
 #### GetCollectionGroupResult
 
 | Prop            | Type                                                                     | Description                      | Since |
 | --------------- | ------------------------------------------------------------------------ | -------------------------------- | ----- |
 | **`snapshots`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
-
 
 #### GetCollectionGroupOptions
 
@@ -608,13 +632,11 @@ Remove all listeners for this plugin.
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
-
 #### AddDocumentSnapshotListenerOptions
 
 | Prop            | Type                | Description                                                                         | Since |
 | --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-
 
 #### AddCollectionSnapshotListenerOptions
 
@@ -624,60 +646,57 @@ Remove all listeners for this plugin.
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
-
 #### RemoveSnapshotListenerOptions
 
 | Prop             | Type                                              | Since |
 | ---------------- | ------------------------------------------------- | ----- |
 | **`callbackId`** | <code><a href="#callbackid">CallbackId</a></code> | 5.2.0 |
 
-
 ### Type Aliases
-
 
 #### QueryFilterConstraint
 
 <code><a href="#queryfieldfilterconstraint">QueryFieldFilterConstraint</a> | <a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code>
 
-
 #### QueryOperator
 
 <code>'&lt;' | '&lt;=' | '==' | '&gt;=' | '&gt;' | '!=' | 'array-contains' | 'array-contains-any' | 'in' | 'not-in'</code>
-
 
 #### QueryNonFilterConstraint
 
 <code><a href="#queryorderbyconstraint">QueryOrderByConstraint</a> | <a href="#querylimitconstraint">QueryLimitConstraint</a> | <a href="#querystartatconstraint">QueryStartAtConstraint</a> | <a href="#queryendatconstraint">QueryEndAtConstraint</a></code>
 
-
 #### OrderByDirection
 
 <code>'desc' | 'asc'</code>
-
 
 #### AddDocumentSnapshotListenerCallback
 
 <code>(event: <a href="#adddocumentsnapshotlistenercallbackevent">AddDocumentSnapshotListenerCallbackEvent</a>&lt;T&gt; | null, error: any): void</code>
 
-
 #### AddDocumentSnapshotListenerCallbackEvent
 
 <code><a href="#getdocumentresult">GetDocumentResult</a>&lt;T&gt;</code>
-
 
 #### CallbackId
 
 <code>string</code>
 
-
 #### AddCollectionSnapshotListenerCallback
 
 <code>(event: <a href="#addcollectionsnapshotlistenercallbackevent">AddCollectionSnapshotListenerCallbackEvent</a>&lt;T&gt; | null, error: any): void</code>
 
-
 #### AddCollectionSnapshotListenerCallbackEvent
 
 <code><a href="#getcollectionresult">GetCollectionResult</a>&lt;T&gt;</code>
+
+#### AddCollectionGroupSnapshotListenerCallback
+
+<code>(event: <a href="#addcollectiongroupsnapshotlistenercallbackevent">AddCollectionGroupSnapshotListenerCallbackEvent</a>&lt;T&gt; | null, error: any): void</code>
+
+#### AddCollectionGroupSnapshotListenerCallbackEvent
+
+<code><a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;</code>
 
 </docgen-api>
 

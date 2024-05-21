@@ -265,6 +265,41 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         }
     }
 
+    @objc func addCollectionGroupSnapshotListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+
+        guard let reference = call.getString("reference") else {
+            call.reject("collectionId must be provided.")
+            return
+        }
+        let compositeFilter = call.getObject("compositeFilter")
+        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
+        guard let callbackId = call.callbackId else {
+            call.reject(errorCallbackIdMissing)
+            return
+        }
+
+        self.pluginCallMap[callbackId] = call
+
+        let options = AddCollectionGroupSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, callbackId: callbackId)
+
+        do {
+            implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in
+                if let error = error {
+                    CAPLog.print("[", self.tag, "] ", error)
+                    call.reject(error.localizedDescription)
+                    return
+                }
+                if let result = result?.toJSObject() as? JSObject {
+                    call.resolve(result)
+                }
+            })
+        } catch {
+            CAPLog.print("[", self.tag, "] ", error)
+            call.reject(error.localizedDescription)
+        }
+    }
+
     @objc func removeSnapshotListener(_ call: CAPPluginCall) {
         guard let callbackId = call.getString("callbackId") else {
             call.reject(errorCallbackIdMissing)

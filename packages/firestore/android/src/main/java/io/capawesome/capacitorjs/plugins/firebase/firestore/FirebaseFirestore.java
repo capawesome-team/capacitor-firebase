@@ -11,6 +11,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionGroupSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.DeleteDocumentOptions;
@@ -22,6 +23,7 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.SetD
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UpdateDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.AddDocumentResult;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetCollectionResult;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetCollectionGroupResult;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetDocumentResult;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.NonEmptyResultCallback;
@@ -249,6 +251,39 @@ public class FirebaseFirestore {
                     callback.error(exception);
                 } else {
                     GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                    callback.success(result);
+                }
+            }
+        );
+        this.listenerRegistrationMap.put(callbackId, listenerRegistration);
+    }
+
+    public void addCollectionGroupSnapshotListener(
+        @NonNull AddCollectionGroupSnapshotListenerOptions options,
+        @NonNull NonEmptyResultCallback callback
+    ) throws Exception {
+        String reference = options.getReference();
+        QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
+        QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
+        String callbackId = options.getCallbackId();
+
+        Query query = getFirebaseFirestoreInstance().collectionGroup(reference);
+        if (compositeFilter != null) {
+            Filter filter = compositeFilter.toFilter();
+            query = query.where(filter);
+        }
+        if (queryConstraints.length > 0) {
+            for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
+                query = queryConstraint.toQuery(query, getFirebaseFirestoreInstance());
+            }
+        }
+
+        ListenerRegistration listenerRegistration = query.addSnapshotListener(
+            (querySnapshot, exception) -> {
+                if (exception != null) {
+                    callback.error(exception);
+                } else {
+                    GetCollectionGroupResult result = new GetCollectionGroupResult(querySnapshot);
                     callback.success(result);
                 }
             }
