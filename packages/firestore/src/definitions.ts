@@ -90,7 +90,7 @@ export interface FirebaseFirestorePlugin {
    * @since TODO
    */
   addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(
-    options: GetCollectionGroupOptions,
+    options: AddCollectionGroupSnapshotListenerOptions,
     callback: AddCollectionGroupSnapshotListenerCallback<T>,
   ): Promise<CallbackId>;
   /**
@@ -344,7 +344,7 @@ export interface AddCollectionSnapshotListenerOptions {
 }
 
 /**
- * @since TODO
+ * @since 6.1.0
  */
 export interface AddCollectionGroupSnapshotListenerOptions {
   /**

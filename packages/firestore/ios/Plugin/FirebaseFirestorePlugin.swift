@@ -269,7 +269,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         call.keepAlive = true
 
         guard let reference = call.getString("reference") else {
-            call.reject("collectionId must be provided.")
+            call.reject(errorReferenceMissing)
             return
         }
         let compositeFilter = call.getObject("compositeFilter")
