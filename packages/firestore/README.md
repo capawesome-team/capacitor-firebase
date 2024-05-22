@@ -241,6 +241,7 @@ const removeAllListeners = async () => {
 * [`disableNetwork()`](#disablenetwork)
 * [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
 * [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
+* [`addCollectionGroupSnapshotListener(...)`](#addcollectiongroupsnapshotlistener)
 * [`removeSnapshotListener(...)`](#removesnapshotlistener)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -458,6 +459,26 @@ Adds a listener for collection snapshot events.
 --------------------
 
 
+### addCollectionGroupSnapshotListener(...)
+
+```typescript
+addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionGroupSnapshotListenerOptions, callback: AddCollectionGroupSnapshotListenerCallback<T>) => Promise<CallbackId>
+```
+
+Adds a listener for collection group snapshot events.
+
+| Param          | Type                                                                                                                       |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **`options`**  | <code><a href="#addcollectiongroupsnapshotlisteneroptions">AddCollectionGroupSnapshotListenerOptions</a></code>            |
+| **`callback`** | <code><a href="#addcollectiongroupsnapshotlistenercallback">AddCollectionGroupSnapshotListenerCallback</a>&lt;T&gt;</code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+**Since:** 6.1.0
+
+--------------------
+
+
 ### removeSnapshotListener(...)
 
 ```typescript
@@ -663,6 +684,15 @@ Remove all listeners for this plugin.
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
 
+#### AddCollectionGroupSnapshotListenerOptions
+
+| Prop                   | Type                                                                                      | Description                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 6.1.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 6.1.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 6.1.0 |
+
+
 #### RemoveSnapshotListenerOptions
 
 | Prop             | Type                                              | Since |
@@ -716,6 +746,16 @@ Remove all listeners for this plugin.
 #### AddCollectionSnapshotListenerCallbackEvent
 
 <code><a href="#getcollectionresult">GetCollectionResult</a>&lt;T&gt;</code>
+
+
+#### AddCollectionGroupSnapshotListenerCallback
+
+<code>(event: <a href="#addcollectiongroupsnapshotlistenercallbackevent">AddCollectionGroupSnapshotListenerCallbackEvent</a>&lt;T&gt; | null, error: any): void</code>
+
+
+#### AddCollectionGroupSnapshotListenerCallbackEvent
+
+<code><a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;</code>
 
 </docgen-api>
 
