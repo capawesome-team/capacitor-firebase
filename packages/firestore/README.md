@@ -176,6 +176,44 @@ const addCollectionSnapshotListener = async () => {
   return callbackId;
 };
 
+const addCollectionGroupSnapshotListener = async () => {
+  const callbackId = await FirebaseFirestore.addCollectionGroupSnapshotListener(
+    {
+      reference: 'users',
+      compositeFilter: {
+        type: 'and',
+        queryConstraints: [
+          {
+            type: 'where',
+            fieldPath: 'born',
+            opStr: '==',
+            value: 1912,
+          },
+        ],
+      },
+      queryConstraints: [
+        {
+          type: 'orderBy',
+          fieldPath: 'born',
+          directionStr: 'desc',
+        },
+        {
+          type: 'limit',
+          limit: 10,
+        },
+      ],
+    },
+    (event, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(event);
+      }
+    },
+  );
+  return callbackId;
+};
+
 const removeSnapshotListener = async (callbackId: string) => {
   await FirebaseFirestore.removeSnapshotListener({
     callbackId,
