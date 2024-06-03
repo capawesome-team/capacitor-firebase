@@ -29,7 +29,7 @@ No configuration required for this plugin.
 
 A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](https://github.com/robingenz/capacitor-firebase-plugin-demo)
 
-## Starter Templates
+## Starter templates
 
 The following starter templates are available:
 
