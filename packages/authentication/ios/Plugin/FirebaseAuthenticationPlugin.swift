@@ -170,7 +170,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             }
         })
     }
-    
+
     @objc func getPendingAuthResult(_ call: CAPPluginCall) {
         call.reject("Not available on iOS.")
     }
@@ -229,13 +229,13 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
         implementation?.linkWithMicrosoft(call)
     }
-    
+
     @objc func linkWithOpenIdConnect(_ call: CAPPluginCall) {
         guard let providerId = call.getString("providerId") else {
             call.reject(errorProviderIdMissing)
             return
         }
-        
+
         implementation?.linkWithOpenIdConnect(call, providerId: providerId)
     }
 
@@ -429,7 +429,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             call.reject(errorProviderIdMissing)
             return
         }
-        
+
         implementation?.signInWithOpenIdConnect(call, providerId: providerId)
     }
 
