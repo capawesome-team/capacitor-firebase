@@ -20,7 +20,7 @@ public class FirebaseStorageHelper {
         String contentLanguage = metadata.getString("contentLanguage");
         String contentType = metadata.getString("contentType");
         JSONObject customMetadata = metadata.getJSObject("customMetadata");
-        
+
         StorageMetadata.Builder builder = new StorageMetadata.Builder();
         if (cacheControl != null) {
             builder = builder.setCacheControl(cacheControl);
