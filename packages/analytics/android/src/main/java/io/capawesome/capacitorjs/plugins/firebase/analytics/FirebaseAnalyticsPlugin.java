@@ -54,14 +54,14 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     public void setConsent(PluginCall call) {
         try {
             com.google.firebase.analytics.FirebaseAnalytics.ConsentType consentType = FirebaseAnalyticsHelper.mapStringToConsentType(
-                call.getString("consentType", null)
+                call.getString("type", null)
             );
             if (consentType == null) {
                 call.reject(ERROR_CONSENT_TYPE_MISSING);
                 return;
             }
             com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus consentStatus = FirebaseAnalyticsHelper.mapStringToConsentStatus(
-                call.getString("consentStatus", null)
+                call.getString("status", null)
             );
             if (consentStatus == null) {
                 call.reject(ERROR_CONSENT_STATUS_MISSING);
