@@ -29,6 +29,7 @@
 		7C579FFF29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C579FFE29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift */; };
 		7C57A00129F4023E00B7778B /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C57A00029F4023E00B7778B /* RuntimeError.swift */; };
 		7C8E530826656FD100FF4B87 /* GoogleAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */; };
+		7C939DAD2C208CD30059B145 /* RevokeAccessTokenOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C939DAC2C208CD30059B145 /* RevokeAccessTokenOptions.swift */; };
 		7CC1EA4F26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1EA4E26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift */; };
 		7CD588F02688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD588EF2688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift */; };
 		7CD588F22688B5A4002BDF65 /* OAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */; };
@@ -73,6 +74,7 @@
 		7C579FFE29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkWithPhoneNumberOptions.swift; sourceTree = "<group>"; };
 		7C57A00029F4023E00B7778B /* RuntimeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeError.swift; sourceTree = "<group>"; };
 		7C8E530726656FD100FF4B87 /* GoogleAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthProviderHandler.swift; sourceTree = "<group>"; };
+		7C939DAC2C208CD30059B145 /* RevokeAccessTokenOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeAccessTokenOptions.swift; sourceTree = "<group>"; };
 		7CC1EA4E26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthenticationConfig.swift; sourceTree = "<group>"; };
 		7CD588EF2688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthenticationHelper.swift; sourceTree = "<group>"; };
 		7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthProviderHandler.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */,
+				7C939DAC2C208CD30059B145 /* RevokeAccessTokenOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				7CD588F02688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift in Sources */,
 				7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */,
 				7C579FFB29F3FBD000B7778B /* SignInOptions.swift in Sources */,
+				7C939DAD2C208CD30059B145 /* RevokeAccessTokenOptions.swift in Sources */,
 				7C461B0529EC430D00DD31E9 /* Result.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */,
 				7CD588F42688B6A7002BDF65 /* AppleAuthProviderHandler.swift in Sources */,

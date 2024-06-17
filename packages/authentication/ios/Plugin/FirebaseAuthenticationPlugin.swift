@@ -25,6 +25,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     public let errorVerificationIdMissing = "verificationId must be provided."
     public let errorVerificationCodeMissing = "verificationCode must be provided."
     public let errorHostMissing = "host must be provided."
+    public let errorTokenMissing = "token must be provided."
     public let errorCustomTokenSkipNativeAuth =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth."
     public let errorEmailLinkSignInSkipNativeAuth =
@@ -269,6 +270,25 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         }
 
         implementation?.reload(user: user, completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+                call.reject(error.localizedDescription, code)
+                return
+            }
+            call.resolve()
+        })
+    }
+
+    @objc func revokeAccessToken(_ call: CAPPluginCall) {
+        guard let token = call.getString("token") else {
+            call.reject(errorTokenMissing)
+            return
+        }
+
+        let options = RevokeAccessTokenOptions(token: token)
+
+        implementation?.revokeAccessToken(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 let code = FirebaseAuthenticationHelper.createErrorCode(error: error)

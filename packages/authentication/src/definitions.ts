@@ -264,6 +264,12 @@ export interface FirebaseAuthenticationPlugin {
    */
   reload(): Promise<void>;
   /**
+   * Revokes the given access token. Currently only supports Apple OAuth access tokens.
+   *
+   * @since 6.1.0
+   */
+  revokeAccessToken(options: RevokeAccessTokenOptions): Promise<void>;
+  /**
    * Sends a verification email to the currently signed in user.
    *
    * @since 0.2.2
@@ -653,6 +659,18 @@ export interface GetTenantIdResult {
    * @since 1.1.0
    */
   tenantId: string | null;
+}
+
+/**
+ * @since 6.1.0
+ */
+export interface RevokeAccessTokenOptions {
+  /**
+   * The access token to revoke.
+   *
+   * @since 6.1.0
+   */
+  token: string;
 }
 
 /**
