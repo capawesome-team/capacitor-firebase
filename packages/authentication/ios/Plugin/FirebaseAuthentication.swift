@@ -240,6 +240,14 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func revokeAccessToken(_ options: RevokeAccessTokenOptions, completion: @escaping (Error?) -> Void) {
+        let token = options.getToken()
+
+        Auth.auth().revokeToken(withAuthorizationCode: token) { error in
+            completion(error)
+        }
+    }
+
     @objc func sendEmailVerification(user: User, completion: @escaping (Error?) -> Void) {
         user.sendEmailVerification(completion: { error in
             completion(error)

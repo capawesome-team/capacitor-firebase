@@ -37,6 +37,7 @@ import {
   linkWithPopup,
   linkWithRedirect,
   reload,
+  revokeAccessToken,
   sendEmailVerification,
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
@@ -78,6 +79,7 @@ import type {
   LinkWithPhoneNumberOptions,
   PhoneCodeSentEvent,
   PhoneVerificationFailedEvent,
+  RevokeAccessTokenOptions,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -429,6 +431,13 @@ export class FirebaseAuthenticationWeb
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
     return reload(currentUser);
+  }
+
+  public async revokeAccessToken(
+    options: RevokeAccessTokenOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    return revokeAccessToken(auth, options.token);
   }
 
   public async sendEmailVerification(): Promise<void> {

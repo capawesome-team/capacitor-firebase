@@ -14,6 +14,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVe
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +45,7 @@ public class PhoneAuthProviderHandler {
         verifyPhoneNumber(options, true);
     }
 
-    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull ResultCallback callback) {
+    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyResultCallback callback) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(options.getVerificationId(), options.getVerificationCode());
         if (signInOnConfirm) {
             pluginImplementation.signInWithCredential(new SignInOptions(skipNativeAuthOnConfirm), credential, callback);
@@ -77,7 +78,7 @@ public class PhoneAuthProviderHandler {
         return new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                ResultCallback callback = new ResultCallback<SignInResult>() {
+                NonEmptyResultCallback callback = new NonEmptyResultCallback<SignInResult>() {
                     @Override
                     public void success(SignInResult result) {
                         PhoneVerificationCompletedEvent event = new PhoneVerificationCompletedEvent(
