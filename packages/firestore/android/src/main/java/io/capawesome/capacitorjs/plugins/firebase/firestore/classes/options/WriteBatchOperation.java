@@ -1,16 +1,13 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
-
 import com.getcapacitor.JSObject;
-
+import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
+import java.util.Map;
 import org.json.JSONException;
 
-import java.util.Map;
-
-import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
-
 public class WriteBatchOperation {
+
     private String type;
     private String reference;
     private Map<String, Object> data;

@@ -11,7 +11,7 @@ import Capacitor
     public func getOperations() -> [WriteBatchOperation] {
         return self.operations
     }
-    
+
     private func createWriteBatchOperationArrayFromJSArray(_ data: [JSObject]) -> [WriteBatchOperation] {
         var operations: [WriteBatchOperation] = []
         for item in data {

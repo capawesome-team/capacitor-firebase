@@ -98,7 +98,7 @@ import FirebaseFirestore
                 batch.updateData(data, forDocument: documentReference)
             case "delete":
                 batch.deleteDocument(documentReference)
-            default: 
+            default:
                 break
             }
         }

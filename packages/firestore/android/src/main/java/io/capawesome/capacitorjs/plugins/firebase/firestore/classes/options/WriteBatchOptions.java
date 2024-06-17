@@ -2,13 +2,12 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-
 import org.json.JSONException;
 
 public class WriteBatchOptions {
+
     private WriteBatchOperation[] operations;
 
     public WriteBatchOptions(@Nullable JSArray operations) throws JSONException {
@@ -16,8 +15,7 @@ public class WriteBatchOptions {
     }
 
     @NonNull
-    private static WriteBatchOperation[] createWriteBatchOperationArrayFromJSArray(@Nullable JSArray data)
-            throws JSONException {
+    private static WriteBatchOperation[] createWriteBatchOperationArrayFromJSArray(@Nullable JSArray data) throws JSONException {
         if (data == null) {
             return new WriteBatchOperation[0];
         } else {
