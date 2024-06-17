@@ -18,6 +18,7 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetD
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.RemoveSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.SetDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UpdateDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.WriteBatchOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
@@ -33,6 +34,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     public static final String ERROR_REFERENCE_MISSING = "reference must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
     public static final String ERROR_DATA_MISSING = "data must be provided.";
+    public static final String ERROR_OPERATIONS_MISSING = "operations must be provided.";
 
     private Map<String, PluginCall> pluginCallMap = new HashMap<>();
 
@@ -202,6 +204,36 @@ public class FirebaseFirestorePlugin extends Plugin {
             };
 
             implementation.deleteDocument(options, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void writeBatch(PluginCall call) {
+        try {
+            JSArray operations = call.getArray("operations");
+            if (operations == null) {
+                call.reject(ERROR_OPERATIONS_MISSING);
+                return;
+            }
+
+            WriteBatchOptions options = new WriteBatchOptions(operations);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    call.resolve();
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+
+            implementation.writeBatch(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());

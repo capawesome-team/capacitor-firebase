@@ -81,6 +81,37 @@ import FirebaseFirestore
         }
     }
 
+    @objc public func writeBatch(_ options: WriteBatchOptions, completion: @escaping (Error?) -> Void) {
+        let operations = options.getOperations()
+
+        let batch = Firestore.firestore().batch()
+        for operation in operations {
+            let type = operation.getType()
+            let reference = operation.getReference()
+            let data = operation.getData()
+
+            let documentReference = Firestore.firestore().document(reference)
+            switch type {
+            case "set":
+                batch.setData(data, forDocument: documentReference)
+            case "update":
+                batch.updateData(data, forDocument: documentReference)
+            case "delete":
+                batch.deleteDocument(documentReference)
+            default: 
+                break
+            }
+        }
+
+        batch.commit { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
     @objc public func getCollection(_ options: GetCollectionOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
         let compositeFilter = options.getCompositeFilter()

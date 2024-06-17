@@ -9,6 +9,8 @@ import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
+
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
@@ -20,6 +22,8 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetD
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.RemoveSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.SetDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UpdateDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.WriteBatchOperation;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.WriteBatchOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.AddDocumentResult;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetCollectionResult;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetDocumentResult;
@@ -101,6 +105,34 @@ public class FirebaseFirestore {
         getFirebaseFirestoreInstance()
             .document(reference)
             .delete()
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
+    }
+
+    public void writeBatch(@NonNull WriteBatchOptions options, @NonNull EmptyResultCallback callback) {
+        WriteBatchOperation[] operations = options.getOperations();
+
+        WriteBatch batch = getFirebaseFirestoreInstance().batch();
+        for (WriteBatchOperation operation : operations) {
+            String type = operation.getType();
+            String reference = operation.getReference();
+            Map<String, Object> data = operation.getData();
+
+            DocumentReference documentReference = getFirebaseFirestoreInstance().document(reference);
+            switch (type) {
+                case "set":
+                    batch.set(documentReference, data);
+                    break;
+                case "update":
+                    batch.update(documentReference, data);
+                    break;
+                case "delete":
+                    batch.delete(documentReference);
+                    break;
+            }
+        }
+        batch
+            .commit()
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
     }

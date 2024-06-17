@@ -34,6 +34,7 @@ import {
   startAt,
   updateDoc,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 
 import type {
@@ -60,6 +61,7 @@ import type {
   QueryNonFilterConstraint,
   RemoveSnapshotListenerOptions,
   SetDocumentOptions,
+  WriteBatchOptions,
 } from './definitions';
 
 export class FirebaseFirestoreWeb
@@ -124,6 +126,28 @@ export class FirebaseFirestoreWeb
     const firestore = getFirestore();
     const { reference } = options;
     await deleteDoc(doc(firestore, reference));
+  }
+
+  public async writeBatch(options: WriteBatchOptions): Promise<void> {
+    const firestore = getFirestore();
+    const { operations } = options;
+    const batch = writeBatch(firestore);
+    for (const operation of operations) {
+      const { type, reference, data } = operation;
+      const documentReference = doc(firestore, reference);
+      switch (type) {
+        case 'set':
+          batch.set(documentReference, data);
+          break;
+        case 'update':
+          batch.update(documentReference, data ?? {});
+          break;
+        case 'delete':
+          batch.delete(documentReference);
+          break;
+      }
+    }
+    await batch.commit();
   }
 
   public async getCollection<T extends DocumentData>(
