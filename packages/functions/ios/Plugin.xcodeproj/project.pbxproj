@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		03FC29A292ACC40490383A1F /* Pods_Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */; };
 		20C0B05DCFC8E3958A738AF2 /* Pods_PluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */; };
-		2F98D68224C9AAE500613A4C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* Functions.swift */; };
+		2F98D68224C9AAE500613A4C /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* FirebaseFunctions.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
-		50ADFF97201F53D600D50D53 /* FunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FunctionsTests.swift */; };
-		50ADFF99201F53D600D50D53 /* FunctionsPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* FunctionsPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50ADFF97201F53D600D50D53 /* FirebaseFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebaseFunctionsTests.swift */; };
+		50ADFF99201F53D600D50D53 /* FirebaseFunctionsPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* FirebaseFunctionsPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
-		50ADFFA82020EE4F00D50D53 /* FunctionsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FunctionsPlugin.m */; };
-		50E1A94820377CB70090CE1A /* FunctionsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FunctionsPlugin.swift */; };
+		50ADFFA82020EE4F00D50D53 /* FirebaseFunctionsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseFunctionsPlugin.m */; };
+		50E1A94820377CB70090CE1A /* FirebaseFunctionsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseFunctionsPlugin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,17 +29,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F98D68124C9AAE400613A4C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		2F98D68124C9AAE400613A4C /* FirebaseFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF8B201F53D600D50D53 /* FunctionsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionsPlugin.h; sourceTree = "<group>"; };
+		50ADFF8B201F53D600D50D53 /* FirebaseFunctionsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseFunctionsPlugin.h; sourceTree = "<group>"; };
 		50ADFF8C201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFF91201F53D600D50D53 /* PluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF96201F53D600D50D53 /* FunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
+		50ADFF96201F53D600D50D53 /* FirebaseFunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsTests.swift; sourceTree = "<group>"; };
 		50ADFF98201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFFA52020D75100D50D53 /* Capacitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Capacitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFFA72020EE4F00D50D53 /* FunctionsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FunctionsPlugin.m; sourceTree = "<group>"; };
-		50E1A94720377CB70090CE1A /* FunctionsPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionsPlugin.swift; sourceTree = "<group>"; };
+		50ADFFA72020EE4F00D50D53 /* FirebaseFunctionsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseFunctionsPlugin.m; sourceTree = "<group>"; };
+		50E1A94720377CB70090CE1A /* FirebaseFunctionsPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -92,10 +92,10 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
-				50E1A94720377CB70090CE1A /* FunctionsPlugin.swift */,
-				2F98D68124C9AAE400613A4C /* Functions.swift */,
-				50ADFF8B201F53D600D50D53 /* FunctionsPlugin.h */,
-				50ADFFA72020EE4F00D50D53 /* FunctionsPlugin.m */,
+				50E1A94720377CB70090CE1A /* FirebaseFunctionsPlugin.swift */,
+				2F98D68124C9AAE400613A4C /* FirebaseFunctions.swift */,
+				50ADFF8B201F53D600D50D53 /* FirebaseFunctionsPlugin.h */,
+				50ADFFA72020EE4F00D50D53 /* FirebaseFunctionsPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
@@ -104,7 +104,7 @@
 		50ADFF95201F53D600D50D53 /* PluginTests */ = {
 			isa = PBXGroup;
 			children = (
-				50ADFF96201F53D600D50D53 /* FunctionsTests.swift */,
+				50ADFF96201F53D600D50D53 /* FirebaseFunctionsTests.swift */,
 				50ADFF98201F53D600D50D53 /* Info.plist */,
 			);
 			path = PluginTests;
@@ -138,7 +138,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF99201F53D600D50D53 /* FunctionsPlugin.h in Headers */,
+				50ADFF99201F53D600D50D53 /* FirebaseFunctionsPlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,33 +270,11 @@
 				"${PODS_ROOT}/Target Support Files/Pods-PluginTests/Pods-PluginTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework",
 				"${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAuthInterop/FirebaseAuthInterop.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreExtension/FirebaseCoreExtension.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseFunctions/FirebaseFunctions.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseMessagingInterop/FirebaseMessagingInterop.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseSharedSwift/FirebaseSharedSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Capacitor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cordova.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheckInterop.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuthInterop.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFunctions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessagingInterop.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseSharedSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -328,9 +306,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50E1A94820377CB70090CE1A /* FunctionsPlugin.swift in Sources */,
-				2F98D68224C9AAE500613A4C /* Functions.swift in Sources */,
-				50ADFFA82020EE4F00D50D53 /* FunctionsPlugin.m in Sources */,
+				50E1A94820377CB70090CE1A /* FirebaseFunctionsPlugin.swift in Sources */,
+				2F98D68224C9AAE500613A4C /* FirebaseFunctions.swift in Sources */,
+				50ADFFA82020EE4F00D50D53 /* FirebaseFunctionsPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF97201F53D600D50D53 /* FunctionsTests.swift in Sources */,
+				50ADFF97201F53D600D50D53 /* FirebaseFunctionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

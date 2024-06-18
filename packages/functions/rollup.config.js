@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFunctions',
+      name: 'capacitorFirebaseFunctions',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

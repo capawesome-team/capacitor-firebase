@@ -10,10 +10,13 @@ import type {
   CallByNameResult,
   CallByUrlOptions,
   CallResult,
-  FunctionsPlugin,
+  FirebaseFunctionsPlugin,
 } from './definitions';
 
-export class FunctionsWeb extends WebPlugin implements FunctionsPlugin {
+export class FirebaseFunctionsWeb
+  extends WebPlugin
+  implements FirebaseFunctionsPlugin
+{
   public async callByName(
     options: CallByNameOptions,
   ): Promise<CallByNameResult> {

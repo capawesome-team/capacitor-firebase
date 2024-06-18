@@ -1,10 +1,13 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { FunctionsPlugin } from './definitions';
+import type { FirebaseFunctionsPlugin } from './definitions';
 
-const Functions = registerPlugin<FunctionsPlugin>('Functions', {
-  web: () => import('./web').then(m => new m.FunctionsWeb()),
-});
+const FirebaseFunctions = registerPlugin<FirebaseFunctionsPlugin>(
+  'FirebaseFunctions',
+  {
+    web: () => import('./web').then(m => new m.FirebaseFunctionsWeb()),
+  },
+);
 
 export * from './definitions';
-export { Functions };
+export { FirebaseFunctions };

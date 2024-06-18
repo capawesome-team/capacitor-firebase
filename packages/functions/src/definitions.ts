@@ -1,4 +1,4 @@
-export interface FunctionsPlugin {
+export interface FirebaseFunctionsPlugin {
   callByName(options: CallByNameOptions): Promise<CallByNameResult>;
   callByUrl(options: CallByUrlOptions): Promise<CallByUrlResult>;
 }
