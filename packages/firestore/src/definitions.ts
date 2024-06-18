@@ -33,6 +33,12 @@ export interface FirebaseFirestorePlugin {
    */
   deleteDocument(options: DeleteDocumentOptions): Promise<void>;
   /**
+   * Execute multiple write operations as a single batch.
+   *
+   * @since 6.1.0
+   */
+  writeBatch(options: WriteBatchOptions): Promise<void>;
+  /**
    * Reads the collection referenced by the specified reference.
    *
    * @since 5.2.0
@@ -211,6 +217,42 @@ export interface DeleteDocumentOptions {
    * @since 5.2.0
    */
   reference: string;
+}
+
+/**
+ * @since 6.1.0
+ */
+export interface WriteBatchOptions {
+  /**
+   * The operations to execute in the batch.
+   *
+   * @since 6.1.0
+   */
+  operations: WriteBatchOperation[];
+}
+
+/**
+ * @since 6.1.0
+ */
+export interface WriteBatchOperation {
+  /**
+   * The type of operation.
+   *
+   * @since 6.1.0
+   */
+  type: 'set' | 'update' | 'delete';
+  /**
+   * The reference as a string, with path components separated by a forward slash (`/`).
+   *
+   * @since 6.1.0
+   */
+  reference: string;
+  /**
+   * An object containing the data for the new document.
+   *
+   * @since 6.1.0
+   */
+  data?: DocumentData;
 }
 
 /**

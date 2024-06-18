@@ -49,20 +49,6 @@ public class FirebaseFirestoreHelper {
         return object;
     }
 
-    public static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
-        ArrayList<Object> arrayList = new ArrayList<>();
-        for (int x = 0; x < array.length(); x++) {
-            Object value = array.get(x);
-            if (value instanceof JSONObject) {
-                value = createHashMapFromJSONObject((JSONObject) value);
-            } else if (value instanceof JSONArray) {
-                value = createArrayListFromJSONArray((JSONArray) value);
-            }
-            arrayList.add(value);
-        }
-        return arrayList;
-    }
-
     public static Object createObjectFromJSValue(Object value) throws JSONException {
         if (value.toString().equals("null")) {
             return null;
@@ -114,6 +100,20 @@ public class FirebaseFirestoreHelper {
             }
             return queryNonFilterConstraint;
         }
+    }
+
+    private static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        for (int x = 0; x < array.length(); x++) {
+            Object value = array.get(x);
+            if (value instanceof JSONObject) {
+                value = createHashMapFromJSONObject((JSONObject) value);
+            } else if (value instanceof JSONArray) {
+                value = createArrayListFromJSONArray((JSONArray) value);
+            }
+            arrayList.add(value);
+        }
+        return arrayList;
     }
 
     private static JSArray createJSArrayFromArrayList(ArrayList arrayList) {

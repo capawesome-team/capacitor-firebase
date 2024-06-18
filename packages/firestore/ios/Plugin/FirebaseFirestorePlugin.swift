@@ -10,6 +10,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     public let tag = "FirebaseFirestore"
     public let errorReferenceMissing = "reference must be provided."
     public let errorDataMissing = "data must be provided."
+    public let errorOperationsMissing = "operations must be provided."
     public let errorCallbackIdMissing = "callbackId must be provided."
     private var implementation: FirebaseFirestore?
     private var pluginCallMap: [String: CAPPluginCall] = [:]
@@ -116,6 +117,24 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         let options = DeleteDocumentOptions(reference: reference)
 
         implementation?.deleteDocument(options, completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
+    @objc func writeBatch(_ call: CAPPluginCall) {
+        guard let operations = call.getArray("operations", JSObject.self) else {
+            call.reject(errorOperationsMissing)
+            return
+        }
+
+        let options = WriteBatchOptions(operations: operations)
+
+        implementation?.writeBatch(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription)

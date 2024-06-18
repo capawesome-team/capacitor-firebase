@@ -9,6 +9,7 @@ CAP_PLUGIN(FirebaseFirestorePlugin, "FirebaseFirestore",
            CAP_PLUGIN_METHOD(getDocument, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(updateDocument, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(deleteDocument, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(writeBatch, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCollection, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCollectionGroup, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(enableNetwork, CAPPluginReturnPromise);
