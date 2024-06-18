@@ -11,6 +11,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionGroupSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
@@ -261,6 +262,39 @@ public class FirebaseFirestore {
         String callbackId = options.getCallbackId();
 
         Query query = getFirebaseFirestoreInstance().collection(reference);
+        if (compositeFilter != null) {
+            Filter filter = compositeFilter.toFilter();
+            query = query.where(filter);
+        }
+        if (queryConstraints.length > 0) {
+            for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
+                query = queryConstraint.toQuery(query, getFirebaseFirestoreInstance());
+            }
+        }
+
+        ListenerRegistration listenerRegistration = query.addSnapshotListener(
+            (querySnapshot, exception) -> {
+                if (exception != null) {
+                    callback.error(exception);
+                } else {
+                    GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                    callback.success(result);
+                }
+            }
+        );
+        this.listenerRegistrationMap.put(callbackId, listenerRegistration);
+    }
+
+    public void addCollectionGroupSnapshotListener(
+        @NonNull AddCollectionGroupSnapshotListenerOptions options,
+        @NonNull NonEmptyResultCallback callback
+    ) throws Exception {
+        String reference = options.getReference();
+        QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
+        QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
+        String callbackId = options.getCallbackId();
+
+        Query query = getFirebaseFirestoreInstance().collectionGroup(reference);
         if (compositeFilter != null) {
             Filter filter = compositeFilter.toFilter();
             query = query.where(filter);

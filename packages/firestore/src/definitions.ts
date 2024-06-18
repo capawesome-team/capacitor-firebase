@@ -91,6 +91,15 @@ export interface FirebaseFirestorePlugin {
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<CallbackId>;
   /**
+   * Adds a listener for collection group snapshot events.
+   *
+   * @since 6.1.0
+   */
+  addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(
+    options: AddCollectionGroupSnapshotListenerOptions,
+    callback: AddCollectionGroupSnapshotListenerCallback<T>,
+  ): Promise<CallbackId>;
+  /**
    * Remove a listener for document or collection snapshot events.
    *
    * @since 5.2.0
@@ -389,6 +398,44 @@ export type AddCollectionSnapshotListenerCallback<T> = (
  */
 export type AddCollectionSnapshotListenerCallbackEvent<T> =
   GetCollectionResult<T>;
+
+/**
+ * @since 6.1.0
+ */
+export interface AddCollectionGroupSnapshotListenerOptions {
+  /**
+   * The reference as a string, with path components separated by a forward slash (`/`).
+   *
+   * @since 6.1.0
+   */
+  reference: string;
+  /**
+   * The filter to apply.
+   *
+   * @since 6.1.0
+   */
+  compositeFilter?: QueryCompositeFilterConstraint;
+  /**
+   * Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.
+   *
+   * @since 6.1.0
+   */
+  queryConstraints?: QueryNonFilterConstraint[];
+}
+
+/**
+ * @since 6.1.0
+ */
+export type AddCollectionGroupSnapshotListenerCallback<T> = (
+  event: AddCollectionGroupSnapshotListenerCallbackEvent<T> | null,
+  error: any,
+) => void;
+
+/**
+ * @since 6.1.0
+ */
+export type AddCollectionGroupSnapshotListenerCallbackEvent<T> =
+  GetCollectionGroupResult<T>;
 
 /**
  * @since 5.2.0

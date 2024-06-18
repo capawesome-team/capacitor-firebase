@@ -239,6 +239,42 @@ import FirebaseFirestore
         }
     }
 
+    @objc public func addCollectionGroupSnapshotListener(_ options: AddCollectionGroupSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let reference = options.getReference()
+        let compositeFilter = options.getCompositeFilter()
+        let queryConstraints = options.getQueryConstraints()
+        let callbackId = options.getCallbackId()
+
+        Task {
+            do {
+                let collectionReference = Firestore.firestore().collectionGroup(reference)
+                var query = collectionReference as Query
+                if let compositeFilter = compositeFilter {
+                    if let filter = compositeFilter.toFilter() {
+                        query = query.whereFilter(filter)
+                    }
+                }
+                if !queryConstraints.isEmpty {
+                    for queryConstraint in queryConstraints {
+                        query = try await queryConstraint.toQuery(query: query)
+                    }
+                }
+
+                let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+                    if let error = error {
+                        completion(nil, error)
+                    } else {
+                        let result = GetCollectionGroupResult(querySnapshot!)
+                        completion(result, nil)
+                    }
+                }
+                self.listenerRegistrationMap[callbackId] = listenerRegistration
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions) {
         let callbackId = options.getCallbackId()
 

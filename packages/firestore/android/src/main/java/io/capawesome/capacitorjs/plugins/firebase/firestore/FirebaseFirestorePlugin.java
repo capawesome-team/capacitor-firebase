@@ -8,6 +8,7 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionGroupSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
@@ -445,6 +446,48 @@ public class FirebaseFirestorePlugin extends Plugin {
             };
 
             implementation.addCollectionSnapshotListener(options, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void addCollectionGroupSnapshotListener(PluginCall call) {
+        try {
+            call.setKeepAlive(true);
+
+            String reference = call.getString("reference");
+            if (reference == null) {
+                call.reject(ERROR_REFERENCE_MISSING);
+                return;
+            }
+            JSObject compositeFilter = call.getObject("compositeFilter");
+            JSArray queryConstraints = call.getArray("queryConstraints");
+            String callbackId = call.getCallbackId();
+
+            this.pluginCallMap.put(callbackId, call);
+
+            AddCollectionGroupSnapshotListenerOptions options = new AddCollectionGroupSnapshotListenerOptions(
+                reference,
+                compositeFilter,
+                queryConstraints,
+                callbackId
+            );
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+                @Override
+                public void success(Result result) {
+                    call.resolve(result.toJSObject());
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+
+            implementation.addCollectionGroupSnapshotListener(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
