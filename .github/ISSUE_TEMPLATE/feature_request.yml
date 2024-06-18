@@ -15,6 +15,7 @@ body:
         - label: Authentication
         - label: Crashlytics
         - label: Cloud Firestore
+        - label: Cloud Functions
         - label: Cloud Messaging
         - label: Cloud Storage
         - label: Performance
