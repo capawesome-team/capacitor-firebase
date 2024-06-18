@@ -432,6 +432,7 @@ const useEmulator = async () => {
 * [`linkWithTwitter(...)`](#linkwithtwitter)
 * [`linkWithYahoo(...)`](#linkwithyahoo)
 * [`reload()`](#reload)
+* [`revokeAccessToken(...)`](#revokeaccesstoken)
 * [`sendEmailVerification()`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
@@ -982,6 +983,23 @@ reload() => Promise<void>
 Reloads user account data, if signed in.
 
 **Since:** 1.3.0
+
+--------------------
+
+
+### revokeAccessToken(...)
+
+```typescript
+revokeAccessToken(options: RevokeAccessTokenOptions) => Promise<void>
+```
+
+Revokes the given access token. Currently only supports Apple OAuth access tokens.
+
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#revokeaccesstokenoptions">RevokeAccessTokenOptions</a></code> |
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -1804,6 +1822,13 @@ Remove all listeners for this plugin.
 | **`recaptchaVerifier`** | <code>unknown</code> | The reCAPTCHA verifier. Must be an instance of `firebase.auth.RecaptchaVerifier`. Only available for Web.                                                     |                    | 5.2.0 |
 | **`resendCode`**        | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 | **`timeout`**           | <code>number</code>  | The maximum amount of time in seconds to wait for the SMS auto-retrieval. Use 0 to disable SMS-auto-retrieval. Only available for Android.                    | <code>60</code>    | 5.4.0 |
+
+
+#### RevokeAccessTokenOptions
+
+| Prop        | Type                | Description                 | Since |
+| ----------- | ------------------- | --------------------------- | ----- |
+| **`token`** | <code>string</code> | The access token to revoke. | 6.1.0 |
 
 
 #### SendPasswordResetEmailOptions

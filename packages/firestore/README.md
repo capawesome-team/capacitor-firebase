@@ -196,6 +196,7 @@ const removeAllListeners = async () => {
 * [`getDocument(...)`](#getdocument)
 * [`updateDocument(...)`](#updatedocument)
 * [`deleteDocument(...)`](#deletedocument)
+* [`writeBatch(...)`](#writebatch)
 * [`getCollection(...)`](#getcollection)
 * [`getCollectionGroup(...)`](#getcollectiongroup)
 * [`clearPersistence()`](#clearpersistence)
@@ -299,6 +300,23 @@ Deletes the document referred to by the specified reference.
 | **`options`** | <code><a href="#deletedocumentoptions">DeleteDocumentOptions</a></code> |
 
 **Since:** 5.2.0
+
+--------------------
+
+
+### writeBatch(...)
+
+```typescript
+writeBatch(options: WriteBatchOptions) => Promise<void>
+```
+
+Execute multiple write operations as a single batch.
+
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#writebatchoptions">WriteBatchOptions</a></code> |
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -524,6 +542,22 @@ Remove all listeners for this plugin.
 | Prop            | Type                | Description                                                                         | Since |
 | --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+
+
+#### WriteBatchOptions
+
+| Prop             | Type                               | Description                             | Since |
+| ---------------- | ---------------------------------- | --------------------------------------- | ----- |
+| **`operations`** | <code>WriteBatchOperation[]</code> | The operations to execute in the batch. | 6.1.0 |
+
+
+#### WriteBatchOperation
+
+| Prop            | Type                                                  | Description                                                                         | Since |
+| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`type`**      | <code>'set' \| 'update' \| 'delete'</code>            | The type of operation.                                                              | 6.1.0 |
+| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 6.1.0 |
+| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 6.1.0 |
 
 
 #### GetCollectionResult
