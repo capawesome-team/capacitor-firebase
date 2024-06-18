@@ -16,5 +16,6 @@ CAP_PLUGIN(FirebaseFirestorePlugin, "FirebaseFirestore",
            CAP_PLUGIN_METHOD(disableNetwork, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(addDocumentSnapshotListener, CAPPluginReturnCallback);
            CAP_PLUGIN_METHOD(addCollectionSnapshotListener, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(addCollectionGroupSnapshotListener, CAPPluginReturnCallback);
            CAP_PLUGIN_METHOD(removeSnapshotListener, CAPPluginReturnPromise);
 )
