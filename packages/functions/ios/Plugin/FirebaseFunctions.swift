@@ -12,11 +12,11 @@ import FirebaseFunctions
             FirebaseApp.configure()
         }
     }
-    
+
     @objc public func callByName(_ options: CallByNameOptions, completion: @escaping (Result?, Error?) -> Void) {
         let name = options.getName()
         let data = options.getData()
-        
+
         let functions = Functions.functions()
         let callable = functions.httpsCallable(name)
         callable.call(data) { (result, error) in
@@ -32,7 +32,7 @@ import FirebaseFunctions
     @objc public func callByUrl(_ options: CallByUrlOptions, completion: @escaping (Result?, Error?) -> Void) {
         let url = options.getUrl()
         let data = options.getData()
-        
+
         let functions = Functions.functions()
         let callable = functions.httpsCallable(url)
         callable.call(data) { (result, error) in

@@ -2,12 +2,11 @@ package io.capawesome.capacitorjs.plugins.firebase.functions.classes.results;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.Result;
 
 public class CallResult implements Result {
+
     @Nullable
     private Object data;
 

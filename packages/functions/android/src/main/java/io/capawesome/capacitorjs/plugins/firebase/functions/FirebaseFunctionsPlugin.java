@@ -6,7 +6,6 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByNameOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByUrlOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.NonEmptyResultCallback;

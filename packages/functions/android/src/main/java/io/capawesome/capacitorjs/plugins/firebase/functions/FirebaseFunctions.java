@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.functions;
 
 import androidx.annotation.NonNull;
-
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByNameOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByUrlOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.results.CallResult;
@@ -19,28 +18,40 @@ public class FirebaseFunctions {
         String name = options.getName();
         Object data = options.getData();
 
-        getFirebaseFunctionsInstance().getHttpsCallable(name).call(data)
-                .addOnSuccessListener(task -> {
+        getFirebaseFunctionsInstance()
+            .getHttpsCallable(name)
+            .call(data)
+            .addOnSuccessListener(
+                task -> {
                     CallResult result = new CallResult(task.getData());
                     callback.success(result);
-                })
-                .addOnFailureListener(exception -> {
+                }
+            )
+            .addOnFailureListener(
+                exception -> {
                     callback.error(exception);
-                });
+                }
+            );
     }
 
     public void callByUrl(@NonNull CallByUrlOptions options, @NonNull NonEmptyResultCallback callback) {
         String url = options.getUrl();
         Object data = options.getData();
 
-        getFirebaseFunctionsInstance().getHttpsCallable(url).call(data)
-                .addOnSuccessListener(task -> {
+        getFirebaseFunctionsInstance()
+            .getHttpsCallable(url)
+            .call(data)
+            .addOnSuccessListener(
+                task -> {
                     CallResult result = new CallResult(task.getData());
                     callback.success(result);
-                })
-                .addOnFailureListener(exception -> {
+                }
+            )
+            .addOnFailureListener(
+                exception -> {
                     callback.error(exception);
-                });
+                }
+            );
     }
 
     private com.google.firebase.functions.FirebaseFunctions getFirebaseFunctionsInstance() {

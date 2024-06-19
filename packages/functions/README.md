@@ -40,10 +40,81 @@ const echo = async () => {
 
 <docgen-index>
 
+* [`callByName(...)`](#callbyname)
+* [`callByUrl(...)`](#callbyurl)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### callByName(...)
+
+```typescript
+callByName(options: CallByNameOptions) => Promise<CallByNameResult>
+```
+
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#callbynameoptions">CallByNameOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#callresult">CallResult</a>&gt;</code>
+
+--------------------
+
+
+### callByUrl(...)
+
+```typescript
+callByUrl(options: CallByUrlOptions) => Promise<CallByUrlResult>
+```
+
+| Param         | Type                                                          |
+| ------------- | ------------------------------------------------------------- |
+| **`options`** | <code><a href="#callbyurloptions">CallByUrlOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#callresult">CallResult</a>&gt;</code>
+
+--------------------
+
+
+### Interfaces
+
+
+#### CallResult
+
+| Prop       | Type             |
+| ---------- | ---------------- |
+| **`data`** | <code>any</code> |
+
+
+#### CallByNameOptions
+
+| Prop       | Type                |
+| ---------- | ------------------- |
+| **`name`** | <code>string</code> |
+
+
+#### CallByUrlOptions
+
+| Prop      | Type                |
+| --------- | ------------------- |
+| **`url`** | <code>string</code> |
+
+
+### Type Aliases
+
+
+#### CallByNameResult
+
+<code><a href="#callresult">CallResult</a></code>
+
+
+#### CallByUrlResult
+
+<code><a href="#callresult">CallResult</a></code>
 
 </docgen-api>
 
