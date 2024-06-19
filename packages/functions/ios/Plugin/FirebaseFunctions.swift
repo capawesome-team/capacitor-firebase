@@ -1,8 +1,47 @@
 import Foundation
+import FirebaseCore
+import FirebaseFunctions
 
 @objc public class FirebaseFunctions: NSObject {
-    @objc public func echo(_ value: String) -> String {
-        print(value)
-        return value
+    private let plugin: FirebaseFunctionsPlugin
+
+    init(plugin: FirebaseFunctionsPlugin) {
+        self.plugin = plugin
+        super.init()
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+    }
+    
+    @objc public func callByName(_ options: CallByNameOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let name = options.getName()
+        let data = options.getData()
+        
+        let functions = Functions.functions()
+        let callable = functions.httpsCallable(name)
+        callable.call(data) { (result, error) in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                let result = CallResult(data: result?.data)
+                completion(result, nil)
+            }
+        }
+    }
+
+    @objc public func callByUrl(_ options: CallByUrlOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let url = options.getUrl()
+        let data = options.getData()
+        
+        let functions = Functions.functions()
+        let callable = functions.httpsCallable(url)
+        callable.call(data) { (result, error) in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                let result = CallResult(data: result?.data)
+                completion(result, nil)
+            }
+        }
     }
 }

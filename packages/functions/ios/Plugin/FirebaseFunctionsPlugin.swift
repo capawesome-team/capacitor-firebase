@@ -7,12 +7,53 @@ import Capacitor
  */
 @objc(FirebaseFunctionsPlugin)
 public class FirebaseFunctionsPlugin: CAPPlugin {
-    private let implementation = FirebaseFunctions()
+    public let tag = "FirebaseFunctions"
+    public let errorNameMissing = "name must be provided."
+    private var implementation: FirebaseFunctions?
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
+    override public func load() {
+        self.implementation = FirebaseFunctions(plugin: self)
+    }
+
+    @objc func callByName(_ call: CAPPluginCall) {
+        guard let name = call.getString("name") else {
+            call.reject(errorNameMissing)
+            return
+        }
+        let data = call.getValue("data")
+
+        let options = CallByNameOptions(name: name, data: data)
+
+        implementation?.callByName(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
+    }
+
+    @objc func callByUrl(_ call: CAPPluginCall) {
+        guard let url = call.getString("url") else {
+            call.reject("url must be provided.")
+            return
+        }
+        let data = call.getValue("data")
+
+        let options = CallByUrlOptions(url: url, data: data)
+
+        implementation?.callByUrl(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
     }
 }
