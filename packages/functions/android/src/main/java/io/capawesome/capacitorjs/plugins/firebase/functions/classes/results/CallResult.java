@@ -19,7 +19,7 @@ public class CallResult implements Result {
         Object dataResult = this.data;
 
         JSObject result = new JSObject();
-        result.put("data", dataResult == null ? JSObject.NULL : dataResult);
+        result.put("data", dataResult);
         return result;
     }
 }

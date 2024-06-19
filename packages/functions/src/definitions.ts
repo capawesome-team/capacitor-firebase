@@ -16,9 +16,9 @@ export interface CallByUrlOptions extends CallOptions {
 export type CallByUrlResult = CallResult;
 
 export interface CallOptions {
-  data: any;
+  data?: any;
 }
 
 export interface CallResult {
-  data: any;
+  data?: any;
 }
