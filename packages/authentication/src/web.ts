@@ -732,7 +732,10 @@ export class FirebaseAuthenticationWeb
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    return updateProfile(currentUser, options);
+    return updateProfile(currentUser, {
+      displayName: options.displayName,
+      photoURL: options.photoUrl,
+    });
   }
 
   public async useAppLanguage(): Promise<void> {
