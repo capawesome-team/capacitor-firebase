@@ -32,7 +32,36 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ```typescript
 import { FirebaseFunctions } from '@capacitor-firebase/functions';
 
-const echo = async () => {
+const callByName = async () => {
+    const { data } = await FirebaseFunctions.callByName({
+        name: 'helloWorld',
+        data: {
+            string: 'Hello World!',
+            number: 123,
+            boolean: true,
+            array: [1, 2, 3],
+            object: {
+                key: 'value'
+            }
+        }
+    });
+    return data;
+};
+
+const callByUrl = async () => {
+    const { data } = await FirebaseFunctions.callByUrl({
+        url: 'https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/helloWorld',
+        data: {
+            string: 'Hello World!',
+            number: 123,
+            boolean: true,
+            array: [1, 2, 3],
+            object: {
+                key: 'value'
+            }
+        }
+    });
+    return data;
 };
 ```
 
