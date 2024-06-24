@@ -2,14 +2,11 @@ package io.capawesome.capacitorjs.plugins.firebase.functions.classes.results;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-
+import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.Result;
 import java.util.ArrayList;
 import java.util.Map;
-
-import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.Result;
 
 public class CallResult implements Result {
 
@@ -41,30 +38,30 @@ public class CallResult implements Result {
 
     @Nullable
     private static JSObject createJSObjectFromMap(@Nullable Map<String, Object> map) {
-      if (map == null) {
-        return null;
-      }
-      JSObject object = new JSObject();
-      for (String key : map.keySet()) {
-        Object value = map.get(key);
-        if (value instanceof ArrayList) {
-          value = createJSArrayFromArrayList((ArrayList) value);
-        } else if (value instanceof Map) {
-          value = createJSObjectFromMap((Map<String, Object>) value);
+        if (map == null) {
+            return null;
         }
-        object.put(key, value);
-      }
-      return object;
+        JSObject object = new JSObject();
+        for (String key : map.keySet()) {
+            Object value = map.get(key);
+            if (value instanceof ArrayList) {
+                value = createJSArrayFromArrayList((ArrayList) value);
+            } else if (value instanceof Map) {
+                value = createJSObjectFromMap((Map<String, Object>) value);
+            }
+            object.put(key, value);
+        }
+        return object;
     }
 
     private static JSArray createJSArrayFromArrayList(ArrayList arrayList) {
-      JSArray array = new JSArray();
-      for (Object value : arrayList) {
-        if (value instanceof Map) {
-          value = createJSObjectFromMap((Map<String, Object>) value);
+        JSArray array = new JSArray();
+        for (Object value : arrayList) {
+            if (value instanceof Map) {
+                value = createJSObjectFromMap((Map<String, Object>) value);
+            }
+            array.put(value);
         }
-        array.put(value);
-      }
-      return array;
+        return array;
     }
 }

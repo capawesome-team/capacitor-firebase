@@ -13,7 +13,7 @@ import Capacitor
         result["data"] = CallResult.createJSValue(value: data)
         return result as AnyObject
     }
-    
+
     private static func createJSValue(value: Any?) -> JSValue? {
         guard let value = value else {
             return nil
