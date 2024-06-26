@@ -2,4 +2,4 @@
 '@capacitor-firebase/analytics': patch
 ---
 
-fix(analytics): Fixed setConsent signature issues
+fix(ios): `setConsent(...)` method did not work
