@@ -32,11 +32,11 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
     }
 
     @objc func setConsent(_ call: CAPPluginCall) {
-        guard let consentType = FirebaseAnalyticsHelper.mapStringToConsentType(call.getString("consentType")) else {
+        guard let consentType = FirebaseAnalyticsHelper.mapStringToConsentType(call.getString("type")) else {
             call.reject(errorConsentTypeMissing)
             return
         }
-        guard let consentStatus = FirebaseAnalyticsHelper.mapStringToConsentStatus(call.getString("consentStatus")) else {
+        guard let consentStatus = FirebaseAnalyticsHelper.mapStringToConsentStatus(call.getString("status")) else {
             call.reject(errorConsentStatusMissing)
             return
         }
