@@ -126,6 +126,7 @@ const useEmulator = async () => {
 * [`listFiles(...)`](#listfiles)
 * [`updateMetadata(...)`](#updatemetadata)
 * [`uploadFile(...)`](#uploadfile)
+* [`useEmulator(...)`](#useemulator)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -241,6 +242,23 @@ Upload a file.
 **Returns:** <code>Promise&lt;string&gt;</code>
 
 **Since:** 5.3.0
+
+--------------------
+
+
+### useEmulator(...)
+
+```typescript
+useEmulator(options: UseEmulatorOptions) => Promise<void>
+```
+
+Instrument your app to talk to the Cloud Storage emulator.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -362,6 +380,14 @@ Upload a file.
 | **`bytesTransferred`** | <code>number</code>  | The number of bytes that have been transferred. Only available for Android and Web. | 5.3.0 |
 | **`totalBytes`**       | <code>number</code>  | The total number of bytes to be transferred. Only available for Android and Web.    | 5.3.0 |
 | **`completed`**        | <code>boolean</code> | Whether the upload is completed or not.                                             | 5.3.0 |
+
+
+#### UseEmulatorOptions
+
+| Prop       | Type                | Description                                   | Default           | Since |
+| ---------- | ------------------- | --------------------------------------------- | ----------------- | ----- |
+| **`host`** | <code>string</code> | The emulator host without any port or scheme. |                   | 6.1.0 |
+| **`port`** | <code>number</code> | The emulator port.                            | <code>9199</code> | 6.1.0 |
 
 
 ### Type Aliases

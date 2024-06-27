@@ -276,6 +276,7 @@ const removeAllListeners = async () => {
 * [`clearPersistence()`](#clearpersistence)
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
+* [`useEmulator(...)`](#useemulator)
 * [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
 * [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
 * [`addCollectionGroupSnapshotListener(...)`](#addcollectiongroupsnapshotlistener)
@@ -469,6 +470,23 @@ disableNetwork() => Promise<void>
 Disables use of the network.
 
 **Since:** 5.2.0
+
+--------------------
+
+
+### useEmulator(...)
+
+```typescript
+useEmulator(options: UseEmulatorOptions) => Promise<void>
+```
+
+Instrument your app to talk to the Firestore emulator.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -736,6 +754,14 @@ Remove all listeners for this plugin.
 | **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+
+
+#### UseEmulatorOptions
+
+| Prop       | Type                | Description                                   | Default           | Since |
+| ---------- | ------------------- | --------------------------------------------- | ----------------- | ----- |
+| **`host`** | <code>string</code> | The emulator host without any port or scheme. |                   | 6.1.0 |
+| **`port`** | <code>number</code> | The emulator port.                            | <code>8080</code> | 6.1.0 |
 
 
 #### AddDocumentSnapshotListenerOptions
