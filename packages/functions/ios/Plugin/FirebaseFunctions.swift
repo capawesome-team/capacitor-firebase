@@ -50,7 +50,7 @@ import FirebaseFunctions
             }
         }
     }
-    
+
     @objc func useEmulator(_ host: String, _ port: Int) {
         Functions.functions().useEmulator(withHost: host, port: port)
     }

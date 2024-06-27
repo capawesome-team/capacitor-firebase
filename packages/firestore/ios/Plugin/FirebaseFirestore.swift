@@ -187,7 +187,7 @@ import FirebaseFirestore
             completion(error)
         }
     }
-    
+
     @objc func useEmulator(_ host: String, _ port: Int) {
         Firestore.firestore().useEmulator(withHost: host, port: port)
     }

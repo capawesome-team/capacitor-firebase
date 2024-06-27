@@ -221,7 +221,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.resolve()
         })
     }
-    
+
     @objc func useEmulator(_ call: CAPPluginCall) {
         guard let host = call.getString("host") else {
             call.reject(errorHostMissing)

@@ -26,7 +26,6 @@ public class FirebaseStoragePlugin extends Plugin {
     public static final String ERROR_METADATA_MISSING = "metadata must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
 
-
     private FirebaseStorage implementation;
 
     public void load() {

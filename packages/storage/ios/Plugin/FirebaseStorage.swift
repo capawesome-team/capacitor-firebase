@@ -119,7 +119,7 @@ import FirebaseStorage
             completion(nil, snapshot.error, true)
         }
     }
-    
+
     @objc func useEmulator(_ host: String, _ port: Int) {
         Storage.storage().useEmulator(withHost: host, port: port)
     }
