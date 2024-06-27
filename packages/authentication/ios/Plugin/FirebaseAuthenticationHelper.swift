@@ -48,7 +48,7 @@ public class FirebaseAuthenticationHelper {
         }
         return actionCodeSettings
     }
-    
+
     public static func createErrorCode(error: Error?) -> String? {
         if let error = error as NSError? {
             return convertErrorCodeToString(errorCode: error.code)

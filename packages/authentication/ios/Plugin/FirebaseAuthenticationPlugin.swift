@@ -301,7 +301,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
         let actionCodeSettings = call.getObject("actionCodeSettings")
-        
+
         let options = SendEmailVerificationOptions(actionCodeSettings: actionCodeSettings)
 
         implementation?.sendEmailVerification(options, completion: { error in
@@ -321,7 +321,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             return
         }
         let actionCodeSettings = call.getObject("actionCodeSettings")
-        
+
         let options = SendPasswordResetEmailOptions(email: email, actionCodeSettings: actionCodeSettings)
 
         implementation?.sendPasswordResetEmail(options, completion: { error in

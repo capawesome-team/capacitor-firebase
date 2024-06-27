@@ -250,7 +250,7 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func sendEmailVerification(_ options: SendEmailVerificationOptions, completion: @escaping (Error?) -> Void) {
         let actionCodeSettings = options.getActionCodeSettings()
-        
+
         guard let user = self.getCurrentUser() else {
             completion(RuntimeError(plugin.errorNoUserSignedIn))
             return
@@ -269,7 +269,7 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func sendPasswordResetEmail(_ options: SendPasswordResetEmailOptions, completion: @escaping (Error?) -> Void) {
         let email = options.getEmail()
         let actionCodeSettings = options.getActionCodeSettings()
-        
+
         let completion: (Error?) -> Void = { error in
             completion(error)
         }

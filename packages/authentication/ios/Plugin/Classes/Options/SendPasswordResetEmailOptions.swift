@@ -10,7 +10,7 @@ import FirebaseAuth
         self.email = email
         self.actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettings)
     }
-    
+
     func getEmail() -> String {
         return email
     }

@@ -346,9 +346,7 @@ public class FirebaseAuthentication {
         } else {
             task = user.sendEmailVerification(actionCodeSettings);
         }
-        task
-            .addOnSuccessListener(unused -> callback.success())
-            .addOnFailureListener(exception -> callback.error(exception));
+        task.addOnSuccessListener(unused -> callback.success()).addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void sendPasswordResetEmail(@NonNull SendPasswordResetEmailOptions options, @NonNull EmptyResultCallback callback) {

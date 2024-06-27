@@ -13,7 +13,6 @@ import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.UserInfo;
 import java.util.List;
 import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,9 +49,9 @@ public class FirebaseAuthenticationHelper {
         JSObject android = settings.getJSObject("android");
         if (android != null) {
             builder.setAndroidPackageName(
-                    android.getString("packageName"),
-                    android.getBoolean("installApp"),
-                    android.getString("minimumVersion")
+                android.getString("packageName"),
+                android.getBoolean("installApp"),
+                android.getString("minimumVersion")
             );
         }
         String dynamicLinkDomain = settings.getString("dynamicLinkDomain");
