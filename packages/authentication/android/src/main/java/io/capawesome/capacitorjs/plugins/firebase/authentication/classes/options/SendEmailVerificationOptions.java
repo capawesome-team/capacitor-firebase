@@ -14,7 +14,7 @@ public class SendEmailVerificationOptions {
     private ActionCodeSettings actionCodeSettings;
 
     public SendEmailVerificationOptions(@Nullable JSObject actionCodeSettings) throws JSONException {
-        this.actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettingsFromJSObject(actionCodeSettings);
+        this.actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettings);
     }
 
     @Nullable

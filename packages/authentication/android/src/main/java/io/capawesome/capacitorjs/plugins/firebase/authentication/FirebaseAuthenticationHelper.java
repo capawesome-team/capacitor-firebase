@@ -34,23 +34,20 @@ public class FirebaseAuthenticationHelper {
     }
 
     @Nullable
-    public static ActionCodeSettings createActionCodeSettingsFromJSObject(@Nullable JSObject obj) throws JSONException {
-        if (obj == null) {
+    public static ActionCodeSettings createActionCodeSettings(@Nullable JSObject settings) throws JSONException {
+        if (settings == null) {
             return null;
         }
-        ActionCodeSettings.Builder builder = ActionCodeSettings.newBuilder().setUrl(obj.getString("url"));
-
-        Boolean handleCodeInApp = obj.getBoolean("handleCodeInApp");
+        ActionCodeSettings.Builder builder = ActionCodeSettings.newBuilder().setUrl(settings.getString("url"));
+        Boolean handleCodeInApp = settings.getBoolean("handleCodeInApp");
         if (handleCodeInApp != null) {
             builder.setHandleCodeInApp(handleCodeInApp);
         }
-
-        JSObject iOS = obj.getJSObject("iOS");
+        JSObject iOS = settings.getJSObject("iOS");
         if (iOS != null) {
             builder.setIOSBundleId(iOS.getString("bundleId"));
         }
-
-        JSObject android = obj.getJSObject("android");
+        JSObject android = settings.getJSObject("android");
         if (android != null) {
             builder.setAndroidPackageName(
                     android.getString("packageName"),
@@ -58,8 +55,7 @@ public class FirebaseAuthenticationHelper {
                     android.getString("minimumVersion")
             );
         }
-
-        String dynamicLinkDomain = obj.getString("dynamicLinkDomain");
+        String dynamicLinkDomain = settings.getString("dynamicLinkDomain");
         if (dynamicLinkDomain != null) {
             builder.setDynamicLinkDomain(dynamicLinkDomain);
         }

@@ -564,7 +564,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
 
-            ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettingsFromJSObject(settings);
+            ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
             implementation.sendSignInLinkToEmail(email, actionCodeSettings, () -> call.resolve());
         } catch (Exception exception) {

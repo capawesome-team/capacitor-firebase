@@ -300,12 +300,11 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
+        let actionCodeSettings = call.getObject("actionCodeSettings")
+        
+        let options = SendEmailVerificationOptions(actionCodeSettings: actionCodeSettings)
 
-        implementation?.sendEmailVerification(user: user, completion: { error in
+        implementation?.sendEmailVerification(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
@@ -321,8 +320,11 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             call.reject(errorEmailMissing)
             return
         }
+        let actionCodeSettings = call.getObject("actionCodeSettings")
+        
+        let options = SendPasswordResetEmailOptions(email: email, actionCodeSettings: actionCodeSettings)
 
-        implementation?.sendPasswordResetEmail(email: email, completion: { error in
+        implementation?.sendPasswordResetEmail(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
@@ -342,34 +344,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             call.reject(errorActionCodeSettingsMissing)
             return
         }
-
-        let actionCodeSettings = ActionCodeSettings()
-        if let url = settings["url"] as? String {
-            actionCodeSettings.url = URL(string: url)
-        }
-
-        if let handleCodeInApp = settings["handleCodeInApp"] as? Bool {
-            actionCodeSettings.handleCodeInApp = handleCodeInApp
-        }
-
-        if let iOS = settings["iOS"] as? JSObject {
-            if let bundleId = iOS["bundleId"] as? String {
-                actionCodeSettings.setIOSBundleID(bundleId)
-            }
-        }
-
-        if let android = settings["android"] as? JSObject {
-            if let packageName = android["packageName"] as? String {
-                actionCodeSettings.setAndroidPackageName(
-                    packageName,
-                    installIfNotAvailable: android["installApp"] as? Bool ?? false,
-                    minimumVersion: android["minimumVersion"] as? String
-                )
-            }
-        }
-
-        if let dynamicLinkDomain = settings["dynamicLinkDomain"] as? String {
-            actionCodeSettings.dynamicLinkDomain = dynamicLinkDomain
+        guard let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings) else {
+            call.reject(errorActionCodeSettingsMissing)
+            return
         }
 
         implementation?.sendSignInLinkToEmail(email: email, actionCodeSettings: actionCodeSettings, completion: { error in
