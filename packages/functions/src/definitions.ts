@@ -11,6 +11,12 @@ export interface FirebaseFunctionsPlugin {
    * @since 6.1.0
    */
   callByUrl(options: CallByUrlOptions): Promise<CallByUrlResult>;
+  /**
+   * Instrument your app to talk to the Cloud Functions emulator.
+   *
+   * @since 6.1.0
+   */
+  useEmulator(options: UseEmulatorOptions): Promise<void>;
 }
 
 /**
@@ -56,9 +62,6 @@ export interface CallByUrlOptions extends CallOptions {
  */
 export type CallByUrlResult = CallResult;
 
-/**
- * @since 6.1.0
- */
 export interface CallOptions {
   /**
    * The data to pass to the callable function.
@@ -78,4 +81,25 @@ export interface CallResult {
    * @since 6.1.0
    */
   data?: any;
+}
+
+/**
+ * @since 6.1.0
+ */
+export interface UseEmulatorOptions {
+  /**
+   * The emulator host without any port or scheme.
+   *
+   * @since 6.1.0
+   * @example "127.0.0.1"
+   */
+  host: string;
+  /**
+   * The emulator port.
+   *
+   * @since 6.1.0
+   * @default 5001
+   * @example 5001
+   */
+  port?: number;
 }
