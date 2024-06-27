@@ -1,5 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
+import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.TAG;
 
 import android.content.Intent;
@@ -31,6 +32,8 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInR
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.FetchSignInMethodsForEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.RevokeAccessTokenOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendEmailVerificationOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendPasswordResetEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.results.FetchSignInMethodsForEmailResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.AppleAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
@@ -167,7 +170,7 @@ public class FirebaseAuthentication {
     public void getIdToken(Boolean forceRefresh, @NonNull final NonEmptyResultCallback callback) {
         FirebaseUser user = getCurrentUser();
         if (user == null) {
-            callback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));
+            callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
             return;
         }
         Task<GetTokenResult> tokenResultTask = user.getIdToken(forceRefresh);
@@ -210,7 +213,7 @@ public class FirebaseAuthentication {
         }
         FirebaseUser user = getCurrentUser();
         if (user == null) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            call.reject(ERROR_NO_USER_SIGNED_IN);
             return;
         }
 
@@ -245,7 +248,7 @@ public class FirebaseAuthentication {
         }
         FirebaseUser user = getCurrentUser();
         if (user == null) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            call.reject(ERROR_NO_USER_SIGNED_IN);
             return;
         }
 
@@ -327,24 +330,35 @@ public class FirebaseAuthentication {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendEmailVerification(FirebaseUser user, @NonNull Runnable callback) {
-        user
-            .sendEmailVerification()
-            .addOnCompleteListener(
-                task -> {
-                    callback.run();
-                }
-            );
+    public void sendEmailVerification(@NonNull SendEmailVerificationOptions options, @NonNull EmptyResultCallback callback) {
+        ActionCodeSettings actionCodeSettings = options.getActionCodeSettings();
+
+        FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            Exception exception = new Exception(ERROR_NO_USER_SIGNED_IN);
+            callback.error(exception);
+            return;
+        }
+
+        Task<Void> task = null;
+        if (actionCodeSettings == null) {
+            task = user.sendEmailVerification();
+        } else {
+            task = user.sendEmailVerification(actionCodeSettings);
+        }
+        task
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendPasswordResetEmail(@NonNull String email, @NonNull Runnable callback) {
+    public void sendPasswordResetEmail(@NonNull SendPasswordResetEmailOptions options, @NonNull EmptyResultCallback callback) {
+        String email = options.getEmail();
+        ActionCodeSettings actionCodeSettings = options.getActionCodeSettings();
+
         getFirebaseAuthInstance()
-            .sendPasswordResetEmail(email)
-            .addOnCompleteListener(
-                task -> {
-                    callback.run();
-                }
-            );
+            .sendPasswordResetEmail(email, actionCodeSettings)
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void sendSignInLinkToEmail(@NonNull String email, @NonNull ActionCodeSettings actionCodeSettings, @NonNull Runnable callback) {
@@ -670,7 +684,7 @@ public class FirebaseAuthentication {
     public void linkWithCredential(@NonNull AuthCredential credential, @NonNull NonEmptyResultCallback callback) {
         FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
-            callback.error(new Exception(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN));
+            callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
             return;
         }
         user
@@ -806,7 +820,7 @@ public class FirebaseAuthentication {
     ) {
         FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
-            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            call.reject(ERROR_NO_USER_SIGNED_IN);
             return;
         }
         if (credential == null) {
