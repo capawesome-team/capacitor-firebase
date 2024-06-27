@@ -107,6 +107,13 @@ const updateMetadata = async () => {
     },
   });
 };
+
+const useEmulator = async () => {
+  await FirebaseStorage.useEmulator({
+    host: '10.0.2.2',
+    port: 9001,
+  });
+};
 ```
 
 ## API

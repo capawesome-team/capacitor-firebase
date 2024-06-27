@@ -63,6 +63,13 @@ const callByUrl = async () => {
     });
     return data;
 };
+
+const useEmulator = async () => {
+  await FirebaseFunctions.useEmulator({
+    host: '10.0.2.2',
+    port: 9001,
+  });
+};
 ```
 
 ## API

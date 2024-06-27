@@ -151,6 +151,13 @@ const disableNetwork = async () => {
   await FirebaseFirestore.disableNetwork();
 };
 
+const useEmulator = async () => {
+  await FirebaseFirestore.useEmulator({
+    host: '10.0.2.2',
+    port: 9001,
+  });
+};
+
 const addDocumentSnapshotListener = async () => {
   const callbackId = await FirebaseFirestore.addDocumentSnapshotListener(
     {
