@@ -33,6 +33,7 @@ public class FirebaseFirestorePlugin extends Plugin {
 
     public static final String TAG = "FirebaseFirestore";
     public static final String ERROR_REFERENCE_MISSING = "reference must be provided.";
+    public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
     public static final String ERROR_DATA_MISSING = "data must be provided.";
     public static final String ERROR_OPERATIONS_MISSING = "operations must be provided.";
@@ -368,6 +369,24 @@ public class FirebaseFirestorePlugin extends Plugin {
             };
 
             implementation.disableNetwork(callback);
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void useEmulator(PluginCall call) {
+        try {
+            String host = call.getString("host");
+            if (host == null) {
+                call.reject(ERROR_HOST_MISSING);
+                return;
+            }
+            int port = call.getInt("port", 8080);
+
+            implementation.useEmulator(host, port);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);

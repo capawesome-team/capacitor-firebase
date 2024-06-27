@@ -233,6 +233,10 @@ public class FirebaseFirestore {
             );
     }
 
+    public void useEmulator(@NonNull String host, int port) {
+        getFirebaseFirestoreInstance().useEmulator(host, port);
+    }
+
     public void addDocumentSnapshotListener(@NonNull AddDocumentSnapshotListenerOptions options, @NonNull NonEmptyResultCallback callback) {
         String reference = options.getReference();
         String callbackId = options.getCallbackId();

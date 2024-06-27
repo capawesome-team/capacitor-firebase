@@ -24,6 +24,8 @@ public class FirebaseStoragePlugin extends Plugin {
     public static final String ERROR_PATH_MISSING = "path must be provided.";
     public static final String ERROR_URI_MISSING = "uri must be provided.";
     public static final String ERROR_METADATA_MISSING = "metadata must be provided.";
+    public static final String ERROR_HOST_MISSING = "host must be provided.";
+
 
     private FirebaseStorage implementation;
 
@@ -226,6 +228,24 @@ public class FirebaseStoragePlugin extends Plugin {
             };
 
             implementation.uploadFile(options, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void useEmulator(PluginCall call) {
+        try {
+            String host = call.getString("host");
+            if (host == null) {
+                call.reject(ERROR_HOST_MISSING);
+                return;
+            }
+            int port = call.getInt("port", 9199);
+
+            implementation.useEmulator(host, port);
+            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
