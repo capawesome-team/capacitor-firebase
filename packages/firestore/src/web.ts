@@ -221,6 +221,7 @@ export class FirebaseFirestoreWeb
         };
         callback(event, undefined);
       },
+      error => callback(null, error),
     );
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
@@ -237,16 +238,20 @@ export class FirebaseFirestoreWeb
       options,
       'collection',
     );
-    const unsubscribe = onSnapshot(collectionQuery, snapshot => {
-      const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
-        snapshots: snapshot.docs.map(documentSnapshot => ({
-          id: documentSnapshot.id,
-          path: documentSnapshot.ref.path,
-          data: documentSnapshot.data() as T,
-        })),
-      };
-      callback(event, undefined);
-    });
+    const unsubscribe = onSnapshot(
+      collectionQuery,
+      snapshot => {
+        const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
+          snapshots: snapshot.docs.map(documentSnapshot => ({
+            id: documentSnapshot.id,
+            path: documentSnapshot.ref.path,
+            data: documentSnapshot.data() as T,
+          })),
+        };
+        callback(event, undefined);
+      },
+      error => callback(null, error),
+    );
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
@@ -262,16 +267,20 @@ export class FirebaseFirestoreWeb
       options,
       'collectionGroup',
     );
-    const unsubscribe = onSnapshot(collectionQuery, snapshot => {
-      const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
-        snapshots: snapshot.docs.map(documentSnapshot => ({
-          id: documentSnapshot.id,
-          path: documentSnapshot.ref.path,
-          data: documentSnapshot.data() as T,
-        })),
-      };
-      callback(event, undefined);
-    });
+    const unsubscribe = onSnapshot(
+      collectionQuery,
+      snapshot => {
+        const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
+          snapshots: snapshot.docs.map(documentSnapshot => ({
+            id: documentSnapshot.id,
+            path: documentSnapshot.ref.path,
+            data: documentSnapshot.data() as T,
+          })),
+        };
+        callback(event, undefined);
+      },
+      error => callback(null, error),
+    );
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
