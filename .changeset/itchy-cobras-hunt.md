@@ -2,4 +2,4 @@
 '@capacitor-firebase/firestore': patch
 ---
 
-fix(firestore): handle snapshot errors on web
+fix(web): handle snapshot errors
