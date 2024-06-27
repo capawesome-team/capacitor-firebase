@@ -187,6 +187,10 @@ import FirebaseFirestore
             completion(error)
         }
     }
+    
+    @objc func useEmulator(_ host: String, _ port: Int) {
+        Firestore.firestore().useEmulator(withHost: host, port: port)
+    }
 
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
