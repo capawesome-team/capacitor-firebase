@@ -16,6 +16,7 @@ public class SendPasswordResetEmailOptions {
     private ActionCodeSettings actionCodeSettings;
 
     public SendPasswordResetEmailOptions(@NonNull String email, @Nullable JSObject actionCodeSettings) throws JSONException {
+        this.email = email;
         this.actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettings);
     }
 
