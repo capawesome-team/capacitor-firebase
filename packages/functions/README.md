@@ -85,11 +85,15 @@ const callByUrl = async () => {
 callByName(options: CallByNameOptions) => Promise<CallByNameResult>
 ```
 
+Call a callable function by name.
+
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#callbynameoptions">CallByNameOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#callresult">CallResult</a>&gt;</code>
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -100,11 +104,15 @@ callByName(options: CallByNameOptions) => Promise<CallByNameResult>
 callByUrl(options: CallByUrlOptions) => Promise<CallByUrlResult>
 ```
 
+Call a callable function by URL.
+
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#callbyurloptions">CallByUrlOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#callresult">CallResult</a>&gt;</code>
+
+**Since:** 6.1.0
 
 --------------------
 
@@ -114,23 +122,23 @@ callByUrl(options: CallByUrlOptions) => Promise<CallByUrlResult>
 
 #### CallResult
 
-| Prop       | Type             |
-| ---------- | ---------------- |
-| **`data`** | <code>any</code> |
+| Prop       | Type             | Description                          | Since |
+| ---------- | ---------------- | ------------------------------------ | ----- |
+| **`data`** | <code>any</code> | The result of the callable function. | 6.1.0 |
 
 
 #### CallByNameOptions
 
-| Prop       | Type                |
-| ---------- | ------------------- |
-| **`name`** | <code>string</code> |
+| Prop       | Type                | Description                        | Since |
+| ---------- | ------------------- | ---------------------------------- | ----- |
+| **`name`** | <code>string</code> | The name of the callable function. | 6.1.0 |
 
 
 #### CallByUrlOptions
 
-| Prop      | Type                |
-| --------- | ------------------- |
-| **`url`** | <code>string</code> |
+| Prop      | Type                | Description                       | Since |
+| --------- | ------------------- | --------------------------------- | ----- |
+| **`url`** | <code>string</code> | The URL of the callable function. | 6.1.0 |
 
 
 ### Type Aliases
