@@ -11,7 +11,7 @@ public class CallByNameOptions extends CallOptions {
     @Nullable
     private String region;
 
-    public CallByNameOptions(@NonNull String name, @Nullable String region,  Object data) {
+    public CallByNameOptions(@NonNull String name, @Nullable String region, Object data) {
         super(data);
         this.name = name;
         this.region = region;

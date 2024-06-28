@@ -2,7 +2,6 @@ package io.capawesome.capacitorjs.plugins.firebase.functions;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByNameOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByUrlOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.results.CallResult;

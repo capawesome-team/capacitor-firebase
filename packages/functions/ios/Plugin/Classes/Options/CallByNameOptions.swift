@@ -13,7 +13,7 @@ import Foundation
     func getName() -> String {
         return name
     }
-    
+
     func getRegion() -> String? {
         return region
     }

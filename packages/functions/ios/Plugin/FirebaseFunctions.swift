@@ -18,7 +18,7 @@ import FirebaseFunctions
         let region = options.getRegion()
         let data = options.getData()
 
-        let functions: Functions;
+        let functions: Functions
         if let region = region {
             functions = Functions.functions(region: region)
         } else {
