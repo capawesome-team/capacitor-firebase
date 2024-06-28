@@ -433,7 +433,7 @@ const useEmulator = async () => {
 * [`linkWithYahoo(...)`](#linkwithyahoo)
 * [`reload()`](#reload)
 * [`revokeAccessToken(...)`](#revokeaccesstoken)
-* [`sendEmailVerification()`](#sendemailverification)
+* [`sendEmailVerification(...)`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
 * [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
 * [`setLanguageCode(...)`](#setlanguagecode)
@@ -1004,13 +1004,17 @@ Revokes the given access token. Currently only supports Apple OAuth access token
 --------------------
 
 
-### sendEmailVerification()
+### sendEmailVerification(...)
 
 ```typescript
-sendEmailVerification() => Promise<void>
+sendEmailVerification(options?: SendEmailVerificationOptions | undefined) => Promise<void>
 ```
 
 Sends a verification email to the currently signed in user.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#sendemailverificationoptions">SendEmailVerificationOptions</a></code> |
 
 **Since:** 0.2.2
 
@@ -1831,19 +1835,11 @@ Remove all listeners for this plugin.
 | **`token`** | <code>string</code> | The access token to revoke. | 6.1.0 |
 
 
-#### SendPasswordResetEmailOptions
-
-| Prop        | Type                | Since |
-| ----------- | ------------------- | ----- |
-| **`email`** | <code>string</code> | 0.2.2 |
-
-
-#### SendSignInLinkToEmailOptions
+#### SendEmailVerificationOptions
 
 | Prop                     | Type                                                              | Description                                                                                               | Since |
 | ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
-| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 1.1.0 |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 6.1.0 |
 
 
 #### ActionCodeSettings
@@ -1858,6 +1854,22 @@ bundle identifiers.
 | **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
 | **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
 | **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
+
+
+#### SendPasswordResetEmailOptions
+
+| Prop                     | Type                                                              | Description                                                                                               | Since |
+| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**              | <code>string</code>                                               |                                                                                                           | 0.2.2 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 6.1.0 |
+
+
+#### SendSignInLinkToEmailOptions
+
+| Prop                     | Type                                                              | Description                                                                                               | Since |
+| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 1.1.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
 
 
 #### SetLanguageCodeOptions
