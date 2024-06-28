@@ -129,9 +129,10 @@ Call a callable function by URL.
 
 #### CallByNameOptions
 
-| Prop       | Type                | Description                        | Since |
-| ---------- | ------------------- | ---------------------------------- | ----- |
-| **`name`** | <code>string</code> | The name of the callable function. | 6.1.0 |
+| Prop         | Type                | Description                          | Since |
+| ------------ | ------------------- | ------------------------------------ | ----- |
+| **`name`**   | <code>string</code> | The name of the callable function.   | 6.1.0 |
+| **`region`** | <code>string</code> | The region of the callable function. | 6.1.0 |
 
 
 #### CallByUrlOptions

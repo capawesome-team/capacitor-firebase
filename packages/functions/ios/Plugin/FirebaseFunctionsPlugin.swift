@@ -20,9 +20,10 @@ public class FirebaseFunctionsPlugin: CAPPlugin {
             call.reject(errorNameMissing)
             return
         }
+        let region = call.getString("region")
         let data = call.getValue("data")
 
-        let options = CallByNameOptions(name: name, data: data)
+        let options = CallByNameOptions(name: name, region: region, data: data)
 
         implementation?.callByName(options, completion: { result, error in
             if let error = error {

@@ -24,6 +24,13 @@ export interface CallByNameOptions extends CallOptions {
    * @since 6.1.0
    */
   name: string;
+  /**
+   * The region of the callable function.
+   *
+   * @example 'us-central1'
+   * @since 6.1.0
+   */
+  region?: string;
 }
 
 /**

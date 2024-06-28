@@ -15,9 +15,15 @@ import FirebaseFunctions
 
     @objc public func callByName(_ options: CallByNameOptions, completion: @escaping (Result?, Error?) -> Void) {
         let name = options.getName()
+        let region = options.getRegion()
         let data = options.getData()
 
-        let functions = Functions.functions()
+        let functions: Functions;
+        if let region = region {
+            functions = Functions.functions(region: region)
+        } else {
+            functions = Functions.functions()
+        }
         let callable = functions.httpsCallable(name)
         callable.call(data) { (result, error) in
             if let error = error {
