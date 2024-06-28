@@ -38,7 +38,7 @@ public class FirebaseAuthenticationHelper {
             return null;
         }
         ActionCodeSettings.Builder builder = ActionCodeSettings.newBuilder().setUrl(settings.getString("url"));
-        Boolean handleCodeInApp = settings.getBoolean("handleCodeInApp");
+        Boolean handleCodeInApp = settings.getBoolean("handleCodeInApp", null);
         if (handleCodeInApp != null) {
             builder.setHandleCodeInApp(handleCodeInApp);
         }
