@@ -62,6 +62,9 @@ export interface CallByUrlOptions extends CallOptions {
  */
 export type CallByUrlResult = CallResult;
 
+/**
+ * @since 6.1.0
+ */
 export interface CallOptions {
   /**
    * The data to pass to the callable function.
