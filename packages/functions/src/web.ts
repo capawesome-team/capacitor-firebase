@@ -20,7 +20,7 @@ export class FirebaseFunctionsWeb
   public async callByName(
     options: CallByNameOptions,
   ): Promise<CallByNameResult> {
-    const functions = getFunctions();
+    const functions = getFunctions(undefined, options.region);
     const callable = httpsCallable(functions, options.name);
     const result = await callable(options.data);
     return {

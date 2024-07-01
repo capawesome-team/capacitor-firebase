@@ -28,14 +28,15 @@ public class FirebaseFunctionsPlugin extends Plugin {
     public void callByName(PluginCall call) {
         try {
             JSObject json = call.getData();
-            String name = json.getString("name");
+            String name = json.getString("name", null);
             if (name == null) {
                 call.reject(ERROR_NAME_MISSING);
                 return;
             }
+            String region = json.getString("region", null);
             Object data = json.opt("data");
 
-            CallByNameOptions options = new CallByNameOptions(name, data);
+            CallByNameOptions options = new CallByNameOptions(name, region, data);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {

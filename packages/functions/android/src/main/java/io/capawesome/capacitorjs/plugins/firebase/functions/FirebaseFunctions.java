@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.functions;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByNameOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByUrlOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.results.CallResult;
@@ -16,9 +17,10 @@ public class FirebaseFunctions {
 
     public void callByName(@NonNull CallByNameOptions options, @NonNull NonEmptyResultCallback callback) {
         String name = options.getName();
+        String region = options.getRegion();
         Object data = options.getData();
 
-        getFirebaseFunctionsInstance()
+        getFirebaseFunctionsInstance(region)
             .getHttpsCallable(name)
             .call(data)
             .addOnSuccessListener(
@@ -38,7 +40,7 @@ public class FirebaseFunctions {
         String url = options.getUrl();
         Object data = options.getData();
 
-        getFirebaseFunctionsInstance()
+        getFirebaseFunctionsInstance(null)
             .getHttpsCallable(url)
             .call(data)
             .addOnSuccessListener(
@@ -54,7 +56,11 @@ public class FirebaseFunctions {
             );
     }
 
-    private com.google.firebase.functions.FirebaseFunctions getFirebaseFunctionsInstance() {
-        return com.google.firebase.functions.FirebaseFunctions.getInstance();
+    private com.google.firebase.functions.FirebaseFunctions getFirebaseFunctionsInstance(@Nullable String regionOrCustomDomain) {
+        if (regionOrCustomDomain == null) {
+            return com.google.firebase.functions.FirebaseFunctions.getInstance();
+        } else {
+            return com.google.firebase.functions.FirebaseFunctions.getInstance(regionOrCustomDomain);
+        }
     }
 }
