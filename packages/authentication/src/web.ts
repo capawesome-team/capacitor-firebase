@@ -80,6 +80,7 @@ import type {
   PhoneCodeSentEvent,
   PhoneVerificationFailedEvent,
   RevokeAccessTokenOptions,
+  SendEmailVerificationOptions,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
   SetLanguageCodeOptions,
@@ -440,20 +441,26 @@ export class FirebaseAuthenticationWeb
     return revokeAccessToken(auth, options.token);
   }
 
-  public async sendEmailVerification(): Promise<void> {
+  public async sendEmailVerification(
+    options: SendEmailVerificationOptions,
+  ): Promise<void> {
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    return sendEmailVerification(currentUser);
+    return sendEmailVerification(currentUser, options?.actionCodeSettings);
   }
 
   public async sendPasswordResetEmail(
     options: SendPasswordResetEmailOptions,
   ): Promise<void> {
     const auth = getAuth();
-    return sendPasswordResetEmail(auth, options.email);
+    return sendPasswordResetEmail(
+      auth,
+      options.email,
+      options.actionCodeSettings,
+    );
   }
 
   public async sendSignInLinkToEmail(

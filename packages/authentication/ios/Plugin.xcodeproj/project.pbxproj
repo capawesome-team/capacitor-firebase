@@ -18,6 +18,8 @@
 		50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */; };
 		7C0C050B2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */; };
 		7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */; };
+		7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */; };
+		7C2094302C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */; };
 		7C3D92CA26D3CC62000C0B29 /* PhoneAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */; };
 		7C461AFC29EC3B8E00DD31E9 /* SignInResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */; };
 		7C461AFE29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */; };
@@ -63,6 +65,8 @@
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailOptions.swift; sourceTree = "<group>"; };
 		7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailResult.swift; sourceTree = "<group>"; };
+		7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailVerificationOptions.swift; sourceTree = "<group>"; };
+		7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPasswordResetEmailOptions.swift; sourceTree = "<group>"; };
 		7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthProviderHandler.swift; sourceTree = "<group>"; };
 		7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResult.swift; sourceTree = "<group>"; };
 		7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmVerificationCodeOptions.swift; sourceTree = "<group>"; };
@@ -160,6 +164,8 @@
 			children = (
 				7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */,
 				7C939DAC2C208CD30059B145 /* RevokeAccessTokenOptions.swift */,
+				7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */,
+				7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -458,6 +464,8 @@
 				50ADFFA82020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m in Sources */,
 				7C461B0A29EC486000DD31E9 /* GetIdTokenResult.swift in Sources */,
 				7CD588F22688B5A4002BDF65 /* OAuthProviderHandler.swift in Sources */,
+				7C2094302C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift in Sources */,
+				7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */,
 				7C57A00129F4023E00B7778B /* RuntimeError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,6 +3,7 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -12,6 +13,7 @@ import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.UserInfo;
 import java.util.List;
 import java.util.Map;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseAuthenticationHelper {
@@ -28,6 +30,35 @@ public class FirebaseAuthenticationHelper {
         public static final String YAHOO = "yahoo.com";
         public static final String PASSWORD = "password";
         public static final String PHONE = "phone";
+    }
+
+    @Nullable
+    public static ActionCodeSettings createActionCodeSettings(@Nullable JSObject settings) throws JSONException {
+        if (settings == null) {
+            return null;
+        }
+        ActionCodeSettings.Builder builder = ActionCodeSettings.newBuilder().setUrl(settings.getString("url"));
+        Boolean handleCodeInApp = settings.getBoolean("handleCodeInApp", null);
+        if (handleCodeInApp != null) {
+            builder.setHandleCodeInApp(handleCodeInApp);
+        }
+        JSObject iOS = settings.getJSObject("iOS");
+        if (iOS != null) {
+            builder.setIOSBundleId(iOS.getString("bundleId"));
+        }
+        JSObject android = settings.getJSObject("android");
+        if (android != null) {
+            builder.setAndroidPackageName(
+                android.getString("packageName"),
+                android.getBoolean("installApp"),
+                android.getString("minimumVersion")
+            );
+        }
+        String dynamicLinkDomain = settings.getString("dynamicLinkDomain");
+        if (dynamicLinkDomain != null) {
+            builder.setDynamicLinkDomain(dynamicLinkDomain);
+        }
+        return builder.build();
     }
 
     @Nullable

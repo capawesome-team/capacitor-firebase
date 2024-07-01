@@ -18,6 +18,37 @@ public struct ProviderId {
 }
 
 public class FirebaseAuthenticationHelper {
+    public static func createActionCodeSettings(_ settings: JSObject?) -> ActionCodeSettings? {
+        guard let settings = settings else {
+            return nil
+        }
+        let actionCodeSettings = ActionCodeSettings()
+        if let url = settings["url"] as? String {
+            actionCodeSettings.url = URL(string: url)
+        }
+        if let handleCodeInApp = settings["handleCodeInApp"] as? Bool {
+            actionCodeSettings.handleCodeInApp = handleCodeInApp
+        }
+        if let iOS = settings["iOS"] as? JSObject {
+            if let bundleId = iOS["bundleId"] as? String {
+                actionCodeSettings.setIOSBundleID(bundleId)
+            }
+        }
+        if let android = settings["android"] as? JSObject {
+            if let packageName = android["packageName"] as? String {
+                actionCodeSettings.setAndroidPackageName(
+                    packageName,
+                    installIfNotAvailable: android["installApp"] as? Bool ?? false,
+                    minimumVersion: android["minimumVersion"] as? String
+                )
+            }
+        }
+        if let dynamicLinkDomain = settings["dynamicLinkDomain"] as? String {
+            actionCodeSettings.dynamicLinkDomain = dynamicLinkDomain
+        }
+        return actionCodeSettings
+    }
+
     public static func createErrorCode(error: Error?) -> String? {
         if let error = error as NSError? {
             return convertErrorCodeToString(errorCode: error.code)

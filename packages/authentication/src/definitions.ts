@@ -274,7 +274,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.2.2
    */
-  sendEmailVerification(): Promise<void>;
+  sendEmailVerification(options?: SendEmailVerificationOptions): Promise<void>;
   /**
    * Sends a password reset email.
    *
@@ -674,6 +674,18 @@ export interface RevokeAccessTokenOptions {
 }
 
 /**
+ * @since 6.1.0
+ */
+export interface SendEmailVerificationOptions {
+  /**
+   * Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.
+   *
+   * @since 6.1.0
+   */
+  actionCodeSettings?: ActionCodeSettings;
+}
+
+/**
  * @since 0.2.2
  */
 export interface SendPasswordResetEmailOptions {
@@ -681,6 +693,12 @@ export interface SendPasswordResetEmailOptions {
    * @since 0.2.2
    */
   email: string;
+  /**
+   * Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.
+   *
+   * @since 6.1.0
+   */
+  actionCodeSettings?: ActionCodeSettings;
 }
 
 /**
