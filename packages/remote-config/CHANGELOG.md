@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.1.0
+
+### Patch Changes
+
+- [`f597638`](https://github.com/capawesome-team/capacitor-firebase/commit/f597638391c41d8990e1e3d5a7fd5a897fe12337) ([#642](https://github.com/capawesome-team/capacitor-firebase/pull/642)): chore(deps): update Firebase iOS SDK to 10.25
+
 ## 6.0.0
 
 ### Major Changes

@@ -1,5 +1,13 @@
 # @capacitor-firebase/storage
 
+## 6.1.0
+
+### Patch Changes
+
+- [`f597638`](https://github.com/capawesome-team/capacitor-firebase/commit/f597638391c41d8990e1e3d5a7fd5a897fe12337) ([#642](https://github.com/capawesome-team/capacitor-firebase/pull/642)): chore(deps): update Firebase iOS SDK to 10.25
+
+* [`f140e0b`](https://github.com/capawesome-team/capacitor-firebase/commit/f140e0be0f56d8bb0ba9d0b7de9e1809a950bbf1) ([#633](https://github.com/capawesome-team/capacitor-firebase/pull/633)): fix(android): `JSONException` when `customMetadata` is not set
+
 ## 6.0.0
 
 ### Major Changes

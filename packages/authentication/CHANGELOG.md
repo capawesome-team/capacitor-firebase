@@ -1,5 +1,21 @@
 # Changelog
 
+## 6.1.0
+
+### Minor Changes
+
+- [`e2d6914`](https://github.com/capawesome-team/capacitor-firebase/commit/e2d691406fbe43af0390fb95eeaf48cf28f8f3bc) ([#625](https://github.com/capawesome-team/capacitor-firebase/pull/625)): feat: support OpenID Connect
+
+* [`9cca701`](https://github.com/capawesome-team/capacitor-firebase/commit/9cca7016e0e46452299febff64ba5ef632c23d5e) ([#644](https://github.com/capawesome-team/capacitor-firebase/pull/644)): feat: add `revokeAccessToken(...)` method
+
+### Patch Changes
+
+- [`aa08e71`](https://github.com/capawesome-team/capacitor-firebase/commit/aa08e7110126a7d9ac91976ccd0037d29e83587e) ([#632](https://github.com/capawesome-team/capacitor-firebase/pull/632)): fix(android): `NullPointerException` when `getPendingAuthResult()` is called
+
+* [`f8430f2`](https://github.com/capawesome-team/capacitor-firebase/commit/f8430f2dc4fc915e8cd39689ebc9249015c0fc64) ([#650](https://github.com/capawesome-team/capacitor-firebase/pull/650)): fix(web): `updateProfile(...)` ignored the `photoUrl`
+
+- [`f597638`](https://github.com/capawesome-team/capacitor-firebase/commit/f597638391c41d8990e1e3d5a7fd5a897fe12337) ([#642](https://github.com/capawesome-team/capacitor-firebase/pull/642)): chore(deps): update Firebase iOS SDK to 10.25
+
 ## 6.0.0
 
 ### Major Changes
