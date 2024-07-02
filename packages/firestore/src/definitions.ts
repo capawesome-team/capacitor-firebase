@@ -349,6 +349,8 @@ export interface UseEmulatorOptions {
   /**
    * The emulator host without any port or scheme.
    *
+   * Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.
+   *
    * @since 6.1.0
    * @example "127.0.0.1"
    */

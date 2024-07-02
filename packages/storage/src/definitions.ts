@@ -41,6 +41,16 @@ export interface FirebaseStoragePlugin {
   /**
    * Instrument your app to talk to the Cloud Storage emulator.
    *
+   * On Android, the cleartext traffic must be allowed. On the Capacitor configuration:
+   * ```
+   * {
+   *   server: {
+   *     cleartext: true
+   *   }
+   * }
+   * ```
+   * **The cleartext traffic is not intended for use in production.**
+   *
    * @since 6.1.0
    */
   useEmulator(options: UseEmulatorOptions): Promise<void>;
@@ -261,6 +271,8 @@ export interface UpdateMetadataOptions {
 export interface UseEmulatorOptions {
   /**
    * The emulator host without any port or scheme.
+   *
+   * Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.
    *
    * @since 6.1.0
    * @example "127.0.0.1"
