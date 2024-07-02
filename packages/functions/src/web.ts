@@ -19,20 +19,28 @@ export class FirebaseFunctionsWeb
   extends WebPlugin
   implements FirebaseFunctionsPlugin
 {
-  public async callByName(
-    options: CallByNameOptions,
-  ): Promise<CallByNameResult> {
+  public async callByName<RequestData = unknown, ResponseData = unknown>(
+    options: CallByNameOptions<RequestData>,
+  ): Promise<CallByNameResult<ResponseData>> {
     const functions = getFunctions(undefined, options.region);
-    const callable = httpsCallable(functions, options.name);
+    const callable = httpsCallable<RequestData, ResponseData>(
+      functions,
+      options.name,
+    );
     const result = await callable(options.data);
     return {
       data: result.data,
     };
   }
 
-  public async callByUrl(options: CallByUrlOptions): Promise<CallResult> {
+  public async callByUrl<RequestData = unknown, ResponseData = unknown>(
+    options: CallByUrlOptions<RequestData>,
+  ): Promise<CallResult<ResponseData>> {
     const functions = getFunctions();
-    const callable = httpsCallableFromURL(functions, options.url);
+    const callable = httpsCallableFromURL<RequestData, ResponseData>(
+      functions,
+      options.url,
+    );
     const result = await callable(options.data);
     return {
       data: result.data,
