@@ -4,4 +4,4 @@
 '@capacitor-firebase/storage': minor
 ---
 
-feat(emulator): add the emulator support on firestore, functions and storage packages
+feat: add emulator support
