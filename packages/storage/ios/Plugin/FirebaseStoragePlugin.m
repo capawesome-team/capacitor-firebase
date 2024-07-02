@@ -10,4 +10,5 @@ CAP_PLUGIN(FirebaseStoragePlugin, "FirebaseStorage",
            CAP_PLUGIN_METHOD(listFiles, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(updateMetadata, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(uploadFile, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(useEmulator, CAPPluginReturnPromise);
 )

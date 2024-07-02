@@ -11,6 +11,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
     public let errorReferenceMissing = "reference must be provided."
     public let errorDataMissing = "data must be provided."
     public let errorOperationsMissing = "operations must be provided."
+    public let errorHostMissing = "host must be provided."
     public let errorCallbackIdMissing = "callbackId must be provided."
     private var implementation: FirebaseFirestore?
     private var pluginCallMap: [String: CAPPluginCall] = [:]
@@ -219,6 +220,17 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             }
             call.resolve()
         })
+    }
+
+    @objc func useEmulator(_ call: CAPPluginCall) {
+        guard let host = call.getString("host") else {
+            call.reject(errorHostMissing)
+            return
+        }
+        let port = call.getInt("port") ?? 8080
+
+        implementation?.useEmulator(host, port)
+        call.resolve()
     }
 
     @objc func addDocumentSnapshotListener(_ call: CAPPluginCall) {

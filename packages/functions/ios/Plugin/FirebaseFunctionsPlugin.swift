@@ -9,6 +9,7 @@ import Capacitor
 public class FirebaseFunctionsPlugin: CAPPlugin {
     public let tag = "FirebaseFunctions"
     public let errorNameMissing = "name must be provided."
+    public let errorHostMissing = "host must be provided."
     private var implementation: FirebaseFunctions?
 
     override public func load() {
@@ -56,5 +57,16 @@ public class FirebaseFunctionsPlugin: CAPPlugin {
                 call.resolve(result)
             }
         })
+    }
+
+    @objc func useEmulator(_ call: CAPPluginCall) {
+        guard let host = call.getString("host") else {
+            call.reject(errorHostMissing)
+            return
+        }
+        let port = call.getInt("port") ?? 5001
+
+        implementation?.useEmulator(host, port)
+        call.resolve()
     }
 }

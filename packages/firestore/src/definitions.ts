@@ -73,6 +73,12 @@ export interface FirebaseFirestorePlugin {
    */
   disableNetwork(): Promise<void>;
   /**
+   * Instrument your app to talk to the Firestore emulator.
+   *
+   * @since 6.1.0
+   */
+  useEmulator(options: UseEmulatorOptions): Promise<void>;
+  /**
    * Adds a listener for document snapshot events.
    *
    * @since 5.2.0
@@ -334,6 +340,29 @@ export interface GetCollectionGroupResult<T> {
    * @since 5.2.0
    */
   snapshots: DocumentSnapshot<T>[];
+}
+
+/**
+ * @since 6.1.0
+ */
+export interface UseEmulatorOptions {
+  /**
+   * The emulator host without any port or scheme.
+   *
+   * Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.
+   *
+   * @since 6.1.0
+   * @example "127.0.0.1"
+   */
+  host: string;
+  /**
+   * The emulator port.
+   *
+   * @since 6.1.0
+   * @default 8080
+   * @example 8080
+   */
+  port?: number;
 }
 
 /**

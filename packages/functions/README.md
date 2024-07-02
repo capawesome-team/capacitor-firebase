@@ -63,6 +63,13 @@ const callByUrl = async () => {
     });
     return data;
 };
+
+const useEmulator = async () => {
+  await FirebaseFunctions.useEmulator({
+    host: '10.0.2.2',
+    port: 9001,
+  });
+};
 ```
 
 ## API
@@ -71,6 +78,7 @@ const callByUrl = async () => {
 
 * [`callByName(...)`](#callbyname)
 * [`callByUrl(...)`](#callbyurl)
+* [`useEmulator(...)`](#useemulator)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -117,6 +125,33 @@ Call a callable function by URL.
 --------------------
 
 
+### useEmulator(...)
+
+```typescript
+useEmulator(options: UseEmulatorOptions) => Promise<void>
+```
+
+Instrument your app to talk to the Cloud Functions emulator.
+
+On Android, the cleartext traffic must be allowed. On the Capacitor configuration:
+```
+{
+  server: {
+    cleartext: true
+  }
+}
+```
+**The cleartext traffic is not intended for use in production.**
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+**Since:** 6.1.0
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -140,6 +175,14 @@ Call a callable function by URL.
 | Prop      | Type                | Description                       | Since |
 | --------- | ------------------- | --------------------------------- | ----- |
 | **`url`** | <code>string</code> | The URL of the callable function. | 6.1.0 |
+
+
+#### UseEmulatorOptions
+
+| Prop       | Type                | Description                                                                                                                                                                     | Default           | Since |
+| ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
+| **`host`** | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
+| **`port`** | <code>number</code> | The emulator port.                                                                                                                                                              | <code>5001</code> | 6.1.0 |
 
 
 ### Type Aliases

@@ -188,6 +188,13 @@ import FirebaseFirestore
         }
     }
 
+    @objc func useEmulator(_ host: String, _ port: Int) {
+        let settings = Firestore.firestore().settings
+        settings.host = "\(host):\(port)"
+        settings.isSSLEnabled = false
+        Firestore.firestore().settings = settings
+    }
+
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
         let callbackId = options.getCallbackId()

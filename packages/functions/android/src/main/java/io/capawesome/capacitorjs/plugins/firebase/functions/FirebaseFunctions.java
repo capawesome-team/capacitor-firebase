@@ -56,6 +56,10 @@ public class FirebaseFunctions {
             );
     }
 
+    public void useEmulator(@NonNull String host, int port) {
+        getFirebaseFunctionsInstance(null).useEmulator(host, port);
+    }
+
     private com.google.firebase.functions.FirebaseFunctions getFirebaseFunctionsInstance(@Nullable String regionOrCustomDomain) {
         if (regionOrCustomDomain == null) {
             return com.google.firebase.functions.FirebaseFunctions.getInstance();

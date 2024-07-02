@@ -1,5 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 import {
+  connectFunctionsEmulator,
   getFunctions,
   httpsCallable,
   httpsCallableFromURL,
@@ -11,6 +12,7 @@ import type {
   CallByUrlOptions,
   CallResult,
   FirebaseFunctionsPlugin,
+  UseEmulatorOptions,
 } from './definitions';
 
 export class FirebaseFunctionsWeb
@@ -35,5 +37,11 @@ export class FirebaseFunctionsWeb
     return {
       data: result.data,
     };
+  }
+
+  public async useEmulator(options: UseEmulatorOptions): Promise<void> {
+    const functions = getFunctions();
+    const port = options.port || 5001;
+    connectFunctionsEmulator(functions, options.host, port);
   }
 }

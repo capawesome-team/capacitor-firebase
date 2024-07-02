@@ -14,6 +14,7 @@ import {
   clearIndexedDbPersistence,
   collection,
   collectionGroup,
+  connectFirestoreEmulator,
   deleteDoc,
   disableNetwork,
   doc,
@@ -63,6 +64,7 @@ import type {
   QueryNonFilterConstraint,
   RemoveSnapshotListenerOptions,
   SetDocumentOptions,
+  UseEmulatorOptions,
   WriteBatchOptions,
 } from './definitions';
 
@@ -199,6 +201,12 @@ export class FirebaseFirestoreWeb
   public async disableNetwork(): Promise<void> {
     const firestore = getFirestore();
     await disableNetwork(firestore);
+  }
+
+  public async useEmulator(options: UseEmulatorOptions): Promise<void> {
+    const firestore = getFirestore();
+    const port = options.port || 8080;
+    connectFirestoreEmulator(firestore, options.host, port);
   }
 
   public async addDocumentSnapshotListener<

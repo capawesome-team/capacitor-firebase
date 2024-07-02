@@ -6,6 +6,7 @@ import type {
   UploadTaskSnapshot,
 } from 'firebase/storage';
 import {
+  connectStorageEmulator,
   deleteObject,
   getDownloadURL,
   getMetadata,
@@ -29,6 +30,7 @@ import type {
   UploadFileCallback,
   UploadFileCallbackEvent,
   UploadFileOptions,
+  UseEmulatorOptions,
 } from './definitions';
 
 export class FirebaseStorageWeb
@@ -145,6 +147,12 @@ export class FirebaseStorageWeb
       },
     });
     return Date.now().toString();
+  }
+
+  public async useEmulator(options: UseEmulatorOptions): Promise<void> {
+    const storage = getStorage();
+    const port = options.port || 9199;
+    connectStorageEmulator(storage, options.host, port);
   }
 
   private createUploadFileCallbackEvent(

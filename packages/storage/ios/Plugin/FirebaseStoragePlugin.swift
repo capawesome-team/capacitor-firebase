@@ -13,6 +13,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
     public let errorMetadataMissing = "metadata must be provided."
     public let errorCallbackIdMissing = "callbackId must be provided."
     public let errorFileNotExist = "File does not exist."
+    public let errorHostMissing = "host must be provided."
     private var implementation: FirebaseStorage?
 
     override public func load() {
@@ -157,5 +158,16 @@ public class FirebaseStoragePlugin: CAPPlugin {
                 self.bridge?.releaseCall(call)
             }
         })
+    }
+
+    @objc func useEmulator(_ call: CAPPluginCall) {
+        guard let host = call.getString("host") else {
+            call.reject(errorHostMissing)
+            return
+        }
+        let port = call.getInt("port") ?? 9199
+
+        implementation?.useEmulator(host, port)
+        call.resolve()
     }
 }

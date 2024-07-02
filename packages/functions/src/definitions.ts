@@ -11,6 +11,22 @@ export interface FirebaseFunctionsPlugin {
    * @since 6.1.0
    */
   callByUrl(options: CallByUrlOptions): Promise<CallByUrlResult>;
+  /**
+   * Instrument your app to talk to the Cloud Functions emulator.
+   *
+   * On Android, the cleartext traffic must be allowed. On the Capacitor configuration:
+   * ```
+   * {
+   *   server: {
+   *     cleartext: true
+   *   }
+   * }
+   * ```
+   * **The cleartext traffic is not intended for use in production.**
+   *
+   * @since 6.1.0
+   */
+  useEmulator(options: UseEmulatorOptions): Promise<void>;
 }
 
 /**
@@ -78,4 +94,27 @@ export interface CallResult {
    * @since 6.1.0
    */
   data?: any;
+}
+
+/**
+ * @since 6.1.0
+ */
+export interface UseEmulatorOptions {
+  /**
+   * The emulator host without any port or scheme.
+   *
+   * Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.
+   *
+   * @since 6.1.0
+   * @example "127.0.0.1"
+   */
+  host: string;
+  /**
+   * The emulator port.
+   *
+   * @since 6.1.0
+   * @default 5001
+   * @example 5001
+   */
+  port?: number;
 }

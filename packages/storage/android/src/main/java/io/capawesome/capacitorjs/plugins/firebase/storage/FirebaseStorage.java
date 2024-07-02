@@ -139,6 +139,10 @@ public class FirebaseStorage {
             );
     }
 
+    public void useEmulator(@NonNull String host, int port) {
+        getFirebaseStorageInstance().useEmulator(host, port);
+    }
+
     private com.google.firebase.storage.FirebaseStorage getFirebaseStorageInstance() {
         return com.google.firebase.storage.FirebaseStorage.getInstance();
     }

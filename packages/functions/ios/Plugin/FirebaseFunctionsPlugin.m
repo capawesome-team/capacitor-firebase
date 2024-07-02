@@ -6,4 +6,5 @@
 CAP_PLUGIN(FirebaseFunctionsPlugin, "FirebaseFunctions",
            CAP_PLUGIN_METHOD(callByName, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(callByUrl, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(useEmulator, CAPPluginReturnPromise);
 )

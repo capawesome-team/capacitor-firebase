@@ -17,6 +17,7 @@ public class FirebaseFunctionsPlugin extends Plugin {
     public static final String TAG = "FirebaseFunctions";
     public static final String ERROR_NAME_MISSING = "name must be provided.";
     public static final String ERROR_URL_MISSING = "url must be provided.";
+    public static final String ERROR_HOST_MISSING = "host must be provided.";
 
     private FirebaseFunctions implementation;
 
@@ -83,6 +84,24 @@ public class FirebaseFunctionsPlugin extends Plugin {
             };
 
             implementation.callByUrl(options, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void useEmulator(PluginCall call) {
+        try {
+            String host = call.getString("host");
+            if (host == null) {
+                call.reject(ERROR_HOST_MISSING);
+                return;
+            }
+            int port = call.getInt("port", 5001);
+
+            implementation.useEmulator(host, port);
+            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
