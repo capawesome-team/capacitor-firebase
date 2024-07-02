@@ -758,10 +758,10 @@ Remove all listeners for this plugin.
 
 #### UseEmulatorOptions
 
-| Prop       | Type                | Description                                   | Default           | Since |
-| ---------- | ------------------- | --------------------------------------------- | ----------------- | ----- |
-| **`host`** | <code>string</code> | The emulator host without any port or scheme. |                   | 6.1.0 |
-| **`port`** | <code>number</code> | The emulator port.                            | <code>8080</code> | 6.1.0 |
+| Prop       | Type                | Description                                                                                                                                                                     | Default           | Since |
+| ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
+| **`host`** | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
+| **`port`** | <code>number</code> | The emulator port.                                                                                                                                                              | <code>8080</code> | 6.1.0 |
 
 
 #### AddDocumentSnapshotListenerOptions
