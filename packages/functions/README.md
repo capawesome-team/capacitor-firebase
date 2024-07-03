@@ -90,16 +90,16 @@ const useEmulator = async () => {
 ### callByName(...)
 
 ```typescript
-callByName(options: CallByNameOptions) => Promise<CallByNameResult>
+callByName<RequestData = unknown, ResponseData = unknown>(options: CallByNameOptions<RequestData>) => Promise<CallByNameResult<ResponseData>>
 ```
 
 Call a callable function by name.
 
-| Param         | Type                                                            |
-| ------------- | --------------------------------------------------------------- |
-| **`options`** | <code><a href="#callbynameoptions">CallByNameOptions</a></code> |
+| Param         | Type                                                                               |
+| ------------- | ---------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#callbynameoptions">CallByNameOptions</a>&lt;RequestData&gt;</code> |
 
-**Returns:** <code>Promise&lt;<a href="#callresult">CallResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#callbynameresult">CallByNameResult</a>&lt;ResponseData&gt;&gt;</code>
 
 **Since:** 6.1.0
 
@@ -109,16 +109,16 @@ Call a callable function by name.
 ### callByUrl(...)
 
 ```typescript
-callByUrl(options: CallByUrlOptions) => Promise<CallByUrlResult>
+callByUrl<RequestData = unknown, ResponseData = unknown>(options: CallByUrlOptions<RequestData>) => Promise<CallByUrlResult<ResponseData>>
 ```
 
 Call a callable function by URL.
 
-| Param         | Type                                                          |
-| ------------- | ------------------------------------------------------------- |
-| **`options`** | <code><a href="#callbyurloptions">CallByUrlOptions</a></code> |
+| Param         | Type                                                                             |
+| ------------- | -------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#callbyurloptions">CallByUrlOptions</a>&lt;RequestData&gt;</code> |
 
-**Returns:** <code>Promise&lt;<a href="#callresult">CallResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#callbyurlresult">CallByUrlResult</a>&lt;ResponseData&gt;&gt;</code>
 
 **Since:** 6.1.0
 
@@ -157,9 +157,9 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 
 #### CallResult
 
-| Prop       | Type             | Description                          | Since |
-| ---------- | ---------------- | ------------------------------------ | ----- |
-| **`data`** | <code>any</code> | The result of the callable function. | 6.1.0 |
+| Prop       | Type                      | Description                          | Since |
+| ---------- | ------------------------- | ------------------------------------ | ----- |
+| **`data`** | <code>ResponseData</code> | The result of the callable function. | 6.1.0 |
 
 
 #### CallByNameOptions
@@ -190,12 +190,12 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 
 #### CallByNameResult
 
-<code><a href="#callresult">CallResult</a></code>
+<code><a href="#callresult">CallResult</a>&lt;ResponseData&gt;</code>
 
 
 #### CallByUrlResult
 
-<code><a href="#callresult">CallResult</a></code>
+<code><a href="#callresult">CallResult</a>&lt;ResponseData&gt;</code>
 
 </docgen-api>
 

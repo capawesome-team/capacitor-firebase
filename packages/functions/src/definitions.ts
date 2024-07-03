@@ -4,13 +4,17 @@ export interface FirebaseFunctionsPlugin {
    *
    * @since 6.1.0
    */
-  callByName(options: CallByNameOptions): Promise<CallByNameResult>;
+  callByName<RequestData = unknown, ResponseData = unknown>(
+    options: CallByNameOptions<RequestData>,
+  ): Promise<CallByNameResult<ResponseData>>;
   /**
    * Call a callable function by URL.
    *
    * @since 6.1.0
    */
-  callByUrl(options: CallByUrlOptions): Promise<CallByUrlResult>;
+  callByUrl<RequestData = unknown, ResponseData = unknown>(
+    options: CallByUrlOptions<RequestData>,
+  ): Promise<CallByUrlResult<ResponseData>>;
   /**
    * Instrument your app to talk to the Cloud Functions emulator.
    *
@@ -32,7 +36,7 @@ export interface FirebaseFunctionsPlugin {
 /**
  * @since 6.1.0
  */
-export interface CallByNameOptions extends CallOptions {
+export interface CallByNameOptions<RequestData = unknown> extends CallOptions<RequestData> {
   /**
    * The name of the callable function.
    *
@@ -52,12 +56,13 @@ export interface CallByNameOptions extends CallOptions {
 /**
  * @since 6.1.0
  */
-export type CallByNameResult = CallResult;
+export type CallByNameResult<ResponseData = unknown> = CallResult<ResponseData>;
 
 /**
  * @since 6.1.0
  */
-export interface CallByUrlOptions extends CallOptions {
+export interface CallByUrlOptions<RequestData = unknown>
+  extends CallOptions<RequestData> {
   /**
    * The URL of the callable function.
    *
@@ -70,30 +75,30 @@ export interface CallByUrlOptions extends CallOptions {
 /**
  * @since 6.1.0
  */
-export type CallByUrlResult = CallResult;
+export type CallByUrlResult<ResponseData = unknown> = CallResult<ResponseData>;
 
 /**
  * @since 6.1.0
  */
-export interface CallOptions {
+export interface CallOptions<RequestData = unknown> {
   /**
    * The data to pass to the callable function.
    *
    * @since 6.1.0
    */
-  data?: any;
+  data?: RequestData | null;
 }
 
 /**
  * @since 6.1.0
  */
-export interface CallResult {
+export interface CallResult<ResponseData = unknown> {
   /**
    * The result of the callable function.
    *
    * @since 6.1.0
    */
-  data?: any;
+  data: ResponseData;
 }
 
 /**
