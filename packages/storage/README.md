@@ -299,17 +299,18 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 
 #### GetMetadataResult
 
-| Prop                     | Type                | Description                                                                       | Since |
-| ------------------------ | ------------------- | --------------------------------------------------------------------------------- | ----- |
-| **`bucket`**             | <code>string</code> | The bucket this file is contained in.                                             | 5.3.0 |
-| **`createdAt`**          | <code>number</code> | The timestamp at which the file was created in milliseconds since the epoch.      | 5.3.0 |
-| **`generation`**         | <code>string</code> | The object's generation.                                                          | 5.3.0 |
-| **`md5Hash`**            | <code>string</code> | The md5 hash of the file.                                                         | 5.3.0 |
-| **`metadataGeneration`** | <code>string</code> | The object's metadata generation.                                                 | 5.3.0 |
-| **`name`**               | <code>string</code> | The short name of this file, which is the last component of the full path.        | 5.3.0 |
-| **`path`**               | <code>string</code> | The full path to the file, including the file name.                               | 5.3.0 |
-| **`size`**               | <code>number</code> | The size of the file in bytes.                                                    | 5.3.0 |
-| **`updatedAt`**          | <code>number</code> | The timestamp at which the file was last updated in milliseconds since the epoch. | 5.3.0 |
+| Prop                     | Type                                    | Description                                                                       | Since |
+| ------------------------ | --------------------------------------- | --------------------------------------------------------------------------------- | ----- |
+| **`bucket`**             | <code>string</code>                     | The bucket this file is contained in.                                             | 5.3.0 |
+| **`createdAt`**          | <code>number</code>                     | The timestamp at which the file was created in milliseconds since the epoch.      | 5.3.0 |
+| **`generation`**         | <code>string</code>                     | The object's generation.                                                          | 5.3.0 |
+| **`md5Hash`**            | <code>string</code>                     | The md5 hash of the file.                                                         | 5.3.0 |
+| **`metadataGeneration`** | <code>string</code>                     | The object's metadata generation.                                                 | 5.3.0 |
+| **`name`**               | <code>string</code>                     | The short name of this file, which is the last component of the full path.        | 5.3.0 |
+| **`path`**               | <code>string</code>                     | The full path to the file, including the file name.                               | 5.3.0 |
+| **`size`**               | <code>number</code>                     | The size of the file in bytes.                                                    | 5.3.0 |
+| **`updatedAt`**          | <code>number</code>                     | The timestamp at which the file was last updated in milliseconds since the epoch. | 5.3.0 |
+| **`customMetadata`**     | <code>{ [key: string]: string; }</code> | Additional user-defined custom metadata.                                          | 6.1.0 |
 
 
 #### GetMetadataOptions

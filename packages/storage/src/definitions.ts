@@ -174,6 +174,14 @@ export interface GetMetadataResult {
    * @example 1697304435933
    */
   updatedAt: number;
+  /**
+   * Additional user-defined custom metadata.
+   *
+   * @since 6.1.0
+   */
+  customMetadata?: {
+    [key: string]: string;
+  };
 }
 
 /**
