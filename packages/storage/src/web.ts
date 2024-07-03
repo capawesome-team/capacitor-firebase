@@ -69,6 +69,7 @@ export class FirebaseStorageWeb
       path: metadata.fullPath,
       size: metadata.size,
       updatedAt: new Date(metadata.updated).getTime(),
+      customMetadata: metadata.customMetadata,
     };
     if (metadata.md5Hash) {
       result.md5Hash = metadata.md5Hash;

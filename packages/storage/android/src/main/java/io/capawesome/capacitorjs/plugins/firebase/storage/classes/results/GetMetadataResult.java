@@ -3,6 +3,7 @@ package io.capawesome.capacitorjs.plugins.firebase.storage.classes.results;
 import com.getcapacitor.JSObject;
 import com.google.firebase.storage.StorageMetadata;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.Result;
+import java.util.Set;
 
 public class GetMetadataResult implements Result {
 
@@ -23,6 +24,16 @@ public class GetMetadataResult implements Result {
         result.put("path", referenceResult.getPath());
         result.put("size", referenceResult.getSizeBytes());
         result.put("updatedAt", referenceResult.getUpdatedTimeMillis());
+
+        Set<String> customMetadataKeys = referenceResult.getCustomMetadataKeys();
+        if (!customMetadataKeys.isEmpty()) {
+            JSObject customMetadata = new JSObject();
+            for (String key : customMetadataKeys) {
+                customMetadata.put(key, referenceResult.getCustomMetadata(key));
+            }
+            result.put("customMetadata", customMetadata);
+        }
+
         return result;
     }
 }
