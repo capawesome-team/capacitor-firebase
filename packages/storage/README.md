@@ -310,6 +310,11 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | **`path`**               | <code>string</code>                     | The full path to the file, including the file name.                               | 5.3.0 |
 | **`size`**               | <code>number</code>                     | The size of the file in bytes.                                                    | 5.3.0 |
 | **`updatedAt`**          | <code>number</code>                     | The timestamp at which the file was last updated in milliseconds since the epoch. | 5.3.0 |
+| **`cacheControl`**       | <code>string</code>                     | Served as the `Cache-Control` header on object download.                          | 6.1.0 |
+| **`contentDisposition`** | <code>string</code>                     | Served as the `Content-Disposition` header on object download.                    | 6.1.0 |
+| **`contentEncoding`**    | <code>string</code>                     | Served as the `Content-Encoding` header on object download.                       | 6.1.0 |
+| **`contentLanguage`**    | <code>string</code>                     | Served as the `Content-Language` header on object download.                       | 6.1.0 |
+| **`contentType`**        | <code>string</code>                     | Served as the `Content-Type` header on object download.                           | 6.1.0 |
 | **`customMetadata`**     | <code>{ [key: string]: string; }</code> | Additional user-defined custom metadata.                                          | 6.1.0 |
 
 
