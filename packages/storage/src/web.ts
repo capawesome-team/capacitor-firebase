@@ -69,6 +69,11 @@ export class FirebaseStorageWeb
       path: metadata.fullPath,
       size: metadata.size,
       updatedAt: new Date(metadata.updated).getTime(),
+      cacheControl: metadata.cacheControl,
+      contentDisposition: metadata.contentDisposition,
+      contentEncoding: metadata.contentEncoding,
+      contentLanguage: metadata.contentLanguage,
+      contentType: metadata.contentType,
       customMetadata: metadata.customMetadata,
     };
     if (metadata.md5Hash) {

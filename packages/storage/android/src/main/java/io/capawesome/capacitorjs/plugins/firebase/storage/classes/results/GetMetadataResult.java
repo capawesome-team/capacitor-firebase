@@ -25,6 +25,26 @@ public class GetMetadataResult implements Result {
         result.put("size", referenceResult.getSizeBytes());
         result.put("updatedAt", referenceResult.getUpdatedTimeMillis());
 
+        String cacheControl = referenceResult.getCacheControl();
+        if (!cacheControl.isEmpty()) {
+            result.put("cacheControl", cacheControl);
+        }
+        String contentDisposition = referenceResult.getContentDisposition();
+        if (!contentDisposition.isEmpty()) {
+            result.put("contentDisposition", contentDisposition);
+        }
+        String contentEncoding = referenceResult.getContentEncoding();
+        if (!contentEncoding.isEmpty()) {
+            result.put("contentEncoding", contentEncoding);
+        }
+        String contentLanguage = referenceResult.getContentLanguage();
+        if (!contentLanguage.isEmpty()) {
+            result.put("contentLanguage", contentLanguage);
+        }
+        String contentType = referenceResult.getContentType();
+        if (!contentType.isEmpty()) {
+            result.put("contentType", contentType);
+        }
         Set<String> customMetadataKeys = referenceResult.getCustomMetadataKeys();
         if (!customMetadataKeys.isEmpty()) {
             JSObject customMetadata = new JSObject();

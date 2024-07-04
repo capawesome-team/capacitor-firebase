@@ -175,13 +175,41 @@ export interface GetMetadataResult {
    */
   updatedAt: number;
   /**
+   * Served as the `Cache-Control` header on object download.
+   *
+   * @since 6.1.0
+   */
+  cacheControl?: string;
+  /**
+   * Served as the `Content-Disposition` header on object download.
+   *
+   * @since 6.1.0
+   */
+  contentDisposition?: string;
+  /**
+   * Served as the `Content-Encoding` header on object download.
+   *
+   * @since 6.1.0
+   */
+  contentEncoding?: string;
+  /**
+   * Served as the `Content-Language` header on object download.
+   *
+   * @since 6.1.0
+   */
+  contentLanguage?: string;
+  /**
+   * Served as the `Content-Type` header on object download.
+   *
+   * @since 6.1.0
+   */
+  contentType?: string;
+  /**
    * Additional user-defined custom metadata.
    *
    * @since 6.1.0
    */
-  customMetadata?: {
-    [key: string]: string;
-  };
+  customMetadata?: { [key: string]: string };
 }
 
 /**
