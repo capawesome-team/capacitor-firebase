@@ -2,18 +2,21 @@ package io.capawesome.capacitorjs.plugins.firebase.functions.classes.options;
 
 import androidx.annotation.NonNull;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class CallByUrlOptions extends CallOptions {
 
     @NonNull
-    private String url;
+    private URL url;
 
-    public CallByUrlOptions(@NonNull String url, Object data) {
+    public CallByUrlOptions(@NonNull String url, Object data) throws MalformedURLException {
         super(data);
-        this.url = url;
+        this.url = new URL(url);
     }
 
     @NonNull
-    public String getUrl() {
+    public URL getUrl() {
         return url;
     }
 }
