@@ -6,6 +6,7 @@ import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.Call
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByUrlOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.results.CallResult;
 import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.NonEmptyResultCallback;
+import java.net.URL;
 
 public class FirebaseFunctions {
 
@@ -37,11 +38,11 @@ public class FirebaseFunctions {
     }
 
     public void callByUrl(@NonNull CallByUrlOptions options, @NonNull NonEmptyResultCallback callback) {
-        String url = options.getUrl();
+        URL url = options.getUrl();
         Object data = options.getData();
 
         getFirebaseFunctionsInstance(null)
-            .getHttpsCallable(url)
+            .getHttpsCallableFromUrl(url)
             .call(data)
             .addOnSuccessListener(
                 task -> {
