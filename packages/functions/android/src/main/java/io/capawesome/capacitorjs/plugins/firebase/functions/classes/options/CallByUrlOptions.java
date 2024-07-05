@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.functions.classes.options;
 
 import androidx.annotation.NonNull;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
