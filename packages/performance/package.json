@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/performance",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Capacitor plugin for Firebase Performance Monitoring.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
