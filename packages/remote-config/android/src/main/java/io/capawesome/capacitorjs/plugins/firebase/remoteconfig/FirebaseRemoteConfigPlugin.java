@@ -1,11 +1,16 @@
 package io.capawesome.capacitorjs.plugins.firebase.remoteconfig;
 
+import androidx.annotation.NonNull;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.RemoveConfigUpdateListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.interfaces.NonEmptyResultCallback;
@@ -20,6 +25,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     public static final String TAG = "FirebaseRemoteConfig";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
+
 
     private Map<String, PluginCall> pluginCallMap = new HashMap<>();
 
@@ -157,6 +163,28 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void setMinimumFetchInterval(PluginCall call) {
         call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
+    public void setFetchTimeout(PluginCall call) {
+        try {
+            int fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", -1);
+            if (fetchTimeoutInSeconds == -1) {
+                call.reject("fetchTimeoutInSeconds must be provided.");
+            }
+            Task<Void> task = implementation.setFetchTimeout(fetchTimeoutInSeconds);
+            task.addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        call.resolve();
+                    }
+                }
+            );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
