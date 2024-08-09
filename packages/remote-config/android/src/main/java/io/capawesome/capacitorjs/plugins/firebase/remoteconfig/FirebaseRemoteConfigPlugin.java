@@ -162,24 +162,23 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
 
     @PluginMethod
     public void setMinimumFetchInterval(PluginCall call) {
-        call.reject("Not available on Android.");
+        call.reject("Not available on Android. Use setConfigSettings.");
     }
 
     @PluginMethod
-    public void setFetchTimeout(PluginCall call) {
+    public void setConfigSettings(PluginCall call) {
         try {
-            int fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", -1);
-            if (fetchTimeoutInSeconds == -1) {
-                call.reject("fetchTimeoutInSeconds must be provided.");
-            }
-            Task<Void> task = implementation.setFetchTimeout(fetchTimeoutInSeconds);
+            int fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", 60);
+            int minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", 43200);
+
+            Task<Void> task = implementation.setConfigSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds);
             task.addOnCompleteListener(
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        call.resolve();
+                    new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            call.resolve();
+                        }
                     }
-                }
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
