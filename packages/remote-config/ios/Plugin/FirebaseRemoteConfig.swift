@@ -56,6 +56,10 @@ import Capacitor
         return RemoteConfig.remoteConfig().configValue(forKey: key)
     }
 
+    @objc public func setFetchTimeout(fetchTimeoutInSeconds: Double) {
+        RemoteConfig.remoteConfig().configSettings.fetchTimeout = fetchTimeoutInSeconds
+    }
+
     @objc public func addConfigUpdateListener(_ options: AddConfigUpdateListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let callbackId = options.getCallbackId()
 

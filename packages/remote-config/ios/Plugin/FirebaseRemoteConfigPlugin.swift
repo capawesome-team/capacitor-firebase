@@ -90,6 +90,15 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
         call.reject("Not available on iOS.")
     }
 
+    @objc func setFetchTimeout(_ call: CAPPluginCall) {
+        guard let fetchTimeoutInSeconds = call.getDouble("fetchTimeoutInSeconds") else {
+            call.reject("fetchTimeoutInSeconds must be provided.")
+            return
+        }
+        implementation?.setFetchTimeout(fetchTimeoutInSeconds: fetchTimeoutInSeconds)
+        call.resolve()
+    }
+
     @objc func addConfigUpdateListener(_ call: CAPPluginCall) {
         call.keepAlive = true
 
