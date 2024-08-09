@@ -1,15 +1,11 @@
 package io.capawesome.capacitorjs.plugins.firebase.remoteconfig;
 
-import androidx.annotation.NonNull;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.RemoveConfigUpdateListenerOptions;
@@ -26,10 +22,14 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
 
+    private static final int DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = 43200;
+    private static final int DEFAULT_FETCH_TIMEOUT_IN_SECONDS = 60;
 
     private Map<String, PluginCall> pluginCallMap = new HashMap<>();
 
     private FirebaseRemoteConfig implementation;
+
+    private Integer customMinimumFetchIntervalInSeconds;
 
     public void load() {
         implementation = new FirebaseRemoteConfig(this);
@@ -82,9 +82,11 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void fetchConfig(PluginCall call) {
         try {
-            int minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", 43200);
+            int defaultOrUserSettingValue = customMinimumFetchIntervalInSeconds != null ? customMinimumFetchIntervalInSeconds : DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS;
+            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", defaultOrUserSettingValue);
+            if (minimumFetchIntervalInSeconds == null) return;
             implementation.fetchConfig(
-                minimumFetchIntervalInSeconds,
+                minimumFetchIntervalInSeconds.longValue(),
                 new FetchConfigResultCallback() {
                     @Override
                     public void success() {
@@ -168,18 +170,17 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void setConfigSettings(PluginCall call) {
         try {
-            int fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", 60);
-            int minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", 43200);
+            Integer fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", DEFAULT_FETCH_TIMEOUT_IN_SECONDS);
+            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS);
+            if (fetchTimeoutInSeconds == null || minimumFetchIntervalInSeconds == null) return;
 
-            Task<Void> task = implementation.setConfigSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds);
-            task.addOnCompleteListener(
-                    new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            call.resolve();
-                        }
-                    }
-            );
+            implementation.setConfigSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
+                .addOnCompleteListener(t -> {
+                    // NOTE: Android remote config sdk does not have an interface to get setting value.
+                    // Therefore, the minimumFetchIntervalInSeconds is stored in a variable of this class.
+                    this.customMinimumFetchIntervalInSeconds = minimumFetchIntervalInSeconds;
+                    call.resolve();
+                });
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
