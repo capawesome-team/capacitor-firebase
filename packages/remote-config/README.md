@@ -110,6 +110,7 @@ const removeAllListeners = async () => {
 * [`getNumber(...)`](#getnumber)
 * [`getString(...)`](#getstring)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [`setConfigSettings(...)`](#setconfigsettings)
 * [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
 * [`removeConfigUpdateListener(...)`](#removeconfigupdatelistener)
 * [`removeAllListeners()`](#removealllisteners)
@@ -241,6 +242,23 @@ Only available for Web.
 --------------------
 
 
+### setConfigSettings(...)
+
+```typescript
+setConfigSettings(options: SetConfigSettingsOptions) => Promise<void>
+```
+
+Set the remote config settings.
+
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setconfigsettingsoptions">SetConfigSettingsOptions</a></code> |
+
+**Since:** 6.2.0
+
+--------------------
+
+
 ### addConfigUpdateListener(...)
 
 ```typescript
@@ -340,6 +358,14 @@ Remove all listeners for this plugin.
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
+
+
+#### SetConfigSettingsOptions
+
+| Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`fetchTimeoutInSeconds`**         | <code>number</code> | Defines the maximum amount of milliseconds to wait for a response when fetching configuration from the Remote Config server.                                                          | <code>60</code>    | 6.2.0 |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 6.2.0 |
 
 
 #### AddConfigUpdateListenerOptionsCallbackEvent
