@@ -12,6 +12,8 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."
     public let errorCallbackIdMissing = "callbackId must be provided."
 
+    private let defaultMinimumFetchIntervalInSeconds: Double = 43200
+    private let defaultFetchTimeoutInSeconds: Double = 60
     private var implementation: FirebaseRemoteConfig?
     private var pluginCallMap: [String: CAPPluginCall] = [:]
 
@@ -40,7 +42,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
     }
 
     @objc func fetchConfig(_ call: CAPPluginCall) {
-        let minimumFetchIntervalInSeconds = call.getDouble("minimumFetchIntervalInSeconds") ?? 43200
+        let minimumFetchIntervalInSeconds = call.getDouble("minimumFetchIntervalInSeconds") ?? defaultMinimumFetchIntervalInSeconds
         implementation?.fetchConfig(minimumFetchIntervalInSeconds: minimumFetchIntervalInSeconds, completion: { errorMessage in
             if let errorMessage = errorMessage {
                 call.reject(errorMessage)
@@ -90,12 +92,10 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
         call.reject("Not available on iOS.")
     }
 
-    @objc func setFetchTimeout(_ call: CAPPluginCall) {
-        guard let fetchTimeoutInSeconds = call.getDouble("fetchTimeoutInSeconds") else {
-            call.reject("fetchTimeoutInSeconds must be provided.")
-            return
-        }
-        implementation?.setFetchTimeout(fetchTimeoutInSeconds: fetchTimeoutInSeconds)
+    @objc func setConfigSettings(_ call: CAPPluginCall) {
+        let fetchTimeoutInSeconds = call.getDouble("fetchTimeoutInSeconds") ?? defaultFetchTimeoutInSeconds
+        let minimumFetchIntervalInSeconds = call.getDouble("minimumFetchIntervalInSeconds") ?? defaultMinimumFetchIntervalInSeconds
+        implementation?.setConfigSettings(fetchTimeoutInSeconds: fetchTimeoutInSeconds, minimumFetchIntervalInSeconds: minimumFetchIntervalInSeconds)
         call.resolve()
     }
 
