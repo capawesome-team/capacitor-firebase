@@ -70,10 +70,14 @@ export class FirebaseRemoteConfigWeb
     options: SetConfigSettingsOptions,
   ): Promise<void> {
     const remoteConfig = getRemoteConfig();
-    remoteConfig.settings.fetchTimeoutMillis =
-      options.fetchTimeoutInSeconds * 1000;
-    remoteConfig.settings.minimumFetchIntervalMillis =
-      options.minimumFetchIntervalInSeconds * 1000;
+    if (options.fetchTimeoutInSeconds) {
+      remoteConfig.settings.fetchTimeoutMillis =
+        options.fetchTimeoutInSeconds * 1000;
+    }
+    if (options.minimumFetchIntervalInSeconds) {
+      remoteConfig.settings.minimumFetchIntervalMillis =
+        options.minimumFetchIntervalInSeconds * 1000;
+    }
   }
 
   public async addConfigUpdateListener(

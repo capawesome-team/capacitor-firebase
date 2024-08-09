@@ -46,6 +46,12 @@ export interface FirebaseRemoteConfigPlugin {
     options: SetMinimumFetchIntervalOptions,
   ): Promise<void>;
   /**
+   * Set the remote config settings.
+   *
+   * @since 6.2.0
+   */
+  setConfigSettings(options: SetConfigSettingsOptions): Promise<void>;
+  /**
    * Add a listener for the config update event.
    *
    * Only available for Android and iOS.
@@ -203,7 +209,7 @@ export interface SetConfigSettingsOptions {
    * @default 60
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsfetchtimeoutmillis
    */
-  fetchTimeoutInSeconds: number;
+  fetchTimeoutInSeconds?: number;
 
   /**
    * Define the maximum age in seconds of an entry in the config cache before it is considered stale.
@@ -213,7 +219,7 @@ export interface SetConfigSettingsOptions {
    * @default 43200
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
    */
-  minimumFetchIntervalInSeconds: number;
+  minimumFetchIntervalInSeconds?: number;
 }
 
 /**
