@@ -192,15 +192,28 @@ export interface SetMinimumFetchIntervalOptions {
   minimumFetchIntervalInSeconds: number;
 }
 
-export interface SetFetchTimeoutOptions {
+/**
+ * @since 6.2.0
+ */
+export interface SetConfigSettingsOptions {
   /**
    * Defines the maximum amount of milliseconds to wait for a response when fetching configuration from the Remote Config server.
-   * In Firebase SDK, Defaults to 60 seconds.
    *
    * @since 6.2.0
+   * @default 60
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsfetchtimeoutmillis
    */
   fetchTimeoutInSeconds: number;
+
+  /**
+   * Define the maximum age in seconds of an entry in the config cache before it is considered stale.
+   * During development, it's recommended to set a relatively low minimum fetch interval.
+   *
+   * @since 6.2.0
+   * @default 43200
+   * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
+   */
+  minimumFetchIntervalInSeconds: number;
 }
 
 /**
