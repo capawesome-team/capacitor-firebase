@@ -83,8 +83,10 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     public void fetchConfig(PluginCall call) {
         try {
             int defaultOrUserSettingValue = customMinimumFetchIntervalInSeconds != null ? customMinimumFetchIntervalInSeconds : DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS;
-            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", defaultOrUserSettingValue);
-            if (minimumFetchIntervalInSeconds == null) return;
+            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds");
+            if (minimumFetchIntervalInSeconds == null) {
+                minimumFetchIntervalInSeconds = defaultOrUserSettingValue;
+            }
             implementation.fetchConfig(
                 minimumFetchIntervalInSeconds.longValue(),
                 new FetchConfigResultCallback() {
@@ -170,15 +172,21 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void setConfigSettings(PluginCall call) {
         try {
-            Integer fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", DEFAULT_FETCH_TIMEOUT_IN_SECONDS);
-            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS);
-            if (fetchTimeoutInSeconds == null || minimumFetchIntervalInSeconds == null) return;
-
+            Integer fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds");
+            if (fetchTimeoutInSeconds == null) {
+                fetchTimeoutInSeconds = DEFAULT_FETCH_TIMEOUT_IN_SECONDS;
+            }
+            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds");
+            if (minimumFetchIntervalInSeconds == null) {
+                minimumFetchIntervalInSeconds = DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS;
+            }
+            
+            final Integer finalMinimumFetchIntervalInSeconds = minimumFetchIntervalInSeconds; // To use in lambda expression
             implementation.setConfigSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
                 .addOnCompleteListener(t -> {
                     // NOTE: Android remote config sdk does not have an interface to get setting value.
-                    // Therefore, the minimumFetchIntervalInSeconds is stored in a variable of this class.
-                    this.customMinimumFetchIntervalInSeconds = minimumFetchIntervalInSeconds;
+                    // Therefore, the minimumFetchIntervalInSeconds is stored in a property of this class.
+                    this.customMinimumFetchIntervalInSeconds = finalMinimumFetchIntervalInSeconds;
                     call.resolve();
                 });
         } catch (Exception exception) {
