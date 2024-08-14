@@ -4,6 +4,7 @@ import static io.capawesome.capacitorjs.plugins.firebase.remoteconfig.FirebaseRe
 
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.ConfigUpdate;
@@ -92,10 +93,14 @@ public class FirebaseRemoteConfig {
         return new GetValueResult<String>(value.asString(), value.getSource());
     }
 
-    public Task<Void> setConfigSettings(@NonNull long fetchTimeoutInSeconds, @NonNull long minimumFetchIntervalInSeconds) {
+    public Task<Void> setConfigSettings(@Nullable Integer fetchTimeoutInSeconds, @Nullable Integer minimumFetchIntervalInSeconds) {
         FirebaseRemoteConfigSettings.Builder builder = new FirebaseRemoteConfigSettings.Builder();
-        builder.setFetchTimeoutInSeconds(fetchTimeoutInSeconds);
-        builder.setMinimumFetchIntervalInSeconds(minimumFetchIntervalInSeconds);
+        if (fetchTimeoutInSeconds != null) {
+            builder.setFetchTimeoutInSeconds(fetchTimeoutInSeconds);
+        }
+        if (minimumFetchIntervalInSeconds != null) {
+            builder.setMinimumFetchIntervalInSeconds(minimumFetchIntervalInSeconds);
+        }
         return getFirebaseRemoteConfigInstance().setConfigSettingsAsync(builder.build());
     }
 
