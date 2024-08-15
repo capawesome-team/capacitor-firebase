@@ -75,6 +75,13 @@ const getString = async () => {
   return value;
 };
 
+const setConfigSettings = async () => {
+  await FirebaseRemoteConfig.setConfigSettings({
+    fetchTimeoutInSeconds: 10,
+    minimumFetchIntervalInSeconds: 0,
+  });
+};
+
 const addConfigUpdateListener = async () => {
   const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
     (event, error) => {
