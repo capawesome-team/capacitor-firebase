@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import java.util.Iterator;
@@ -9,8 +10,12 @@ import org.json.JSONObject;
 
 public class FirebaseAnalyticsHelper {
 
+    @NonNull
     public static Bundle createBundleFromJson(@Nullable JSONObject json) {
         Bundle bundle = new Bundle();
+        if (json == null) {
+            return bundle;
+        }
         try {
             Iterator<String> iterator = json.keys();
             while (iterator.hasNext()) {
