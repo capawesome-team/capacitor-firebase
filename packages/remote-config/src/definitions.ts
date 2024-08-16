@@ -210,7 +210,6 @@ export interface SetSettingsOptions {
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsfetchtimeoutmillis
    */
   fetchTimeoutInSeconds?: number;
-
   /**
    * Define the maximum age in seconds of an entry in the config cache before it is considered stale.
    * During development, it's recommended to set a relatively low minimum fetch interval.
