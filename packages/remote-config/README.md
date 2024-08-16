@@ -257,8 +257,8 @@ setSettings(options: SetSettingsOptions) => Promise<void>
 
 Set the remote config settings.
 
-| Param         | Type                                                                          |
-| ------------- | ----------------------------------------------------------------------------- |
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#setsettingsoptions">SetSettingsOptions</a></code> |
 
 **Since:** 6.2.0
