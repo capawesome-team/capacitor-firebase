@@ -201,7 +201,7 @@ export interface SetMinimumFetchIntervalOptions {
 /**
  * @since 6.2.0
  */
-export interface SetConfigSettingsOptions {
+export interface SetSettingsOptions {
   /**
    * Defines the maximum amount of milliseconds to wait for a response when fetching configuration from the Remote Config server.
    *
