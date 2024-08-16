@@ -66,10 +66,6 @@ import Capacitor
     @objc public func getValue(_ key: String) -> RemoteConfigValue {
         return RemoteConfig.remoteConfig().configValue(forKey: key)
     }
-    
-    @objc public func getMinimumFetchIntervalInSeconds() -> Double {
-        return RemoteConfig.remoteConfig().configSettings.minimumFetchInterval
-    }
 
     @objc public func setSettings(fetchTimeoutInSeconds: Double, minimumFetchIntervalInSeconds: Double) {
         let settings = RemoteConfigSettings()
