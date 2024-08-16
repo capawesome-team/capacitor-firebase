@@ -50,7 +50,7 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * @since 6.2.0
    */
-  setConfigSettings(options: SetConfigSettingsOptions): Promise<void>;
+  setSettings(options: SetConfigSettingsOptions): Promise<void>;
   /**
    * Add a listener for the config update event.
    *
