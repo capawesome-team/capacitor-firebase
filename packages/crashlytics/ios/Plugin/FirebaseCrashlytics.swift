@@ -18,15 +18,15 @@ import FirebaseCrashlytics
         switch type {
         case "string":
             Crashlytics.crashlytics().setCustomValue(call.getString("value") as Any, forKey: key)
-            case "int":
+        case "int":
             Crashlytics.crashlytics().setCustomValue(call.getInt("value") as Any, forKey: key)
-            case "boolean":
+        case "boolean":
             Crashlytics.crashlytics().setCustomValue(call.getBool("value") as Any, forKey: key)
-            case "long":
+        case "long":
             Crashlytics.crashlytics().setCustomValue(call.getInt("value") as Any, forKey: key)
-            case "double":
+        case "double":
             Crashlytics.crashlytics().setCustomValue(call.getDouble("value") as Any, forKey: key)
-            case "float":
+        case "float":
             Crashlytics.crashlytics().setCustomValue(call.getFloat("value") as Any, forKey: key)
 
         default:
