@@ -70,7 +70,7 @@ export class FirebaseRemoteConfigWeb
     options: SetConfigSettingsOptions,
   ): Promise<void> {
     const remoteConfig = getRemoteConfig();
-    if (typeof options.fetchTimeoutInSeconds === 'number') {
+    if (options.fetchTimeoutInSeconds !== undefined) {
       remoteConfig.settings.fetchTimeoutMillis =
         options.fetchTimeoutInSeconds * 1000;
     }
