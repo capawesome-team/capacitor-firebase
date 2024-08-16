@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.firebase.analytics.FirebaseAnalytics;
