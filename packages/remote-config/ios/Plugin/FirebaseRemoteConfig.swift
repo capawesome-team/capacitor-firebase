@@ -40,6 +40,17 @@ import Capacitor
             }
         })
     }
+    
+    @objc public func fetchConfig(completion: @escaping (String?) -> Void) {
+        RemoteConfig.remoteConfig().fetch(completionHandler: { _, error in
+            if let error = error {
+                CAPLog.print("[", self.plugin.tag, "] ", error)
+                completion(error.localizedDescription)
+                return
+            }
+            completion(nil)
+        })
+    }
 
     @objc public func fetchConfig(minimumFetchIntervalInSeconds: Double, completion: @escaping (String?) -> Void) {
         RemoteConfig.remoteConfig().fetch(withExpirationDuration: minimumFetchIntervalInSeconds, completionHandler: { _, error in

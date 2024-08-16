@@ -42,19 +42,19 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
     }
 
     @objc func fetchConfig(_ call: CAPPluginCall) {
-        let minimumFetchIntervalInSeconds: Double = {
-            let defaultValue = defaultMinimumFetchIntervalInSeconds
-            let settingsValue = implementation?.getMinimumFetchIntervalInSeconds()
-            return call.getDouble("minimumFetchIntervalInSeconds") ?? settingsValue ?? defaultValue
-        }()
-
-        implementation?.fetchConfig(minimumFetchIntervalInSeconds: minimumFetchIntervalInSeconds, completion: { errorMessage in
+        let completionHandler: (String?) -> Void = { errorMessage in
             if let errorMessage = errorMessage {
                 call.reject(errorMessage)
                 return
             }
             call.resolve()
-        })
+        }
+        
+        if let minimumFetchIntervalInSeconds = call.getDouble("minimumFetchIntervalInSeconds") {
+            implementation?.fetchConfig(minimumFetchIntervalInSeconds: minimumFetchIntervalInSeconds, completion: completionHandler)
+        } else {
+            implementation?.fetchConfig(completion: completionHandler)
+        }
     }
 
     @objc func getBoolean(_ call: CAPPluginCall) {

@@ -29,8 +29,6 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
 
     private FirebaseRemoteConfig implementation;
 
-    private Integer customMinimumFetchIntervalInSeconds;
-
     public void load() {
         implementation = new FirebaseRemoteConfig(this);
     }
@@ -82,25 +80,23 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void fetchConfig(PluginCall call) {
         try {
-            int defaultOrUserSettingValue = customMinimumFetchIntervalInSeconds != null ? customMinimumFetchIntervalInSeconds : DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS;
             Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds");
-            if (minimumFetchIntervalInSeconds == null) {
-                minimumFetchIntervalInSeconds = defaultOrUserSettingValue;
-            }
-            implementation.fetchConfig(
-                minimumFetchIntervalInSeconds.longValue(),
-                new FetchConfigResultCallback() {
-                    @Override
-                    public void success() {
-                        call.resolve();
-                    }
-
-                    @Override
-                    public void error(String message) {
-                        call.reject(message);
-                    }
+            FetchConfigResultCallback callback = new FetchConfigResultCallback() {
+                @Override
+                public void success() {
+                    call.resolve();
                 }
-            );
+
+                @Override
+                public void error(String message) {
+                    call.reject(message);
+                }
+            };
+            if (minimumFetchIntervalInSeconds == null) {
+                implementation.fetchConfig(callback);
+            } else {
+                implementation.fetchConfig(minimumFetchIntervalInSeconds.longValue(), callback);
+            }
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -177,9 +173,6 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
 
             implementation.setSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
                 .addOnCompleteListener(t -> {
-                    // NOTE: Android remote config sdk does not have an interface to get setting value.
-                    // Therefore, the minimumFetchIntervalInSeconds is stored in a property of this class.
-                    this.customMinimumFetchIntervalInSeconds = minimumFetchIntervalInSeconds;
                     call.resolve();
                 });
         } catch (Exception exception) {
