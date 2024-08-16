@@ -74,7 +74,7 @@ export class FirebaseRemoteConfigWeb
       remoteConfig.settings.fetchTimeoutMillis =
         options.fetchTimeoutInSeconds * 1000;
     }
-    if (typeof options.minimumFetchIntervalInSeconds === 'number') {
+    if (options.minimumFetchIntervalInSeconds !== undefined) {
       remoteConfig.settings.minimumFetchIntervalMillis =
         options.minimumFetchIntervalInSeconds * 1000;
     }
