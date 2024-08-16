@@ -166,7 +166,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
 
     @PluginMethod
     public void setMinimumFetchInterval(PluginCall call) {
-        call.reject("Not available on Android. Use setConfigSettings.");
+        call.reject("Not available on Android.");
     }
 
     @PluginMethod

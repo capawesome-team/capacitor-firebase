@@ -94,7 +94,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
     }
 
     @objc func setMinimumFetchInterval(_ call: CAPPluginCall) {
-        call.reject("Not available on iOS. Use setConfigSettings.")
+        call.reject("Not available on iOS.")
     }
 
     @objc func setSettings(_ call: CAPPluginCall) {
