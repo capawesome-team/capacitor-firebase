@@ -18,7 +18,7 @@ import type {
   GetStringResult,
   RemoveConfigUpdateListenerOptions,
   SetMinimumFetchIntervalOptions,
-  SetConfigSettingsOptions,
+  SetSettingsOptions,
 } from './definitions';
 
 export class FirebaseRemoteConfigWeb
@@ -66,9 +66,7 @@ export class FirebaseRemoteConfigWeb
       options.minimumFetchIntervalInSeconds * 1000;
   }
 
-  public async setConfigSettings(
-    options: SetConfigSettingsOptions,
-  ): Promise<void> {
+  public async setSettings(options: SetSettingsOptions): Promise<void> {
     const remoteConfig = getRemoteConfig();
     if (options.fetchTimeoutInSeconds !== undefined) {
       remoteConfig.settings.fetchTimeoutMillis =

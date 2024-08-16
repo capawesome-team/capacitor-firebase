@@ -75,8 +75,8 @@ const getString = async () => {
   return value;
 };
 
-const setConfigSettings = async () => {
-  await FirebaseRemoteConfig.setConfigSettings({
+const setSettings = async () => {
+  await FirebaseRemoteConfig.setSettings({
     fetchTimeoutInSeconds: 10,
     minimumFetchIntervalInSeconds: 0,
   });
@@ -117,7 +117,7 @@ const removeAllListeners = async () => {
 * [`getNumber(...)`](#getnumber)
 * [`getString(...)`](#getstring)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
-* [`setConfigSettings(...)`](#setconfigsettings)
+* [`setSettings(...)`](#setsettings)
 * [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
 * [`removeConfigUpdateListener(...)`](#removeconfigupdatelistener)
 * [`removeAllListeners()`](#removealllisteners)
@@ -249,17 +249,17 @@ Only available for Web.
 --------------------
 
 
-### setConfigSettings(...)
+### setSettings(...)
 
 ```typescript
-setConfigSettings(options: SetConfigSettingsOptions) => Promise<void>
+setSettings(options: SetSettingsOptions) => Promise<void>
 ```
 
 Set the remote config settings.
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#setconfigsettingsoptions">SetConfigSettingsOptions</a></code> |
+| **`options`** | <code><a href="#setsettingsoptions">SetSettingsOptions</a></code> |
 
 **Since:** 6.2.0
 
@@ -367,7 +367,7 @@ Remove all listeners for this plugin.
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
 
 
-#### SetConfigSettingsOptions
+#### SetSettingsOptions
 
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |

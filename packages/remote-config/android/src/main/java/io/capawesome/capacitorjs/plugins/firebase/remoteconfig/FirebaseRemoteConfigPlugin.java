@@ -170,12 +170,12 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void setConfigSettings(PluginCall call) {
+    public void setSettings(PluginCall call) {
         try {
             Integer fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", DEFAULT_FETCH_TIMEOUT_IN_SECONDS);
             Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS);
 
-            implementation.setConfigSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
+            implementation.setSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
                 .addOnCompleteListener(t -> {
                     // NOTE: Android remote config sdk does not have an interface to get setting value.
                     // Therefore, the minimumFetchIntervalInSeconds is stored in a property of this class.
