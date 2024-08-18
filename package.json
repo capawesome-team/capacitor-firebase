@@ -14,6 +14,7 @@
     "fmt": "turbo run fmt",
     "docgen": "turbo run docgen",
     "build": "turbo run build",
+    "ios:pod:install": "turbo run ios:pod:install --concurrency=1 --no-cache",
     "affected:verify": "npm run affected:verify:android && npm run affected:verify:ios && npm run affected:verify:web",
     "affected:verify:android": "turbo run verify:android --since=origin/main --concurrency=1 --no-cache",
     "affected:verify:ios": "turbo run verify:ios --since=origin/main --concurrency=1 --no-cache",
@@ -22,13 +23,14 @@
     "affected:fmt": "turbo run fmt --since=origin/main",
     "affected:docgen": "turbo run docgen --since=origin/main",
     "affected:build": "turbo run build --since=origin/main",
-    "ios:pod:install": "turbo run ios:pod:install --concurrency=1 --no-cache",
     "changeset": "changeset",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "release:preview": "pkg-pr-new publish './packages/*'"
   },
   "devDependencies": {
     "@changesets/cli": "2.21.1",
     "@robingenz/changelog-github": "0.0.1",
+    "pkg-pr-new": "0.0.20",
     "turbo": "1.1.6"
   }
 }
