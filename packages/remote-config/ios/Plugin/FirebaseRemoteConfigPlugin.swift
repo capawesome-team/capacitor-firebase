@@ -49,7 +49,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin {
                 return
             }
             call.resolve()
-        }
+        })
     }
 
     @objc func getBoolean(_ call: CAPPluginCall) {
