@@ -41,7 +41,7 @@ export interface FirebaseRemoteConfigPlugin {
    * Only available for Web.
    *
    * @since 1.3.0
-   * @deprecated Use `setSettings` instead.
+   * @deprecated Use `setSettings(...)` instead.
    */
   setMinimumFetchInterval(
     options: SetMinimumFetchIntervalOptions,
