@@ -62,22 +62,6 @@ public class FirebaseRemoteConfig {
             );
     }
 
-    public void fetchConfig(final FetchConfigResultCallback resultCallback) {
-        getFirebaseRemoteConfigInstance()
-                .fetch()
-                .addOnSuccessListener(
-                        result -> {
-                            resultCallback.success();
-                        }
-                )
-                .addOnFailureListener(
-                        exception -> {
-                            Log.w(TAG, "Fetch config failed.", exception);
-                            resultCallback.error(exception.getMessage());
-                        }
-                );
-    }
-
     public void fetchConfig(long minimumFetchIntervalInSeconds, final FetchConfigResultCallback resultCallback) {
         getFirebaseRemoteConfigInstance()
             .fetch(minimumFetchIntervalInSeconds)
