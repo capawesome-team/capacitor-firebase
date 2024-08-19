@@ -48,8 +48,7 @@ export interface FirebaseRemoteConfigPlugin {
   /**
    * Set the remote config settings.
    * 
-   * On Android, the settings values are saved in SharedPreferences.
-   * Therefore, please note that even if setSettings is removed, the saved values will still be used.
+   * On Android, the settings values are persisted in SharedPreferences.
    *
    * @since 6.2.0
    */
