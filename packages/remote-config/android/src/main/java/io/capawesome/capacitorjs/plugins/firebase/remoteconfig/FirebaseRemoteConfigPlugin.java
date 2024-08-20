@@ -21,6 +21,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
 
+    private static final int DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = 43200;
+    private static final int DEFAULT_FETCH_TIMEOUT_IN_SECONDS = 60;
+
     private Map<String, PluginCall> pluginCallMap = new HashMap<>();
 
     private FirebaseRemoteConfig implementation;
@@ -76,9 +79,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void fetchConfig(PluginCall call) {
         try {
-            int minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", 43200);
+            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS);
             implementation.fetchConfig(
-                minimumFetchIntervalInSeconds,
+                minimumFetchIntervalInSeconds.longValue(),
                 new FetchConfigResultCallback() {
                     @Override
                     public void success() {
@@ -157,6 +160,25 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void setMinimumFetchInterval(PluginCall call) {
         call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
+    public void setSettings(PluginCall call) {
+        try {
+            Integer fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", DEFAULT_FETCH_TIMEOUT_IN_SECONDS);
+            Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS);
+
+            implementation
+                .setSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
+                .addOnCompleteListener(
+                    t -> {
+                        call.resolve();
+                    }
+                );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)

@@ -41,10 +41,19 @@ export interface FirebaseRemoteConfigPlugin {
    * Only available for Web.
    *
    * @since 1.3.0
+   * @deprecated Use `setSettings(...)` instead.
    */
   setMinimumFetchInterval(
     options: SetMinimumFetchIntervalOptions,
   ): Promise<void>;
+  /**
+   * Set the remote config settings.
+   *
+   * On Android, the settings values are persisted in SharedPreferences.
+   *
+   * @since 6.2.0
+   */
+  setSettings(options: SetSettingsOptions): Promise<void>;
   /**
    * Add a listener for the config update event.
    *
@@ -190,6 +199,29 @@ export interface SetMinimumFetchIntervalOptions {
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
    */
   minimumFetchIntervalInSeconds: number;
+}
+
+/**
+ * @since 6.2.0
+ */
+export interface SetSettingsOptions {
+  /**
+   * Defines the maximum amount of milliseconds to wait for a response when fetching configuration from the Remote Config server.
+   *
+   * @since 6.2.0
+   * @default 60
+   * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsfetchtimeoutmillis
+   */
+  fetchTimeoutInSeconds?: number;
+  /**
+   * Define the maximum age in seconds of an entry in the config cache before it is considered stale.
+   * During development, it's recommended to set a relatively low minimum fetch interval.
+   *
+   * @since 6.2.0
+   * @default 43200
+   * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
+   */
+  minimumFetchIntervalInSeconds?: number;
 }
 
 /**

@@ -75,6 +75,13 @@ const getString = async () => {
   return value;
 };
 
+const setSettings = async () => {
+  await FirebaseRemoteConfig.setSettings({
+    fetchTimeoutInSeconds: 10,
+    minimumFetchIntervalInSeconds: 0,
+  });
+};
+
 const addConfigUpdateListener = async () => {
   const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
     (event, error) => {
@@ -110,6 +117,7 @@ const removeAllListeners = async () => {
 * [`getNumber(...)`](#getnumber)
 * [`getString(...)`](#getstring)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [`setSettings(...)`](#setsettings)
 * [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
 * [`removeConfigUpdateListener(...)`](#removeconfigupdatelistener)
 * [`removeAllListeners()`](#removealllisteners)
@@ -241,6 +249,25 @@ Only available for Web.
 --------------------
 
 
+### setSettings(...)
+
+```typescript
+setSettings(options: SetSettingsOptions) => Promise<void>
+```
+
+Set the remote config settings.
+
+On Android, the settings values are persisted in SharedPreferences.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#setsettingsoptions">SetSettingsOptions</a></code> |
+
+**Since:** 6.2.0
+
+--------------------
+
+
 ### addConfigUpdateListener(...)
 
 ```typescript
@@ -340,6 +367,14 @@ Remove all listeners for this plugin.
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
+
+
+#### SetSettingsOptions
+
+| Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
+| ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`fetchTimeoutInSeconds`**         | <code>number</code> | Defines the maximum amount of milliseconds to wait for a response when fetching configuration from the Remote Config server.                                                          | <code>60</code>    | 6.2.0 |
+| **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 6.2.0 |
 
 
 #### AddConfigUpdateListenerOptionsCallbackEvent

@@ -4,12 +4,13 @@ import static io.capawesome.capacitorjs.plugins.firebase.remoteconfig.FirebaseRe
 
 import android.util.Log;
 import androidx.annotation.NonNull;
-import com.google.android.gms.tasks.OnCompleteListener;
+import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.ConfigUpdate;
 import com.google.firebase.remoteconfig.ConfigUpdateListener;
 import com.google.firebase.remoteconfig.ConfigUpdateListenerRegistration;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.events.AddConfigUpdateListenerOptionsCallbackEvent;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
@@ -89,6 +90,17 @@ public class FirebaseRemoteConfig {
     public GetValueResult<String> getString(String key) {
         FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
         return new GetValueResult<String>(value.asString(), value.getSource());
+    }
+
+    public Task<Void> setSettings(@Nullable Integer fetchTimeoutInSeconds, @Nullable Integer minimumFetchIntervalInSeconds) {
+        FirebaseRemoteConfigSettings.Builder builder = new FirebaseRemoteConfigSettings.Builder();
+        if (fetchTimeoutInSeconds != null) {
+            builder.setFetchTimeoutInSeconds(fetchTimeoutInSeconds);
+        }
+        if (minimumFetchIntervalInSeconds != null) {
+            builder.setMinimumFetchIntervalInSeconds(minimumFetchIntervalInSeconds);
+        }
+        return getFirebaseRemoteConfigInstance().setConfigSettingsAsync(builder.build());
     }
 
     public void addConfigUpdateListener(@NonNull AddConfigUpdateListenerOptions options, @NonNull NonEmptyResultCallback callback) {
