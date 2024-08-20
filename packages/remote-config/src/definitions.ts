@@ -48,7 +48,7 @@ export interface FirebaseRemoteConfigPlugin {
   ): Promise<void>;
   /**
    * Set the remote config settings.
-   * 
+   *
    * On Android, the settings values are persisted in SharedPreferences.
    *
    * @since 6.2.0

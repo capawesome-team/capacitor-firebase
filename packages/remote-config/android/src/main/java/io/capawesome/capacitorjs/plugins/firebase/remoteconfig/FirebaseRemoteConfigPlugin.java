@@ -168,10 +168,13 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             Integer fetchTimeoutInSeconds = call.getInt("fetchTimeoutInSeconds", DEFAULT_FETCH_TIMEOUT_IN_SECONDS);
             Integer minimumFetchIntervalInSeconds = call.getInt("minimumFetchIntervalInSeconds", DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS);
 
-            implementation.setSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
-                .addOnCompleteListener(t -> {
-                    call.resolve();
-                });
+            implementation
+                .setSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
+                .addOnCompleteListener(
+                    t -> {
+                        call.resolve();
+                    }
+                );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
