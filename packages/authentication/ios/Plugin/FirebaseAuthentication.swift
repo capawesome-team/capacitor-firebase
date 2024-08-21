@@ -100,7 +100,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     /*
-     Returns the current Firebase App
+     Returns the current Firebase App, defaulting to the default implementation.
      */
     func getApp(name: String? = nil) -> FirebaseApp {
         var _name: String = self.currentAppName
@@ -108,6 +108,13 @@ public typealias AuthStateChangedObserver = () -> Void
             _name = name!;
         }
         return FirebaseApp.app(name: _name) ?? FirebaseApp.app()!
+    }
+
+    /*
+     Returns the current Firebase Auth, using the current Firebase App
+     */
+    func getAuth() -> Auth {
+        return Auth.auth(app: getApp())
     }
 
     

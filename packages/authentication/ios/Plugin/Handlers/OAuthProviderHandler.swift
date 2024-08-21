@@ -12,7 +12,7 @@ class OAuthProviderHandler: NSObject {
     }
 
     func signIn(call: CAPPluginCall, providerId: String) {
-        self.provider = OAuthProvider(providerID: providerId)
+        self.provider = OAuthProvider(providerID: providerId, auth: pluginImplementation.getAuth())
         self.applySignInOptions(call: call, provider: provider!)
         DispatchQueue.main.async {
             self.startSignInFlow()
@@ -20,7 +20,7 @@ class OAuthProviderHandler: NSObject {
     }
 
     func link(call: CAPPluginCall, providerId: String) {
-        self.provider = OAuthProvider(providerID: providerId)
+        self.provider = OAuthProvider(providerID: providerId, auth: pluginImplementation.getAuth())
         self.applySignInOptions(call: call, provider: provider!)
         DispatchQueue.main.async {
             self.startLinkFlow()
