@@ -406,6 +406,10 @@ const useEmulator = async () => {
 
 <docgen-index>
 
+* [`initWithFirebaseConfig(...)`](#initwithfirebaseconfig)
+* [`firebaseAppIsInitialized(...)`](#firebaseappisinitialized)
+* [`useFirebaseApp(...)`](#usefirebaseapp)
+* [`currentFirebaseApp()`](#currentfirebaseapp)
 * [`applyActionCode(...)`](#applyactioncode)
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`confirmVerificationCode(...)`](#confirmverificationcode)
@@ -474,6 +478,58 @@ const useEmulator = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### initWithFirebaseConfig(...)
+
+```typescript
+initWithFirebaseConfig(options: { name: string; config: { "appId": string; "messagingSenderId": string; "clientId": string; "apiKey": string; "projectId": string; "storageBucket": string; "databaseURL": string; }; }) => Promise<void>
+```
+
+| Param         | Type                                                                                                                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ name: string; config: { appId: string; messagingSenderId: string; clientId: string; apiKey: string; projectId: string; storageBucket: string; databaseURL: string; }; }</code> |
+
+--------------------
+
+
+### firebaseAppIsInitialized(...)
+
+```typescript
+firebaseAppIsInitialized(options: { name: string; }) => Promise<{ result: boolean; }>
+```
+
+| Param         | Type                           |
+| ------------- | ------------------------------ |
+| **`options`** | <code>{ name: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ result: boolean; }&gt;</code>
+
+--------------------
+
+
+### useFirebaseApp(...)
+
+```typescript
+useFirebaseApp(options: { name: string; }) => Promise<void>
+```
+
+| Param         | Type                           |
+| ------------- | ------------------------------ |
+| **`options`** | <code>{ name: string; }</code> |
+
+--------------------
+
+
+### currentFirebaseApp()
+
+```typescript
+currentFirebaseApp() => Promise<{ name: string; }>
+```
+
+**Returns:** <code>Promise&lt;{ name: string; }&gt;</code>
+
+--------------------
+
 
 ### applyActionCode(...)
 

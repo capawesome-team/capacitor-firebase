@@ -41,6 +41,19 @@ declare module '@capacitor/cli' {
 }
 
 export interface FirebaseAuthenticationPlugin {
+  initWithFirebaseConfig(options: {name: string, config: {
+    "appId": string,
+    "messagingSenderId": string,
+    "clientId": string,
+    "apiKey": string,
+    "projectId": string,
+    "storageBucket": string,
+    "databaseURL": string
+  }}): Promise<void>;
+  firebaseAppIsInitialized(options: {name: string}): Promise<{ result: boolean }>;
+  useFirebaseApp(options: {name: string}): Promise<void>;
+  currentFirebaseApp(): Promise<{ name: string }>;
+
   /**
    * Applies a verification code sent to the user by email.
    *

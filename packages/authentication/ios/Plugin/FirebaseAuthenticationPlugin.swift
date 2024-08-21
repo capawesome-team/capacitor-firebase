@@ -44,6 +44,36 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         self.implementation = FirebaseAuthentication(plugin: self, config: firebaseAuthenticationConfig())
     }
 
+    @objc func initWithFirebaseConfig(_ call: CAPPluginCall) {
+        print(call)
+        guard let name = call.getString("name") else {
+            return call.reject("Missing name")
+        }
+        guard let config = call.getObject("config") else {
+            return call.reject("Missing config");
+        }
+        
+        implementation?.initWithFirebaseConfig(call)
+    }
+    
+    @objc func firebaseAppIsInitialized(_ call: CAPPluginCall) {
+        print(call)
+        guard let name = call.getString("name") else {
+            return call.reject("Missing name")
+        }
+        implementation?.firebaseAppIsInitialized(call)
+    }
+    
+    @objc func useFirebaseApp(_ call: CAPPluginCall) {
+        print(call)
+        implementation?.useFirebaseApp(call)
+    }
+    
+    @objc func currentFirebaseApp(_ call: CAPPluginCall) {
+        print(call)
+        implementation?.currentFirebaseApp(call)
+    }
+        
     @objc func applyActionCode(_ call: CAPPluginCall) {
         guard let oobCode = call.getString("oobCode") else {
             call.reject(errorOobCodeMissing)

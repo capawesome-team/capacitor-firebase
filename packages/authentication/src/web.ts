@@ -947,4 +947,20 @@ export class FirebaseAuthenticationWeb
   private throwNotAvailableError(): never {
     throw new Error('Not available on web.');
   }
+
+
+  // TODO: IMPLEMENT JS
+  async initWithFirebaseConfig(): Promise<void> {
+    return;
+  }
+  async firebaseAppIsInitialized(): Promise<{ result: boolean }> {
+    return {result: true};
+  }
+  async useFirebaseApp(): Promise<void> {
+    return;
+  }
+  async currentFirebaseApp(): Promise<{ name: string }> {
+    return {name: ""};
+  }
+
 }

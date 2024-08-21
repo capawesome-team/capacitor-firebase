@@ -16,6 +16,9 @@ public typealias AuthStateChangedObserver = () -> Void
     private var oAuthProviderHandler: OAuthProviderHandler?
     private var phoneAuthProviderHandler: PhoneAuthProviderHandler?
     private var savedCall: CAPPluginCall?
+    
+    private var defaultAppName: String = ""
+    private var currentAppName: String = ""
 
     init(plugin: FirebaseAuthenticationPlugin, config: FirebaseAuthenticationConfig) {
         self.plugin = plugin
@@ -24,14 +27,92 @@ public typealias AuthStateChangedObserver = () -> Void
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+        self.defaultAppName = FirebaseApp.app()!.name
+        print("Default app name", self.defaultAppName)
+        dump(FirebaseApp.allApps)
+        self.currentAppName = defaultAppName
+        
         self.initAuthProviderHandlers(config: config)
-        Auth.auth().addStateDidChangeListener {_, _ in
+        Auth.auth(app: getApp()).addStateDidChangeListener {_, _ in
             self.plugin.handleAuthStateChange()
         }
     }
+    
+    /*
+     Inits a custom Firebase Config with the provided name
+     */
+    @objc func initWithFirebaseConfig(_ call: CAPPluginCall) {
+        let name = call.getString("name")!
+        let config = call.getObject("config")!
+        dump(config)
+        let options = FirebaseOptions.init(googleAppID: config["appId"] as! String, gcmSenderID: config["messagingSenderId"] as! String)
+        options.clientID = config["clientId"] as! String
+        options.apiKey = config["apiKey"] as! String
+        options.projectID = config["projectId"] as! String
+        options.storageBucket = config["storageBucket"] as! String
+        options.databaseURL = config["databaseURL"] as! String
+        FirebaseApp.configure(name: name, options: options);
+        currentAppName = name
 
+        let app = Auth.auth(app: getApp())
+        if (app != nil) {
+            app.addStateDidChangeListener {_, _ in
+                self.plugin.handleAuthStateChange()
+            }
+            call.resolve()
+        } else {
+            call.reject("Could not initialize app with provided firebase config")
+        }
+    }
+    
+    /*
+     Returns true if firebase app with provided name is available
+     */
+    @objc func firebaseAppIsInitialized(_ call: CAPPluginCall) {
+        let name = call.getString("name")!
+        if (FirebaseApp.app(name: name) != nil) {
+            call.resolve([ "result": true ])
+        } else {
+            call.resolve([ "result": false ]);
+        }
+    }
+    
+    /*
+     Use the provided firebase app name if app is available
+     */
+    @objc func useFirebaseApp(_ call: CAPPluginCall) {
+        var name = call.getString("name")
+        if (name == nil) {
+            name = self.defaultAppName
+        }
+        if (FirebaseApp.app(name: name!) != nil) {
+            currentAppName = name!
+        }
+        call.resolve()
+    }
+
+    /*
+     Returns the current firebase app name
+     */
+    @objc func currentFirebaseApp(_ call: CAPPluginCall) {
+        print ("current app name: " + currentAppName + self.currentAppName)
+        call.resolve(["name": currentAppName])
+    }
+
+    /*
+     Returns the current Firebase App
+     */
+    func getApp(name: String? = nil) -> FirebaseApp {
+        var _name: String = self.currentAppName
+        if (name != nil) {
+            _name = name!;
+        }
+        return FirebaseApp.app(name: _name) ?? FirebaseApp.app()!
+    }
+
+    
     @objc func applyActionCode(oobCode: String, completion: @escaping (Error?) -> Void) {
-        return Auth.auth().applyActionCode(oobCode, completion: { error in
+        return Auth.auth(app: getApp()).applyActionCode(oobCode, completion: { error in
             completion(error)
         })
     }
@@ -53,7 +134,7 @@ public typealias AuthStateChangedObserver = () -> Void
         }
 
         self.savedCall = call
-        return Auth.auth().createUser(withEmail: email, password: password) { _, error in
+        return Auth.auth(app: getApp()).createUser(withEmail: email, password: password) { _, error in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -69,7 +150,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func confirmPasswordReset(oobCode: String, newPassword: String, completion: @escaping (Error?) -> Void) {
-        return Auth.auth().confirmPasswordReset(withCode: oobCode, newPassword: newPassword, completion: { error in
+        return Auth.auth(app: getApp()).confirmPasswordReset(withCode: oobCode, newPassword: newPassword, completion: { error in
             completion(error)
         })
     }
@@ -87,7 +168,7 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func fetchSignInMethodsForEmail(_ options: FetchSignInMethodsForEmailOptions, completion: @escaping (Result?, Error?) -> Void) {
         let email = options.getEmail()
 
-        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
+        Auth.auth(app: getApp()).fetchSignInMethods(forEmail: email) { signInMethods, error in
             if let error = error {
                 completion(nil, error)
                 return
@@ -98,7 +179,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func getCurrentUser() -> User? {
-        return Auth.auth().currentUser
+        return Auth.auth(app: getApp()).currentUser
     }
 
     @objc func getIdToken(_ forceRefresh: Bool, completion: @escaping (GetIdTokenResult?, Error?) -> Void) {
@@ -119,11 +200,11 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func getTenantId() -> String? {
-        return Auth.auth().tenantID
+        return Auth.auth(app: getApp()).tenantID
     }
 
     @objc func isSignInWithEmailLink(link: String) -> Bool {
-        return Auth.auth().isSignIn(withEmailLink: link)
+        return Auth.auth(app: getApp()).isSignIn(withEmailLink: link)
     }
 
     @objc func linkWithApple(_ call: CAPPluginCall) {
@@ -243,7 +324,7 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func revokeAccessToken(_ options: RevokeAccessTokenOptions, completion: @escaping (Error?) -> Void) {
         let token = options.getToken()
 
-        Auth.auth().revokeToken(withAuthorizationCode: token) { error in
+        Auth.auth(app: getApp()).revokeToken(withAuthorizationCode: token) { error in
             completion(error)
         }
     }
@@ -274,24 +355,24 @@ public typealias AuthStateChangedObserver = () -> Void
             completion(error)
         }
         if let actionCodeSettings = actionCodeSettings {
-            Auth.auth().sendPasswordReset(withEmail: email, actionCodeSettings: actionCodeSettings, completion: completion)
+            Auth.auth(app: getApp()).sendPasswordReset(withEmail: email, actionCodeSettings: actionCodeSettings, completion: completion)
         } else {
-            Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
+            Auth.auth(app: getApp()).sendPasswordReset(withEmail: email, completion: completion)
         }
     }
 
     @objc func sendSignInLinkToEmail(email: String, actionCodeSettings: ActionCodeSettings, completion: @escaping (Error?) -> Void) {
-        return Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { error in
+        return Auth.auth(app: getApp()).sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { error in
             completion(error)
         }
     }
 
     @objc func setLanguageCode(_ languageCode: String) {
-        Auth.auth().languageCode = languageCode
+        Auth.auth(app: getApp()).languageCode = languageCode
     }
 
     @objc func setTenantId(tenantId: String) {
-        Auth.auth().tenantID = tenantId
+        Auth.auth(app: getApp()).tenantID = tenantId
     }
 
     @objc func signInAnonymously(_ call: CAPPluginCall) {
@@ -301,7 +382,7 @@ public typealias AuthStateChangedObserver = () -> Void
             return
         }
         self.savedCall = call
-        Auth.auth().signInAnonymously { authResult, error in
+        Auth.auth(app: getApp()).signInAnonymously { authResult, error in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -331,7 +412,7 @@ public typealias AuthStateChangedObserver = () -> Void
         let token = call.getString("token", "")
 
         self.savedCall = call
-        Auth.auth().signIn(withCustomToken: token) { _, error in
+        Auth.auth(app: getApp()).signIn(withCustomToken: token) { _, error in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -357,7 +438,7 @@ public typealias AuthStateChangedObserver = () -> Void
         let password = call.getString("password", "")
 
         self.savedCall = call
-        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+        Auth.auth(app: getApp()).signIn(withEmail: email, password: password) { _, error in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -383,7 +464,7 @@ public typealias AuthStateChangedObserver = () -> Void
         let emailLink = call.getString("emailLink", "")
 
         self.savedCall = call
-        Auth.auth().signIn(withEmail: email, link: emailLink) { authResult, error in
+        Auth.auth(app: getApp()).signIn(withEmail: email, link: emailLink) { authResult, error in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -444,7 +525,7 @@ public typealias AuthStateChangedObserver = () -> Void
 
     @objc func signOut(_ call: CAPPluginCall) {
         do {
-            try Auth.auth().signOut()
+            try Auth.auth(app: getApp()).signOut()
             googleAuthProviderHandler?.signOut()
             facebookAuthProviderHandler?.signOut()
             call.resolve()
@@ -489,11 +570,11 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func useAppLanguage() {
-        Auth.auth().useAppLanguage()
+        Auth.auth(app: getApp()).useAppLanguage()
     }
 
     @objc func useEmulator(_ host: String, _ port: Int) {
-        Auth.auth().useEmulator(withHost: host, port: port)
+        Auth.auth(app: getApp()).useEmulator(withHost: host, port: port)
     }
 
     @objc func signInWithCredential(
@@ -507,7 +588,7 @@ public typealias AuthStateChangedObserver = () -> Void
             completion(result, nil)
             return
         }
-        Auth.auth().signIn(with: credential) { (authResult, error) in
+        Auth.auth(app: getApp()).signIn(with: credential) { (authResult, error) in
             if let error = error {
                 completion(nil, error)
                 return
@@ -552,7 +633,7 @@ public typealias AuthStateChangedObserver = () -> Void
             savedCall.resolve(result)
             return
         }
-        Auth.auth().signIn(with: credential) { (authResult, error) in
+        Auth.auth(app: getApp()).signIn(with: credential) { (authResult, error) in
             if let error = error {
                 self.handleFailedSignIn(message: nil, error: error)
                 return
@@ -643,4 +724,5 @@ public typealias AuthStateChangedObserver = () -> Void
         }
         self.oAuthProviderHandler = OAuthProviderHandler(self)
     }
+    
 }
