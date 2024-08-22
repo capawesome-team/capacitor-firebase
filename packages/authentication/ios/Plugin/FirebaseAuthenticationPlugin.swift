@@ -618,6 +618,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         if let providers = getConfig().getArray("providers") as? [String] {
             config.providers = providers
         }
+        config.defaultAppName = getConfig().getString("defaultAppName", config.defaultAppName)!
 
         return config
     }

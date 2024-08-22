@@ -51,7 +51,7 @@ export interface FirebaseAuthenticationPlugin {
     "databaseURL": string
   }}): Promise<void>;
   firebaseAppIsInitialized(options: {name: string}): Promise<{ result: boolean }>;
-  useFirebaseApp(options: {name: string}): Promise<void>;
+  useFirebaseApp(options: { name: string | "default" }): Promise<void>;
   currentFirebaseApp(): Promise<{ name: string }>;
 
   /**

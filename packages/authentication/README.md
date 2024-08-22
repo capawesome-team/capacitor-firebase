@@ -510,7 +510,7 @@ firebaseAppIsInitialized(options: { name: string; }) => Promise<{ result: boolea
 ### useFirebaseApp(...)
 
 ```typescript
-useFirebaseApp(options: { name: string; }) => Promise<void>
+useFirebaseApp(options: { name: string | "default"; }) => Promise<void>
 ```
 
 | Param         | Type                           |
