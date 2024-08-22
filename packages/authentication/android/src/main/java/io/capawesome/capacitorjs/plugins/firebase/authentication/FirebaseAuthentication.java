@@ -5,6 +5,8 @@ import static io.capawesome.capacitorjs.plugins.firebase.authentication.Firebase
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,9 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
@@ -46,7 +51,10 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonE
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Objects;
+
 import org.json.JSONObject;
 
 public class FirebaseAuthentication {
@@ -61,16 +69,79 @@ public class FirebaseAuthentication {
     private PhoneAuthProviderHandler phoneAuthProviderHandler;
     private PlayGamesAuthProviderHandler playGamesAuthProviderHandler;
 
+    private String defaultAppName = "";
+    private String currentAppName = "";
+
+
     public FirebaseAuthentication(FirebaseAuthenticationPlugin plugin, FirebaseAuthenticationConfig config) {
         this.plugin = plugin;
         this.config = config;
         this.initAuthProviderHandlers(config);
+
+        FirebaseAuth auth = getFirebaseAuthInstance();
+        this.defaultAppName = auth.getApp().getName();
+        this.currentAppName = this.defaultAppName;
+
         this.firebaseAuthStateListener =
             firebaseAuth -> {
                 this.plugin.handleAuthStateChange();
             };
         getFirebaseAuthInstance().addAuthStateListener(this.firebaseAuthStateListener);
     }
+
+    public void initWithFirebaseConfig(PluginCall call) {
+        String name = call.getString("name");
+        JSObject config = call.getObject("config");
+        Log.i(TAG, "initWithFirebaseConfig: " + name);
+
+        FirebaseOptions.Builder options = new FirebaseOptions.Builder();
+        options.setApplicationId(Objects.requireNonNull(config.getString("appId")))
+                .setApiKey(Objects.requireNonNull(config.getString("apiKey")))
+                .setProjectId(Objects.requireNonNull(config.getString("projectId")))
+                .setStorageBucket(Objects.requireNonNull(config.getString("storageBucket")))
+                .setDatabaseUrl(Objects.requireNonNull(config.getString("databaseURL")))
+                .setGcmSenderId(Objects.requireNonNull(config.getString("messagingSenderId")));
+
+        FirebaseApp app = FirebaseApp.initializeApp(plugin.getContext(), options.build());
+        currentAppName = name;
+
+        try {
+            FirebaseAuth auth = FirebaseAuth.getInstance(app);
+            auth.addAuthStateListener(this.firebaseAuthStateListener);
+            call.resolve();
+        } catch (Exception error) {
+            call.reject("Could not initialize app with provided firebase config: " + error.getLocalizedMessage());
+        }
+    }
+
+    public void firebaseAppIsInitialized(PluginCall call) {
+        String name = call.getString("name");
+        try {
+            FirebaseApp.getInstance(name);
+            call.resolve(new JSObject().put("result", true));
+        } catch (Exception error) {
+            call.resolve(new JSObject().put("result", false));
+        }
+    }
+
+    public void useFirebaseApp(PluginCall call) {
+        String name = call.getString("name");
+        if (Objects.equals(name, "default")) {
+            name = this.defaultAppName;
+        }
+        try {
+            FirebaseApp.getInstance(name);
+            currentAppName = name;
+            call.resolve();
+        } catch (Exception error) {
+            call.reject("Firebase app does not exist");
+        }
+    }
+
+    public void currentFirebaseApp(PluginCall call) {
+        call.resolve(new JSObject().put("name", currentAppName));
+    }
+
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
         getFirebaseAuthInstance()
@@ -894,7 +965,16 @@ public class FirebaseAuthentication {
     }
 
     public FirebaseAuth getFirebaseAuthInstance() {
-        return FirebaseAuth.getInstance();
+        FirebaseApp app = getFirebaseAppInstance("");
+        return FirebaseAuth.getInstance(app);
+    }
+
+    public @NonNull FirebaseApp getFirebaseAppInstance(String name) {
+        if (name == null) {
+            name = this.currentAppName;
+        }
+        Logger.info("Get firebaseApp", name);
+        return FirebaseApp.getInstance(name);
     }
 
     public FirebaseAuthenticationPlugin getPlugin() {

@@ -58,9 +58,9 @@ public typealias AuthStateChangedObserver = () -> Void
         FirebaseApp.configure(name: name, options: options);
         currentAppName = name
 
-        let app = Auth.auth(app: getApp())
-        if (app != nil) {
-            app.addStateDidChangeListener {(auth: Auth, user: User?) in
+        let auth = Auth.auth(app: getApp())
+        if (auth != nil) {
+            auth.addStateDidChangeListener {(auth: Auth, user: User?) in
                 print("State listener for app " + auth.app!.name)
                 dump(user)
                 self.plugin.handleAuthStateChange()
@@ -93,8 +93,10 @@ public typealias AuthStateChangedObserver = () -> Void
         }
         if (FirebaseApp.app(name: name) != nil) {
             currentAppName = name
+            call.resolve()
+        } else {
+            call.reject("Firebase app does not exist")
         }
-        call.resolve()
     }
 
     /*
