@@ -70,19 +70,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         implementation = new FirebaseAuthentication(this, config);
     }
 
-    @PluginMethod void initWithFirebaseConfig(PluginCall call) {
+    @PluginMethod
+    public void initWithFirebaseConfig(PluginCall call) {
         implementation.initWithFirebaseConfig(call);
     }
 
-    @PluginMethod void firebaseAppIsInitialized(PluginCall call) {
+    @PluginMethod
+    public void firebaseAppIsInitialized(PluginCall call) {
         implementation.firebaseAppIsInitialized(call);
     }
 
-    @PluginMethod void useFirebaseApp(PluginCall call) {
+    @PluginMethod
+    public void useFirebaseApp(PluginCall call) {
         implementation.useFirebaseApp(call);
     }
 
-    @PluginMethod void currentFirebaseApp(PluginCall call) {
+    @PluginMethod
+    public void currentFirebaseApp(PluginCall call) {
         implementation.currentFirebaseApp(call);
     }
 

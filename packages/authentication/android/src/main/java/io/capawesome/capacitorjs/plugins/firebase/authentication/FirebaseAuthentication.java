@@ -102,7 +102,7 @@ public class FirebaseAuthentication {
                 .setDatabaseUrl(Objects.requireNonNull(config.getString("databaseURL")))
                 .setGcmSenderId(Objects.requireNonNull(config.getString("messagingSenderId")));
 
-        FirebaseApp app = FirebaseApp.initializeApp(plugin.getContext(), options.build());
+        FirebaseApp app = FirebaseApp.initializeApp(plugin.getContext(), options.build(), name);
         currentAppName = name;
 
         try {
@@ -116,12 +116,15 @@ public class FirebaseAuthentication {
 
     public void firebaseAppIsInitialized(PluginCall call) {
         String name = call.getString("name");
-        try {
-            FirebaseApp.getInstance(name);
-            call.resolve(new JSObject().put("result", true));
-        } catch (Exception error) {
-            call.resolve(new JSObject().put("result", false));
+        List<FirebaseApp> apps = FirebaseApp.getApps(plugin.getContext());
+
+        for (FirebaseApp app: apps) {
+            if (app.getName() == name) {
+                call.resolve(new JSObject().put("result", true));
+                return;
+            }
         }
+        call.resolve(new JSObject().put("result", false));
     }
 
     public void useFirebaseApp(PluginCall call) {
@@ -970,8 +973,12 @@ public class FirebaseAuthentication {
     }
 
     public @NonNull FirebaseApp getFirebaseAppInstance(String name) {
-        if (name == null) {
-            name = this.currentAppName;
+        if (name == "") {
+            if (this.currentAppName != "") {
+                name = this.currentAppName;
+            } else {
+                return FirebaseApp.getInstance();
+            }
         }
         Logger.info("Get firebaseApp", name);
         return FirebaseApp.getInstance(name);
