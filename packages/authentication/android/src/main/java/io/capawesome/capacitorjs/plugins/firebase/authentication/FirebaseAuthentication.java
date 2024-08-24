@@ -132,6 +132,7 @@ public class FirebaseAuthentication {
         if (Objects.equals(name, "default")) {
             name = this.defaultAppName;
         }
+        // TODO: Can also use this.firebaseAppIsInitialized to check...
         try {
             FirebaseApp.getInstance(name);
             currentAppName = name;

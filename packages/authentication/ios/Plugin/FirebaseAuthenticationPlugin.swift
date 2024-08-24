@@ -59,7 +59,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         guard let name = call.getString("name") else {
             return call.reject("Missing name")
         }
-        implementation?.firebaseAppIsInitialized(call)
+        
+        let result = implementation?.firebaseAppIsInitialized(name: name)
+        call.resolve([ "result": result! ])
     }
     
     @objc func useFirebaseApp(_ call: CAPPluginCall) {
@@ -614,7 +616,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         if let providers = getConfig().getArray("providers") as? [String] {
             config.providers = providers
         }
-        config.defaultAppName = getConfig().getString("defaultAppName", config.defaultAppName)!
 
         return config
     }

@@ -482,12 +482,14 @@ const useEmulator = async () => {
 ### initWithFirebaseConfig(...)
 
 ```typescript
-initWithFirebaseConfig(options: { name: string; config: { "appId": string; "messagingSenderId": string; "clientId": string; "apiKey": string; "projectId": string; "storageBucket": string; "databaseURL": string; }; }) => Promise<void>
+initWithFirebaseConfig(options: FirebaseConfigOptions) => Promise<void>
 ```
 
-| Param         | Type                                                                                                                                                                                   |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ name: string; config: { appId: string; messagingSenderId: string; clientId: string; apiKey: string; projectId: string; storageBucket: string; databaseURL: string; }; }</code> |
+Initialize a new Firebase App with the provided name and Firebase project configuration
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#firebaseconfigoptions">FirebaseConfigOptions</a></code> |
 
 --------------------
 
@@ -495,14 +497,16 @@ initWithFirebaseConfig(options: { name: string; config: { "appId": string; "mess
 ### firebaseAppIsInitialized(...)
 
 ```typescript
-firebaseAppIsInitialized(options: { name: string; }) => Promise<{ result: boolean; }>
+firebaseAppIsInitialized(options: FirebaseAppName) => Promise<FirebaseAppInitializedResult>
 ```
 
-| Param         | Type                           |
-| ------------- | ------------------------------ |
-| **`options`** | <code>{ name: string; }</code> |
+Check if a Firebase App with the provided name is initialized
 
-**Returns:** <code>Promise&lt;{ result: boolean; }&gt;</code>
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#firebaseappname">FirebaseAppName</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#firebaseappinitializedresult">FirebaseAppInitializedResult</a>&gt;</code>
 
 --------------------
 
@@ -510,12 +514,15 @@ firebaseAppIsInitialized(options: { name: string; }) => Promise<{ result: boolea
 ### useFirebaseApp(...)
 
 ```typescript
-useFirebaseApp(options: { name: string | "default"; }) => Promise<void>
+useFirebaseApp(options: UseFirebaseAppOptions) => Promise<void>
 ```
 
-| Param         | Type                           |
-| ------------- | ------------------------------ |
-| **`options`** | <code>{ name: string; }</code> |
+Changes Firebase Authentication to use the provided app name
+Will throw an error if the app has not already been initialized
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#usefirebaseappoptions">UseFirebaseAppOptions</a></code> |
 
 --------------------
 
@@ -523,10 +530,12 @@ useFirebaseApp(options: { name: string | "default"; }) => Promise<void>
 ### currentFirebaseApp()
 
 ```typescript
-currentFirebaseApp() => Promise<{ name: string; }>
+currentFirebaseApp() => Promise<FirebaseAppName>
 ```
 
-**Returns:** <code>Promise&lt;{ name: string; }&gt;</code>
+Returns the name of the current Firebase App used by Firebase Authentication
+
+**Returns:** <code>Promise&lt;<a href="#firebaseappname">FirebaseAppName</a>&gt;</code>
 
 --------------------
 
@@ -1676,6 +1685,35 @@ Remove all listeners for this plugin.
 
 
 ### Interfaces
+
+
+#### FirebaseConfigOptions
+
+| Prop         | Type                                                                                                                                                        |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`name`**   | <code>string</code>                                                                                                                                         |
+| **`config`** | <code>{ appId: string; messagingSenderId: string; clientId: string; apiKey: string; projectId: string; storageBucket: string; databaseURL: string; }</code> |
+
+
+#### FirebaseAppInitializedResult
+
+| Prop         | Type                 |
+| ------------ | -------------------- |
+| **`result`** | <code>boolean</code> |
+
+
+#### FirebaseAppName
+
+| Prop       | Type                |
+| ---------- | ------------------- |
+| **`name`** | <code>string</code> |
+
+
+#### UseFirebaseAppOptions
+
+| Prop       | Type                |
+| ---------- | ------------------- |
+| **`name`** | <code>string</code> |
 
 
 #### ApplyActionCodeOptions

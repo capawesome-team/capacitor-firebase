@@ -1,4 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
+import { initializeApp, getApp, getApps } from "firebase/app";
+import type { FirebaseApp } from "firebase/app";
 import type {
   ConfirmationResult,
   AuthCredential as FirebaseAuthCredential,
@@ -7,7 +9,7 @@ import type {
   User as FirebaseUser,
   UserCredential as FirebaseUserCredential,
   UserInfo as FirebaseUserInfo,
-  UserMetadata as FirebaseUserMeatdata,
+  UserMetadata as FirebaseUserMetadata,
 } from 'firebase/auth';
 import {
   EmailAuthProvider,
@@ -65,7 +67,10 @@ import type {
   CreateUserWithEmailAndPasswordOptions,
   FetchSignInMethodsForEmailOptions,
   FetchSignInMethodsForEmailResult,
+  FirebaseAppInitializedResult,
+  FirebaseAppName,
   FirebaseAuthenticationPlugin,
+  FirebaseConfigOptions,
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
@@ -99,11 +104,13 @@ import type {
   UpdatePasswordOptions,
   UpdateProfileOptions,
   UseEmulatorOptions,
+  UseFirebaseAppOptions,
   User,
   UserInfo,
   UserMetadata,
 } from './definitions';
 import { Persistence, ProviderId } from './definitions';
+
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
@@ -123,21 +130,86 @@ export class FirebaseAuthenticationWeb
 
   private lastConfirmationResult: Map<string, ConfirmationResult> = new Map();
 
+  private readonly defaultAppName: string = "";
+  private currentAppName = "";
+
   constructor() {
     super();
     const auth = getAuth();
+    this.defaultAppName = auth.app.name;
+    this.currentAppName = this.defaultAppName;
+
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
   }
 
+  /**
+   * Initialize a new Firebase App with the provided name and Firebase project configuration
+   * @param options
+   */
+  public async initWithFirebaseConfig(options: FirebaseConfigOptions): Promise<void> {
+    const app = initializeApp({
+      apiKey: options.config.apiKey,
+      appId: options.config.appId,
+      projectId: options.config.projectId,
+      databaseURL: options.config.databaseURL,
+      storageBucket: options.config.storageBucket,
+      messagingSenderId: options.config.messagingSenderId,
+    }, options.name);
+
+    if (app) {
+      return;
+    } else {
+      throw new Error("Could not initialize app with provided firebase config");
+    }
+  }
+
+  /**
+   * Check if a Firebase App with the provided name is initialized
+   * @param options
+   * @returns Promise object with property boolean "result", true if initialized
+   */
+  public async firebaseAppIsInitialized(options: FirebaseAppName): Promise<FirebaseAppInitializedResult> {
+    const apps = getApps();
+    if (apps.some((app: FirebaseApp) => app.name == options.name)) {
+      return new Promise(resolve => resolve({ result: true }));
+    }
+    return new Promise(resolve => resolve({ result: false }));
+  }
+
+  /**
+   * Changes Firebase Authentication to use the provided app name
+   * Will throw an error if the app has not already been initialized
+   * @param options
+   */
+  public async useFirebaseApp(options: UseFirebaseAppOptions): Promise<void> {
+    if (options.name == "default") {
+      options.name = this.defaultAppName;
+    }
+    if ((await this.firebaseAppIsInitialized({ name: options.name})).result == true) {
+      this.currentAppName = options.name;
+      return;
+    } else {
+      throw new Error("Firebase app does not exist")
+    }
+  }
+
+  /**
+   * Returns the name of the current Firebase App used by Firebase Authentication
+   */
+  public async currentFirebaseApp(): Promise<FirebaseAppName> {
+    // TODO: Implement for web
+    return { name: this.currentAppName };
+  }
+
   public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return applyActionCode(auth, options.oobCode);
   }
 
   public async createUserWithEmailAndPassword(
     options: CreateUserWithEmailAndPasswordOptions,
   ): Promise<SignInResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       options.email,
@@ -149,7 +221,7 @@ export class FirebaseAuthenticationWeb
   public async confirmPasswordReset(
     options: ConfirmPasswordResetOptions,
   ): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return confirmPasswordReset(auth, options.oobCode, options.newPassword);
   }
 
@@ -168,7 +240,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async deleteUser(): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -179,7 +251,7 @@ export class FirebaseAuthenticationWeb
   public async fetchSignInMethodsForEmail(
     options: FetchSignInMethodsForEmailOptions,
   ): Promise<FetchSignInMethodsForEmailResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const signInMethods = await fetchSignInMethodsForEmail(auth, options.email);
     return {
       signInMethods,
@@ -191,7 +263,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userResult = this.createUserResult(auth.currentUser);
     const result: GetCurrentUserResult = {
       user: userResult,
@@ -202,7 +274,7 @@ export class FirebaseAuthenticationWeb
   public async getIdToken(
     options?: GetIdTokenOptions,
   ): Promise<GetIdTokenResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
@@ -214,7 +286,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async getRedirectResult(): Promise<SignInResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userCredential = await getRedirectResult(auth);
     const authCredential = userCredential
       ? OAuthProvider.credentialFromResult(userCredential)
@@ -223,7 +295,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async getTenantId(): Promise<GetTenantIdResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return {
       tenantId: auth.tenantId,
     };
@@ -232,7 +304,7 @@ export class FirebaseAuthenticationWeb
   public async isSignInWithEmailLink(
     options: IsSignInWithEmailLinkOptions,
   ): Promise<IsSignInWithEmailLinkResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return {
       isSignInWithEmailLink: isSignInWithEmailLink(auth, options.emailLink),
     };
@@ -352,7 +424,7 @@ export class FirebaseAuthenticationWeb
   public async linkWithPhoneNumber(
     options: LinkWithPhoneNumberOptions,
   ): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -426,7 +498,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async reload(): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -437,14 +509,14 @@ export class FirebaseAuthenticationWeb
   public async revokeAccessToken(
     options: RevokeAccessTokenOptions,
   ): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return revokeAccessToken(auth, options.token);
   }
 
   public async sendEmailVerification(
     options: SendEmailVerificationOptions,
   ): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -455,7 +527,7 @@ export class FirebaseAuthenticationWeb
   public async sendPasswordResetEmail(
     options: SendPasswordResetEmailOptions,
   ): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return sendPasswordResetEmail(
       auth,
       options.email,
@@ -466,7 +538,7 @@ export class FirebaseAuthenticationWeb
   public async sendSignInLinkToEmail(
     options: SendSignInLinkToEmailOptions,
   ): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     return sendSignInLinkToEmail(
       auth,
       options.email,
@@ -475,12 +547,12 @@ export class FirebaseAuthenticationWeb
   }
 
   public async setLanguageCode(options: SetLanguageCodeOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     auth.languageCode = options.languageCode;
   }
 
   public async setPersistence(options: SetPersistenceOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     switch (options.persistence) {
       case Persistence.BrowserLocal:
         await setPersistence(auth, browserLocalPersistence);
@@ -498,12 +570,12 @@ export class FirebaseAuthenticationWeb
   }
 
   public async setTenantId(options: SetTenantIdOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     auth.tenantId = options.tenantId;
   }
 
   public async signInAnonymously(): Promise<SignInResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userCredential = await signInAnonymously(auth);
     return this.createSignInResult(userCredential, null);
   }
@@ -524,7 +596,7 @@ export class FirebaseAuthenticationWeb
   public async signInWithCustomToken(
     options: SignInWithCustomTokenOptions,
   ): Promise<SignInResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userCredential = await signInWithCustomToken(auth, options.token);
     return this.createSignInResult(userCredential, null);
   }
@@ -532,7 +604,7 @@ export class FirebaseAuthenticationWeb
   public async signInWithEmailAndPassword(
     options: SignInWithEmailAndPasswordOptions,
   ): Promise<SignInResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userCredential = await signInWithEmailAndPassword(
       auth,
       options.email,
@@ -544,7 +616,7 @@ export class FirebaseAuthenticationWeb
   public async signInWithEmailLink(
     options: SignInWithEmailLinkOptions,
   ): Promise<SignInResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const userCredential = await signInWithEmailLink(
       auth,
       options.email,
@@ -635,7 +707,7 @@ export class FirebaseAuthenticationWeb
         FirebaseAuthenticationWeb.ERROR_RECAPTCHA_VERIFIER_MISSING,
       );
     }
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     try {
       const confirmationResult = await signInWithPhoneNumber(
         auth,
@@ -698,12 +770,12 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signOut(): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     await auth.signOut();
   }
 
   public async unlink(options: UnlinkOptions): Promise<UnlinkResult> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
@@ -716,7 +788,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async updateEmail(options: UpdateEmailOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -725,7 +797,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async updatePassword(options: UpdatePasswordOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -734,7 +806,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async updateProfile(options: UpdateProfileOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
@@ -746,12 +818,12 @@ export class FirebaseAuthenticationWeb
   }
 
   public async useAppLanguage(): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     auth.useDeviceLanguage();
   }
 
   public async useEmulator(options: UseEmulatorOptions): Promise<void> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     const port = options.port || 9099;
     const scheme = options.scheme || 'http';
     if (options.host.includes('://')) {
@@ -795,7 +867,7 @@ export class FirebaseAuthenticationWeb
     provider: FirebaseAuthProvider,
     mode?: 'popup' | 'redirect',
   ): Promise<FirebaseUserCredential | never> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     if (mode === 'redirect') {
       return signInWithRedirect(auth, provider);
     } else {
@@ -807,7 +879,7 @@ export class FirebaseAuthenticationWeb
     provider: FirebaseAuthProvider,
     mode?: 'popup' | 'redirect',
   ): Promise<FirebaseUserCredential | never> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
@@ -821,7 +893,7 @@ export class FirebaseAuthenticationWeb
   public linkCurrentUserWithCredential(
     credential: FirebaseAuthCredential,
   ): Promise<FirebaseUserCredential> {
-    const auth = getAuth();
+    const auth = getAuth(getApp(this.currentAppName));
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
@@ -882,7 +954,7 @@ export class FirebaseAuthenticationWeb
   }
 
   private createUserMetadataResult(
-    metadata: FirebaseUserMeatdata,
+    metadata: FirebaseUserMetadata,
   ): UserMetadata {
     const result: UserMetadata = {};
     if (metadata.creationTime) {
@@ -947,20 +1019,4 @@ export class FirebaseAuthenticationWeb
   private throwNotAvailableError(): never {
     throw new Error('Not available on web.');
   }
-
-
-  // TODO: IMPLEMENT JS
-  async initWithFirebaseConfig(): Promise<void> {
-    return;
-  }
-  async firebaseAppIsInitialized(): Promise<{ result: boolean }> {
-    return {result: true};
-  }
-  async useFirebaseApp(): Promise<void> {
-    return;
-  }
-  async currentFirebaseApp(): Promise<{ name: string }> {
-    return {name: ""};
-  }
-
 }

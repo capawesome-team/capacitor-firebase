@@ -49,23 +49,23 @@ public typealias AuthStateChangedObserver = () -> Void
         // print("Initing firebase config" + name);
         // dump(config)
         let options = FirebaseOptions.init(googleAppID: config["appId"] as! String, gcmSenderID: config["messagingSenderId"] as! String)
-        options.clientID = config["clientId"] as! String
-        options.apiKey = config["apiKey"] as! String
-        options.projectID = config["projectId"] as! String
-        options.storageBucket = config["storageBucket"] as! String
-        options.databaseURL = config["databaseURL"] as! String
-        FirebaseApp.configure(name: name, options: options);
-        currentAppName = name
+        options.clientID = config["clientId"] as? String
+        options.apiKey = config["apiKey"] as? String
+        options.projectID = config["projectId"] as? String
+        options.storageBucket = config["storageBucket"] as? String
+        options.databaseURL = config["databaseURL"] as? String
 
-        let auth = Auth.auth(app: getApp())
-        if (auth != nil) {
+        do {
+            try FirebaseApp.configure(name: name, options: options)
+            currentAppName = name
+            let auth = try Auth.auth(app: getApp())
             auth.addStateDidChangeListener {(auth: Auth, user: User?) in
                 // print("State listener for app " + auth.app!.name)
                 // dump(user)
                 self.plugin.handleAuthStateChange()
             }
             call.resolve()
-        } else {
+        } catch {
             call.reject("Could not initialize app with provided firebase config")
         }
     }
@@ -73,12 +73,14 @@ public typealias AuthStateChangedObserver = () -> Void
     /*
      Returns true if firebase app with provided name is available
      */
-    @objc func firebaseAppIsInitialized(_ call: CAPPluginCall) {
-        let name = call.getString("name")!
-        if (FirebaseApp.app(name: name) != nil) {
-            call.resolve([ "result": true ])
+    @objc func firebaseAppIsInitialized(name: String) -> Bool {
+        let apps = FirebaseApp.allApps!;
+        if (apps.contains(where: { (_, app: FirebaseApp) in
+            return app.name == name
+        })) {
+            return true
         } else {
-            call.resolve([ "result": false ]);
+            return false
         }
     }
     
@@ -90,9 +92,7 @@ public typealias AuthStateChangedObserver = () -> Void
         if (name == "default") {
             name = self.defaultAppName
         }
-        // TODO: Properly check if Firebase App actually exists
-        //  Calling .app() may throw an error, but never returns nil (at least on Android...)
-        if (FirebaseApp.app(name: name) != nil) {
+        if (self.firebaseAppIsInitialized(name: name)) {
             currentAppName = name
             call.resolve()
         } else {
