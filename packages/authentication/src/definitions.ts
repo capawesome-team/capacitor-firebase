@@ -41,6 +41,10 @@ declare module '@capacitor/cli' {
 }
 
 export interface FirebaseAuthenticationPlugin {
+  /**
+   * Initialize a new Firebase App with the provided name and Firebase project configuration
+   * @param options
+   */
   initWithFirebaseConfig(options: {name: string, config: {
     "appId": string,
     "messagingSenderId": string,
@@ -50,8 +54,24 @@ export interface FirebaseAuthenticationPlugin {
     "storageBucket": string,
     "databaseURL": string
   }}): Promise<void>;
+
+  /**
+   * Check if a Firebase App with the provided name is initialized
+   * @param options
+   * @returns Promise object with property boolean "result", true if initialized
+   */
   firebaseAppIsInitialized(options: {name: string}): Promise<{ result: boolean }>;
+
+  /**
+   * Changes Firebase Authentication to use the provided app name
+   * Will throw an error if the app has not already been initialized
+   * @param options
+   */
   useFirebaseApp(options: { name: string | "default" }): Promise<void>;
+
+  /**
+   * Returns the name of the current Firebase App used by Firebase Authentication
+   */
   currentFirebaseApp(): Promise<{ name: string }>;
 
   /**

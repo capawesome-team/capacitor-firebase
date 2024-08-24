@@ -25,18 +25,17 @@ public typealias AuthStateChangedObserver = () -> Void
         self.config = config
         super.init()
         if FirebaseApp.app() == nil {
-            print("Configuring app with name" + config.defaultAppName)
-            FirebaseApp.configure(name: config.defaultAppName, options: FirebaseOptions.defaultOptions()!)
+            FirebaseApp.configure()
         }
         self.defaultAppName = FirebaseApp.app()!.name
-        print("Default app name", self.defaultAppName)
+        // print("Default app name", self.defaultAppName)
         dump(FirebaseApp.allApps)
         self.currentAppName = defaultAppName
         
         self.initAuthProviderHandlers(config: config)
         Auth.auth(app: getApp()).addStateDidChangeListener {(auth: Auth, user: User?) in
-            print("State listener for app " + auth.app!.name)
-            dump(user)
+            // print("State listener for app " + auth.app!.name)
+            // dump(user)
             self.plugin.handleAuthStateChange()
         }
     }
@@ -47,8 +46,8 @@ public typealias AuthStateChangedObserver = () -> Void
     @objc func initWithFirebaseConfig(_ call: CAPPluginCall) {
         let name = call.getString("name")!
         let config = call.getObject("config")!
-        print("Initing firebase config" + name);
-        dump(config)
+        // print("Initing firebase config" + name);
+        // dump(config)
         let options = FirebaseOptions.init(googleAppID: config["appId"] as! String, gcmSenderID: config["messagingSenderId"] as! String)
         options.clientID = config["clientId"] as! String
         options.apiKey = config["apiKey"] as! String
@@ -61,8 +60,8 @@ public typealias AuthStateChangedObserver = () -> Void
         let auth = Auth.auth(app: getApp())
         if (auth != nil) {
             auth.addStateDidChangeListener {(auth: Auth, user: User?) in
-                print("State listener for app " + auth.app!.name)
-                dump(user)
+                // print("State listener for app " + auth.app!.name)
+                // dump(user)
                 self.plugin.handleAuthStateChange()
             }
             call.resolve()
@@ -91,6 +90,8 @@ public typealias AuthStateChangedObserver = () -> Void
         if (name == "default") {
             name = self.defaultAppName
         }
+        // TODO: Properly check if Firebase App actually exists
+        //  Calling .app() may throw an error, but never returns nil (at least on Android...)
         if (FirebaseApp.app(name: name) != nil) {
             currentAppName = name
             call.resolve()
@@ -103,7 +104,7 @@ public typealias AuthStateChangedObserver = () -> Void
      Returns the current firebase app name
      */
     @objc func currentFirebaseApp(_ call: CAPPluginCall) {
-        print ("current app name: " + currentAppName + self.currentAppName)
+        // print ("current app name: " + currentAppName + self.currentAppName)
         call.resolve(["name": currentAppName])
     }
 

@@ -45,7 +45,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
 
     @objc func initWithFirebaseConfig(_ call: CAPPluginCall) {
-        print(call)
         guard let name = call.getString("name") else {
             return call.reject("Missing name")
         }
@@ -57,7 +56,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
     
     @objc func firebaseAppIsInitialized(_ call: CAPPluginCall) {
-        print(call)
         guard let name = call.getString("name") else {
             return call.reject("Missing name")
         }
@@ -65,12 +63,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
     }
     
     @objc func useFirebaseApp(_ call: CAPPluginCall) {
-        print(call)
         implementation?.useFirebaseApp(call)
     }
     
     @objc func currentFirebaseApp(_ call: CAPPluginCall) {
-        print(call)
         implementation?.currentFirebaseApp(call)
     }
         

@@ -92,7 +92,7 @@ public class FirebaseAuthentication {
     public void initWithFirebaseConfig(PluginCall call) {
         String name = call.getString("name");
         JSObject config = call.getObject("config");
-        Log.i(TAG, "initWithFirebaseConfig: " + name);
+        // Log.i(TAG, "initWithFirebaseConfig: " + name);
 
         FirebaseOptions.Builder options = new FirebaseOptions.Builder();
         options.setApplicationId(Objects.requireNonNull(config.getString("appId")))
