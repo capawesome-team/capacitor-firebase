@@ -129,7 +129,7 @@ public class FirebaseFirestoreHelper {
         return array;
     }
 
-    public static JSObject createSnapshotMetadata(DocumentSnapshot snapshot) {
+    public static JSObject createSnapshotMetadataResult(DocumentSnapshot snapshot) {
         final JSObject obj = new JSObject();
         obj.put("fromCache", snapshot.getMetadata().isFromCache());
         obj.put("hasPendingWrites", snapshot.getMetadata().hasPendingWrites());

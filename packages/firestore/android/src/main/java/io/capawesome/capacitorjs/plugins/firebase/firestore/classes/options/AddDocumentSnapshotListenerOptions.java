@@ -5,28 +5,28 @@ import androidx.annotation.Nullable;
 public class AddDocumentSnapshotListenerOptions {
 
     private String reference;
-    private String callbackId;
     private final boolean includeMetadataChanges;
+    private String callbackId;
 
     public AddDocumentSnapshotListenerOptions(
             String reference,
-            String callbackId,
-            @Nullable Boolean includeMetadataChanges
+            @Nullable Boolean includeMetadataChanges,
+            String callbackId
     ) {
         this.reference = reference;
-        this.callbackId = callbackId;
         this.includeMetadataChanges = includeMetadataChanges != null ? includeMetadataChanges : false;
+        this.callbackId = callbackId;
     }
 
     public String getReference() {
         return reference;
     }
 
-    public String getCallbackId() {
-        return callbackId;
-    }
-
     public boolean isIncludeMetadataChanges() {
         return includeMetadataChanges;
+    }
+
+    public String getCallbackId() {
+        return callbackId;
     }
 }

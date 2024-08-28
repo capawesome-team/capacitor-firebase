@@ -377,6 +377,17 @@ export interface SnapshotListenerOptions {
    * @default false
    */
   readonly includeMetadataChanges?: boolean;
+
+  /**
+   * Set the source the query listens to.
+   * The source `default` listens to both cache and server.
+   *
+   * Note that this option is only available on the web. It is ignored on Android or iOS.
+   *
+   * @since 6.2.0
+   * @default "default"
+   */
+  readonly source?: 'default' | 'cache';
 }
 
 /**

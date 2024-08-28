@@ -230,7 +230,10 @@ export class FirebaseFirestoreWeb
     const firestore = getFirestore();
     const unsubscribe = onSnapshot(
       doc(firestore, options.reference),
-      { includeMetadataChanges: options.includeMetadataChanges },
+      {
+        includeMetadataChanges: options.includeMetadataChanges,
+        source: options.source,
+      },
       snapshot => {
         const data = snapshot.data();
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
@@ -265,7 +268,10 @@ export class FirebaseFirestoreWeb
     );
     const unsubscribe = onSnapshot(
       collectionQuery,
-      { includeMetadataChanges: options.includeMetadataChanges },
+      {
+        includeMetadataChanges: options.includeMetadataChanges,
+        source: options.source,
+      },
       snapshot => {
         const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
           snapshots: snapshot.docs.map(documentSnapshot => ({
@@ -299,7 +305,10 @@ export class FirebaseFirestoreWeb
     );
     const unsubscribe = onSnapshot(
       collectionQuery,
-      { includeMetadataChanges: options.includeMetadataChanges },
+      {
+        includeMetadataChanges: options.includeMetadataChanges,
+        source: options.source,
+      },
       snapshot => {
         const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
           snapshots: snapshot.docs.map(documentSnapshot => ({

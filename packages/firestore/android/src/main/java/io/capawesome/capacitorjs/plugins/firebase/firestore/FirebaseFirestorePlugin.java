@@ -404,11 +404,12 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
 
-            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(reference, callbackId);
+            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(reference, includeMetadataChanges, callbackId);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -441,6 +442,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
+            Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -449,6 +451,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 reference,
                 compositeFilter,
                 queryConstraints,
+                includeMetadataChanges,
                 callbackId
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
@@ -483,6 +486,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
+            Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -491,6 +495,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 reference,
                 compositeFilter,
                 queryConstraints,
+                includeMetadataChanges,
                 callbackId
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
