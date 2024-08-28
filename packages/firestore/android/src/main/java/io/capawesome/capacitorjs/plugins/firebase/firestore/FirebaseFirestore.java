@@ -7,6 +7,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
@@ -244,6 +245,7 @@ public class FirebaseFirestore {
         ListenerRegistration listenerRegistration = getFirebaseFirestoreInstance()
             .document(reference)
             .addSnapshotListener(
+                options.isIncludeMetadataChanges() ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE,
                 (documentSnapshot, exception) -> {
                     if (exception != null) {
                         callback.error(exception);
@@ -277,6 +279,7 @@ public class FirebaseFirestore {
         }
 
         ListenerRegistration listenerRegistration = query.addSnapshotListener(
+            options.isIncludeMetadataChanges() ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE,
             (querySnapshot, exception) -> {
                 if (exception != null) {
                     callback.error(exception);
@@ -310,6 +313,7 @@ public class FirebaseFirestore {
         }
 
         ListenerRegistration listenerRegistration = query.addSnapshotListener(
+            options.isIncludeMetadataChanges() ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE,
             (querySnapshot, exception) -> {
                 if (exception != null) {
                     callback.error(exception);

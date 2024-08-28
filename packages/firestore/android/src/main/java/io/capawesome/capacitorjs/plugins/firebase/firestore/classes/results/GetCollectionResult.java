@@ -30,6 +30,7 @@ public class GetCollectionResult implements Result {
             } else {
                 snapshotResult.put("data", snapshotDataResult);
             }
+            snapshotResult.put("metadata", FirebaseFirestoreHelper.createSnapshotMetadata(document));
             snapshotsResult.put(snapshotResult);
         }
 
