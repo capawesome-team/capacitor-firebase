@@ -366,9 +366,32 @@ export interface UseEmulatorOptions {
 }
 
 /**
+ * @since 6.2.0
+ */
+export interface SnapshotListenerOptions {
+  /**
+   * Include a change even if only the metadata of the query or of a document
+   * changed.
+   *
+   * @since 6.2.0
+   * @default false
+   */
+  readonly includeMetadataChanges?: boolean;
+  /**
+   * Set the source the query listens to.
+   * The source `default` listens to both cache and server.
+   *
+   * @since 6.2.0
+   * @default "default"
+   */
+  readonly source?: 'default' | 'cache';
+}
+
+/**
  * @since 5.2.0
  */
-export interface AddDocumentSnapshotListenerOptions {
+export interface AddDocumentSnapshotListenerOptions
+  extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -393,7 +416,8 @@ export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 /**
  * @since 5.2.0
  */
-export interface AddCollectionSnapshotListenerOptions {
+export interface AddCollectionSnapshotListenerOptions
+  extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -431,7 +455,8 @@ export type AddCollectionSnapshotListenerCallbackEvent<T> =
 /**
  * @since 6.1.0
  */
-export interface AddCollectionGroupSnapshotListenerOptions {
+export interface AddCollectionGroupSnapshotListenerOptions
+  extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -525,6 +550,30 @@ export interface DocumentSnapshot<T> {
    * @since 5.2.0
    */
   data: T | null;
+  /**
+   * Metadata about the snapshot, concerning its source and if it has local modifications.
+   *
+   * @since 6.2.0
+   */
+  metadata: SnapshotMetadata;
+}
+
+/**
+ * @since 6.2.0
+ */
+export interface SnapshotMetadata {
+  /**
+   * True if the snapshot was created from cached data.
+   *
+   * @since 6.2.0
+   */
+  fromCache: boolean;
+  /**
+   * True if the snapshot was created from pending write data.
+   *
+   * @since 6.2.0
+   */
+  hasPendingWrites: boolean;
 }
 
 /**
