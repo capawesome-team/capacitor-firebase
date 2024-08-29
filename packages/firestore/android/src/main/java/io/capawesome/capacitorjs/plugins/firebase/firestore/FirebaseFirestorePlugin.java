@@ -409,7 +409,11 @@ public class FirebaseFirestorePlugin extends Plugin {
 
             this.pluginCallMap.put(callbackId, call);
 
-            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(reference, includeMetadataChanges, callbackId);
+            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(
+                reference,
+                includeMetadataChanges,
+                callbackId
+            );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {

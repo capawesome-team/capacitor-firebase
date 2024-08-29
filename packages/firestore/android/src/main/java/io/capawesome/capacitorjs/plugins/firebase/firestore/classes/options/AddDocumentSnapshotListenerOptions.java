@@ -8,11 +8,7 @@ public class AddDocumentSnapshotListenerOptions {
     private final boolean includeMetadataChanges;
     private String callbackId;
 
-    public AddDocumentSnapshotListenerOptions(
-            String reference,
-            @Nullable Boolean includeMetadataChanges,
-            String callbackId
-    ) {
+    public AddDocumentSnapshotListenerOptions(String reference, @Nullable Boolean includeMetadataChanges, String callbackId) {
         this.reference = reference;
         this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
         this.callbackId = callbackId;

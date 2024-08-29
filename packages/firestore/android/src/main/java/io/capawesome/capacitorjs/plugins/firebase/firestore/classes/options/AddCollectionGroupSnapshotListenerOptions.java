@@ -2,14 +2,11 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
-
 import org.json.JSONException;
 
 public class AddCollectionGroupSnapshotListenerOptions {
@@ -28,11 +25,11 @@ public class AddCollectionGroupSnapshotListenerOptions {
     private boolean includeMetadataChanges;
 
     public AddCollectionGroupSnapshotListenerOptions(
-            String reference,
-            @Nullable JSObject compositeFilter,
-            @Nullable JSArray queryConstraints,
-            @Nullable Boolean includeMetadataChanges,
-            String callbackId
+        String reference,
+        @Nullable JSObject compositeFilter,
+        @Nullable JSArray queryConstraints,
+        @Nullable Boolean includeMetadataChanges,
+        String callbackId
     ) throws JSONException {
         this.reference = reference;
         this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter);

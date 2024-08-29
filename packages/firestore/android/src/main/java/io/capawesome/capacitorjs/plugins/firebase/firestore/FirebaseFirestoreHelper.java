@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentSnapshot;
-
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryEndAtConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryLimitConstraint;
