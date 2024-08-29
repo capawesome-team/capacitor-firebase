@@ -21,6 +21,11 @@ import Capacitor
             snapshotResult["data"] = NSNull()
         }
 
+        var metadata = JSObject()
+        metadata["fromCache"] = documentSnapshot.metadata.isFromCache
+        metadata["hasPendingWrites"] = documentSnapshot.metadata.hasPendingWrites
+        snapshotResult["metadata"] = metadata
+
         var result = JSObject()
         result["snapshot"] = snapshotResult
         return result as AnyObject
