@@ -37,7 +37,7 @@ public class AddCollectionGroupSnapshotListenerOptions {
         this.reference = reference;
         this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter);
         this.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints);
-        this.includeMetadataChanges = includeMetadataChanges != null ? includeMetadataChanges : false;
+        this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
         this.callbackId = callbackId;
     }
 

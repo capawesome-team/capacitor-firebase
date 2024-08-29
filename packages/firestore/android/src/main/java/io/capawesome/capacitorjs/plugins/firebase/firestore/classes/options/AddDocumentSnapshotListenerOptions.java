@@ -14,7 +14,7 @@ public class AddDocumentSnapshotListenerOptions {
             String callbackId
     ) {
         this.reference = reference;
-        this.includeMetadataChanges = includeMetadataChanges != null ? includeMetadataChanges : false;
+        this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
         this.callbackId = callbackId;
     }
 
