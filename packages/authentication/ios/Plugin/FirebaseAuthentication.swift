@@ -28,8 +28,8 @@ public typealias AuthStateChangedObserver = () -> Void
         Auth.auth().addStateDidChangeListener {auth, user in
             self.plugin.handleAuthStateChange(user)
         }
-        Auth.auth().addIDTokenDidChangeListener {auth, user in
-            self.plugin.handleIdTokenChange(user)
+        Auth.auth().addIDTokenDidChangeListener {_, _ in
+            self.plugin.handleIdTokenChange()
         }
     }
 

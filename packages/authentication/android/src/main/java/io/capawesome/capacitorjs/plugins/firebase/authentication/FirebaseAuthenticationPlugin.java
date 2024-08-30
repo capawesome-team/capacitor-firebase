@@ -942,11 +942,23 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     public void handleIdTokenChange() {
-        FirebaseUser user = implementation.getCurrentUser();
-        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
-        JSObject result = new JSObject();
-        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
-        notifyListeners(ID_TOKEN_CHANGE_EVENT, result, true);
+        try {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+                @Override
+                public void success(Result tokenResult) {
+                    notifyListeners(ID_TOKEN_CHANGE_EVENT, tokenResult.toJSObject(), true);
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                }
+            };
+
+            implementation.getIdToken(false, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+        }
     }
 
     @Override

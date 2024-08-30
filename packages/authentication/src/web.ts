@@ -775,14 +775,17 @@ export class FirebaseAuthenticationWeb
     );
   }
 
-  private handleIdTokenChanged(user: FirebaseUser | null): void {
-    const userResult = this.createUserResult(user);
-    const change: AuthStateChange = {
-      user: userResult,
+  private async handleIdTokenChanged(user: FirebaseUser | null): Promise<void> {
+    if (!user) {
+      return;
+    }
+    const idToken = await user.getIdToken(false);
+    const result: GetIdTokenResult = {
+      token: idToken || '',
     };
     this.notifyListeners(
       FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
-      change,
+      result,
       true,
     );
   }

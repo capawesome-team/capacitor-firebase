@@ -568,11 +568,16 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
     }
 
-    @objc func handleIdTokenChange(_ user: User?) {
-        let userResult = FirebaseAuthenticationHelper.createUserResult(user)
-        var result = JSObject()
-        result["user"] = userResult ?? NSNull()
-        notifyListeners(idTokenChangeEvent, data: result, retainUntilConsumed: true)
+    @objc func handleIdTokenChange() {
+        implementation?.getIdToken(false, completion: { tokenResult, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                return
+            }
+            if let tokenResult = tokenResult {
+                self.notifyListeners(self.idTokenChangeEvent, data: tokenResult.toJSObject(), retainUntilConsumed: true)
+            }
+        })
     }
 
     @objc func handlePhoneVerificationFailed(_ error: Error) {
