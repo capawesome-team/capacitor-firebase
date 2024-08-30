@@ -5,12 +5,14 @@ import Capacitor
     private var reference: String
     private var compositeFilter: QueryCompositeFilterConstraint?
     private var queryConstraints: [QueryNonFilterConstraint]
+    private var includeMetadataChanges: Bool
     private var callbackId: String
 
-    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, callbackId: String) {
+    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, includeMetadataChanges: Bool, callbackId: String) {
         self.reference = reference
         self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter)
         self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
+        self.includeMetadataChanges = includeMetadataChanges
         self.callbackId = callbackId
     }
 
@@ -24,6 +26,10 @@ import Capacitor
 
     func getQueryConstraints() -> [QueryNonFilterConstraint] {
         return queryConstraints
+    }
+
+    func getIncludeMetadataChanges() -> Bool {
+        return includeMetadataChanges
     }
 
     func getCallbackId() -> String {
