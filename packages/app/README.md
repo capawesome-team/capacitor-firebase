@@ -47,6 +47,8 @@ const getOptions = async () => {
 
 * [`getName()`](#getname)
 * [`getOptions()`](#getoptions)
+* [`initializeAppWithConfig(...)`](#initializeappwithconfig)
+* [`appIsInitialized(...)`](#appisinitialized)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -84,6 +86,38 @@ Get the configuration options for this app.
 --------------------
 
 
+### initializeAppWithConfig(...)
+
+```typescript
+initializeAppWithConfig(options: FirebaseConfigOptions) => Promise<void>
+```
+
+Initialize a new Firebase App with the provided name and Firebase project configuration
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#firebaseconfigoptions">FirebaseConfigOptions</a></code> |
+
+--------------------
+
+
+### appIsInitialized(...)
+
+```typescript
+appIsInitialized(options: FirebaseAppName) => Promise<FirebaseAppInitializedResult>
+```
+
+Check if a Firebase App with the provided name is initialized
+
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#firebaseappname">FirebaseAppName</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#firebaseappinitializedresult">FirebaseAppInitializedResult</a>&gt;</code>
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -104,6 +138,28 @@ Get the configuration options for this app.
 | **`gcmSenderId`**   | <code>string</code> | The Project Number.                                            | 0.1.0 |
 | **`projectId`**     | <code>string</code> | The Google Cloud project ID.                                   | 0.1.0 |
 | **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          | 0.1.0 |
+
+
+#### FirebaseConfigOptions
+
+| Prop         | Type                                                                                                                                                        |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`name`**   | <code>string</code>                                                                                                                                         |
+| **`config`** | <code>{ appId: string; messagingSenderId: string; clientId: string; apiKey: string; projectId: string; storageBucket: string; databaseURL: string; }</code> |
+
+
+#### FirebaseAppInitializedResult
+
+| Prop         | Type                 |
+| ------------ | -------------------- |
+| **`result`** | <code>boolean</code> |
+
+
+#### FirebaseAppName
+
+| Prop       | Type                |
+| ---------- | ------------------- |
+| **`name`** | <code>string</code> |
 
 </docgen-api>
 

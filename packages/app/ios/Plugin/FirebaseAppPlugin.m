@@ -6,4 +6,6 @@
 CAP_PLUGIN(FirebaseAppPlugin, "FirebaseApp",
            CAP_PLUGIN_METHOD(getName, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getOptions, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(initializeAppWithConfig, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(appIsInitialized, CAPPluginReturnPromise);
 )

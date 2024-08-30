@@ -8,6 +8,10 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.List;
+import java.util.Objects;
 
 @CapacitorPlugin(name = "FirebaseApp")
 public class FirebaseAppPlugin extends Plugin {
@@ -49,5 +53,41 @@ public class FirebaseAppPlugin extends Plugin {
 
     private FirebaseApp getFirebaseAppInstance() {
         return FirebaseApp.getInstance();
+    }
+
+    @PluginMethod
+    public void initializeAppWithConfig(PluginCall call) {
+        String name = call.getString("name");
+        JSObject config = call.getObject("config");
+
+        FirebaseOptions.Builder options = new FirebaseOptions.Builder();
+        options
+            .setApplicationId(Objects.requireNonNull(config.getString("appId")))
+            .setApiKey(Objects.requireNonNull(config.getString("apiKey")))
+            .setProjectId(Objects.requireNonNull(config.getString("projectId")))
+            .setStorageBucket(Objects.requireNonNull(config.getString("storageBucket")))
+            .setDatabaseUrl(Objects.requireNonNull(config.getString("databaseURL")))
+            .setGcmSenderId(Objects.requireNonNull(config.getString("messagingSenderId")));
+
+        try {
+            FirebaseApp app = FirebaseApp.initializeApp(this.getContext(), options.build(), name);
+            call.resolve();
+        } catch (Exception error) {
+            call.reject("Could not initialize app with provided firebase config: " + error.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void appIsInitialized(PluginCall call) {
+        String name = call.getString("name");
+        List<FirebaseApp> apps = FirebaseApp.getApps(this.getContext());
+
+        for (FirebaseApp app : apps) {
+            if (app.getName() == name) {
+                call.resolve(new JSObject().put("result", true));
+                return;
+            }
+        }
+        call.resolve(new JSObject().put("result", false));
     }
 }

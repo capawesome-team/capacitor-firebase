@@ -406,8 +406,6 @@ const useEmulator = async () => {
 
 <docgen-index>
 
-* [`initWithFirebaseConfig(...)`](#initwithfirebaseconfig)
-* [`firebaseAppIsInitialized(...)`](#firebaseappisinitialized)
 * [`useFirebaseApp(...)`](#usefirebaseapp)
 * [`currentFirebaseApp()`](#currentfirebaseapp)
 * [`applyActionCode(...)`](#applyactioncode)
@@ -478,38 +476,6 @@ const useEmulator = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### initWithFirebaseConfig(...)
-
-```typescript
-initWithFirebaseConfig(options: FirebaseConfigOptions) => Promise<void>
-```
-
-Initialize a new Firebase App with the provided name and Firebase project configuration
-
-| Param         | Type                                                                    |
-| ------------- | ----------------------------------------------------------------------- |
-| **`options`** | <code><a href="#firebaseconfigoptions">FirebaseConfigOptions</a></code> |
-
---------------------
-
-
-### firebaseAppIsInitialized(...)
-
-```typescript
-firebaseAppIsInitialized(options: FirebaseAppName) => Promise<FirebaseAppInitializedResult>
-```
-
-Check if a Firebase App with the provided name is initialized
-
-| Param         | Type                                                        |
-| ------------- | ----------------------------------------------------------- |
-| **`options`** | <code><a href="#firebaseappname">FirebaseAppName</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#firebaseappinitializedresult">FirebaseAppInitializedResult</a>&gt;</code>
-
---------------------
-
 
 ### useFirebaseApp(...)
 
@@ -1687,29 +1653,14 @@ Remove all listeners for this plugin.
 ### Interfaces
 
 
-#### FirebaseConfigOptions
-
-| Prop         | Type                                                                                                                                                        |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`name`**   | <code>string</code>                                                                                                                                         |
-| **`config`** | <code>{ appId: string; messagingSenderId: string; clientId: string; apiKey: string; projectId: string; storageBucket: string; databaseURL: string; }</code> |
-
-
-#### FirebaseAppInitializedResult
-
-| Prop         | Type                 |
-| ------------ | -------------------- |
-| **`result`** | <code>boolean</code> |
-
-
-#### FirebaseAppName
+#### UseFirebaseAppOptions
 
 | Prop       | Type                |
 | ---------- | ------------------- |
 | **`name`** | <code>string</code> |
 
 
-#### UseFirebaseAppOptions
+#### FirebaseAppName
 
 | Prop       | Type                |
 | ---------- | ------------------- |

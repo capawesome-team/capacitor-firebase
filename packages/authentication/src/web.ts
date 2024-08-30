@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
-import { initializeApp, getApp, getApps } from "firebase/app";
-import type { FirebaseApp } from "firebase/app";
+import { getApp, getApps } from 'firebase/app';
+import type { FirebaseApp } from 'firebase/app';
 import type {
   ConfirmationResult,
   AuthCredential as FirebaseAuthCredential,
@@ -67,10 +67,8 @@ import type {
   CreateUserWithEmailAndPasswordOptions,
   FetchSignInMethodsForEmailOptions,
   FetchSignInMethodsForEmailResult,
-  FirebaseAppInitializedResult,
   FirebaseAppName,
   FirebaseAuthenticationPlugin,
-  FirebaseConfigOptions,
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
@@ -111,7 +109,6 @@ import type {
 } from './definitions';
 import { Persistence, ProviderId } from './definitions';
 
-
 export class FirebaseAuthenticationWeb
   extends WebPlugin
   implements FirebaseAuthenticationPlugin
@@ -130,8 +127,8 @@ export class FirebaseAuthenticationWeb
 
   private lastConfirmationResult: Map<string, ConfirmationResult> = new Map();
 
-  private readonly defaultAppName: string = "";
-  private currentAppName = "";
+  private readonly defaultAppName: string = '';
+  private currentAppName = '';
 
   constructor() {
     super();
@@ -143,53 +140,23 @@ export class FirebaseAuthenticationWeb
   }
 
   /**
-   * Initialize a new Firebase App with the provided name and Firebase project configuration
-   * @param options
-   */
-  public async initWithFirebaseConfig(options: FirebaseConfigOptions): Promise<void> {
-    const app = initializeApp({
-      apiKey: options.config.apiKey,
-      appId: options.config.appId,
-      projectId: options.config.projectId,
-      databaseURL: options.config.databaseURL,
-      storageBucket: options.config.storageBucket,
-      messagingSenderId: options.config.messagingSenderId,
-    }, options.name);
-
-    if (app) {
-      return;
-    } else {
-      throw new Error("Could not initialize app with provided firebase config");
-    }
-  }
-
-  /**
-   * Check if a Firebase App with the provided name is initialized
-   * @param options
-   * @returns Promise object with property boolean "result", true if initialized
-   */
-  public async firebaseAppIsInitialized(options: FirebaseAppName): Promise<FirebaseAppInitializedResult> {
-    const apps = getApps();
-    if (apps.some((app: FirebaseApp) => app.name == options.name)) {
-      return new Promise(resolve => resolve({ result: true }));
-    }
-    return new Promise(resolve => resolve({ result: false }));
-  }
-
-  /**
    * Changes Firebase Authentication to use the provided app name
    * Will throw an error if the app has not already been initialized
    * @param options
    */
   public async useFirebaseApp(options: UseFirebaseAppOptions): Promise<void> {
-    if (options.name == "default") {
+    if (options.name == 'default' || !options.name) {
       options.name = this.defaultAppName;
     }
-    if ((await this.firebaseAppIsInitialized({ name: options.name})).result == true) {
+    const apps = getApps();
+    if (apps.some((app: FirebaseApp) => app.name == options.name)) {
       this.currentAppName = options.name;
+      getAuth(getApp(options.name)).onAuthStateChanged(user =>
+        this.handleAuthStateChange(user),
+      );
       return;
     } else {
-      throw new Error("Firebase app does not exist")
+      throw new Error('Firebase app does not exist');
     }
   }
 
@@ -197,7 +164,6 @@ export class FirebaseAuthenticationWeb
    * Returns the name of the current Firebase App used by Firebase Authentication
    */
   public async currentFirebaseApp(): Promise<FirebaseAppName> {
-    // TODO: Implement for web
     return { name: this.currentAppName };
   }
 

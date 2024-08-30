@@ -6,7 +6,6 @@ import static io.capawesome.capacitorjs.plugins.firebase.authentication.Firebase
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +53,6 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Objects;
-
 import org.json.JSONObject;
 
 public class FirebaseAuthentication {
@@ -72,7 +70,6 @@ public class FirebaseAuthentication {
     private String defaultAppName = "";
     private String currentAppName = "";
 
-
     public FirebaseAuthentication(FirebaseAuthenticationPlugin plugin, FirebaseAuthenticationConfig config) {
         this.plugin = plugin;
         this.config = config;
@@ -89,63 +86,28 @@ public class FirebaseAuthentication {
         getFirebaseAuthInstance().addAuthStateListener(this.firebaseAuthStateListener);
     }
 
-    public void initWithFirebaseConfig(PluginCall call) {
-        String name = call.getString("name");
-        JSObject config = call.getObject("config");
-        // Log.i(TAG, "initWithFirebaseConfig: " + name);
-
-        FirebaseOptions.Builder options = new FirebaseOptions.Builder();
-        options.setApplicationId(Objects.requireNonNull(config.getString("appId")))
-                .setApiKey(Objects.requireNonNull(config.getString("apiKey")))
-                .setProjectId(Objects.requireNonNull(config.getString("projectId")))
-                .setStorageBucket(Objects.requireNonNull(config.getString("storageBucket")))
-                .setDatabaseUrl(Objects.requireNonNull(config.getString("databaseURL")))
-                .setGcmSenderId(Objects.requireNonNull(config.getString("messagingSenderId")));
-
-        FirebaseApp app = FirebaseApp.initializeApp(plugin.getContext(), options.build(), name);
-        currentAppName = name;
-
-        try {
-            FirebaseAuth auth = FirebaseAuth.getInstance(app);
-            auth.addAuthStateListener(this.firebaseAuthStateListener);
-            call.resolve();
-        } catch (Exception error) {
-            call.reject("Could not initialize app with provided firebase config: " + error.getLocalizedMessage());
-        }
-    }
-
-    public void firebaseAppIsInitialized(PluginCall call) {
-        String name = call.getString("name");
-        List<FirebaseApp> apps = FirebaseApp.getApps(plugin.getContext());
-
-        for (FirebaseApp app: apps) {
-            if (app.getName() == name) {
-                call.resolve(new JSObject().put("result", true));
-                return;
-            }
-        }
-        call.resolve(new JSObject().put("result", false));
-    }
-
     public void useFirebaseApp(PluginCall call) {
         String name = call.getString("name");
         if (Objects.equals(name, "default")) {
             name = this.defaultAppName;
         }
-        // TODO: Can also use this.firebaseAppIsInitialized to check...
-        try {
-            FirebaseApp.getInstance(name);
-            currentAppName = name;
-            call.resolve();
-        } catch (Exception error) {
-            call.reject("Firebase app does not exist");
+        List<FirebaseApp> apps = FirebaseApp.getApps(plugin.getContext());
+
+        for (FirebaseApp app : apps) {
+            if (app.getName().equals(name)) {
+                currentAppName = name;
+                FirebaseAuth auth = FirebaseAuth.getInstance(app);
+                auth.addAuthStateListener(this.firebaseAuthStateListener);
+                call.resolve();
+                return;
+            }
         }
+        call.reject("Firebase app " + name + " does not exist");
     }
 
     public void currentFirebaseApp(PluginCall call) {
         call.resolve(new JSObject().put("name", currentAppName));
     }
-
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
         getFirebaseAuthInstance()

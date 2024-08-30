@@ -11,6 +11,21 @@ export interface FirebaseAppPlugin {
    * @since 0.1.0
    */
   getOptions(): Promise<GetOptionsResult>;
+
+  /**
+   * Initialize a new Firebase App with the provided name and Firebase project configuration
+   * @param options
+   */
+  initializeAppWithConfig(options: FirebaseConfigOptions): Promise<void>;
+
+  /**
+   * Check if a Firebase App with the provided name is initialized
+   * @param options
+   * @returns Promise object with property boolean "result", true if initialized
+   */
+  appIsInitialized(
+    options: FirebaseAppName,
+  ): Promise<FirebaseAppInitializedResult>;
 }
 
 /**
@@ -65,4 +80,23 @@ export interface GetOptionsResult {
    * @since 0.1.0
    */
   storageBucket: string;
+}
+
+export interface FirebaseConfigOptions {
+  name: string;
+  config: {
+    appId: string;
+    messagingSenderId: string;
+    clientId: string;
+    apiKey: string;
+    projectId: string;
+    storageBucket: string;
+    databaseURL: string;
+  };
+}
+export interface FirebaseAppName {
+  name: string;
+}
+export interface FirebaseAppInitializedResult {
+  result: boolean;
 }
