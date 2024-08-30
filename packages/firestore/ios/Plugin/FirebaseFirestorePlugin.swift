@@ -240,6 +240,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             call.reject(errorReferenceMissing)
             return
         }
+        let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
@@ -247,7 +248,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
         self.pluginCallMap[callbackId] = call
 
-        let options = AddDocumentSnapshotListenerOptions(reference: reference, callbackId: callbackId)
+        let options = AddDocumentSnapshotListenerOptions(reference: reference, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId)
 
         implementation?.addDocumentSnapshotListener(options, completion: { result, error in
             if let error = error {
@@ -270,6 +271,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         }
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
+        let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
@@ -277,7 +279,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
         self.pluginCallMap[callbackId] = call
 
-        let options = AddCollectionSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, callbackId: callbackId)
+        let options = AddCollectionSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId)
 
         do {
             implementation?.addCollectionSnapshotListener(options, completion: { result, error in
@@ -305,6 +307,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         }
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
+        let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
@@ -312,7 +315,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
         self.pluginCallMap[callbackId] = call
 
-        let options = AddCollectionGroupSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, callbackId: callbackId)
+        let options = AddCollectionGroupSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId)
 
         do {
             implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in

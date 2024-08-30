@@ -25,6 +25,7 @@ public class GetDocumentResult implements Result {
         } else {
             snapshotResult.put("data", snapshotDataResult);
         }
+        snapshotResult.put("metadata", FirebaseFirestoreHelper.createSnapshotMetadataResult(documentSnapshot));
 
         JSObject result = new JSObject();
         result.put("snapshot", snapshotResult);

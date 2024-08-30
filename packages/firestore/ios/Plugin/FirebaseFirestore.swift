@@ -197,9 +197,10 @@ import FirebaseFirestore
 
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
+        let includeMetadataChanges = options.getIncludeMetadataChanges()
         let callbackId = options.getCallbackId()
 
-        let listenerRegistration = Firestore.firestore().document(reference).addSnapshotListener { documentSnapshot, error in
+        let listenerRegistration = Firestore.firestore().document(reference).addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { documentSnapshot, error in
             if let error = error {
                 completion(nil, error)
             } else {
@@ -214,6 +215,7 @@ import FirebaseFirestore
         let reference = options.getReference()
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
+        let includeMetadataChanges = options.getIncludeMetadataChanges()
         let callbackId = options.getCallbackId()
 
         Task {
@@ -231,7 +233,7 @@ import FirebaseFirestore
                     }
                 }
 
-                let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+                let listenerRegistration = query.addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { querySnapshot, error in
                     if let error = error {
                         completion(nil, error)
                     } else {
@@ -250,6 +252,7 @@ import FirebaseFirestore
         let reference = options.getReference()
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
+        let includeMetadataChanges = options.getIncludeMetadataChanges()
         let callbackId = options.getCallbackId()
 
         Task {
@@ -267,7 +270,7 @@ import FirebaseFirestore
                     }
                 }
 
-                let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+                let listenerRegistration = query.addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { querySnapshot, error in
                     if let error = error {
                         completion(nil, error)
                     } else {

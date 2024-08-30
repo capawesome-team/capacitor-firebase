@@ -381,6 +381,8 @@ export interface SnapshotListenerOptions {
    * Set the source the query listens to.
    * The source `default` listens to both cache and server.
    *
+   * Only available for Web.
+   *
    * @since 6.2.0
    * @default "default"
    */
