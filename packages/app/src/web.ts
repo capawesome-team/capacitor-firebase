@@ -31,10 +31,6 @@ export class FirebaseAppWeb extends WebPlugin implements FirebaseAppPlugin {
     };
   }
 
-  /**
-   * Initialize a new Firebase App with the provided name and Firebase project configuration
-   * @param options
-   */
   public async initializeAppWithConfig(
     options: FirebaseConfigOptions,
   ): Promise<void> {
@@ -57,11 +53,6 @@ export class FirebaseAppWeb extends WebPlugin implements FirebaseAppPlugin {
     }
   }
 
-  /**
-   * Check if a Firebase App with the provided name is initialized
-   * @param options
-   * @returns Promise object with property boolean "result", true if initialized
-   */
   public async appIsInitialized(
     options: FirebaseAppName,
   ): Promise<FirebaseAppInitializedResult> {
