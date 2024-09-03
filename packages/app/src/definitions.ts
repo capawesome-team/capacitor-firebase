@@ -11,21 +11,18 @@ export interface FirebaseAppPlugin {
    * @since 0.1.0
    */
   getOptions(): Promise<GetOptionsResult>;
-
   /**
-   * Initialize a new Firebase App with the provided name and Firebase project configuration
-   * @param options
+   * Initialize a new Firebase App with the provided name and Firebase project configuration.
+   *
+   * @since 6.2.0
    */
-  initializeAppWithConfig(options: FirebaseConfigOptions): Promise<void>;
-
+  initializeApp(options: InitializeAppOptions): Promise<void>;
   /**
-   * Check if a Firebase App with the provided name is initialized
-   * @param options
-   * @returns Promise object with property boolean "result", true if initialized
+   * Get all initialized FIrebase apps.
+   *
+   * @since 6.2.0
    */
-  appIsInitialized(
-    options: FirebaseAppName,
-  ): Promise<FirebaseAppInitializedResult>;
+  getApps(): Promise<GetAppsResult>;
 }
 
 /**
