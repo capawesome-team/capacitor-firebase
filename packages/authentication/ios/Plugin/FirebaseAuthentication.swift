@@ -50,9 +50,6 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    /*
-     Use the provided firebase app name if app is available
-     */
     @objc func useFirebaseApp(_ call: CAPPluginCall) {
         var name = call.getString("name") ?? "default"
         if name == "default" {
@@ -71,16 +68,10 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    /*
-     Returns the current firebase app name
-     */
     @objc func currentFirebaseApp(_ call: CAPPluginCall) {
         call.resolve(["name": currentAppName])
     }
 
-    /*
-     Returns the current Firebase App, defaulting to the default implementation.
-     */
     func getApp(name: String? = nil) -> FirebaseApp {
         var _name: String = self.currentAppName
         if name != nil {
@@ -89,9 +80,6 @@ public typealias AuthStateChangedObserver = () -> Void
         return FirebaseApp.app(name: _name) ?? FirebaseApp.app()!
     }
 
-    /*
-     Returns the current Firebase Auth, using the current Firebase App
-     */
     func getAuth() -> Auth {
         return Auth.auth(app: getApp())
     }

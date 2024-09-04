@@ -1,14 +1,12 @@
 import { WebPlugin } from '@capacitor/core';
-import type { FirebaseApp } from 'firebase/app';
 import { getApp, getApps, initializeApp } from 'firebase/app';
 
 import type {
-  FirebaseAppInitializedResult,
-  FirebaseAppName,
   FirebaseAppPlugin,
-  FirebaseConfigOptions,
   GetNameResult,
+  GetAppsResult,
   GetOptionsResult,
+  InitializeAppOptions,
 } from './definitions';
 
 export class FirebaseAppWeb extends WebPlugin implements FirebaseAppPlugin {
@@ -31,9 +29,7 @@ export class FirebaseAppWeb extends WebPlugin implements FirebaseAppPlugin {
     };
   }
 
-  public async initializeAppWithConfig(
-    options: FirebaseConfigOptions,
-  ): Promise<void> {
+  public async initializeApp(options: InitializeAppOptions): Promise<void> {
     const app = initializeApp(
       {
         apiKey: options.config.apiKey,
@@ -53,13 +49,8 @@ export class FirebaseAppWeb extends WebPlugin implements FirebaseAppPlugin {
     }
   }
 
-  public async appIsInitialized(
-    options: FirebaseAppName,
-  ): Promise<FirebaseAppInitializedResult> {
+  public async getApps(): Promise<GetAppsResult> {
     const apps = getApps();
-    if (apps.some((app: FirebaseApp) => app.name == options.name)) {
-      return new Promise(resolve => resolve({ result: true }));
-    }
-    return new Promise(resolve => resolve({ result: false }));
+    return new Promise(resolve => resolve({ apps: apps.map(app => app.name) }));
   }
 }

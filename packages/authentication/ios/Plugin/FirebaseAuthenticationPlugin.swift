@@ -44,11 +44,11 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         self.implementation = FirebaseAuthentication(plugin: self, config: firebaseAuthenticationConfig())
     }
 
-    @objc func useFirebaseApp(_ call: CAPPluginCall) {
+    @objc func setApp(_ call: CAPPluginCall) {
         implementation?.useFirebaseApp(call)
     }
 
-    @objc func currentFirebaseApp(_ call: CAPPluginCall) {
+    @objc func getApp(_ call: CAPPluginCall) {
         implementation?.currentFirebaseApp(call)
     }
 

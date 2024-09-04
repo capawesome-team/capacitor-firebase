@@ -47,8 +47,8 @@ const getOptions = async () => {
 
 * [`getName()`](#getname)
 * [`getOptions()`](#getoptions)
-* [`initializeAppWithConfig(...)`](#initializeappwithconfig)
-* [`appIsInitialized(...)`](#appisinitialized)
+* [`initializeApp(...)`](#initializeapp)
+* [`getApps()`](#getapps)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -86,34 +86,34 @@ Get the configuration options for this app.
 --------------------
 
 
-### initializeAppWithConfig(...)
+### initializeApp(...)
 
 ```typescript
-initializeAppWithConfig(options: FirebaseConfigOptions) => Promise<void>
+initializeApp(options: InitializeAppOptions) => Promise<void>
 ```
 
-Initialize a new Firebase App with the provided name and Firebase project configuration
+Initialize a new Firebase App with the provided name and Firebase project configuration.
 
-| Param         | Type                                                                    |
-| ------------- | ----------------------------------------------------------------------- |
-| **`options`** | <code><a href="#firebaseconfigoptions">FirebaseConfigOptions</a></code> |
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initializeappoptions">InitializeAppOptions</a></code> |
+
+**Since:** 6.2.0
 
 --------------------
 
 
-### appIsInitialized(...)
+### getApps()
 
 ```typescript
-appIsInitialized(options: FirebaseAppName) => Promise<FirebaseAppInitializedResult>
+getApps() => Promise<GetAppsResult>
 ```
 
-Check if a Firebase App with the provided name is initialized
+Get all initialized Firebase apps.
 
-| Param         | Type                                                        |
-| ------------- | ----------------------------------------------------------- |
-| **`options`** | <code><a href="#firebaseappname">FirebaseAppName</a></code> |
+**Returns:** <code>Promise&lt;<a href="#getappsresult">GetAppsResult</a>&gt;</code>
 
-**Returns:** <code>Promise&lt;<a href="#firebaseappinitializedresult">FirebaseAppInitializedResult</a>&gt;</code>
+**Since:** 6.2.0
 
 --------------------
 
@@ -140,26 +140,19 @@ Check if a Firebase App with the provided name is initialized
 | **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          | 0.1.0 |
 
 
-#### FirebaseConfigOptions
+#### InitializeAppOptions
 
-| Prop         | Type                                                                                                                                                        |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`name`**   | <code>string</code>                                                                                                                                         |
-| **`config`** | <code>{ appId: string; messagingSenderId: string; clientId: string; apiKey: string; projectId: string; storageBucket: string; databaseURL: string; }</code> |
-
-
-#### FirebaseAppInitializedResult
-
-| Prop         | Type                 |
-| ------------ | -------------------- |
-| **`result`** | <code>boolean</code> |
+| Prop         | Type                                                                                                                                      | Description                    | Since |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ----- |
+| **`name`**   | <code>string</code>                                                                                                                       | Name of the app to initialize. | 6.2.0 |
+| **`config`** | <code>{ apiKey: string; appId: string; projectId: string; storageBucket: string; databaseURL: string; messagingSenderId: string; }</code> |                                |       |
 
 
-#### FirebaseAppName
+#### GetAppsResult
 
-| Prop       | Type                |
-| ---------- | ------------------- |
-| **`name`** | <code>string</code> |
+| Prop       | Type                  | Description                               | Since |
+| ---------- | --------------------- | ----------------------------------------- | ----- |
+| **`apps`** | <code>string[]</code> | An array of names of all initialized apps | 6.2.0 |
 
 </docgen-api>
 

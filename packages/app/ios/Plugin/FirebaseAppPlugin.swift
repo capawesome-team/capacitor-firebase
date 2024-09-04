@@ -33,10 +33,7 @@ public class FirebaseAppPlugin: CAPPlugin {
         ])
     }
 
-    /*
-     Inits a custom Firebase Config with the provided name
-     */
-    @objc func initializeAppWithConfig(_ call: CAPPluginCall) {
+    @objc func initializeApp(_ call: CAPPluginCall) {
         let name = call.getString("name")!
         let config = call.getObject("config")!
         let options = FirebaseOptions.init(googleAppID: config["appId"] as! String, gcmSenderID: config["messagingSenderId"] as! String)
@@ -54,22 +51,19 @@ public class FirebaseAppPlugin: CAPPlugin {
         }
     }
 
-    /*
-     Returns true if firebase app with provided name is available
-     */
-    @objc func appIsInitialized(_ call: CAPPluginCall) {
-        guard let name = call.getString("name") else {
-            return call.reject("Missing name")
-        }
-
+    @objc func getApps(_ call: CAPPluginCall) {
         let apps = FirebaseApp.allApps!
-        if apps.contains(where: { (_, app: FirebaseApp) in
-            return app.name == name
-        }) {
-            call.resolve([ "result": true ])
-        } else {
-            call.resolve([ "result": false ])
+        call.resolve(createGetAppsResult(apps: apps))
+    }
+
+    public func createGetAppsResult(apps: [String: FirebaseApp]) -> JSObject {
+        var result = JSObject()
+        var appsArray = JSArray()
+        for (name, _) in apps {
+            appsArray.append(name)
         }
+        result["apps"] = appsArray
+        return result
     }
 
 }

@@ -71,12 +71,12 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void useFirebaseApp(PluginCall call) {
+    public void setApp(PluginCall call) {
         implementation.useFirebaseApp(call);
     }
 
     @PluginMethod
-    public void currentFirebaseApp(PluginCall call) {
+    public void getApp(PluginCall call) {
         implementation.currentFirebaseApp(call);
     }
 

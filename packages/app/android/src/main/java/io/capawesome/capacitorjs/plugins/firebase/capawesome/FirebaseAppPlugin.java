@@ -9,6 +9,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +57,7 @@ public class FirebaseAppPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void initializeAppWithConfig(PluginCall call) {
+    public void initializeApp(PluginCall call) {
         String name = call.getString("name");
         JSObject config = call.getObject("config");
 
@@ -78,16 +79,15 @@ public class FirebaseAppPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void appIsInitialized(PluginCall call) {
+    public void getApps(PluginCall call) {
         String name = call.getString("name");
         List<FirebaseApp> apps = FirebaseApp.getApps(this.getContext());
 
+        List<String> appNames = Collections.emptyList();
+
         for (FirebaseApp app : apps) {
-            if (app.getName() == name) {
-                call.resolve(new JSObject().put("result", true));
-                return;
-            }
+            appNames.add(app.getName());
         }
-        call.resolve(new JSObject().put("result", false));
+        call.resolve(new JSObject().put("apps", appNames));
     }
 }

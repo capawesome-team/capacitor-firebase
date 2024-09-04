@@ -18,7 +18,7 @@ export interface FirebaseAppPlugin {
    */
   initializeApp(options: InitializeAppOptions): Promise<void>;
   /**
-   * Get all initialized FIrebase apps.
+   * Get all initialized Firebase apps.
    *
    * @since 6.2.0
    */
@@ -79,21 +79,64 @@ export interface GetOptionsResult {
   storageBucket: string;
 }
 
-export interface FirebaseConfigOptions {
+/**
+ * @since 6.2.0
+ */
+export interface InitializeAppOptions {
+  /**
+   * Name of the app to initialize.
+   *
+   * @since 6.2.0
+   */
   name: string;
   config: {
-    appId: string;
-    messagingSenderId: string;
-    clientId: string;
+    /**
+     * API key used for authenticating requests from your app.
+     *
+     * @since 6.2.0
+     */
     apiKey: string;
+    /**
+     * Google App ID used to uniquely identify an instance of an app.
+     *
+     * @since 6.2.0
+     */
+    appId: string;
+    /**
+     * The Google Cloud project ID.
+     *
+     * @since 6.2.0
+     */
     projectId: string;
+    /**
+     * The Google Cloud Storage bucket name.
+     *
+     * @since 6.2.0
+     */
     storageBucket: string;
+    /**
+     * The database root URL.
+     *
+     * @since 6.2.0
+     */
     databaseURL: string;
+    /**
+     * The Project Number.
+     *
+     * @since 6.2.0
+     */
+    messagingSenderId: string;
   };
 }
-export interface FirebaseAppName {
-  name: string;
-}
-export interface FirebaseAppInitializedResult {
-  result: boolean;
+
+/**
+ * @since 6.2.0
+ */
+export interface GetAppsResult {
+  /**
+   * An array of names of all initialized apps
+   *
+   * @since 6.2.0
+   */
+  apps: string[];
 }

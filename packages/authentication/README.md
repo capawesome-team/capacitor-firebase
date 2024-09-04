@@ -406,8 +406,8 @@ const useEmulator = async () => {
 
 <docgen-index>
 
-* [`useFirebaseApp(...)`](#usefirebaseapp)
-* [`currentFirebaseApp()`](#currentfirebaseapp)
+* [`setApp(...)`](#setapp)
+* [`getApp()`](#getapp)
 * [`applyActionCode(...)`](#applyactioncode)
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`confirmVerificationCode(...)`](#confirmverificationcode)
@@ -477,31 +477,35 @@ const useEmulator = async () => {
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### useFirebaseApp(...)
+### setApp(...)
 
 ```typescript
-useFirebaseApp(options: UseFirebaseAppOptions) => Promise<void>
+setApp(options: SetAppOptions) => Promise<void>
 ```
 
-Changes Firebase Authentication to use the provided app name
-Will throw an error if the app has not already been initialized
+Changes Firebase Authentication to use the provided app name.
+Will throw an error if the app has not already been initialized.
 
-| Param         | Type                                                                    |
-| ------------- | ----------------------------------------------------------------------- |
-| **`options`** | <code><a href="#usefirebaseappoptions">UseFirebaseAppOptions</a></code> |
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#setappoptions">SetAppOptions</a></code> |
+
+**Since:** 6.2.0
 
 --------------------
 
 
-### currentFirebaseApp()
+### getApp()
 
 ```typescript
-currentFirebaseApp() => Promise<FirebaseAppName>
+getApp() => Promise<GetAppResult>
 ```
 
-Returns the name of the current Firebase App used by Firebase Authentication
+Returns the name of the current Firebase App used by Firebase Authentication.
 
-**Returns:** <code>Promise&lt;<a href="#firebaseappname">FirebaseAppName</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#getappresult">GetAppResult</a>&gt;</code>
+
+**Since:** 6.2.0
 
 --------------------
 
@@ -1653,18 +1657,18 @@ Remove all listeners for this plugin.
 ### Interfaces
 
 
-#### UseFirebaseAppOptions
+#### SetAppOptions
 
-| Prop       | Type                |
-| ---------- | ------------------- |
-| **`name`** | <code>string</code> |
+| Prop       | Type                | Description                     |
+| ---------- | ------------------- | ------------------------------- |
+| **`name`** | <code>string</code> | Name of the Firebase app to use |
 
 
-#### FirebaseAppName
+#### GetAppResult
 
-| Prop       | Type                |
-| ---------- | ------------------- |
-| **`name`** | <code>string</code> |
+| Prop       | Type                | Description                           | Since |
+| ---------- | ------------------- | ------------------------------------- | ----- |
+| **`name`** | <code>string</code> | Name of the current Firebase App used | 6.2.0 |
 
 
 #### ApplyActionCodeOptions

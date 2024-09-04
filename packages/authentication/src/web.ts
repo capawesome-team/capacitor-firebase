@@ -67,8 +67,8 @@ import type {
   CreateUserWithEmailAndPasswordOptions,
   FetchSignInMethodsForEmailOptions,
   FetchSignInMethodsForEmailResult,
-  FirebaseAppName,
   FirebaseAuthenticationPlugin,
+  GetAppResult,
   GetCurrentUserResult,
   GetIdTokenOptions,
   GetIdTokenResult,
@@ -86,6 +86,7 @@ import type {
   SendEmailVerificationOptions,
   SendPasswordResetEmailOptions,
   SendSignInLinkToEmailOptions,
+  SetAppOptions,
   SetLanguageCodeOptions,
   SetPersistenceOptions,
   SetTenantIdOptions,
@@ -102,7 +103,6 @@ import type {
   UpdatePasswordOptions,
   UpdateProfileOptions,
   UseEmulatorOptions,
-  UseFirebaseAppOptions,
   User,
   UserInfo,
   UserMetadata,
@@ -144,7 +144,7 @@ export class FirebaseAuthenticationWeb
    * Will throw an error if the app has not already been initialized
    * @param options
    */
-  public async useFirebaseApp(options: UseFirebaseAppOptions): Promise<void> {
+  public async setApp(options: SetAppOptions): Promise<void> {
     if (options.name == 'default' || !options.name) {
       options.name = this.defaultAppName;
     }
@@ -163,7 +163,7 @@ export class FirebaseAuthenticationWeb
   /**
    * Returns the name of the current Firebase App used by Firebase Authentication
    */
-  public async currentFirebaseApp(): Promise<FirebaseAppName> {
+  public async getApp(): Promise<GetAppResult> {
     return { name: this.currentAppName };
   }
 

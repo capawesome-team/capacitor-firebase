@@ -1522,10 +1522,25 @@ export enum ProviderId {
   PHONE = 'phone',
 }
 
-export interface FirebaseAppName {
+/**
+ * @since 6.2.0
+ */
+export interface GetAppResult {
+  /**
+   * Name of the current Firebase App used
+   *
+   * @since 6.2.0
+   */
   name: string;
 }
-export interface UseFirebaseAppOptions {
+
+/**
+ * @since 6.2.0
+ */
+export interface SetAppOptions {
+  /**
+   * Name of the Firebase app to use
+   */
   // Use "default" to use the default Firebase app
   name: string | 'default';
 }
