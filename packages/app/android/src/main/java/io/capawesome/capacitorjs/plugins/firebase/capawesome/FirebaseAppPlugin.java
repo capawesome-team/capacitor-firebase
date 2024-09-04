@@ -8,9 +8,7 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Dictionary;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -83,7 +81,7 @@ public class FirebaseAppPlugin extends Plugin {
         String name = call.getString("name");
         List<FirebaseApp> apps = FirebaseApp.getApps(this.getContext());
 
-        List<String> appNames = Collections.emptyList();
+        List<String> appNames = new ArrayList<>();
 
         for (FirebaseApp app : apps) {
             appNames.add(app.getName());
