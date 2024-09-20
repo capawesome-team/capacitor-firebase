@@ -10,8 +10,8 @@ import FirebaseCrashlytics
         }
     }
 
-    @objc public func crash() {
-        fatalError()
+    @objc public func crash(_ message: String) {
+        fatalError(message)
     }
 
     @objc func setCustomKey(_ key: String, _ type: String, _ call: CAPPluginCall) {
