@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/crashlytics': major
+'@capacitor-firebase/crashlytics': patch
 ---
 
-.crash now checks for message param
+fix(ios): `crash(...)` method now respects message option
