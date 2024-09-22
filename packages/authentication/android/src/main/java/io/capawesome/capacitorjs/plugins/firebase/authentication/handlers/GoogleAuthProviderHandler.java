@@ -82,7 +82,11 @@ public class GoogleAuthProviderHandler {
 
                     try {
                         accessToken =
-                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), String.join(" ", scopes));
+                            GoogleAuthUtil.getToken(
+                                mGoogleSignInClient.getApplicationContext(),
+                                account.getAccount(),
+                                String.join(" ", scopes)
+                            );
                         // Clears local cache after every login attempt
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
