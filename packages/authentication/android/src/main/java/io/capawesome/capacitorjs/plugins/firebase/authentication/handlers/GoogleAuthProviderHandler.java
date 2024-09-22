@@ -22,6 +22,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthent
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 
@@ -63,9 +64,25 @@ public class GoogleAuthProviderHandler {
             new Thread(
                 () -> {
                     String accessToken = null;
+                    ArrayList<String> scopes = new ArrayList<>();
+                    scopes.add("oauth2:email");
+                    JSArray additionalScopes = call.getArray("scopes");
+                    if (additionalScopes != null) {
+                        List<String> additionalScopesList = null;
+                        try {
+                            additionalScopesList = additionalScopes.toList();
+                        } catch (JSONException exception) {
+                            Log.e(FirebaseAuthenticationPlugin.TAG, "handleOnActivityResult failed.", exception);
+                        }
+
+                        if (additionalScopesList != null) {
+                            scopes.addAll(additionalScopesList);
+                        }
+                    }
+
                     try {
                         accessToken =
-                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
+                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), String.join(" ", scopes));
                         // Clears local cache after every login attempt
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
