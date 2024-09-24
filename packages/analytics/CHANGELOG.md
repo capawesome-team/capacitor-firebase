@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0
+
+### Patch Changes
+
+- [`3781386`](https://github.com/capawesome-team/capacitor-firebase/commit/3781386eee4d9bc1ef2cac475105946debea2799) ([#704](https://github.com/capawesome-team/capacitor-firebase/pull/704)): fix(web): set correct consent settings property name
+
 ## 6.1.0
 
 ### Patch Changes

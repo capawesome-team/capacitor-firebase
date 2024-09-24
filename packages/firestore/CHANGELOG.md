@@ -1,5 +1,11 @@
 # @capacitor-firebase/firestore
 
+## 6.2.0
+
+### Minor Changes
+
+- [`fd2ee14`](https://github.com/capawesome-team/capacitor-firebase/commit/fd2ee1436353cf0f9b22a6673167a4cf0fa0bc4c) ([#705](https://github.com/capawesome-team/capacitor-firebase/pull/705)): feat: include `metadata` property on snapshot
+
 ## 6.1.0
 
 ### Minor Changes
