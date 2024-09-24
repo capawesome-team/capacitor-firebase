@@ -59,4 +59,6 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(updateProfile, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useAppLanguage, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useEmulator, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setApp, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getApp, CAPPluginReturnPromise);
 )

@@ -8,6 +8,9 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @CapacitorPlugin(name = "FirebaseApp")
 public class FirebaseAppPlugin extends Plugin {
@@ -49,5 +52,40 @@ public class FirebaseAppPlugin extends Plugin {
 
     private FirebaseApp getFirebaseAppInstance() {
         return FirebaseApp.getInstance();
+    }
+
+    @PluginMethod
+    public void initializeApp(PluginCall call) {
+        String name = call.getString("name");
+        JSObject config = call.getObject("config");
+
+        FirebaseOptions.Builder options = new FirebaseOptions.Builder();
+        options
+            .setApplicationId(Objects.requireNonNull(config.getString("appId")))
+            .setApiKey(Objects.requireNonNull(config.getString("apiKey")))
+            .setProjectId(Objects.requireNonNull(config.getString("projectId")))
+            .setStorageBucket(Objects.requireNonNull(config.getString("storageBucket")))
+            .setDatabaseUrl(Objects.requireNonNull(config.getString("databaseURL")))
+            .setGcmSenderId(Objects.requireNonNull(config.getString("messagingSenderId")));
+
+        try {
+            FirebaseApp app = FirebaseApp.initializeApp(this.getContext(), options.build(), name);
+            call.resolve();
+        } catch (Exception error) {
+            call.reject("Could not initialize app with provided firebase config: " + error.getLocalizedMessage());
+        }
+    }
+
+    @PluginMethod
+    public void getApps(PluginCall call) {
+        String name = call.getString("name");
+        List<FirebaseApp> apps = FirebaseApp.getApps(this.getContext());
+
+        List<String> appNames = new ArrayList<>();
+
+        for (FirebaseApp app : apps) {
+            appNames.add(app.getName());
+        }
+        call.resolve(new JSObject().put("apps", appNames));
     }
 }

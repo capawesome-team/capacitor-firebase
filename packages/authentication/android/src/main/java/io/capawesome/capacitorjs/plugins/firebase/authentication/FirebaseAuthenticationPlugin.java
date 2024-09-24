@@ -71,6 +71,16 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void setApp(PluginCall call) {
+        implementation.useFirebaseApp(call);
+    }
+
+    @PluginMethod
+    public void getApp(PluginCall call) {
+        implementation.currentFirebaseApp(call);
+    }
+
+    @PluginMethod
     public void applyActionCode(PluginCall call) {
         try {
             String oobCode = call.getString("oobCode");
