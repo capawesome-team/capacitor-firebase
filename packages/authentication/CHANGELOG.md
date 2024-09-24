@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.2.0
+
+### Patch Changes
+
+- [`38fd57c`](https://github.com/capawesome-team/capacitor-firebase/commit/38fd57cd2f8b423d86f44c0df06b771e23bc3f4f) ([#723](https://github.com/capawesome-team/capacitor-firebase/pull/723)): chore(ios): update `GoogleSignIn` pod to version `7.1.0`
+
+* [`5729328`](https://github.com/capawesome-team/capacitor-firebase/commit/5729328f31e4f604e13a4db64ab009e2e469d824) ([#726](https://github.com/capawesome-team/capacitor-firebase/pull/726)): fix(android): explicitly request Google auth token with provided scopes
+
 ## 6.1.0
 
 ### Minor Changes

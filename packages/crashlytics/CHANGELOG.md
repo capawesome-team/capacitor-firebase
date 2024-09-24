@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0
+
+### Patch Changes
+
+- [`8b190d1`](https://github.com/capawesome-team/capacitor-firebase/commit/8b190d16cf40d51d51ab6a88685c1980e49d8f98) ([#721](https://github.com/capawesome-team/capacitor-firebase/pull/721)): fix(ios): `crash(...)` method now respects message option
+
 ## 6.1.0
 
 ### Patch Changes

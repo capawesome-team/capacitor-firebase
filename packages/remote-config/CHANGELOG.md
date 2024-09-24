@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0
+
+### Minor Changes
+
+- [`42d77fe`](https://github.com/capawesome-team/capacitor-firebase/commit/42d77fecca3871b910ac809bf1d14ff0c60dd762) ([#694](https://github.com/capawesome-team/capacitor-firebase/pull/694)): feat: add `setSettings(...)` method
+
 ## 6.1.0
 
 ### Patch Changes
