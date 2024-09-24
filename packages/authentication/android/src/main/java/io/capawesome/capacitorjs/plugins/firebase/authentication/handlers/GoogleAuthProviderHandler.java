@@ -64,21 +64,9 @@ public class GoogleAuthProviderHandler {
             new Thread(
                 () -> {
                     String accessToken = null;
-                    ArrayList<String> scopes = new ArrayList<>();
+                    List<String> scopes = new ArrayList<>();
                     scopes.add("oauth2:email");
-                    JSArray additionalScopes = call.getArray("scopes");
-                    if (additionalScopes != null) {
-                        List<String> additionalScopesList = null;
-                        try {
-                            additionalScopesList = additionalScopes.toList();
-                        } catch (JSONException exception) {
-                            Log.e(FirebaseAuthenticationPlugin.TAG, "handleOnActivityResult failed.", exception);
-                        }
-
-                        if (additionalScopesList != null) {
-                            scopes.addAll(additionalScopesList);
-                        }
-                    }
+                    scopes.addAll(getScopesAsList(call));
 
                     try {
                         accessToken =
@@ -126,19 +114,26 @@ public class GoogleAuthProviderHandler {
             .requestEmail();
 
         if (call != null) {
-            JSArray scopes = call.getArray("scopes");
-            if (scopes != null) {
-                try {
-                    List<String> scopeList = scopes.toList();
-                    for (String scope : scopeList) {
-                        googleSignInOptionsBuilder = googleSignInOptionsBuilder.requestScopes(new Scope(scope));
-                    }
-                } catch (JSONException exception) {
-                    Log.e(FirebaseAuthenticationPlugin.TAG, "buildGoogleSignInClient failed.", exception);
-                }
+            List<String> scopeList = getScopesAsList(call);
+            for (String scope : scopeList) {
+                googleSignInOptionsBuilder = googleSignInOptionsBuilder.requestScopes(new Scope(scope));
             }
         }
 
         return GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), googleSignInOptionsBuilder.build());
+    }
+
+    private List<String> getScopesAsList(@NonNull PluginCall call) {
+        List<String> scopeList = new ArrayList<>();
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                scopeList = scopes.toList();
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "getScopesAsList failed.", exception);
+            }
+        }
+
+        return scopeList;
     }
 }
