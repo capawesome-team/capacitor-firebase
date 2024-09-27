@@ -462,6 +462,7 @@ const useEmulator = async () => {
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
+* [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange)
 * [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted)
 * [`addListener('phoneVerificationFailed', ...)`](#addlistenerphoneverificationfailed)
 * [`addListener('phoneCodeSent', ...)`](#addlistenerphonecodesent)
@@ -1537,6 +1538,28 @@ Listen for the user's sign-in state changes.
 --------------------
 
 
+### addListener('idTokenChange', ...)
+
+```typescript
+addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => Promise<PluginListenerHandle>
+```
+
+Listen for id token changes.
+
+**Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
+
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'idTokenChange'</code>                                            |
+| **`listenerFunc`** | <code><a href="#idtokenchangelistener">IdTokenChangeListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
+
+--------------------
+
+
 ### addListener('phoneVerificationCompleted', ...)
 
 ```typescript
@@ -1991,6 +2014,13 @@ An interface covering the possible persistence mechanism types.
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
 
 
+#### IdTokenChange
+
+| Prop        | Type                | Description           | Since |
+| ----------- | ------------------- | --------------------- | ----- |
+| **`token`** | <code>string</code> | The updated id token. | 0.1.0 |
+
+
 #### PhoneVerificationCompletedEvent
 
 | Prop                   | Type                | Description                                                                                                       | Since |
@@ -2040,6 +2070,13 @@ An interface covering the possible persistence mechanism types.
 Callback to receive the user's sign-in state change notifications.
 
 <code>(change: <a href="#authstatechange">AuthStateChange</a>): void</code>
+
+
+#### IdTokenChangeListener
+
+Callback to receive the token change notifications.
+
+<code>(change: <a href="#idtokenchange">IdTokenChange</a>): void</code>
 
 
 #### PhoneVerificationCompletedListener
