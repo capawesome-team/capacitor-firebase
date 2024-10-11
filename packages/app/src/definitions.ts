@@ -126,6 +126,12 @@ export interface InitializeAppOptions {
      * @since 6.2.0
      */
     messagingSenderId: string;
+    /**
+     * The client ID.
+     *
+     * @since 6.2.0
+     */
+    clientId: string;
   };
 }
 
