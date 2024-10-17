@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0
+
+### Patch Changes
+
+- [`a780009`](https://github.com/capawesome-team/capacitor-firebase/commit/a78000908c82e4b7520ae92eb6aeb6850429c12e) ([#737](https://github.com/capawesome-team/capacitor-firebase/pull/737)): chore(ios): update Firebase pods to version `11.0`
+
 ## 6.1.0
 
 ### Patch Changes
