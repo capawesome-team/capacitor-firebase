@@ -37,7 +37,7 @@ export class FirebaseAnalyticsWeb
     const consentSettings: ConsentSettings = {};
     switch (options.type) {
       case ConsentType.AdPersonalization:
-        consentSettings.personalization_storage = status;
+        consentSettings.ad_personalization = status;
         break;
       case ConsentType.AdStorage:
         consentSettings.ad_storage = status;

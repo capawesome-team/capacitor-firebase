@@ -19,8 +19,12 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
     }
 
     @objc func crash(_ call: CAPPluginCall) {
+        guard let message = call.getString("message") else {
+            call.reject(errorMessageMissing)
+            return
+        }
         call.resolve()
-        implementation?.crash()
+        implementation?.crash(message)
     }
 
     @objc func setCustomKey(_ call: CAPPluginCall) {

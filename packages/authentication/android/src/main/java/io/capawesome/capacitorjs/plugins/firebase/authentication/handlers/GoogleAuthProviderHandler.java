@@ -22,6 +22,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthent
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 
@@ -63,9 +64,17 @@ public class GoogleAuthProviderHandler {
             new Thread(
                 () -> {
                     String accessToken = null;
+                    List<String> scopes = new ArrayList<>();
+                    scopes.add("oauth2:email");
+                    scopes.addAll(getScopesAsList(call));
+
                     try {
                         accessToken =
-                            GoogleAuthUtil.getToken(mGoogleSignInClient.getApplicationContext(), account.getAccount(), "oauth2:email");
+                            GoogleAuthUtil.getToken(
+                                mGoogleSignInClient.getApplicationContext(),
+                                account.getAccount(),
+                                String.join(" ", scopes)
+                            );
                         // Clears local cache after every login attempt
                         // to ensure permissions changes elsewhere are reflected in future tokens
                         GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
@@ -105,19 +114,26 @@ public class GoogleAuthProviderHandler {
             .requestEmail();
 
         if (call != null) {
-            JSArray scopes = call.getArray("scopes");
-            if (scopes != null) {
-                try {
-                    List<String> scopeList = scopes.toList();
-                    for (String scope : scopeList) {
-                        googleSignInOptionsBuilder = googleSignInOptionsBuilder.requestScopes(new Scope(scope));
-                    }
-                } catch (JSONException exception) {
-                    Log.e(FirebaseAuthenticationPlugin.TAG, "buildGoogleSignInClient failed.", exception);
-                }
+            List<String> scopeList = getScopesAsList(call);
+            for (String scope : scopeList) {
+                googleSignInOptionsBuilder = googleSignInOptionsBuilder.requestScopes(new Scope(scope));
             }
         }
 
         return GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), googleSignInOptionsBuilder.build());
+    }
+
+    private List<String> getScopesAsList(@NonNull PluginCall call) {
+        List<String> scopeList = new ArrayList<>();
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                scopeList = scopes.toList();
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "getScopesAsList failed.", exception);
+            }
+        }
+
+        return scopeList;
     }
 }

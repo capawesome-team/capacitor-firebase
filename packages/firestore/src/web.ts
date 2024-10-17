@@ -113,6 +113,10 @@ export class FirebaseFirestoreWeb
         data: (documentSnapshotData === undefined
           ? null
           : documentSnapshotData) as T | null,
+        metadata: {
+          hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
+          fromCache: documentSnapshot.metadata.fromCache,
+        },
       },
     };
   }
@@ -167,6 +171,10 @@ export class FirebaseFirestoreWeb
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
         data: documentSnapshot.data() as T,
+        metadata: {
+          hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
+          fromCache: documentSnapshot.metadata.fromCache,
+        },
       })),
     };
   }
@@ -184,6 +192,10 @@ export class FirebaseFirestoreWeb
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
         data: documentSnapshot.data() as T,
+        metadata: {
+          hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
+          fromCache: documentSnapshot.metadata.fromCache,
+        },
       })),
     };
   }
@@ -218,6 +230,10 @@ export class FirebaseFirestoreWeb
     const firestore = getFirestore();
     const unsubscribe = onSnapshot(
       doc(firestore, options.reference),
+      {
+        includeMetadataChanges: options.includeMetadataChanges,
+        source: options.source,
+      },
       snapshot => {
         const data = snapshot.data();
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
@@ -225,6 +241,10 @@ export class FirebaseFirestoreWeb
             id: snapshot.id,
             path: snapshot.ref.path,
             data: (data === undefined ? null : data) as T | null,
+            metadata: {
+              hasPendingWrites: snapshot.metadata.hasPendingWrites,
+              fromCache: snapshot.metadata.fromCache,
+            },
           },
         };
         callback(event, undefined);
@@ -248,12 +268,20 @@ export class FirebaseFirestoreWeb
     );
     const unsubscribe = onSnapshot(
       collectionQuery,
+      {
+        includeMetadataChanges: options.includeMetadataChanges,
+        source: options.source,
+      },
       snapshot => {
         const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
             data: documentSnapshot.data() as T,
+            metadata: {
+              hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
+              fromCache: documentSnapshot.metadata.fromCache,
+            },
           })),
         };
         callback(event, undefined);
@@ -277,12 +305,20 @@ export class FirebaseFirestoreWeb
     );
     const unsubscribe = onSnapshot(
       collectionQuery,
+      {
+        includeMetadataChanges: options.includeMetadataChanges,
+        source: options.source,
+      },
       snapshot => {
         const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
             data: documentSnapshot.data() as T,
+            metadata: {
+              hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
+              fromCache: documentSnapshot.metadata.fromCache,
+            },
           })),
         };
         callback(event, undefined);
