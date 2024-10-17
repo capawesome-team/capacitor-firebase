@@ -9,7 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'FirebaseCrashlytics', '10.25.0'
+  pod 'FirebaseCrashlytics', '11.0.0'
 end
 
 target 'PluginTests' do
