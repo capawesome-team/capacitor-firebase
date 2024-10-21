@@ -1,5 +1,15 @@
 # @capacitor-firebase/firestore
 
+## 6.2.0
+
+### Minor Changes
+
+- [`fd2ee14`](https://github.com/capawesome-team/capacitor-firebase/commit/fd2ee1436353cf0f9b22a6673167a4cf0fa0bc4c) ([#705](https://github.com/capawesome-team/capacitor-firebase/pull/705)): feat: include `metadata` property on snapshot
+
+### Patch Changes
+
+- [`a780009`](https://github.com/capawesome-team/capacitor-firebase/commit/a78000908c82e4b7520ae92eb6aeb6850429c12e) ([#737](https://github.com/capawesome-team/capacitor-firebase/pull/737)): chore(ios): update Firebase pods to version `11.0`
+
 ## 6.1.0
 
 ### Minor Changes
