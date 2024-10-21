@@ -47,6 +47,8 @@ const getOptions = async () => {
 
 * [`getName()`](#getname)
 * [`getOptions()`](#getoptions)
+* [`initializeApp(...)`](#initializeapp)
+* [`getApps()`](#getapps)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -84,6 +86,38 @@ Get the configuration options for this app.
 --------------------
 
 
+### initializeApp(...)
+
+```typescript
+initializeApp(options: InitializeAppOptions) => Promise<void>
+```
+
+Initialize a new Firebase App with the provided name and Firebase project configuration.
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initializeappoptions">InitializeAppOptions</a></code> |
+
+**Since:** 6.2.0
+
+--------------------
+
+
+### getApps()
+
+```typescript
+getApps() => Promise<GetAppsResult>
+```
+
+Get all initialized Firebase apps.
+
+**Returns:** <code>Promise&lt;<a href="#getappsresult">GetAppsResult</a>&gt;</code>
+
+**Since:** 6.2.0
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -104,6 +138,21 @@ Get the configuration options for this app.
 | **`gcmSenderId`**   | <code>string</code> | The Project Number.                                            | 0.1.0 |
 | **`projectId`**     | <code>string</code> | The Google Cloud project ID.                                   | 0.1.0 |
 | **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          | 0.1.0 |
+
+
+#### InitializeAppOptions
+
+| Prop         | Type                                                                                                                                      | Description                    | Since |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ----- |
+| **`name`**   | <code>string</code>                                                                                                                       | Name of the app to initialize. | 6.2.0 |
+| **`config`** | <code>{ apiKey: string; appId: string; projectId: string; storageBucket: string; databaseURL: string; messagingSenderId: string; }</code> |                                |       |
+
+
+#### GetAppsResult
+
+| Prop       | Type                  | Description                               | Since |
+| ---------- | --------------------- | ----------------------------------------- | ----- |
+| **`apps`** | <code>string[]</code> | An array of names of all initialized apps | 6.2.0 |
 
 </docgen-api>
 

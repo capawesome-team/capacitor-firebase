@@ -406,6 +406,8 @@ const useEmulator = async () => {
 
 <docgen-index>
 
+* [`setApp(...)`](#setapp)
+* [`getApp()`](#getapp)
 * [`applyActionCode(...)`](#applyactioncode)
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`confirmVerificationCode(...)`](#confirmverificationcode)
@@ -474,6 +476,39 @@ const useEmulator = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### setApp(...)
+
+```typescript
+setApp(options: SetAppOptions) => Promise<void>
+```
+
+Changes Firebase Authentication to use the provided app name.
+Will throw an error if the app has not already been initialized.
+
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#setappoptions">SetAppOptions</a></code> |
+
+**Since:** 6.2.0
+
+--------------------
+
+
+### getApp()
+
+```typescript
+getApp() => Promise<GetAppResult>
+```
+
+Returns the name of the current Firebase App used by Firebase Authentication.
+
+**Returns:** <code>Promise&lt;<a href="#getappresult">GetAppResult</a>&gt;</code>
+
+**Since:** 6.2.0
+
+--------------------
+
 
 ### applyActionCode(...)
 
@@ -1620,6 +1655,20 @@ Remove all listeners for this plugin.
 
 
 ### Interfaces
+
+
+#### SetAppOptions
+
+| Prop       | Type                | Description                     |
+| ---------- | ------------------- | ------------------------------- |
+| **`name`** | <code>string</code> | Name of the Firebase app to use |
+
+
+#### GetAppResult
+
+| Prop       | Type                | Description                           | Since |
+| ---------- | ------------------- | ------------------------------------- | ----- |
+| **`name`** | <code>string</code> | Name of the current Firebase App used | 6.2.0 |
 
 
 #### ApplyActionCodeOptions

@@ -42,6 +42,19 @@ declare module '@capacitor/cli' {
 
 export interface FirebaseAuthenticationPlugin {
   /**
+   * Changes Firebase Authentication to use the provided app name.
+   * Will throw an error if the app has not already been initialized.
+   *
+   * @since 6.2.0
+   */
+  setApp(options: SetAppOptions): Promise<void>;
+  /**
+   * Returns the name of the current Firebase App used by Firebase Authentication.
+   *
+   * @since 6.2.0
+   */
+  getApp(): Promise<GetAppResult>;
+  /**
    * Applies a verification code sent to the user by email.
    *
    * @since 0.2.2
@@ -1507,4 +1520,27 @@ export enum ProviderId {
   YAHOO = 'yahoo.com',
   PASSWORD = 'password',
   PHONE = 'phone',
+}
+
+/**
+ * @since 6.2.0
+ */
+export interface GetAppResult {
+  /**
+   * Name of the current Firebase App used
+   *
+   * @since 6.2.0
+   */
+  name: string;
+}
+
+/**
+ * @since 6.2.0
+ */
+export interface SetAppOptions {
+  /**
+   * Name of the Firebase app to use
+   */
+  // Use "default" to use the default Firebase app
+  name: string | 'default';
 }
