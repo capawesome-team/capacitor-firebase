@@ -1463,7 +1463,7 @@ Verifies the email before updating the email address of the currently signed in 
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
 
-**Since:** 0.1.0
+**Since:** 6.2.0
 
 --------------------
 
