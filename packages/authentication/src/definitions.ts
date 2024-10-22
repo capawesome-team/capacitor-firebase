@@ -467,7 +467,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Verifies the new email address before updating the email address of the currently signed in user.
    *
-   * @since 6.2.0
+   * @since 6.3.0
    */
   verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions): Promise<void>;
   /**
@@ -787,19 +787,19 @@ export interface UpdateEmailOptions {
 }
 
 /**
- * @since 6.2.0
+ * @since 6.3.0
  */
 export interface VerifyBeforeUpdateEmailOptions {
   /**
-   * The new email address.
+   * The new email address to be verified before update.
    *
-   * @since 6.2.0
+   * @since 6.3.0
    */
   newEmail: string;
   /**
    * The action code settings
    *
-   * @since 6.2.0
+   * @since 6.3.0
    */
   actionCodeSettings?: ActionCodeSettings;
 }
