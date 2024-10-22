@@ -457,6 +457,7 @@ const useEmulator = async () => {
 * [`signOut()`](#signout)
 * [`unlink(...)`](#unlink)
 * [`updateEmail(...)`](#updateemail)
+* [`verifyBeforeUpdateEmail(...)`](#verifyBeforeUpdateEmail)
 * [`updatePassword(...)`](#updatepassword)
 * [`updateProfile(...)`](#updateprofile)
 * [`useAppLanguage()`](#useapplanguage)
@@ -1450,6 +1451,22 @@ Updates the email address of the currently signed in user.
 
 --------------------
 
+### verifyBeforeUpdateEmail(...)
+
+```typescript
+verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions) => Promise<void>
+```
+
+Verifies the email before updating the email address of the currently signed in user.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
+
+**Since:** 0.1.0
+
+--------------------
+
 
 ### updatePassword(...)
 
@@ -1951,6 +1968,14 @@ An interface covering the possible persistence mechanism types.
 | Prop           | Type                | Description            | Since |
 | -------------- | ------------------- | ---------------------- | ----- |
 | **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
+
+
+#### VerifyBeforeUpdateEmailOptions
+
+| Prop           | Type                | Description            | Since |
+| -------------- | ------------------- | ---------------------- | ----- |
+| **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
 
 
 #### UpdatePasswordOptions

@@ -841,6 +841,36 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void verifyBeforeUpdateEmail(PluginCall call) {
+        try {
+            String newEmail = call.getString("newEmail");
+            if (newEmail == null) {
+                call.reject(ERROR_NEW_EMAIL_MISSING);
+                return;
+            }
+
+            FirebaseUser user = implementation.getCurrentUser();
+            if (user == null) {
+                call.reject(ERROR_NO_USER_SIGNED_IN);
+                return;
+            }
+
+            JSObject settings = call.getObject("actionCodeSettings");
+            if (settings == null) {
+                call.reject(ERROR_ACTION_CODE_SETTINGS_MISSING);
+                return;
+            }
+            ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
+            
+            implementation.verifyBeforeUpdateEmail(user, newEmail, actionCodeSettings, () -> call.resolve());
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+            call.reject(exception.getMessage(), code);
+        }
+    }
+
+    @PluginMethod
     public void updatePassword(PluginCall call) {
         try {
             String newPassword = call.getString("newPassword");

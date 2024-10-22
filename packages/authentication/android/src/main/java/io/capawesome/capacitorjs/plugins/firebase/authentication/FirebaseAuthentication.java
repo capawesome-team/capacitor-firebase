@@ -587,6 +587,16 @@ public class FirebaseAuthentication {
             );
     }
 
+    public void verifyBeforeUpdateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull ActionCodeSettings actionCodeSettings, @NonNull Runnable callback) {
+        user
+            .verifyBeforeUpdateEmail(newEmail, actionCodeSettings)
+            .addOnCompleteListener(
+                task -> {
+                    callback.run();
+                }
+            );
+    }
+
     public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {
         user
             .updatePassword(newPassword)
