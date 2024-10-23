@@ -875,7 +875,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                     call.reject(exception.getMessage(), code);
                 }
             };
-            
+
             implementation.verifyBeforeUpdateEmail(user, newEmail, actionCodeSettings, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);

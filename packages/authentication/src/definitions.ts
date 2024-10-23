@@ -469,7 +469,9 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 6.3.0
    */
-  verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions): Promise<void>;
+  verifyBeforeUpdateEmail(
+    options: VerifyBeforeUpdateEmailOptions,
+  ): Promise<void>;
   /**
    * Listen for the user's sign-in state changes.
    *

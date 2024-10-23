@@ -763,13 +763,19 @@ export class FirebaseAuthenticationWeb
     }
   }
 
-  public async verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions): Promise<void> {
+  public async verifyBeforeUpdateEmail(
+    options: VerifyBeforeUpdateEmailOptions,
+  ): Promise<void> {
     const auth = getAuth();
     const currentUser = auth.currentUser;
     if (!currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    return verifyBeforeUpdateEmail(currentUser, options?.newEmail, options?.actionCodeSettings);
+    return verifyBeforeUpdateEmail(
+      currentUser,
+      options?.newEmail,
+      options?.actionCodeSettings,
+    );
   }
 
   private handleAuthStateChange(user: FirebaseUser | null): void {
