@@ -587,6 +587,18 @@ public class FirebaseAuthentication {
             );
     }
 
+    public void verifyBeforeUpdateEmail(
+        FirebaseUser user,
+        @NonNull String newEmail,
+        @NonNull ActionCodeSettings actionCodeSettings,
+        @NonNull EmptyResultCallback callback
+    ) {
+        user
+            .verifyBeforeUpdateEmail(newEmail, actionCodeSettings)
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
+    }
+
     public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {
         user
             .updatePassword(newPassword)
