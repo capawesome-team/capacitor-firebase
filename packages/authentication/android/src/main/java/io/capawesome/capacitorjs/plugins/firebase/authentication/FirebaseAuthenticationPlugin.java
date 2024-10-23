@@ -861,8 +861,22 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
+
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+                @Override
+                public void success(Result result) {
+                    call.resolve(result.toJSObject());
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                    call.reject(exception.getMessage(), code);
+                }
+            };
             
-            implementation.verifyBeforeUpdateEmail(user, newEmail, actionCodeSettings, () -> call.resolve());
+            implementation.verifyBeforeUpdateEmail(user, newEmail, actionCodeSettings, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
