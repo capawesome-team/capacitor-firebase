@@ -862,10 +862,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
             ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success() {
+                    call.resolve();
                 }
 
                 @Override
