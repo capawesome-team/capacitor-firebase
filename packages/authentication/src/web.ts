@@ -110,6 +110,7 @@ export class FirebaseAuthenticationWeb
   implements FirebaseAuthenticationPlugin
 {
   public static readonly AUTH_STATE_CHANGE_EVENT = 'authStateChange';
+  public static readonly ID_TOKEN_CHANGE_EVENT = 'idTokenChange';
   public static readonly PHONE_CODE_SENT_EVENT = 'phoneCodeSent';
   public static readonly PHONE_VERIFICATION_FAILED_EVENT =
     'phoneVerificationFailed';
@@ -127,6 +128,7 @@ export class FirebaseAuthenticationWeb
     super();
     const auth = getAuth();
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
+    auth.onIdTokenChanged(user => this.handleIdTokenChanged(user));
   }
 
   public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
@@ -769,6 +771,21 @@ export class FirebaseAuthenticationWeb
     this.notifyListeners(
       FirebaseAuthenticationWeb.AUTH_STATE_CHANGE_EVENT,
       change,
+      true,
+    );
+  }
+
+  private async handleIdTokenChanged(user: FirebaseUser | null): Promise<void> {
+    if (!user) {
+      return;
+    }
+    const idToken = await user.getIdToken(false);
+    const result: GetIdTokenResult = {
+      token: idToken || '',
+    };
+    this.notifyListeners(
+      FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
+      result,
       true,
     );
   }
