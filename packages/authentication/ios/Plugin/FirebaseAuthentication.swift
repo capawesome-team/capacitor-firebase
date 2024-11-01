@@ -321,6 +321,19 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
+    @objc func verifyBeforeUpdateEmail(_ newEmail: String, actionCodeSettings: ActionCodeSettings, completion: @escaping (Error?) -> Void) {
+        guard let user = self.getCurrentUser() else {
+            completion(RuntimeError(plugin.errorNoUserSignedIn))
+            return
+        }
+
+        let completion: (Error?) -> Void = { error in
+            completion(error)
+        }
+
+        user.sendEmailVerification(beforeUpdatingEmail: newEmail, actionCodeSettings: actionCodeSettings, completion: completion)
+    }
+
     @objc func sendPasswordResetEmail(_ options: SendPasswordResetEmailOptions, completion: @escaping (Error?) -> Void) {
         let email = options.getEmail()
         let actionCodeSettings = options.getActionCodeSettings()

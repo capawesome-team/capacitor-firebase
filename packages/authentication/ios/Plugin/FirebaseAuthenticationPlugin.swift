@@ -511,6 +511,32 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         })
     }
 
+    @objc func verifyBeforeUpdateEmail(_ call: CAPPluginCall) {
+        guard let newEmail = call.getString("newEmail") else {
+            call.reject(errorNewEmailMissing)
+            return
+        }
+        
+        guard let actionCodeSettingsDict = call.getObject("actionCodeSettings") else {
+            call.reject(errorActionCodeSettingsMissing)
+            return
+        }
+        guard let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettingsDict) else {
+            call.reject(errorActionCodeSettingsMissing)
+            return
+        }
+
+        implementation?.verifyBeforeUpdateEmail(newEmail, actionCodeSettings: actionCodeSettings, completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+                call.reject(error.localizedDescription, code)
+                return
+            }
+            call.resolve()
+        })
+    }
+
     @objc func updatePassword(_ call: CAPPluginCall) {
         guard let newPassword = call.getString("newPassword") else {
             call.reject(errorNewPasswordMissing)

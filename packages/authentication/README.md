@@ -400,6 +400,28 @@ const useEmulator = async () => {
     port: 9099,
   });
 };
+
+const verifyBeforeUpdateEmail = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return;
+  }
+  await FirebaseAuthentication.verifyBeforeUpdateEmail({
+    newEmail: 'new.mail@example.com',
+    actionCodeSettings: {
+      url: 'https://www.example.com/cart?email=user@example.com&cartId=123',
+      iOS: {
+        bundleId: 'com.example.ios'
+      },
+      android: {
+        packageName: 'com.example.android',
+        installApp: true,
+        minimumVersion: '12'
+      },
+      handleCodeInApp: true
+    }
+  });
+};
 ```
 
 ## API
@@ -459,6 +481,7 @@ const useEmulator = async () => {
 * [`signOut()`](#signout)
 * [`unlink(...)`](#unlink)
 * [`updateEmail(...)`](#updateemail)
+* [`verifyBeforeUpdateEmail(...)`](#verifyBeforeUpdateEmail)
 * [`updatePassword(...)`](#updatepassword)
 * [`updateProfile(...)`](#updateprofile)
 * [`useAppLanguage()`](#useapplanguage)
@@ -1485,6 +1508,22 @@ Updates the email address of the currently signed in user.
 
 --------------------
 
+### verifyBeforeUpdateEmail(...)
+
+```typescript
+verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions) => Promise<void>
+```
+
+Verifies the email before updating the email address of the currently signed in user.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
+
+**Since:** 6.2.0
+
+--------------------
+
 
 ### updatePassword(...)
 
@@ -2000,6 +2039,14 @@ An interface covering the possible persistence mechanism types.
 | Prop           | Type                | Description            | Since |
 | -------------- | ------------------- | ---------------------- | ----- |
 | **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
+
+
+#### VerifyBeforeUpdateEmailOptions
+
+| Prop           | Type                | Description            | Since |
+| -------------- | ------------------- | ---------------------- | ----- |
+| **`newEmail`** | <code>string</code> | The new email address to be verified before update. | 0.2.2 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
 
 
 #### UpdatePasswordOptions

@@ -478,6 +478,14 @@ export interface FirebaseAuthenticationPlugin {
    */
   useEmulator(options: UseEmulatorOptions): Promise<void>;
   /**
+   * Verifies the new email address before updating the email address of the currently signed in user.
+   *
+   * @since 6.3.0
+   */
+  verifyBeforeUpdateEmail(
+    options: VerifyBeforeUpdateEmailOptions,
+  ): Promise<void>;
+  /**
    * Listen for the user's sign-in state changes.
    *
    * **Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
@@ -791,6 +799,24 @@ export interface UpdateEmailOptions {
    * @since 0.2.2
    */
   newEmail: string;
+}
+
+/**
+ * @since 6.3.0
+ */
+export interface VerifyBeforeUpdateEmailOptions {
+  /**
+   * The new email address to be verified before update.
+   *
+   * @since 6.3.0
+   */
+  newEmail: string;
+  /**
+   * The action code settings
+   *
+   * @since 6.3.0
+   */
+  actionCodeSettings: ActionCodeSettings;
 }
 
 /**

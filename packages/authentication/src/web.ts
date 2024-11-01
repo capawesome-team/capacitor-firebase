@@ -55,6 +55,7 @@ import {
   updateEmail,
   updatePassword,
   updateProfile,
+  verifyBeforeUpdateEmail,
 } from 'firebase/auth';
 
 import type {
@@ -106,6 +107,7 @@ import type {
   User,
   UserInfo,
   UserMetadata,
+  VerifyBeforeUpdateEmailOptions,
 } from './definitions';
 import { Persistence, ProviderId } from './definitions';
 
@@ -797,6 +799,21 @@ export class FirebaseAuthenticationWeb
     } else {
       connectAuthEmulator(auth, `${scheme}://${options.host}:${port}`);
     }
+  }
+
+  public async verifyBeforeUpdateEmail(
+    options: VerifyBeforeUpdateEmailOptions,
+  ): Promise<void> {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    return verifyBeforeUpdateEmail(
+      currentUser,
+      options?.newEmail,
+      options?.actionCodeSettings,
+    );
   }
 
   private handleAuthStateChange(user: FirebaseUser | null): void {
