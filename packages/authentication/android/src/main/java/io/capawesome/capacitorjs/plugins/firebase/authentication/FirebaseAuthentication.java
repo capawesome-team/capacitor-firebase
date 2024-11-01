@@ -580,7 +580,7 @@ public class FirebaseAuthentication {
     }
 
     public void signOut(final PluginCall call) {
-        FirebaseAuth.getInstance().signOut();
+        this.getFirebaseAuthInstance().signOut();
         if (googleAuthProviderHandler != null) {
             googleAuthProviderHandler.signOut();
         }

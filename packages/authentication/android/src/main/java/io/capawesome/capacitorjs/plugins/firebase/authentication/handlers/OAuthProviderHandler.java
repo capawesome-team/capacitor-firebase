@@ -36,7 +36,7 @@ public class OAuthProviderHandler {
     }
 
     public void signIn(PluginCall call, String providerId) {
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId, pluginImplementation.getFirebaseAuthInstance());
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
@@ -47,7 +47,7 @@ public class OAuthProviderHandler {
     }
 
     public void link(PluginCall call, String providerId) {
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId);
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(providerId, pluginImplementation.getFirebaseAuthInstance());
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {

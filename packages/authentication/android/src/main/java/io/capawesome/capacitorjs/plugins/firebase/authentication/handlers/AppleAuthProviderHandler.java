@@ -35,7 +35,7 @@ public class AppleAuthProviderHandler {
     }
 
     public void signIn(PluginCall call) {
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE, pluginImplementation.getFirebaseAuthInstance());
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
@@ -52,7 +52,7 @@ public class AppleAuthProviderHandler {
     }
 
     public void link(PluginCall call) {
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE);
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder(ProviderId.APPLE, pluginImplementation.getFirebaseAuthInstance());
         applySignInOptions(call, provider);
         Task<AuthResult> pendingResultTask = pluginImplementation.getFirebaseAuthInstance().getPendingAuthResult();
         if (pendingResultTask == null) {
