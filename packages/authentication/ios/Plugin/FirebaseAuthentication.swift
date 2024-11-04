@@ -28,6 +28,9 @@ public typealias AuthStateChangedObserver = () -> Void
         Auth.auth().addStateDidChangeListener {_, _ in
             self.plugin.handleAuthStateChange()
         }
+        _ = Auth.auth().addIDTokenDidChangeListener {_, _ in
+            self.plugin.handleIdTokenChange()
+        }
     }
 
     @objc func applyActionCode(oobCode: String, completion: @escaping (Error?) -> Void) {
