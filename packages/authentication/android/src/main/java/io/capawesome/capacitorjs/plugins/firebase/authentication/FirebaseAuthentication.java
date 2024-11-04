@@ -54,6 +54,7 @@ public class FirebaseAuthentication {
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private FirebaseAuth.IdTokenListener firebaseIdTokenChangeListener;
     private AppleAuthProviderHandler appleAuthProviderHandler;
     private FacebookAuthProviderHandler facebookAuthProviderHandler;
     private GoogleAuthProviderHandler googleAuthProviderHandler;
@@ -70,6 +71,11 @@ public class FirebaseAuthentication {
                 this.plugin.handleAuthStateChange();
             };
         getFirebaseAuthInstance().addAuthStateListener(this.firebaseAuthStateListener);
+        this.firebaseIdTokenChangeListener =
+            firebaseAuth -> {
+                this.plugin.handleIdTokenChange();
+            };
+        getFirebaseAuthInstance().addIdTokenListener(this.firebaseIdTokenChangeListener);
     }
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {

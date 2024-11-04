@@ -62,6 +62,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_SIGN_IN_ANONYMOUSLY_SKIP_NATIVE_AUTH =
         "signInAnonymously cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
+    public static final String ID_TOKEN_CHANGE_EVENT = "idTokenChange";
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
 
@@ -982,6 +983,14 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         JSObject result = new JSObject();
         result.put("user", (userResult == null ? JSONObject.NULL : userResult));
         notifyListeners(AUTH_STATE_CHANGE_EVENT, result, true);
+    }
+
+    public void handleIdTokenChange() {
+        FirebaseUser user = implementation.getCurrentUser();
+        JSObject userResult = FirebaseAuthenticationHelper.createUserResult(user);
+        JSObject result = new JSObject();
+        result.put("user", (userResult == null ? JSONObject.NULL : userResult));
+        notifyListeners(ID_TOKEN_CHANGE_EVENT, result, true);
     }
 
     @Override
