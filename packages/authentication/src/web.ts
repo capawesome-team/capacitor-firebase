@@ -129,8 +129,8 @@ export class FirebaseAuthenticationWeb
   constructor() {
     super();
     const auth = getAuth();
-    auth.onAuthStateChanged(user => this.handleAuthStateChange(FirebaseAuthenticationWeb.AUTH_STATE_CHANGE_EVENT, user));
-    auth.onIdTokenChanged(user => this.handleAuthStateChange(FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT, user))
+    auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
+    auth.onIdTokenChanged(user => this.handleIdTokenChange(user));
   }
 
   public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
@@ -780,13 +780,25 @@ export class FirebaseAuthenticationWeb
     );
   }
 
-  private handleAuthStateChange(eventName: string, user: FirebaseUser | null): void {
+  private handleAuthStateChange(user: FirebaseUser | null): void {
     const userResult = this.createUserResult(user);
     const change: AuthStateChange = {
       user: userResult,
     };
     this.notifyListeners(
-      eventName,
+      FirebaseAuthenticationWeb.AUTH_STATE_CHANGE_EVENT,
+      change,
+      true,
+    );
+  }
+
+  private handleIdTokenChange(user: FirebaseUser | null): void {
+    const userResult = this.createUserResult(user);
+    const change: AuthStateChange = {
+      user: userResult,
+    };
+    this.notifyListeners(
+      FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
       change,
       true,
     );
