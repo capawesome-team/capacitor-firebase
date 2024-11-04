@@ -484,6 +484,17 @@ export interface FirebaseAuthenticationPlugin {
     listenerFunc: AuthStateChangeListener,
   ): Promise<PluginListenerHandle>;
   /**
+   * Listen for changes to the signed-in user's ID token changes.
+   *
+   * **Attention:** This listener will not be triggered automatically upon ID token expiration.
+   *
+   * @since TODO: Add since for idTokenChange
+   */
+  addListener(
+    eventName: 'idTokenChange',
+    listenerFunc: AuthStateChangeListener,
+  ): Promise<PluginListenerHandle>;
+  /**
    * Listen for a completed phone verification.
    *
    * This listener only fires in two situations:
