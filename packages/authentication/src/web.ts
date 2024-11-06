@@ -71,7 +71,6 @@ import type {
   GetIdTokenOptions,
   GetIdTokenResult,
   GetTenantIdResult,
-  IdTokenChange,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
   LinkResult,
@@ -131,7 +130,7 @@ export class FirebaseAuthenticationWeb
     super();
     const auth = getAuth();
     auth.onAuthStateChanged(user => this.handleAuthStateChange(user));
-    auth.onIdTokenChanged(user => this.handleIdTokenChange(user));
+    auth.onIdTokenChanged(() => void this.handleIdTokenChange());
   }
 
   public async applyActionCode(options: ApplyActionCodeOptions): Promise<void> {
@@ -793,33 +792,21 @@ export class FirebaseAuthenticationWeb
     );
   }
 
-  private handleIdTokenChange(user: FirebaseUser | null): void {
-    const change: IdTokenChange = {
-      token: null,
+  private async handleIdTokenChange(): Promise<void> {
+    const change: GetIdTokenResult = {
+      token: '',
     };
-    if (user) {
-      void user
-        ?.getIdToken()
-        .then(token => {
-          change.token = token;
-          this.notifyListeners(
-            FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
-            change,
-            true,
-          );
-        })
-        .catch(() => {
-          this.notifyListeners(
-            FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
-            change,
-          );
-        });
-    } else {
-      this.notifyListeners(
-        FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
-        change,
-      );
+    try {
+      const { token } = await this.getIdToken({ forceRefresh: false });
+      change.token = token;
+    } catch {
+      change.token = '';
     }
+    this.notifyListeners(
+      FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
+      change,
+      true,
+    );
   }
 
   private applySignInOptions(
