@@ -1595,7 +1595,7 @@ Listen for changes to the signed-in user's ID token changes.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** TODO: Add since for idTokenChange
+**Since:** 6.2.0
 
 --------------------
 

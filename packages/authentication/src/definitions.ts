@@ -488,7 +488,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * **Attention:** This listener will not be triggered automatically upon ID token expiration.
    *
-   * @since TODO: Add since for idTokenChange
+   * @since 6.2.0
    */
   addListener(
     eventName: 'idTokenChange',
@@ -1423,7 +1423,7 @@ export type AuthStateChangeListener = (change: AuthStateChange) => void;
 /**
  * Callback to receive the id token change notifications.
  *
- * @since TODO: Add since for IdTokenChangeListener
+ * @since 6.2.0
  */
 export type IdTokenChangeListener = (change: GetIdTokenResult) => void;
 
