@@ -509,7 +509,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             call.reject(errorNewEmailMissing)
             return
         }
-        
+
         guard let actionCodeSettingsDict = call.getObject("actionCodeSettings") else {
             call.reject(errorActionCodeSettingsMissing)
             return
@@ -594,13 +594,19 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         result["user"] = userResult ?? NSNull()
         notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
     }
-    
+
     @objc func handleIdTokenChange() {
-        let user = implementation?.getCurrentUser()
-        let userResult = FirebaseAuthenticationHelper.createUserResult(user)
-        var result = JSObject()
-        result["user"] = userResult ?? NSNull()
-        notifyListeners(idTokenChangeEvent, data: result, retainUntilConsumed: true)
+        implementation?.getIdToken(false, completion: { result, error in
+            var changeResult = JSObject()
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                changeResult["token"] = ""
+            }
+            if let result = result {
+                changeResult = result.toJSObject()
+            }
+            self.notifyListeners(self.idTokenChangeEvent, data: changeResult, retainUntilConsumed: true)
+        })
     }
 
     @objc func handlePhoneVerificationFailed(_ error: Error) {

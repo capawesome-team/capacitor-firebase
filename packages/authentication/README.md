@@ -479,12 +479,13 @@ const verifyBeforeUpdateEmail = async () => {
 * [`signOut()`](#signout)
 * [`unlink(...)`](#unlink)
 * [`updateEmail(...)`](#updateemail)
-* [`verifyBeforeUpdateEmail(...)`](#verifyBeforeUpdateEmail)
 * [`updatePassword(...)`](#updatepassword)
 * [`updateProfile(...)`](#updateprofile)
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
+* [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange)
+* [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange)
 * [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted)
 * [`addListener('phoneVerificationFailed', ...)`](#addlistenerphoneverificationfailed)
 * [`addListener('phoneCodeSent', ...)`](#addlistenerphonecodesent)
@@ -1473,22 +1474,6 @@ Updates the email address of the currently signed in user.
 
 --------------------
 
-### verifyBeforeUpdateEmail(...)
-
-```typescript
-verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions) => Promise<void>
-```
-
-Verifies the email before updating the email address of the currently signed in user.
-
-| Param         | Type                                                              |
-| ------------- | ----------------------------------------------------------------- |
-| **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
-
-**Since:** 6.2.0
-
---------------------
-
 
 ### updatePassword(...)
 
@@ -1554,6 +1539,23 @@ Instrument your app to talk to the Authentication emulator.
 --------------------
 
 
+### verifyBeforeUpdateEmail(...)
+
+```typescript
+verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions) => Promise<void>
+```
+
+Verifies the new email address before updating the email address of the currently signed in user.
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
+
+**Since:** 6.3.0
+
+--------------------
+
+
 ### addListener('authStateChange', ...)
 
 ```typescript
@@ -1572,6 +1574,28 @@ Listen for the user's sign-in state changes.
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### addListener('idTokenChange', ...)
+
+```typescript
+addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => Promise<PluginListenerHandle>
+```
+
+Listen for changes to the signed-in user's ID token changes.
+
+**Attention:** This listener will not be triggered automatically upon ID token expiration.
+
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'idTokenChange'</code>                                            |
+| **`listenerFunc`** | <code><a href="#idtokenchangelistener">IdTokenChangeListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** TODO: Add since for idTokenChange
 
 --------------------
 
@@ -1992,14 +2016,6 @@ An interface covering the possible persistence mechanism types.
 | **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
 
 
-#### VerifyBeforeUpdateEmailOptions
-
-| Prop           | Type                | Description            | Since |
-| -------------- | ------------------- | ---------------------- | ----- |
-| **`newEmail`** | <code>string</code> | The new email address to be verified before update. | 0.2.2 |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
-
-
 #### UpdatePasswordOptions
 
 | Prop              | Type                | Description       | Since |
@@ -2022,6 +2038,14 @@ An interface covering the possible persistence mechanism types.
 | **`host`**   | <code>string</code> | The emulator host without any port or scheme. |                     | 0.2.0 |
 | **`port`**   | <code>number</code> | The emulator port.                            | <code>9099</code>   | 0.2.0 |
 | **`scheme`** | <code>string</code> | The emulator scheme. Only available for Web.  | <code>"http"</code> | 5.2.0 |
+
+
+#### VerifyBeforeUpdateEmailOptions
+
+| Prop                     | Type                                                              | Description                                         | Since |
+| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------- | ----- |
+| **`newEmail`**           | <code>string</code>                                               | The new email address to be verified before update. | 6.3.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | The action code settings                            | 6.3.0 |
 
 
 #### PluginListenerHandle
@@ -2087,6 +2111,13 @@ An interface covering the possible persistence mechanism types.
 Callback to receive the user's sign-in state change notifications.
 
 <code>(change: <a href="#authstatechange">AuthStateChange</a>): void</code>
+
+
+#### IdTokenChangeListener
+
+Callback to receive the id token change notifications.
+
+<code>(change: <a href="#getidtokenresult">GetIdTokenResult</a>): void</code>
 
 
 #### PhoneVerificationCompletedListener
