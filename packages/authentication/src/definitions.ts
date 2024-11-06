@@ -1425,7 +1425,7 @@ export type AuthStateChangeListener = (change: AuthStateChange) => void;
  *
  * @since TODO: Add since for IdTokenChangeListener
  */
-export type IdTokenChangeListener = (change: IdTokenChange) => void;
+export type IdTokenChangeListener = (change: GetIdTokenResult) => void;
 
 /**
  * @since 0.1.0
@@ -1437,15 +1437,6 @@ export interface AuthStateChange {
    * @since 0.1.0
    */
   user: User | null;
-}
-
-export interface IdTokenChange {
-  /**
-   * A JSON Web Token (JWT) used to identify the user to a Firebase service.
-   *
-   * @since TODO: Add since for IdTokenChange
-   */
-  token: string | null;
 }
 
 /**
