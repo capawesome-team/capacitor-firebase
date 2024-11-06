@@ -492,7 +492,7 @@ export interface FirebaseAuthenticationPlugin {
    */
   addListener(
     eventName: 'idTokenChange',
-    listenerFunc: AuthStateChangeListener,
+    listenerFunc: IdTokenChangeListener,
   ): Promise<PluginListenerHandle>;
   /**
    * Listen for a completed phone verification.
@@ -1421,6 +1421,13 @@ export interface AdditionalUserInfo {
 export type AuthStateChangeListener = (change: AuthStateChange) => void;
 
 /**
+ * Callback to receive the id token change notifications.
+ *
+ * @since TODO: Add since for IdTokenChangeListener
+ */
+export type IdTokenChangeListener = (change: IdTokenChange) => void;
+
+/**
  * @since 0.1.0
  */
 export interface AuthStateChange {
@@ -1430,6 +1437,15 @@ export interface AuthStateChange {
    * @since 0.1.0
    */
   user: User | null;
+}
+
+export interface IdTokenChange {
+  /**
+   * A JSON Web Token (JWT) used to identify the user to a Firebase service.
+   *
+   * @since TODO: Add since for IdTokenChange
+   */
+  token: string | null;
 }
 
 /**

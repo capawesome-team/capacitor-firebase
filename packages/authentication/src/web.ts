@@ -71,6 +71,7 @@ import type {
   GetIdTokenOptions,
   GetIdTokenResult,
   GetTenantIdResult,
+  IdTokenChange,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
   LinkResult,
@@ -793,15 +794,32 @@ export class FirebaseAuthenticationWeb
   }
 
   private handleIdTokenChange(user: FirebaseUser | null): void {
-    const userResult = this.createUserResult(user);
-    const change: AuthStateChange = {
-      user: userResult,
+    const change: IdTokenChange = {
+      token: null,
     };
-    this.notifyListeners(
-      FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
-      change,
-      true,
-    );
+    if (user) {
+      void user
+        ?.getIdToken()
+        .then(token => {
+          change.token = token;
+          this.notifyListeners(
+            FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
+            change,
+            true,
+          );
+        })
+        .catch(() => {
+          this.notifyListeners(
+            FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
+            change,
+          );
+        });
+    } else {
+      this.notifyListeners(
+        FirebaseAuthenticationWeb.ID_TOKEN_CHANGE_EVENT,
+        change,
+      );
+    }
   }
 
   private applySignInOptions(
