@@ -484,7 +484,7 @@ export interface FirebaseAuthenticationPlugin {
     listenerFunc: AuthStateChangeListener,
   ): Promise<PluginListenerHandle>;
   /**
-   * Listen for changes to the signed-in user's ID token changes.
+   * Listen to ID token changes for the currently signed-in user.
    *
    * **Attention:** This listener will not be triggered automatically upon ID token expiration.
    *
