@@ -484,6 +484,17 @@ export interface FirebaseAuthenticationPlugin {
     listenerFunc: AuthStateChangeListener,
   ): Promise<PluginListenerHandle>;
   /**
+   * Listen to ID token changes for the currently signed-in user.
+   *
+   * **Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
+   *
+   * @since 6.3.0
+   */
+  addListener(
+    eventName: 'idTokenChange',
+    listenerFunc: IdTokenChangeListener,
+  ): Promise<PluginListenerHandle>;
+  /**
    * Listen for a completed phone verification.
    *
    * This listener only fires in two situations:
@@ -1408,6 +1419,13 @@ export interface AdditionalUserInfo {
  * @since 0.1.0
  */
 export type AuthStateChangeListener = (change: AuthStateChange) => void;
+
+/**
+ * Callback to receive the ID token change notifications.
+ *
+ * @since 6.3.0
+ */
+export type IdTokenChangeListener = (change: GetIdTokenResult) => void;
 
 /**
  * @since 0.1.0

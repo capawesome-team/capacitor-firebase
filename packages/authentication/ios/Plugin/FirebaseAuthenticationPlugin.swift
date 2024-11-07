@@ -36,6 +36,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         "signInAnonymously cannot be used in combination with skipNativeAuth."
     public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
     public let authStateChangeEvent = "authStateChange"
+    public let idTokenChangeEvent = "idTokenChange"
     public let phoneVerificationFailedEvent = "phoneVerificationFailed"
     public let phoneCodeSentEvent = "phoneCodeSent"
     private var implementation: FirebaseAuthentication?
@@ -508,7 +509,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             call.reject(errorNewEmailMissing)
             return
         }
-        
+
         guard let actionCodeSettingsDict = call.getObject("actionCodeSettings") else {
             call.reject(errorActionCodeSettingsMissing)
             return
@@ -592,6 +593,18 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
         var result = JSObject()
         result["user"] = userResult ?? NSNull()
         notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
+    }
+
+    @objc func handleIdTokenChange() {
+        implementation?.getIdToken(false, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                return
+            }
+            if let result = result {
+                self.notifyListeners(self.idTokenChangeEvent, data: result.toJSObject(), retainUntilConsumed: true)
+            }
+        })
     }
 
     @objc func handlePhoneVerificationFailed(_ error: Error) {
