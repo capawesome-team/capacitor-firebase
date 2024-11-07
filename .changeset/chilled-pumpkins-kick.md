@@ -2,4 +2,4 @@
 '@capacitor-firebase/authentication': patch
 ---
 
-feat: adds idTokenChange event listener
+feat: add `idTokenChange` event listener
