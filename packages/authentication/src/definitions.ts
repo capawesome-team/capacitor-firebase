@@ -1421,7 +1421,7 @@ export interface AdditionalUserInfo {
 export type AuthStateChangeListener = (change: AuthStateChange) => void;
 
 /**
- * Callback to receive the id token change notifications.
+ * Callback to receive the ID token change notifications.
  *
  * @since 6.2.0
  */
