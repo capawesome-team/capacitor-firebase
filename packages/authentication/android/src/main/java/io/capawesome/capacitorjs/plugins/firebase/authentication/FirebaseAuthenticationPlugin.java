@@ -994,9 +994,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             @Override
             public void error(Exception exception) {
-                JSObject changeResult = new JSObject();
-                changeResult.put("token", "");
-                notifyListeners(ID_TOKEN_CHANGE_EVENT, changeResult, true);
+                Logger.error(TAG, exception.getMessage(), exception);
             }
         };
         implementation.getIdToken(false, callback);

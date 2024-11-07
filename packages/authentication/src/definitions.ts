@@ -486,9 +486,9 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Listen to ID token changes for the currently signed-in user.
    *
-   * **Attention:** This listener will not be triggered automatically upon ID token expiration.
+   * **Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
    *
-   * @since 6.2.0
+   * @since 6.3.0
    */
   addListener(
     eventName: 'idTokenChange',
@@ -1423,7 +1423,7 @@ export type AuthStateChangeListener = (change: AuthStateChange) => void;
 /**
  * Callback to receive the ID token change notifications.
  *
- * @since 6.2.0
+ * @since 6.3.0
  */
 export type IdTokenChangeListener = (change: GetIdTokenResult) => void;
 

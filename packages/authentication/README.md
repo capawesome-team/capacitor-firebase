@@ -1584,9 +1584,9 @@ Listen for the user's sign-in state changes.
 addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => Promise<PluginListenerHandle>
 ```
 
-Listen for changes to the signed-in user's ID token changes.
+Listen to ID token changes for the currently signed-in user.
 
-**Attention:** This listener will not be triggered automatically upon ID token expiration.
+**Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
 
 | Param              | Type                                                                    |
 | ------------------ | ----------------------------------------------------------------------- |
@@ -1595,7 +1595,7 @@ Listen for changes to the signed-in user's ID token changes.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 6.2.0
+**Since:** 6.3.0
 
 --------------------
 
@@ -2115,7 +2115,7 @@ Callback to receive the user's sign-in state change notifications.
 
 #### IdTokenChangeListener
 
-Callback to receive the id token change notifications.
+Callback to receive the ID token change notifications.
 
 <code>(change: <a href="#getidtokenresult">GetIdTokenResult</a>): void</code>
 

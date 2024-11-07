@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/authentication': patch
+'@capacitor-firebase/authentication': minor
 ---
 
 feat: add `idTokenChange` event listener

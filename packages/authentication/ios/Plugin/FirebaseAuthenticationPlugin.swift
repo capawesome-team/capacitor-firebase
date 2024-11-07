@@ -597,15 +597,13 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
     @objc func handleIdTokenChange() {
         implementation?.getIdToken(false, completion: { result, error in
-            var changeResult = JSObject()
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                changeResult["token"] = ""
+                return
             }
             if let result = result {
-                changeResult = result.toJSObject()
+                self.notifyListeners(self.idTokenChangeEvent, data: result.toJSObject(), retainUntilConsumed: true)
             }
-            self.notifyListeners(self.idTokenChangeEvent, data: changeResult, retainUntilConsumed: true)
         })
     }
 
