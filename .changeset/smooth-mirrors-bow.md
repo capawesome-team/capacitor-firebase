@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/analytics': minor
+'@capacitor-firebase/analytics': patch
 ---
 
-fix(analytics): setUserId accepts null values
+fix(web): `setUserId(...)` has set an empty string instead of `null`
