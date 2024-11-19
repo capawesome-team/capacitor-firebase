@@ -60,7 +60,7 @@ export class FirebaseAnalyticsWeb
 
   public async setUserId(options: SetUserIdOptions): Promise<void> {
     const analytics = getAnalytics();
-    setUserId(analytics, options.userId || '');
+    setUserId(analytics, options.userId);
   }
 
   public async setUserProperty(options: SetUserPropertyOptions): Promise<void> {
