@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.3.0
+
+### Minor Changes
+
+- [`72080dd`](https://github.com/capawesome-team/capacitor-firebase/commit/72080dd8d9cb6e730fc83897b49a33f7376b9799) ([#760](https://github.com/capawesome-team/capacitor-firebase/pull/760)): feat(deps): add support for Firebase JS SDK 11
+
+### Patch Changes
+
+- [`610a4a1`](https://github.com/capawesome-team/capacitor-firebase/commit/610a4a16fa884ca504e5f7fc53d1f91965b798be) ([#757](https://github.com/capawesome-team/capacitor-firebase/pull/757)): fix(web): `setUserId(...)` has set an empty string instead of `null`
+
 ## 6.2.0
 
 ### Patch Changes
