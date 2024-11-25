@@ -183,7 +183,11 @@ const getDeliveredNotifications = async () => {
 
 const removeDeliveredNotifications = async () => {
   await FirebaseMessaging.removeDeliveredNotifications({
-    ids: ['798dfhliblqew89pzads'],
+    notifications: [
+      {
+        id: '798dfhliblqew89pzads',
+      },
+    ],
   });
 };
 
