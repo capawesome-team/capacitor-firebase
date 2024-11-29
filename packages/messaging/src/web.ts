@@ -44,6 +44,12 @@ export class FirebaseMessagingWeb
   }
 
   public async checkPermissions(): Promise<PermissionStatus> {
+    const isSupported = await isSupportedInWeb();
+    if (!isSupported) {
+      return {
+        receive: 'denied',
+      };
+    }
     const receive = this.convertNotificationPermissionToPermissionState(
       Notification.permission,
     );
@@ -53,6 +59,12 @@ export class FirebaseMessagingWeb
   }
 
   public async requestPermissions(): Promise<PermissionStatus> {
+    const isSupported = await isSupportedInWeb();
+    if (!isSupported) {
+      return {
+        receive: 'denied',
+      };
+    }
     const notificationPermission = await Notification.requestPermission();
     const receive = this.convertNotificationPermissionToPermissionState(
       notificationPermission,
