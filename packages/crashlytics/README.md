@@ -13,7 +13,24 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 ### Android
 
-See [Add the Firebase Crashlytics plugin to your app](https://firebase.google.com/docs/crashlytics/get-started?platform=android#add-plugin) and follow the instructions to set up your app correctly.
+#### Crashlytics Gradle plugin
+
+First, add the dependency for the Crashlytics Gradle plugin to your root-level (project-level) Gradle file (`<project>/build.gradle`):
+
+```diff
+buildscript {
+    dependencies {
++       // Add the dependency for the Crashlytics Gradle plugin
++       classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+    }
+}
+```
+
+Add the Crashlytics Gradle plugin to your module (app-level) Gradle file (usually `<project>/<app-module>/build.gradle`):
+
+```gradle
+apply plugin: 'com.google.firebase.crashlytics'
+```
 
 #### Variables
 
