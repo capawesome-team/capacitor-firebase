@@ -6,6 +6,7 @@ import {
   httpsCallableFromURL,
 } from 'firebase/functions';
 
+
 import type {
   CallByNameOptions,
   CallByNameResult,
@@ -48,7 +49,7 @@ export class FirebaseFunctionsWeb
   }
 
   public async useEmulator(options: UseEmulatorOptions): Promise<void> {
-    const functions = getFunctions();
+    const functions = getFunctions(undefined, options.regionOrCustomDomain);
     const port = options.port || 5001;
     connectFunctionsEmulator(functions, options.host, port);
   }

@@ -123,4 +123,11 @@ export interface UseEmulatorOptions {
    * @example 5001
    */
   port?: number;
+  /**
+   * The region the callable functions are located in or a custom domain hosting the callable functions.
+   *
+   * @example 'us-central1'
+   * @example 'https://mydomain.com'
+   */
+  regionOrCustomDomain?: string;
 }
