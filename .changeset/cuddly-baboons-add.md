@@ -2,4 +2,4 @@
 '@capacitor-firebase/functions': minor
 ---
 
-fix(functions): add `regionOrCustomDomain` option to `UseEmulatorOptions`
+feat(functions): add `regionOrCustomDomain` option to `UseEmulatorOptions`
