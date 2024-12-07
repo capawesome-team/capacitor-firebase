@@ -43,4 +43,49 @@ import FirebasePerformance
     @objc public func isEnabled() -> Bool {
         return Performance.sharedInstance().isDataCollectionEnabled
     }
+
+    @objc public static func putAttribute(_ trace: Trace, _ attribute: String, _ value: String) {
+        trace.setValue(value, forAttribute: attribute)
+    }
+
+    @objc public static func getAttribute(_ trace: Trace, _ attribute: String) -> String? {
+        return trace.value(forAttribute: attribute)
+    }
+
+    @objc public static func getAttributes(_ trace: Trace) -> [String: String] {
+        return trace.attributes
+    }
+
+    @objc public static func removeAttribute(_ trace: Trace, _ attribute: String) {
+        trace.removeAttribute(attribute)
+    }
+
+    @objc public static func putMetric(_ trace: Trace, _ metricName: String, _ num: Double) {
+        trace.setValue(Int64(floor(num)), forMetric: metricName)
+    }
+
+    @objc public static func getMetric(_ trace: Trace, _ metricName: String) -> Int64 {
+        return trace.valueForMetric(metricName)
+    }
+
+    @objc public func record(_ traceName: String, _ startTime: Double, _ duration: Double, _ attributes: [String: String], _ metrics: [String: Double]) {
+        let trace = getTraceByName(traceName)
+        let currentTime = Date().timeIntervalSince1970 * 1000
+        let startDelay = max(0, (startTime - currentTime) / 1000)
+
+        DispatchQueue.global().asyncAfter(deadline: .now() + startDelay) {
+            for (key, value) in attributes {
+                FirebasePerformance.putAttribute(trace!, key, value)
+            }
+            for (key, value) in metrics {
+                FirebasePerformance.putMetric(trace!, key, value)
+            }
+            self.startTrace(traceName)
+
+            DispatchQueue.global().asyncAfter(deadline: .now() + duration / 1000) {
+                self.stopTrace(traceName)
+            }
+        }
+        return
+    }
 }
