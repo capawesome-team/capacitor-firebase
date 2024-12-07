@@ -209,7 +209,7 @@ export interface GetAttributesResult {
    *
    * @since 6.3.0
    */
-  value: { [k: string]: string };
+  result: { [k: string]: string };
 }
 
 export type RemoveAttributeOptions = GetAttributeOptions;
@@ -253,7 +253,7 @@ export interface GetMetricOptions {
 
 export interface GetMetricResult {
   /**
-   * The value of the metric if exists. If not it will be null.
+   * The value of the metric if exists.
    *
    * @since 6.3.0
    */
