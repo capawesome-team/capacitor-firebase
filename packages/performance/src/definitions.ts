@@ -66,7 +66,6 @@ export interface FirebasePerformancePlugin {
    * @since 6.3.0
    */
   getMetric(options: GetMetricOptions): Promise<GetMetricResult>;
-
   /**
    * Records a trace given its name and options.
    *
@@ -149,6 +148,9 @@ export interface IsEnabledResult {
   enabled: boolean;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface PutAttributeOptions {
   /**
    * Name of the trace to set its attribute.
@@ -170,6 +172,9 @@ export interface PutAttributeOptions {
   value: string;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface GetAttributeOptions {
   /**
    * Name of the trace to set its attribute.
@@ -185,6 +190,9 @@ export interface GetAttributeOptions {
   attribute: string;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface GetAttributeResult {
   /**
    * The value of the custom attribute.
@@ -194,6 +202,9 @@ export interface GetAttributeResult {
   value: string | null;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface GetAttributesOptions {
   /**
    * Name of the trace to get its attributes.
@@ -203,17 +214,26 @@ export interface GetAttributesOptions {
   traceName: string;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface GetAttributesResult {
   /**
    * A map of all custom attributes of a trace with their values.
    *
    * @since 6.3.0
    */
-  result: { [k: string]: string };
+  result: { [key: string]: string };
 }
 
+/**
+ * @since 6.3.0
+ */
 export type RemoveAttributeOptions = GetAttributeOptions;
 
+/**
+ * @since 6.3.0
+ */
 export interface PutMetricOptions {
   /**
    * Name of the trace to set its metric.
@@ -236,6 +256,9 @@ export interface PutMetricOptions {
   num: number;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface GetMetricOptions {
   /**
    * Name of the trace to get its metric.
@@ -251,6 +274,9 @@ export interface GetMetricOptions {
   metricName: string;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface GetMetricResult {
   /**
    * The value of the metric if exists.
@@ -260,6 +286,9 @@ export interface GetMetricResult {
   value: number | null;
 }
 
+/**
+ * @since 6.3.0
+ */
 export interface RecordOptions {
   /**
    * Name of the trace to record.
