@@ -162,12 +162,14 @@ export interface PutAttributeOptions {
    * Name of the attribute to set its value.
    *
    * @since 6.3.0
+   * @example "experiment"
    */
   attribute: string;
   /**
    * The value to set to the attribute.
    *
    * @since 6.3.0
+   * @example "A"
    */
   value: string;
 }

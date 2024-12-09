@@ -359,9 +359,9 @@ Records a trace given its name and options.
 
 #### GetAttributesResult
 
-| Prop         | Type                                  | Description                                                  | Since |
-| ------------ | ------------------------------------- | ------------------------------------------------------------ | ----- |
-| **`result`** | <code>{ [k: string]: string; }</code> | A map of all custom attributes of a trace with their values. | 6.3.0 |
+| Prop         | Type                                    | Description                                                  | Since |
+| ------------ | --------------------------------------- | ------------------------------------------------------------ | ----- |
+| **`result`** | <code>{ [key: string]: string; }</code> | A map of all custom attributes of a trace with their values. | 6.3.0 |
 
 
 #### GetAttributesOptions
