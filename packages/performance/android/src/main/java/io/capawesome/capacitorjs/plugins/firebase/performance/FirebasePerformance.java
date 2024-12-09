@@ -1,11 +1,20 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
+import androidx.annotation.Nullable;
 import com.google.firebase.perf.metrics.Trace;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributeResult;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributesResult;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetMetricResult;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class FirebasePerformance {
 
     private HashMap<String, Trace> traces = new HashMap<String, Trace>();
+    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void startTrace(String traceName) {
         Trace trace = this.getFirebasePerformanceInstance().newTrace(traceName);
@@ -37,6 +46,61 @@ public class FirebasePerformance {
 
     public Boolean isEnabled() {
         return this.getFirebasePerformanceInstance().isPerformanceCollectionEnabled();
+    }
+
+    public static void putAttribute(Trace trace, String attribute, String value) {
+        trace.putAttribute(attribute, value);
+    }
+
+    public static GetAttributeResult getAttribute(Trace trace, String attribute) {
+        return new GetAttributeResult(trace.getAttribute(attribute));
+    }
+
+    public static GetAttributesResult getAttributes(Trace trace) {
+        return new GetAttributesResult(trace.getAttributes());
+    }
+
+    public static void removeAttribute(Trace trace, String attribute) {
+        trace.removeAttribute(attribute);
+        return;
+    }
+
+    public static void putMetric(Trace trace, String metricName, long num) {
+        trace.putMetric(metricName, num);
+    }
+
+    public static GetMetricResult getMetric(Trace trace, String metricName) {
+        return new GetMetricResult(trace.getLongMetric(metricName));
+    }
+
+    public void record(
+        Trace trace,
+        String traceName,
+        long startTime,
+        long duration,
+        @Nullable Map<String, String> attributes,
+        @Nullable Map<String, Long> metrics
+    ) {
+        long currentTime = System.currentTimeMillis();
+        long startDelay = Math.max(0, (startTime - currentTime));
+        if (attributes != null) {
+            for (String key : attributes.keySet()) {
+                FirebasePerformance.putAttribute(trace, key, attributes.get(key));
+            }
+        }
+        if (metrics != null) {
+            for (String key : metrics.keySet()) {
+                FirebasePerformance.putMetric(trace, key, metrics.get(key));
+            }
+        }
+        this.scheduler.schedule(
+                () -> {
+                    this.startTrace(traceName);
+                    scheduler.schedule(() -> this.stopTrace(traceName), duration, TimeUnit.MILLISECONDS);
+                },
+                startDelay,
+                TimeUnit.MILLISECONDS
+            );
     }
 
     private com.google.firebase.perf.FirebasePerformance getFirebasePerformanceInstance() {
