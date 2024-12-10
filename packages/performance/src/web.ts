@@ -9,7 +9,18 @@ import type {
   SetEnabledOptions,
   StartTraceOptions,
   StopTraceOptions,
+  PutAttributeOptions,
+  GetAttributeOptions,
+  GetAttributeResult,
+  GetAttributesOptions,
+  GetAttributesResult,
+  RemoveAttributeOptions,
+  PutMetricOptions,
+  GetMetricResult,
+  RecordOptions,
 } from './definitions';
+
+const traceNotFoundError = 'No trace found for the given name.';
 
 export class FirebasePerformanceWeb
   extends WebPlugin
@@ -53,5 +64,86 @@ export class FirebasePerformanceWeb
       enabled: perf.instrumentationEnabled || perf.dataCollectionEnabled,
     };
     return result;
+  }
+
+  public async putAttribute({
+    traceName,
+    attribute,
+    value,
+  }: PutAttributeOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return;
+    }
+    trace.putAttribute(attribute, value);
+    return;
+  }
+
+  public async getAttribute({
+    traceName,
+    attribute,
+  }: GetAttributeOptions): Promise<GetAttributeResult> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    return { value: trace.getAttribute(attribute) ?? null };
+  }
+
+  public async getAttributes({
+    traceName,
+  }: GetAttributesOptions): Promise<GetAttributesResult> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    return { result: trace.getAttributes() };
+  }
+
+  public async removeAttribute({
+    traceName,
+    attribute,
+  }: RemoveAttributeOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    trace.removeAttribute(attribute);
+  }
+
+  public async putMetric({
+    traceName,
+    metricName,
+    num,
+  }: PutMetricOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    trace.putMetric(metricName, num);
+  }
+
+  public async getMetric({
+    traceName,
+    metricName,
+  }: PutMetricOptions): Promise<GetMetricResult> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    return { value: trace.getMetric(metricName) };
+  }
+
+  public async record({
+    traceName,
+    startTime,
+    duration,
+    options,
+  }: RecordOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    trace.record(startTime, duration, options);
   }
 }
