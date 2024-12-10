@@ -195,7 +195,7 @@ public class FirebasePerformancePlugin: CAPPlugin {
             return
         }
         let value = FirebasePerformance.getMetric(trace!, metricName)
-        call.resolve(["value": value == 0 ? NSNull() : value])
+        call.resolve(["value": value])
     }
 
     @objc func record(_ call: CAPPluginCall) {

@@ -285,7 +285,7 @@ export interface GetMetricResult {
    *
    * @since 6.3.0
    */
-  value: number | null;
+  value: number;
 }
 
 /**
@@ -311,12 +311,18 @@ export interface RecordOptions {
    */
   duration: number;
   /**
-   * An optional object that hold optional maps of custom metrics and attributes.
+   * An optional object that holds optional maps of custom metrics and attributes.
    *
    * @since 6.3.0
    */
   options?: {
+    /**
+     * An optional map of metrics to be set on the trace.
+     */
     metrics?: { [key: string]: number };
+    /**
+     * An optional map of attributes to be set on the trace.
+     */
     attributes?: { [key: string]: string };
   };
 }

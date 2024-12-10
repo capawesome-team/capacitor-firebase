@@ -7,14 +7,11 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.perf.metrics.Trace;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.GetAttributeOptions;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.GetMetricOptions;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.PutAttributeOptions;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.PutMetricOptions;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.RecordOptions;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributeResult;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributesResult;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetMetricResult;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebasePerformance")
 public class FirebasePerformancePlugin extends Plugin {
@@ -134,13 +131,27 @@ public class FirebasePerformancePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void putAttribute(PluginCall call) {
         try {
-            PutAttributeOptions options = new PutAttributeOptions(call);
-            Trace trace = implementation.getTraceByName(options.getTraceName());
+            String traceName = call.getString("traceName");
+            if (traceName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
+                return;
+            }
+            String attribute = call.getString("attribute");
+            if (attribute == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_ATTRIBUTE_MISSING);
+                return;
+            }
+            String value = call.getString("value");
+            if (value == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_VALUE_MISSING);
+                return;
+            }
+            Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            FirebasePerformance.putAttribute(trace, options.getAttribute(), options.getValue());
+            FirebasePerformance.putAttribute(trace, attribute, value);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -151,14 +162,25 @@ public class FirebasePerformancePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     public void getAttribute(PluginCall call) {
         try {
-            GetAttributeOptions options = new GetAttributeOptions(call);
-            Trace trace = implementation.getTraceByName(options.getTraceName());
+            String traceName = call.getString("traceName");
+            if (traceName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
+                return;
+            }
+            String attribute = call.getString("attribute");
+            if (attribute == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_ATTRIBUTE_MISSING);
+                return;
+            }
+            Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            GetAttributeResult result = FirebasePerformance.getAttribute(trace, options.getAttribute());
-            call.resolve(result.toJSObject());
+            String value = FirebasePerformance.getAttribute(trace, attribute);
+            JSObject result = new JSObject();
+            result.put("value", value);
+            call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -178,8 +200,14 @@ public class FirebasePerformancePlugin extends Plugin {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            GetAttributesResult result = FirebasePerformance.getAttributes(trace);
-            call.resolve(result.toJSObject());
+            Map<String, String> attributesMap = FirebasePerformance.getAttributes(trace);
+            JSObject result = new JSObject();
+            JSObject resultMap = new JSObject();
+            for (String attribute : attributesMap.keySet()) {
+                resultMap.put(attribute, attributesMap.get(attribute));
+            }
+            result.put("result", resultMap);
+            call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -189,13 +217,22 @@ public class FirebasePerformancePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void removeAttribute(PluginCall call) {
         try {
-            GetAttributeOptions options = new GetAttributeOptions(call);
-            Trace trace = implementation.getTraceByName(options.getTraceName());
+            String traceName = call.getString("traceName");
+            if (traceName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
+                return;
+            }
+            String attribute = call.getString("attribute");
+            if (attribute == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_ATTRIBUTE_MISSING);
+                return;
+            }
+            Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            FirebasePerformance.removeAttribute(trace, options.getAttribute());
+            FirebasePerformance.removeAttribute(trace, attribute);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -206,13 +243,27 @@ public class FirebasePerformancePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void putMetric(PluginCall call) {
         try {
-            PutMetricOptions options = new PutMetricOptions(call);
-            Trace trace = implementation.getTraceByName(options.getTraceName());
+            String traceName = call.getString("traceName");
+            if (traceName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
+                return;
+            }
+            String metricName = call.getString("metricName");
+            if (metricName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_METRIC_NAME_MISSING);
+                return;
+            }
+            Double num = call.getDouble("num");
+            if (num == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_NUM_MISSING);
+                return;
+            }
+            Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            FirebasePerformance.putMetric(trace, options.getMetricName(), options.getNum());
+            FirebasePerformance.putMetric(trace, metricName, (long) Math.floor(num));
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -223,14 +274,25 @@ public class FirebasePerformancePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     public void getMetric(PluginCall call) {
         try {
-            GetMetricOptions options = new GetMetricOptions(call);
-            Trace trace = implementation.getTraceByName(options.getTraceName());
+            String traceName = call.getString("traceName");
+            if (traceName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
+                return;
+            }
+            String metricName = call.getString("metricName");
+            if (metricName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_METRIC_NAME_MISSING);
+                return;
+            }
+            Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            GetMetricResult result = FirebasePerformance.getMetric(trace, options.getMetricName());
-            call.resolve(result.toJSObject());
+            long value = FirebasePerformance.getMetric(trace, metricName);
+            JSObject result = new JSObject();
+            result.put("value", value);
+            call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
@@ -240,24 +302,61 @@ public class FirebasePerformancePlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void record(PluginCall call) {
         try {
-            RecordOptions options = new RecordOptions(call);
-            Trace trace = implementation.getTraceByName(options.getTraceName());
+            String traceName = call.getString("traceName");
+            if (traceName == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
+                return;
+            }
+            Long startTime = call.getLong("startTime");
+            if (startTime == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_START_TIME_MISSING);
+                return;
+            }
+            Long duration = call.getLong("duration");
+            if (duration == null) {
+                call.reject(FirebasePerformancePlugin.ERROR_DURATION_MISSING);
+                return;
+            }
+            JSObject metrics = call.getObject("metrics", new JSObject());
+            Map<String, Long> mappedMetrics = jsObjectToMetricsMap(metrics == null ? new JSObject() : metrics);
+            JSObject attributes = call.getObject("attributes", new JSObject());
+            Map<String, String> mappedAttributes = jsObjectToAttributesMap(attributes == null ? new JSObject() : attributes);
+            Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            implementation.record(
-                trace,
-                options.getTraceName(),
-                options.getStartTime(),
-                options.getDuration(),
-                options.getAttributes(),
-                options.getMetrics()
-            );
+            implementation.record(trace, traceName, startTime, duration, mappedAttributes, mappedMetrics);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
         }
+    }
+
+    private static Map<String, String> jsObjectToAttributesMap(JSONObject object) throws JSONException {
+        Map<String, String> map = new HashMap<>();
+        Iterator<String> keys = object.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            map.put(key, object.get(key).toString());
+        }
+        return map;
+    }
+
+    private static Map<String, Long> jsObjectToMetricsMap(JSONObject object) throws JSONException {
+        Map<String, Long> map = new HashMap<>();
+        Iterator<String> keys = object.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if (object.get(key) instanceof Long) {
+                map.put(key, (Long) object.get(key));
+            } else if (object.get(key) instanceof Double) {
+                map.put(key, (long) Math.floor((double) object.get(key)));
+            } else {
+                throw new JSONException(FirebasePerformancePlugin.ERROR_INVALID_METRIC_VALUE);
+            }
+        }
+        return map;
     }
 }

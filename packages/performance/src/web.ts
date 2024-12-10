@@ -72,7 +72,9 @@ export class FirebasePerformanceWeb
     value,
   }: PutAttributeOptions): Promise<void> {
     const trace = this.traces[traceName];
-    if (!trace) return;
+    if (!trace) {
+      return;
+    }
     trace.putAttribute(attribute, value);
     return;
   }
@@ -82,7 +84,9 @@ export class FirebasePerformanceWeb
     attribute,
   }: GetAttributeOptions): Promise<GetAttributeResult> {
     const trace = this.traces[traceName];
-    if (!trace) throw new Error(traceNotFoundError);
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
     return { value: trace.getAttribute(attribute) ?? null };
   }
 
@@ -90,7 +94,9 @@ export class FirebasePerformanceWeb
     traceName,
   }: GetAttributesOptions): Promise<GetAttributesResult> {
     const trace = this.traces[traceName];
-    if (!trace) throw new Error(traceNotFoundError);
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
     return { result: trace.getAttributes() };
   }
 
@@ -99,9 +105,10 @@ export class FirebasePerformanceWeb
     attribute,
   }: RemoveAttributeOptions): Promise<void> {
     const trace = this.traces[traceName];
-    if (!trace) throw new Error(traceNotFoundError);
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
     trace.removeAttribute(attribute);
-    return;
   }
 
   public async putMetric({
@@ -110,9 +117,10 @@ export class FirebasePerformanceWeb
     num,
   }: PutMetricOptions): Promise<void> {
     const trace = this.traces[traceName];
-    if (!trace) throw new Error(traceNotFoundError);
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
     trace.putMetric(metricName, num);
-    return;
   }
 
   public async getMetric({
@@ -120,8 +128,10 @@ export class FirebasePerformanceWeb
     metricName,
   }: PutMetricOptions): Promise<GetMetricResult> {
     const trace = this.traces[traceName];
-    if (!trace) throw new Error(traceNotFoundError);
-    return { value: trace.getMetric(metricName) ?? null };
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
+    return { value: trace.getMetric(metricName) };
   }
 
   public async record({
@@ -131,8 +141,9 @@ export class FirebasePerformanceWeb
     options,
   }: RecordOptions): Promise<void> {
     const trace = this.traces[traceName];
-    if (!trace) throw new Error(traceNotFoundError);
+    if (!trace) {
+      throw new Error(traceNotFoundError);
+    }
     trace.record(startTime, duration, options);
-    return;
   }
 }

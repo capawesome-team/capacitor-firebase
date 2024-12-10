@@ -1,10 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
-import androidx.annotation.Nullable;
 import com.google.firebase.perf.metrics.Trace;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributeResult;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributesResult;
-import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetMetricResult;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -52,25 +48,24 @@ public class FirebasePerformance {
         trace.putAttribute(attribute, value);
     }
 
-    public static GetAttributeResult getAttribute(Trace trace, String attribute) {
-        return new GetAttributeResult(trace.getAttribute(attribute));
+    public static String getAttribute(Trace trace, String attribute) {
+        return trace.getAttribute(attribute);
     }
 
-    public static GetAttributesResult getAttributes(Trace trace) {
-        return new GetAttributesResult(trace.getAttributes());
+    public static Map<String, String> getAttributes(Trace trace) {
+        return trace.getAttributes();
     }
 
     public static void removeAttribute(Trace trace, String attribute) {
         trace.removeAttribute(attribute);
-        return;
     }
 
     public static void putMetric(Trace trace, String metricName, long num) {
         trace.putMetric(metricName, num);
     }
 
-    public static GetMetricResult getMetric(Trace trace, String metricName) {
-        return new GetMetricResult(trace.getLongMetric(metricName));
+    public static long getMetric(Trace trace, String metricName) {
+        return trace.getLongMetric(metricName);
     }
 
     public void record(
@@ -78,8 +73,8 @@ public class FirebasePerformance {
         String traceName,
         long startTime,
         long duration,
-        @Nullable Map<String, String> attributes,
-        @Nullable Map<String, Long> metrics
+        Map<String, String> attributes,
+        Map<String, Long> metrics
     ) {
         long currentTime = System.currentTimeMillis();
         long startDelay = Math.max(0, (startTime - currentTime));

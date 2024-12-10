@@ -382,9 +382,9 @@ Records a trace given its name and options.
 
 #### GetMetricResult
 
-| Prop        | Type                        | Description                        | Since |
-| ----------- | --------------------------- | ---------------------------------- | ----- |
-| **`value`** | <code>number \| null</code> | The value of the metric if exists. | 6.3.0 |
+| Prop        | Type                | Description                        | Since |
+| ----------- | ------------------- | ---------------------------------- | ----- |
+| **`value`** | <code>number</code> | The value of the metric if exists. | 6.3.0 |
 
 
 #### GetMetricOptions
@@ -397,12 +397,12 @@ Records a trace given its name and options.
 
 #### RecordOptions
 
-| Prop            | Type                                                                                            | Description                                                                  | Since |
-| --------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----- |
-| **`traceName`** | <code>string</code>                                                                             | Name of the trace to record.                                                 | 6.3.0 |
-| **`startTime`** | <code>number</code>                                                                             | Start time of the trace since epoch in milliseconds.                         | 6.3.0 |
-| **`duration`**  | <code>number</code>                                                                             | The duration of the trace in milliseconds.                                   | 6.3.0 |
-| **`options`**   | <code>{ metrics?: { [key: string]: number; }; attributes?: { [key: string]: string; }; }</code> | An optional object that hold optional maps of custom metrics and attributes. | 6.3.0 |
+| Prop            | Type                                                                                            | Description                                                                   | Since |
+| --------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----- |
+| **`traceName`** | <code>string</code>                                                                             | Name of the trace to record.                                                  | 6.3.0 |
+| **`startTime`** | <code>number</code>                                                                             | Start time of the trace since epoch in milliseconds.                          | 6.3.0 |
+| **`duration`**  | <code>number</code>                                                                             | The duration of the trace in milliseconds.                                    | 6.3.0 |
+| **`options`**   | <code>{ metrics?: { [key: string]: number; }; attributes?: { [key: string]: string; }; }</code> | An optional object that holds optional maps of custom metrics and attributes. | 6.3.0 |
 
 
 ### Type Aliases

@@ -2,4 +2,4 @@
 '@capacitor-firebase/performance': minor
 ---
 
-feat: implement `putAttribute`, `getAttribute`, `getAttributes`, `putMetric`, `getMetric` and `record`
+feat: add `putAttribute(...)`, `getAttribute(...)`, `getAttributes(...)`, `putMetric(...)`, `getMetric(...)` and `record(...)` methods
