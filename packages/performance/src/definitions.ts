@@ -68,6 +68,7 @@ export interface FirebasePerformancePlugin {
   getMetric(options: GetMetricOptions): Promise<GetMetricResult>;
   /**
    * Records a trace given its name and options.
+   * Only available on web.
    *
    * @since 6.3.0
    */

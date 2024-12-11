@@ -1,6 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
-
 import com.google.firebase.perf.metrics.Trace;
 import java.util.HashMap;
 import java.util.Map;

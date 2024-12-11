@@ -283,6 +283,7 @@ record(options: RecordOptions) => Promise<void>
 ```
 
 Records a trace given its name and options.
+Only available on web.
 
 | Param         | Type                                                    |
 | ------------- | ------------------------------------------------------- |
