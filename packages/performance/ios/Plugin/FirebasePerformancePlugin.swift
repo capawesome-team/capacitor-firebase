@@ -199,27 +199,6 @@ public class FirebasePerformancePlugin: CAPPlugin {
     }
 
     @objc func record(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        guard let startTime = call.getDouble("startTime") else {
-            call.reject(errorStartTimeMissing)
-            return
-        }
-        guard let duration = call.getDouble("duration") else {
-            call.reject(errorDurationMissing)
-            return
-        }
-        let options = call.getObject("options")
-        let metrics = options?["metrics"] as? [String: Double] ?? [:]
-        let attributes = options?["attributes"] as? [String: String] ?? [:]
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        implementation?.record(traceName, startTime, duration, attributes, metrics)
-        call.resolve()
+        call.unimplemented("Not implemented on iOS.")
     }
 }
