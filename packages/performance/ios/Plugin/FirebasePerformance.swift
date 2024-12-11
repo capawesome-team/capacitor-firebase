@@ -86,6 +86,5 @@ import FirebasePerformance
                 self.stopTrace(traceName)
             }
         }
-        return
     }
 }

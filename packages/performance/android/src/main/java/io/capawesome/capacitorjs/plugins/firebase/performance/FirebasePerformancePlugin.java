@@ -7,11 +7,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.perf.metrics.Trace;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebasePerformance")
 public class FirebasePerformancePlugin extends Plugin {
@@ -317,10 +313,18 @@ public class FirebasePerformancePlugin extends Plugin {
                 call.reject(FirebasePerformancePlugin.ERROR_DURATION_MISSING);
                 return;
             }
-            JSObject metrics = call.getObject("metrics", new JSObject());
-            Map<String, Long> mappedMetrics = jsObjectToMetricsMap(metrics == null ? new JSObject() : metrics);
-            JSObject attributes = call.getObject("attributes", new JSObject());
-            Map<String, String> mappedAttributes = jsObjectToAttributesMap(attributes == null ? new JSObject() : attributes);
+
+            JSObject options = call.getObject("options");
+            Map<String, Long> mappedMetrics = null;
+            Map<String, String> mappedAttributes = null;
+
+            if (options != null) {
+                JSObject metrics = options.getJSObject("metrics");
+                mappedMetrics = FirebasePerformanceHelper.jsObjectToMetricsMap(metrics == null ? new JSObject() : metrics);
+                JSObject attributes = options.getJSObject("attributes");
+                mappedAttributes = FirebasePerformanceHelper.jsObjectToAttributesMap(attributes == null ? new JSObject() : attributes);
+            }
+
             Trace trace = implementation.getTraceByName(traceName);
             if (trace == null) {
                 call.reject(ERROR_TRACE_NOT_FOUND);
@@ -332,31 +336,5 @@ public class FirebasePerformancePlugin extends Plugin {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
         }
-    }
-
-    private static Map<String, String> jsObjectToAttributesMap(JSONObject object) throws JSONException {
-        Map<String, String> map = new HashMap<>();
-        Iterator<String> keys = object.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            map.put(key, object.get(key).toString());
-        }
-        return map;
-    }
-
-    private static Map<String, Long> jsObjectToMetricsMap(JSONObject object) throws JSONException {
-        Map<String, Long> map = new HashMap<>();
-        Iterator<String> keys = object.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            if (object.get(key) instanceof Long) {
-                map.put(key, (Long) object.get(key));
-            } else if (object.get(key) instanceof Double) {
-                map.put(key, (long) Math.floor((double) object.get(key)));
-            } else {
-                throw new JSONException(FirebasePerformancePlugin.ERROR_INVALID_METRIC_VALUE);
-            }
-        }
-        return map;
     }
 }

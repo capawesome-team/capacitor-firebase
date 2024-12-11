@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.perf.metrics.Trace;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,8 +75,8 @@ public class FirebasePerformance {
         String traceName,
         long startTime,
         long duration,
-        Map<String, String> attributes,
-        Map<String, Long> metrics
+        @Nullable Map<String, String> attributes,
+        @Nullable Map<String, Long> metrics
     ) {
         long currentTime = System.currentTimeMillis();
         long startDelay = Math.max(0, (startTime - currentTime));
