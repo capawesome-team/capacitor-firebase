@@ -1,23 +1,23 @@
 import { WebPlugin } from '@capacitor/core';
 import type { PerformanceTrace } from 'firebase/performance';
-import { getPerformance, trace as createTrace } from 'firebase/performance';
+import { trace as createTrace, getPerformance } from 'firebase/performance';
 
 import type {
   FirebasePerformancePlugin,
-  IncrementMetricOptions,
-  IsEnabledResult,
-  SetEnabledOptions,
-  StartTraceOptions,
-  StopTraceOptions,
-  PutAttributeOptions,
   GetAttributeOptions,
   GetAttributeResult,
   GetAttributesOptions,
   GetAttributesResult,
-  RemoveAttributeOptions,
-  PutMetricOptions,
   GetMetricResult,
+  IncrementMetricOptions,
+  IsEnabledResult,
+  PutAttributeOptions,
+  PutMetricOptions,
   RecordOptions,
+  RemoveAttributeOptions,
+  SetEnabledOptions,
+  StartTraceOptions,
+  StopTraceOptions,
 } from './definitions';
 
 const traceNotFoundError = 'No trace found for the given name.';
@@ -140,10 +140,8 @@ export class FirebasePerformanceWeb
     duration,
     options,
   }: RecordOptions): Promise<void> {
-    const trace = this.traces[traceName];
-    if (!trace) {
-      throw new Error(traceNotFoundError);
-    }
+    const perf = getPerformance();
+    const trace = createTrace(perf, traceName);
     trace.record(startTime, duration, options);
   }
 }
