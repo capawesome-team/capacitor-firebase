@@ -1,18 +1,13 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
-import androidx.annotation.Nullable;
 
 import com.google.firebase.perf.metrics.Trace;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class FirebasePerformance {
 
     private HashMap<String, Trace> traces = new HashMap<String, Trace>();
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void startTrace(String traceName) {
         Trace trace = this.getFirebasePerformanceInstance().newTrace(traceName);
@@ -68,36 +63,6 @@ public class FirebasePerformance {
 
     public static long getMetric(Trace trace, String metricName) {
         return trace.getLongMetric(metricName);
-    }
-
-    public void record(
-        Trace trace,
-        String traceName,
-        long startTime,
-        long duration,
-        @Nullable Map<String, String> attributes,
-        @Nullable Map<String, Long> metrics
-    ) {
-        long currentTime = System.currentTimeMillis();
-        long startDelay = Math.max(0, (startTime - currentTime));
-        if (attributes != null) {
-            for (String key : attributes.keySet()) {
-                FirebasePerformance.putAttribute(trace, key, attributes.get(key));
-            }
-        }
-        if (metrics != null) {
-            for (String key : metrics.keySet()) {
-                FirebasePerformance.putMetric(trace, key, metrics.get(key));
-            }
-        }
-        this.scheduler.schedule(
-                () -> {
-                    this.startTrace(traceName);
-                    scheduler.schedule(() -> this.stopTrace(traceName), duration, TimeUnit.MILLISECONDS);
-                },
-                startDelay,
-                TimeUnit.MILLISECONDS
-            );
     }
 
     private com.google.firebase.perf.FirebasePerformance getFirebasePerformanceInstance() {

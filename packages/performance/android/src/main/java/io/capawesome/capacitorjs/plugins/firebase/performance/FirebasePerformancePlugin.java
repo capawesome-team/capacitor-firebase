@@ -297,44 +297,6 @@ public class FirebasePerformancePlugin extends Plugin {
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void record(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            Long startTime = call.getLong("startTime");
-            if (startTime == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_START_TIME_MISSING);
-                return;
-            }
-            Long duration = call.getLong("duration");
-            if (duration == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_DURATION_MISSING);
-                return;
-            }
-
-            JSObject options = call.getObject("options");
-            Map<String, Long> mappedMetrics = null;
-            Map<String, String> mappedAttributes = null;
-
-            if (options != null) {
-                JSObject metrics = options.getJSObject("metrics");
-                mappedMetrics = FirebasePerformanceHelper.jsObjectToMetricsMap(metrics == null ? new JSObject() : metrics);
-                JSObject attributes = options.getJSObject("attributes");
-                mappedAttributes = FirebasePerformanceHelper.jsObjectToAttributesMap(attributes == null ? new JSObject() : attributes);
-            }
-
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            implementation.record(trace, traceName, startTime, duration, mappedAttributes, mappedMetrics);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
+        call.unimplemented("Not implemented on Android.");
     }
 }
