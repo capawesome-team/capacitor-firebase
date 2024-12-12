@@ -8,6 +8,7 @@ import type {
   GetAttributeResult,
   GetAttributesOptions,
   GetAttributesResult,
+  GetMetricOptions,
   GetMetricResult,
   IncrementMetricOptions,
   IsEnabledResult,
@@ -19,8 +20,6 @@ import type {
   StartTraceOptions,
   StopTraceOptions,
 } from './definitions';
-
-const traceNotFoundError = 'No trace found for the given name.';
 
 export class FirebasePerformanceWeb
   extends WebPlugin
@@ -85,7 +84,7 @@ export class FirebasePerformanceWeb
   }: GetAttributeOptions): Promise<GetAttributeResult> {
     const trace = this.traces[traceName];
     if (!trace) {
-      throw new Error(traceNotFoundError);
+      return { value: null };
     }
     return { value: trace.getAttribute(attribute) ?? null };
   }
@@ -95,7 +94,7 @@ export class FirebasePerformanceWeb
   }: GetAttributesOptions): Promise<GetAttributesResult> {
     const trace = this.traces[traceName];
     if (!trace) {
-      throw new Error(traceNotFoundError);
+      return { result: {} };
     }
     return { result: trace.getAttributes() };
   }
@@ -106,7 +105,7 @@ export class FirebasePerformanceWeb
   }: RemoveAttributeOptions): Promise<void> {
     const trace = this.traces[traceName];
     if (!trace) {
-      throw new Error(traceNotFoundError);
+      return;
     }
     trace.removeAttribute(attribute);
   }
@@ -118,7 +117,7 @@ export class FirebasePerformanceWeb
   }: PutMetricOptions): Promise<void> {
     const trace = this.traces[traceName];
     if (!trace) {
-      throw new Error(traceNotFoundError);
+      return;
     }
     trace.putMetric(metricName, num);
   }
@@ -126,10 +125,10 @@ export class FirebasePerformanceWeb
   public async getMetric({
     traceName,
     metricName,
-  }: PutMetricOptions): Promise<GetMetricResult> {
+  }: GetMetricOptions): Promise<GetMetricResult> {
     const trace = this.traces[traceName];
     if (!trace) {
-      throw new Error(traceNotFoundError);
+      return { value: 0 };
     }
     return { value: trace.getMetric(metricName) };
   }
