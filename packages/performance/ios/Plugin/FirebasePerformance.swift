@@ -43,4 +43,28 @@ import FirebasePerformance
     @objc public func isEnabled() -> Bool {
         return Performance.sharedInstance().isDataCollectionEnabled
     }
+
+    @objc public static func putAttribute(_ trace: Trace, _ attribute: String, _ value: String) {
+        trace.setValue(value, forAttribute: attribute)
+    }
+
+    @objc public static func getAttribute(_ trace: Trace, _ attribute: String) -> String? {
+        return trace.value(forAttribute: attribute)
+    }
+
+    @objc public static func getAttributes(_ trace: Trace) -> [String: String] {
+        return trace.attributes
+    }
+
+    @objc public static func removeAttribute(_ trace: Trace, _ attribute: String) {
+        trace.removeAttribute(attribute)
+    }
+
+    @objc public static func putMetric(_ trace: Trace, _ metricName: String, _ num: Double) {
+        trace.setValue(Int64(floor(num)), forMetric: metricName)
+    }
+
+    @objc public static func getMetric(_ trace: Trace, _ metricName: String) -> Int64 {
+        return trace.valueForMetric(metricName)
+    }
 }

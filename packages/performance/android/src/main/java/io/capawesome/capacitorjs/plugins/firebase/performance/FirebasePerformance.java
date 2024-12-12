@@ -2,6 +2,7 @@ package io.capawesome.capacitorjs.plugins.firebase.performance;
 
 import com.google.firebase.perf.metrics.Trace;
 import java.util.HashMap;
+import java.util.Map;
 
 public class FirebasePerformance {
 
@@ -37,6 +38,30 @@ public class FirebasePerformance {
 
     public Boolean isEnabled() {
         return this.getFirebasePerformanceInstance().isPerformanceCollectionEnabled();
+    }
+
+    public static void putAttribute(Trace trace, String attribute, String value) {
+        trace.putAttribute(attribute, value);
+    }
+
+    public static String getAttribute(Trace trace, String attribute) {
+        return trace.getAttribute(attribute);
+    }
+
+    public static Map<String, String> getAttributes(Trace trace) {
+        return trace.getAttributes();
+    }
+
+    public static void removeAttribute(Trace trace, String attribute) {
+        trace.removeAttribute(attribute);
+    }
+
+    public static void putMetric(Trace trace, String metricName, long num) {
+        trace.putMetric(metricName, num);
+    }
+
+    public static long getMetric(Trace trace, String metricName) {
+        return trace.getLongMetric(metricName);
     }
 
     private com.google.firebase.perf.FirebasePerformance getFirebasePerformanceInstance() {

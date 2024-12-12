@@ -1,11 +1,21 @@
 import { WebPlugin } from '@capacitor/core';
 import type { PerformanceTrace } from 'firebase/performance';
-import { getPerformance, trace as createTrace } from 'firebase/performance';
+import { trace as createTrace, getPerformance } from 'firebase/performance';
 
 import type {
   FirebasePerformancePlugin,
+  GetAttributeOptions,
+  GetAttributeResult,
+  GetAttributesOptions,
+  GetAttributesResult,
+  GetMetricOptions,
+  GetMetricResult,
   IncrementMetricOptions,
   IsEnabledResult,
+  PutAttributeOptions,
+  PutMetricOptions,
+  RecordOptions,
+  RemoveAttributeOptions,
   SetEnabledOptions,
   StartTraceOptions,
   StopTraceOptions,
@@ -53,5 +63,84 @@ export class FirebasePerformanceWeb
       enabled: perf.instrumentationEnabled || perf.dataCollectionEnabled,
     };
     return result;
+  }
+
+  public async putAttribute({
+    traceName,
+    attribute,
+    value,
+  }: PutAttributeOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return;
+    }
+    trace.putAttribute(attribute, value);
+    return;
+  }
+
+  public async getAttribute({
+    traceName,
+    attribute,
+  }: GetAttributeOptions): Promise<GetAttributeResult> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return { value: null };
+    }
+    return { value: trace.getAttribute(attribute) ?? null };
+  }
+
+  public async getAttributes({
+    traceName,
+  }: GetAttributesOptions): Promise<GetAttributesResult> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return { result: {} };
+    }
+    return { result: trace.getAttributes() };
+  }
+
+  public async removeAttribute({
+    traceName,
+    attribute,
+  }: RemoveAttributeOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return;
+    }
+    trace.removeAttribute(attribute);
+  }
+
+  public async putMetric({
+    traceName,
+    metricName,
+    num,
+  }: PutMetricOptions): Promise<void> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return;
+    }
+    trace.putMetric(metricName, num);
+  }
+
+  public async getMetric({
+    traceName,
+    metricName,
+  }: GetMetricOptions): Promise<GetMetricResult> {
+    const trace = this.traces[traceName];
+    if (!trace) {
+      return { value: 0 };
+    }
+    return { value: trace.getMetric(metricName) };
+  }
+
+  public async record({
+    traceName,
+    startTime,
+    duration,
+    options,
+  }: RecordOptions): Promise<void> {
+    const perf = getPerformance();
+    const trace = createTrace(perf, traceName);
+    trace.record(startTime, duration, options);
   }
 }
