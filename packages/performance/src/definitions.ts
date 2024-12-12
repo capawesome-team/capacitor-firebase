@@ -68,6 +68,7 @@ export interface FirebasePerformancePlugin {
   getMetric(options: GetMetricOptions): Promise<GetMetricResult>;
   /**
    * Records a trace given its name and options.
+   *
    * Only available on web.
    *
    * @since 6.3.0
@@ -319,10 +320,14 @@ export interface RecordOptions {
   options?: {
     /**
      * An optional map of metrics to be set on the trace.
+     *
+     * @since 6.3.0
      */
     metrics?: { [key: string]: number };
     /**
      * An optional map of attributes to be set on the trace.
+     *
+     * @since 6.3.0
      */
     attributes?: { [key: string]: string };
   };

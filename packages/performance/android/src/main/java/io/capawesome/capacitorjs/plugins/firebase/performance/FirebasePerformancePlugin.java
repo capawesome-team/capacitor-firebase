@@ -124,7 +124,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    @PluginMethod
     public void putAttribute(PluginCall call) {
         try {
             String traceName = call.getString("traceName");
@@ -155,7 +155,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     public void getAttribute(PluginCall call) {
         try {
             String traceName = call.getString("traceName");
@@ -183,7 +183,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     public void getAttributes(PluginCall call) {
         try {
             String traceName = call.getString("traceName");
@@ -210,7 +210,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    @PluginMethod
     public void removeAttribute(PluginCall call) {
         try {
             String traceName = call.getString("traceName");
@@ -236,7 +236,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    @PluginMethod
     public void putMetric(PluginCall call) {
         try {
             String traceName = call.getString("traceName");
@@ -267,7 +267,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     public void getMetric(PluginCall call) {
         try {
             String traceName = call.getString("traceName");
@@ -295,7 +295,7 @@ public class FirebasePerformancePlugin extends Plugin {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    @PluginMethod
     public void record(PluginCall call) {
         call.unimplemented("Not implemented on Android.");
     }
