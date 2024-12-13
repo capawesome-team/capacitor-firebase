@@ -309,12 +309,18 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions) async {
+    @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions, completion: @escaping () -> Void) {
         let callbackId = options.getCallbackId()
-        await listenerRegistrationMap.removeRegistration(listenerId: callbackId)
+        Task {
+            await listenerRegistrationMap.removeRegistration(listenerId: callbackId)
+            completion()
+        }
     }
 
-    @objc public func removeAllListeners() async {
-        await self.listenerRegistrationMap.removeAll()
+    @objc public func removeAllListeners(completion: @escaping () -> Void) {
+        Task {
+            await listenerRegistrationMap.removeAll()
+            completion()
+        }
     }
 }
