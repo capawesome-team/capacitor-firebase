@@ -358,10 +358,9 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             bridge?.releaseCall(savedCall)
         }
         self.pluginCallMap.removeAll()
-        self.eventListeners?.removeAllObjects()
         
         implementation?.removeAllListeners {
-            call.resolve()
+            super.removeAllListeners(call)
         }
     }
 }
