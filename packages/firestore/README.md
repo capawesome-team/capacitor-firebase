@@ -628,11 +628,20 @@ Remove all listeners for this plugin.
 
 #### DocumentSnapshot
 
-| Prop       | Type                   | Description                                                                                   | Since |
-| ---------- | ---------------------- | --------------------------------------------------------------------------------------------- | ----- |
-| **`id`**   | <code>string</code>    | The document's identifier within its collection.                                              | 5.2.0 |
-| **`path`** | <code>string</code>    | The path of the document.                                                                     | 5.2.0 |
-| **`data`** | <code>T \| null</code> | An object containing the data for the document. Returns `null` if the document doesn't exist. | 5.2.0 |
+| Prop           | Type                                                          | Description                                                                                   | Since |
+| -------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----- |
+| **`id`**       | <code>string</code>                                           | The document's identifier within its collection.                                              | 5.2.0 |
+| **`path`**     | <code>string</code>                                           | The path of the document.                                                                     | 5.2.0 |
+| **`data`**     | <code>T \| null</code>                                        | An object containing the data for the document. Returns `null` if the document doesn't exist. | 5.2.0 |
+| **`metadata`** | <code><a href="#snapshotmetadata">SnapshotMetadata</a></code> | Metadata about the snapshot, concerning its source and if it has local modifications.         | 6.2.0 |
+
+
+#### SnapshotMetadata
+
+| Prop                   | Type                 | Description                                               | Since |
+| ---------------------- | -------------------- | --------------------------------------------------------- | ----- |
+| **`fromCache`**        | <code>boolean</code> | True if the snapshot was created from cached data.        | 6.2.0 |
+| **`hasPendingWrites`** | <code>boolean</code> | True if the snapshot was created from pending write data. | 6.2.0 |
 
 
 #### GetDocumentOptions

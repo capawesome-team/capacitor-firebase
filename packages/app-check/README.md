@@ -86,7 +86,7 @@ const removeAllListeners = async () => {
 * [`getToken(...)`](#gettoken)
 * [`initialize(...)`](#initialize)
 * [`setTokenAutoRefreshEnabled(...)`](#settokenautorefreshenabled)
-* [`addListener('tokenChanged', ...)`](#addlistenertokenchanged)
+* [`addListener('tokenChanged', ...)`](#addlistenertokenchanged-)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)

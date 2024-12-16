@@ -183,7 +183,7 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | -------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
 | **`host`**                 | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
 | **`port`**                 | <code>number</code> | The emulator port.                                                                                                                                                              | <code>5001</code> | 6.1.0 |
-| **`regionOrCustomDomain`** | <code>string</code> | one of: a) The region the callable functions are located in (ex: us-central1) b) A custom domain hosting the callable functions (ex: https://mydomain.com)                      |                   |       |
+| **`regionOrCustomDomain`** | <code>string</code> | The region the callable functions are located in or a custom domain hosting the callable functions.                                                                             |                   |       |
 
 
 ### Type Aliases
