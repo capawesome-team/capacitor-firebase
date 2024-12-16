@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Facebook' do |facebook|
     facebook.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DRGCFA_INCLUDE_FACEBOOK' }
-    facebook.dependency 'FBSDKCoreKit', '17.4.0'
-    facebook.dependency 'FBSDKLoginKit', '17.4.0'
+    facebook.dependency 'FBSDKCoreKit', '17.1.0'
+    facebook.dependency 'FBSDKLoginKit', '17.1.0'
   end
 end
