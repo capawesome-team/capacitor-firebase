@@ -1,5 +1,13 @@
 # @capacitor-firebase/functions
 
+## 6.3.0
+
+### Minor Changes
+
+- [`258ea28`](https://github.com/capawesome-team/capacitor-firebase/commit/258ea28d64525777850e952f8437f6526d29c480) ([#766](https://github.com/capawesome-team/capacitor-firebase/pull/766)): feat(functions): add `regionOrCustomDomain` option to `UseEmulatorOptions`
+
+* [`72080dd`](https://github.com/capawesome-team/capacitor-firebase/commit/72080dd8d9cb6e730fc83897b49a33f7376b9799) ([#760](https://github.com/capawesome-team/capacitor-firebase/pull/760)): feat(deps): add support for Firebase JS SDK 11
+
 ## 6.2.0
 
 ### Patch Changes

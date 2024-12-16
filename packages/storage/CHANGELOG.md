@@ -1,5 +1,11 @@
 # @capacitor-firebase/storage
 
+## 6.3.0
+
+### Minor Changes
+
+- [`72080dd`](https://github.com/capawesome-team/capacitor-firebase/commit/72080dd8d9cb6e730fc83897b49a33f7376b9799) ([#760](https://github.com/capawesome-team/capacitor-firebase/pull/760)): feat(deps): add support for Firebase JS SDK 11
+
 ## 6.2.0
 
 ### Patch Changes

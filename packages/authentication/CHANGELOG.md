@@ -1,5 +1,17 @@
 # Changelog
 
+## 6.3.0
+
+### Minor Changes
+
+- [`b57f1ee`](https://github.com/capawesome-team/capacitor-firebase/commit/b57f1ee264f0a614e7284307402cf2293b665913) ([#751](https://github.com/capawesome-team/capacitor-firebase/pull/751)): feat: add `idTokenChange` event listener
+
+* [`72080dd`](https://github.com/capawesome-team/capacitor-firebase/commit/72080dd8d9cb6e730fc83897b49a33f7376b9799) ([#760](https://github.com/capawesome-team/capacitor-firebase/pull/760)): feat(deps): add support for Firebase JS SDK 11
+
+- [`069edf3`](https://github.com/capawesome-team/capacitor-firebase/commit/069edf3340780fa42758ff58ce8291fe80fa231d) ([#768](https://github.com/capawesome-team/capacitor-firebase/pull/768)): feat(ios): update Facebook iOS SDK to `17.4.0`
+
+* [`7af2032`](https://github.com/capawesome-team/capacitor-firebase/commit/7af20327a4096215210e197f91dd6ab018b34b10) ([#741](https://github.com/capawesome-team/capacitor-firebase/pull/741)): feat: add `verifyBeforeUpdateEmail` method
+
 ## 6.2.0
 
 ### Patch Changes

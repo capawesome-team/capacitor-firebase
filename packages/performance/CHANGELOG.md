@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.3.0
+
+### Minor Changes
+
+- [`1cfcf18`](https://github.com/capawesome-team/capacitor-firebase/commit/1cfcf18b0fd33ce217f6c6ab4b91bc3b9eee7334) ([#770](https://github.com/capawesome-team/capacitor-firebase/pull/770)): feat: add `putAttribute(...)`, `getAttribute(...)`, `getAttributes(...)`, `putMetric(...)`, `getMetric(...)` and `record(...)` methods
+
+* [`72080dd`](https://github.com/capawesome-team/capacitor-firebase/commit/72080dd8d9cb6e730fc83897b49a33f7376b9799) ([#760](https://github.com/capawesome-team/capacitor-firebase/pull/760)): feat(deps): add support for Firebase JS SDK 11
+
 ## 6.2.0
 
 ### Patch Changes
