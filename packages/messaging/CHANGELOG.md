@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.3.0
+
+### Minor Changes
+
+- [`72080dd`](https://github.com/capawesome-team/capacitor-firebase/commit/72080dd8d9cb6e730fc83897b49a33f7376b9799) ([#760](https://github.com/capawesome-team/capacitor-firebase/pull/760)): feat(deps): add support for Firebase JS SDK 11
+
+### Patch Changes
+
+- [`cabf5ac`](https://github.com/capawesome-team/capacitor-firebase/commit/cabf5ac86e4751bb84605a11046a34a2ddce829e) ([#701](https://github.com/capawesome-team/capacitor-firebase/pull/701)): fix(web): check if notifications are supported before checking or requesting permission
+
 ## 6.2.0
 
 ### Patch Changes
