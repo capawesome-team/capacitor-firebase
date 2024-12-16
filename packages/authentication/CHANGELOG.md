@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.3.1
+
+### Patch Changes
+
+- [`a1aceb1`](https://github.com/capawesome-team/capacitor-firebase/commit/a1aceb13beb892627e16be3c093b56591ef05832) ([#775](https://github.com/capawesome-team/capacitor-firebase/pull/775)): fix(ios): downgrade the Facebook iOS SDK to 17.1.0
+
 ## 6.3.0
 
 ### Minor Changes
