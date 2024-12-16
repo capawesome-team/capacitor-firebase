@@ -1,5 +1,11 @@
 # @capacitor-firebase/firestore
 
+## 6.3.2
+
+### Patch Changes
+
+- [`f1f07aa`](https://github.com/capawesome-team/capacitor-firebase/commit/f1f07aa6b7d069ee08d4b323e069195a414ceff7) ([#772](https://github.com/capawesome-team/capacitor-firebase/pull/772)): fix(ios): prevent crash caused by concurrency issue
+
 ## 6.3.1
 
 ## 6.3.0
