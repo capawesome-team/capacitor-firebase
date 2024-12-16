@@ -2,10 +2,32 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
+private actor ListenerRegistrationMap {
+    private var listenerRegistrationMap: [String: ListenerRegistration] = [:]
+    
+    func addRegistration(_ listenerRegistration: ListenerRegistration, listenerId: String) async {
+        listenerRegistrationMap[listenerId] = listenerRegistration
+    }
+    
+    func removeRegistration(listenerId: String) async {
+        if let listenerRegistration = listenerRegistrationMap[listenerId] {
+            listenerRegistration.remove()
+        }
+        listenerRegistrationMap.removeValue(forKey: listenerId)
+    }
+    
+    func removeAll() async {
+        listenerRegistrationMap.forEach { _, value in
+            value.remove()
+        }
+        listenerRegistrationMap.removeAll()
+    }
+}
+
 @objc public class FirebaseFirestore: NSObject {
     private let plugin: FirebaseFirestorePlugin
-    private var listenerRegistrationMap: [String: ListenerRegistration] = [:]
-
+    private var listenerRegistrationMap = ListenerRegistrationMap()
+    
     init(plugin: FirebaseFirestorePlugin) {
         self.plugin = plugin
         super.init()
@@ -208,7 +230,9 @@ import FirebaseFirestore
                 completion(result, nil)
             }
         }
-        self.listenerRegistrationMap[callbackId] = listenerRegistration
+        Task {
+            await self.listenerRegistrationMap.addRegistration(listenerRegistration, listenerId: callbackId)
+        }
     }
 
     @objc public func addCollectionSnapshotListener(_ options: AddCollectionSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
@@ -241,7 +265,7 @@ import FirebaseFirestore
                         completion(result, nil)
                     }
                 }
-                self.listenerRegistrationMap[callbackId] = listenerRegistration
+                await listenerRegistrationMap.addRegistration(listenerRegistration, listenerId: callbackId)
             } catch {
                 completion(nil, error)
             }
@@ -278,26 +302,25 @@ import FirebaseFirestore
                         completion(result, nil)
                     }
                 }
-                self.listenerRegistrationMap[callbackId] = listenerRegistration
+                await listenerRegistrationMap.addRegistration(listenerRegistration, listenerId: callbackId)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions) {
+    @objc public func removeSnapshotListener(_ options: RemoveSnapshotListenerOptions, completion: @escaping () -> Void) {
         let callbackId = options.getCallbackId()
-
-        if let listenerRegistration = self.listenerRegistrationMap[callbackId] {
-            listenerRegistration.remove()
+        Task {
+            await listenerRegistrationMap.removeRegistration(listenerId: callbackId)
+            completion()
         }
-        self.listenerRegistrationMap.removeValue(forKey: callbackId)
     }
 
-    @objc public func removeAllListeners() {
-        for listenerRegistration in self.listenerRegistrationMap.values {
-            listenerRegistration.remove()
+    @objc public func removeAllListeners(completion: @escaping () -> Void) {
+        Task {
+            await listenerRegistrationMap.removeAll()
+            completion()
         }
-        self.listenerRegistrationMap.removeAll()
     }
 }

@@ -348,8 +348,9 @@ public class FirebaseFirestorePlugin: CAPPlugin {
 
         let options = RemoveSnapshotListenerOptions(callbackId: callbackId)
 
-        implementation?.removeSnapshotListener(options)
-        call.resolve()
+        implementation?.removeSnapshotListener(options) {
+            call.resolve()
+        }
     }
 
     @objc override public func removeAllListeners(_ call: CAPPluginCall) {
@@ -357,8 +358,10 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             bridge?.releaseCall(savedCall)
         }
         self.pluginCallMap.removeAll()
-
-        implementation?.removeAllListeners()
-        super.removeAllListeners(call)
+        self.eventListeners?.removeAllObjects()
+        
+        implementation?.removeAllListeners {
+            call.resolve()
+        }
     }
 }
