@@ -94,9 +94,9 @@ export class FirebasePerformanceWeb
   }: GetAttributesOptions): Promise<GetAttributesResult> {
     const trace = this.traces[traceName];
     if (!trace) {
-      return { result: {} };
+      return { attributes: {} };
     }
-    return { result: trace.getAttributes() };
+    return { attributes: trace.getAttributes() };
   }
 
   public async removeAttribute({

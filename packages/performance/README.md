@@ -58,6 +58,66 @@ const isEnabled = async () => {
   const result = await FirebasePerformance.isEnabled();
   return result.enabled;
 };
+
+const putAttribute = async () => {
+  await FirebasePerformance.putAttribute({
+    traceName: 'test_trace',
+    attribute: 'user_id',
+    value: '123',
+  });
+};
+
+const getAttribute = async () => {
+  const result = await FirebasePerformance.getAttribute({
+    traceName: 'test_trace',
+    attribute: 'user_id',
+  });
+  return result.attributes;
+};
+
+const getAttributes = async () => {
+  const result = await FirebasePerformance.getAttributes({ traceName: 'test_trace' });
+  return result.attributes;
+};
+
+const removeAttribute = async () => {
+  await FirebasePerformance.removeAttribute({
+    traceName: 'test_trace',
+    attribute: 'user_id',
+  });
+};
+
+const putMetric = async () => {
+  await FirebasePerformance.putMetric({
+    traceName: 'test_trace',
+    metricName: 'item_cache_hit',
+    num: 1,
+  });
+};
+
+const getMetric = async () => {
+  const result = await FirebasePerformance.getMetric({
+    traceName: 'test_trace',
+    metricName: 'item_cache_hit',
+  });
+  return result.value;
+};
+
+const record = async () => {
+  await FirebasePerformance.record({
+    traceName: 'test_trace',
+    startTime: Date.now(),
+    duration: 1000,
+    options: {
+      metrics: {
+        item_cache_hit: 1,
+      },
+      attributes: {
+        user_id: '123',
+      },
+    },
+  });
+};
 ```
 
 ## API

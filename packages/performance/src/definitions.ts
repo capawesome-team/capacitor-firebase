@@ -227,7 +227,7 @@ export interface GetAttributesResult {
    *
    * @since 6.3.0
    */
-  result: { [key: string]: string };
+  attributes: { [key: string]: string };
 }
 
 /**
