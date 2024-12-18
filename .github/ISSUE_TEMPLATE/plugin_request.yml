@@ -1,0 +1,41 @@
+name: ⚙️ Request a new plugin 
+title: "feat: "
+description: Propose a new plugin for this project
+labels: ["feature", "needs: triage"]
+
+body:
+  - type: input
+    attributes:
+      label: Name
+      description: Propose a human-readable name for the plugin.
+      placeholder: File Picker
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Platform(s)
+      description: Select the platforms on which the plugin should be available.
+      options:
+        - label: Android
+        - label: iOS
+        - label: Web
+  - type: textarea
+    attributes:
+      label: Description
+      description: Describe the plugin and its features.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the plugin request here.
+  - type: checkboxes
+    attributes:
+      label:  Before submitting 
+      description: |
+        Please ensure your idea fulfills all of the following requirements.
+      options:
+      - label: I have read and followed the [plugin request guidelines](https://capawesome.io/contributing/plugin-requests/).
+        required: true
+      - label: I have attached links to possibly related issues and discussions.
+        required: true
