@@ -421,9 +421,9 @@ Only available on web.
 
 #### GetAttributesResult
 
-| Prop         | Type                                    | Description                                                  | Since |
-| ------------ | --------------------------------------- | ------------------------------------------------------------ | ----- |
-| **`result`** | <code>{ [key: string]: string; }</code> | A map of all custom attributes of a trace with their values. | 6.3.0 |
+| Prop             | Type                                    | Description                                                  | Since |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------ | ----- |
+| **`attributes`** | <code>{ [key: string]: string; }</code> | A map of all custom attributes of a trace with their values. | 6.3.0 |
 
 
 #### GetAttributesOptions
