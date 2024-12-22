@@ -59,6 +59,8 @@ public class CallResult implements Result {
         for (Object value : arrayList) {
             if (value instanceof Map) {
                 value = createJSObjectFromMap((Map<String, Object>) value);
+            } else if (value instanceof ArrayList) {
+                value = createJSArrayFromArrayList((ArrayList) value);
             }
             array.put(value);
         }
