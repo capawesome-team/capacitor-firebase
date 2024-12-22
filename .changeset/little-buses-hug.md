@@ -2,4 +2,4 @@
 '@capacitor-firebase/functions': patch
 ---
 
-Fixed issue #780 serializing arrays of arrays
+fix(android): serialize arrays in arrays correctly
