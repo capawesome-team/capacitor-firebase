@@ -68,6 +68,7 @@ import type {
   FetchSignInMethodsForEmailResult,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
+  GetIdTokenInfo,
   GetIdTokenOptions,
   GetIdTokenResult,
   GetTenantIdResult,
@@ -109,8 +110,7 @@ import { Persistence, ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin
-{
+  implements FirebaseAuthenticationPlugin {
   public static readonly AUTH_STATE_CHANGE_EVENT = 'authStateChange';
   public static readonly ID_TOKEN_CHANGE_EVENT = 'idTokenChange';
   public static readonly PHONE_CODE_SENT_EVENT = 'phoneCodeSent';
@@ -214,6 +214,17 @@ export class FirebaseAuthenticationWeb
     const result: GetIdTokenResult = {
       token: idToken || '',
     };
+    return result;
+  }
+
+  public async getIdTokenResult(
+    options?: GetIdTokenOptions,
+  ) {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
+    }
+    const result: GetIdTokenInfo = await auth.currentUser.getIdTokenResult(options?.forceRefresh);
     return result;
   }
 

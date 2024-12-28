@@ -1,6 +1,7 @@
 /// <reference types="@capacitor/cli" />
 
 import type { PluginListenerHandle } from '@capacitor/core';
+import { ParsedToken } from 'firebase/auth';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -106,6 +107,11 @@ export interface FirebaseAuthenticationPlugin {
    * @since 0.1.0
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
+  /**
+   * Fetches the Firebase Auth ID Token and other helper properties for getting different data associated with the token as well as all the decoded payload claims for the currently signed-in user.
+   * 
+   */
+  getIdTokenResult(options?: GetIdTokenOptions): Promise<GetIdTokenInfo>;
   /**
    * Returns the `SignInResult` from the redirect-based sign-in flow.
    *
@@ -665,6 +671,38 @@ export interface GetIdTokenResult {
    * @since 0.1.0
    */
   token: string;
+}
+
+export interface GetIdTokenInfo extends GetIdTokenResult {
+  /**
+   * The authentication time formatted as a UTC string.
+   *
+   * @remarks
+   * This is the time the user authenticated (signed in) and not the time the token was refreshed.
+   */
+  authTime: string;
+  /** The ID token expiration time formatted as a UTC string. */
+  expirationTime: string;
+  /** The ID token issuance time formatted as a UTC string. */
+  issuedAtTime: string;
+  /**
+   * The sign-in provider through which the ID token was obtained (anonymous, custom, phone,
+   * password, etc).
+   *
+   * @remarks
+   * Note, this does not map to provider IDs.
+   */
+  signInProvider: string | null;
+  /**
+   * The type of second factor associated with this session, provided the user was multi-factor
+   * authenticated (eg. phone, etc).
+   */
+  signInSecondFactor: string | null;
+  /**
+   * The entire payload claims of the ID token including the standard reserved claims as well as
+   * the custom claims.
+   */
+  claims: ParsedToken;
 }
 
 /**
