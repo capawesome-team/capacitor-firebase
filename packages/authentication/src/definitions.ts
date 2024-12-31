@@ -1,7 +1,6 @@
 /// <reference types="@capacitor/cli" />
 
 import type { PluginListenerHandle } from '@capacitor/core';
-import { ParsedToken } from 'firebase/auth';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
