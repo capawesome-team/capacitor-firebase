@@ -108,10 +108,11 @@ export interface FirebaseAuthenticationPlugin {
    */
   getIdToken(options?: GetIdTokenOptions): Promise<GetIdTokenResult>;
   /**
-   * Fetches the Firebase Auth ID Token and other helper properties for getting different data associated with the token as well as all the decoded payload claims for the currently signed-in user.
+   * Returns a deserialized JSON Web Token (JWT) used to identify the user to a Firebase service.
    * 
+   * @since 6.4.0
    */
-  getIdTokenResult(options?: GetIdTokenOptions): Promise<GetIdTokenInfo>;
+  getIdTokenResult(options?: GetIdTokenResultOptions): Promise<GetIdTokenResultResult>;
   /**
    * Returns the `SignInResult` from the redirect-based sign-in flow.
    *
@@ -673,7 +674,7 @@ export interface GetIdTokenResult {
   token: string;
 }
 
-export interface GetIdTokenInfo extends GetIdTokenResult {
+export interface GetIdTokenInfo {
   /**
    * The authentication time formatted as a UTC string.
    *
@@ -702,7 +703,7 @@ export interface GetIdTokenInfo extends GetIdTokenResult {
    * The entire payload claims of the ID token including the standard reserved claims as well as
    * the custom claims.
    */
-  claims: ParsedToken;
+  claims: [key: string]: unknown;
 }
 
 /**
