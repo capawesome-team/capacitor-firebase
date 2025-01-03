@@ -35,4 +35,33 @@ public class FirebaseStorageHelper {
         }
         return map
     }
+
+    public static func createErrorCode(error: Error?) -> String? {
+        if let error = error as NSError? {
+            return convertErrorCodeToString(errorCode: error.code)
+        }
+        return nil
+    }
+
+    private static func convertErrorCodeToString(errorCode: Int) -> String? {
+        let errorCodes: [Int: String] = [
+            StorageErrorCode.bucketMismatch.rawValue: "storage/bucket-mismatch",
+            StorageErrorCode.bucketNotFound.rawValue: "storage/bucket-not-found",
+            StorageErrorCode.cancelled.rawValue: "storage/cancelled",
+            StorageErrorCode.downloadSizeExceeded.rawValue: "storage/download-size-exceeded",
+            StorageErrorCode.internalError.rawValue: "storage/internal-error",
+            StorageErrorCode.invalidArgument.rawValue: "storage/invalid-argument",
+            StorageErrorCode.nonMatchingChecksum.rawValue: "storage/non-matching-checksum",
+            StorageErrorCode.objectNotFound.rawValue: "storage/object-not-found",
+            StorageErrorCode.pathError.rawValue: "storage/path-error",
+            StorageErrorCode.projectNotFound.rawValue: "storage/project-not-found",
+            StorageErrorCode.quotaExceeded.rawValue: "storage/quota-exceeded",
+            StorageErrorCode.retryLimitExceeded.rawValue: "storage/retry-limit-exceeded",
+            StorageErrorCode.unauthenticated.rawValue: "storage/unauthenticated",
+            StorageErrorCode.unauthorized.rawValue: "storage/unauthorized",
+            StorageErrorCode.unknown.rawValue: "storage/unknown"
+        ]
+
+        return errorCodes[errorCode]
+    }
 }

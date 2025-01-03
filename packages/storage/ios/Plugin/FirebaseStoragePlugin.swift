@@ -31,7 +31,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
         implementation?.deleteFile(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -49,7 +49,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
         implementation?.getDownloadUrl(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -69,7 +69,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
         implementation?.getMetadata(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -91,7 +91,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
         implementation?.listFiles(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -115,7 +115,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
         implementation?.updateMetadata(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -148,7 +148,7 @@ public class FirebaseStoragePlugin: CAPPlugin {
         implementation?.uploadFile(options, completion: { result, error, releaseCall in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
