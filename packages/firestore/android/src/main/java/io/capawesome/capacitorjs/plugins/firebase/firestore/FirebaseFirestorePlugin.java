@@ -70,14 +70,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.addDocument(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -106,14 +106,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.setDocument(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -136,14 +136,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.getDocument(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -171,14 +171,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.updateDocument(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -201,14 +201,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.deleteDocument(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -231,14 +231,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.writeBatch(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -263,14 +263,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.getCollection(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -295,14 +295,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.getCollectionGroup(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -318,13 +318,13 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
             implementation.clearPersistence(callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -340,7 +340,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
@@ -348,7 +348,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -364,7 +364,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
@@ -372,7 +372,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -390,7 +390,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -423,14 +423,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.addDocumentSnapshotListener(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -467,14 +467,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.addCollectionSnapshotListener(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -511,14 +511,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.addCollectionGroupSnapshotListener(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -539,7 +539,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 
@@ -558,7 +558,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             super.removeAllListeners(call);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 }

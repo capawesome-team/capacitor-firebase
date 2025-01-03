@@ -35,7 +35,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.addDocument(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -60,7 +60,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.setDocument(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -78,7 +78,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.getDocument(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -102,7 +102,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.updateDocument(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -120,7 +120,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.deleteDocument(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -138,7 +138,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.writeBatch(options, completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -158,7 +158,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.getCollection(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -180,7 +180,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.getCollectionGroup(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -193,7 +193,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.clearPersistence(completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -204,7 +204,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.enableNetwork(completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -215,7 +215,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.disableNetwork(completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             call.resolve()
@@ -253,7 +253,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         implementation?.addDocumentSnapshotListener(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -285,7 +285,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             implementation?.addCollectionSnapshotListener(options, completion: { result, error in
                 if let error = error {
                     CAPLog.print("[", self.tag, "] ", error)
-                    call.reject(error.localizedDescription)
+                    call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                     return
                 }
                 if let result = result?.toJSObject() as? JSObject {
@@ -294,7 +294,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             })
         } catch {
             CAPLog.print("[", self.tag, "] ", error)
-            call.reject(error.localizedDescription)
+            call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
         }
     }
 
@@ -321,7 +321,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in
                 if let error = error {
                     CAPLog.print("[", self.tag, "] ", error)
-                    call.reject(error.localizedDescription)
+                    call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                     return
                 }
                 if let result = result?.toJSObject() as? JSObject {
@@ -330,7 +330,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
             })
         } catch {
             CAPLog.print("[", self.tag, "] ", error)
-            call.reject(error.localizedDescription)
+            call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
         }
     }
 
@@ -359,7 +359,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         }
         self.pluginCallMap.removeAll()
         self.eventListeners?.removeAllObjects()
-        
+
         implementation?.removeAllListeners {
             call.resolve()
         }

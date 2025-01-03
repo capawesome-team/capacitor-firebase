@@ -69,4 +69,34 @@ public class FirebaseFirestoreHelper {
         }
         return value["key"]
     }
+
+    public static func createErrorCode(error: Error?) -> String? {
+        if let error = error as NSError? {
+            return convertErrorCodeToString(errorCode: error.code)
+        }
+        return nil
+    }
+
+    private static func convertErrorCodeToString(errorCode: Int) -> String? {
+        let errorCodes: [Int: String] = [
+            FirestoreErrorCode.aborted.rawValue: "aborted",
+            FirestoreErrorCode.alreadyExists.rawValue: "already-exists",
+            FirestoreErrorCode.cancelled.rawValue: "cancelled",
+            FirestoreErrorCode.dataLoss.rawValue: "data-loss",
+            FirestoreErrorCode.deadlineExceeded.rawValue: "deadline-exceeded",
+            FirestoreErrorCode.failedPrecondition.rawValue: "failed-precondition",
+            FirestoreErrorCode.internal.rawValue: "internal",
+            FirestoreErrorCode.invalidArgument.rawValue: "invalid-argument",
+            FirestoreErrorCode.notFound.rawValue: "not-found",
+            FirestoreErrorCode.outOfRange.rawValue: "out-of-range",
+            FirestoreErrorCode.permissionDenied.rawValue: "permission-denied",
+            FirestoreErrorCode.resourceExhausted.rawValue: "resource-exhausted",
+            FirestoreErrorCode.unauthenticated.rawValue: "unauthenticated",
+            FirestoreErrorCode.unavailable.rawValue: "unavailable",
+            FirestoreErrorCode.unimplemented.rawValue: "unimplemented",
+            FirestoreErrorCode.unknown.rawValue: "unknown"
+        ]
+
+        return errorCodes[errorCode]
+    }
 }
