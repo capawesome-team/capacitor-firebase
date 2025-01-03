@@ -110,6 +110,7 @@ export interface FirebaseAuthenticationPlugin {
    * Returns a deserialized JSON Web Token (JWT) used to identify the user to a Firebase service.
    * 
    * @since 6.4.0
+   * @since 6.4.0
    */
   getIdTokenResult(options?: GetIdTokenResultOptions): Promise<GetIdTokenResultResult>;
   /**
@@ -673,7 +674,7 @@ export interface GetIdTokenResult {
   token: string;
 }
 
-export interface GetIdTokenInfo {
+export interface GetIdTokenResultResult {
   /**
    * The authentication time formatted as a UTC string.
    *
