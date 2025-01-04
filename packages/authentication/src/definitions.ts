@@ -110,7 +110,6 @@ export interface FirebaseAuthenticationPlugin {
    * Returns a deserialized JSON Web Token (JWT) used to identify the user to a Firebase service.
    * 
    * @since 6.4.0
-   * @since 6.4.0
    */
   getIdTokenResult(options?: GetIdTokenResultOptions): Promise<GetIdTokenResultResult>;
   /**
@@ -663,6 +662,18 @@ export interface GetIdTokenOptions {
 }
 
 /**
+ * @since 6.4.0
+ */
+export interface GetIdTokenResultOptions {
+  /**
+   * Force refresh regardless of token expiration.
+   *
+   * @since 6.4.0
+   */
+  forceRefresh: boolean;
+}
+
+/**
  * @since 0.1.0
  */
 export interface GetIdTokenResult {
@@ -703,7 +714,7 @@ export interface GetIdTokenResultResult {
    * The entire payload claims of the ID token including the standard reserved claims as well as
    * the custom claims.
    */
-  claims: [key: string]: unknown;
+  claims: Record<string, unknown>;
 }
 
 /**

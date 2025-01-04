@@ -68,7 +68,7 @@ import type {
   FetchSignInMethodsForEmailResult,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
-  GetIdTokenInfo,
+  GetIdTokenResultResult,
   GetIdTokenOptions,
   GetIdTokenResult,
   GetTenantIdResult,
@@ -224,7 +224,7 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const result: GetIdTokenInfo = await auth.currentUser.getIdTokenResult(options?.forceRefresh);
+    const result: GetIdTokenResultResult = await auth.currentUser.getIdTokenResult(options?.forceRefresh);
     return result;
   }
 
