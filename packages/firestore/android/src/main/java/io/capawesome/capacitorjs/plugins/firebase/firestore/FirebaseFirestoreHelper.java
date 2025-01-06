@@ -107,7 +107,7 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    private static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
+    public static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
         ArrayList<Object> arrayList = new ArrayList<>();
         for (int x = 0; x < array.length(); x++) {
             Object value = array.get(x);
@@ -139,22 +139,6 @@ public class FirebaseFirestoreHelper {
         return obj;
     }
 
-    @Nullable
-    public static String createErrorCode(@Nullable Exception exception) {
-        if (exception == null) {
-            return null;
-        } else if (exception instanceof FirebaseFirestoreException) {
-            String errorCode = ((FirebaseFirestoreException) exception).getCode().name();
-            String prefixedErrorCode = String.format("%s/%s", ERROR_CODE_PREFIX, errorCode);
-            return snakeToKebabCase(prefixedErrorCode);
-        }
-        return null;
-    }
-
-    private static String snakeToKebabCase(String snakeCase) {
-        return snakeCase.replaceAll("_+", "-").toLowerCase();
-    }
-
     private static Object createObjectFromJSONObject(@NonNull JSONObject object) throws JSONException {
         if (FirestoreField.isFirestoreField(object)) {
             FirestoreField field = FirestoreField.fromJSONObject(object);
@@ -167,11 +151,14 @@ public class FirebaseFirestoreHelper {
     /**
      * Parse an object to return it's firestore field value. Else return the same object.
      */
-    private static Object parseObject(@NonNull Object object) {
+    private static Object parseObject(Object object) {
+        if (object == null) {
+            return null;
+        }
         try {
             return FirestoreField.fromObject(object).getJSObject();
-        } catch (Exception e) {}
-
-        return object;
+        } catch (Exception e) {
+            return object;
+        }
     }
 }
