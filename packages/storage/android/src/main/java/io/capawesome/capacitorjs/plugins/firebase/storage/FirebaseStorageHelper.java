@@ -86,8 +86,4 @@ public class FirebaseStorageHelper {
             default -> "storage/unknown";
         };
     }
-
-    private static String snakeToKebabCase(String snakeCase) {
-        return snakeCase.replaceAll("_+", "-").toLowerCase();
-    }
 }
