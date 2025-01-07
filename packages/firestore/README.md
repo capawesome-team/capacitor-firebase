@@ -277,6 +277,7 @@ const removeAllListeners = async () => {
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
 * [`useEmulator(...)`](#useemulator)
+* [`getCountFromServer(...)`](#getcountfromserver)
 * [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
 * [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
 * [`addCollectionGroupSnapshotListener(...)`](#addcollectiongroupsnapshotlistener)
@@ -487,6 +488,23 @@ Instrument your app to talk to the Firestore emulator.
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
 
 **Since:** 6.1.0
+
+--------------------
+
+
+### getCountFromServer(...)
+
+```typescript
+getCountFromServer(options: GetCountFromServerOptions) => Promise<GetCountFromServerResult>
+```
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getcountfromserveroptions">GetCountFromServerOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getcountfromserverresult">GetCountFromServerResult</a>&gt;</code>
+
+**Since:** 6.4.0
 
 --------------------
 
@@ -771,6 +789,20 @@ Remove all listeners for this plugin.
 | ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
 | **`host`** | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
 | **`port`** | <code>number</code> | The emulator port.                                                                                                                                                              | <code>8080</code> | 6.1.0 |
+
+
+#### GetCountFromServerResult
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`count`** | <code>number</code> | 6.4.0 |
+
+
+#### GetCountFromServerOptions
+
+| Prop            | Type                | Since |
+| --------------- | ------------------- | ----- |
+| **`reference`** | <code>string</code> | 6.4.0 |
 
 
 #### AddDocumentSnapshotListenerOptions

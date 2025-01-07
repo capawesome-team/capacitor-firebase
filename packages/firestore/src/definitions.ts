@@ -79,6 +79,12 @@ export interface FirebaseFirestorePlugin {
    */
   useEmulator(options: UseEmulatorOptions): Promise<void>;
   /**
+   * @since 6.4.0
+   */
+  getCountFromServer(
+    options: GetCountFromServerOptions,
+  ): Promise<GetCountFromServerResult>;
+  /**
    * Adds a listener for document snapshot events.
    *
    * @since 5.2.0
@@ -506,6 +512,26 @@ export interface RemoveSnapshotListenerOptions {
    * @since 5.2.0
    */
   callbackId: CallbackId;
+}
+
+/**
+ * @since 6.4.0
+ */
+export interface GetCountFromServerOptions {
+  /**
+   * @since 6.4.0
+   */
+  reference: string;
+}
+
+/**
+ * @since 6.4.0
+ */
+export interface GetCountFromServerResult {
+  /**
+   * @since 6.4.0
+   */
+  count: number;
 }
 
 /**
