@@ -4,18 +4,18 @@ import FirebaseFirestore
 
 private actor ListenerRegistrationMap {
     private var listenerRegistrationMap: [String: ListenerRegistration] = [:]
-    
+
     func addRegistration(_ listenerRegistration: ListenerRegistration, listenerId: String) async {
         listenerRegistrationMap[listenerId] = listenerRegistration
     }
-    
+
     func removeRegistration(listenerId: String) async {
         if let listenerRegistration = listenerRegistrationMap[listenerId] {
             listenerRegistration.remove()
         }
         listenerRegistrationMap.removeValue(forKey: listenerId)
     }
-    
+
     func removeAll() async {
         listenerRegistrationMap.forEach { _, value in
             value.remove()
@@ -27,7 +27,7 @@ private actor ListenerRegistrationMap {
 @objc public class FirebaseFirestore: NSObject {
     private let plugin: FirebaseFirestorePlugin
     private var listenerRegistrationMap = ListenerRegistrationMap()
-    
+
     init(plugin: FirebaseFirestorePlugin) {
         self.plugin = plugin
         super.init()
@@ -215,6 +215,22 @@ private actor ListenerRegistrationMap {
         settings.host = "\(host):\(port)"
         settings.isSSLEnabled = false
         Firestore.firestore().settings = settings
+    }
+
+    @objc public func getCountFromServer(_ options: GetCountFromServerOptions, completion: @escaping (Result?, Error?) -> Void) {
+        let reference = options.getReference()
+        let collectionReference = Firestore.firestore().collection(reference)
+        let countQuery = collectionReference.count
+
+        Task {
+            do {
+                let snapshot = try await countQuery.getAggregation(source: .server)
+                let result = GetCountFromServerResult(snapshot.count.intValue)
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
     }
 
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
