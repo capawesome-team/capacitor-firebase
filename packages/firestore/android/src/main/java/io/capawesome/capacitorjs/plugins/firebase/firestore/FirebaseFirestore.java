@@ -248,15 +248,19 @@ public class FirebaseFirestore {
         Query query = getFirebaseFirestoreInstance().collection(reference);
         AggregateQuery countQuery = query.count();
 
-        countQuery.get(AggregateSource.SERVER).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                AggregateQuerySnapshot snapshot = task.getResult();
-                GetCountFromServerResult result = new GetCountFromServerResult(snapshot.getCount());
-                callback.success(result);
-            } else {
-                callback.error(task.getException());
-            }
-        });
+        countQuery
+            .get(AggregateSource.SERVER)
+            .addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        AggregateQuerySnapshot snapshot = task.getResult();
+                        GetCountFromServerResult result = new GetCountFromServerResult(snapshot.getCount());
+                        callback.success(result);
+                    } else {
+                        callback.error(task.getException());
+                    }
+                }
+            );
     }
 
     public void addDocumentSnapshotListener(@NonNull AddDocumentSnapshotListenerOptions options, @NonNull NonEmptyResultCallback callback) {
