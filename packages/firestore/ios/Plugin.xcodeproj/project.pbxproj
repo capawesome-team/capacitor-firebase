@@ -40,6 +40,8 @@
 		7C0070402ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */; };
 		7C0070422ABC97E5000C0F28 /* QueryNonFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070412ABC97E5000C0F28 /* QueryNonFilterConstraint.swift */; };
 		7C0070442ABC9AE9000C0F28 /* QueryFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */; };
+		7C2AE7C92D2DBF7000F40418 /* GetCountFromServerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */; };
+		7C2AE7CB2D2DC2B400F40418 /* GetCountFromServerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */; };
 		7C90A58E2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */; };
 		7CF0EFE32C207844004D910D /* WriteBatchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF0EFE22C207844004D910D /* WriteBatchOptions.swift */; };
 		7CF0EFE52C20784E004D910D /* WriteBatchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF0EFE42C20784E004D910D /* WriteBatchOperation.swift */; };
@@ -92,6 +94,8 @@
 		7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreHelper.swift; sourceTree = "<group>"; };
 		7C0070412ABC97E5000C0F28 /* QueryNonFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryNonFilterConstraint.swift; sourceTree = "<group>"; };
 		7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryFilterConstraint.swift; sourceTree = "<group>"; };
+		7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCountFromServerOptions.swift; sourceTree = "<group>"; };
+		7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCountFromServerResult.swift; sourceTree = "<group>"; };
 		7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionGroupSnapshotListenerOptions.swift; sourceTree = "<group>"; };
 		7CF0EFE22C207844004D910D /* WriteBatchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteBatchOptions.swift; sourceTree = "<group>"; };
 		7CF0EFE42C20784E004D910D /* WriteBatchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteBatchOperation.swift; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 		7C0070302ABC1FB6000C0F28 /* Options */ = {
 			isa = PBXGroup;
 			children = (
+				7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */,
 				7C00700D2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift */,
 				7C00700F2ABC1EE0000C0F28 /* AddDocumentOptions.swift */,
 				7C0070132ABC1F0F000C0F28 /* AddDocumentSnapshotListenerOptions.swift */,
@@ -223,6 +228,7 @@
 		7C0070382ABC2007000C0F28 /* Results */ = {
 			isa = PBXGroup;
 			children = (
+				7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */,
 				7C0070112ABC1F03000C0F28 /* AddDocumentResult.swift */,
 				7C0070192ABC1F29000C0F28 /* GetCollectionGroupResult.swift */,
 				7C00701D2ABC1F38000C0F28 /* GetCollectionResult.swift */,
@@ -467,10 +473,12 @@
 				50E1A94820377CB70090CE1A /* FirebaseFirestorePlugin.swift in Sources */,
 				7C00702B2ABC1F7B000C0F28 /* QueryLimitConstraint.swift in Sources */,
 				7C0070202ABC1F42000C0F28 /* GetDocumentOptions.swift in Sources */,
+				7C2AE7CB2D2DC2B400F40418 /* GetCountFromServerResult.swift in Sources */,
 				7CF0EFE52C20784E004D910D /* WriteBatchOperation.swift in Sources */,
 				7C00701E2ABC1F38000C0F28 /* GetCollectionResult.swift in Sources */,
 				7C00702F2ABC1FAF000C0F28 /* QueryStartAtConstraint.swift in Sources */,
 				7C0070182ABC1F20000C0F28 /* GetCollectionGroupOptions.swift in Sources */,
+				7C2AE7C92D2DBF7000F40418 /* GetCountFromServerOptions.swift in Sources */,
 				7CF0EFE32C207844004D910D /* WriteBatchOptions.swift in Sources */,
 				7C0070102ABC1EE0000C0F28 /* AddDocumentOptions.swift in Sources */,
 				7C0070162ABC1F18000C0F28 /* DeleteDocumentOptions.swift in Sources */,

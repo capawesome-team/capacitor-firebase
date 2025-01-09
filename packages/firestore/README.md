@@ -273,6 +273,7 @@ const removeAllListeners = async () => {
 * [`writeBatch(...)`](#writebatch)
 * [`getCollection(...)`](#getcollection)
 * [`getCollectionGroup(...)`](#getcollectiongroup)
+* [`getCountFromServer(...)`](#getcountfromserver)
 * [`clearPersistence()`](#clearpersistence)
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
@@ -429,6 +430,25 @@ Reads the collection group referenced by the specified reference.
 | **`options`** | <code><a href="#getcollectiongroupoptions">GetCollectionGroupOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;&gt;</code>
+
+--------------------
+
+
+### getCountFromServer(...)
+
+```typescript
+getCountFromServer(options: GetCountFromServerOptions) => Promise<GetCountFromServerResult>
+```
+
+Fetches the number of documents in a collection.
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getcountfromserveroptions">GetCountFromServerOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getcountfromserverresult">GetCountFromServerResult</a>&gt;</code>
+
+**Since:** 6.4.0
 
 --------------------
 
@@ -763,6 +783,20 @@ Remove all listeners for this plugin.
 | **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+
+
+#### GetCountFromServerResult
+
+| Prop        | Type                | Description                                | Since |
+| ----------- | ------------------- | ------------------------------------------ | ----- |
+| **`count`** | <code>number</code> | The number of documents in the collection. | 6.4.0 |
+
+
+#### GetCountFromServerOptions
+
+| Prop            | Type                | Description                                                                         | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
 
 
 #### UseEmulatorOptions

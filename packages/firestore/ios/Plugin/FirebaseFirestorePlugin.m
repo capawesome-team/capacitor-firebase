@@ -12,6 +12,7 @@ CAP_PLUGIN(FirebaseFirestorePlugin, "FirebaseFirestore",
            CAP_PLUGIN_METHOD(writeBatch, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCollection, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCollectionGroup, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getCountFromServer, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(enableNetwork, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(disableNetwork, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(useEmulator, CAPPluginReturnPromise);

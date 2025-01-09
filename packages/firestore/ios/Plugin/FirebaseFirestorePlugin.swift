@@ -233,6 +233,26 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         call.resolve()
     }
 
+    @objc func getCountFromServer(_ call: CAPPluginCall) {
+        guard let reference = call.getString("reference") else {
+            call.reject(errorReferenceMissing)
+            return
+        }
+
+        let options = GetCountFromServerOptions(reference: reference)
+
+        implementation?.getCountFromServer(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
+    }
+
     @objc func addDocumentSnapshotListener(_ call: CAPPluginCall) {
         call.keepAlive = true
 
@@ -359,7 +379,7 @@ public class FirebaseFirestorePlugin: CAPPlugin {
         }
         self.pluginCallMap.removeAll()
         self.eventListeners?.removeAllObjects()
-        
+
         implementation?.removeAllListeners {
             call.resolve()
         }

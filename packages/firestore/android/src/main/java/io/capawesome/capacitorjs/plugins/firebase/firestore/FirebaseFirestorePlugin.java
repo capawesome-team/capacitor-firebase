@@ -15,6 +15,7 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddD
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.DeleteDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCollectionGroupOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCollectionOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCountFromServerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.RemoveSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.SetDocumentOptions;
@@ -388,6 +389,36 @@ public class FirebaseFirestorePlugin extends Plugin {
 
             implementation.useEmulator(host, port);
             call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void getCountFromServer(PluginCall call) {
+        try {
+            String reference = call.getString("reference");
+            if (reference == null) {
+                call.reject(ERROR_REFERENCE_MISSING);
+                return;
+            }
+
+            GetCountFromServerOptions options = new GetCountFromServerOptions(reference);
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+                @Override
+                public void success(Result result) {
+                    call.resolve(result.toJSObject());
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage());
+                }
+            };
+
+            implementation.getCountFromServer(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
