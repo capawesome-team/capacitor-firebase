@@ -21,6 +21,7 @@ import {
   enableNetwork,
   endAt,
   endBefore,
+  getCountFromServer,
   getDoc,
   getDocs,
   getFirestore,
@@ -36,7 +37,6 @@ import {
   updateDoc,
   where,
   writeBatch,
-  getCountFromServer,
 } from 'firebase/firestore';
 
 import type {
@@ -203,6 +203,16 @@ export class FirebaseFirestoreWeb
     };
   }
 
+  public async getCountFromServer(
+    options: GetCountFromServerOptions,
+  ): Promise<GetCountFromServerResult> {
+    const firestore = getFirestore();
+    const { reference } = options;
+    const coll = collection(firestore, reference);
+    const snapshot = await getCountFromServer(coll);
+    return { count: snapshot.data().count };
+  }
+
   public async clearPersistence(): Promise<void> {
     const firestore = getFirestore();
     await clearIndexedDbPersistence(firestore);
@@ -222,16 +232,6 @@ export class FirebaseFirestoreWeb
     const firestore = getFirestore();
     const port = options.port || 8080;
     connectFirestoreEmulator(firestore, options.host, port);
-  }
-
-  public async getCountFromServer(
-    options: GetCountFromServerOptions,
-  ): Promise<GetCountFromServerResult> {
-    const firestore = getFirestore();
-    const { reference } = options;
-    const coll = collection(firestore, reference);
-    const snapshot = await getCountFromServer(coll);
-    return { count: snapshot.data().count };
   }
 
   public async addDocumentSnapshotListener<
