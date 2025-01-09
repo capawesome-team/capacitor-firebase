@@ -273,11 +273,11 @@ const removeAllListeners = async () => {
 * [`writeBatch(...)`](#writebatch)
 * [`getCollection(...)`](#getcollection)
 * [`getCollectionGroup(...)`](#getcollectiongroup)
+* [`getCountFromServer(...)`](#getcountfromserver)
 * [`clearPersistence()`](#clearpersistence)
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
 * [`useEmulator(...)`](#useemulator)
-* [`getCountFromServer(...)`](#getcountfromserver)
 * [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
 * [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
 * [`addCollectionGroupSnapshotListener(...)`](#addcollectiongroupsnapshotlistener)
@@ -434,6 +434,25 @@ Reads the collection group referenced by the specified reference.
 --------------------
 
 
+### getCountFromServer(...)
+
+```typescript
+getCountFromServer(options: GetCountFromServerOptions) => Promise<GetCountFromServerResult>
+```
+
+Fetches the number of documents in a collection.
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getcountfromserveroptions">GetCountFromServerOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getcountfromserverresult">GetCountFromServerResult</a>&gt;</code>
+
+**Since:** 6.4.0
+
+--------------------
+
+
 ### clearPersistence()
 
 ```typescript
@@ -488,23 +507,6 @@ Instrument your app to talk to the Firestore emulator.
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
 
 **Since:** 6.1.0
-
---------------------
-
-
-### getCountFromServer(...)
-
-```typescript
-getCountFromServer(options: GetCountFromServerOptions) => Promise<GetCountFromServerResult>
-```
-
-| Param         | Type                                                                            |
-| ------------- | ------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#getcountfromserveroptions">GetCountFromServerOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#getcountfromserverresult">GetCountFromServerResult</a>&gt;</code>
-
-**Since:** 6.4.0
 
 --------------------
 
@@ -783,26 +785,26 @@ Remove all listeners for this plugin.
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
 
+#### GetCountFromServerResult
+
+| Prop        | Type                | Description                                | Since |
+| ----------- | ------------------- | ------------------------------------------ | ----- |
+| **`count`** | <code>number</code> | The number of documents in the collection. | 6.4.0 |
+
+
+#### GetCountFromServerOptions
+
+| Prop            | Type                | Description                                                                         | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
+
+
 #### UseEmulatorOptions
 
 | Prop       | Type                | Description                                                                                                                                                                     | Default           | Since |
 | ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
 | **`host`** | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
 | **`port`** | <code>number</code> | The emulator port.                                                                                                                                                              | <code>8080</code> | 6.1.0 |
-
-
-#### GetCountFromServerResult
-
-| Prop        | Type                | Since |
-| ----------- | ------------------- | ----- |
-| **`count`** | <code>number</code> | 6.4.0 |
-
-
-#### GetCountFromServerOptions
-
-| Prop            | Type                | Since |
-| --------------- | ------------------- | ----- |
-| **`reference`** | <code>string</code> | 6.4.0 |
 
 
 #### AddDocumentSnapshotListenerOptions
