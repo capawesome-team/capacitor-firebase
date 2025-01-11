@@ -1,5 +1,11 @@
 # @capacitor-firebase/functions
 
+## 7.0.0
+
+### Patch Changes
+
+- [`9bdd458`](https://github.com/capawesome-team/capacitor-firebase/commit/9bdd458004d069f856cc9f007c9bb46a45f59afa) ([#781](https://github.com/capawesome-team/capacitor-firebase/pull/781)): fix(android): serialize arrays in arrays correctly
+
 ## 6.3.1
 
 ## 6.3.0
