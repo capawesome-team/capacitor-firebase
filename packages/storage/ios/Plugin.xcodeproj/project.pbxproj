@@ -12,9 +12,7 @@
 		2F98D68224C9AAE500613A4C /* FirebaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* FirebaseStorage.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
 		50ADFF97201F53D600D50D53 /* FirebaseStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebaseStorageTests.swift */; };
-		50ADFF99201F53D600D50D53 /* FirebaseStoragePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* FirebaseStoragePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
-		50ADFFA82020EE4F00D50D53 /* FirebaseStoragePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseStoragePlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseStoragePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */; };
 		7C4A52A52B22088A00357532 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A52A42B22088A00357532 /* FirebaseStorageHelper.swift */; };
 		7C7A8D6C2ADBCD1200C195CB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D6B2ADBCD1200C195CB /* Result.swift */; };
@@ -44,13 +42,11 @@
 		2F98D68124C9AAE400613A4C /* FirebaseStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorage.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF8B201F53D600D50D53 /* FirebaseStoragePlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseStoragePlugin.h; sourceTree = "<group>"; };
 		50ADFF8C201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFF91201F53D600D50D53 /* PluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF96201F53D600D50D53 /* FirebaseStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageTests.swift; sourceTree = "<group>"; };
 		50ADFF98201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFFA52020D75100D50D53 /* Capacitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Capacitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFFA72020EE4F00D50D53 /* FirebaseStoragePlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseStoragePlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStoragePlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C4A52A42B22088A00357532 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
@@ -121,8 +117,6 @@
 				50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseStorage.swift */,
 				7C4A52A42B22088A00357532 /* FirebaseStorageHelper.swift */,
-				50ADFF8B201F53D600D50D53 /* FirebaseStoragePlugin.h */,
-				50ADFFA72020EE4F00D50D53 /* FirebaseStoragePlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
@@ -214,7 +208,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF99201F53D600D50D53 /* FirebaseStoragePlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +404,6 @@
 				7C7A8D7C2ADBCD7C00C195CB /* ListFilesOptions.swift in Sources */,
 				7C7A8D802ADBCD8C00C195CB /* UploadFileOptions.swift in Sources */,
 				7C7A8D6E2ADBCD2E00C195CB /* GetDownloadUrlResult.swift in Sources */,
-				50ADFFA82020EE4F00D50D53 /* FirebaseStoragePlugin.m in Sources */,
 				7C7A8D722ADBCD4300C195CB /* ListFilesResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
