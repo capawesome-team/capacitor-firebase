@@ -12,9 +12,7 @@
 		2F98D68224C9AAE500613A4C /* FirebaseFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* FirebaseFirestore.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
 		50ADFF97201F53D600D50D53 /* FirebaseFirestoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebaseFirestoreTests.swift */; };
-		50ADFF99201F53D600D50D53 /* FirebaseFirestorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* FirebaseFirestorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
-		50ADFFA82020EE4F00D50D53 /* FirebaseFirestorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseFirestorePlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseFirestorePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */; };
 		7C00700E2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00700D2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift */; };
 		7C0070102ABC1EE0000C0F28 /* AddDocumentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00700F2ABC1EE0000C0F28 /* AddDocumentOptions.swift */; };
@@ -61,13 +59,11 @@
 		2F98D68124C9AAE400613A4C /* FirebaseFirestore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFirestore.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF8B201F53D600D50D53 /* FirebaseFirestorePlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseFirestorePlugin.h; sourceTree = "<group>"; };
 		50ADFF8C201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFF91201F53D600D50D53 /* PluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF96201F53D600D50D53 /* FirebaseFirestoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreTests.swift; sourceTree = "<group>"; };
 		50ADFF98201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFFA52020D75100D50D53 /* Capacitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Capacitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFFA72020EE4F00D50D53 /* FirebaseFirestorePlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseFirestorePlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFirestorePlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C00700D2ABC1ED4000C0F28 /* AddCollectionSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionSnapshotListenerOptions.swift; sourceTree = "<group>"; };
@@ -154,8 +150,6 @@
 				7C00700A2ABC1E7F000C0F28 /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseFirestore.swift */,
-				50ADFF8B201F53D600D50D53 /* FirebaseFirestorePlugin.h */,
-				50ADFFA72020EE4F00D50D53 /* FirebaseFirestorePlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 				7C00703F2ABC2DF8000C0F28 /* FirebaseFirestoreHelper.swift */,
 			);
@@ -265,7 +259,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF99201F53D600D50D53 /* FirebaseFirestorePlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,7 +482,6 @@
 				7C0070222ABC1F4A000C0F28 /* GetDocumentResult.swift in Sources */,
 				7C0070262ABC1F62000C0F28 /* QueryEndAtConstraint.swift in Sources */,
 				7C00701C2ABC1F31000C0F28 /* GetCollectionOptions.swift in Sources */,
-				50ADFFA82020EE4F00D50D53 /* FirebaseFirestorePlugin.m in Sources */,
 				7C0070422ABC97E5000C0F28 /* QueryNonFilterConstraint.swift in Sources */,
 				7C0070342ABC1FCD000C0F28 /* SetDocumentOptions.swift in Sources */,
 				7C00701A2ABC1F29000C0F28 /* GetCollectionGroupResult.swift in Sources */,

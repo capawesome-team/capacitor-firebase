@@ -12,6 +12,7 @@
     "dev": {
       "cache": false
     },
-    "ios:pod:install": {}
+    "ios:pod:install": {},
+    "ios:spm:install": {}
   }
 }

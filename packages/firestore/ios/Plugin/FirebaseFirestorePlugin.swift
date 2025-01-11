@@ -6,7 +6,27 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseFirestorePlugin)
-public class FirebaseFirestorePlugin: CAPPlugin {
+public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseFirestorePlugin" 
+    public let jsName = "FirebaseFirestore" 
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "addDocument", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setDocument", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getDocument", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updateDocument", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteDocument", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "writeBatch", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCollection", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCollectionGroup", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCountFromServer", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "enableNetwork", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "disableNetwork", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "addDocumentSnapshotListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "addCollectionSnapshotListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "addCollectionGroupSnapshotListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "removeSnapshotListener", returnType: CAPPluginReturnPromise),
+    ] 
     public let tag = "FirebaseFirestore"
     public let errorReferenceMissing = "reference must be provided."
     public let errorDataMissing = "data must be provided."

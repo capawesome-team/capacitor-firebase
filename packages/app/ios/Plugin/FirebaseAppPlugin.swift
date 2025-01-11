@@ -8,7 +8,13 @@ import FirebaseCore
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseAppPlugin)
-public class FirebaseAppPlugin: CAPPlugin {
+public class FirebaseAppPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseAppPlugin" 
+    public let jsName = "FirebaseApp" 
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "getName", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getOptions", returnType: CAPPluginReturnPromise),
+    ] 
 
     override public func load() {
         if FirebaseApp.app() == nil {
