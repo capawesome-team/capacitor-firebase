@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.0.0
+
+### Major Changes
+
+- [`73f3ca4`](https://github.com/capawesome-team/capacitor-firebase/commit/73f3ca499290c9a4d850d1a5292f5be98c82187d) ([#796](https://github.com/capawesome-team/capacitor-firebase/pull/796)): fix: throw error on web when trace is not found
+
 ## 6.3.1
 
 ## 6.3.0
