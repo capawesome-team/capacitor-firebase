@@ -689,30 +689,41 @@ export interface GetIdTokenResultResult {
   /**
    * The authentication time formatted as a UTC string.
    *
-   * @remarks
    * This is the time the user authenticated (signed in) and not the time the token was refreshed.
+   *
+   * @since 6.4.0
    */
   authTime: string;
-  /** The ID token expiration time formatted as a UTC string. */
+  /**
+   * The ID token expiration time formatted as a UTC string. 
+   *
+   * @since 6.4.0
+   */
   expirationTime: string;
-  /** The ID token issuance time formatted as a UTC string. */
+  /** 
+   * The ID token issuance time formatted as a UTC string. 
+   *
+   * @since 6.4.0
+   */
   issuedAtTime: string;
   /**
-   * The sign-in provider through which the ID token was obtained (anonymous, custom, phone,
-   * password, etc).
+   * The sign-in provider through which the ID token was obtained.
    *
-   * @remarks
-   * Note, this does not map to provider IDs.
+   * @since 6.4.0
    */
   signInProvider: string | null;
   /**
    * The type of second factor associated with this session, provided the user was multi-factor
    * authenticated (eg. phone, etc).
+   *
+   * @since 6.4.0
    */
   signInSecondFactor: string | null;
   /**
    * The entire payload claims of the ID token including the standard reserved claims as well as
    * the custom claims.
+   *
+   * @since 6.4.0
    */
   claims: Record<string, unknown>;
 }

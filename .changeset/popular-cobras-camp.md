@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/authentication': major
+'@capacitor-firebase/authentication': minor
 ---
 
-feat: add getIdTokenResult method
+feat: add `getIdTokenResult()` method
