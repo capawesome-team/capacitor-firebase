@@ -59,7 +59,7 @@
 ## iOS
 
 1. Add `facebook.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
-1. Add the `CapacitorFirebaseAuthentication/Facebook` pod to your `Podfile` (usually `ios/App/Podfile`):
+1. If you are using **CocoaPods** for your iOS project, add the `CapacitorFirebaseAuthentication/Facebook` pod to your `Podfile` (usually `ios/App/Podfile`):
 
    ```diff
    target 'App' do
