@@ -20,11 +20,13 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.IdTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.GetIdTokenResult;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.GetIdTokenResultResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
@@ -185,6 +187,27 @@ public class FirebaseAuthentication {
                 if (task.isSuccessful()) {
                     String token = task.getResult().getToken();
                     GetIdTokenResult result = new GetIdTokenResult(token);
+                    callback.success(result);
+                } else {
+                    Exception exception = task.getException();
+                    callback.error(exception);
+                }
+            }
+        );
+    }
+    
+    public void getIdTokenResult(Boolean forceRefresh, @NonNull final NonEmptyResultCallback callback) {
+        FirebaseUser user = getCurrentUser();
+        if (user == null) {
+            callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
+            return;
+        }
+        Task<IdTokenResult> idTokenResultTask = user.getIdTokenResult(forceRefresh);
+        idTokenResultTask.addOnCompleteListener(
+            task -> {
+                if (task.isSuccessful()) {
+                    String tokenResult = task.getResult().getTokenResult();
+                    GetIdTokenResultResult result = new GetIdTokenResultResult(tokenResult);
                     callback.success(result);
                 } else {
                     Exception exception = task.getException();

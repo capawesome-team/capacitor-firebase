@@ -12,6 +12,7 @@ CAP_PLUGIN(FirebaseAuthenticationPlugin, "FirebaseAuthentication",
            CAP_PLUGIN_METHOD(fetchSignInMethodsForEmail, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCurrentUser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getIdToken, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getIdTokenResult, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getPendingAuthResult, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getRedirectResult, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getTenantId, CAPPluginReturnPromise);
