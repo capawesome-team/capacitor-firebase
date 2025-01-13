@@ -6,7 +6,14 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseAppCheckPlugin)
-public class FirebaseAppCheckPlugin: CAPPlugin {
+public class FirebaseAppCheckPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseAppCheckPlugin" 
+    public let jsName = "FirebaseAppCheck" 
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "getToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initialize", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setTokenAutoRefreshEnabled", returnType: CAPPluginReturnPromise),
+    ] 
     public let tag = "FirebaseApp"
     public let errorEnabledMissing = "enabled must be provided."
     public let errorGetTokenFailed = "Failed to get token."

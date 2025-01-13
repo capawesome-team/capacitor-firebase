@@ -11,7 +11,8 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseAnalytics.podspec"
+    "CapacitorFirebaseAnalytics.podspec",
+    "Package.swift"
   ],
   "author": "Robin Genz <mail@robingenz.dev>",
   "license": "Apache-2.0",
@@ -53,6 +54,7 @@
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "ios:pod:install": "cd ios && pod install --repo-update && cd ..",
+    "ios:spm:install": "cd ios && swift package resolve && cd ..",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {

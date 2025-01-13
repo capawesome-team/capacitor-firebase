@@ -6,7 +6,18 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseStoragePlugin)
-public class FirebaseStoragePlugin: CAPPlugin {
+public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseStoragePlugin" 
+    public let jsName = "FirebaseStorage" 
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "deleteFile", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getDownloadUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getMetadata", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "listFiles", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updateMetadata", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "uploadFile", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
+    ] 
     public let tag = "FirebaseFirestore"
     public let errorPathMissing = "path must be provided."
     public let errorUriMissing = "uri must be provided."

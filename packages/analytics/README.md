@@ -29,7 +29,7 @@ This plugin will use the following project variables (defined in your app’s `v
 
 ### iOS
 
-Add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
+If you are using **CocoaPods** for your iOS project, you need to add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
 
 ```diff
 target 'App' do
@@ -47,7 +47,7 @@ See [Disable Analytics data collection](https://firebase.google.com/docs/analyti
 
 #### Disable IDFA collection
 
-If you want to install Firebase without any IDFA collection capability, use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod in place of the `CapacitorFirebaseAnalytics/Analytics` pod:
+If you are using **CocoaPods** for your iOS project and you want to disable IDFA collection, you can use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod instead of the `CapacitorFirebaseAnalytics/Analytics` pod:
 
 ```diff
 target 'App' do
