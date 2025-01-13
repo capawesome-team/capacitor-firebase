@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.0.0
+
+### Major Changes
+
+- [`73f3ca4`](https://github.com/capawesome-team/capacitor-firebase/commit/73f3ca499290c9a4d850d1a5292f5be98c82187d) ([#796](https://github.com/capawesome-team/capacitor-firebase/pull/796)): fix: throw error on web when trace is not found
+
+### Minor Changes
+
+- [`0bffff0`](https://github.com/capawesome-team/capacitor-firebase/commit/0bffff08b661c704a2e22cd024761f1b1599b791) ([#795](https://github.com/capawesome-team/capacitor-firebase/pull/795)): feat: add SPM support
+
 ## 6.3.1
 
 ## 6.3.0

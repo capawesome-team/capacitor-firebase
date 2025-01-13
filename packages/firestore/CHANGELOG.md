@@ -1,5 +1,19 @@
 # @capacitor-firebase/firestore
 
+## 7.0.0
+
+### Minor Changes
+
+- [`0bffff0`](https://github.com/capawesome-team/capacitor-firebase/commit/0bffff08b661c704a2e22cd024761f1b1599b791) ([#795](https://github.com/capawesome-team/capacitor-firebase/pull/795)): feat: add SPM support
+
+* [`5344006`](https://github.com/capawesome-team/capacitor-firebase/commit/5344006ecece0ecc0699241d641b296ec7004813) ([#792](https://github.com/capawesome-team/capacitor-firebase/pull/792)): feat: add `getCountFromServer` method
+
+- [`ea16204`](https://github.com/capawesome-team/capacitor-firebase/commit/ea162046d226338e6ced56b977d8fea55a9e35f8) ([#789](https://github.com/capawesome-team/capacitor-firebase/pull/789)): feat: add the error codes
+
+### Patch Changes
+
+- [`f1f07aa`](https://github.com/capawesome-team/capacitor-firebase/commit/f1f07aa6b7d069ee08d4b323e069195a414ceff7) ([#772](https://github.com/capawesome-team/capacitor-firebase/pull/772)): fix(ios): prevent crash caused by concurrency issue
+
 ## 6.3.1
 
 ## 6.3.0

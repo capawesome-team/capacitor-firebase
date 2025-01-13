@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.0.0
+
+### Minor Changes
+
+- [`0bffff0`](https://github.com/capawesome-team/capacitor-firebase/commit/0bffff08b661c704a2e22cd024761f1b1599b791) ([#795](https://github.com/capawesome-team/capacitor-firebase/pull/795)): feat: add SPM support
+
 ## 6.3.1
 
 ### Patch Changes
