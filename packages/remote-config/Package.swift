@@ -22,10 +22,10 @@ let package = Package(
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk")
             ],
-            path: "ios/Sources/FirebaseRemoteConfigPlugin"),
+            path: "ios/Plugin"),
         .testTarget(
             name: "FirebaseRemoteConfigPluginTests",
             dependencies: ["FirebaseRemoteConfigPlugin"],
-            path: "ios/Tests/FirebaseRemoteConfigPluginTests")
+            path: "ios/PluginTests")
     ]
 )
