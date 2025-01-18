@@ -22,10 +22,10 @@ let package = Package(
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
                 .product(name: "FirebasePerformance", package: "firebase-ios-sdk")
             ],
-            path: "ios/Sources/FirebasePerformancePlugin"),
+            path: "ios/Plugin"),
         .testTarget(
             name: "FirebasePerformancePluginTests",
             dependencies: ["FirebasePerformancePlugin"],
-            path: "ios/Tests/FirebasePerformancePluginTests")
+            path: "ios/PluginTests")
     ]
 )

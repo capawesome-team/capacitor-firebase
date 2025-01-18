@@ -22,10 +22,10 @@ let package = Package(
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
             ],
-            path: "ios/Sources/FirebaseCrashlyticsPlugin"),
+            path: "ios/Plugin"),
         .testTarget(
             name: "FirebaseCrashlyticsPluginTests",
             dependencies: ["FirebaseCrashlyticsPlugin"],
-            path: "ios/Tests/FirebaseCrashlyticsPluginTests")
+            path: "ios/PluginTests")
     ]
 )
