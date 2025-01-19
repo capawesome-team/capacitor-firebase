@@ -110,7 +110,8 @@ import { Persistence, ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
-  implements FirebaseAuthenticationPlugin {
+  implements FirebaseAuthenticationPlugin
+{
   public static readonly AUTH_STATE_CHANGE_EVENT = 'authStateChange';
   public static readonly ID_TOKEN_CHANGE_EVENT = 'idTokenChange';
   public static readonly PHONE_CODE_SENT_EVENT = 'phoneCodeSent';
@@ -224,7 +225,8 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const result: GetIdTokenResultResult = await auth.currentUser.getIdTokenResult(options?.forceRefresh);
+    const result: GetIdTokenResultResult =
+      await auth.currentUser.getIdTokenResult(options?.forceRefresh);
     return result;
   }
 

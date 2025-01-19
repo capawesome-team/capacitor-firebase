@@ -194,7 +194,7 @@ public class FirebaseAuthentication {
             }
         );
     }
-    
+
     public void getIdTokenResult(Boolean forceRefresh, @NonNull final NonEmptyResultCallback callback) {
         FirebaseUser user = getCurrentUser();
         if (user == null) {

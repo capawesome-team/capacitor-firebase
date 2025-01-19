@@ -4,14 +4,15 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.GetTokenResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class GetIdTokenResultResult implements Result {
 
     @Nullable
     private GetTokenResult tokenResult;
+
     private SimpleDateFormat iso8601Format;
 
     public GetIdTokenResultResult(@Nullable GetTokenResult tokenResult) {
