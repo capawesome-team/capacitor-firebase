@@ -126,16 +126,16 @@ public typealias AuthStateChangedObserver = () -> Void
             let error = RuntimeError(self.plugin.errorNoUserSignedIn)
             completion(nil, error)
             return
-        }
-        user.getIDTokenResult(forcingRefresh: forceRefresh, completion: { result, error in
+        }        
+        user.getIDTokenResult(forcingRefresh: forceRefresh) { tokenResult, error in
             if let error = error {
                 CAPLog.print("[", self.plugin.tag, "] ", error)
                 completion(nil, error)
                 return
-            }
-            let result = GetIdTokenResultResult(tokenResult: result)
-            completion(result, nil)
-        })
+            }            
+            let idTokenResult = GetIdTokenResultResult(tokenResult: tokenResult)
+            completion(idTokenResult, nil)
+        }
     }
 
     @objc func getTenantId() -> String? {

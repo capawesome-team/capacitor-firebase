@@ -20,7 +20,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.IdTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
@@ -202,11 +201,11 @@ public class FirebaseAuthentication {
             callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
             return;
         }
-        Task<IdTokenResult> idTokenResultTask = user.getIdTokenResult(forceRefresh);
+        Task<GetTokenResult> idTokenResultTask = user.getIdToken(forceRefresh);
         idTokenResultTask.addOnCompleteListener(
             task -> {
                 if (task.isSuccessful()) {
-                    String tokenResult = task.getResult().getTokenResult();
+                    GetTokenResult tokenResult = task.getResult();
                     GetIdTokenResultResult result = new GetIdTokenResultResult(tokenResult);
                     callback.success(result);
                 } else {

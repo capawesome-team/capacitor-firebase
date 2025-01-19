@@ -3,9 +3,9 @@ import FirebaseAuth
 import Capacitor
 
 @objc class GetIdTokenResultResult: NSObject {
-    let tokenResult: IdTokenResult?
+    let tokenResult: AuthTokenResult? 
 
-    init(tokenResult: IdTokenResult?) {
+    init(tokenResult: AuthTokenResult?) { 
         self.tokenResult = tokenResult
     }
 
@@ -13,15 +13,19 @@ import Capacitor
         var result = JSObject()
         
         if let tokenResult = tokenResult {
-            result["authTime"] = tokenResult.authTime
-            result["expirationTime"] = tokenResult.expirationDate.timeIntervalSince1970 
-            result["issuedAtTime"] = tokenResult.issuedAt.timeIntervalSince1970  
-            result["signInProvider"] = tokenResult.signInProvider  
-            result["signInSecondFactor"] = tokenResult.signInSecondFactor          
+            let dateFormatter = ISO8601DateFormatter()
             
-            let claims = JSObject()
+            result["authTime"] = dateFormatter.string(from: tokenResult.authDate)  
+            result["expirationTime"] = dateFormatter.string(from: tokenResult.expirationDate)
+            result["issuedAtTime"] = dateFormatter.string(from: tokenResult.issuedAtDate)  
+            result["signInProvider"] = tokenResult.signInProvider
+            result["signInSecondFactor"] = tokenResult.signInSecondFactor
+            
+            var claims = JSObject()
             for (key, value) in tokenResult.claims {
-                claims[key] = value 
+                if let jsonValue = value as? JSValue {
+                    claims[key] = jsonValue
+                }
             }
             result["claims"] = claims
         }

@@ -2,31 +2,32 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.classes;
 
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
-import com.google.firebase.auth.IdTokenResult;
+import com.google.firebase.auth.GetTokenResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 public class GetIdTokenResultResult implements Result {
 
     @Nullable
-    private IdTokenResult tokenResult;
+    private GetTokenResult tokenResult;
+    private SimpleDateFormat iso8601Format;
 
-    public GetIdTokenResultResult(@Nullable IdTokenResult tokenResult) {
+    public GetIdTokenResultResult(@Nullable GetTokenResult tokenResult) {
         this.tokenResult = tokenResult;
-    }
-
-    @Nullable
-    public String getTokenResult() {
-        return tokenResult;
+        this.iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        this.iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public JSObject toJSObject() {
         JSObject result = new JSObject();
         if (tokenResult != null) {
-            result.put("authTime", tokenResult.getAuthTime()); 
-            result.put("expirationTime", tokenResult.getExpirationTimestamp()); 
-            result.put("issuedAtTime", tokenResult.getIssuedAtTimestamp());
+            result.put("authTime", iso8601Format.format(new Date(tokenResult.getAuthTimestamp() * 1000L)));
+            result.put("expirationTime", iso8601Format.format(new Date(tokenResult.getExpirationTimestamp() * 1000L)));
+            result.put("issuedAtTime", iso8601Format.format(new Date(tokenResult.getIssuedAtTimestamp() * 1000L)));
             result.put("signInProvider", tokenResult.getSignInProvider());
-            result.put("signInSecondFactor", tokenResult.getSignInSecondFactor()); 
+            result.put("signInSecondFactor", tokenResult.getSignInSecondFactor());
 
             JSObject claims = new JSObject();
             for (String key : tokenResult.getClaims().keySet()) {
