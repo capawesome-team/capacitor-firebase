@@ -1,17 +1,15 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
+import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.credentials.ClearCredentialStateRequest;
 import androidx.credentials.Credential;
 import androidx.credentials.CredentialManager;
-
-import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.ClearCredentialException;
 import androidx.credentials.exceptions.GetCredentialException;
-
 import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
@@ -21,7 +19,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyResultCallback;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -46,20 +43,20 @@ public class GoogleAuthProviderHandler {
         Executor executor = Executors.newSingleThreadExecutor();
         CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
         credentialManager.clearCredentialStateAsync(
-                request,
-                null,
-                executor,
-                new CredentialManagerCallback<Void, ClearCredentialException>() {
-                    @Override
-                    public void onResult(Void result) {
-                        // No-op
-                    }
-
-                    @Override
-                    public void onError(@NonNull ClearCredentialException exception) {
-                        // No-op
-                    }
+            request,
+            null,
+            executor,
+            new CredentialManagerCallback<Void, ClearCredentialException>() {
+                @Override
+                public void onResult(Void result) {
+                    // No-op
                 }
+
+                @Override
+                public void onError(@NonNull ClearCredentialException exception) {
+                    // No-op
+                }
+            }
         );
     }
 
@@ -89,31 +86,29 @@ public class GoogleAuthProviderHandler {
     public void signInOrLink(final PluginCall call, final boolean isLink) {
         Executor executor = Executors.newSingleThreadExecutor();
         GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
-                // Your server's client ID, not your Android client ID
-                .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-                // Show all accounts on the device (not just the accounts that have been used previously)
-                .setFilterByAuthorizedAccounts(false)
-                .build();
-        GetCredentialRequest request = new GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
-                .build();
+            // Your server's client ID, not your Android client ID
+            .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+            // Show all accounts on the device (not just the accounts that have been used previously)
+            .setFilterByAuthorizedAccounts(false)
+            .build();
+        GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build();
         CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
         credentialManager.getCredentialAsync(
-                pluginImplementation.getPlugin().getContext(),
-                request,
-                null,
-                executor,
-                new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
-                    @Override
-                    public void onResult(GetCredentialResponse response) {
-                        handleGetCredentialResult(call, isLink, response);
-                    }
-
-                    @Override
-                    public void onError(@NonNull GetCredentialException exception) {
-                        handleGetCredentialError(call, isLink, exception);
-                    }
+            pluginImplementation.getPlugin().getContext(),
+            request,
+            null,
+            executor,
+            new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                @Override
+                public void onResult(GetCredentialResponse response) {
+                    handleGetCredentialResult(call, isLink, response);
                 }
+
+                @Override
+                public void onError(@NonNull GetCredentialException exception) {
+                    handleGetCredentialError(call, isLink, exception);
+                }
+            }
         );
     }
 }
