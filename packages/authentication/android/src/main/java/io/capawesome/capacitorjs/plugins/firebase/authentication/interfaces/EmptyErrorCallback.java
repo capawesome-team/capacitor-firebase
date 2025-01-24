@@ -1,5 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces;
 
-public interface EmptyResultCallback extends ResultCallback {
+public interface EmptyErrorCallback extends ErrorCallback {
     void success();
 }

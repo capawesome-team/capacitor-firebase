@@ -3,14 +3,21 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.TAG;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
+import com.google.android.gms.auth.api.identity.AuthorizationResult;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
@@ -20,7 +27,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
@@ -41,10 +47,8 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Google
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.OAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PhoneAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PlayGamesAuthProviderHandler;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyResultCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyErrorCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyErrorCallback;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONObject;
@@ -58,6 +62,7 @@ public class FirebaseAuthentication {
     private AppleAuthProviderHandler appleAuthProviderHandler;
     private FacebookAuthProviderHandler facebookAuthProviderHandler;
     private GoogleAuthProviderHandler googleAuthProviderHandler;
+    public ActivityResultLauncher<IntentSenderRequest> googleAuthorizationResultLauncher;
     private OAuthProviderHandler oAuthProviderHandler;
     private PhoneAuthProviderHandler phoneAuthProviderHandler;
     private PlayGamesAuthProviderHandler playGamesAuthProviderHandler;
@@ -135,7 +140,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyErrorCallback callback) {
         phoneAuthProviderHandler.confirmVerificationCode(options, callback);
     }
 
@@ -149,7 +154,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final NonEmptyResultCallback callback) {
+    public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final NonEmptyErrorCallback callback) {
         String email = options.getEmail();
 
         getFirebaseAuthInstance()
@@ -173,7 +178,7 @@ public class FirebaseAuthentication {
         return getFirebaseAuthInstance().getCurrentUser();
     }
 
-    public void getIdToken(Boolean forceRefresh, @NonNull final NonEmptyResultCallback callback) {
+    public void getIdToken(Boolean forceRefresh, @NonNull final NonEmptyErrorCallback callback) {
         FirebaseUser user = getCurrentUser();
         if (user == null) {
             callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
@@ -327,7 +332,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyResultCallback callback) {
+    public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyErrorCallback callback) {
         String token = options.getToken();
 
         getFirebaseAuthInstance()
@@ -336,7 +341,7 @@ public class FirebaseAuthentication {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendEmailVerification(@NonNull SendEmailVerificationOptions options, @NonNull EmptyResultCallback callback) {
+    public void sendEmailVerification(@NonNull SendEmailVerificationOptions options, @NonNull EmptyErrorCallback callback) {
         ActionCodeSettings actionCodeSettings = options.getActionCodeSettings();
 
         FirebaseUser user = getCurrentUser();
@@ -355,7 +360,7 @@ public class FirebaseAuthentication {
         task.addOnSuccessListener(unused -> callback.success()).addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendPasswordResetEmail(@NonNull SendPasswordResetEmailOptions options, @NonNull EmptyResultCallback callback) {
+    public void sendPasswordResetEmail(@NonNull SendPasswordResetEmailOptions options, @NonNull EmptyErrorCallback callback) {
         String email = options.getEmail();
         ActionCodeSettings actionCodeSettings = options.getActionCodeSettings();
 
@@ -597,7 +602,7 @@ public class FirebaseAuthentication {
         FirebaseUser user,
         @NonNull String newEmail,
         @NonNull ActionCodeSettings actionCodeSettings,
-        @NonNull EmptyResultCallback callback
+        @NonNull EmptyErrorCallback callback
     ) {
         user
             .verifyBeforeUpdateEmail(newEmail, actionCodeSettings)
@@ -663,7 +668,7 @@ public class FirebaseAuthentication {
     public void signInWithCredential(
         @NonNull SignInOptions options,
         @NonNull AuthCredential credential,
-        @NonNull NonEmptyResultCallback callback
+        @NonNull NonEmptyErrorCallback callback
     ) {
         boolean skipNativeAuth = options.getSkipNativeAuth();
         if (skipNativeAuth) {
@@ -689,7 +694,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void linkWithCredential(@NonNull AuthCredential credential, @NonNull NonEmptyResultCallback callback) {
+    public void linkWithCredential(@NonNull AuthCredential credential, @NonNull NonEmptyErrorCallback callback) {
         FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
             callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
@@ -882,7 +887,7 @@ public class FirebaseAuthentication {
         call.resolve(linkResult);
     }
 
-    public void handleFailedLink(final PluginCall call, String message, Exception exception) {
+    public void handleFailedLink(final PluginCall call, @Nullable String message, Exception exception) {
         if (message == null && exception != null) {
             message = exception.getMessage();
         }
@@ -916,7 +921,7 @@ public class FirebaseAuthentication {
     }
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {
-        List providerList = Arrays.asList(config.getProviders());
+        List<String> providerList = Arrays.asList(config.getProviders());
         if (providerList.contains(ProviderId.APPLE)) {
             appleAuthProviderHandler = new AppleAuthProviderHandler(this);
         }
@@ -925,6 +930,27 @@ public class FirebaseAuthentication {
         }
         if (providerList.contains(ProviderId.GOOGLE)) {
             googleAuthProviderHandler = new GoogleAuthProviderHandler(this);
+            googleAuthorizationResultLauncher =
+                getPlugin()
+                    .getActivity()
+                    .registerForActivityResult(
+                        new ActivityResultContracts.StartIntentSenderForResult(),
+                        result -> {
+                            if (result.getResultCode() == Activity.RESULT_OK) {
+                                Intent intent = result.getData();
+                                try {
+                                    AuthorizationResult authorizationResult = Identity
+                                        .getAuthorizationClient(getPlugin().getActivity())
+                                        .getAuthorizationResultFromIntent(intent);
+                                    googleAuthProviderHandler.handleAuthorizationResult(authorizationResult);
+                                } catch (ApiException exception) {
+                                    googleAuthProviderHandler.handleAuthorizationResultError(exception);
+                                }
+                            } else {
+                                googleAuthProviderHandler.handleAuthorizationResultError(new Exception("Authorization canceled."));
+                            }
+                        }
+                    );
         }
         if (providerList.contains(ProviderId.PHONE)) {
             phoneAuthProviderHandler = new PhoneAuthProviderHandler(this);
