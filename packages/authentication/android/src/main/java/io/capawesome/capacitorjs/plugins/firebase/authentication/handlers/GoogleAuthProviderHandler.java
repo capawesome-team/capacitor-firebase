@@ -7,7 +7,6 @@ import androidx.credentials.CredentialManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.credentials.CredentialManagerCallback;
-import androidx.credentials.CustomCredential;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.ClearCredentialException;
@@ -21,6 +20,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyResultCallback;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -52,13 +52,12 @@ public class GoogleAuthProviderHandler {
                 new CredentialManagerCallback<Void, ClearCredentialException>() {
                     @Override
                     public void onResult(Void result) {
-                        // TODO
+                        // No-op
                     }
 
                     @Override
-                    public void onError(ClearCredentialException exception) {
-                        // TODO
-                        Logger.error("Error signing out", exception);
+                    public void onError(@NonNull ClearCredentialException exception) {
+                        // No-op
                     }
                 }
         );
