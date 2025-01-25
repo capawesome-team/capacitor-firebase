@@ -935,21 +935,7 @@ public class FirebaseAuthentication {
                     .getActivity()
                     .registerForActivityResult(
                         new ActivityResultContracts.StartIntentSenderForResult(),
-                        result -> {
-                            if (result.getResultCode() == Activity.RESULT_OK) {
-                                Intent intent = result.getData();
-                                try {
-                                    AuthorizationResult authorizationResult = Identity
-                                        .getAuthorizationClient(getPlugin().getActivity())
-                                        .getAuthorizationResultFromIntent(intent);
-                                    googleAuthProviderHandler.handleAuthorizationResult(authorizationResult);
-                                } catch (ApiException exception) {
-                                    googleAuthProviderHandler.handleAuthorizationResultError(exception);
-                                }
-                            } else {
-                                googleAuthProviderHandler.handleAuthorizationResultError(new Exception("Authorization canceled."));
-                            }
-                        }
+                        result -> googleAuthProviderHandler.handleActivityResult(result)
                     );
         }
         if (providerList.contains(ProviderId.PHONE)) {

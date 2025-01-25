@@ -1,9 +1,12 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.handlers;
 
+import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +24,7 @@ import com.getcapacitor.PluginCall;
 import com.google.android.gms.auth.api.identity.AuthorizationRequest;
 import com.google.android.gms.auth.api.identity.AuthorizationResult;
 import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
@@ -52,6 +56,22 @@ public class GoogleAuthProviderHandler {
 
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
+    }
+
+    public void handleActivityResult(@NonNull ActivityResult result) {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent intent = result.getData();
+            try {
+                AuthorizationResult authorizationResult = Identity
+                    .getAuthorizationClient(pluginImplementation.getPlugin().getActivity())
+                    .getAuthorizationResultFromIntent(intent);
+                handleAuthorizationResult(authorizationResult);
+            } catch (ApiException exception) {
+                handleAuthorizationResultError(exception);
+            }
+        } else {
+            handleAuthorizationResultError(new Exception("Authorization canceled."));
+        }
     }
 
     public void handleAuthorizationResult(@NonNull AuthorizationResult authorizationResult) {
