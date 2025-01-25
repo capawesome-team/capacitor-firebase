@@ -43,12 +43,16 @@ import org.json.JSONException;
 public class GoogleAuthProviderHandler {
 
     private FirebaseAuthentication pluginImplementation;
+
     @Nullable
     private AuthCredential lastAuthCredential;
+
     @Nullable
     private PluginCall lastCall;
+
     @Nullable
     private String lastIdToken;
+
     private boolean wasLink = false;
 
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
