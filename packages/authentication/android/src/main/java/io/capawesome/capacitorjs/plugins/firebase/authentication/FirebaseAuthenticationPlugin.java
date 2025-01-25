@@ -1001,6 +1001,15 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         implementation.getIdToken(false, callback);
     }
 
+    @Override
+    protected void handleOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.handleOnActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        implementation.handleOnActivityResult(requestCode, resultCode, data);
+    }
+
     @ActivityCallback
     private void handlePlayGamesAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
         if (call == null || result == null) {
