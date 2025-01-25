@@ -48,7 +48,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.OAuthP
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PhoneAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PlayGamesAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyErrorCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyErrorCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONObject;
@@ -140,7 +140,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyErrorCallback callback) {
+    public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyResultCallback callback) {
         phoneAuthProviderHandler.confirmVerificationCode(options, callback);
     }
 
@@ -154,7 +154,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final NonEmptyErrorCallback callback) {
+    public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final NonEmptyResultCallback callback) {
         String email = options.getEmail();
 
         getFirebaseAuthInstance()
@@ -178,7 +178,7 @@ public class FirebaseAuthentication {
         return getFirebaseAuthInstance().getCurrentUser();
     }
 
-    public void getIdToken(Boolean forceRefresh, @NonNull final NonEmptyErrorCallback callback) {
+    public void getIdToken(Boolean forceRefresh, @NonNull final NonEmptyResultCallback callback) {
         FirebaseUser user = getCurrentUser();
         if (user == null) {
             callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
@@ -668,7 +668,7 @@ public class FirebaseAuthentication {
     public void signInWithCredential(
         @NonNull SignInOptions options,
         @NonNull AuthCredential credential,
-        @NonNull NonEmptyErrorCallback callback
+        @NonNull NonEmptyResultCallback callback
     ) {
         boolean skipNativeAuth = options.getSkipNativeAuth();
         if (skipNativeAuth) {
@@ -694,7 +694,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void linkWithCredential(@NonNull AuthCredential credential, @NonNull NonEmptyErrorCallback callback) {
+    public void linkWithCredential(@NonNull AuthCredential credential, @NonNull NonEmptyResultCallback callback) {
         FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
             callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));

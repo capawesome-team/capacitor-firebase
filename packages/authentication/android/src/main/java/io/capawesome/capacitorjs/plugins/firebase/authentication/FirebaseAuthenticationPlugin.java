@@ -1,11 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
-import android.app.Activity;
 import android.content.Intent;
 import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.IntentSenderRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
@@ -15,9 +11,6 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.android.gms.auth.api.identity.AuthorizationResult;
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.common.api.ApiException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseUser;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.ConfirmVerificationCodeOptions;
@@ -30,7 +23,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendPasswordResetEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyErrorCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyErrorCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import org.json.JSONObject;
 
@@ -130,7 +123,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             ConfirmVerificationCodeOptions options = new ConfirmVerificationCodeOptions(verificationId, verificationCode);
-            NonEmptyErrorCallback callback = new NonEmptyErrorCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -189,7 +182,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
 
             FetchSignInMethodsForEmailOptions options = new FetchSignInMethodsForEmailOptions(email);
-            NonEmptyErrorCallback callback = new NonEmptyErrorCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -231,7 +224,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         try {
             Boolean forceRefresh = call.getBoolean("forceRefresh", false);
 
-            NonEmptyErrorCallback callback = new NonEmptyErrorCallback() {
+            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
                     call.resolve(result.toJSObject());
@@ -994,7 +987,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     public void handleIdTokenChange() {
-        NonEmptyErrorCallback callback = new NonEmptyErrorCallback() {
+        NonEmptyResultCallback callback = new NonEmptyResultCallback() {
             @Override
             public void success(Result result) {
                 notifyListeners(ID_TOKEN_CHANGE_EVENT, result.toJSObject(), true);
