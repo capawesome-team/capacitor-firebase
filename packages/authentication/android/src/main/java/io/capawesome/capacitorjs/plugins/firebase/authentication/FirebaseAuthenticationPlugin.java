@@ -63,6 +63,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         "signInAnonymously cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
     public static final String ID_TOKEN_CHANGE_EVENT = "idTokenChange";
+
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
 
@@ -1007,22 +1008,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             return;
         }
         implementation.handleOnActivityResult(requestCode, resultCode, data);
-    }
-
-    @ActivityCallback
-    private void handleGoogleAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
-        if (call == null || result == null) {
-            return;
-        }
-        implementation.handleGoogleAuthProviderSignInActivityResult(call, result);
-    }
-
-    @ActivityCallback
-    private void handleGoogleAuthProviderLinkActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
-        if (call == null || result == null) {
-            return;
-        }
-        implementation.handleGoogleAuthProviderLinkActivityResult(call, result);
     }
 
     @ActivityCallback

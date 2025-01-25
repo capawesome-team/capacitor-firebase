@@ -8,6 +8,9 @@ ext {
     firebaseAuthVersion = project.hasProperty('firebaseAuthVersion') ? rootProject.ext.firebaseAuthVersion : '22.3.1'
     playServicesAuthVersion = project.hasProperty('playServicesAuthVersion') ? rootProject.ext.playServicesAuthVersion : '21.0.0'
     facebookLoginVersion = project.hasProperty('facebookLoginVersion') ? rootProject.ext.facebookLoginVersion : '16.3.0'
+    androidxCredentialsVersion = project.hasProperty('androidxCredentialsVersion') ? rootProject.ext.androidxCredentialsVersion : '1.5.0-rc01'
+    androidxCredentialsPlayServicesAuthVersion = project.hasProperty('androidxCredentialsPlayServicesAuthVersion') ? rootProject.ext.androidxCredentialsPlayServicesAuthVersion : '1.5.0-rc01'
+    librariesIdentityGoogleidVersion = project.hasProperty('librariesIdentityGoogleidVersion') ? rootProject.ext.librariesIdentityGoogleidVersion : '1.1.1'
 }
 
 buildscript {
@@ -60,8 +63,14 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
     if (rgcfaIncludeGoogle) {
       implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
+      implementation "androidx.credentials:credentials:$androidxCredentialsVersion"
+      implementation "androidx.credentials:credentials-play-services-auth:$androidxCredentialsPlayServicesAuthVersion"
+      implementation "com.google.android.libraries.identity.googleid:googleid:$librariesIdentityGoogleidVersion"
     } else {
       compileOnly "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
+      compileOnly "androidx.credentials:credentials:$androidxCredentialsVersion"
+      compileOnly "androidx.credentials:credentials-play-services-auth:$androidxCredentialsPlayServicesAuthVersion"
+      compileOnly "com.google.android.libraries.identity.googleid:googleid:$librariesIdentityGoogleidVersion"
     }
     if (rgcfaIncludeFacebook) {
       implementation "com.facebook.android:facebook-login:$facebookLoginVersion"

@@ -10,8 +10,8 @@ import FirebaseAuth
 // swiftlint:disable type_body_length
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebaseAuthenticationPlugin" 
-    public let jsName = "FirebaseAuthentication" 
+    public let identifier = "FirebaseAuthenticationPlugin"
+    public let jsName = "FirebaseAuthentication"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "applyActionCode", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "confirmPasswordReset", returnType: CAPPluginReturnPromise),
@@ -68,8 +68,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "updateProfile", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useAppLanguage", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "verifyBeforeUpdateEmail", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "verifyBeforeUpdateEmail", returnType: CAPPluginReturnPromise)
+    ]
     public let tag = "FirebaseAuthentication"
     public let errorProviderIdMissing = "providerId must be provided."
     public let errorNoUserSignedIn = "No user is signed in."
