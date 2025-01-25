@@ -43,16 +43,13 @@ import org.json.JSONException;
 public class GoogleAuthProviderHandler {
 
     private FirebaseAuthentication pluginImplementation;
-    private boolean isLastCallLink;
-
     @Nullable
     private AuthCredential lastAuthCredential;
-
     @Nullable
     private PluginCall lastCall;
-
     @Nullable
     private String lastIdToken;
+    private boolean wasLink = false;
 
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
@@ -80,22 +77,28 @@ public class GoogleAuthProviderHandler {
         }
         String accessToken = authorizationResult.getAccessToken();
         String serverAuthCode = authorizationResult.getServerAuthCode();
-        if (isLastCallLink) {
+        if (wasLink) {
             pluginImplementation.handleSuccessfulLink(lastCall, lastAuthCredential, lastIdToken, null, accessToken, serverAuthCode);
         } else {
             pluginImplementation.handleSuccessfulSignIn(lastCall, lastAuthCredential, lastIdToken, null, accessToken, serverAuthCode, null);
         }
+        lastAuthCredential = null;
+        lastCall = null;
+        lastIdToken = null;
     }
 
     public void handleAuthorizationResultError(@NonNull Exception exception) {
         if (lastCall == null) {
             return;
         }
-        if (isLastCallLink) {
+        if (wasLink) {
             pluginImplementation.handleFailedLink(lastCall, null, exception);
         } else {
             pluginImplementation.handleFailedSignIn(lastCall, null, exception);
         }
+        lastAuthCredential = null;
+        lastCall = null;
+        lastIdToken = null;
     }
 
     public void link(final PluginCall call) {
@@ -170,6 +173,7 @@ public class GoogleAuthProviderHandler {
                 lastAuthCredential = authCredential;
                 lastCall = call;
                 lastIdToken = idToken;
+                wasLink = isLink;
                 requestAuthorizationResult(
                     scopes,
                     new NonEmptyCallback<AuthorizationResult>() {
@@ -229,7 +233,7 @@ public class GoogleAuthProviderHandler {
      * Request access token and server auth code.
      *
      * @param scopes    The scopes to request.
-     * @param callback The callback to call with the result. This callback is NOT called if an intent is launched.
+     * @param callback  The callback to call with the result. This callback is NOT called if an intent is launched.
      */
     private void requestAuthorizationResult(@NonNull final List<Scope> scopes, @NonNull NonEmptyCallback<AuthorizationResult> callback) {
         AuthorizationRequest authorizationRequest = AuthorizationRequest
