@@ -47,7 +47,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.Google
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.OAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PhoneAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.PlayGamesAuthProviderHandler;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyErrorCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
 import java.util.Arrays;
 import java.util.List;
@@ -332,7 +332,7 @@ public class FirebaseAuthentication {
             );
     }
 
-    public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyErrorCallback callback) {
+    public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyResultCallback callback) {
         String token = options.getToken();
 
         getFirebaseAuthInstance()
@@ -341,7 +341,7 @@ public class FirebaseAuthentication {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendEmailVerification(@NonNull SendEmailVerificationOptions options, @NonNull EmptyErrorCallback callback) {
+    public void sendEmailVerification(@NonNull SendEmailVerificationOptions options, @NonNull EmptyResultCallback callback) {
         ActionCodeSettings actionCodeSettings = options.getActionCodeSettings();
 
         FirebaseUser user = getCurrentUser();
@@ -360,7 +360,7 @@ public class FirebaseAuthentication {
         task.addOnSuccessListener(unused -> callback.success()).addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendPasswordResetEmail(@NonNull SendPasswordResetEmailOptions options, @NonNull EmptyErrorCallback callback) {
+    public void sendPasswordResetEmail(@NonNull SendPasswordResetEmailOptions options, @NonNull EmptyResultCallback callback) {
         String email = options.getEmail();
         ActionCodeSettings actionCodeSettings = options.getActionCodeSettings();
 
@@ -602,7 +602,7 @@ public class FirebaseAuthentication {
         FirebaseUser user,
         @NonNull String newEmail,
         @NonNull ActionCodeSettings actionCodeSettings,
-        @NonNull EmptyErrorCallback callback
+        @NonNull EmptyResultCallback callback
     ) {
         user
             .verifyBeforeUpdateEmail(newEmail, actionCodeSettings)

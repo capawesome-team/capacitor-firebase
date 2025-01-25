@@ -22,7 +22,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendEmailVerificationOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendPasswordResetEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyErrorCallback;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import org.json.JSONObject;
@@ -469,7 +469,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
 
             RevokeAccessTokenOptions options = new RevokeAccessTokenOptions(token);
-            EmptyErrorCallback callback = new EmptyErrorCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
@@ -497,7 +497,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject actionCodeSettings = call.getObject("actionCodeSettings");
 
             SendEmailVerificationOptions options = new SendEmailVerificationOptions(actionCodeSettings);
-            EmptyErrorCallback callback = new EmptyErrorCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
@@ -530,7 +530,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject actionCodeSettings = call.getObject("actionCodeSettings");
 
             SendPasswordResetEmailOptions options = new SendPasswordResetEmailOptions(email, actionCodeSettings);
-            EmptyErrorCallback callback = new EmptyErrorCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
@@ -864,7 +864,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
             ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
-            EmptyErrorCallback callback = new EmptyErrorCallback() {
+            EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
                     call.resolve();
