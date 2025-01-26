@@ -247,7 +247,7 @@ public class FirebaseStoragePlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 }
