@@ -12,6 +12,10 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Version 7.x.x
 
+### Variables
+
+- On Android, the `facebookLoginVersion` variable has been updated to `18.0.0`.
+
 ### Google Sign-In
 
 On **Android**, the `accessToken` and `serverAuthCode` are now only requested when the `scopes` option is set.
