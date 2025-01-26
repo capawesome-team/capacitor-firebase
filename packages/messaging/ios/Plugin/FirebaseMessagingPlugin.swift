@@ -11,8 +11,8 @@ import FirebaseCore
  */
 @objc(FirebaseMessagingPlugin)
 public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebaseMessagingPlugin" 
-    public let jsName = "FirebaseMessaging" 
+    public let identifier = "FirebaseMessagingPlugin"
+    public let jsName = "FirebaseMessaging"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
@@ -26,8 +26,8 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "unsubscribeFromTopic", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "createChannel", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteChannel", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "listChannels", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "listChannels", returnType: CAPPluginReturnPromise)
+    ]
     private var implementation: FirebaseMessaging?
 
     public let tag = "FirebaseMessaging"
