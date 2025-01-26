@@ -4,14 +4,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
-- [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
-
-## Version 7.x.x
-
-### Error codes
-
-Error codes are now prefixed with `storage/` to be consistent with the Firebase Web SDK.
 
 ## Version 6.x.x
 
