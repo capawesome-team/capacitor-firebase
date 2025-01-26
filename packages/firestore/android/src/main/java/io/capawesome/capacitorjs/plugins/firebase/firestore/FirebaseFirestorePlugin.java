@@ -33,6 +33,7 @@ import java.util.Map;
 public class FirebaseFirestorePlugin extends Plugin {
 
     public static final String TAG = "FirebaseFirestore";
+    public static final String ERROR_CODE_PREFIX = "firestore";
     public static final String ERROR_REFERENCE_MISSING = "reference must be provided.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
@@ -414,14 +415,14 @@ public class FirebaseFirestorePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
                 }
             };
 
             implementation.getCountFromServer(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
     }
 

@@ -72,7 +72,12 @@ public class FirebaseFirestoreHelper {
 
     public static func createErrorCode(error: Error?) -> String? {
         if let error = error as NSError? {
-            return convertErrorCodeToString(errorCode: error.code)
+            if let errorCode = convertErrorCodeToString(errorCode: error.code) {
+                let prefixedErrorCode = "firestore/" + errorCode
+                return prefixedErrorCode
+            } else {
+                return nil
+            }
         }
         return nil
     }

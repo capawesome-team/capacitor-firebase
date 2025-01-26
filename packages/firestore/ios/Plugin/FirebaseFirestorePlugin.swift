@@ -7,8 +7,8 @@ import Capacitor
  */
 @objc(FirebaseFirestorePlugin)
 public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebaseFirestorePlugin" 
-    public let jsName = "FirebaseFirestore" 
+    public let identifier = "FirebaseFirestorePlugin"
+    public let jsName = "FirebaseFirestore"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "addDocument", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setDocument", returnType: CAPPluginReturnPromise),
@@ -25,8 +25,8 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "addDocumentSnapshotListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "addCollectionSnapshotListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "addCollectionGroupSnapshotListener", returnType: CAPPluginReturnCallback),
-        CAPPluginMethod(name: "removeSnapshotListener", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "removeSnapshotListener", returnType: CAPPluginReturnPromise)
+    ]
     public let tag = "FirebaseFirestore"
     public let errorReferenceMissing = "reference must be provided."
     public let errorDataMissing = "data must be provided."
@@ -264,7 +264,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         implementation?.getCountFromServer(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
