@@ -17,7 +17,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseFunctionsVersion` version of `com.google.firebase:firebase-functions` (default: `20.4.0`)
+- `$firebaseFunctionsVersion` version of `com.google.firebase:firebase-functions` (default: `21.1.0`)
 
 ## Configuration
 

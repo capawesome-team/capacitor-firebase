@@ -7,13 +7,13 @@ import Capacitor
  */
 @objc(FirebaseFunctionsPlugin)
 public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebaseFunctionsPlugin" 
-    public let jsName = "FirebaseFunctions" 
+    public let identifier = "FirebaseFunctionsPlugin"
+    public let jsName = "FirebaseFunctions"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "callByName", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "callByUrl", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise)
+    ]
     public let tag = "FirebaseFunctions"
     public let errorNameMissing = "name must be provided."
     public let errorHostMissing = "host must be provided."
