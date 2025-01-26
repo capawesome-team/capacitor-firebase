@@ -31,6 +31,7 @@ import org.json.JSONObject;
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
+    public static final String ERROR_CODE_PREFIX = "auth";
     public static final String PHONE_VERIFICATION_COMPLETED_EVENT = "phoneVerificationCompleted";
     public static final String PHONE_VERIFICATION_FAILED_EVENT = "phoneVerificationFailed";
     public static final String PHONE_CODE_SENT_EVENT = "phoneCodeSent";
