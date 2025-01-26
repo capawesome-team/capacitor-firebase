@@ -264,7 +264,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         implementation?.getCountFromServer(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {

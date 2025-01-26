@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
+import static io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestorePlugin.ERROR_CODE_PREFIX;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
@@ -142,7 +144,8 @@ public class FirebaseFirestoreHelper {
             return null;
         } else if (exception instanceof FirebaseFirestoreException) {
             String errorCode = ((FirebaseFirestoreException) exception).getCode().name();
-            return snakeToKebabCase(errorCode);
+            String prefixedErrorCode = String.format("%s/%s", ERROR_CODE_PREFIX, errorCode);
+            return snakeToKebabCase(prefixedErrorCode);
         }
         return null;
     }
