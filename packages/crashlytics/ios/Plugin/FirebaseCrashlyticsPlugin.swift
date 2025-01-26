@@ -7,8 +7,8 @@ import Capacitor
  */
 @objc(FirebaseCrashlyticsPlugin)
 public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebaseCrashlyticsPlugin" 
-    public let jsName = "FirebaseCrashlytics" 
+    public let identifier = "FirebaseCrashlyticsPlugin"
+    public let jsName = "FirebaseCrashlytics"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "crash", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setCustomKey", returnType: CAPPluginReturnPromise),
@@ -19,8 +19,8 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "didCrashOnPreviousExecution", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "sendUnsentReports", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteUnsentReports", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "recordException", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "recordException", returnType: CAPPluginReturnPromise)
+    ]
     public let errorMessageMissing = "message must be provided."
     public let errorKeyMissing = "key must be provided."
     public let errorValueMissing = "value must be provided."
