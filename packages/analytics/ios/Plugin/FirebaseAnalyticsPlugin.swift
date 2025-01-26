@@ -9,8 +9,8 @@ import FirebaseCore
  */
 @objc(FirebaseAnalyticsPlugin)
 public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebaseAnalyticsPlugin" 
-    public let jsName = "FirebaseAnalytics" 
+    public let identifier = "FirebaseAnalyticsPlugin"
+    public let jsName = "FirebaseAnalytics"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "getAppInstanceId", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setConsent", returnType: CAPPluginReturnPromise),
@@ -21,8 +21,8 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "setSessionTimeoutDuration", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "resetAnalyticsData", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "resetAnalyticsData", returnType: CAPPluginReturnPromise)
+    ]
     public let errorUserIdMissing = "userId must be provided."
     public let errorKeyMissing = "key must be provided."
     public let errorValueMissing = "value must be provided."

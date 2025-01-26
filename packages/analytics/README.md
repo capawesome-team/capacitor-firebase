@@ -25,7 +25,7 @@ See [Disable Advertising ID collection](https://firebase.google.com/docs/analyti
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.5.1`)
+- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `22.2.0`)
 
 ### iOS
 
