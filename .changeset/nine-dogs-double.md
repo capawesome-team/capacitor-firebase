@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/authentication': minor
+'@capacitor-firebase/authentication': major
 ---
 
-feat(auth): update Facebook Login SDK for iOS and android
+feat: update Facebook Login SDK on iOS and Android to version `18.0.0`
