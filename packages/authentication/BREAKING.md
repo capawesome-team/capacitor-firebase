@@ -12,9 +12,14 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Version 7.x.x
 
+### Dependencies
+
+- The Firebase Javascript SDK has been updated to `11.2.0`.
+
 ### Variables
 
 - On Android, the `facebookLoginVersion` variable has been updated to `18.0.0`.
+- On Android, the `firebaseAuthVersion` variable has been updated to `23.1.0`.
 
 ### Google Sign-In
 
