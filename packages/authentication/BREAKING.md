@@ -16,6 +16,10 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 On **Android**, the `accessToken` and `serverAuthCode` are now only requested when the `scopes` option is set.
 
+### Error codes
+
+Error codes are now prefixed with `auth/` to be consistent with the Firebase Web SDK.
+
 ## Version 6.x.x
 
 ### Dependencies
