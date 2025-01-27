@@ -12,4 +12,4 @@
 '@capacitor-firebase/storage': major
 ---
 
-chore(deps): update native dependencies for all plugins
+chore(deps): update the Firebase SDK to the latest version
