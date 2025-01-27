@@ -47,12 +47,10 @@ public class FirebaseStorage {
         StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
             .getDownloadUrl()
-            .addOnSuccessListener(
-                uri -> {
-                    GetDownloadUrlResult result = new GetDownloadUrlResult(uri);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(uri -> {
+                GetDownloadUrlResult result = new GetDownloadUrlResult(uri);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
@@ -62,12 +60,10 @@ public class FirebaseStorage {
         StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
             .getMetadata()
-            .addOnSuccessListener(
-                storageMetadata -> {
-                    GetMetadataResult result = new GetMetadataResult(storageMetadata);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(storageMetadata -> {
+                GetMetadataResult result = new GetMetadataResult(storageMetadata);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
@@ -84,12 +80,10 @@ public class FirebaseStorage {
             task = storageReference.list(maxResults, pageToken);
         }
         task
-            .addOnSuccessListener(
-                listResult -> {
-                    ListFilesResult result = new ListFilesResult(listResult);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(listResult -> {
+                ListFilesResult result = new ListFilesResult(listResult);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
@@ -118,25 +112,19 @@ public class FirebaseStorage {
             uploadTask = storageReference.putFile(uri, metadata);
         }
         uploadTask
-            .addOnProgressListener(
-                taskSnapshot -> {
-                    UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.RUNNING);
-                    callback.success(result);
-                }
-            )
-            .addOnSuccessListener(
-                taskSnapshot -> {
-                    UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.SUCCESS);
-                    callback.success(result);
-                    callback.release();
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    callback.error(exception);
-                    callback.release();
-                }
-            );
+            .addOnProgressListener(taskSnapshot -> {
+                UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.RUNNING);
+                callback.success(result);
+            })
+            .addOnSuccessListener(taskSnapshot -> {
+                UploadFileCallbackEvent result = new UploadFileCallbackEvent(taskSnapshot, UploadFileState.SUCCESS);
+                callback.success(result);
+                callback.release();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+                callback.release();
+            });
     }
 
     public void useEmulator(@NonNull String host, int port) {

@@ -53,8 +53,7 @@ public class PhoneAuthProviderHandler {
     }
 
     private void verifyPhoneNumber(@NonNull SignInWithPhoneNumberOptions options, boolean isLink) throws Exception {
-        PhoneAuthOptions.Builder builder = PhoneAuthOptions
-            .newBuilder(pluginImplementation.getFirebaseAuthInstance())
+        PhoneAuthOptions.Builder builder = PhoneAuthOptions.newBuilder(pluginImplementation.getFirebaseAuthInstance())
             .setPhoneNumber(options.getPhoneNumber())
             .setTimeout(options.getTimeout(), TimeUnit.SECONDS)
             .setActivity(pluginImplementation.getPlugin().getActivity())

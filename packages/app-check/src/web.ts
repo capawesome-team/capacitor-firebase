@@ -62,7 +62,7 @@ export class FirebaseAppCheckWeb
   }
 
   public async initialize(options?: InitializeOptions): Promise<void> {
-    if (!options || !options.siteKey) {
+    if (!options?.siteKey) {
       throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
     }
     if (options.debug) {

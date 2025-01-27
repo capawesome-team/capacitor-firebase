@@ -26,13 +26,12 @@ public class JavaScriptException extends Exception {
         for (int i = 0; i < stackTrace.length(); i++) {
             JSONObject elem = stackTrace.getJSONObject(i);
 
-            trace[i] =
-                new StackTraceElement(
-                    "",
-                    elem.optString("functionName", "(anonymous function)"),
-                    elem.optString("fileName", "(unknown file)"),
-                    elem.optInt("lineNumber", -1)
-                );
+            trace[i] = new StackTraceElement(
+                "",
+                elem.optString("functionName", "(anonymous function)"),
+                elem.optString("fileName", "(unknown file)"),
+                elem.optInt("lineNumber", -1)
+            );
         }
 
         this.setStackTrace(trace);

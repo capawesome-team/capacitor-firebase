@@ -28,19 +28,17 @@ public class FirebaseMessaging {
         getFirebaseMessagingInstance().setAutoInitEnabled(true);
         getFirebaseMessagingInstance()
             .getToken()
-            .addOnCompleteListener(
-                task -> {
-                    if (!task.isSuccessful()) {
-                        Exception exception = task.getException();
-                        Log.w(FirebaseMessagingPlugin.TAG, "Fetching FCM registration token failed", exception);
-                        resultCallback.error(exception.getMessage());
-                        return;
-                    }
-
-                    String token = task.getResult();
-                    resultCallback.success(token);
+            .addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    Exception exception = task.getException();
+                    Log.w(FirebaseMessagingPlugin.TAG, "Fetching FCM registration token failed", exception);
+                    resultCallback.error(exception.getMessage());
+                    return;
                 }
-            );
+
+                String token = task.getResult();
+                resultCallback.success(token);
+            });
     }
 
     public void deleteToken() {
