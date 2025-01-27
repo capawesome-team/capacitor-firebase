@@ -1,4 +1,5 @@
 import type { PluginListenerHandle } from '@capacitor/core';
+import type { CustomProviderOptions } from 'firebase/app-check';
 
 export interface FirebaseAppCheckPlugin {
   /**
@@ -101,7 +102,29 @@ export interface InitializeOptions {
    */
   isTokenAutoRefreshEnabled?: boolean;
   /**
-   * The reCAPTCHA v3 site key (public key).
+   * Set used app check provider for Web.
+   * 
+   * Only available for Web.
+   *
+   * Read more: https://firebase.google.com/docs/app-check/web/custom-provider
+   * 
+   * @since TBA
+   * @default ReCaptchaV3Provider
+   */
+  provider?: 'ReCaptchaV3Provider' | 'ReCaptchaEnterpriseProvider' | 'CustomProvider';
+  /**
+   * Set custom app check provider options.
+   * 
+   * Only available for Web.
+   *
+   * Read more: https://firebase.google.com/docs/app-check/web/custom-provider#implement-object
+   * 
+   * @since TBA
+   * @default undefined
+   */
+  customProviderOptions?: CustomProviderOptions;
+  /**
+   * The reCAPTCHA v3 or reCAPTCHA Enterprise site key (public key).
    *
    * Only available for Web.
    *
