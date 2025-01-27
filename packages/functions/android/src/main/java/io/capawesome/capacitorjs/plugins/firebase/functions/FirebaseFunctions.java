@@ -24,17 +24,13 @@ public class FirebaseFunctions {
         getFirebaseFunctionsInstance(region)
             .getHttpsCallable(name)
             .call(data)
-            .addOnSuccessListener(
-                task -> {
-                    CallResult result = new CallResult(task.getData());
-                    callback.success(result);
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    callback.error(exception);
-                }
-            );
+            .addOnSuccessListener(task -> {
+                CallResult result = new CallResult(task.getData());
+                callback.success(result);
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void callByUrl(@NonNull CallByUrlOptions options, @NonNull NonEmptyResultCallback callback) {
@@ -44,17 +40,13 @@ public class FirebaseFunctions {
         getFirebaseFunctionsInstance(null)
             .getHttpsCallableFromUrl(url)
             .call(data)
-            .addOnSuccessListener(
-                task -> {
-                    CallResult result = new CallResult(task.getData());
-                    callback.success(result);
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    callback.error(exception);
-                }
-            );
+            .addOnSuccessListener(task -> {
+                CallResult result = new CallResult(task.getData());
+                callback.success(result);
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void useEmulator(@NonNull String host, int port) {

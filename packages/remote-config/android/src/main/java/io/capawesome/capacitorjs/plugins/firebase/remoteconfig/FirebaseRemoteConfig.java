@@ -32,49 +32,37 @@ public class FirebaseRemoteConfig {
     public void activate(final ActivateResultCallback resultCallback) {
         getFirebaseRemoteConfigInstance()
             .activate()
-            .addOnSuccessListener(
-                result -> {
-                    resultCallback.success(result.booleanValue());
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    Log.w(TAG, "Activate config failed.", exception);
-                    resultCallback.error(exception.getMessage());
-                }
-            );
+            .addOnSuccessListener(result -> {
+                resultCallback.success(result.booleanValue());
+            })
+            .addOnFailureListener(exception -> {
+                Log.w(TAG, "Activate config failed.", exception);
+                resultCallback.error(exception.getMessage());
+            });
     }
 
     public void fetchAndActivate(final ActivateResultCallback resultCallback) {
         getFirebaseRemoteConfigInstance()
             .fetchAndActivate()
-            .addOnSuccessListener(
-                result -> {
-                    resultCallback.success(result.booleanValue());
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    Log.w(TAG, "Fetch and activate config failed.", exception);
-                    resultCallback.error(exception.getMessage());
-                }
-            );
+            .addOnSuccessListener(result -> {
+                resultCallback.success(result.booleanValue());
+            })
+            .addOnFailureListener(exception -> {
+                Log.w(TAG, "Fetch and activate config failed.", exception);
+                resultCallback.error(exception.getMessage());
+            });
     }
 
     public void fetchConfig(long minimumFetchIntervalInSeconds, final FetchConfigResultCallback resultCallback) {
         getFirebaseRemoteConfigInstance()
             .fetch(minimumFetchIntervalInSeconds)
-            .addOnSuccessListener(
-                result -> {
-                    resultCallback.success();
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    Log.w(TAG, "Fetch config failed.", exception);
-                    resultCallback.error(exception.getMessage());
-                }
-            );
+            .addOnSuccessListener(result -> {
+                resultCallback.success();
+            })
+            .addOnFailureListener(exception -> {
+                Log.w(TAG, "Fetch config failed.", exception);
+                resultCallback.error(exception.getMessage());
+            });
     }
 
     public GetValueResult<Boolean> getBoolean(String key) {

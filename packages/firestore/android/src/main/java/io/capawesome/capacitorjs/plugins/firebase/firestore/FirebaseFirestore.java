@@ -55,12 +55,10 @@ public class FirebaseFirestore {
         getFirebaseFirestoreInstance()
             .collection(reference)
             .add(data)
-            .addOnSuccessListener(
-                documentReference -> {
-                    AddDocumentResult result = new AddDocumentResult(documentReference);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(documentReference -> {
+                AddDocumentResult result = new AddDocumentResult(documentReference);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
@@ -85,12 +83,10 @@ public class FirebaseFirestore {
         getFirebaseFirestoreInstance()
             .document(reference)
             .get()
-            .addOnSuccessListener(
-                documentSnapshot -> {
-                    GetDocumentResult result = new GetDocumentResult(documentSnapshot);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(documentSnapshot -> {
+                GetDocumentResult result = new GetDocumentResult(documentSnapshot);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
@@ -159,12 +155,10 @@ public class FirebaseFirestore {
         }
         query
             .get()
-            .addOnSuccessListener(
-                querySnapshot -> {
-                    GetCollectionResult result = new GetCollectionResult(querySnapshot);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(querySnapshot -> {
+                GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
@@ -185,58 +179,44 @@ public class FirebaseFirestore {
         }
         query
             .get()
-            .addOnSuccessListener(
-                querySnapshot -> {
-                    GetCollectionResult result = new GetCollectionResult(querySnapshot);
-                    callback.success(result);
-                }
-            )
+            .addOnSuccessListener(querySnapshot -> {
+                GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                callback.success(result);
+            })
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void clearPersistence(@NonNull EmptyResultCallback callback) {
         getFirebaseFirestoreInstance()
             .clearPersistence()
-            .addOnSuccessListener(
-                unused -> {
-                    callback.success();
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    callback.error(exception);
-                }
-            );
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void enableNetwork(@NonNull EmptyResultCallback callback) {
         getFirebaseFirestoreInstance()
             .enableNetwork()
-            .addOnSuccessListener(
-                unused -> {
-                    callback.success();
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    callback.error(exception);
-                }
-            );
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void disableNetwork(@NonNull EmptyResultCallback callback) {
         getFirebaseFirestoreInstance()
             .disableNetwork()
-            .addOnSuccessListener(
-                unused -> {
-                    callback.success();
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    callback.error(exception);
-                }
-            );
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void useEmulator(@NonNull String host, int port) {
@@ -250,17 +230,15 @@ public class FirebaseFirestore {
 
         countQuery
             .get(AggregateSource.SERVER)
-            .addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        AggregateQuerySnapshot snapshot = task.getResult();
-                        GetCountFromServerResult result = new GetCountFromServerResult(snapshot.getCount());
-                        callback.success(result);
-                    } else {
-                        callback.error(task.getException());
-                    }
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    AggregateQuerySnapshot snapshot = task.getResult();
+                    GetCountFromServerResult result = new GetCountFromServerResult(snapshot.getCount());
+                    callback.success(result);
+                } else {
+                    callback.error(task.getException());
                 }
-            );
+            });
     }
 
     public void addDocumentSnapshotListener(@NonNull AddDocumentSnapshotListenerOptions options, @NonNull NonEmptyResultCallback callback) {

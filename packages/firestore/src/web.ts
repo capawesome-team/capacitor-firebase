@@ -502,9 +502,8 @@ export class FirebaseFirestoreWeb
   ): Promise<FirebaseQueryConstraint[]> {
     const firebaseQueryConstraints: FirebaseQueryConstraint[] = [];
     for (const queryConstraint of queryConstraints) {
-      const firebaseQueryConstraint = await this.buildFirebaseQueryConstraint(
-        queryConstraint,
-      );
+      const firebaseQueryConstraint =
+        await this.buildFirebaseQueryConstraint(queryConstraint);
       firebaseQueryConstraints.push(firebaseQueryConstraint);
     }
     return firebaseQueryConstraints;

@@ -170,11 +170,9 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
 
             implementation
                 .setSettings(fetchTimeoutInSeconds, minimumFetchIntervalInSeconds)
-                .addOnCompleteListener(
-                    t -> {
-                        call.resolve();
-                    }
-                );
+                .addOnCompleteListener(t -> {
+                    call.resolve();
+                });
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
