@@ -1,7 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces;
 
+import androidx.annotation.Nullable;
 import com.google.firebase.firestore.Filter;
-import javax.annotation.Nullable;
 
 public interface QueryFilterConstraint {
     @Nullable

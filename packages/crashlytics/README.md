@@ -36,7 +36,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
 
-- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `18.6.2`)
+- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `19.4.0`)
 
 ### iOS
 

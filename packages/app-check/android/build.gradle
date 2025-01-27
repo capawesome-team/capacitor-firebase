@@ -3,8 +3,8 @@ ext {
     androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.6.1'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.5'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.5.1'
-    firebaseAppCheckPlayIntegrityVersion = project.hasProperty('firebaseAppCheckPlayIntegrityVersion') ? rootProject.ext.firebaseAppCheckPlayIntegrityVersion : '17.1.2'
-    firebaseAppCheckDebugVersion = project.hasProperty('firebaseAppCheckDebugVersion') ? rootProject.ext.firebaseAppCheckDebugVersion : '17.1.2'
+    firebaseAppCheckPlayIntegrityVersion = project.hasProperty('firebaseAppCheckPlayIntegrityVersion') ? rootProject.ext.firebaseAppCheckPlayIntegrityVersion : '18.0.0'
+    firebaseAppCheckDebugVersion = project.hasProperty('firebaseAppCheckDebugVersion') ? rootProject.ext.firebaseAppCheckDebugVersion : '18.0.0'
 }
 
 buildscript {

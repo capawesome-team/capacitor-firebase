@@ -7,8 +7,8 @@ import Capacitor
  */
 @objc(FirebasePerformancePlugin)
 public class FirebasePerformancePlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "FirebasePerformancePlugin" 
-    public let jsName = "FirebasePerformance" 
+    public let identifier = "FirebasePerformancePlugin"
+    public let jsName = "FirebasePerformance"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "startTrace", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "stopTrace", returnType: CAPPluginReturnPromise),
@@ -21,8 +21,8 @@ public class FirebasePerformancePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "removeAttribute", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "putMetric", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getMetric", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "record", returnType: CAPPluginReturnPromise),
-    ] 
+        CAPPluginMethod(name: "record", returnType: CAPPluginReturnPromise)
+    ]
     public let errorTraceNameMissing = "traceName must be provided."
     public let errorMetricNameMissing = "metricName must be provided."
     public let errorEnabledMissing = "enabled must be provided."
