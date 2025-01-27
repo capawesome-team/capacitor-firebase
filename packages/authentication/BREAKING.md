@@ -20,6 +20,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 - On Android, the `facebookLoginVersion` variable has been updated to `18.0.0`.
 - On Android, the `firebaseAuthVersion` variable has been updated to `23.1.0`.
+- On Android, the `playServicesAuthVersion` variable has been updated to `20.7.0`.
 
 ### Google Sign-In
 
