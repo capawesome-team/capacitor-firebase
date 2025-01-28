@@ -34,6 +34,7 @@
     "@changesets/cli": "2.21.1",
     "@robingenz/changelog-github": "0.0.1",
     "pkg-pr-new": "0.0.20",
+    "prettier-plugin-java": "2.6.7",
     "turbo": "1.1.6"
   }
 }
