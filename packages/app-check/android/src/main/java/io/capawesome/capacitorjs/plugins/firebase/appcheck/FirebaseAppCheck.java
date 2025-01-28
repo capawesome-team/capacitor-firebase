@@ -9,17 +9,13 @@ public class FirebaseAppCheck {
     public void getToken(boolean forceRefresh, final GetTokenResultCallback resultCallback) {
         getFirebaseAppCheckInstance()
             .getAppCheckToken(forceRefresh)
-            .addOnSuccessListener(
-                appCheckToken -> {
-                    resultCallback.success(appCheckToken.getToken(), appCheckToken.getExpireTimeMillis());
-                }
-            )
-            .addOnFailureListener(
-                exception -> {
-                    Log.w(FirebaseAppCheckPlugin.TAG, "Get App Check token failed.", exception);
-                    resultCallback.error(exception.getMessage());
-                }
-            );
+            .addOnSuccessListener(appCheckToken -> {
+                resultCallback.success(appCheckToken.getToken(), appCheckToken.getExpireTimeMillis());
+            })
+            .addOnFailureListener(exception -> {
+                Log.w(FirebaseAppCheckPlugin.TAG, "Get App Check token failed.", exception);
+                resultCallback.error(exception.getMessage());
+            });
     }
 
     public void initialize(boolean debug, boolean isTokenAutoRefreshEnabled) {

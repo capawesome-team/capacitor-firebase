@@ -63,9 +63,9 @@ public class GoogleAuthProviderHandler {
         if (result.getResultCode() == Activity.RESULT_OK) {
             Intent intent = result.getData();
             try {
-                AuthorizationResult authorizationResult = Identity
-                    .getAuthorizationClient(pluginImplementation.getPlugin().getActivity())
-                    .getAuthorizationResultFromIntent(intent);
+                AuthorizationResult authorizationResult = Identity.getAuthorizationClient(
+                    pluginImplementation.getPlugin().getActivity()
+                ).getAuthorizationResultFromIntent(intent);
                 handleAuthorizationResult(authorizationResult);
             } catch (ApiException exception) {
                 handleAuthorizationResultError(exception);
@@ -240,31 +240,27 @@ public class GoogleAuthProviderHandler {
      * @param callback  The callback to call with the result. This callback is NOT called if an intent is launched.
      */
     private void requestAuthorizationResult(@NonNull final List<Scope> scopes, @NonNull NonEmptyCallback<AuthorizationResult> callback) {
-        AuthorizationRequest authorizationRequest = AuthorizationRequest
-            .builder()
+        AuthorizationRequest authorizationRequest = AuthorizationRequest.builder()
             .requestOfflineAccess(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id), true)
             .setRequestedScopes(scopes)
             .build();
-        Identity
-            .getAuthorizationClient(pluginImplementation.getPlugin().getContext())
+        Identity.getAuthorizationClient(pluginImplementation.getPlugin().getContext())
             .authorize(authorizationRequest)
-            .addOnSuccessListener(
-                authorizationResult -> {
-                    if (authorizationResult.hasResolution()) {
-                        // Access needs to be granted by the user
-                        PendingIntent pendingIntent = authorizationResult.getPendingIntent();
-                        if (pendingIntent == null) {
-                            return;
-                        }
-                        IntentSender intentSender = pendingIntent.getIntentSender();
-                        IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(intentSender).build();
-                        pluginImplementation.googleAuthorizationResultLauncher.launch(intentSenderRequest);
-                    } else {
-                        // Access already granted, continue with user action
-                        callback.success(authorizationResult);
+            .addOnSuccessListener(authorizationResult -> {
+                if (authorizationResult.hasResolution()) {
+                    // Access needs to be granted by the user
+                    PendingIntent pendingIntent = authorizationResult.getPendingIntent();
+                    if (pendingIntent == null) {
+                        return;
                     }
+                    IntentSender intentSender = pendingIntent.getIntentSender();
+                    IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(intentSender).build();
+                    pluginImplementation.googleAuthorizationResultLauncher.launch(intentSenderRequest);
+                } else {
+                    // Access already granted, continue with user action
+                    callback.success(authorizationResult);
                 }
-            )
+            })
             .addOnFailureListener(callback::error);
     }
 }
