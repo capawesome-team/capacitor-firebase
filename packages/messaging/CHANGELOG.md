@@ -1,5 +1,17 @@
 # Changelog
 
+## 7.0.0
+
+### Major Changes
+
+- [`604c69719fd84261115dd6fca9271f62bf1c1df9`](https://github.com/capawesome-team/capacitor-firebase/commit/604c69719fd84261115dd6fca9271f62bf1c1df9) ([#807](https://github.com/capawesome-team/capacitor-firebase/pull/807)): feat: update to Capacitor 7
+
+- [`e1d28962d4cb3a772940a61703f7c5ad21f1f994`](https://github.com/capawesome-team/capacitor-firebase/commit/e1d28962d4cb3a772940a61703f7c5ad21f1f994) ([#806](https://github.com/capawesome-team/capacitor-firebase/pull/806)): chore(deps): update the Firebase SDK to the latest version
+
+### Minor Changes
+
+- [`0bffff08b661c704a2e22cd024761f1b1599b791`](https://github.com/capawesome-team/capacitor-firebase/commit/0bffff08b661c704a2e22cd024761f1b1599b791) ([#795](https://github.com/capawesome-team/capacitor-firebase/pull/795)): feat: add SPM support
+
 ## 6.3.1
 
 ## 6.3.0
