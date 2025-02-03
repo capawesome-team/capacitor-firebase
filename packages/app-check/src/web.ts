@@ -40,7 +40,6 @@ export class FirebaseAppCheckWeb
   public static readonly tokenChangedEvent = 'tokenChanged';
   public static readonly errorNotInitialized =
     'AppCheck has not been initialized.';
-  public static readonly errorInvalidOptions = 'Invalid options.';
   public static readonly errorSiteKeyMissing = 'siteKey must be provided.';
   public static readonly errorProviderMissing = 'AppCheck Provider missing.';
   public static readonly errorCustomProviderOptionsMissing =
@@ -90,27 +89,24 @@ export class FirebaseAppCheckWeb
   }
 
   public async initialize(options?: InitializeOptions): Promise<void> {
-    if (!options) {
-      throw new Error(FirebaseAppCheckWeb.errorInvalidOptions);
-    }
-    if (options.debug) {
+    if (options?.debug) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
-    const ProviderClass = await this.getProvider(options.provider);
+    const ProviderClass = await this.getProvider(options?.provider);
     if (!ProviderClass) {
       throw new Error(FirebaseAppCheckWeb.errorProviderMissing);
     }
     let provider: AppCheckOptions['provider'];
-    if (isCustomProvider(ProviderClass, options.provider)) {
+    if (isCustomProvider(ProviderClass, options?.provider)) {
       if (
-        !options.customProviderOptions ||
-        typeof options.customProviderOptions.getToken !== 'function'
+        !options?.customProviderOptions ||
+        typeof options?.customProviderOptions.getToken !== 'function'
       ) {
         throw new Error(FirebaseAppCheckWeb.errorCustomProviderOptionsMissing);
       }
       provider = new ProviderClass(options.customProviderOptions);
     } else {
-      if (!options.siteKey) {
+      if (!options?.siteKey) {
         throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
       }
       provider = new ProviderClass(options.siteKey);
