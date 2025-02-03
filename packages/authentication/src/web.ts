@@ -262,9 +262,8 @@ export class FirebaseAuthenticationWeb
       options.email,
       options.password,
     );
-    const userCredential = await this.linkCurrentUserWithCredential(
-      authCredential,
-    );
+    const userCredential =
+      await this.linkCurrentUserWithCredential(authCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -275,9 +274,8 @@ export class FirebaseAuthenticationWeb
       options.email,
       options.emailLink,
     );
-    const userCredential = await this.linkCurrentUserWithCredential(
-      authCredential,
-    );
+    const userCredential =
+      await this.linkCurrentUserWithCredential(authCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 

@@ -24,26 +24,27 @@ public class FirebaseAnalytics {
     public void getAppInstanceId(@NonNull final GetAppInstanceIdCallback resultCallback) {
         getFirebaseAnalyticsInstance()
             .getAppInstanceId()
-            .addOnCompleteListener(
-                task -> {
-                    if (!task.isSuccessful()) {
-                        Exception exception = task.getException();
-                        Log.w(FirebaseAnalyticsPlugin.TAG, "Get AppInstanceId failed.", exception);
-                        resultCallback.error(exception.getMessage());
-                        return;
-                    }
-
-                    String appInstanceId = task.getResult();
-                    resultCallback.success(appInstanceId);
+            .addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    Exception exception = task.getException();
+                    Log.w(FirebaseAnalyticsPlugin.TAG, "Get AppInstanceId failed.", exception);
+                    resultCallback.error(exception.getMessage());
+                    return;
                 }
-            );
+
+                String appInstanceId = task.getResult();
+                resultCallback.success(appInstanceId);
+            });
     }
 
     public void setConsent(
         @NonNull com.google.firebase.analytics.FirebaseAnalytics.ConsentType consentType,
         @NonNull com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus consentStatus
     ) {
-        Map<com.google.firebase.analytics.FirebaseAnalytics.ConsentType, com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus> map = new HashMap<>();
+        Map<
+            com.google.firebase.analytics.FirebaseAnalytics.ConsentType,
+            com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus
+        > map = new HashMap<>();
         map.put(consentType, consentStatus);
         getFirebaseAnalyticsInstance().setConsent(map);
     }
