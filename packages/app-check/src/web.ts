@@ -65,12 +65,8 @@ export class FirebaseAppCheckWeb
     if (!options || !options.siteKey) {
       throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
     }
-    if (options.debug) {
-      if (typeof options.debugToken === 'string' && options.debugToken) {
-        self.FIREBASE_APPCHECK_DEBUG_TOKEN = options.debugToken;
-      } else {
-        self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-      }
+    if (options.debugToken) {
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = options.debugToken;
     }
     const app = getApp();
     this.appCheckInstance = initializeAppCheck(app, {

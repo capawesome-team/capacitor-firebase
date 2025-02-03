@@ -45,9 +45,18 @@ public class FirebaseAppCheckPlugin extends Plugin {
     @PluginMethod
     public void initialize(PluginCall call) {
         try {
-            boolean debug = call.getBoolean("debug", false);
+            Boolean debugTokenBoolean = call.getBoolean("debugToken", false);
+
+            boolean hasDebugToken;
+            if (Boolean.TRUE.equals(debugTokenBoolean)) {
+                hasDebugToken = true;
+            } else {
+                String debugTokenString = call.getString("debugToken", "");
+                hasDebugToken = debugTokenString != null && !debugTokenString.isEmpty();
+            }
+
             boolean isTokenAutoRefreshEnabled = call.getBoolean("isTokenAutoRefreshEnabled", false);
-            implementation.initialize(debug, isTokenAutoRefreshEnabled);
+            implementation.initialize(hasDebugToken, isTokenAutoRefreshEnabled);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
