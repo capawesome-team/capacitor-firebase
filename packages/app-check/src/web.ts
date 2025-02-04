@@ -14,6 +14,7 @@ import {
   setTokenAutoRefreshEnabled,
 } from 'firebase/app-check';
 
+import { Provider } from './definitions';
 import type {
   FirebaseAppCheckPlugin,
   GetTokenOptions,
@@ -30,7 +31,7 @@ declare global {
 }
 
 const isCustomProvider = (_providerClass: unknown, _providerOption: InitializeOptions['provider']): _providerClass is typeof CustomProviderType => {
-  return !!_providerClass && _providerOption === 'CustomProvider';
+  return !!_providerClass && _providerOption === Provider.CustomProvider;
 }
 
 export class FirebaseAppCheckWeb
@@ -59,22 +60,20 @@ export class FirebaseAppCheckWeb
   }
   private onTokenChangedListenerUnsubscribe: Unsubscribe | undefined;
 
-  private async getProvider(providerName: InitializeOptions['provider'] = 'ReCaptchaV3Provider') {
+  private async getProvider(providerName: InitializeOptions['provider'] = Provider.ReCaptchaV3Provider) {
     switch (providerName) {
-      case 'ReCaptchaV3Provider': {
-        const { ReCaptchaV3Provider } = await import('firebase/app-check');
-        return ReCaptchaV3Provider;
+      case Provider.ReCaptchaV3Provider: {
+        const { ReCaptchaV3Provider } = await import('firebase/app-check')
+        return ReCaptchaV3Provider
       }
-      case 'ReCaptchaEnterpriseProvider': {
-        const { ReCaptchaEnterpriseProvider } = await import('firebase/app-check');
-        return ReCaptchaEnterpriseProvider;
+      case Provider.ReCaptchaEnterpriseProvider: {
+        const { ReCaptchaEnterpriseProvider } = await import('firebase/app-check')
+        return ReCaptchaEnterpriseProvider
       }
-      case 'CustomProvider': {
-        const { CustomProvider } = await import('firebase/app-check');
-        return CustomProvider;
+      case Provider.CustomProvider: {
+        const { CustomProvider } = await import('firebase/app-check')
+        return CustomProvider
       }
-      default:
-        throw new Error(FirebaseAppCheckWeb.errorProviderMissing);
     }
   }
 

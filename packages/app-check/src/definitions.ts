@@ -111,7 +111,7 @@ export interface InitializeOptions {
    * @since 7.1.0
    * @default ReCaptchaV3Provider
    */
-  provider?: 'ReCaptchaV3Provider' | 'ReCaptchaEnterpriseProvider' | 'CustomProvider';
+  provider?: Provider;
   /**
    * Set custom app check provider options.
    * 
@@ -163,4 +163,22 @@ export interface TokenChangedEvent {
    * @since 1.3.0
    */
   token: string;
+}
+
+/**
+ * @since 7.1.0
+ */
+export enum Provider {
+ /**
+  * @since 7.1.0
+  */
+ CustomProvider = 'CustomProvider',
+ /**
+  * @since 7.1.0
+  */
+ ReCaptchaEnterpriseProvider = 'ReCaptchaEnterpriseProvider',
+ /**
+  * @since 7.1.0
+  */
+ ReCaptchaV3Provider = 'ReCaptchaV3Provider'
 }

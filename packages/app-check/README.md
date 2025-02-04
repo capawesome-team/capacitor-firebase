@@ -90,6 +90,7 @@ const removeAllListeners = async () => {
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -207,13 +208,13 @@ Only available for Web.
 
 #### InitializeOptions
 
-| Prop                            | Type                                                                                    | Description                                                                                                                                                                                                                                                                                                                                     | Default                          | Since |
-| ------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----- |
-| **`debug`**                     | <code>boolean</code>                                                                    | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code>               | 1.3.0 |
-| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>                                                                    | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                          | <code>false</code>               | 1.3.0 |
-| **`provider`**                  | <code>'ReCaptchaV3Provider' \| 'ReCaptchaEnterpriseProvider' \| 'CustomProvider'</code> | Set used app check provider for Web. Only available for Web. Read more: https://firebase.google.com/docs/app-check/web/custom-provider                                                                                                                                                                                                          | <code>ReCaptchaV3Provider</code> | TBA   |
-| **`customProviderOptions`**     | <code><a href="#customprovideroptions">CustomProviderOptions</a></code>                 | Set custom app check provider options. Only available for Web. Read more: https://firebase.google.com/docs/app-check/web/custom-provider#implement-object                                                                                                                                                                                       | <code>undefined</code>           | TBA   |
-| **`siteKey`**                   | <code>string</code>                                                                     | The reCAPTCHA v3 or reCAPTCHA Enterprise site key (public key). Only available for Web.                                                                                                                                                                                                                                                         |                                  | 1.3.0 |
+| Prop                            | Type                                                                    | Description                                                                                                                                                                                                                                                                                                                                     | Default                          | Since |
+| ------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----- |
+| **`debug`**                     | <code>boolean</code>                                                    | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code>               | 1.3.0 |
+| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>                                                    | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                          | <code>false</code>               | 1.3.0 |
+| **`provider`**                  | <code><a href="#provider">Provider</a></code>                           | Set used app check provider for Web. Only available for Web. Read more: https://firebase.google.com/docs/app-check/web/custom-provider                                                                                                                                                                                                          | <code>ReCaptchaV3Provider</code> | 7.1.0 |
+| **`customProviderOptions`**     | <code><a href="#customprovideroptions">CustomProviderOptions</a></code> | Set custom app check provider options. Only available for Web. Read more: https://firebase.google.com/docs/app-check/web/custom-provider#implement-object                                                                                                                                                                                       | <code>undefined</code>           | TBA   |
+| **`siteKey`**                   | <code>string</code>                                                     | The reCAPTCHA v3 or reCAPTCHA Enterprise site key (public key). Only available for Web.                                                                                                                                                                                                                                                         |                                  | 1.3.0 |
 
 
 #### CustomProviderOptions
@@ -277,6 +278,18 @@ The token returned from an App Check provider.
 Callback to receive the token change event.
 
 <code>(event: <a href="#tokenchangedevent">TokenChangedEvent</a>): void</code>
+
+
+### Enums
+
+
+#### Provider
+
+| Members                           | Value                                      | Since |
+| --------------------------------- | ------------------------------------------ | ----- |
+| **`CustomProvider`**              | <code>'CustomProvider'</code>              | 7.1.0 |
+| **`ReCaptchaEnterpriseProvider`** | <code>'ReCaptchaEnterpriseProvider'</code> | 7.1.0 |
+| **`ReCaptchaV3Provider`**         | <code>'ReCaptchaV3Provider'</code>         | 7.1.0 |
 
 </docgen-api>
 
