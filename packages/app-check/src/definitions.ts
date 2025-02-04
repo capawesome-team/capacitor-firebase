@@ -108,7 +108,7 @@ export interface InitializeOptions {
    *
    * Read more: https://firebase.google.com/docs/app-check/web/custom-provider
    * 
-   * @since TBA
+   * @since 7.1.0
    * @default ReCaptchaV3Provider
    */
   provider?: 'ReCaptchaV3Provider' | 'ReCaptchaEnterpriseProvider' | 'CustomProvider';
