@@ -67,6 +67,8 @@ export class FirebaseAppCheckWeb
     }
     if (options.debugToken) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = options.debugToken;
+    } else if (options.debug) {
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
     const app = getApp();
     this.appCheckInstance = initializeAppCheck(app, {

@@ -52,7 +52,12 @@ public class FirebaseAppCheckPlugin extends Plugin {
                 hasDebugToken = true;
             } else {
                 String debugTokenString = call.getString("debugToken", "");
-                hasDebugToken = debugTokenString != null && !debugTokenString.isEmpty();
+                if (debugTokenString != null && !debugTokenString.isEmpty()) {
+                    hasDebugToken = true;
+                } else {
+                    Boolean debugOption = call.getBoolean("debug", false);
+                    hasDebugToken = Boolean.TRUE.equals(debugOption);
+                }
             }
 
             boolean isTokenAutoRefreshEnabled = call.getBoolean("isTokenAutoRefreshEnabled", false);
