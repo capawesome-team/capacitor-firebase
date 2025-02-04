@@ -24,7 +24,7 @@ import type {
 
 declare global {
   interface Window {
-    FIREBASE_APPCHECK_DEBUG_TOKEN: boolean;
+    FIREBASE_APPCHECK_DEBUG_TOKEN: boolean | string;
   }
 }
 
@@ -65,7 +65,9 @@ export class FirebaseAppCheckWeb
     if (!options?.siteKey) {
       throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
     }
-    if (options.debug) {
+    if (options.debugToken) {
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = options.debugToken;
+    } else if (options.debug) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
     const app = getApp();
