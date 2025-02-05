@@ -43,9 +43,19 @@ public class FirebaseAppCheckPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func initialize(_ call: CAPPluginCall) {
-        let debug = call.getBool("debug") ?? false
+        let debugToken: Any? = call.getValue("debugToken")
+
+        let hasDebugToken: Bool
+        if let boolVal = debugToken as? Bool {
+            hasDebugToken = boolVal
+        } else if let strVal = debugToken as? String, !strVal.isEmpty {
+            hasDebugToken = true
+        } else {
+            hasDebugToken = call.getBool("debug", false)
+        }
+        
         let isTokenAutoRefreshEnabled = call.getBool("isTokenAutoRefreshEnabled") ?? false
-        implementation?.initialize(debug: debug)
+        implementation?.initialize(debug: hasDebugToken)
         implementation?.setTokenAutoRefreshEnabled(isTokenAutoRefreshEnabled)
         call.resolve()
     }
