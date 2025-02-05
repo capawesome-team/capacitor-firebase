@@ -69,11 +69,12 @@ export class FirebaseAppCheckWeb
     } else if (options?.debug) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
-    let provider = options?.provider
+    let provider = options?.provider;
     if (!provider) {
-      if (!options?.siteKey) throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
-      const { ReCaptchaV3Provider } = await import('firebase/app-check')
-      provider = new ReCaptchaV3Provider(options?.siteKey)
+      if (!options?.siteKey)
+        throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
+      const { ReCaptchaV3Provider } = await import('firebase/app-check');
+      provider = new ReCaptchaV3Provider(options?.siteKey);
     }
     const app = getApp();
     this.appCheckInstance = initializeAppCheck(app, {
