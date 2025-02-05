@@ -2,9 +2,7 @@ import { WebPlugin } from '@capacitor/core';
 import { getApp } from 'firebase/app';
 import type {
   AppCheck,
-  AppCheckOptions,
   AppCheckTokenResult,
-  CustomProvider as CustomProviderType,
   Unsubscribe,
 } from 'firebase/app-check';
 import {
@@ -14,7 +12,6 @@ import {
   setTokenAutoRefreshEnabled,
 } from 'firebase/app-check';
 
-import { Provider } from './definitions';
 import type {
   FirebaseAppCheckPlugin,
   GetTokenOptions,
@@ -28,10 +25,6 @@ declare global {
   interface Window {
     FIREBASE_APPCHECK_DEBUG_TOKEN: boolean | string;
   }
-}
-
-const isCustomProvider = (_providerClass: unknown, _providerOption: InitializeOptions['provider']): _providerClass is typeof CustomProviderType => {
-  return !!_providerClass && _providerOption === Provider.CustomProvider;
 }
 
 export class FirebaseAppCheckWeb
@@ -60,23 +53,6 @@ export class FirebaseAppCheckWeb
   }
   private onTokenChangedListenerUnsubscribe: Unsubscribe | undefined;
 
-  private async getProvider(providerName: InitializeOptions['provider'] = Provider.ReCaptchaV3Provider) {
-    switch (providerName) {
-      case Provider.ReCaptchaV3Provider: {
-        const { ReCaptchaV3Provider } = await import('firebase/app-check')
-        return ReCaptchaV3Provider
-      }
-      case Provider.ReCaptchaEnterpriseProvider: {
-        const { ReCaptchaEnterpriseProvider } = await import('firebase/app-check')
-        return ReCaptchaEnterpriseProvider
-      }
-      case Provider.CustomProvider: {
-        const { CustomProvider } = await import('firebase/app-check')
-        return CustomProvider
-      }
-    }
-  }
-
   public async getToken(options?: GetTokenOptions): Promise<GetTokenResult> {
     if (!this.appCheckInstance) {
       throw new Error(FirebaseAppCheckWeb.errorNotInitialized);
@@ -88,37 +64,21 @@ export class FirebaseAppCheckWeb
   }
 
   public async initialize(options?: InitializeOptions): Promise<void> {
-    if (!options?.siteKey) {
-      throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
-    }
-    if (options.debugToken) {
+    if (options?.debugToken) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = options.debugToken;
-    } else if (options.debug) {
+    } else if (options?.debug) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
-    const ProviderClass = await this.getProvider(options?.provider);
-    if (!ProviderClass) {
-      throw new Error(FirebaseAppCheckWeb.errorProviderMissing);
-    }
-    let provider: AppCheckOptions['provider'];
-    if (isCustomProvider(ProviderClass, options?.provider)) {
-      if (
-        !options?.customProviderOptions ||
-        typeof options?.customProviderOptions.getToken !== 'function'
-      ) {
-        throw new Error(FirebaseAppCheckWeb.errorCustomProviderOptionsMissing);
-      }
-      provider = new ProviderClass(options.customProviderOptions);
-    } else {
-      if (!options?.siteKey) {
-        throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
-      }
-      provider = new ProviderClass(options.siteKey);
+    let provider = options?.provider
+    if (!provider) {
+      if (!options?.siteKey) throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
+      const { ReCaptchaV3Provider } = await import('firebase/app-check')
+      provider = new ReCaptchaV3Provider(options?.siteKey)
     }
     const app = getApp();
     this.appCheckInstance = initializeAppCheck(app, {
       provider,
-      isTokenAutoRefreshEnabled: options.isTokenAutoRefreshEnabled,
+      isTokenAutoRefreshEnabled: options?.isTokenAutoRefreshEnabled,
     });
   }
 

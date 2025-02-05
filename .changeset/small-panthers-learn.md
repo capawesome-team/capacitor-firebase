@@ -2,4 +2,4 @@
 '@capacitor-firebase/app-check': minor
 ---
 
-feat: support all app check providers
+feat(web): support all app check providers
