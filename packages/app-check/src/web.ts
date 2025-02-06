@@ -71,8 +71,9 @@ export class FirebaseAppCheckWeb
     }
     let provider = options?.provider;
     if (!provider) {
-      if (!options?.siteKey)
+      if (!options?.siteKey) {
         throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
+      }
       const { ReCaptchaV3Provider } = await import('firebase/app-check');
       provider = new ReCaptchaV3Provider(options?.siteKey);
     }
