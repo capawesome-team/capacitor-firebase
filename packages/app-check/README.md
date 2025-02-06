@@ -48,20 +48,22 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
+
 ```typescript
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { ReCaptchaV3Provider } from '@capacitor-firebase/app-check';
+
+const initialize = async () => {
+  await FirebaseAppCheck.initialize({
+    provider: new ReCaptchaV3Provider('myKey');
+  });
+};
 
 const getToken = async () => {
   const { token } = FirebaseAppCheck.getToken({
     forceRefresh: false,
   });
   return token;
-};
-
-const initialize = async () => {
-  await FirebaseAppCheck.initialize({
-    siteKey: 'myKey',
-  });
 };
 
 const setTokenAutoRefreshEnabled = async () => {
@@ -207,12 +209,13 @@ Only available for Web.
 
 #### InitializeOptions
 
-| Prop                            | Type                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                         | Default            | Since |
-| ------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`debug`**                     | <code>boolean</code>           | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. ⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code> | 1.3.0 |
-| **`debugToken`**                | <code>string \| boolean</code> | If `true`, the debug provider is used. On **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.                          | <code>false</code> | 7.1.0 |
-| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>           | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                                                                                                                              | <code>false</code> | 1.3.0 |
-| **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). Only available for Web.                                                                                                                                                                                                                                                                                                                                                                                     |                    | 1.3.0 |
+| Prop                            | Type                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                         | Default                          | Since |
+| ------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----- |
+| **`debug`**                     | <code>boolean</code>           | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. ⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code>               | 1.3.0 |
+| **`debugToken`**                | <code>string \| boolean</code> | If `true`, the debug provider is used. On **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.                          | <code>false</code>               | 7.1.0 |
+| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>           | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                                                                                                                              | <code>false</code>               | 1.3.0 |
+| **`provider`**                  | <code>any</code>               | The provider to use for App Check. Must be an instance of `ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`. Only available for Web. Read more: https://firebase.google.com/docs/app-check/web/custom-provider                                                                                                                                                                                                              | <code>ReCaptchaV3Provider</code> | 7.1.0 |
+| **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). Only available for Web. ⚠️ **Attention**: This option is ignored if `provider` is set. ⚠️ **Deprecated**: Prefer using `provider` option instead. This option will be removed in the next major version.                                                                                                                                                                                                    |                                  | 1.3.0 |
 
 
 #### InstanceFactoryOptions

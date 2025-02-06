@@ -9,7 +9,6 @@ import {
   getToken,
   initializeAppCheck,
   onTokenChanged,
-  ReCaptchaV3Provider,
   setTokenAutoRefreshEnabled,
 } from 'firebase/app-check';
 
@@ -62,18 +61,23 @@ export class FirebaseAppCheckWeb
   }
 
   public async initialize(options?: InitializeOptions): Promise<void> {
-    if (!options?.siteKey) {
-      throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
-    }
-    if (options.debugToken) {
+    if (options?.debugToken) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = options.debugToken;
-    } else if (options.debug) {
+    } else if (options?.debug) {
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    }
+    let provider = options?.provider;
+    if (!provider) {
+      if (!options?.siteKey) {
+        throw new Error(FirebaseAppCheckWeb.errorSiteKeyMissing);
+      }
+      const { ReCaptchaV3Provider } = await import('firebase/app-check');
+      provider = new ReCaptchaV3Provider(options?.siteKey);
     }
     const app = getApp();
     this.appCheckInstance = initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(options.siteKey),
-      isTokenAutoRefreshEnabled: options.isTokenAutoRefreshEnabled,
+      provider,
+      isTokenAutoRefreshEnabled: options?.isTokenAutoRefreshEnabled,
     });
   }
 
