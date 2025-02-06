@@ -35,9 +35,6 @@ export class FirebaseAppCheckWeb
   public static readonly errorNotInitialized =
     'AppCheck has not been initialized.';
   public static readonly errorSiteKeyMissing = 'siteKey must be provided.';
-  public static readonly errorProviderMissing = 'AppCheck Provider missing.';
-  public static readonly errorCustomProviderOptionsMissing =
-    'customProviderOptions must be provided when using CustomProvider option.';
 
   private _appCheckInstance: AppCheck | undefined;
   get appCheckInstance(): AppCheck | undefined {

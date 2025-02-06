@@ -119,7 +119,8 @@ export interface InitializeOptions {
    */
   isTokenAutoRefreshEnabled?: boolean;
   /**
-   * Set used app check provider for Web.
+   * The provider to use for App Check. Must be an instance of
+   * `ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`.
    *
    * Only available for Web.
    *
@@ -134,7 +135,7 @@ export interface InitializeOptions {
    *
    * Only available for Web.
    *
-   * ⚠️ **Attention**: Use only when not defining `provider` -option.
+   * ⚠️ **Attention**: This option is ignored if `provider` is set.
    * ⚠️ **Deprecated**: Prefer using `provider` option instead. This option will be removed in the next major version.
    *
    * @deprecated Use `provider` instead.
