@@ -124,19 +124,15 @@ export interface InitializeOptions {
    *
    * Only available for Web.
    *
-   * Read more: https://firebase.google.com/docs/app-check/web/custom-provider
-   *
    * @since 7.1.0
    * @default ReCaptchaV3Provider
+   * @see https://firebase.google.com/docs/app-check/web/custom-provider
    */
   provider?: any;
   /**
-   * The reCAPTCHA v3 site key (public key).
+   * The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set.
    *
    * Only available for Web.
-   *
-   * ⚠️ **Attention**: This option is ignored if `provider` is set.
-   * ⚠️ **Deprecated**: Prefer using `provider` option instead. This option will be removed in the next major version.
    *
    * @deprecated Use `provider` instead.
    * @since 1.3.0
