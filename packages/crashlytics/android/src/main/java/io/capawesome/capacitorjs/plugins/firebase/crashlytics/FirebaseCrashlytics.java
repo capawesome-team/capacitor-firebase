@@ -2,7 +2,10 @@ package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
+import com.google.firebase.crashlytics.CustomKeysAndValues;
+
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FirebaseCrashlytics {
 
@@ -70,7 +73,7 @@ public class FirebaseCrashlytics {
         CustomKeysAndValues.Builder builder = new CustomKeysAndValues.Builder();
         try {
             for (int i = 0; i < keysAndValues.length(); i++) {
-                JSObject object = (JSObject) keysAndValues.get(i);
+                JSONObject object = keysAndValues.getJSONObject(i);
                 String type = object.getString("type");
                 String key = object.getString("key");
                 Object value = getValueForType(type, object);
@@ -86,7 +89,7 @@ public class FirebaseCrashlytics {
         return builder.build();
     }
 
-    private Object getValueForType(String type, JSObject object) throws JSONException {
+    private Object getValueForType(String type, JSONObject object) throws JSONException {
         switch (type) {
             case "long":
                 return Long.valueOf(object.getInt("value"));
