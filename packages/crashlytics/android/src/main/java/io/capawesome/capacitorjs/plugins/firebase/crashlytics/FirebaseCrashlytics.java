@@ -56,9 +56,67 @@ public class FirebaseCrashlytics {
         getFirebaseCrashlyticsInstance().deleteUnsentReports();
     }
 
-    public void recordException(String message, JSArray stacktrace) {
+    public void recordException(String message, JSArray stacktrace, JSArray customProperties) {
         Throwable throwable = getJavaScriptException(message, stacktrace);
-        getFirebaseCrashlyticsInstance().recordException(throwable);
+        CustomKeysAndValues keysAndValues = getCustomKeysAndValues(customProperties);
+        getFirebaseCrashlyticsInstance().recordException(throwable, keysAndValues);
+    }
+
+    private CustomKeysAndValues getCustomKeysAndValues(JSArray keysAndValues) {
+        if (keysAndValues == null) {
+            return null;
+        }
+
+        CustomKeysAndValues.Builder builder = new CustomKeysAndValues.Builder();
+        try {
+            for (int i = 0; i < keysAndValues.length(); i++) {
+                JSObject object = (JSObject) keysAndValues.get(i);
+                String type = object.getString("type");
+                String key = object.getString("key");
+                Object value = getValueForType(type, object);
+
+                if (value != null) {
+                    addCustomKeyToBuilder(builder, key, type, value);
+                }
+            }
+        } catch (JSONException error) {
+            System.err.println("CustomProperties cannot be converted to CustomKeysAndValues! " + error.getMessage());
+        }
+
+        return builder.build();
+    }
+
+    private Object getValueForType(String type, JSObject object) throws JSONException {
+        switch (type) {
+            case "long":
+                return Long.valueOf(object.getInt("value"));
+            case "int":
+                return object.getInt("value");
+            case "boolean":
+                return object.getBoolean("value");
+            case "float":
+                return (float) object.getDouble("value");
+            case "double":
+                return object.getDouble("value");
+            default:
+                return object.getString("value");
+        }
+    }
+
+    private void addCustomKeyToBuilder(CustomKeysAndValues.Builder builder, String key, String type, Object value) {
+        if (value instanceof Long) {
+            builder.putLong(key, (Long) value);
+        } else if (value instanceof Integer) {
+            builder.putInt(key, (Integer) value);
+        } else if (value instanceof Boolean) {
+            builder.putBoolean(key, (Boolean) value);
+        } else if (value instanceof Float) {
+            builder.putFloat(key, (Float) value);
+        } else if (value instanceof Double) {
+            builder.putDouble(key, (Double) value);
+        } else if (value instanceof String) {
+            builder.putString(key, (String) value);
+        }
     }
 
     private com.google.firebase.crashlytics.FirebaseCrashlytics getFirebaseCrashlyticsInstance() {

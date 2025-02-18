@@ -193,6 +193,14 @@ export interface RecordExceptionOptions {
    * @since 1.1.0
    */
   stacktrace?: StackFrame[];
+  /**
+   * Sets a custom key and value that is associated with exactly this report.
+   *
+   * Only available for Android.
+   *
+   * @since 7.1.0
+   */
+  customProperties?: SetCustomKeyOptions[];
 }
 
 /**
