@@ -22,7 +22,14 @@ import FirebaseCore
     }
 
     public func requestPermissions(completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+        var options = UNAuthorizationOptions()
+        options.insert(.alert)
+        options.insert(.badge)
+        options.insert(.sound)
+        if self.config.presentationOptions.contains("criticalAlert") {
+            options.insert(.criticalAlert)
+        }
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
             completion(granted, error)
         }
     }
