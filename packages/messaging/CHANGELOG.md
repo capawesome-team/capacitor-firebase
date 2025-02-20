@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0
+
+### Patch Changes
+
+- [`2858d745a5a0c9496e1bb26a814d56fc6682311b`](https://github.com/capawesome-team/capacitor-firebase/commit/2858d745a5a0c9496e1bb26a814d56fc6682311b) ([#826](https://github.com/capawesome-team/capacitor-firebase/pull/826)): fix(ios): request all permissions regardless of the configured presentation options
+
 ## 7.0.0
 
 ### Major Changes
