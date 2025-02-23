@@ -53,7 +53,7 @@ public class FirebaseAppCheckPlugin: CAPPlugin, CAPBridgedPlugin {
         } else {
             hasDebugToken = call.getBool("debug", false)
         }
-        
+
         let isTokenAutoRefreshEnabled = call.getBool("isTokenAutoRefreshEnabled") ?? false
         implementation?.initialize(debug: hasDebugToken)
         implementation?.setTokenAutoRefreshEnabled(isTokenAutoRefreshEnabled)

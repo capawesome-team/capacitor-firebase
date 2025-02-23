@@ -570,14 +570,8 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        guard let actionCodeSettingsDict = call.getObject("actionCodeSettings") else {
-            call.reject(errorActionCodeSettingsMissing)
-            return
-        }
-        guard let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettingsDict) else {
-            call.reject(errorActionCodeSettingsMissing)
-            return
-        }
+        let actionCodeSettingsDict = call.getObject("actionCodeSettings")
+        let actionCodeSettings = actionCodeSettingsDict != nil ? FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettingsDict!) : nil
 
         implementation?.verifyBeforeUpdateEmail(newEmail, actionCodeSettings: actionCodeSettings, completion: { error in
             if let error = error {
