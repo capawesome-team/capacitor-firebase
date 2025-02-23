@@ -859,11 +859,10 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
 
             JSObject settings = call.getObject("actionCodeSettings");
-            if (settings == null) {
-                call.reject(ERROR_ACTION_CODE_SETTINGS_MISSING);
-                return;
+            ActionCodeSettings actionCodeSettings = null;
+            if (settings != null) {
+                actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
             }
-            ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
