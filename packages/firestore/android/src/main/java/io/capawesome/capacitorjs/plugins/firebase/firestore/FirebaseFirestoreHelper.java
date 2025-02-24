@@ -139,6 +139,22 @@ public class FirebaseFirestoreHelper {
         return obj;
     }
 
+    @Nullable
+    public static String createErrorCode(@Nullable Exception exception) {
+        if (exception == null) {
+            return null;
+        } else if (exception instanceof FirebaseFirestoreException) {
+            String errorCode = ((FirebaseFirestoreException) exception).getCode().name();
+            String prefixedErrorCode = String.format("%s/%s", ERROR_CODE_PREFIX, errorCode);
+            return snakeToKebabCase(prefixedErrorCode);
+        }
+        return null;
+    }
+
+    private static String snakeToKebabCase(String snakeCase) {
+        return snakeCase.replaceAll("_+", "-").toLowerCase();
+    }
+
     private static Object createObjectFromJSONObject(@NonNull JSONObject object) throws JSONException {
         if (FirestoreField.isFirestoreField(object)) {
             FirestoreField field = FirestoreField.fromJSONObject(object);
