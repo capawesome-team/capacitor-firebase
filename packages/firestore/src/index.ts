@@ -10,6 +10,4 @@ const FirebaseFirestore: FirebaseFirestorePlugin = new FirebaseFirestoreClient(
 );
 
 export * from './definitions';
-export * from './timestamp';
-export * from './field-value';
 export { FirebaseFirestore };

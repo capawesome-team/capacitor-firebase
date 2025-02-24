@@ -3,7 +3,11 @@
   "version": "7.3.0",
   "description": "Capacitor plugin for Firebase Cloud Firestore.",
   "main": "dist/plugin.cjs.js",
-  "module": "dist/esm/index.js",
+  "exports": {
+    ".": "./dist/esm/index.js",
+    "./field-value": "./dist/esm/field-value.js",
+    "./timestamp": "./dist/esm/timestamp.js"
+  },
   "types": "dist/esm/index.d.ts",
   "unpkg": "dist/plugin.js",
   "files": [

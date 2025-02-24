@@ -1,5 +1,4 @@
 import { Capacitor } from '@capacitor/core';
-import { Timestamp as OriginalTimestamp } from 'firebase/firestore';
 
 import type {
   AddCollectionGroupSnapshotListenerCallback,
@@ -30,7 +29,6 @@ import type {
 } from './definitions';
 import type { CustomField, CustomTimestamp } from './internals';
 import { FIRESTORE_FIELD_TYPE, FIRESTORE_FIELD_VALUE } from './internals';
-import { Timestamp } from './timestamp';
 
 /**
  * The plugin client that manage all the data parsing / format between the web and the native platform
@@ -98,16 +96,18 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
     options: AddDocumentSnapshotListenerOptions,
     callback: AddDocumentSnapshotListenerCallback<T>,
   ): Promise<CallbackId> {
-    return this.plugin.addDocumentSnapshotListener<T>(options, (ev, err) =>
-      callback(parseResult(ev), err),
+    return this.plugin.addDocumentSnapshotListener<T>(
+      options,
+      async (ev, err) => callback(await parseResult(ev), err),
     );
   }
   addCollectionSnapshotListener<T extends DocumentData = DocumentData>(
     options: AddCollectionSnapshotListenerOptions,
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<CallbackId> {
-    return this.plugin.addCollectionSnapshotListener<T>(options, (ev, err) =>
-      callback(parseResult(ev), err),
+    return this.plugin.addCollectionSnapshotListener<T>(
+      options,
+      async (ev, err) => callback(await parseResult(ev), err),
     );
   }
   addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(
@@ -116,7 +116,7 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   ): Promise<CallbackId> {
     return this.plugin.addCollectionGroupSnapshotListener<T>(
       options,
-      (ev, err) => callback(parseResult(ev), err),
+      async (ev, err) => callback(await parseResult(ev), err),
     );
   }
   removeSnapshotListener(
@@ -147,22 +147,25 @@ function formatOptionsData<T extends { data?: DocumentData }>(options: T): T {
  * @param result The result of a read method
  * @returns The parsed result
  */
-function parseResult<
+async function parseResult<
   T extends DocumentData,
   U extends
     | Partial<GetDocumentResult<T>>
     | Partial<GetCollectionGroupResult<T>>
     | null,
->(result: U): U {
+>(result: U): Promise<U> {
   if ((result as GetDocumentResult<T>)?.snapshot?.data) {
-    (result as GetDocumentResult<T>).snapshot.data = parseResultDocumentData(
-      (result as GetDocumentResult<T>).snapshot.data,
-    );
+    (result as GetDocumentResult<T>).snapshot.data =
+      await parseResultDocumentData(
+        (result as GetDocumentResult<T>).snapshot.data,
+      );
   }
   if ((result as GetCollectionGroupResult<T>)?.snapshots) {
-    (result as GetCollectionGroupResult<T>).snapshots = (
-      result as GetCollectionGroupResult<T>
-    ).snapshots.map(s => parseResultDocumentData(s));
+    (result as GetCollectionGroupResult<T>).snapshots = await Promise.all(
+      (result as GetCollectionGroupResult<T>).snapshots.map(s =>
+        parseResultDocumentData(s),
+      ),
+    );
   }
   return result;
 }
@@ -172,30 +175,36 @@ function parseResult<
  * @param data The document data to parse
  * @returns
  */
-function parseResultDocumentData(data: any): any {
+async function parseResultDocumentData(data: any): Promise<any> {
   if (!data) {
     return data;
   }
 
-  // On web, convert the firebase Timestamp into the custom one
-  if (data instanceof OriginalTimestamp) {
-    return Timestamp.fromOriginalTimestamp(data);
-  }
+  try {
+    // Parse the Timestamp only if the firebase web dependency is installed
+    const { Timestamp: OriginalTimestamp } = await import('firebase/firestore');
+    const { Timestamp } = await import('./timestamp');
 
-  // On native, we receive the special JSON format to convert
-  if (data[FIRESTORE_FIELD_TYPE]) {
-    const field: CustomField = data;
-    if (field[FIRESTORE_FIELD_TYPE] === 'timestamp') {
-      return new Timestamp(
-        (field as CustomTimestamp)[FIRESTORE_FIELD_VALUE].seconds,
-        (field as CustomTimestamp)[FIRESTORE_FIELD_VALUE].nanoseconds,
-      );
+    // On web, convert the firebase Timestamp into the custom one
+    if (data instanceof OriginalTimestamp) {
+      return Timestamp.fromOriginalTimestamp(data);
     }
-  }
+
+    // On native, we receive the special JSON format to convert
+    if (data[FIRESTORE_FIELD_TYPE]) {
+      const field: CustomField = data;
+      if (field[FIRESTORE_FIELD_TYPE] === 'timestamp') {
+        return new Timestamp(
+          (field as CustomTimestamp)[FIRESTORE_FIELD_VALUE].seconds,
+          (field as CustomTimestamp)[FIRESTORE_FIELD_VALUE].nanoseconds,
+        );
+      }
+    }
+  } catch (e) {}
 
   if (typeof data === 'object') {
-    Object.keys(data).forEach(key => {
-      data[key] = parseResultDocumentData(data[key]);
+    Object.keys(data).forEach(async key => {
+      data[key] = await parseResultDocumentData(data[key]);
     });
   }
 
