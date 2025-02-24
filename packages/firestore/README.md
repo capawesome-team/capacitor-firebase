@@ -269,6 +269,40 @@ const removeAllListeners = async () => {
 };
 ```
 
+## Timestamp & field values usage
+
+The Firestore Timestamp and Filed Values can be used in the document data by importing them from the Capacitor Firebase plugin:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+import { Timestamp } from "@capacitor-firebase/firestore/timestamp";
+import { arrayRemove, arrayUnion, deleteField, increment serverTimestamp } from "@capacitor-firebase/firestore/field-value";
+
+const setDocumentWithTimestamp = async () => {
+  await FirebaseFirestore.setDocument({
+    reference: 'docs/timestamp',
+    data: {
+      now: Timestamp.now(),
+      fromDate: Timestamp.fromDate(new Date("2024-03-24")),
+      timestamp: new Timestamp(1711238400, 0)
+    },
+  });
+};
+
+const setDocumentWithFiledValues = async () => {
+  await FirebaseFirestore.setDocument({
+    reference: 'docs/field-value',
+    data: {
+      serverTimestamp: serverTimestamp(),
+      increment: increment(1),
+      fieldToDelete: deleteField(),
+      arrayUnion: arrayUnion('newItem1', 'newItem2'),
+      arrayRemove: arrayRemove('itemToRemove'),
+    },
+  });
+};
+```
+
 ## API
 
 <docgen-index>
