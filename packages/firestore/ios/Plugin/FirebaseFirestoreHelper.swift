@@ -3,11 +3,11 @@ import FirebaseFirestore
 import Capacitor
 
 public class FirebaseFirestoreHelper {
-    
+
     public static func createHashMapFromJSObject(_ object: JSObject) -> [String: Any] {
         return createObjectFromJSValue(object) as! [String: Any]
     }
-    
+
     public static func createObjectFromJSValue(_ value: JSValue) -> Any? {
         if let object = value as? JSObject {
             if FirestoreField.isFirestoreField(object) {

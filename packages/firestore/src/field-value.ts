@@ -115,6 +115,6 @@ function getFieldValue(
         method: fieldKey,
         args,
       },
-    } as CustomField);
+    }) as CustomField;
   return fieldValue;
 }

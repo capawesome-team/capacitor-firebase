@@ -200,7 +200,9 @@ async function parseResultDocumentData(data: any): Promise<any> {
         );
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    // Ignore the timestamp management if the firestore library is not available
+  }
 
   if (typeof data === 'object') {
     Object.keys(data).forEach(async key => {
