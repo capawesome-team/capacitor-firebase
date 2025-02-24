@@ -32,7 +32,7 @@ import Capacitor
             let timestamp = FirestoreTimestamp.fromFirestore(object as! Timestamp)
             return FirestoreField(type: .timestamp, value: timestamp.getValue())
         }
-        throw FirebaseFirestoreError.invalidArgumant("The provided object is not a firestore field")
+        throw FirebaseFirestoreError.invalidArgument("The provided object is not a firestore field")
     }
 
     public func getField() -> Any {

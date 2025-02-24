@@ -1,3 +1,3 @@
 enum FirebaseFirestoreError: Error {
-    case invalidArgumant(String)
+    case invalidArgument(String)
 }
