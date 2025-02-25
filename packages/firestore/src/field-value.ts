@@ -19,7 +19,7 @@ type FieldValue = OriginalFieldValue & { toJSON?: () => any };
  * specified will be removed from the array. If the field being modified is not
  * already an array it will be overwritten with an empty array.
  *
- * @since 7.0.0
+ * @since 7.1.0
  * @param elements - The elements to remove from the array.
  * @returns The `FieldValue` sentinel for use in a call to `setDocument()` or
  * `updateDocument()`
@@ -38,7 +38,7 @@ export function arrayRemove(
  * modified is not already an array it will be overwritten with an array
  * containing exactly the specified elements.
  *
- * @since 7.0.0
+ * @since 7.1.0
  * @param elements - The elements to union into the array.
  * @returns The `FieldValue` sentinel for use in a call to `setDocument()` or
  * `updateDocument()`.
@@ -53,7 +53,7 @@ export function arrayUnion(
  * Returns a sentinel for use with `updateDocument()` or
  * `setDocument()` with `{merge: true}` to mark a field for deletion.
  *
- * @since 7.0.0
+ * @since 7.1.0
  */
 export function deleteField(
   ...args: Parameters<typeof originalDeleteField>
@@ -76,7 +76,7 @@ export function deleteField(
  * If the current field value is not of type `number`, or if the field does not
  * yet exist, the transformation sets the field to the given value.
  *
- * @since 7.0.0
+ * @since 7.1.0
  * @param n - The value to increment by.
  * @returns The `FieldValue` sentinel for use in a call to `setDocument()` or
  * `updateDocument()`
@@ -91,7 +91,7 @@ export function increment(
  * Returns a sentinel used with `setDocument()` or `updateDocument()` to
  * include a server-generated timestamp in the written data.
  *
- * @since 7.0.0
+ * @since 7.1.0
  */
 export function serverTimestamp(
   ...args: Parameters<typeof originalServerTimestamp>

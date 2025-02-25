@@ -17,7 +17,7 @@ import { FIRESTORE_FIELD_TYPE, FIRESTORE_FIELD_VALUE } from './internals';
  * For examples and further specifications, refer to the
  * {@link https://github.com/google/protobuf/blob/master/src/google/protobuf/timestamp.proto | Timestamp definition}.
  *
- * @since 7.0.0
+ * @since 7.1.0
  */
 export class Timestamp extends OriginalTimestamp {
   /**
@@ -33,7 +33,7 @@ export class Timestamp extends OriginalTimestamp {
   /**
    * Creates a new timestamp with the current date, with millisecond precision.
    *
-   * @since 7.0.0
+   * @since 7.1.0
    * @returns a new timestamp representing the current date.
    */
   static now(): Timestamp {
@@ -43,7 +43,7 @@ export class Timestamp extends OriginalTimestamp {
   /**
    * Creates a new timestamp from the given date.
    *
-   * @since 7.0.0
+   * @since 7.1.0
    * @param date - The date to initialize the `Timestamp` from.
    * @returns A new `Timestamp` representing the same point in time as the given
    *     date.
@@ -55,7 +55,7 @@ export class Timestamp extends OriginalTimestamp {
   /**
    * Creates a new timestamp from the given number of milliseconds.
    *
-   * @since 7.0.0
+   * @since 7.1.0
    * @param milliseconds - Number of milliseconds since Unix epoch
    *     1970-01-01T00:00:00Z.
    * @returns A new `Timestamp` representing the same point in time as the given
@@ -70,7 +70,7 @@ export class Timestamp extends OriginalTimestamp {
   /**
    * Returns a JSON-serializable representation of this `Timestamp`.
    *
-   * @since 7.0.0
+   * @since 7.1.0
    */
   public toJSON(): any {
     return {
