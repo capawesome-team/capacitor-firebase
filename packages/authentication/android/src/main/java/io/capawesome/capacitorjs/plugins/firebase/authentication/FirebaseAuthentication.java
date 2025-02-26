@@ -560,13 +560,16 @@ public class FirebaseAuthentication {
     public void verifyBeforeUpdateEmail(
         FirebaseUser user,
         @NonNull String newEmail,
-        @NonNull ActionCodeSettings actionCodeSettings,
+        @Nullable ActionCodeSettings actionCodeSettings,
         @NonNull EmptyResultCallback callback
     ) {
-        user
-            .verifyBeforeUpdateEmail(newEmail, actionCodeSettings)
-            .addOnSuccessListener(unused -> callback.success())
-            .addOnFailureListener(exception -> callback.error(exception));
+        Task<Void> task;
+        if (actionCodeSettings == null) {
+            task = user.verifyBeforeUpdateEmail(newEmail);
+        } else {
+            task = user.verifyBeforeUpdateEmail(newEmail, actionCodeSettings);
+        }
+        task.addOnSuccessListener(unused -> callback.success()).addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {

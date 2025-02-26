@@ -814,7 +814,7 @@ export interface VerifyBeforeUpdateEmailOptions {
    *
    * @since 6.3.0
    */
-  actionCodeSettings: ActionCodeSettings;
+  actionCodeSettings?: ActionCodeSettings;
 }
 
 /**
