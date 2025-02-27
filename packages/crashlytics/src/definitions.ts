@@ -197,7 +197,7 @@ export interface RecordExceptionOptions {
   /**
    * Sets a custom key and value that is associated with exactly this report and not globally.
    *
-   * Note: On iOS this cannot be combined with stacktrace.
+   * Note: On iOS this cannot be combined with stacktrace. If both are supplied `stacktrace` takes precedence.
    *
    * @since 7.1.0
    */

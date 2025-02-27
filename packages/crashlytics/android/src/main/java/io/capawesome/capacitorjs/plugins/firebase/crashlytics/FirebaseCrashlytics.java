@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
+import androidx.annotation.Nullable;
+
 import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.crashlytics.CustomKeysAndValues;
@@ -59,13 +61,14 @@ public class FirebaseCrashlytics {
         getFirebaseCrashlyticsInstance().deleteUnsentReports();
     }
 
-    public void recordException(String message, JSArray stacktrace, JSArray customProperties) {
+    public void recordException(String message, JSArray stacktrace, @Nullable JSArray customProperties) {
         Throwable throwable = getJavaScriptException(message, stacktrace);
         CustomKeysAndValues keysAndValues = getCustomKeysAndValues(customProperties);
         getFirebaseCrashlyticsInstance().recordException(throwable, keysAndValues);
     }
 
-    private CustomKeysAndValues getCustomKeysAndValues(JSArray keysAndValues) {
+    @Nullable
+    private CustomKeysAndValues getCustomKeysAndValues(@Nullable JSArray keysAndValues) {
         if (keysAndValues == null) {
             return null;
         }

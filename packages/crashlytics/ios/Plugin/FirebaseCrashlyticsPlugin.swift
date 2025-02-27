@@ -26,9 +26,6 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorValueMissing = "value must be provided."
     public let errorUserIdMissing = "userId must be provided."
     public let errorEnabledMissing = "enabled must be provided."
-    public let errorStacktraceAndCustomPropertiesDisallowed = "stacktrace and custom properties cannot be set at the same time."
-    public let errorStacktraceCastFailed = "stacktrace could not be cast to [JSObject]."
-    public let errorCustomPropertiesCastFailed = "custom properties could not be cast to [JSObject]."
     private var implementation: FirebaseCrashlytics?
 
     override public func load() {
@@ -111,39 +108,26 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func recordException(_ call: CAPPluginCall) {
-      guard let message = call.getString("message") else {
-        call.reject(errorMessageMissing)
-        return
-      }
-      
-      let stacktraceOptional = call.getArray("stacktrace")
-      let customPropertiesOptional = call.getArray("customProperties")
-        
-      guard !(stacktraceOptional != nil && customPropertiesOptional != nil) else {
-        call.reject(errorStacktraceAndCustomPropertiesDisallowed)
-        return
-      }
-      
-      if(stacktraceOptional != nil) {
-        guard let stacktrace = stacktraceOptional as? [JSObject] else {
-          call.reject(errorStacktraceCastFailed)
-          return
-        }
-        implementation?.recordExceptionWithStacktrace(message, stacktrace)
-      } else {
-        let domain = call.getString("domain") ?? ""
-        let code = call.getInt("code") ?? -1001
-        
-        if(customPropertiesOptional != nil) {
-          guard customPropertiesOptional != nil ,let customProperties = customPropertiesOptional as? [JSObject] else {
-            call.reject(errorCustomPropertiesCastFailed)
+        guard let message = call.getString("message") else {
+            call.reject(errorMessageMissing)
             return
-          }
-          implementation?.recordException(message, domain, code, customProperties)
-        } else {
-          implementation?.recordException(message, domain, code)
         }
-      }
+        
+        let stacktrace = call.getArray("stacktrace", JSObject.self)
+        let customProperties = call.getArray("customProperties", JSObject.self)
+        
+        if stacktrace == nil || stacktrace!.isEmpty {
+            let domain = call.getString("domain") ?? ""
+            let code = call.getInt("code") ?? -1001
+            
+            if customProperties == nil || customProperties!.isEmpty {
+                implementation?.recordException(message, domain, code)
+            } else {
+                implementation?.recordException(message, domain, code, customProperties!)
+            }
+        } else {
+            implementation?.recordExceptionWithStacktrace(message, stacktrace!)
+        }
         call.resolve()
     }
 }
