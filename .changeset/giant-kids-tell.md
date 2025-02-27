@@ -2,4 +2,4 @@
 '@capacitor-firebase/crashlytics': minor
 ---
 
-feat: support custom properties in `recordException(...)` method
+feat: support custom keys and values in `recordException(...)` method
