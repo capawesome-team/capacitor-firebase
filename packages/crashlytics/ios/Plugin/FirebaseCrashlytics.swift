@@ -62,10 +62,19 @@ import FirebaseCrashlytics
         Crashlytics.crashlytics().deleteUnsentReports()
     }
 
-    @objc func recordException(_ message: String, _ domain: String, _ code: Int) {
+    func recordException(_ message: String, _ domain: String, _ code: Int, _ customProperties: [JSObject] = []) {
         let userInfo = [NSLocalizedDescriptionKey: message]
         let error = NSError(domain: domain, code: code, userInfo: userInfo)
-        Crashlytics.crashlytics().record(error: error)
+
+        var additionalInformation: [String: Any] = [:]
+        for prop in customProperties {
+            guard let key = prop[keyPath: "key"], let value = prop[keyPath: "value"] else {
+                return
+            }
+            additionalInformation[key as! String] = value
+        }
+
+        Crashlytics.crashlytics().record(error: error, userInfo: additionalInformation)
     }
 
     func recordExceptionWithStacktrace(_ message: String, _ stacktrace: [JSObject]) {
