@@ -114,16 +114,16 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         }
 
         let stacktrace = call.getArray("stacktrace", JSObject.self)
-        let customProperties = call.getArray("customProperties", JSObject.self)
+        let keysAndValues = call.getArray("keysAndValues", JSObject.self)
 
         if stacktrace == nil || stacktrace!.isEmpty {
             let domain = call.getString("domain") ?? ""
             let code = call.getInt("code") ?? -1001
 
-            if customProperties == nil || customProperties!.isEmpty {
+            if keysAndValues == nil || keysAndValues!.isEmpty {
                 implementation?.recordException(message, domain, code)
             } else {
-                implementation?.recordException(message, domain, code, customProperties!)
+                implementation?.recordException(message, domain, code, keysAndValues!)
             }
         } else {
             implementation?.recordExceptionWithStacktrace(message, stacktrace!)

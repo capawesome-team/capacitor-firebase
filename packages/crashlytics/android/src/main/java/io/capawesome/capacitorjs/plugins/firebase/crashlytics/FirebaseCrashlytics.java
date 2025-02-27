@@ -59,10 +59,10 @@ public class FirebaseCrashlytics {
         getFirebaseCrashlyticsInstance().deleteUnsentReports();
     }
 
-    public void recordException(String message, JSArray stacktrace, @Nullable JSArray customProperties) {
+    public void recordException(String message, JSArray stacktrace, @Nullable JSArray keysAndValues) {
         Throwable throwable = getJavaScriptException(message, stacktrace);
-        CustomKeysAndValues keysAndValues = getCustomKeysAndValues(customProperties);
-        getFirebaseCrashlyticsInstance().recordException(throwable, keysAndValues);
+        CustomKeysAndValues customKeysAndValues = getCustomKeysAndValues(keysAndValues);
+        getFirebaseCrashlyticsInstance().recordException(throwable, customKeysAndValues);
     }
 
     @Nullable
@@ -84,7 +84,7 @@ public class FirebaseCrashlytics {
                 }
             }
         } catch (JSONException error) {
-            System.err.println("CustomProperties cannot be converted to CustomKeysAndValues! " + error.getMessage());
+            System.err.println("keysAndValues cannot be converted to CustomKeysAndValues! " + error.getMessage());
         }
 
         return builder.build();
