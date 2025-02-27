@@ -1,11 +1,9 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.crashlytics.CustomKeysAndValues;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

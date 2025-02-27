@@ -112,14 +112,14 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(errorMessageMissing)
             return
         }
-        
+
         let stacktrace = call.getArray("stacktrace", JSObject.self)
         let customProperties = call.getArray("customProperties", JSObject.self)
-        
+
         if stacktrace == nil || stacktrace!.isEmpty {
             let domain = call.getString("domain") ?? ""
             let code = call.getInt("code") ?? -1001
-            
+
             if customProperties == nil || customProperties!.isEmpty {
                 implementation?.recordException(message, domain, code)
             } else {
