@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0
+
+### Minor Changes
+
+- [`9d67b1c2b5d6d11f3af1999e17690e49e1143bae`](https://github.com/capawesome-team/capacitor-firebase/commit/9d67b1c2b5d6d11f3af1999e17690e49e1143bae) ([#825](https://github.com/capawesome-team/capacitor-firebase/pull/825)): feat: support custom keys and values in `recordException(...)` method
+
 ## 7.0.0
 
 ### Major Changes
