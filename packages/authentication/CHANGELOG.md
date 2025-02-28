@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0
+
+### Patch Changes
+
+- [`cef1b02dbaaa78fa05b72cb00e71d645c7eb8124`](https://github.com/capawesome-team/capacitor-firebase/commit/cef1b02dbaaa78fa05b72cb00e71d645c7eb8124) ([#832](https://github.com/capawesome-team/capacitor-firebase/pull/832)): fix(authentication): mark `actionCodeSettings` option as optional
+
 ## 7.0.0
 
 ### Major Changes
