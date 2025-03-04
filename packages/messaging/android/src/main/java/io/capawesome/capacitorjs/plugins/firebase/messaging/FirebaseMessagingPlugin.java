@@ -133,6 +133,7 @@ public class FirebaseMessagingPlugin extends Plugin {
                         JSObject result = new JSObject();
                         result.put("token", token);
                         call.resolve(result);
+                        handleTokenReceived(token);
                     }
 
                     @Override
