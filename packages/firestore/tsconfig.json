@@ -4,7 +4,10 @@
     "declaration": true,
     "esModuleInterop": true,
     "inlineSources": true,
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -16,5 +19,10 @@
     "strict": true,
     "target": "es2017"
   },
-  "files": ["src/index.ts"]
+  "files": [
+    "src/index.ts",
+    "src/timestamp.ts",
+    "src/field-value.ts",
+    "src/bundle.ts"
+  ]
 }
