@@ -1,5 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.PluginCall;
@@ -61,16 +62,16 @@ public class FirebaseCrashlytics {
 
     public void recordException(String message, JSArray stacktrace, @Nullable JSArray keysAndValues) {
         Throwable throwable = getJavaScriptException(message, stacktrace);
-        CustomKeysAndValues customKeysAndValues = getCustomKeysAndValues(keysAndValues);
-        getFirebaseCrashlyticsInstance().recordException(throwable, customKeysAndValues);
+        if (keysAndValues == null) {
+            getFirebaseCrashlyticsInstance().recordException(throwable);
+        } else {
+            CustomKeysAndValues customKeysAndValues = getCustomKeysAndValues(keysAndValues);
+            getFirebaseCrashlyticsInstance().recordException(throwable, customKeysAndValues);
+        }
     }
 
-    @Nullable
-    private CustomKeysAndValues getCustomKeysAndValues(@Nullable JSArray keysAndValues) {
-        if (keysAndValues == null) {
-            return null;
-        }
-
+    @NonNull
+    private CustomKeysAndValues getCustomKeysAndValues(@NonNull JSArray keysAndValues) {
         CustomKeysAndValues.Builder builder = new CustomKeysAndValues.Builder();
         try {
             for (int i = 0; i < keysAndValues.length(); i++) {
