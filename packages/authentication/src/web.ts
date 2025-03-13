@@ -61,6 +61,7 @@ import type {
   ApplyActionCodeOptions,
   AuthCredential,
   AuthStateChange,
+  CheckAppTrackingTransparencyPermissionResult,
   ConfirmPasswordResetOptions,
   ConfirmVerificationCodeOptions,
   CreateUserWithEmailAndPasswordOptions,
@@ -858,6 +859,14 @@ export class FirebaseAuthenticationWeb
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
     return linkWithCredential(auth.currentUser, credential);
+  }
+
+  public requestAppTrackingTransparencyPermission(): Promise<void> {
+    this.throwNotAvailableError();
+  }
+
+  public checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult> {
+    this.throwNotAvailableError();
   }
 
   private createSignInResult(

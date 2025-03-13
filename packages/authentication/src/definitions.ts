@@ -1,6 +1,6 @@
 /// <reference types="@capacitor/cli" />
 
-import type { PluginListenerHandle } from '@capacitor/core';
+import type { PermissionState, PluginListenerHandle } from '@capacitor/core';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -353,7 +353,9 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithFacebook(options?: SignInWithOAuthOptions): Promise<SignInResult>;
+  signInWithFacebook(
+    options?: SignInWithFacebookOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Game Center sign-in flow.
    *
@@ -472,6 +474,20 @@ export interface FirebaseAuthenticationPlugin {
   verifyBeforeUpdateEmail(
     options: VerifyBeforeUpdateEmailOptions,
   ): Promise<void>;
+  /**
+   * Opens the system dialog to authorize app tracking transparency.
+   * Only available on iOS.
+   *
+   * @since 7.2.0
+   */
+  requestAppTrackingTransparencyPermission(): Promise<void>;
+  /**
+   * Checks the current status of app tracking transparency.
+   * Only available on iOS.
+   *
+   * @since 7.2.0
+   */
+  checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult>;
   /**
    * Listen for the user's sign-in state changes.
    *
@@ -999,6 +1015,27 @@ export interface SignInWithOpenIdConnectOptions extends SignInWithOAuthOptions {
    * @example oidc.example-provider
    */
   providerId: string;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface SignInWithFacebookOptions extends SignInWithOAuthOptions {
+  /**
+   * @default false
+   * @since 7.2.0
+   */
+  useLimitedLogin?: boolean;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface CheckAppTrackingTransparencyPermissionResult {
+  /**
+   * @since 7.2.0
+   */
+  status: PermissionState;
 }
 
 /**
