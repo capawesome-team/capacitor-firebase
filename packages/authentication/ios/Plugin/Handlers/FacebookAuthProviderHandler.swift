@@ -39,32 +39,65 @@ class FacebookAuthProviderHandler: NSObject {
     private func startSignInWithFacebookFlow(_ call: CAPPluginCall, isLink: Bool) {
         #if RGCFA_INCLUDE_FACEBOOK
         let scopes = call.getArray("scopes", String.self) ?? []
+        let useLimitedLogin = call.getBool("useLimitedLogin") ?? false
+
         DispatchQueue.main.async {
             let viewController = self.pluginImplementation.getPlugin().bridge?.viewController
-            let nonce = self.randomNonceString()
-            let configuration = LoginConfiguration(
-                permissions: ["email", "public_profile"] + scopes,
-                tracking: .limited,
-                nonce: self.sha256(nonce)
-            )
-            self.loginManager.logIn(viewController: viewController, configuration: configuration) { result in
-                switch result {
-                case .cancelled:
-                    if isLink == true {
-                        self.pluginImplementation.handleFailedLink(message: nil, error: nil)
-                    } else {
-                        self.pluginImplementation.handleFailedSignIn(message: nil, error: nil)
+            let permissions = ["email", "public_profile"] + scopes
+
+            if useLimitedLogin {
+                let nonce = self.randomNonceString()
+                let configuration = LoginConfiguration(
+                    permissions: permissions,
+                    tracking: .limited,
+                    nonce: self.sha256(nonce)
+                )
+                self.loginManager.logIn(viewController: viewController, configuration: configuration) { result in
+                    switch result {
+                    case .cancelled:
+                        if isLink == true {
+                            self.pluginImplementation.handleFailedLink(message: nil, error: nil)
+                        } else {
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: nil)
+                        }
+                        return
+                    case .failed(let error):
+                        if isLink == true {
+                            self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                        } else {
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                        }
+                        return
+                    case .success:
+                        guard let idTokenString = AuthenticationToken.current?.tokenString else {
+                            if isLink == true {
+                                self.pluginImplementation.handleFailedLink(message: self.errorLinkCanceled, error: nil)
+                            } else {
+                                self.pluginImplementation.handleFailedSignIn(message: self.errorSignInCanceled, error: nil)
+                            }
+                            return
+                        }
+
+                        let credential = OAuthProvider.credential(providerID: .facebook, idToken: idTokenString, rawNonce: nonce)
+                        if isLink == true {
+                            self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
+                        } else {
+                            self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
+                        }
                     }
-                    return
-                case .failed(let error):
-                    if isLink == true {
-                        self.pluginImplementation.handleFailedLink(message: nil, error: error)
-                    } else {
-                        self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                }
+            } else {
+                self.loginManager.logIn(permissions: permissions, from: viewController) { result, error in
+                    if let error = error {
+                        if isLink == true {
+                            self.pluginImplementation.handleFailedLink(message: nil, error: error)
+                        } else {
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+                        }
+                        return
                     }
-                    return
-                case .success:
-                    guard let idTokenString = AuthenticationToken.current?.tokenString else {
+
+                    guard let accessToken = result?.token else {
                         if isLink == true {
                             self.pluginImplementation.handleFailedLink(message: self.errorLinkCanceled, error: nil)
                         } else {
@@ -73,11 +106,14 @@ class FacebookAuthProviderHandler: NSObject {
                         return
                     }
 
-                    let credential = OAuthProvider.credential(providerID: .facebook, idToken: idTokenString, rawNonce: nonce)
+                    let accessTokenString = accessToken.tokenString
+                    let credential = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
                     if isLink == true {
-                        self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
+                        self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: nil, nonce: nil,
+                                                                       accessToken: accessTokenString, serverAuthCode: nil, displayName: nil, authorizationCode: nil)
                     } else {
-                        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: idTokenString, nonce: nonce, accessToken: nil, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
+                        self.pluginImplementation.handleSuccessfulSignIn(credential: credential, idToken: nil, nonce: nil,
+                                                                         accessToken: accessTokenString, displayName: nil, authorizationCode: nil, serverAuthCode: nil)
                     }
                 }
             }
