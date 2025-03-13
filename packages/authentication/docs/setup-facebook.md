@@ -155,6 +155,17 @@
    `[CLIENT_TOKEN]` must be replaced with your Facebook Client Token (App Dashboard > Settings > Advanced > Client Token).  
    `[APP_NAME]` must be replaced with your Facebook app name.
 
+### Classic Login
+
+1. Set the `NSUserTrackingUsageDescription` key in your app's `Info.plist`:
+    
+   ```
+   <key>NSUserTrackingUsageDescription</key>
+   <string>[REASON]</string>
+   ```
+   
+   `[REASON]` must be replaced with the reason for requiring user tracking.
+
 ## Web
 
 1. See [Before you begin](https://firebase.google.com/docs/auth/web/facebook-login#before_you_begin) and follow the instructions to configure and enable sign-in with Facebook correctly.

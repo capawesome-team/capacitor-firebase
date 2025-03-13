@@ -476,6 +476,7 @@ export interface FirebaseAuthenticationPlugin {
   ): Promise<void>;
   /**
    * Opens the system dialog to authorize app tracking transparency.
+   * The dialog is only presented when the app is freshly installed.
    * Only available on iOS.
    *
    * @since 7.2.0
