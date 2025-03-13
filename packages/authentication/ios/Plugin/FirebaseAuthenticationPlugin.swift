@@ -68,7 +68,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "updateProfile", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useAppLanguage", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "verifyBeforeUpdateEmail", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "verifyBeforeUpdateEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestAppTrackingTransparencyPermission", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "checkAppTrackingTransparencyPermission", returnType: CAPPluginReturnPromise)
     ]
     public let tag = "FirebaseAuthentication"
     public let errorProviderIdMissing = "providerId must be provided."
@@ -641,6 +643,24 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
 
         implementation?.useEmulator(host, port)
         call.resolve()
+    }
+
+    @objc func requestAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
+        do {
+            try implementation?.requestAppTrackingTransparencyPermission {
+                call.resolve()
+            }
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    @objc func checkAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
+        implementation?.checkAppTrackingTransparencyPermission { status in
+            if let result = status.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        }
     }
 
     @objc func handleAuthStateChange() {
