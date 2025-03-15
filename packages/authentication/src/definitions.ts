@@ -475,20 +475,21 @@ export interface FirebaseAuthenticationPlugin {
     options: VerifyBeforeUpdateEmailOptions,
   ): Promise<void>;
   /**
-   * Opens the system dialog to authorize app tracking transparency.
-   * The dialog is only presented when the app is freshly installed.
-   * Only available on iOS.
-   *
-   * @since 7.2.0
-   */
-  requestAppTrackingTransparencyPermission(): Promise<void>;
-  /**
    * Checks the current status of app tracking transparency.
+   *
    * Only available on iOS.
    *
    * @since 7.2.0
    */
   checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult>;
+  /**
+   * Opens the system dialog to authorize app tracking transparency.
+   *
+   * Only available on iOS.
+   *
+   * @since 7.2.0
+   */
+  requestAppTrackingTransparencyPermission(): Promise<void>;
   /**
    * Listen for the user's sign-in state changes.
    *
@@ -1023,6 +1024,14 @@ export interface SignInWithOpenIdConnectOptions extends SignInWithOAuthOptions {
  */
 export interface SignInWithFacebookOptions extends SignInWithOAuthOptions {
   /**
+   * Whether to use the Facebook Limited Login mode.
+   *
+   * If set to `true`, no access token will be returned but the user does not have to
+   * grant App Tracking Transparency permission.
+   * If set to `false`, the user has to grant App Tracking Transparency permission.
+   *
+   * Only available for iOS.
+   *
    * @default false
    * @since 7.2.0
    */
@@ -1034,6 +1043,8 @@ export interface SignInWithFacebookOptions extends SignInWithOAuthOptions {
  */
 export interface CheckAppTrackingTransparencyPermissionResult {
   /**
+   * The permission status of App Tracking Transparency.
+   *
    * @since 7.2.0
    */
   status: PermissionState;

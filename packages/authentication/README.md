@@ -484,8 +484,8 @@ const verifyBeforeUpdateEmail = async () => {
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
-* [`requestAppTrackingTransparencyPermission()`](#requestapptrackingtransparencypermission)
 * [`checkAppTrackingTransparencyPermission()`](#checkapptrackingtransparencypermission)
+* [`requestAppTrackingTransparencyPermission()`](#requestapptrackingtransparencypermission)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange-)
 * [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange-)
 * [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted-)
@@ -1558,21 +1558,6 @@ Verifies the new email address before updating the email address of the currentl
 --------------------
 
 
-### requestAppTrackingTransparencyPermission()
-
-```typescript
-requestAppTrackingTransparencyPermission() => Promise<void>
-```
-
-Opens the system dialog to authorize app tracking transparency.
-The dialog is only presented when the app is freshly installed.
-Only available on iOS.
-
-**Since:** 7.2.0
-
---------------------
-
-
 ### checkAppTrackingTransparencyPermission()
 
 ```typescript
@@ -1580,9 +1565,25 @@ checkAppTrackingTransparencyPermission() => Promise<CheckAppTrackingTransparency
 ```
 
 Checks the current status of app tracking transparency.
+
 Only available on iOS.
 
 **Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+
+**Since:** 7.2.0
+
+--------------------
+
+
+### requestAppTrackingTransparencyPermission()
+
+```typescript
+requestAppTrackingTransparencyPermission() => Promise<void>
+```
+
+Opens the system dialog to authorize app tracking transparency.
+
+Only available on iOS.
 
 **Since:** 7.2.0
 
@@ -2023,9 +2024,9 @@ An interface covering the possible persistence mechanism types.
 
 #### SignInWithFacebookOptions
 
-| Prop                  | Type                 | Default            | Since |
-| --------------------- | -------------------- | ------------------ | ----- |
-| **`useLimitedLogin`** | <code>boolean</code> | <code>false</code> | 7.2.0 |
+| Prop                  | Type                 | Description                                                                                                                                                                                                                                                                         | Default            | Since |
+| --------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`useLimitedLogin`** | <code>boolean</code> | Whether to use the Facebook Limited Login mode. If set to `true`, no access token will be returned but the user does not have to grant App Tracking Transparency permission. If set to `false`, the user has to grant App Tracking Transparency permission. Only available for iOS. | <code>false</code> | 7.2.0 |
 
 
 #### SignInOptions
@@ -2090,9 +2091,9 @@ An interface covering the possible persistence mechanism types.
 
 #### CheckAppTrackingTransparencyPermissionResult
 
-| Prop         | Type                                                        | Since |
-| ------------ | ----------------------------------------------------------- | ----- |
-| **`status`** | <code><a href="#permissionstate">PermissionState</a></code> | 7.2.0 |
+| Prop         | Type                                                        | Description                                         | Since |
+| ------------ | ----------------------------------------------------------- | --------------------------------------------------- | ----- |
+| **`status`** | <code><a href="#permissionstate">PermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
 
 
 #### PluginListenerHandle
