@@ -1583,6 +1583,8 @@ requestAppTrackingTransparencyPermission() => Promise<void>
 
 Opens the system dialog to authorize app tracking transparency.
 
+**Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).
+
 Only available on iOS.
 
 **Since:** 7.2.0
@@ -2024,9 +2026,9 @@ An interface covering the possible persistence mechanism types.
 
 #### SignInWithFacebookOptions
 
-| Prop                  | Type                 | Description                                                                                                                                                                                                                                                                         | Default            | Since |
-| --------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`useLimitedLogin`** | <code>boolean</code> | Whether to use the Facebook Limited Login mode. If set to `true`, no access token will be returned but the user does not have to grant App Tracking Transparency permission. If set to `false`, the user has to grant App Tracking Transparency permission. Only available for iOS. | <code>false</code> | 7.2.0 |
+| Prop                  | Type                 | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
+| --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`useLimitedLogin`** | <code>boolean</code> | Whether to use the Facebook Limited Login mode. If set to `true`, no access token will be returned but the user does not have to grant App Tracking Transparency permission. If set to `false`, the user has to grant App Tracking Transparency permission. You can request the permission with `requestAppTrackingTransparencyPermission()`. Only available for iOS. | <code>false</code> | 7.2.0 |
 
 
 #### SignInOptions

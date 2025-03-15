@@ -485,6 +485,8 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Opens the system dialog to authorize app tracking transparency.
    *
+   * **Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).
+   *
    * Only available on iOS.
    *
    * @since 7.2.0
@@ -1029,6 +1031,7 @@ export interface SignInWithFacebookOptions extends SignInWithOAuthOptions {
    * If set to `true`, no access token will be returned but the user does not have to
    * grant App Tracking Transparency permission.
    * If set to `false`, the user has to grant App Tracking Transparency permission.
+   * You can request the permission with `requestAppTrackingTransparencyPermission()`.
    *
    * Only available for iOS.
    *
