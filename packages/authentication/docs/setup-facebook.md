@@ -155,16 +155,12 @@
    `[CLIENT_TOKEN]` must be replaced with your Facebook Client Token (App Dashboard > Settings > Advanced > Client Token).  
    `[APP_NAME]` must be replaced with your Facebook app name.
 
-### Classic Login
-
 1. Set the `NSUserTrackingUsageDescription` key in your app's `Info.plist`:
     
    ```
    <key>NSUserTrackingUsageDescription</key>
-   <string>[REASON]</string>
+   <string>This identifier will be used to request permission to track the user's activity.</string>
    ```
-   
-   `[REASON]` must be replaced with the reason for requiring user tracking.
 
 ## Web
 
