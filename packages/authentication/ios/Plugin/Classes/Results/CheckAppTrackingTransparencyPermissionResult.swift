@@ -10,11 +10,11 @@ import AppTrackingTransparency
 
     func toJSObject() -> AnyObject {
         var result = JSObject()
-        result["status"] = convertStatusToPermissionStatus()
+        result["status"] = convertStatusToPermissionStatus(status)
         return result as AnyObject
     }
 
-    private func convertStatusToPermissionStatus() -> String {
+    private func convertStatusToPermissionStatus(_ status: ATTrackingManager.AuthorizationStatus) -> String {
         switch status {
         case .notDetermined:
             return "prompt"

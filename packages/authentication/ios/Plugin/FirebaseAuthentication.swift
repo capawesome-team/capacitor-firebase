@@ -646,9 +646,9 @@ public typealias AuthStateChangedObserver = () -> Void
         return self.config
     }
 
-    func requestAppTrackingTransparencyPermission(completion: @escaping () -> Void) throws {
-        ATTrackingManager.requestTrackingAuthorization { _ in
-            completion()
+    func requestAppTrackingTransparencyPermission(completion: @escaping (CheckAppTrackingTransparencyPermissionResult) -> Void) {
+        ATTrackingManager.requestTrackingAuthorization { result in
+            completion(CheckAppTrackingTransparencyPermissionResult(result))
         }
     }
 

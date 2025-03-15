@@ -81,6 +81,7 @@ import type {
   LinkWithPhoneNumberOptions,
   PhoneCodeSentEvent,
   PhoneVerificationFailedEvent,
+  RequestAppTrackingTransparencyPermissionResult,
   RevokeAccessTokenOptions,
   SendEmailVerificationOptions,
   SendPasswordResetEmailOptions,
@@ -861,7 +862,7 @@ export class FirebaseAuthenticationWeb
     return linkWithCredential(auth.currentUser, credential);
   }
 
-  public requestAppTrackingTransparencyPermission(): Promise<void> {
+  public requestAppTrackingTransparencyPermission(): Promise<RequestAppTrackingTransparencyPermissionResult> {
     this.throwNotAvailableError();
   }
 

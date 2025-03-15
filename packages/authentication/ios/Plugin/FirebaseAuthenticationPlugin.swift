@@ -646,12 +646,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func requestAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
-        do {
-            try implementation?.requestAppTrackingTransparencyPermission {
-                call.resolve()
+        implementation?.requestAppTrackingTransparencyPermission { status in
+            if let result = status.toJSObject() as? JSObject {
+                call.resolve(result)
             }
-        } catch let error {
-            call.reject(error.localizedDescription)
         }
     }
 

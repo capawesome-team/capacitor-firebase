@@ -1578,7 +1578,7 @@ Only available on iOS.
 ### requestAppTrackingTransparencyPermission()
 
 ```typescript
-requestAppTrackingTransparencyPermission() => Promise<void>
+requestAppTrackingTransparencyPermission() => Promise<RequestAppTrackingTransparencyPermissionResult>
 ```
 
 Opens the system dialog to authorize app tracking transparency.
@@ -1586,6 +1586,8 @@ Opens the system dialog to authorize app tracking transparency.
 **Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).
 
 Only available on iOS.
+
+**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
 
 **Since:** 7.2.0
 
@@ -2159,6 +2161,11 @@ An interface covering the possible persistence mechanism types.
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+#### RequestAppTrackingTransparencyPermissionResult
+
+<code><a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a></code>
 
 
 #### AuthStateChangeListener

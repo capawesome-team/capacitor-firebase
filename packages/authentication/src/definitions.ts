@@ -491,7 +491,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 7.2.0
    */
-  requestAppTrackingTransparencyPermission(): Promise<void>;
+  requestAppTrackingTransparencyPermission(): Promise<RequestAppTrackingTransparencyPermissionResult>;
   /**
    * Listen for the user's sign-in state changes.
    *
@@ -1052,6 +1052,12 @@ export interface CheckAppTrackingTransparencyPermissionResult {
    */
   status: PermissionState;
 }
+
+/**
+ * @since 7.2.0
+ */
+export type RequestAppTrackingTransparencyPermissionResult =
+  CheckAppTrackingTransparencyPermissionResult;
 
 /**
  * @since 0.1.0
