@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.0
+
+### Minor Changes
+
+- [`22c4c133a4adbfb836a45e8bfd2217c16cbf25da`](https://github.com/capawesome-team/capacitor-firebase/commit/22c4c133a4adbfb836a45e8bfd2217c16cbf25da) ([#843](https://github.com/capawesome-team/capacitor-firebase/pull/843)): feat(ios): support Facebook Limited Login
+
 ## 7.1.0
 
 ### Patch Changes
