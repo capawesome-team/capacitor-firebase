@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 import FirebaseCore
 import FirebaseAuth
+import AppTrackingTransparency
 
 public typealias AuthStateChangedObserver = () -> Void
 
@@ -643,6 +644,16 @@ public typealias AuthStateChangedObserver = () -> Void
 
     func getConfig() -> FirebaseAuthenticationConfig {
         return self.config
+    }
+
+    func requestAppTrackingTransparencyPermission(completion: @escaping (CheckAppTrackingTransparencyPermissionResult) -> Void) {
+        ATTrackingManager.requestTrackingAuthorization { result in
+            completion(CheckAppTrackingTransparencyPermissionResult(result))
+        }
+    }
+
+    func checkAppTrackingTransparencyPermission(completion: @escaping (CheckAppTrackingTransparencyPermissionResult) -> Void) {
+        completion(CheckAppTrackingTransparencyPermissionResult(ATTrackingManager.trackingAuthorizationStatus))
     }
 
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {

@@ -484,6 +484,8 @@ const verifyBeforeUpdateEmail = async () => {
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
+* [`checkAppTrackingTransparencyPermission()`](#checkapptrackingtransparencypermission)
+* [`requestAppTrackingTransparencyPermission()`](#requestapptrackingtransparencypermission)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange-)
 * [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange-)
 * [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted-)
@@ -1231,14 +1233,14 @@ Signs in using an email and sign-in email link.
 ### signInWithFacebook(...)
 
 ```typescript
-signInWithFacebook(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithFacebook(options?: SignInWithFacebookOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Facebook sign-in flow.
 
-| Param         | Type                                                                      |
-| ------------- | ------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithfacebookoptions">SignInWithFacebookOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1552,6 +1554,42 @@ Verifies the new email address before updating the email address of the currentl
 | **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
 
 **Since:** 6.3.0
+
+--------------------
+
+
+### checkAppTrackingTransparencyPermission()
+
+```typescript
+checkAppTrackingTransparencyPermission() => Promise<CheckAppTrackingTransparencyPermissionResult>
+```
+
+Checks the current status of app tracking transparency.
+
+Only available on iOS.
+
+**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+
+**Since:** 7.2.0
+
+--------------------
+
+
+### requestAppTrackingTransparencyPermission()
+
+```typescript
+requestAppTrackingTransparencyPermission() => Promise<RequestAppTrackingTransparencyPermissionResult>
+```
+
+Opens the system dialog to authorize app tracking transparency.
+
+**Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).
+
+Only available on iOS.
+
+**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+
+**Since:** 7.2.0
 
 --------------------
 
@@ -1988,6 +2026,13 @@ An interface covering the possible persistence mechanism types.
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
+#### SignInWithFacebookOptions
+
+| Prop                  | Type                 | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
+| --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`useLimitedLogin`** | <code>boolean</code> | Whether to use the Facebook Limited Login mode. If set to `true`, no access token will be returned but the user does not have to grant App Tracking Transparency permission. If set to `false`, the user has to grant App Tracking Transparency permission. You can request the permission with `requestAppTrackingTransparencyPermission()`. Only available for iOS. | <code>false</code> | 7.2.0 |
+
+
 #### SignInOptions
 
 | Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
@@ -2048,6 +2093,13 @@ An interface covering the possible persistence mechanism types.
 | **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | The action code settings                            | 6.3.0 |
 
 
+#### CheckAppTrackingTransparencyPermissionResult
+
+| Prop         | Type                                                                                                      | Description                                         | Since |
+| ------------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----- |
+| **`status`** | <code><a href="#apptrackingtransparencypermissionstate">AppTrackingTransparencyPermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
+
+
 #### PluginListenerHandle
 
 | Prop         | Type                                      |
@@ -2104,6 +2156,21 @@ An interface covering the possible persistence mechanism types.
 #### LinkWithPhoneNumberOptions
 
 <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
+
+
+#### AppTrackingTransparencyPermissionState
+
+<code><a href="#permissionstate">PermissionState</a> | 'restricted'</code>
+
+
+#### PermissionState
+
+<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+#### RequestAppTrackingTransparencyPermissionResult
+
+<code><a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a></code>
 
 
 #### AuthStateChangeListener
