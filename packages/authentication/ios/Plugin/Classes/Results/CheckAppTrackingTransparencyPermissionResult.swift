@@ -23,7 +23,7 @@ import AppTrackingTransparency
         case .authorized:
             return "granted"
         case .restricted:
-            return "prompt-with-rationale"
+            return "restricted"
         @unknown default:
             return "prompt"
         }

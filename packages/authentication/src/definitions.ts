@@ -1050,8 +1050,12 @@ export interface CheckAppTrackingTransparencyPermissionResult {
    *
    * @since 7.2.0
    */
-  status: PermissionState;
+  status: AppTrackingTransparencyPermissionState;
 }
+
+export type AppTrackingTransparencyPermissionState =
+  | PermissionState
+  | 'restricted';
 
 /**
  * @since 7.2.0

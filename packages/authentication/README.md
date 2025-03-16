@@ -2095,9 +2095,9 @@ An interface covering the possible persistence mechanism types.
 
 #### CheckAppTrackingTransparencyPermissionResult
 
-| Prop         | Type                                                        | Description                                         | Since |
-| ------------ | ----------------------------------------------------------- | --------------------------------------------------- | ----- |
-| **`status`** | <code><a href="#permissionstate">PermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
+| Prop         | Type                                                                                                      | Description                                         | Since |
+| ------------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----- |
+| **`status`** | <code><a href="#apptrackingtransparencypermissionstate">AppTrackingTransparencyPermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
 
 
 #### PluginListenerHandle
@@ -2156,6 +2156,11 @@ An interface covering the possible persistence mechanism types.
 #### LinkWithPhoneNumberOptions
 
 <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
+
+
+#### AppTrackingTransparencyPermissionState
+
+<code><a href="#permissionstate">PermissionState</a> | 'restricted'</code>
 
 
 #### PermissionState
