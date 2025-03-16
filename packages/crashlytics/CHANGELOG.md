@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.0
+
+### Patch Changes
+
+- [`c42b1730d31694f79e006946cd86d96dd4839e5d`](https://github.com/capawesome-team/capacitor-firebase/commit/c42b1730d31694f79e006946cd86d96dd4839e5d) ([#842](https://github.com/capawesome-team/capacitor-firebase/pull/842)): fix(android): do not pass `null` to `recordException(...)`
+
 ## 7.1.0
 
 ### Minor Changes
