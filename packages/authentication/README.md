@@ -1987,15 +1987,6 @@ bundle identifiers.
 | **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
 
 
-#### Persistence
-
-An interface covering the possible persistence mechanism types.
-
-| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
-| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
-
-
 #### SetTenantIdOptions
 
 | Prop           | Type                | Description    | Since |

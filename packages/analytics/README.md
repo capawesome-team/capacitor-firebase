@@ -125,6 +125,7 @@ const resetAnalyticsData = async () => {
 <docgen-index>
 
 * [`getAppInstanceId()`](#getappinstanceid)
+* [`getAppSessionId()`](#getappsessionid)
 * [`setConsent(...)`](#setconsent)
 * [`setUserId(...)`](#setuserid)
 * [`setUserProperty(...)`](#setuserproperty)
@@ -153,6 +154,23 @@ Retrieves the app instance id.
 Only available for Android and iOS.
 
 **Returns:** <code>Promise&lt;<a href="#getappinstanceidresult">GetAppInstanceIdResult</a>&gt;</code>
+
+**Since:** 1.4.0
+
+--------------------
+
+
+### getAppSessionId()
+
+```typescript
+getAppSessionId() => Promise<GetSessionIdResult>
+```
+
+Retrieves the session id.
+
+Only available for Android and iOS.
+
+**Returns:** <code>Promise&lt;<a href="#getsessionidresult">GetSessionIdResult</a>&gt;</code>
 
 **Since:** 1.4.0
 
@@ -322,6 +340,13 @@ Only available for Android and iOS.
 | Prop                | Type                | Description                                                                                                                                                                                             | Since |
 | ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.<a href="#consenttype">ConsentType</a>.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.<a href="#consentstatus">ConsentStatus</a>.DENIED`. | 1.4.0 |
+
+
+#### GetSessionIdResult
+
+| Prop               | Type                | Description                                                                                                                                                                                            | Since |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`appSessionId`** | <code>number</code> | The app session id. Not defined if `FirebaseAnalytics.<a href="#consenttype">ConsentType</a>.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.<a href="#consentstatus">ConsentStatus</a>.DENIED`. | 1.4.0 |
 
 
 #### SetConsentOptions

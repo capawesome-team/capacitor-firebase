@@ -1,6 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
-import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
@@ -43,6 +42,32 @@ public class FirebaseAnalyticsPlugin extends Plugin {
                         call.reject(message);
                     }
                 }
+            );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void getAppSessionId(PluginCall call) {
+        try {
+            implementation.getSessionId(
+                    new GetSessionIdCallback() {
+                        @Override
+                        public void success(@Nullable Long appSessionID) {
+                            JSObject result = new JSObject();
+                            if (appSessionID != null) {
+                                result.put("appSessionId", appSessionID);
+                            }
+                            call.resolve(result);
+                        }
+
+                        @Override
+                        public void error(String message) {
+                            call.reject(message);
+                        }
+                    }
             );
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);

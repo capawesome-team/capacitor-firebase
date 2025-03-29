@@ -13,6 +13,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "FirebaseAnalytics"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "getAppInstanceId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getAppSessionId", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setConsent", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setUserId", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setUserProperty", returnType: CAPPluginReturnPromise),
@@ -43,6 +44,20 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
             result["appInstanceId"] = appInstanceId
         }
         call.resolve(result)
+    }
+    
+    @objc func getAppSessionId(_ call: CAPPluginCall) {
+        implementation?.getAppSessionId { sessionId, error in
+            NSLog("[TECTONIC_FIREBASE] TectonicFirebaseAnalyticsPlugin: getAppSessionId resp, sessionId: %@, message: %@", sessionId, error?.localizedDescription ?? "")
+            if let error = error {
+                call.reject(error.localizedDescription)
+            }
+            var result = JSObject()
+            if sessionId != nil {
+                result["appSessionId"] = sessionId as any JSValue
+            }
+            call.resolve(result)
+        }
     }
 
     @objc func setConsent(_ call: CAPPluginCall) {
