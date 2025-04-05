@@ -1,0 +1,1220 @@
+{
+  "api": {
+    "name": "FirebaseMessagingPlugin",
+    "slug": "firebasemessagingplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "checkPermissions",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Check permission to receive push notifications.\n\nOn **Android**, this method only needs to be called on Android 13+.",
+        "complexTypes": [
+          "PermissionStatus"
+        ],
+        "slug": "checkpermissions"
+      },
+      {
+        "name": "requestPermissions",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Request permission to receive push notifications.\n\nOn **Android**, this method only needs to be called on Android 13+.",
+        "complexTypes": [
+          "PermissionStatus"
+        ],
+        "slug": "requestpermissions"
+      },
+      {
+        "name": "isSupported",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.3.1"
+          }
+        ],
+        "docs": "Checks if all required APIs exist.\n\nAlways returns `true` on Android and iOS.",
+        "complexTypes": [
+          "IsSupportedResult"
+        ],
+        "slug": "issupported"
+      },
+      {
+        "name": "getToken",
+        "signature": "(options?: GetTokenOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetTokenOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Register the app to receive push notifications.\nReturns a FCM token that can be used to send push messages to that Messaging instance.\n\nThis method also re-enables FCM auto-init.",
+        "complexTypes": [
+          "GetTokenOptions",
+          "GetTokenResult"
+        ],
+        "slug": "gettoken"
+      },
+      {
+        "name": "deleteToken",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Delete the FCM token and unregister the app to stop receiving push notifications.\nCan be called, for example, when a user signs out.",
+        "complexTypes": [],
+        "slug": "deletetoken"
+      },
+      {
+        "name": "getDeliveredNotifications",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Get a list of notifications that are visible on the notifications screen.",
+        "complexTypes": [
+          "GetDeliveredNotificationsResult"
+        ],
+        "slug": "getdeliverednotifications"
+      },
+      {
+        "name": "removeDeliveredNotifications",
+        "signature": "(options: RemoveDeliveredNotificationsOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "RemoveDeliveredNotificationsOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Remove specific notifications from the notifications screen.",
+        "complexTypes": [
+          "RemoveDeliveredNotificationsOptions"
+        ],
+        "slug": "removedeliverednotifications"
+      },
+      {
+        "name": "removeAllDeliveredNotifications",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Remove all notifications from the notifications screen.",
+        "complexTypes": [],
+        "slug": "removealldeliverednotifications"
+      },
+      {
+        "name": "subscribeToTopic",
+        "signature": "(options: SubscribeToTopicOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SubscribeToTopicOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Subscribes to topic in the background.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "SubscribeToTopicOptions"
+        ],
+        "slug": "subscribetotopic"
+      },
+      {
+        "name": "unsubscribeFromTopic",
+        "signature": "(options: UnsubscribeFromTopicOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UnsubscribeFromTopicOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Unsubscribes from topic in the background.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "UnsubscribeFromTopicOptions"
+        ],
+        "slug": "unsubscribefromtopic"
+      },
+      {
+        "name": "createChannel",
+        "signature": "(options: CreateChannelOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "Channel"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.4.0"
+          }
+        ],
+        "docs": "Create a notification channel.\n\nOnly available for Android (SDK 26+).",
+        "complexTypes": [
+          "CreateChannelOptions"
+        ],
+        "slug": "createchannel"
+      },
+      {
+        "name": "deleteChannel",
+        "signature": "(options: DeleteChannelOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "DeleteChannelOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.4.0"
+          }
+        ],
+        "docs": "Delete a notification channel.\n\nOnly available for Android (SDK 26+).",
+        "complexTypes": [
+          "DeleteChannelOptions"
+        ],
+        "slug": "deletechannel"
+      },
+      {
+        "name": "listChannels",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.4.0"
+          }
+        ],
+        "docs": "List the available notification channels.\n\nOnly available for Android (SDK 26+).",
+        "complexTypes": [
+          "ListChannelsResult"
+        ],
+        "slug": "listchannels"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'tokenReceived'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "TokenReceivedListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Called when a new FCM token is received.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "TokenReceivedListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenertokenreceived-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'notificationReceived', listenerFunc: NotificationReceivedListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'notificationReceived'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "NotificationReceivedListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Called when a new push notification is received.\n\nOn **Android**, this listener is called for every push notification if the app is in the _foreground_.\nIf the app is in the _background_, then this listener is only called on data push notifications.\nSee https://firebase.google.com/docs/cloud-messaging/android/receive#handling_messages for more information.\n\nOn **iOS**, this listener is called for every push notification if the app is in the _foreground_.\nIf the app is in the _background_, then this listener is only called for silent push notifications (messages with the `content-available` key).\nSee https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html for more information.",
+        "complexTypes": [
+          "NotificationReceivedListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenernotificationreceived-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'notificationActionPerformed', listenerFunc: NotificationActionPerformedListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'notificationActionPerformed'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "NotificationActionPerformedListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Called when a new push notification action is performed.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "NotificationActionPerformedListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenernotificationactionperformed-"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Remove all listeners for this plugin.",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "PermissionStatus",
+      "slug": "permissionstatus",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "receive",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [
+            "PermissionState"
+          ],
+          "type": "PermissionState"
+        }
+      ]
+    },
+    {
+      "name": "IsSupportedResult",
+      "slug": "issupportedresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.3.1",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "isSupported",
+          "tags": [
+            {
+              "text": "0.3.1",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "GetTokenOptions",
+      "slug": "gettokenoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "vapidKey",
+          "tags": [],
+          "docs": "Your VAPID public key, which is required to retrieve the current registration token on the web.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "serviceWorkerRegistration",
+          "tags": [],
+          "docs": "The service worker registration for receiving push messaging.\nIf the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location.\n\nOnly available for Web.",
+          "complexTypes": [
+            "ServiceWorkerRegistration"
+          ],
+          "type": "ServiceWorkerRegistration"
+        }
+      ]
+    },
+    {
+      "name": "GetTokenResult",
+      "slug": "gettokenresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetDeliveredNotificationsResult",
+      "slug": "getdeliverednotificationsresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "notifications",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [
+            "Notification"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "Notification",
+      "slug": "notification",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "body",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification payload.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "clickAction",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The action to be performed on the user opening the notification.\n\nOnly available for Android.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "Any additional data that was included in the push notification payload.",
+          "complexTypes": [],
+          "type": "unknown"
+        },
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification identifier.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "image",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The URL of an image that is downloaded on the device and displayed in the notification.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "link",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "Deep link from the notification.\n\nOnly available for Android.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "subtitle",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification subtitle.\n\nOnly available for iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "tag",
+          "tags": [
+            {
+              "text": "0.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification string identifier.\n\nOnly available for Android.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "title",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification title.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "RemoveDeliveredNotificationsOptions",
+      "slug": "removedeliverednotificationsoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "notifications",
+          "tags": [
+            {
+              "text": "0.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [
+            "Notification"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "SubscribeToTopicOptions",
+      "slug": "subscribetotopicoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "topic",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The name of the topic to subscribe.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UnsubscribeFromTopicOptions",
+      "slug": "unsubscribefromtopicoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "topic",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The name of the topic to unsubscribe from.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Channel",
+      "slug": "channel",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "description",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The description of this channel (presented to the user).",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The channel identifier.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "importance",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The level of interruption for notifications posted to this channel.",
+          "complexTypes": [
+            "Importance"
+          ],
+          "type": "Importance"
+        },
+        {
+          "name": "lightColor",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The light color for notifications posted to this channel.\n\nOnly supported if lights are enabled on this channel and the device\nsupports it.\n\nSupported color formats are `#RRGGBB` and `#RRGGBBAA`.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "lights",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether notifications posted to this channel should display notification\nlights, on devices that support it.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The name of this channel (presented to the user).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "sound",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            },
+            {
+              "text": "\"jingle.wav\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The sound that should be played for notifications posted to this channel.\n\nNotification channels with an importance of at least `3` should have a\nsound.\n\nThe file name of a sound file should be specified relative to the android\napp `res/raw` directory.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "vibration",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether notifications posted to this channel should vibrate.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "visibility",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The visibility of notifications posted to this channel.\n\nThis setting is for whether notifications posted to this channel appear on\nthe lockscreen or not, and if so, whether they appear in a redacted form.",
+          "complexTypes": [
+            "Visibility"
+          ],
+          "type": "Visibility"
+        }
+      ]
+    },
+    {
+      "name": "DeleteChannelOptions",
+      "slug": "deletechanneloptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The channel identifier.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ListChannelsResult",
+      "slug": "listchannelsresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "channels",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "Channel"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "TokenReceivedEvent",
+      "slug": "tokenreceivedevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => any"
+        }
+      ]
+    },
+    {
+      "name": "NotificationReceivedEvent",
+      "slug": "notificationreceivedevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "notification",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [
+            "Notification"
+          ],
+          "type": "Notification"
+        }
+      ]
+    },
+    {
+      "name": "NotificationActionPerformedEvent",
+      "slug": "notificationactionperformedevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "actionId",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The action performed on the notification.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "inputValue",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "Text entered on the notification action.\n\nOnly available for iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "notification",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification in which the action was performed.",
+          "complexTypes": [
+            "Notification"
+          ],
+          "type": "Notification"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "name": "Importance",
+      "slug": "importance",
+      "members": [
+        {
+          "name": "Min",
+          "value": "1",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "Low",
+          "value": "2",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "Default",
+          "value": "3",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "High",
+          "value": "4",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "Max",
+          "value": "5",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        }
+      ]
+    },
+    {
+      "name": "Visibility",
+      "slug": "visibility",
+      "members": [
+        {
+          "name": "Secret",
+          "value": "-1",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "Private",
+          "value": "0",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "Public",
+          "value": "1",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        }
+      ]
+    }
+  ],
+  "typeAliases": [
+    {
+      "name": "PermissionState",
+      "slug": "permissionstate",
+      "docs": "",
+      "types": [
+        {
+          "text": "'prompt'",
+          "complexTypes": []
+        },
+        {
+          "text": "'prompt-with-rationale'",
+          "complexTypes": []
+        },
+        {
+          "text": "'granted'",
+          "complexTypes": []
+        },
+        {
+          "text": "'denied'",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "CreateChannelOptions",
+      "slug": "createchanneloptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "Channel",
+          "complexTypes": [
+            "Channel"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TokenReceivedListener",
+      "slug": "tokenreceivedlistener",
+      "docs": "Callback to receive the token received event.",
+      "types": [
+        {
+          "text": "(event: TokenReceivedEvent): void",
+          "complexTypes": [
+            "TokenReceivedEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NotificationReceivedListener",
+      "slug": "notificationreceivedlistener",
+      "docs": "Callback to receive the notification received event.",
+      "types": [
+        {
+          "text": "(event: NotificationReceivedEvent): void",
+          "complexTypes": [
+            "NotificationReceivedEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NotificationActionPerformedListener",
+      "slug": "notificationactionperformedlistener",
+      "docs": "Callback to receive the notification action performed event.",
+      "types": [
+        {
+          "text": "(event: NotificationActionPerformedEvent): void",
+          "complexTypes": [
+            "NotificationActionPerformedEvent"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": [
+    {
+      "name": "FirebaseMessaging",
+      "slug": "firebasemessaging",
+      "properties": [
+        {
+          "name": "presentationOptions",
+          "tags": [
+            {
+              "text": "[\"alert\", \"badge\", \"sound\"]",
+              "name": "example"
+            },
+            {
+              "text": "[\"alert\", \"badge\", \"sound\"]",
+              "name": "default"
+            },
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "This is an array of strings you can combine. Possible values in the array are:\n  - `badge`: badge count on the app icon is updated (default value)\n  - `sound`: the device will ring/vibrate when the push notification is received\n  - `alert`: the push notification is displayed in a native dialog\n  - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch\n\nAn empty array can be provided if none of the options are desired.\n\nOnly available for iOS.",
+          "complexTypes": [
+            "PresentationOption"
+          ],
+          "type": "{}"
+        }
+      ],
+      "docs": "On iOS you can configure the way the push notifications are displayed when the app is in foreground."
+    }
+  ]
+}

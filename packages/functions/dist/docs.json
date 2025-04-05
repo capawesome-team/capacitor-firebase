@@ -1,0 +1,290 @@
+{
+  "api": {
+    "name": "FirebaseFunctionsPlugin",
+    "slug": "firebasefunctionsplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "callByName",
+        "signature": "<RequestData = unknown, ResponseData = unknown>(options: CallByNameOptions<RequestData>) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CallByNameOptions<RequestData>"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Call a callable function by name.",
+        "complexTypes": [
+          "CallByNameOptions",
+          "RequestData",
+          "CallByNameResult",
+          "ResponseData"
+        ],
+        "slug": "callbyname"
+      },
+      {
+        "name": "callByUrl",
+        "signature": "<RequestData = unknown, ResponseData = unknown>(options: CallByUrlOptions<RequestData>) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CallByUrlOptions<RequestData>"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Call a callable function by URL.",
+        "complexTypes": [
+          "CallByUrlOptions",
+          "RequestData",
+          "CallByUrlResult",
+          "ResponseData"
+        ],
+        "slug": "callbyurl"
+      },
+      {
+        "name": "useEmulator",
+        "signature": "(options: UseEmulatorOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UseEmulatorOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Instrument your app to talk to the Cloud Functions emulator.\n\nOn Android, the cleartext traffic must be allowed. On the Capacitor configuration:\n```\n{\n  server: {\n    cleartext: true\n  }\n}\n```\n**The cleartext traffic is not intended for use in production.**",
+        "complexTypes": [
+          "UseEmulatorOptions"
+        ],
+        "slug": "useemulator"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "CallByNameOptions",
+      "slug": "callbynameoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "'myFunction'",
+              "name": "example"
+            },
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The name of the callable function.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "region",
+          "tags": [
+            {
+              "text": "'us-central1'",
+              "name": "example"
+            },
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The region of the callable function.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "CallResult",
+      "slug": "callresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The result of the callable function.",
+          "complexTypes": [
+            "ResponseData"
+          ],
+          "type": "ResponseData"
+        }
+      ]
+    },
+    {
+      "name": "CallByUrlOptions",
+      "slug": "callbyurloptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "url",
+          "tags": [
+            {
+              "text": "'https://us-central1-my-project.cloudfunctions.net/myFunction'",
+              "name": "example"
+            },
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The URL of the callable function.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UseEmulatorOptions",
+      "slug": "useemulatoroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "host",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "\"127.0.0.1\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator host without any port or scheme.\n\nNote when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "5001",
+              "name": "default"
+            },
+            {
+              "text": "5001",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator port.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "regionOrCustomDomain",
+          "tags": [
+            {
+              "text": "'us-central1'",
+              "name": "example"
+            },
+            {
+              "text": "'https://mydomain.com'",
+              "name": "example"
+            }
+          ],
+          "docs": "The region the callable functions are located in or a custom domain hosting the callable functions.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "CallByNameResult",
+      "slug": "callbynameresult",
+      "docs": "",
+      "types": [
+        {
+          "text": "CallResult<ResponseData>",
+          "complexTypes": [
+            "CallResult",
+            "ResponseData"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CallByUrlResult",
+      "slug": "callbyurlresult",
+      "docs": "",
+      "types": [
+        {
+          "text": "CallResult<ResponseData>",
+          "complexTypes": [
+            "CallResult",
+            "ResponseData"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

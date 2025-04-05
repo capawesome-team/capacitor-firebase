@@ -1,0 +1,1859 @@
+{
+  "api": {
+    "name": "FirebaseFirestorePlugin",
+    "slug": "firebasefirestoreplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "addDocument",
+        "signature": "(options: AddDocumentOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "AddDocumentOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Adds a new document to a collection with the given data.",
+        "complexTypes": [
+          "AddDocumentOptions",
+          "AddDocumentResult"
+        ],
+        "slug": "adddocument"
+      },
+      {
+        "name": "setDocument",
+        "signature": "(options: SetDocumentOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetDocumentOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Writes to the document referred to by the specified reference.\nIf the document does not yet exist, it will be created.",
+        "complexTypes": [
+          "SetDocumentOptions"
+        ],
+        "slug": "setdocument"
+      },
+      {
+        "name": "getDocument",
+        "signature": "<T extends DocumentData = DocumentData>(options: GetDocumentOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetDocumentOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Reads the document referred to by the specified reference.",
+        "complexTypes": [
+          "DocumentData",
+          "GetDocumentOptions",
+          "GetDocumentResult",
+          "T"
+        ],
+        "slug": "getdocument"
+      },
+      {
+        "name": "updateDocument",
+        "signature": "(options: UpdateDocumentOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UpdateDocumentOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Updates fields in the document referred to by the specified reference.",
+        "complexTypes": [
+          "UpdateDocumentOptions"
+        ],
+        "slug": "updatedocument"
+      },
+      {
+        "name": "deleteDocument",
+        "signature": "(options: DeleteDocumentOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "DeleteDocumentOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Deletes the document referred to by the specified reference.",
+        "complexTypes": [
+          "DeleteDocumentOptions"
+        ],
+        "slug": "deletedocument"
+      },
+      {
+        "name": "writeBatch",
+        "signature": "(options: WriteBatchOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "WriteBatchOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Execute multiple write operations as a single batch.",
+        "complexTypes": [
+          "WriteBatchOptions"
+        ],
+        "slug": "writebatch"
+      },
+      {
+        "name": "getCollection",
+        "signature": "<T extends DocumentData = DocumentData>(options: GetCollectionOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetCollectionOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Reads the collection referenced by the specified reference.",
+        "complexTypes": [
+          "DocumentData",
+          "GetCollectionOptions",
+          "GetCollectionResult",
+          "T"
+        ],
+        "slug": "getcollection"
+      },
+      {
+        "name": "getCollectionGroup",
+        "signature": "<T extends DocumentData = DocumentData>(options: GetCollectionGroupOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetCollectionGroupOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "Reads the collection group referenced by the specified reference.",
+        "complexTypes": [
+          "DocumentData",
+          "GetCollectionGroupOptions",
+          "GetCollectionGroupResult",
+          "T"
+        ],
+        "slug": "getcollectiongroup"
+      },
+      {
+        "name": "getCountFromServer",
+        "signature": "(options: GetCountFromServerOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetCountFromServerOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.4.0"
+          }
+        ],
+        "docs": "Fetches the number of documents in a collection.",
+        "complexTypes": [
+          "GetCountFromServerOptions",
+          "GetCountFromServerResult"
+        ],
+        "slug": "getcountfromserver"
+      },
+      {
+        "name": "clearPersistence",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Clears the persistent storage. This includes pending writes and cached documents.\n\nMust be called after the app is shutdown or when the app is first initialized.",
+        "complexTypes": [],
+        "slug": "clearpersistence"
+      },
+      {
+        "name": "enableNetwork",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Re-enables use of the network.",
+        "complexTypes": [],
+        "slug": "enablenetwork"
+      },
+      {
+        "name": "disableNetwork",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Disables use of the network.",
+        "complexTypes": [],
+        "slug": "disablenetwork"
+      },
+      {
+        "name": "useEmulator",
+        "signature": "(options: UseEmulatorOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UseEmulatorOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Instrument your app to talk to the Firestore emulator.",
+        "complexTypes": [
+          "UseEmulatorOptions"
+        ],
+        "slug": "useemulator"
+      },
+      {
+        "name": "addDocumentSnapshotListener",
+        "signature": "<T extends DocumentData = DocumentData>(options: AddDocumentSnapshotListenerOptions, callback: AddDocumentSnapshotListenerCallback<T>) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "AddDocumentSnapshotListenerOptions"
+          },
+          {
+            "name": "callback",
+            "docs": "",
+            "type": "AddDocumentSnapshotListenerCallback<T>"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Adds a listener for document snapshot events.",
+        "complexTypes": [
+          "DocumentData",
+          "AddDocumentSnapshotListenerOptions",
+          "AddDocumentSnapshotListenerCallback",
+          "T",
+          "CallbackId"
+        ],
+        "slug": "adddocumentsnapshotlistener"
+      },
+      {
+        "name": "addCollectionSnapshotListener",
+        "signature": "<T extends DocumentData = DocumentData>(options: AddCollectionSnapshotListenerOptions, callback: AddCollectionSnapshotListenerCallback<T>) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "AddCollectionSnapshotListenerOptions"
+          },
+          {
+            "name": "callback",
+            "docs": "",
+            "type": "AddCollectionSnapshotListenerCallback<T>"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Adds a listener for collection snapshot events.",
+        "complexTypes": [
+          "DocumentData",
+          "AddCollectionSnapshotListenerOptions",
+          "AddCollectionSnapshotListenerCallback",
+          "T",
+          "CallbackId"
+        ],
+        "slug": "addcollectionsnapshotlistener"
+      },
+      {
+        "name": "addCollectionGroupSnapshotListener",
+        "signature": "<T extends DocumentData = DocumentData>(options: AddCollectionGroupSnapshotListenerOptions, callback: AddCollectionGroupSnapshotListenerCallback<T>) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "AddCollectionGroupSnapshotListenerOptions"
+          },
+          {
+            "name": "callback",
+            "docs": "",
+            "type": "AddCollectionGroupSnapshotListenerCallback<T>"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Adds a listener for collection group snapshot events.",
+        "complexTypes": [
+          "DocumentData",
+          "AddCollectionGroupSnapshotListenerOptions",
+          "AddCollectionGroupSnapshotListenerCallback",
+          "T",
+          "CallbackId"
+        ],
+        "slug": "addcollectiongroupsnapshotlistener"
+      },
+      {
+        "name": "removeSnapshotListener",
+        "signature": "(options: RemoveSnapshotListenerOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "RemoveSnapshotListenerOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Remove a listener for document or collection snapshot events.",
+        "complexTypes": [
+          "RemoveSnapshotListenerOptions"
+        ],
+        "slug": "removesnapshotlistener"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Remove all listeners for this plugin.",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "AddDocumentOptions",
+      "slug": "adddocumentoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "'users'",
+              "name": "example"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "{ first: 'Alan', last: 'Turing', born: 1912 }",
+              "name": "example"
+            }
+          ],
+          "docs": "An object containing the data for the new document.",
+          "complexTypes": [
+            "DocumentData"
+          ],
+          "type": "DocumentData"
+        }
+      ]
+    },
+    {
+      "name": "DocumentData",
+      "slug": "documentdata",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": []
+    },
+    {
+      "name": "AddDocumentResult",
+      "slug": "adddocumentresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference of the newly added document.",
+          "complexTypes": [
+            "DocumentReference"
+          ],
+          "type": "DocumentReference"
+        }
+      ]
+    },
+    {
+      "name": "DocumentReference",
+      "slug": "documentreference",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "'Aorq09lkt1ynbR7xhTUx'",
+              "name": "example"
+            }
+          ],
+          "docs": "The document's identifier within its collection.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "'users/Aorq09lkt1ynbR7xhTUx'",
+              "name": "example"
+            }
+          ],
+          "docs": "The path of the document.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SetDocumentOptions",
+      "slug": "setdocumentoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "'users/Aorq09lkt1ynbR7xhTUx'",
+              "name": "example"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "{ first: 'Alan', last: 'Turing', born: 1912 }",
+              "name": "example"
+            }
+          ],
+          "docs": "An object containing the data for the new document.",
+          "complexTypes": [
+            "DocumentData"
+          ],
+          "type": "DocumentData"
+        },
+        {
+          "name": "merge",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "true",
+              "name": "example"
+            },
+            {
+              "text": "false",
+              "name": "default"
+            }
+          ],
+          "docs": "Whether to merge the provided data with an existing document.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "GetDocumentOptions",
+      "slug": "getdocumentoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetDocumentResult",
+      "slug": "getdocumentresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "snapshot",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The current document contents.",
+          "complexTypes": [
+            "DocumentSnapshot",
+            "T"
+          ],
+          "type": "DocumentSnapshot<T>"
+        }
+      ]
+    },
+    {
+      "name": "DocumentSnapshot",
+      "slug": "documentsnapshot",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The document's identifier within its collection.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The path of the document.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "An object containing the data for the document.\n\nReturns `null` if the document doesn't exist.",
+          "complexTypes": [
+            "T"
+          ],
+          "type": "T | null"
+        },
+        {
+          "name": "metadata",
+          "tags": [
+            {
+              "text": "6.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Metadata about the snapshot, concerning its source and if it has local modifications.",
+          "complexTypes": [
+            "SnapshotMetadata"
+          ],
+          "type": "SnapshotMetadata"
+        }
+      ]
+    },
+    {
+      "name": "SnapshotMetadata",
+      "slug": "snapshotmetadata",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "fromCache",
+          "tags": [
+            {
+              "text": "6.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "True if the snapshot was created from cached data.",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "hasPendingWrites",
+          "tags": [
+            {
+              "text": "6.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "True if the snapshot was created from pending write data.",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "UpdateDocumentOptions",
+      "slug": "updatedocumentoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "{ first: 'Alan', last: 'Turing', born: 1912 }",
+              "name": "example"
+            }
+          ],
+          "docs": "An object containing the data for the new document.",
+          "complexTypes": [
+            "DocumentData"
+          ],
+          "type": "DocumentData"
+        }
+      ]
+    },
+    {
+      "name": "DeleteDocumentOptions",
+      "slug": "deletedocumentoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "WriteBatchOptions",
+      "slug": "writebatchoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "operations",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The operations to execute in the batch.",
+          "complexTypes": [
+            "WriteBatchOperation"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "WriteBatchOperation",
+      "slug": "writebatchoperation",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of operation.",
+          "complexTypes": [],
+          "type": "'set' | 'update' | 'delete'"
+        },
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "An object containing the data for the new document.",
+          "complexTypes": [
+            "DocumentData"
+          ],
+          "type": "DocumentData"
+        }
+      ]
+    },
+    {
+      "name": "GetCollectionOptions",
+      "slug": "getcollectionoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "compositeFilter",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The filter to apply.",
+          "complexTypes": [
+            "QueryCompositeFilterConstraint"
+          ],
+          "type": "QueryCompositeFilterConstraint"
+        },
+        {
+          "name": "queryConstraints",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.",
+          "complexTypes": [
+            "QueryNonFilterConstraint"
+          ],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "QueryCompositeFilterConstraint",
+      "slug": "querycompositefilterconstraint",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of the constraint.",
+          "complexTypes": [],
+          "type": "'and' | 'or'"
+        },
+        {
+          "name": "queryConstraints",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The filters to apply.",
+          "complexTypes": [
+            "QueryFilterConstraint"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "QueryFieldFilterConstraint",
+      "slug": "queryfieldfilterconstraint",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of the constraint.",
+          "complexTypes": [],
+          "type": "'where'"
+        },
+        {
+          "name": "fieldPath",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The path to compare.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "opStr",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The operation string to apply.",
+          "complexTypes": [
+            "QueryOperator"
+          ],
+          "type": "QueryOperator"
+        },
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value for comparison.",
+          "complexTypes": [],
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "QueryOrderByConstraint",
+      "slug": "queryorderbyconstraint",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of the constraint.",
+          "complexTypes": [],
+          "type": "'orderBy'"
+        },
+        {
+          "name": "fieldPath",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The path to compare.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "directionStr",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The direction to sort by.",
+          "complexTypes": [
+            "OrderByDirection"
+          ],
+          "type": "OrderByDirection"
+        }
+      ]
+    },
+    {
+      "name": "QueryLimitConstraint",
+      "slug": "querylimitconstraint",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of the constraint.",
+          "complexTypes": [],
+          "type": "'limit' | 'limitToLast'"
+        },
+        {
+          "name": "limit",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The maximum number of items to return.",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "QueryStartAtConstraint",
+      "slug": "querystartatconstraint",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of the constraint.",
+          "complexTypes": [],
+          "type": "'startAt' | 'startAfter'"
+        },
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "'users/Aorq09lkt1ynbR7xhTUx'",
+              "name": "example"
+            }
+          ],
+          "docs": "The reference to start at or after as a string, with path components separated by a forward slash (`/`).\n\n**Attention**: This requires an additional document read.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "QueryEndAtConstraint",
+      "slug": "queryendatconstraint",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The type of the constraint.",
+          "complexTypes": [],
+          "type": "'endAt' | 'endBefore'"
+        },
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "'users/Aorq09lkt1ynbR7xhTUx'",
+              "name": "example"
+            }
+          ],
+          "docs": "The reference as to end at or before as a string, with path components separated by a forward slash (`/`).\n\n**Attention**: This requires an additional document read.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetCollectionResult",
+      "slug": "getcollectionresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "snapshots",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The documents in the collection.",
+          "complexTypes": [
+            "DocumentSnapshot",
+            "T"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "GetCollectionGroupOptions",
+      "slug": "getcollectiongroupoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "compositeFilter",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The filter to apply.",
+          "complexTypes": [
+            "QueryCompositeFilterConstraint"
+          ],
+          "type": "QueryCompositeFilterConstraint"
+        },
+        {
+          "name": "queryConstraints",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.",
+          "complexTypes": [
+            "QueryNonFilterConstraint"
+          ],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "GetCollectionGroupResult",
+      "slug": "getcollectiongroupresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "snapshots",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The documents in the collection.",
+          "complexTypes": [
+            "DocumentSnapshot",
+            "T"
+          ],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "GetCountFromServerOptions",
+      "slug": "getcountfromserveroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "6.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetCountFromServerResult",
+      "slug": "getcountfromserverresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "count",
+          "tags": [
+            {
+              "text": "6.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The number of documents in the collection.",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "UseEmulatorOptions",
+      "slug": "useemulatoroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "host",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "\"127.0.0.1\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator host without any port or scheme.\n\nNote when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "8080",
+              "name": "default"
+            },
+            {
+              "text": "8080",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator port.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "AddDocumentSnapshotListenerOptions",
+      "slug": "adddocumentsnapshotlisteneroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "AddCollectionSnapshotListenerOptions",
+      "slug": "addcollectionsnapshotlisteneroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "compositeFilter",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The filter to apply.",
+          "complexTypes": [
+            "QueryCompositeFilterConstraint"
+          ],
+          "type": "QueryCompositeFilterConstraint"
+        },
+        {
+          "name": "queryConstraints",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.",
+          "complexTypes": [
+            "QueryNonFilterConstraint"
+          ],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "AddCollectionGroupSnapshotListenerOptions",
+      "slug": "addcollectiongroupsnapshotlisteneroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reference",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reference as a string, with path components separated by a forward slash (`/`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "compositeFilter",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The filter to apply.",
+          "complexTypes": [
+            "QueryCompositeFilterConstraint"
+          ],
+          "type": "QueryCompositeFilterConstraint"
+        },
+        {
+          "name": "queryConstraints",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.",
+          "complexTypes": [
+            "QueryNonFilterConstraint"
+          ],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "RemoveSnapshotListenerOptions",
+      "slug": "removesnapshotlisteneroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "callbackId",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [
+            "CallbackId"
+          ],
+          "type": "CallbackId"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "QueryFilterConstraint",
+      "slug": "queryfilterconstraint",
+      "docs": "",
+      "types": [
+        {
+          "text": "QueryFieldFilterConstraint",
+          "complexTypes": [
+            "QueryFieldFilterConstraint"
+          ]
+        },
+        {
+          "text": "QueryCompositeFilterConstraint",
+          "complexTypes": [
+            "QueryCompositeFilterConstraint"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "QueryOperator",
+      "slug": "queryoperator",
+      "docs": "",
+      "types": [
+        {
+          "text": "'<'",
+          "complexTypes": []
+        },
+        {
+          "text": "'<='",
+          "complexTypes": []
+        },
+        {
+          "text": "'=='",
+          "complexTypes": []
+        },
+        {
+          "text": "'>='",
+          "complexTypes": []
+        },
+        {
+          "text": "'>'",
+          "complexTypes": []
+        },
+        {
+          "text": "'!='",
+          "complexTypes": []
+        },
+        {
+          "text": "'array-contains'",
+          "complexTypes": []
+        },
+        {
+          "text": "'array-contains-any'",
+          "complexTypes": []
+        },
+        {
+          "text": "'in'",
+          "complexTypes": []
+        },
+        {
+          "text": "'not-in'",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "QueryNonFilterConstraint",
+      "slug": "querynonfilterconstraint",
+      "docs": "",
+      "types": [
+        {
+          "text": "QueryOrderByConstraint",
+          "complexTypes": [
+            "QueryOrderByConstraint"
+          ]
+        },
+        {
+          "text": "QueryLimitConstraint",
+          "complexTypes": [
+            "QueryLimitConstraint"
+          ]
+        },
+        {
+          "text": "QueryStartAtConstraint",
+          "complexTypes": [
+            "QueryStartAtConstraint"
+          ]
+        },
+        {
+          "text": "QueryEndAtConstraint",
+          "complexTypes": [
+            "QueryEndAtConstraint"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OrderByDirection",
+      "slug": "orderbydirection",
+      "docs": "",
+      "types": [
+        {
+          "text": "'desc'",
+          "complexTypes": []
+        },
+        {
+          "text": "'asc'",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "AddDocumentSnapshotListenerCallback",
+      "slug": "adddocumentsnapshotlistenercallback",
+      "docs": "",
+      "types": [
+        {
+          "text": "(event: AddDocumentSnapshotListenerCallbackEvent<T> | null, error: any): void",
+          "complexTypes": [
+            "AddDocumentSnapshotListenerCallbackEvent",
+            "T"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AddDocumentSnapshotListenerCallbackEvent",
+      "slug": "adddocumentsnapshotlistenercallbackevent",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetDocumentResult<T>",
+          "complexTypes": [
+            "GetDocumentResult",
+            "T"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CallbackId",
+      "slug": "callbackid",
+      "docs": "",
+      "types": [
+        {
+          "text": "string",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "AddCollectionSnapshotListenerCallback",
+      "slug": "addcollectionsnapshotlistenercallback",
+      "docs": "",
+      "types": [
+        {
+          "text": "(event: AddCollectionSnapshotListenerCallbackEvent<T> | null, error: any): void",
+          "complexTypes": [
+            "AddCollectionSnapshotListenerCallbackEvent",
+            "T"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AddCollectionSnapshotListenerCallbackEvent",
+      "slug": "addcollectionsnapshotlistenercallbackevent",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetCollectionResult<T>",
+          "complexTypes": [
+            "GetCollectionResult",
+            "T"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AddCollectionGroupSnapshotListenerCallback",
+      "slug": "addcollectiongroupsnapshotlistenercallback",
+      "docs": "",
+      "types": [
+        {
+          "text": "(event: AddCollectionGroupSnapshotListenerCallbackEvent<T> | null, error: any): void",
+          "complexTypes": [
+            "AddCollectionGroupSnapshotListenerCallbackEvent",
+            "T"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AddCollectionGroupSnapshotListenerCallbackEvent",
+      "slug": "addcollectiongroupsnapshotlistenercallbackevent",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetCollectionGroupResult<T>",
+          "complexTypes": [
+            "GetCollectionGroupResult",
+            "T"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

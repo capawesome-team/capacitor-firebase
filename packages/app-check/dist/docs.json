@@ -1,0 +1,430 @@
+{
+  "api": {
+    "name": "FirebaseAppCheckPlugin",
+    "slug": "firebaseappcheckplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "getToken",
+        "signature": "(options?: GetTokenOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetTokenOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Get the current App Check token.",
+        "complexTypes": [
+          "GetTokenOptions",
+          "GetTokenResult"
+        ],
+        "slug": "gettoken"
+      },
+      {
+        "name": "initialize",
+        "signature": "(options?: InitializeOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "InitializeOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Activate App Check for the given app.\nCan be called only once per app.",
+        "complexTypes": [
+          "InitializeOptions"
+        ],
+        "slug": "initialize"
+      },
+      {
+        "name": "setTokenAutoRefreshEnabled",
+        "signature": "(options: SetTokenAutoRefreshEnabledOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetTokenAutoRefreshEnabledOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Set whether the App Check token should be refreshed automatically or not.",
+        "complexTypes": [
+          "SetTokenAutoRefreshEnabledOptions"
+        ],
+        "slug": "settokenautorefreshenabled"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'tokenChanged'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "TokenChangedListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Called when the App Check token changed.\n\nOnly available for Web.",
+        "complexTypes": [
+          "TokenChangedListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenertokenchanged-"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Remove all listeners for this plugin.\n\nOnly available for Web.",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "GetTokenOptions",
+      "slug": "gettokenoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "forceRefresh",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            },
+            {
+              "text": "false",
+              "name": "default"
+            }
+          ],
+          "docs": "If `true`, will always try to fetch a fresh token.\nIf `false`, will use a cached token if found in storage.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "GetTokenResult",
+      "slug": "gettokenresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The App Check token in JWT format.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "expireTimeMillis",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The timestamp after which the token will expire in milliseconds since epoch.\n\nOnly available for Android and iOS.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "InitializeOptions",
+      "slug": "initializeoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "debug",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            },
+            {
+              "text": "Use `debugToken` instead. This option will be removed in the next major version.",
+              "name": "deprecated"
+            },
+            {
+              "text": "false",
+              "name": "default"
+            }
+          ],
+          "docs": "If `true`, the debug provider is used.\n\n⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices.\nDon't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.\n\n⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version.\n\nRead more: https://firebase.google.com/docs/app-check/web/debug-provider",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "debugToken",
+          "tags": [
+            {
+              "text": "7.1.0",
+              "name": "since"
+            },
+            {
+              "text": "false",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/app-check/android/debug-provider#ci",
+              "name": "see"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/app-check/ios/debug-provider#ci",
+              "name": "see"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/app-check/web/debug-provider",
+              "name": "see"
+            }
+          ],
+          "docs": "If `true`, the debug provider is used.\n\nOn **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this.\n\n⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices.\nDon't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.",
+          "complexTypes": [],
+          "type": "string | boolean | undefined"
+        },
+        {
+          "name": "isTokenAutoRefreshEnabled",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            },
+            {
+              "text": "false",
+              "name": "default"
+            }
+          ],
+          "docs": "If `true`, the SDK automatically refreshes App Check tokens as needed.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "provider",
+          "tags": [
+            {
+              "text": "7.1.0",
+              "name": "since"
+            },
+            {
+              "text": "ReCaptchaV3Provider",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/app-check/web/custom-provider",
+              "name": "see"
+            }
+          ],
+          "docs": "The provider to use for App Check. Must be an instance of\n`ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "any"
+        },
+        {
+          "name": "siteKey",
+          "tags": [
+            {
+              "text": "Use `provider` instead.",
+              "name": "deprecated"
+            },
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "InstanceFactoryOptions",
+      "slug": "instancefactoryoptions",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "instanceIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "options",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SetTokenAutoRefreshEnabledOptions",
+      "slug": "settokenautorefreshenabledoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "If `true`, the SDK automatically refreshes App Check tokens as needed.\nThis overrides any value set during initializeAppCheck().",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "TokenChangedEvent",
+      "slug": "tokenchangedevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The App Check token in JWT format.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => any"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "InitializeOptions",
+      "slug": "initializeoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "InstanceFactoryOptions",
+          "complexTypes": [
+            "InstanceFactoryOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TokenChangedListener",
+      "slug": "tokenchangedlistener",
+      "docs": "Callback to receive the token change event.",
+      "types": [
+        {
+          "text": "(event: TokenChangedEvent): void",
+          "complexTypes": [
+            "TokenChangedEvent"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

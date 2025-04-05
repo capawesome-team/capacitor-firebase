@@ -1,0 +1,162 @@
+{
+  "api": {
+    "name": "FirebaseAppPlugin",
+    "slug": "firebaseappplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "getName",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Get the name for this app.",
+        "complexTypes": [
+          "GetNameResult"
+        ],
+        "slug": "getname"
+      },
+      {
+        "name": "getOptions",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Get the configuration options for this app.",
+        "complexTypes": [
+          "GetOptionsResult"
+        ],
+        "slug": "getoptions"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "GetNameResult",
+      "slug": "getnameresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The unique name of this app.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetOptionsResult",
+      "slug": "getoptionsresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "apiKey",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "API key used for authenticating requests from your app.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "applicationId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Google App ID used to uniquely identify an instance of an app.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "databaseUrl",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The database root URL.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "gcmSenderId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The Project Number.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "projectId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The Google Cloud project ID.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "storageBucket",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The Google Cloud Storage bucket name.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [],
+  "pluginConfigs": []
+}

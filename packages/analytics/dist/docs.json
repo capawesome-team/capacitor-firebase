@@ -1,0 +1,664 @@
+{
+  "api": {
+    "name": "FirebaseAnalyticsPlugin",
+    "slug": "firebaseanalyticsplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "getAppInstanceId",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.4.0"
+          }
+        ],
+        "docs": "Retrieves the app instance id.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "GetAppInstanceIdResult"
+        ],
+        "slug": "getappinstanceid"
+      },
+      {
+        "name": "getAppSessionId",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.4.0"
+          }
+        ],
+        "docs": "Retrieves the session id.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "GetSessionIdResult"
+        ],
+        "slug": "getappsessionid"
+      },
+      {
+        "name": "setConsent",
+        "signature": "(options: SetConsentOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetConsentOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.0.0"
+          }
+        ],
+        "docs": "Sets the user's consent mode.",
+        "complexTypes": [
+          "SetConsentOptions"
+        ],
+        "slug": "setconsent"
+      },
+      {
+        "name": "setUserId",
+        "signature": "(options: SetUserIdOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetUserIdOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets the user ID property.",
+        "complexTypes": [
+          "SetUserIdOptions"
+        ],
+        "slug": "setuserid"
+      },
+      {
+        "name": "setUserProperty",
+        "signature": "(options: SetUserPropertyOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetUserPropertyOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets a custom user property to a given value.",
+        "complexTypes": [
+          "SetUserPropertyOptions"
+        ],
+        "slug": "setuserproperty"
+      },
+      {
+        "name": "setCurrentScreen",
+        "signature": "(options: SetCurrentScreenOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetCurrentScreenOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets the current screen name.",
+        "complexTypes": [
+          "SetCurrentScreenOptions"
+        ],
+        "slug": "setcurrentscreen"
+      },
+      {
+        "name": "logEvent",
+        "signature": "(options: LogEventOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "LogEventOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Logs an app event.",
+        "complexTypes": [
+          "LogEventOptions"
+        ],
+        "slug": "logevent"
+      },
+      {
+        "name": "setSessionTimeoutDuration",
+        "signature": "(options: SetSessionTimeoutDurationOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetSessionTimeoutDurationOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets the duration of inactivity that terminates the current session.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "SetSessionTimeoutDurationOptions"
+        ],
+        "slug": "setsessiontimeoutduration"
+      },
+      {
+        "name": "setEnabled",
+        "signature": "(options: SetEnabledOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetEnabledOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Enables/disables automatic data collection.\nThe value does not apply until the next run of the app.",
+        "complexTypes": [
+          "SetEnabledOptions"
+        ],
+        "slug": "setenabled"
+      },
+      {
+        "name": "isEnabled",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Returns whether or not automatic data collection is enabled.\n\nOnly available for Web.",
+        "complexTypes": [
+          "IsEnabledResult"
+        ],
+        "slug": "isenabled"
+      },
+      {
+        "name": "resetAnalyticsData",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Clears all analytics data for this app from the device.\nResets the app instance id.\n\nOnly available for Android and iOS.",
+        "complexTypes": [],
+        "slug": "resetanalyticsdata"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "GetAppInstanceIdResult",
+      "slug": "getappinstanceidresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "appInstanceId",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The app instance id.\n\nNot defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "GetSessionIdResult",
+      "slug": "getsessionidresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "appSessionId",
+          "tags": [
+            {
+              "text": "1.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The app session id.\n\nNot defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SetConsentOptions",
+      "slug": "setconsentoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The consent type.",
+          "complexTypes": [
+            "ConsentType"
+          ],
+          "type": "ConsentType"
+        },
+        {
+          "name": "status",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The consent status.",
+          "complexTypes": [
+            "ConsentStatus"
+          ],
+          "type": "ConsentStatus"
+        }
+      ]
+    },
+    {
+      "name": "SetUserIdOptions",
+      "slug": "setuseridoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "userId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        }
+      ]
+    },
+    {
+      "name": "SetUserPropertyOptions",
+      "slug": "setuserpropertyoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "key",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        }
+      ]
+    },
+    {
+      "name": "SetCurrentScreenOptions",
+      "slug": "setcurrentscreenoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "screenName",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "screenClassOverride",
+          "tags": [
+            {
+              "text": "null",
+              "name": "default"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Only available for Android and iOS.",
+          "complexTypes": [],
+          "type": "string | null | undefined"
+        }
+      ]
+    },
+    {
+      "name": "LogEventOptions",
+      "slug": "logeventoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The event name.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "params",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The optional event params.",
+          "complexTypes": [],
+          "type": "{ [key: string]: any; } | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SetSessionTimeoutDurationOptions",
+      "slug": "setsessiontimeoutdurationoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "duration",
+          "tags": [
+            {
+              "text": "1800",
+              "name": "default"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Duration in seconds.",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "SetEnabledOptions",
+      "slug": "setenabledoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "IsEnabledResult",
+      "slug": "isenabledresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "name": "ConsentType",
+      "slug": "consenttype",
+      "members": [
+        {
+          "name": "AdPersonalization",
+          "value": "'AD_PERSONALIZATION'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "AdStorage",
+          "value": "'AD_STORAGE'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "AdUserData",
+          "value": "'AD_USER_DATA'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "AnalyticsStorage",
+          "value": "'ANALYTICS_STORAGE'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "FunctionalityStorage",
+          "value": "'FUNCTIONALITY_STORAGE'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "PersonalizationStorage",
+          "value": "'PERSONALIZATION_STORAGE'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        }
+      ]
+    },
+    {
+      "name": "ConsentStatus",
+      "slug": "consentstatus",
+      "members": [
+        {
+          "name": "Granted",
+          "value": "'GRANTED'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        },
+        {
+          "name": "Denied",
+          "value": "'DENIED'",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": ""
+        }
+      ]
+    }
+  ],
+  "typeAliases": [],
+  "pluginConfigs": []
+}

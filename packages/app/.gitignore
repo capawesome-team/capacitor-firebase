@@ -1,5 +1,5 @@
 # node files
-dist
+# dist
 node_modules
 
 # iOS files

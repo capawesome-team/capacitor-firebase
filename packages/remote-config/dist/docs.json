@@ -1,0 +1,679 @@
+{
+  "api": {
+    "name": "FirebaseRemoteConfigPlugin",
+    "slug": "firebaseremoteconfigplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "activate",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Make the last fetched configuration available to the getters.",
+        "complexTypes": [],
+        "slug": "activate"
+      },
+      {
+        "name": "fetchAndActivate",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Perform fetch and activate operations.",
+        "complexTypes": [],
+        "slug": "fetchandactivate"
+      },
+      {
+        "name": "fetchConfig",
+        "signature": "(options?: FetchConfigOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "FetchConfigOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Fetch and cache configuration from the Remote Config service.",
+        "complexTypes": [
+          "FetchConfigOptions"
+        ],
+        "slug": "fetchconfig"
+      },
+      {
+        "name": "getBoolean",
+        "signature": "(options: GetBooleanOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Get the value for the given key as a boolean.",
+        "complexTypes": [
+          "GetBooleanOptions",
+          "GetBooleanResult"
+        ],
+        "slug": "getboolean"
+      },
+      {
+        "name": "getNumber",
+        "signature": "(options: GetNumberOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Get the value for the given key as a number.",
+        "complexTypes": [
+          "GetNumberOptions",
+          "GetNumberResult"
+        ],
+        "slug": "getnumber"
+      },
+      {
+        "name": "getString",
+        "signature": "(options: GetStringOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Get the value for the given key as a string.",
+        "complexTypes": [
+          "GetStringOptions",
+          "GetStringResult"
+        ],
+        "slug": "getstring"
+      },
+      {
+        "name": "setMinimumFetchInterval",
+        "signature": "(options: SetMinimumFetchIntervalOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetMinimumFetchIntervalOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          },
+          {
+            "name": "deprecated",
+            "text": "Use `setSettings(...)` instead."
+          }
+        ],
+        "docs": "Set the minimum fetch interval.\n\nOnly available for Web.",
+        "complexTypes": [
+          "SetMinimumFetchIntervalOptions"
+        ],
+        "slug": "setminimumfetchinterval"
+      },
+      {
+        "name": "setSettings",
+        "signature": "(options: SetSettingsOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetSettingsOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.2.0"
+          }
+        ],
+        "docs": "Set the remote config settings.\n\nOn Android, the settings values are persisted in SharedPreferences.",
+        "complexTypes": [
+          "SetSettingsOptions"
+        ],
+        "slug": "setsettings"
+      },
+      {
+        "name": "addConfigUpdateListener",
+        "signature": "(callback: AddConfigUpdateListenerOptionsCallback) => any",
+        "parameters": [
+          {
+            "name": "callback",
+            "docs": "",
+            "type": "AddConfigUpdateListenerOptionsCallback"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.4.0"
+          }
+        ],
+        "docs": "Add a listener for the config update event.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "AddConfigUpdateListenerOptionsCallback",
+          "CallbackId"
+        ],
+        "slug": "addconfigupdatelistener"
+      },
+      {
+        "name": "removeConfigUpdateListener",
+        "signature": "(options: RemoveConfigUpdateListenerOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "RemoveConfigUpdateListenerOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.4.0"
+          }
+        ],
+        "docs": "Remove a listener for the config update event.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "RemoveConfigUpdateListenerOptions"
+        ],
+        "slug": "removeconfigupdatelistener"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.4.0"
+          }
+        ],
+        "docs": "Remove all listeners for this plugin.",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "FetchConfigOptions",
+      "slug": "fetchconfigoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "minimumFetchIntervalInSeconds",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            },
+            {
+              "text": "43200",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/reference/js/firebase.remoteconfig.RemoteConfigSettings#minimumfetchintervalmillis",
+              "name": "see"
+            }
+          ],
+          "docs": "Define the maximum age in seconds of an entry in the config cache before it is considered stale.\nDuring development, it's recommended to set a relatively low minimum fetch interval.\n\nOnly available for Android and iOS.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "GetOptions",
+      "slug": "getoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "key",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The key of the value to get.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetBooleanResult",
+      "slug": "getbooleanresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value for the given key as a boolean.",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "source",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Indicates at which source this value came from.\n\nOnly available for Android and iOS.",
+          "complexTypes": [
+            "GetValueSource"
+          ],
+          "type": "GetValueSource"
+        }
+      ]
+    },
+    {
+      "name": "GetNumberResult",
+      "slug": "getnumberresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value for the given key as a number.",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "source",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Indicates at which source this value came from.\n\nOnly available for Android and iOS.",
+          "complexTypes": [
+            "GetValueSource"
+          ],
+          "type": "GetValueSource"
+        }
+      ]
+    },
+    {
+      "name": "GetStringResult",
+      "slug": "getstringresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value for the given key as a string.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "source",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Indicates at which source this value came from.\n\nOnly available for Android and iOS.",
+          "complexTypes": [
+            "GetValueSource"
+          ],
+          "type": "GetValueSource"
+        }
+      ]
+    },
+    {
+      "name": "SetMinimumFetchIntervalOptions",
+      "slug": "setminimumfetchintervaloptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "minimumFetchIntervalInSeconds",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            },
+            {
+              "text": "43200",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis",
+              "name": "see"
+            }
+          ],
+          "docs": "Define the maximum age in seconds of an entry in the config cache before it is considered stale.\nDuring development, it's recommended to set a relatively low minimum fetch interval.",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "SetSettingsOptions",
+      "slug": "setsettingsoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "fetchTimeoutInSeconds",
+          "tags": [
+            {
+              "text": "6.2.0",
+              "name": "since"
+            },
+            {
+              "text": "60",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsfetchtimeoutmillis",
+              "name": "see"
+            }
+          ],
+          "docs": "Defines the maximum amount of milliseconds to wait for a response when fetching configuration from the Remote Config server.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "minimumFetchIntervalInSeconds",
+          "tags": [
+            {
+              "text": "6.2.0",
+              "name": "since"
+            },
+            {
+              "text": "43200",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis",
+              "name": "see"
+            }
+          ],
+          "docs": "Define the maximum age in seconds of an entry in the config cache before it is considered stale.\nDuring development, it's recommended to set a relatively low minimum fetch interval.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "AddConfigUpdateListenerOptionsCallbackEvent",
+      "slug": "addconfigupdatelisteneroptionscallbackevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "updatedKeys",
+          "tags": [
+            {
+              "text": "5.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Parameter keys whose values have been updated from the currently activated values.",
+          "complexTypes": [],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "RemoveConfigUpdateListenerOptions",
+      "slug": "removeconfigupdatelisteneroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "5.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The id of the listener to remove.",
+          "complexTypes": [
+            "CallbackId"
+          ],
+          "type": "CallbackId"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "name": "GetValueSource",
+      "slug": "getvaluesource",
+      "members": [
+        {
+          "name": "Static",
+          "value": "0",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Indicates that the value returned is the static default value."
+        },
+        {
+          "name": "Default",
+          "value": "1",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Indicates that the value returned was retrieved from the defaults set by the client."
+        },
+        {
+          "name": "Remote",
+          "value": "2",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Indicates that the value returned was retrieved from the Firebase Remote Config Server."
+        }
+      ]
+    }
+  ],
+  "typeAliases": [
+    {
+      "name": "GetBooleanOptions",
+      "slug": "getbooleanoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetOptions",
+          "complexTypes": [
+            "GetOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GetNumberOptions",
+      "slug": "getnumberoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetOptions",
+          "complexTypes": [
+            "GetOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GetStringOptions",
+      "slug": "getstringoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetOptions",
+          "complexTypes": [
+            "GetOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AddConfigUpdateListenerOptionsCallback",
+      "slug": "addconfigupdatelisteneroptionscallback",
+      "docs": "",
+      "types": [
+        {
+          "text": "(event: AddConfigUpdateListenerOptionsCallbackEvent | null, error: any): void",
+          "complexTypes": [
+            "AddConfigUpdateListenerOptionsCallbackEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CallbackId",
+      "slug": "callbackid",
+      "docs": "",
+      "types": [
+        {
+          "text": "string",
+          "complexTypes": []
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

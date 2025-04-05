@@ -1,0 +1,3802 @@
+{
+  "api": {
+    "name": "FirebaseAuthenticationPlugin",
+    "slug": "firebaseauthenticationplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "applyActionCode",
+        "signature": "(options: ApplyActionCodeOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "ApplyActionCodeOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Applies a verification code sent to the user by email.",
+        "complexTypes": [
+          "ApplyActionCodeOptions"
+        ],
+        "slug": "applyactioncode"
+      },
+      {
+        "name": "confirmPasswordReset",
+        "signature": "(options: ConfirmPasswordResetOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "ConfirmPasswordResetOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Completes the password reset process.",
+        "complexTypes": [
+          "ConfirmPasswordResetOptions"
+        ],
+        "slug": "confirmpasswordreset"
+      },
+      {
+        "name": "confirmVerificationCode",
+        "signature": "(options: ConfirmVerificationCodeOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "ConfirmVerificationCodeOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.0.0"
+          }
+        ],
+        "docs": "Finishes the phone number verification process.",
+        "complexTypes": [
+          "ConfirmVerificationCodeOptions",
+          "SignInResult"
+        ],
+        "slug": "confirmverificationcode"
+      },
+      {
+        "name": "createUserWithEmailAndPassword",
+        "signature": "(options: CreateUserWithEmailAndPasswordOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CreateUserWithEmailAndPasswordOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Creates a new user account with email and password.\nIf the new account was created, the user is signed in automatically.",
+        "complexTypes": [
+          "CreateUserWithEmailAndPasswordOptions",
+          "SignInResult"
+        ],
+        "slug": "createuserwithemailandpassword"
+      },
+      {
+        "name": "deleteUser",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Deletes and signs out the user.",
+        "complexTypes": [],
+        "slug": "deleteuser"
+      },
+      {
+        "name": "fetchSignInMethodsForEmail",
+        "signature": "(options: FetchSignInMethodsForEmailOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "FetchSignInMethodsForEmailOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.0.0"
+          },
+          {
+            "name": "deprecated",
+            "text": "Migrating off of this method is recommended as a security best-practice.\nLearn more in the Identity Platform documentation for [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)."
+          }
+        ],
+        "docs": "Fetches the sign-in methods for an email address.",
+        "complexTypes": [
+          "FetchSignInMethodsForEmailOptions",
+          "FetchSignInMethodsForEmailResult"
+        ],
+        "slug": "fetchsigninmethodsforemail"
+      },
+      {
+        "name": "getCurrentUser",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Fetches the currently signed-in user.",
+        "complexTypes": [
+          "GetCurrentUserResult"
+        ],
+        "slug": "getcurrentuser"
+      },
+      {
+        "name": "getPendingAuthResult",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.0.0"
+          }
+        ],
+        "docs": "Returns the `SignInResult` if your app launched a web sign-in flow and the OS cleans up the app while in the background.\n\nOnly available for Android.",
+        "complexTypes": [
+          "SignInResult"
+        ],
+        "slug": "getpendingauthresult"
+      },
+      {
+        "name": "getIdToken",
+        "signature": "(options?: GetIdTokenOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetIdTokenOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Fetches the Firebase Auth ID Token for the currently signed-in user.",
+        "complexTypes": [
+          "GetIdTokenOptions",
+          "GetIdTokenResult"
+        ],
+        "slug": "getidtoken"
+      },
+      {
+        "name": "getRedirectResult",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Returns the `SignInResult` from the redirect-based sign-in flow.\n\nIf sign-in was unsuccessful, fails with an error.\nIf no redirect operation was called, returns a `SignInResult` with a null user.\n\nOnly available for Web.",
+        "complexTypes": [
+          "SignInResult"
+        ],
+        "slug": "getredirectresult"
+      },
+      {
+        "name": "getTenantId",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Get the tenant id.",
+        "complexTypes": [
+          "GetTenantIdResult"
+        ],
+        "slug": "gettenantid"
+      },
+      {
+        "name": "isSignInWithEmailLink",
+        "signature": "(options: IsSignInWithEmailLinkOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "IsSignInWithEmailLinkOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.",
+        "complexTypes": [
+          "IsSignInWithEmailLinkOptions",
+          "IsSignInWithEmailLinkResult"
+        ],
+        "slug": "issigninwithemaillink"
+      },
+      {
+        "name": "linkWithApple",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Apple authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithapple"
+      },
+      {
+        "name": "linkWithEmailAndPassword",
+        "signature": "(options: LinkWithEmailAndPasswordOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "LinkWithEmailAndPasswordOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Email authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithEmailAndPasswordOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithemailandpassword"
+      },
+      {
+        "name": "linkWithEmailLink",
+        "signature": "(options: LinkWithEmailLinkOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "LinkWithEmailLinkOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Email authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithEmailLinkOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithemaillink"
+      },
+      {
+        "name": "linkWithFacebook",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Facebook authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithfacebook"
+      },
+      {
+        "name": "linkWithGameCenter",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Links the user account with Game Center authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.\n\nOnly available for iOS.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithgamecenter"
+      },
+      {
+        "name": "linkWithGithub",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with GitHub authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithgithub"
+      },
+      {
+        "name": "linkWithGoogle",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Google authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithgoogle"
+      },
+      {
+        "name": "linkWithMicrosoft",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Microsoft authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithmicrosoft"
+      },
+      {
+        "name": "linkWithOpenIdConnect",
+        "signature": "(options: LinkWithOpenIdConnectOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOpenIdConnectOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Links the user account with an OpenID Connect provider.",
+        "complexTypes": [
+          "LinkWithOpenIdConnectOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithopenidconnect"
+      },
+      {
+        "name": "linkWithPhoneNumber",
+        "signature": "(options: LinkWithPhoneNumberOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithPhoneNumberOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Phone Number authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.\n\nUse the `phoneVerificationCompleted` listener to be notified when the verification is completed.\nUse the `phoneVerificationFailed` listener to be notified when the verification is failed.\nUse the `phoneCodeSent` listener to get the verification id.",
+        "complexTypes": [
+          "LinkWithPhoneNumberOptions"
+        ],
+        "slug": "linkwithphonenumber"
+      },
+      {
+        "name": "linkWithPlayGames",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Play Games authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.\n\nOnly available for Android.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithplaygames"
+      },
+      {
+        "name": "linkWithTwitter",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Twitter authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithtwitter"
+      },
+      {
+        "name": "linkWithYahoo",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Links the user account with Yahoo authentication provider.\n\nThe user must be logged in on the native layer.\nThe `skipNativeAuth` configuration option has no effect here.",
+        "complexTypes": [
+          "LinkWithOAuthOptions",
+          "LinkResult"
+        ],
+        "slug": "linkwithyahoo"
+      },
+      {
+        "name": "reload",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Reloads user account data, if signed in.",
+        "complexTypes": [],
+        "slug": "reload"
+      },
+      {
+        "name": "revokeAccessToken",
+        "signature": "(options: RevokeAccessTokenOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "RevokeAccessTokenOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Revokes the given access token. Currently only supports Apple OAuth access tokens.",
+        "complexTypes": [
+          "RevokeAccessTokenOptions"
+        ],
+        "slug": "revokeaccesstoken"
+      },
+      {
+        "name": "sendEmailVerification",
+        "signature": "(options?: SendEmailVerificationOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SendEmailVerificationOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Sends a verification email to the currently signed in user.",
+        "complexTypes": [
+          "SendEmailVerificationOptions"
+        ],
+        "slug": "sendemailverification"
+      },
+      {
+        "name": "sendPasswordResetEmail",
+        "signature": "(options: SendPasswordResetEmailOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SendPasswordResetEmailOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Sends a password reset email.",
+        "complexTypes": [
+          "SendPasswordResetEmailOptions"
+        ],
+        "slug": "sendpasswordresetemail"
+      },
+      {
+        "name": "sendSignInLinkToEmail",
+        "signature": "(options: SendSignInLinkToEmailOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SendSignInLinkToEmailOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Sends a sign-in email link to the user with the specified email.\n\nTo complete sign in with the email link, call `signInWithEmailLink` with the email address and the email link supplied in the email sent to the user.",
+        "complexTypes": [
+          "SendSignInLinkToEmailOptions"
+        ],
+        "slug": "sendsigninlinktoemail"
+      },
+      {
+        "name": "setLanguageCode",
+        "signature": "(options: SetLanguageCodeOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetLanguageCodeOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets the user-facing language code for auth operations.",
+        "complexTypes": [
+          "SetLanguageCodeOptions"
+        ],
+        "slug": "setlanguagecode"
+      },
+      {
+        "name": "setPersistence",
+        "signature": "(options: SetPersistenceOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetPersistenceOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.2.0"
+          }
+        ],
+        "docs": "Sets the type of persistence for the currently saved auth session.\n\nOnly available for Web.",
+        "complexTypes": [
+          "SetPersistenceOptions"
+        ],
+        "slug": "setpersistence"
+      },
+      {
+        "name": "setTenantId",
+        "signature": "(options: SetTenantIdOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetTenantIdOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Sets the tenant id.",
+        "complexTypes": [
+          "SetTenantIdOptions"
+        ],
+        "slug": "settenantid"
+      },
+      {
+        "name": "signInAnonymously",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Signs in as an anonymous user.",
+        "complexTypes": [
+          "SignInResult"
+        ],
+        "slug": "signinanonymously"
+      },
+      {
+        "name": "signInWithApple",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Apple sign-in flow.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithapple"
+      },
+      {
+        "name": "signInWithCustomToken",
+        "signature": "(options: SignInWithCustomTokenOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithCustomTokenOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Custom Token sign-in flow.\n\nThis method cannot be used in combination with `skipNativeAuth` on Android and iOS.\nIn this case you have to use the `signInWithCustomToken` interface of the Firebase JS SDK directly.",
+        "complexTypes": [
+          "SignInWithCustomTokenOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithcustomtoken"
+      },
+      {
+        "name": "signInWithEmailAndPassword",
+        "signature": "(options: SignInWithEmailAndPasswordOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithEmailAndPasswordOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.2"
+          }
+        ],
+        "docs": "Starts the sign-in flow using an email and password.",
+        "complexTypes": [
+          "SignInWithEmailAndPasswordOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithemailandpassword"
+      },
+      {
+        "name": "signInWithEmailLink",
+        "signature": "(options: SignInWithEmailLinkOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithEmailLinkOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Signs in using an email and sign-in email link.",
+        "complexTypes": [
+          "SignInWithEmailLinkOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithemaillink"
+      },
+      {
+        "name": "signInWithFacebook",
+        "signature": "(options?: SignInWithFacebookOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithFacebookOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Facebook sign-in flow.",
+        "complexTypes": [
+          "SignInWithFacebookOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithfacebook"
+      },
+      {
+        "name": "signInWithGameCenter",
+        "signature": "(options?: SignInWithOAuthOptions | SignInOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | SignInOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Starts the Game Center sign-in flow.\n\nOnly available for iOS.",
+        "complexTypes": [
+          "SignInOptions",
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithgamecenter"
+      },
+      {
+        "name": "signInWithGithub",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the GitHub sign-in flow.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithgithub"
+      },
+      {
+        "name": "signInWithGoogle",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Google sign-in flow.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithgoogle"
+      },
+      {
+        "name": "signInWithMicrosoft",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Microsoft sign-in flow.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithmicrosoft"
+      },
+      {
+        "name": "signInWithOpenIdConnect",
+        "signature": "(options: SignInWithOpenIdConnectOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOpenIdConnectOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Starts the OpenID Connect sign-in flow.",
+        "complexTypes": [
+          "SignInWithOpenIdConnectOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithopenidconnect"
+      },
+      {
+        "name": "signInWithPhoneNumber",
+        "signature": "(options: SignInWithPhoneNumberOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithPhoneNumberOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the sign-in flow using a phone number.\n\nUse the `phoneVerificationCompleted` listener to be notified when the verification is completed.\nUse the `phoneVerificationFailed` listener to be notified when the verification is failed.\nUse the `phoneCodeSent` listener to get the verification id.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "SignInWithPhoneNumberOptions"
+        ],
+        "slug": "signinwithphonenumber"
+      },
+      {
+        "name": "signInWithPlayGames",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Play Games sign-in flow.\n\nOnly available for Android.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithplaygames"
+      },
+      {
+        "name": "signInWithTwitter",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Twitter sign-in flow.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithtwitter"
+      },
+      {
+        "name": "signInWithYahoo",
+        "signature": "(options?: SignInWithOAuthOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SignInWithOAuthOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the Yahoo sign-in flow.",
+        "complexTypes": [
+          "SignInWithOAuthOptions",
+          "SignInResult"
+        ],
+        "slug": "signinwithyahoo"
+      },
+      {
+        "name": "signOut",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts the sign-out flow.",
+        "complexTypes": [],
+        "slug": "signout"
+      },
+      {
+        "name": "unlink",
+        "signature": "(options: UnlinkOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UnlinkOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.1.0"
+          }
+        ],
+        "docs": "Unlinks a provider from a user account.",
+        "complexTypes": [
+          "UnlinkOptions",
+          "UnlinkResult"
+        ],
+        "slug": "unlink"
+      },
+      {
+        "name": "updateEmail",
+        "signature": "(options: UpdateEmailOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UpdateEmailOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Updates the email address of the currently signed in user.",
+        "complexTypes": [
+          "UpdateEmailOptions"
+        ],
+        "slug": "updateemail"
+      },
+      {
+        "name": "updatePassword",
+        "signature": "(options: UpdatePasswordOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UpdatePasswordOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Updates the password of the currently signed in user.",
+        "complexTypes": [
+          "UpdatePasswordOptions"
+        ],
+        "slug": "updatepassword"
+      },
+      {
+        "name": "updateProfile",
+        "signature": "(options: UpdateProfileOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UpdateProfileOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Updates a user's profile data.",
+        "complexTypes": [
+          "UpdateProfileOptions"
+        ],
+        "slug": "updateprofile"
+      },
+      {
+        "name": "useAppLanguage",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets the user-facing language code to be the default app language.",
+        "complexTypes": [],
+        "slug": "useapplanguage"
+      },
+      {
+        "name": "useEmulator",
+        "signature": "(options: UseEmulatorOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UseEmulatorOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.2.0"
+          }
+        ],
+        "docs": "Instrument your app to talk to the Authentication emulator.",
+        "complexTypes": [
+          "UseEmulatorOptions"
+        ],
+        "slug": "useemulator"
+      },
+      {
+        "name": "verifyBeforeUpdateEmail",
+        "signature": "(options: VerifyBeforeUpdateEmailOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "VerifyBeforeUpdateEmailOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Verifies the new email address before updating the email address of the currently signed in user.",
+        "complexTypes": [
+          "VerifyBeforeUpdateEmailOptions"
+        ],
+        "slug": "verifybeforeupdateemail"
+      },
+      {
+        "name": "checkAppTrackingTransparencyPermission",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "7.2.0"
+          }
+        ],
+        "docs": "Checks the current status of app tracking transparency.\n\nOnly available on iOS.",
+        "complexTypes": [
+          "CheckAppTrackingTransparencyPermissionResult"
+        ],
+        "slug": "checkapptrackingtransparencypermission"
+      },
+      {
+        "name": "requestAppTrackingTransparencyPermission",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "7.2.0"
+          }
+        ],
+        "docs": "Opens the system dialog to authorize app tracking transparency.\n\n**Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).\n\nOnly available on iOS.",
+        "complexTypes": [
+          "RequestAppTrackingTransparencyPermissionResult"
+        ],
+        "slug": "requestapptrackingtransparencypermission"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'authStateChange'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "AuthStateChangeListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Listen for the user's sign-in state changes.\n\n**Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.",
+        "complexTypes": [
+          "AuthStateChangeListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerauthstatechange-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'idTokenChange'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "IdTokenChangeListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Listen to ID token changes for the currently signed-in user.\n\n**Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.",
+        "complexTypes": [
+          "IdTokenChangeListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlisteneridtokenchange-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerificationCompletedListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'phoneVerificationCompleted'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "PhoneVerificationCompletedListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Listen for a completed phone verification.\n\nThis listener only fires in two situations:\n1. **Instant verification**: In some cases the phone number can be instantly\nverified without needing to send or enter a verification code.\n2. **Auto-retrieval**: On some devices Google Play services can automatically\ndetect the incoming verification SMS and perform verification without\nuser action.\n\nOnly available for Android.",
+        "complexTypes": [
+          "PhoneVerificationCompletedListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerphoneverificationcompleted-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'phoneVerificationFailed', listenerFunc: PhoneVerificationFailedListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'phoneVerificationFailed'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "PhoneVerificationFailedListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Listen for a failed phone verification.",
+        "complexTypes": [
+          "PhoneVerificationFailedListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerphoneverificationfailed-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'phoneCodeSent'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "PhoneCodeSentListener"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.3.0"
+          }
+        ],
+        "docs": "Listen for a phone verification code.",
+        "complexTypes": [
+          "PhoneCodeSentListener",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerphonecodesent-"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Remove all listeners for this plugin.",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "ApplyActionCodeOptions",
+      "slug": "applyactioncodeoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "oobCode",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "A verification code sent to the user.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ConfirmPasswordResetOptions",
+      "slug": "confirmpasswordresetoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "oobCode",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "A verification code sent to the user.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "newPassword",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The new password.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ConfirmVerificationCodeOptions",
+      "slug": "confirmverificationcodeoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "verificationId",
+          "tags": [
+            {
+              "text": "5.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The verification ID received from the `phoneCodeSent` listener.\n\nThe `verificationCode` option must also be provided.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "verificationCode",
+          "tags": [
+            {
+              "text": "5.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The verification code either received from the `phoneCodeSent` listener or entered by the user.\n\nThe `verificationId` option must also be provided.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInResult",
+      "slug": "signinresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "user",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The currently signed-in user, or null if there isn't any.",
+          "complexTypes": [
+            "User"
+          ],
+          "type": "User | null"
+        },
+        {
+          "name": "credential",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Credentials returned by an auth provider.",
+          "complexTypes": [
+            "AuthCredential"
+          ],
+          "type": "AuthCredential | null"
+        },
+        {
+          "name": "additionalUserInfo",
+          "tags": [
+            {
+              "text": "0.5.1",
+              "name": "since"
+            }
+          ],
+          "docs": "Additional user information from a federated identity provider.",
+          "complexTypes": [
+            "AdditionalUserInfo"
+          ],
+          "type": "AdditionalUserInfo | null"
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "slug": "user",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        },
+        {
+          "text": "https ://firebase.google.com/docs/reference/js/auth.user",
+          "name": "see"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "displayName",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "emailVerified",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "isAnonymous",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "metadata",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's metadata.",
+          "complexTypes": [
+            "UserMetadata"
+          ],
+          "type": "UserMetadata"
+        },
+        {
+          "name": "phoneNumber",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "photoUrl",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "providerData",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Additional per provider such as displayName and profile information.",
+          "complexTypes": [
+            "UserInfo"
+          ],
+          "type": "{}"
+        },
+        {
+          "name": "providerId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "tenantId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "uid",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UserMetadata",
+      "slug": "usermetadata",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        },
+        {
+          "text": "https ://firebase.google.com/docs/reference/js/auth.usermetadata",
+          "name": "see"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "creationTime",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "1695130859034",
+              "name": "example"
+            }
+          ],
+          "docs": "Time the user was created in milliseconds since the epoch.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "lastSignInTime",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "1695130859034",
+              "name": "example"
+            }
+          ],
+          "docs": "Time the user last signed in in milliseconds since the epoch.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "UserInfo",
+      "slug": "userinfo",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        },
+        {
+          "text": "https ://firebase.google.com/docs/reference/js/auth.userinfo",
+          "name": "see"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "displayName",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The display name of the user.",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The email of the user.",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "phoneNumber",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The phone number normalized based on the E.164 standard (e.g. +16505550101) for the user.",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "photoUrl",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The profile photo URL of the user.",
+          "complexTypes": [],
+          "type": "string | null"
+        },
+        {
+          "name": "providerId",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The provider used to authenticate the user.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "uid",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's unique ID.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "AuthCredential",
+      "slug": "authcredential",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "accessToken",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The OAuth access token associated with the credential if it belongs to an OAuth provider.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "authorizationCode",
+          "tags": [
+            {
+              "text": "1.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "A token that the app uses to interact with the server.\n\nOnly available for Apple Sign-in on iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "idToken",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The OAuth ID token associated with the credential if it belongs to an OIDC provider.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "nonce",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The random string used to make sure that the ID token you get was granted specifically in response to your app's authentication request.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "providerId",
+          "tags": [
+            {
+              "text": "\"google.com\"",
+              "name": "example"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The authentication provider ID for the credential.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "secret",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "serverAuthCode",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The server auth code.\n\nOnly available for Google Sign-in and Play Games Sign-In on Android and iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "AdditionalUserInfo",
+      "slug": "additionaluserinfo",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.5.1",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "isNewUser",
+          "tags": [
+            {
+              "text": "0.5.1",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether the user is new (sign-up) or existing (sign-in).",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "profile",
+          "tags": [
+            {
+              "text": "0.5.1",
+              "name": "since"
+            }
+          ],
+          "docs": "Map containing IDP-specific user data.",
+          "complexTypes": [],
+          "type": "{ [key: string]: unknown; } | undefined"
+        },
+        {
+          "name": "providerId",
+          "tags": [
+            {
+              "text": "0.5.1",
+              "name": "since"
+            }
+          ],
+          "docs": "Identifier for the provider used to authenticate this user.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "username",
+          "tags": [
+            {
+              "text": "0.5.1",
+              "name": "since"
+            }
+          ],
+          "docs": "The username if the provider is GitHub or Twitter.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "CreateUserWithEmailAndPasswordOptions",
+      "slug": "createuserwithemailandpasswordoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "password",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "FetchSignInMethodsForEmailOptions",
+      "slug": "fetchsigninmethodsforemailoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "FetchSignInMethodsForEmailResult",
+      "slug": "fetchsigninmethodsforemailresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "signInMethods",
+          "tags": [
+            {
+              "text": "6.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The sign-in methods for the specified email address.\n\nThis list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)\nis enabled, irrespective of the number of authentication methods available for the given email.",
+          "complexTypes": [],
+          "type": "{}"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentUserResult",
+      "slug": "getcurrentuserresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "user",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The currently signed-in user, or null if there isn't any.",
+          "complexTypes": [
+            "User"
+          ],
+          "type": "User | null"
+        }
+      ]
+    },
+    {
+      "name": "GetIdTokenOptions",
+      "slug": "getidtokenoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "forceRefresh",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Force refresh regardless of token expiration.",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "GetIdTokenResult",
+      "slug": "getidtokenresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The Firebase Auth ID token JWT string.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetTenantIdResult",
+      "slug": "gettenantidresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "tenantId",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The tenant id.\n`null` if it has never been set.",
+          "complexTypes": [],
+          "type": "string | null"
+        }
+      ]
+    },
+    {
+      "name": "IsSignInWithEmailLinkOptions",
+      "slug": "issigninwithemaillinkoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "emailLink",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The link sent to the user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "IsSignInWithEmailLinkResult",
+      "slug": "issigninwithemaillinkresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "isSignInWithEmailLink",
+          "tags": [],
+          "docs": "Whether an incoming link is a signup with email link suitable for `signInWithEmailLink(...)`.",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithOAuthOptions",
+      "slug": "signinwithoauthoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "customParameters",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow.\n\nSupports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.\nSupports Apple, GitHub, Microsoft, Twitter and Yahoo on Android.\nSupports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS.",
+          "complexTypes": [
+            "SignInCustomParameter"
+          ],
+          "type": "{} | undefined"
+        },
+        {
+          "name": "mode",
+          "tags": [
+            {
+              "text": "'popup'",
+              "name": "default"
+            },
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether to use the popup-based OAuth authentication flow or the full-page redirect flow.\nIf you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "'popup' | 'redirect' | undefined"
+        },
+        {
+          "name": "scopes",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Scopes to request from provider.\n\nSupports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.\nSupports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android.\nSupports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.",
+          "complexTypes": [],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SignInCustomParameter",
+      "slug": "signincustomparameter",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "key",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The custom parameter key (e.g. `login_hint`).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`).",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "LinkWithEmailAndPasswordOptions",
+      "slug": "linkwithemailandpasswordoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "password",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's password.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "LinkWithEmailLinkOptions",
+      "slug": "linkwithemaillinkoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "emailLink",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The link sent to the user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithOpenIdConnectOptions",
+      "slug": "signinwithopenidconnectoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "providerId",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "oidc.example-provider",
+              "name": "example"
+            }
+          ],
+          "docs": "The OpenID Connect provider ID.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithPhoneNumberOptions",
+      "slug": "signinwithphonenumberoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "phoneNumber",
+          "tags": [
+            {
+              "text": "\"+16505550101\"",
+              "name": "example"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The phone number to be verified in E.164 format.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "recaptchaVerifier",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The reCAPTCHA verifier.\nMust be an instance of `firebase.auth.RecaptchaVerifier`.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "unknown"
+        },
+        {
+          "name": "resendCode",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            },
+            {
+              "text": "false",
+              "name": "default"
+            }
+          ],
+          "docs": "Resend the verification code to the specified phone number.\n`signInWithPhoneNumber` must be called once before using this option.\n\nOnly available for Android.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "timeout",
+          "tags": [
+            {
+              "text": "5.4.0",
+              "name": "since"
+            },
+            {
+              "text": "60",
+              "name": "default"
+            },
+            {
+              "text": "https ://firebase.google.com/docs/reference/android/com/google/firebase/auth/PhoneAuthOptions.Builder#setTimeout(java.lang.Long,java.util.concurrent.TimeUnit)",
+              "name": "see"
+            }
+          ],
+          "docs": "The maximum amount of time in seconds to wait for the SMS auto-retrieval.\n\nUse 0 to disable SMS-auto-retrieval.\n\nOnly available for Android.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "RevokeAccessTokenOptions",
+      "slug": "revokeaccesstokenoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The access token to revoke.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SendEmailVerificationOptions",
+      "slug": "sendemailverificationoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "actionCodeSettings",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.",
+          "complexTypes": [
+            "ActionCodeSettings"
+          ],
+          "type": "ActionCodeSettings"
+        }
+      ]
+    },
+    {
+      "name": "ActionCodeSettings",
+      "slug": "actioncodesettings",
+      "docs": "An interface that defines the required continue/state URL with optional Android and iOS\nbundle identifiers.",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "android",
+          "tags": [],
+          "docs": "Sets the Android package name.",
+          "complexTypes": [],
+          "type": "{ installApp?: boolean | undefined; minimumVersion?: string | undefined; packageName: string; } | undefined"
+        },
+        {
+          "name": "handleCodeInApp",
+          "tags": [],
+          "docs": "When set to true, the action code link will be be sent as a Universal Link or Android App\nLink and will be opened by the app if installed.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "iOS",
+          "tags": [],
+          "docs": "Sets the iOS bundle ID.",
+          "complexTypes": [],
+          "type": "{ bundleId: string; } | undefined"
+        },
+        {
+          "name": "url",
+          "tags": [],
+          "docs": "Sets the link continue/state URL.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "dynamicLinkDomain",
+          "tags": [],
+          "docs": "When multiple custom dynamic link domains are defined for a project, specify which one to use\nwhen the link is to be opened via a specified mobile app (for example, `example.page.link`).",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SendPasswordResetEmailOptions",
+      "slug": "sendpasswordresetemailoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "actionCodeSettings",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.",
+          "complexTypes": [
+            "ActionCodeSettings"
+          ],
+          "type": "ActionCodeSettings"
+        }
+      ]
+    },
+    {
+      "name": "SendSignInLinkToEmailOptions",
+      "slug": "sendsigninlinktoemailoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "actionCodeSettings",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.",
+          "complexTypes": [
+            "ActionCodeSettings"
+          ],
+          "type": "ActionCodeSettings"
+        }
+      ]
+    },
+    {
+      "name": "SetLanguageCodeOptions",
+      "slug": "setlanguagecodeoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "languageCode",
+          "tags": [
+            {
+              "text": "\"en-US\"",
+              "name": "example"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "BCP 47 language code.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SetPersistenceOptions",
+      "slug": "setpersistenceoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "persistence",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The persistence types.",
+          "complexTypes": [
+            "Persistence"
+          ],
+          "type": "Persistence"
+        }
+      ]
+    },
+    {
+      "name": "Persistence",
+      "slug": "persistence",
+      "docs": "An interface covering the possible persistence mechanism types.",
+      "tags": [
+        {
+          "name": "public"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "type",
+          "tags": [],
+          "docs": "Type of Persistence.\n- 'SESSION' is used for temporary persistence such as `sessionStorage`.\n- 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`.\n- 'NONE' is used for in-memory, or no persistence.",
+          "complexTypes": [],
+          "type": "'SESSION' | 'LOCAL' | 'NONE'"
+        }
+      ]
+    },
+    {
+      "name": "SetTenantIdOptions",
+      "slug": "settenantidoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "tenantId",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The tenant id.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithCustomTokenOptions",
+      "slug": "signinwithcustomtokenoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "token",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The custom token to sign in with.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithEmailAndPasswordOptions",
+      "slug": "signinwithemailandpasswordoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "password",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's password.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithEmailLinkOptions",
+      "slug": "signinwithemaillinkoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "email",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "emailLink",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The link sent to the user's email address.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SignInWithFacebookOptions",
+      "slug": "signinwithfacebookoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "7.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "useLimitedLogin",
+          "tags": [
+            {
+              "text": "false",
+              "name": "default"
+            },
+            {
+              "text": "7.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether to use the Facebook Limited Login mode.\n\nIf set to `true`, no access token will be returned but the user does not have to\ngrant App Tracking Transparency permission.\nIf set to `false`, the user has to grant App Tracking Transparency permission.\nYou can request the permission with `requestAppTrackingTransparencyPermission()`.\n\nOnly available for iOS.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SignInOptions",
+      "slug": "signinoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "skipNativeAuth",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether the plugin should skip the native authentication or not.\nOnly needed if you want to use the Firebase JavaScript SDK.\nThis value overwrites the configrations value of the `skipNativeAuth` option.\nIf no value is set, the configuration value is used.\n\n**Note that the plugin may behave differently across the platforms.**\n\n`skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`.\n\nOnly available for Android and iOS.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "UnlinkOptions",
+      "slug": "unlinkoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "providerId",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The provider to unlink.",
+          "complexTypes": [
+            "ProviderId"
+          ],
+          "type": "ProviderId"
+        }
+      ]
+    },
+    {
+      "name": "UnlinkResult",
+      "slug": "unlinkresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "user",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The currently signed-in user, or null if there isn't any.",
+          "complexTypes": [
+            "User"
+          ],
+          "type": "User | null"
+        }
+      ]
+    },
+    {
+      "name": "UpdateEmailOptions",
+      "slug": "updateemailoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "newEmail",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The new email address.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UpdatePasswordOptions",
+      "slug": "updatepasswordoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.2",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "newPassword",
+          "tags": [
+            {
+              "text": "0.2.2",
+              "name": "since"
+            }
+          ],
+          "docs": "The new password.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UpdateProfileOptions",
+      "slug": "updateprofileoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "1.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "displayName",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's display name.",
+          "complexTypes": [],
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "photoUrl",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The user's photo URL.",
+          "complexTypes": [],
+          "type": "string | null | undefined"
+        }
+      ]
+    },
+    {
+      "name": "UseEmulatorOptions",
+      "slug": "useemulatoroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "host",
+          "tags": [
+            {
+              "text": "0.2.0",
+              "name": "since"
+            },
+            {
+              "text": "\"127.0.0.1\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator host without any port or scheme.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "tags": [
+            {
+              "text": "0.2.0",
+              "name": "since"
+            },
+            {
+              "text": "9099",
+              "name": "default"
+            },
+            {
+              "text": "9099",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator port.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "scheme",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            },
+            {
+              "text": "\"http\"",
+              "name": "default"
+            },
+            {
+              "text": "\"https\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator scheme.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "VerifyBeforeUpdateEmailOptions",
+      "slug": "verifybeforeupdateemailoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "newEmail",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The new email address to be verified before update.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "actionCodeSettings",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The action code settings",
+          "complexTypes": [
+            "ActionCodeSettings"
+          ],
+          "type": "ActionCodeSettings"
+        }
+      ]
+    },
+    {
+      "name": "CheckAppTrackingTransparencyPermissionResult",
+      "slug": "checkapptrackingtransparencypermissionresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "7.2.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "status",
+          "tags": [
+            {
+              "text": "7.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The permission status of App Tracking Transparency.",
+          "complexTypes": [
+            "AppTrackingTransparencyPermissionState"
+          ],
+          "type": "AppTrackingTransparencyPermissionState"
+        }
+      ]
+    },
+    {
+      "name": "AuthStateChange",
+      "slug": "authstatechange",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "user",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The currently signed-in user, or null if there isn't any.",
+          "complexTypes": [
+            "User"
+          ],
+          "type": "User | null"
+        }
+      ]
+    },
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => any"
+        }
+      ]
+    },
+    {
+      "name": "PhoneVerificationCompletedEvent",
+      "slug": "phoneverificationcompletedevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "verificationCode",
+          "tags": [
+            {
+              "text": "5.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The verification code sent to the user's phone number.\n\nIf instant verification is used, this property is not set.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "PhoneVerificationFailedEvent",
+      "slug": "phoneverificationfailedevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "message",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The error message.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "PhoneCodeSentEvent",
+      "slug": "phonecodesentevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.0.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "verificationId",
+          "tags": [
+            {
+              "text": "1.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The verification ID, which is needed to identify the verification code.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "name": "Persistence",
+      "slug": "persistence",
+      "members": [
+        {
+          "name": "IndexedDbLocal",
+          "value": "'INDEXED_DB_LOCAL'",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Long term persistence using IndexedDB."
+        },
+        {
+          "name": "InMemory",
+          "value": "'IN_MEMORY'",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "No persistence."
+        },
+        {
+          "name": "BrowserLocal",
+          "value": "'BROWSER_LOCAL'",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Long term persistence using local storage."
+        },
+        {
+          "name": "BrowserSession",
+          "value": "'BROWSER_SESSION'",
+          "tags": [
+            {
+              "text": "5.2.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Temporary persistence using session storage."
+        }
+      ]
+    },
+    {
+      "name": "ProviderId",
+      "slug": "providerid",
+      "members": [
+        {
+          "name": "APPLE",
+          "value": "'apple.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "FACEBOOK",
+          "value": "'facebook.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "GAME_CENTER",
+          "value": "'gc.apple.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "GITHUB",
+          "value": "'github.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "GOOGLE",
+          "value": "'google.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "MICROSOFT",
+          "value": "'microsoft.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "PLAY_GAMES",
+          "value": "'playgames.google.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "TWITTER",
+          "value": "'twitter.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "YAHOO",
+          "value": "'yahoo.com'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "PASSWORD",
+          "value": "'password'",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "PHONE",
+          "value": "'phone'",
+          "tags": [],
+          "docs": ""
+        }
+      ]
+    }
+  ],
+  "typeAliases": [
+    {
+      "name": "LinkWithOAuthOptions",
+      "slug": "linkwithoauthoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "SignInWithOAuthOptions",
+          "complexTypes": [
+            "SignInWithOAuthOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LinkResult",
+      "slug": "linkresult",
+      "docs": "",
+      "types": [
+        {
+          "text": "SignInResult",
+          "complexTypes": [
+            "SignInResult"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LinkWithOpenIdConnectOptions",
+      "slug": "linkwithopenidconnectoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "SignInWithOpenIdConnectOptions",
+          "complexTypes": [
+            "SignInWithOpenIdConnectOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LinkWithPhoneNumberOptions",
+      "slug": "linkwithphonenumberoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "SignInWithPhoneNumberOptions",
+          "complexTypes": [
+            "SignInWithPhoneNumberOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AppTrackingTransparencyPermissionState",
+      "slug": "apptrackingtransparencypermissionstate",
+      "docs": "",
+      "types": [
+        {
+          "text": "PermissionState",
+          "complexTypes": [
+            "PermissionState"
+          ]
+        },
+        {
+          "text": "'restricted'",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "PermissionState",
+      "slug": "permissionstate",
+      "docs": "",
+      "types": [
+        {
+          "text": "'prompt'",
+          "complexTypes": []
+        },
+        {
+          "text": "'prompt-with-rationale'",
+          "complexTypes": []
+        },
+        {
+          "text": "'granted'",
+          "complexTypes": []
+        },
+        {
+          "text": "'denied'",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "RequestAppTrackingTransparencyPermissionResult",
+      "slug": "requestapptrackingtransparencypermissionresult",
+      "docs": "",
+      "types": [
+        {
+          "text": "CheckAppTrackingTransparencyPermissionResult",
+          "complexTypes": [
+            "CheckAppTrackingTransparencyPermissionResult"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AuthStateChangeListener",
+      "slug": "authstatechangelistener",
+      "docs": "Callback to receive the user's sign-in state change notifications.",
+      "types": [
+        {
+          "text": "(change: AuthStateChange): void",
+          "complexTypes": [
+            "AuthStateChange"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "IdTokenChangeListener",
+      "slug": "idtokenchangelistener",
+      "docs": "Callback to receive the ID token change notifications.",
+      "types": [
+        {
+          "text": "(change: GetIdTokenResult): void",
+          "complexTypes": [
+            "GetIdTokenResult"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PhoneVerificationCompletedListener",
+      "slug": "phoneverificationcompletedlistener",
+      "docs": "Callback to receive the verification code sent to the user's phone number.",
+      "types": [
+        {
+          "text": "(event: PhoneVerificationCompletedEvent): void",
+          "complexTypes": [
+            "PhoneVerificationCompletedEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PhoneVerificationFailedListener",
+      "slug": "phoneverificationfailedlistener",
+      "docs": "Callback to receive notifications of failed phone verification.",
+      "types": [
+        {
+          "text": "(event: PhoneVerificationFailedEvent): void",
+          "complexTypes": [
+            "PhoneVerificationFailedEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PhoneCodeSentListener",
+      "slug": "phonecodesentlistener",
+      "docs": "Callback to receive the verification ID.",
+      "types": [
+        {
+          "text": "(event: PhoneCodeSentEvent): void",
+          "complexTypes": [
+            "PhoneCodeSentEvent"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": [
+    {
+      "name": "FirebaseAuthentication",
+      "slug": "firebaseauthentication",
+      "properties": [
+        {
+          "name": "skipNativeAuth",
+          "tags": [
+            {
+              "text": "false",
+              "name": "default"
+            },
+            {
+              "text": "false",
+              "name": "example"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Configure whether the plugin should skip the native authentication.\nOnly needed if you want to use the Firebase JavaScript SDK.\nThis configuration option has no effect on Firebase account linking.\n\n**Note that the plugin may behave differently across the platforms.**\n\nOnly available for Android and iOS.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "providers",
+          "tags": [
+            {
+              "text": "[]",
+              "name": "default"
+            },
+            {
+              "text": "[\"apple.com\", \"facebook.com\"]",
+              "name": "example"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Configure the providers that should be loaded by the plugin.\n\nPossible values: `[\"apple.com\", \"facebook.com\", \"gc.apple.com\", \"github.com\", \"google.com\", \"microsoft.com\", \"playgames.google.com\", \"twitter.com\", \"yahoo.com\", \"phone\"]`\n\nOnly available for Android and iOS.",
+          "complexTypes": [],
+          "type": "{} | undefined"
+        }
+      ],
+      "docs": "These configuration values are available:"
+    }
+  ]
+}

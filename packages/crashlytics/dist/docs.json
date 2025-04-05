@@ -1,0 +1,551 @@
+{
+  "api": {
+    "name": "FirebaseCrashlyticsPlugin",
+    "slug": "firebasecrashlyticsplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "crash",
+        "signature": "(options: CrashOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CrashOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Forces a crash to test the implementation.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "CrashOptions"
+        ],
+        "slug": "crash"
+      },
+      {
+        "name": "setCustomKey",
+        "signature": "(options: SetCustomKeyOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CustomKeyAndValue"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets a custom key and value that is associated with subsequent fatal and non-fatal reports.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "SetCustomKeyOptions"
+        ],
+        "slug": "setcustomkey"
+      },
+      {
+        "name": "setUserId",
+        "signature": "(options: SetUserIdOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetUserIdOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Sets a user ID (identifier) that is associated with subsequent fatal and non-fatal reports.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "SetUserIdOptions"
+        ],
+        "slug": "setuserid"
+      },
+      {
+        "name": "log",
+        "signature": "(options: LogOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "LogOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Adds a custom log message that is sent with your crash data to give yourself more context for the events leading up to a crash.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "LogOptions"
+        ],
+        "slug": "log"
+      },
+      {
+        "name": "setEnabled",
+        "signature": "(options: SetEnabledOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetEnabledOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Enables/disables automatic data collection.\nThe value does not apply until the next run of the app.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "SetEnabledOptions"
+        ],
+        "slug": "setenabled"
+      },
+      {
+        "name": "isEnabled",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Returns whether or not automatic data collection is enabled.\n\nOnly available for iOS.",
+        "complexTypes": [
+          "IsEnabledResult"
+        ],
+        "slug": "isenabled"
+      },
+      {
+        "name": "didCrashOnPreviousExecution",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Returns whether the app crashed during the previous execution.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "DidCrashOnPreviousExecutionResult"
+        ],
+        "slug": "didcrashonpreviousexecution"
+      },
+      {
+        "name": "sendUnsentReports",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Uploads any unsent reports to Crashlytics at next startup.\n\nWhen automatic data collection is enabled, Crashlytics automatically uploads reports at startup.\n\nOnly available for Android and iOS.",
+        "complexTypes": [],
+        "slug": "sendunsentreports"
+      },
+      {
+        "name": "deleteUnsentReports",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Deletes any unsent reports on the device.\n\nOnly available for Android and iOS.",
+        "complexTypes": [],
+        "slug": "deleteunsentreports"
+      },
+      {
+        "name": "recordException",
+        "signature": "(options: RecordExceptionOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "RecordExceptionOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Records a non-fatal report to send to Crashlytics.\n\nOnly available for Android and iOS.",
+        "complexTypes": [
+          "RecordExceptionOptions"
+        ],
+        "slug": "recordexception"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "CrashOptions",
+      "slug": "crashoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "message",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "CustomKeyAndValue",
+      "slug": "customkeyandvalue",
+      "docs": "",
+      "tags": [
+        {
+          "text": "7.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "key",
+          "tags": [
+            {
+              "text": "7.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "7.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | number | boolean"
+        },
+        {
+          "name": "type",
+          "tags": [
+            {
+              "text": "7.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "'string' | 'boolean' | 'long' | 'double' | 'int' | 'float'"
+        }
+      ]
+    },
+    {
+      "name": "SetUserIdOptions",
+      "slug": "setuseridoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "userId",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "LogOptions",
+      "slug": "logoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "message",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "SetEnabledOptions",
+      "slug": "setenabledoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "IsEnabledResult",
+      "slug": "isenabledresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "DidCrashOnPreviousExecutionResult",
+      "slug": "didcrashonpreviousexecutionresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "crashed",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "RecordExceptionOptions",
+      "slug": "recordexceptionoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "message",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The message to record as a non-fatal exception.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "code",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Error code within a specific error domain.\n\n**Attention:** This option is ignored on iOS if `stacktrace` is provided.\n\nOnly available for iOS.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "domain",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "A string containing the error domain.\n\n**Attention:** This option is ignored on iOS if `stacktrace` is provided.\n\nOnly available for iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "keysAndValues",
+          "tags": [
+            {
+              "text": "7.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "An array of keys and the values to associate with the non fatal exception,\nin addition to the app level custom keys.\n\n**Attention:** This option is ignored on iOS if `stacktrace` is provided.",
+          "complexTypes": [
+            "CustomKeyAndValue"
+          ],
+          "type": "{} | undefined"
+        },
+        {
+          "name": "stacktrace",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "A stacktrace generated by stacktrace.js.",
+          "complexTypes": [
+            "StackFrame"
+          ],
+          "type": "{} | undefined"
+        }
+      ]
+    },
+    {
+      "name": "StackFrame",
+      "slug": "stackframe",
+      "docs": "Subset of the Stacktrace generated by stacktrace.js.",
+      "tags": [
+        {
+          "text": "1.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "lineNumber",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "fileName",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "functionName",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "SetCustomKeyOptions",
+      "slug": "setcustomkeyoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "CustomKeyAndValue",
+          "complexTypes": [
+            "CustomKeyAndValue"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

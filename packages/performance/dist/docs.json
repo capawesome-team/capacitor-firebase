@@ -1,0 +1,806 @@
+{
+  "api": {
+    "name": "FirebasePerformancePlugin",
+    "slug": "firebaseperformanceplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "startTrace",
+        "signature": "(options: StartTraceOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "StartTraceOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Starts a trace.",
+        "complexTypes": [
+          "StartTraceOptions"
+        ],
+        "slug": "starttrace"
+      },
+      {
+        "name": "stopTrace",
+        "signature": "(options: StopTraceOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "StopTraceOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Stops a trace.",
+        "complexTypes": [
+          "StopTraceOptions"
+        ],
+        "slug": "stoptrace"
+      },
+      {
+        "name": "incrementMetric",
+        "signature": "(options: IncrementMetricOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "IncrementMetricOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Atomically increments the metric with the given name for the selected trace by the `incrementBy` value.",
+        "complexTypes": [
+          "IncrementMetricOptions"
+        ],
+        "slug": "incrementmetric"
+      },
+      {
+        "name": "setEnabled",
+        "signature": "(options: SetEnabledOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "SetEnabledOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Enables or disables performance monitoring.\nWill be applied with the next start of the app.",
+        "complexTypes": [
+          "SetEnabledOptions"
+        ],
+        "slug": "setenabled"
+      },
+      {
+        "name": "isEnabled",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "0.1.0"
+          }
+        ],
+        "docs": "Determines whether performance monitoring is enabled or disabled.",
+        "complexTypes": [
+          "IsEnabledResult"
+        ],
+        "slug": "isenabled"
+      },
+      {
+        "name": "putAttribute",
+        "signature": "(options: PutAttributeOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "PutAttributeOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Sets a custom attribute of a trace to a given value.",
+        "complexTypes": [
+          "PutAttributeOptions"
+        ],
+        "slug": "putattribute"
+      },
+      {
+        "name": "getAttribute",
+        "signature": "(options: GetAttributeOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetAttributeOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Returns the value of a custom attribute of a trace.",
+        "complexTypes": [
+          "GetAttributeOptions",
+          "GetAttributeResult"
+        ],
+        "slug": "getattribute"
+      },
+      {
+        "name": "getAttributes",
+        "signature": "(options: GetAttributesOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetAttributesOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Gets the all the custom attributes of a trace with their values.",
+        "complexTypes": [
+          "GetAttributesOptions",
+          "GetAttributesResult"
+        ],
+        "slug": "getattributes"
+      },
+      {
+        "name": "removeAttribute",
+        "signature": "(options: RemoveAttributeOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetAttributeOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Removes a custom attribute from a trace given its name.",
+        "complexTypes": [
+          "RemoveAttributeOptions"
+        ],
+        "slug": "removeattribute"
+      },
+      {
+        "name": "putMetric",
+        "signature": "(options: PutMetricOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "PutMetricOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Sets the value of a custom metric.",
+        "complexTypes": [
+          "PutMetricOptions"
+        ],
+        "slug": "putmetric"
+      },
+      {
+        "name": "getMetric",
+        "signature": "(options: GetMetricOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetMetricOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Get the value of a custom metric by name.",
+        "complexTypes": [
+          "GetMetricOptions",
+          "GetMetricResult"
+        ],
+        "slug": "getmetric"
+      },
+      {
+        "name": "record",
+        "signature": "(options: RecordOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "RecordOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.3.0"
+          }
+        ],
+        "docs": "Records a trace given its name and options.\n\nOnly available on web.",
+        "complexTypes": [
+          "RecordOptions"
+        ],
+        "slug": "record"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "StartTraceOptions",
+      "slug": "starttraceoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Custom trace name.\n\nNames for custom code traces must meet the following requirements:\nno leading or trailing whitespace, no leading underscore (_) character,\nand max length is 100 characters.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "StopTraceOptions",
+      "slug": "stoptraceoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace that was set with `startTrace`.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "IncrementMetricOptions",
+      "slug": "incrementmetricoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace that was set with `startTrace`.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "metricName",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the metric to be incremented.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "incrementBy",
+          "tags": [
+            {
+              "text": "1",
+              "name": "default"
+            },
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Amount by which the metric has to be incremented.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    },
+    {
+      "name": "SetEnabledOptions",
+      "slug": "setenabledoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "0.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Should performance monitoring be enabled.",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "IsEnabledResult",
+      "slug": "isenabledresult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "enabled",
+          "tags": [
+            {
+              "text": "0.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "`true` if performance monitoring is enabled, otherwise `false`.",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "PutAttributeOptions",
+      "slug": "putattributeoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace to set its attribute.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "attribute",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            },
+            {
+              "text": "\"experiment\"",
+              "name": "example"
+            }
+          ],
+          "docs": "Name of the attribute to set its value.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            },
+            {
+              "text": "\"A\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The value to set to the attribute.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetAttributeOptions",
+      "slug": "getattributeoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace to set its attribute.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "attribute",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the attribute to retrieve its value.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetAttributeResult",
+      "slug": "getattributeresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value of the custom attribute.",
+          "complexTypes": [],
+          "type": "string | null"
+        }
+      ]
+    },
+    {
+      "name": "GetAttributesOptions",
+      "slug": "getattributesoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace to get its attributes.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetAttributesResult",
+      "slug": "getattributesresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "attributes",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "A map of all custom attributes of a trace with their values.",
+          "complexTypes": [],
+          "type": "{ [key: string]: string; }"
+        }
+      ]
+    },
+    {
+      "name": "PutMetricOptions",
+      "slug": "putmetricoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace to set its metric.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "metricName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The metric name.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "num",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value to set for the metric.\nThe given value is floored down to the nearest integer.",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "GetMetricOptions",
+      "slug": "getmetricoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace to get its metric.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "metricName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The metric name.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetMetricResult",
+      "slug": "getmetricresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The value of the metric if exists.",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "RecordOptions",
+      "slug": "recordoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "traceName",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Name of the trace to record.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "startTime",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Start time of the trace since epoch in milliseconds.",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "duration",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The duration of the trace in milliseconds.",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "options",
+          "tags": [
+            {
+              "text": "6.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "An optional object that holds optional maps of custom metrics and attributes.",
+          "complexTypes": [],
+          "type": "{ metrics?: { [key: string]: number; } | undefined; attributes?: { [key: string]: string; } | undefined; } | undefined"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "RemoveAttributeOptions",
+      "slug": "removeattributeoptions",
+      "docs": "",
+      "types": [
+        {
+          "text": "GetAttributeOptions",
+          "complexTypes": [
+            "GetAttributeOptions"
+          ]
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

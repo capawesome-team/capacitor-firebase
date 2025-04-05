@@ -1,0 +1,32 @@
+import { WebPlugin } from '@capacitor/core';
+import type { AddCollectionGroupSnapshotListenerCallback, AddCollectionGroupSnapshotListenerOptions, AddCollectionSnapshotListenerCallback, AddCollectionSnapshotListenerOptions, AddDocumentOptions, AddDocumentResult, AddDocumentSnapshotListenerCallback, AddDocumentSnapshotListenerOptions, DocumentData, FirebaseFirestorePlugin, GetCollectionGroupOptions, GetCollectionGroupResult, GetCollectionOptions, GetCollectionResult, GetCountFromServerOptions, GetCountFromServerResult, GetDocumentOptions, GetDocumentResult, RemoveSnapshotListenerOptions, SetDocumentOptions, UseEmulatorOptions, WriteBatchOptions } from './definitions';
+export declare class FirebaseFirestoreWeb extends WebPlugin implements FirebaseFirestorePlugin {
+    private readonly unsubscribesMap;
+    addDocument(options: AddDocumentOptions): Promise<AddDocumentResult>;
+    setDocument(options: SetDocumentOptions): Promise<void>;
+    getDocument<T extends DocumentData>(options: GetDocumentOptions): Promise<GetDocumentResult<T>>;
+    updateDocument(options: SetDocumentOptions): Promise<void>;
+    deleteDocument(options: SetDocumentOptions): Promise<void>;
+    writeBatch(options: WriteBatchOptions): Promise<void>;
+    getCollection<T extends DocumentData>(options: GetCollectionOptions): Promise<GetCollectionResult<T>>;
+    getCollectionGroup<T extends DocumentData>(options: GetCollectionGroupOptions): Promise<GetCollectionGroupResult<T>>;
+    getCountFromServer(options: GetCountFromServerOptions): Promise<GetCountFromServerResult>;
+    clearPersistence(): Promise<void>;
+    enableNetwork(): Promise<void>;
+    disableNetwork(): Promise<void>;
+    useEmulator(options: UseEmulatorOptions): Promise<void>;
+    addDocumentSnapshotListener<T extends DocumentData = DocumentData>(options: AddDocumentSnapshotListenerOptions, callback: AddDocumentSnapshotListenerCallback<T>): Promise<string>;
+    addCollectionSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionSnapshotListenerOptions, callback: AddCollectionSnapshotListenerCallback<T>): Promise<string>;
+    addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionGroupSnapshotListenerOptions, callback: AddCollectionGroupSnapshotListenerCallback<T>): Promise<string>;
+    removeSnapshotListener(options: RemoveSnapshotListenerOptions): Promise<void>;
+    removeAllListeners(): Promise<void>;
+    private buildCollectionQuery;
+    private buildFirebaseQueryCompositeFilterConstraint;
+    private buildFirebaseQueryFilterConstraints;
+    private buildFirebaseQueryFilterConstraint;
+    private buildFirebaseQueryFieldFilterConstraint;
+    private buildFirebaseQueryNonFilterConstraints;
+    private buildFirebaseQueryNonFilterConstraint;
+    private buildFirebaseQueryConstraints;
+    private buildFirebaseQueryConstraint;
+}

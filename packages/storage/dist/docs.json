@@ -1,0 +1,1072 @@
+{
+  "api": {
+    "name": "FirebaseStoragePlugin",
+    "slug": "firebasestorageplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "deleteFile",
+        "signature": "(options: DeleteFileOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "DeleteFileOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.3.0"
+          }
+        ],
+        "docs": "Delete a file.",
+        "complexTypes": [
+          "DeleteFileOptions"
+        ],
+        "slug": "deletefile"
+      },
+      {
+        "name": "getDownloadUrl",
+        "signature": "(options: GetDownloadUrlOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetDownloadUrlOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.3.0"
+          }
+        ],
+        "docs": "Get the download url for a file.",
+        "complexTypes": [
+          "GetDownloadUrlOptions",
+          "GetDownloadUrlResult"
+        ],
+        "slug": "getdownloadurl"
+      },
+      {
+        "name": "getMetadata",
+        "signature": "(options: GetMetadataOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "GetMetadataOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.3.0"
+          }
+        ],
+        "docs": "Get the metadata for a file.",
+        "complexTypes": [
+          "GetMetadataOptions",
+          "GetMetadataResult"
+        ],
+        "slug": "getmetadata"
+      },
+      {
+        "name": "listFiles",
+        "signature": "(options: ListFilesOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "ListFilesOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.3.0"
+          }
+        ],
+        "docs": "List files in a directory.",
+        "complexTypes": [
+          "ListFilesOptions",
+          "ListFilesResult"
+        ],
+        "slug": "listfiles"
+      },
+      {
+        "name": "updateMetadata",
+        "signature": "(options: UpdateMetadataOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UpdateMetadataOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.3.0"
+          }
+        ],
+        "docs": "Update the metadata for a file.",
+        "complexTypes": [
+          "UpdateMetadataOptions"
+        ],
+        "slug": "updatemetadata"
+      },
+      {
+        "name": "uploadFile",
+        "signature": "(options: UploadFileOptions, callback: UploadFileCallback) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UploadFileOptions"
+          },
+          {
+            "name": "callback",
+            "docs": "",
+            "type": "UploadFileCallback"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.3.0"
+          }
+        ],
+        "docs": "Upload a file.",
+        "complexTypes": [
+          "UploadFileOptions",
+          "UploadFileCallback",
+          "CallbackId"
+        ],
+        "slug": "uploadfile"
+      },
+      {
+        "name": "useEmulator",
+        "signature": "(options: UseEmulatorOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "UseEmulatorOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [
+          {
+            "name": "since",
+            "text": "6.1.0"
+          }
+        ],
+        "docs": "Instrument your app to talk to the Cloud Storage emulator.\n\nOn Android, the cleartext traffic must be allowed. On the Capacitor configuration:\n```\n{\n  server: {\n    cleartext: true\n  }\n}\n```\n**The cleartext traffic is not intended for use in production.**",
+        "complexTypes": [
+          "UseEmulatorOptions"
+        ],
+        "slug": "useemulator"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "DeleteFileOptions",
+      "slug": "deletefileoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'mountains.png'",
+              "name": "example"
+            },
+            {
+              "text": "'images/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The full path to the file to delete, including the file name.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetDownloadUrlOptions",
+      "slug": "getdownloadurloptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'mountains.png'",
+              "name": "example"
+            },
+            {
+              "text": "'images/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The full path to the file to get the download url for, including the file name.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetDownloadUrlResult",
+      "slug": "getdownloadurlresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "downloadUrl",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The download url for the file.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetMetadataOptions",
+      "slug": "getmetadataoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'mountains.png'",
+              "name": "example"
+            },
+            {
+              "text": "'images/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The full path to the file to get the metadata for, including the file name.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GetMetadataResult",
+      "slug": "getmetadataresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "bucket",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The bucket this file is contained in.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "createdAt",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "1697304435933",
+              "name": "example"
+            }
+          ],
+          "docs": "The timestamp at which the file was created in milliseconds since the epoch.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "generation",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "https ://cloud.google.com/storage/docs/metadata#generation-number",
+              "name": "see"
+            }
+          ],
+          "docs": "The object's generation.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "md5Hash",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The md5 hash of the file.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "metadataGeneration",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "https ://cloud.google.com/storage/docs/metadata#generation-number",
+              "name": "see"
+            }
+          ],
+          "docs": "The object's metadata generation.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The short name of this file, which is the last component of the full path.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'images/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The full path to the file, including the file name.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "size",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The size of the file in bytes.",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "updatedAt",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "1697304435933",
+              "name": "example"
+            }
+          ],
+          "docs": "The timestamp at which the file was last updated in milliseconds since the epoch.",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "cacheControl",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Cache-Control` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentDisposition",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Disposition` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentEncoding",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Encoding` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentLanguage",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Language` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentType",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Type` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "customMetadata",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Additional user-defined custom metadata.",
+          "complexTypes": [],
+          "type": "{ [key: string]: string; } | undefined"
+        }
+      ]
+    },
+    {
+      "name": "ListFilesOptions",
+      "slug": "listfilesoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The full path to the directory to list files for.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "maxResults",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "1000",
+              "name": "default"
+            }
+          ],
+          "docs": "The maximum number of results to return.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "pageToken",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The page token, returned by a previous call to this method.\nIf provided, listing is resumed from the previous position.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "ListFilesResult",
+      "slug": "listfilesresult",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "items",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The list of files in the directory.",
+          "complexTypes": [
+            "StorageReference"
+          ],
+          "type": "{}"
+        },
+        {
+          "name": "nextPageToken",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "If set, there might be more results for this list.\nUse this token to resume the list.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "StorageReference",
+      "slug": "storagereference",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "bucket",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The bucket this file is contained in.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'images/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The full path to the file, including the file name.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The short name of this file, which is the last component of the full path.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "UpdateMetadataOptions",
+      "slug": "updatemetadataoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The full path to the file to update the metadata for, including the file name.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "metadata",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The metadata to update.",
+          "complexTypes": [
+            "SettableMetadata"
+          ],
+          "type": "SettableMetadata"
+        }
+      ]
+    },
+    {
+      "name": "SettableMetadata",
+      "slug": "settablemetadata",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "cacheControl",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Cache-Control` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentDisposition",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Disposition` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentEncoding",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Encoding` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentLanguage",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Language` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "contentType",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Served as the `Content-Type` header on object download.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "customMetadata",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Additional user-defined custom metadata.",
+          "complexTypes": [],
+          "type": "{ [key: string]: string; } | undefined"
+        }
+      ]
+    },
+    {
+      "name": "UploadFileOptions",
+      "slug": "uploadfileoptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "blob",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The data to upload.\n\nOnly available for Web.",
+          "complexTypes": [
+            "Blob"
+          ],
+          "type": "Blob"
+        },
+        {
+          "name": "path",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'mountains.png'",
+              "name": "example"
+            },
+            {
+              "text": "'images/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The full path where data should be uploaded, including the file name.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "'content://com.google.android.apps.photos.contentprovider/-1/1/content://media/external/images/media/1000000214/ORIGINAL/NONE/image/png/mountains'",
+              "name": "example"
+            },
+            {
+              "text": "'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/092F8464-DE60-40B3-8A23-EB83160D9F9F/mountains.png'",
+              "name": "example"
+            }
+          ],
+          "docs": "The uri to the file to upload.\n\nOnly available for Android and iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "metadata",
+          "tags": [
+            {
+              "text": "5.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The metadata to set for the file.",
+          "complexTypes": [
+            "UploadMetadata"
+          ],
+          "type": "UploadMetadata"
+        }
+      ]
+    },
+    {
+      "name": "UploadMetadata",
+      "slug": "uploadmetadata",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.4.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "md5Hash",
+          "tags": [
+            {
+              "text": "5.4.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The base64-encoded MD5 hash of the file.\n\nOnly available for Web.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "UploadFileCallbackEvent",
+      "slug": "uploadfilecallbackevent",
+      "docs": "",
+      "tags": [
+        {
+          "text": "5.3.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "progress",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "0.5",
+              "name": "example"
+            }
+          ],
+          "docs": "The upload progress, as a percentage between 0 and 1.",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "bytesTransferred",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "1000",
+              "name": "example"
+            }
+          ],
+          "docs": "The number of bytes that have been transferred.\n\nOnly available for Android and Web.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "totalBytes",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "2000",
+              "name": "example"
+            }
+          ],
+          "docs": "The total number of bytes to be transferred.\n\nOnly available for Android and Web.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "completed",
+          "tags": [
+            {
+              "text": "5.3.0",
+              "name": "since"
+            },
+            {
+              "text": "true",
+              "name": "example"
+            }
+          ],
+          "docs": "Whether the upload is completed or not.",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "UseEmulatorOptions",
+      "slug": "useemulatoroptions",
+      "docs": "",
+      "tags": [
+        {
+          "text": "6.1.0",
+          "name": "since"
+        }
+      ],
+      "methods": [],
+      "properties": [
+        {
+          "name": "host",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "\"127.0.0.1\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator host without any port or scheme.\n\nNote when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "tags": [
+            {
+              "text": "6.1.0",
+              "name": "since"
+            },
+            {
+              "text": "9199",
+              "name": "default"
+            },
+            {
+              "text": "9199",
+              "name": "example"
+            }
+          ],
+          "docs": "The emulator port.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "UploadFileCallback",
+      "slug": "uploadfilecallback",
+      "docs": "",
+      "types": [
+        {
+          "text": "(event: UploadFileCallbackEvent | null, error: any): void",
+          "complexTypes": [
+            "UploadFileCallbackEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CallbackId",
+      "slug": "callbackid",
+      "docs": "",
+      "types": [
+        {
+          "text": "string",
+          "complexTypes": []
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}
