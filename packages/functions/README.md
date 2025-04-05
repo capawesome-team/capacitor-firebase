@@ -90,7 +90,7 @@ const useEmulator = async () => {
 ### callByName(...)
 
 ```typescript
-callByName<RequestData = unknown, ResponseData = unknown>(options: CallByNameOptions<RequestData>) => Promise<CallByNameResult<ResponseData>>
+callByName<RequestData = unknown, ResponseData = unknown>(options: CallByNameOptions<RequestData>) => any
 ```
 
 Call a callable function by name.
@@ -99,7 +99,7 @@ Call a callable function by name.
 | ------------- | ---------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#callbynameoptions">CallByNameOptions</a>&lt;RequestData&gt;</code> |
 
-**Returns:** <code>Promise&lt;<a href="#callbynameresult">CallByNameResult</a>&lt;ResponseData&gt;&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -109,7 +109,7 @@ Call a callable function by name.
 ### callByUrl(...)
 
 ```typescript
-callByUrl<RequestData = unknown, ResponseData = unknown>(options: CallByUrlOptions<RequestData>) => Promise<CallByUrlResult<ResponseData>>
+callByUrl<RequestData = unknown, ResponseData = unknown>(options: CallByUrlOptions<RequestData>) => any
 ```
 
 Call a callable function by URL.
@@ -118,7 +118,7 @@ Call a callable function by URL.
 | ------------- | -------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#callbyurloptions">CallByUrlOptions</a>&lt;RequestData&gt;</code> |
 
-**Returns:** <code>Promise&lt;<a href="#callbyurlresult">CallByUrlResult</a>&lt;ResponseData&gt;&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -128,7 +128,7 @@ Call a callable function by URL.
 ### useEmulator(...)
 
 ```typescript
-useEmulator(options: UseEmulatorOptions) => Promise<void>
+useEmulator(options: UseEmulatorOptions) => any
 ```
 
 Instrument your app to talk to the Cloud Functions emulator.
@@ -147,6 +147,8 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 6.1.0
 
 --------------------
@@ -155,19 +157,19 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 ### Interfaces
 
 
-#### CallResult
-
-| Prop       | Type                      | Description                          | Since |
-| ---------- | ------------------------- | ------------------------------------ | ----- |
-| **`data`** | <code>ResponseData</code> | The result of the callable function. | 6.1.0 |
-
-
 #### CallByNameOptions
 
 | Prop         | Type                | Description                          | Since |
 | ------------ | ------------------- | ------------------------------------ | ----- |
 | **`name`**   | <code>string</code> | The name of the callable function.   | 6.1.0 |
 | **`region`** | <code>string</code> | The region of the callable function. | 6.1.0 |
+
+
+#### CallResult
+
+| Prop       | Type                      | Description                          | Since |
+| ---------- | ------------------------- | ------------------------------------ | ----- |
+| **`data`** | <code>ResponseData</code> | The result of the callable function. | 6.1.0 |
 
 
 #### CallByUrlOptions

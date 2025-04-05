@@ -101,7 +101,7 @@ const removeAllListeners = async () => {
 ### getToken(...)
 
 ```typescript
-getToken(options?: GetTokenOptions | undefined) => Promise<GetTokenResult>
+getToken(options?: GetTokenOptions | undefined) => any
 ```
 
 Get the current App Check token.
@@ -110,7 +110,7 @@ Get the current App Check token.
 | ------------- | ----------------------------------------------------------- |
 | **`options`** | <code><a href="#gettokenoptions">GetTokenOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#gettokenresult">GetTokenResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -120,7 +120,7 @@ Get the current App Check token.
 ### initialize(...)
 
 ```typescript
-initialize(options?: InitializeOptions | undefined) => Promise<void>
+initialize(options?: InitializeOptions | undefined) => any
 ```
 
 Activate App Check for the given app.
@@ -130,6 +130,8 @@ Can be called only once per app.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 1.3.0
 
 --------------------
@@ -138,7 +140,7 @@ Can be called only once per app.
 ### setTokenAutoRefreshEnabled(...)
 
 ```typescript
-setTokenAutoRefreshEnabled(options: SetTokenAutoRefreshEnabledOptions) => Promise<void>
+setTokenAutoRefreshEnabled(options: SetTokenAutoRefreshEnabledOptions) => any
 ```
 
 Set whether the App Check token should be refreshed automatically or not.
@@ -146,6 +148,8 @@ Set whether the App Check token should be refreshed automatically or not.
 | Param         | Type                                                                                            |
 | ------------- | ----------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#settokenautorefreshenabledoptions">SetTokenAutoRefreshEnabledOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -155,7 +159,7 @@ Set whether the App Check token should be refreshed automatically or not.
 ### addListener('tokenChanged', ...)
 
 ```typescript
-addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => any
 ```
 
 Called when the App Check token changed.
@@ -167,7 +171,7 @@ Only available for Web.
 | **`eventName`**    | <code>'tokenChanged'</code>                                           |
 | **`listenerFunc`** | <code><a href="#tokenchangedlistener">TokenChangedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -177,12 +181,14 @@ Only available for Web.
 ### removeAllListeners()
 
 ```typescript
-removeAllListeners() => Promise<void>
+removeAllListeners() => any
 ```
 
 Remove all listeners for this plugin.
 
 Only available for Web.
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -192,19 +198,19 @@ Only available for Web.
 ### Interfaces
 
 
+#### GetTokenOptions
+
+| Prop               | Type                 | Description                                                                                                 | Default            | Since |
+| ------------------ | -------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`forceRefresh`** | <code>boolean</code> | If `true`, will always try to fetch a fresh token. If `false`, will use a cached token if found in storage. | <code>false</code> | 1.3.0 |
+
+
 #### GetTokenResult
 
 | Prop                   | Type                | Description                                                                                                      | Since |
 | ---------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------- | ----- |
 | **`token`**            | <code>string</code> | The App Check token in JWT format.                                                                               | 1.3.0 |
 | **`expireTimeMillis`** | <code>number</code> | The timestamp after which the token will expire in milliseconds since epoch. Only available for Android and iOS. | 1.3.0 |
-
-
-#### GetTokenOptions
-
-| Prop               | Type                 | Description                                                                                                 | Default            | Since |
-| ------------------ | -------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`forceRefresh`** | <code>boolean</code> | If `true`, will always try to fetch a fresh token. If `false`, will use a cached token if found in storage. | <code>false</code> | 1.3.0 |
 
 
 #### InitializeOptions
@@ -218,18 +224,19 @@ Only available for Web.
 | **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set. Only available for Web.                                                                                                                                                                                                                                                                                                                                      |                                  | 1.3.0 |
 
 
+#### InstanceFactoryOptions
+
+| Prop                     | Type                |
+| ------------------------ | ------------------- |
+| **`instanceIdentifier`** | <code>string</code> |
+| **`options`**            | <code>{}</code>     |
+
+
 #### SetTokenAutoRefreshEnabledOptions
 
 | Prop          | Type                 | Description                                                                                                                      | Since |
 | ------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | **`enabled`** | <code>boolean</code> | If `true`, the SDK automatically refreshes App Check tokens as needed. This overrides any value set during initializeAppCheck(). | 1.3.0 |
-
-
-#### PluginListenerHandle
-
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
 #### TokenChangedEvent
@@ -239,7 +246,19 @@ Only available for Web.
 | **`token`** | <code>string</code> | The App Check token in JWT format. | 1.3.0 |
 
 
+#### PluginListenerHandle
+
+| Prop         | Type                      |
+| ------------ | ------------------------- |
+| **`remove`** | <code>() =&gt; any</code> |
+
+
 ### Type Aliases
+
+
+#### InitializeOptions
+
+<code><a href="#instancefactoryoptions">InstanceFactoryOptions</a></code>
 
 
 #### TokenChangedListener

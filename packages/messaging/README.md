@@ -104,9 +104,9 @@ If you prefer to prevent token autogeneration, disable FCM auto initialization b
 
 On iOS you can configure the way the push notifications are displayed when the app is in foreground.
 
-| Prop                      | Type                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Default                                  | Since |
-| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
-| **`presentationOptions`** | <code>PresentationOption[]</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["alert", "badge", "sound"]</code> | 0.2.2 |
+| Prop                      | Type            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Default                                  | Since |
+| ------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
+| **`presentationOptions`** | <code>{}</code> | This is an array of strings you can combine. Possible values in the array are: - `badge`: badge count on the app icon is updated (default value) - `sound`: the device will ring/vibrate when the push notification is received - `alert`: the push notification is displayed in a native dialog - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch An empty array can be provided if none of the options are desired. Only available for iOS. | <code>["alert", "badge", "sound"]</code> | 0.2.2 |
 
 ### Examples
 
@@ -259,14 +259,14 @@ const removeAllListeners = async () => {
 ### checkPermissions()
 
 ```typescript
-checkPermissions() => Promise<PermissionStatus>
+checkPermissions() => any
 ```
 
 Check permission to receive push notifications.
 
 On **Android**, this method only needs to be called on Android 13+.
 
-**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -276,14 +276,14 @@ On **Android**, this method only needs to be called on Android 13+.
 ### requestPermissions()
 
 ```typescript
-requestPermissions() => Promise<PermissionStatus>
+requestPermissions() => any
 ```
 
 Request permission to receive push notifications.
 
 On **Android**, this method only needs to be called on Android 13+.
 
-**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -293,14 +293,14 @@ On **Android**, this method only needs to be called on Android 13+.
 ### isSupported()
 
 ```typescript
-isSupported() => Promise<IsSupportedResult>
+isSupported() => any
 ```
 
 Checks if all required APIs exist.
 
 Always returns `true` on Android and iOS.
 
-**Returns:** <code>Promise&lt;<a href="#issupportedresult">IsSupportedResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.3.1
 
@@ -310,7 +310,7 @@ Always returns `true` on Android and iOS.
 ### getToken(...)
 
 ```typescript
-getToken(options?: GetTokenOptions | undefined) => Promise<GetTokenResult>
+getToken(options?: GetTokenOptions | undefined) => any
 ```
 
 Register the app to receive push notifications.
@@ -322,7 +322,7 @@ This method also re-enables FCM auto-init.
 | ------------- | ----------------------------------------------------------- |
 | **`options`** | <code><a href="#gettokenoptions">GetTokenOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#gettokenresult">GetTokenResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -332,11 +332,13 @@ This method also re-enables FCM auto-init.
 ### deleteToken()
 
 ```typescript
-deleteToken() => Promise<void>
+deleteToken() => any
 ```
 
 Delete the FCM token and unregister the app to stop receiving push notifications.
 Can be called, for example, when a user signs out.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -346,12 +348,12 @@ Can be called, for example, when a user signs out.
 ### getDeliveredNotifications()
 
 ```typescript
-getDeliveredNotifications() => Promise<GetDeliveredNotificationsResult>
+getDeliveredNotifications() => any
 ```
 
 Get a list of notifications that are visible on the notifications screen.
 
-**Returns:** <code>Promise&lt;<a href="#getdeliverednotificationsresult">GetDeliveredNotificationsResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -361,7 +363,7 @@ Get a list of notifications that are visible on the notifications screen.
 ### removeDeliveredNotifications(...)
 
 ```typescript
-removeDeliveredNotifications(options: RemoveDeliveredNotificationsOptions) => Promise<void>
+removeDeliveredNotifications(options: RemoveDeliveredNotificationsOptions) => any
 ```
 
 Remove specific notifications from the notifications screen.
@@ -369,6 +371,8 @@ Remove specific notifications from the notifications screen.
 | Param         | Type                                                                                                |
 | ------------- | --------------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#removedeliverednotificationsoptions">RemoveDeliveredNotificationsOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -378,10 +382,12 @@ Remove specific notifications from the notifications screen.
 ### removeAllDeliveredNotifications()
 
 ```typescript
-removeAllDeliveredNotifications() => Promise<void>
+removeAllDeliveredNotifications() => any
 ```
 
 Remove all notifications from the notifications screen.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -391,7 +397,7 @@ Remove all notifications from the notifications screen.
 ### subscribeToTopic(...)
 
 ```typescript
-subscribeToTopic(options: SubscribeToTopicOptions) => Promise<void>
+subscribeToTopic(options: SubscribeToTopicOptions) => any
 ```
 
 Subscribes to topic in the background.
@@ -402,6 +408,8 @@ Only available for Android and iOS.
 | ------------- | --------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#subscribetotopicoptions">SubscribeToTopicOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.2.2
 
 --------------------
@@ -410,7 +418,7 @@ Only available for Android and iOS.
 ### unsubscribeFromTopic(...)
 
 ```typescript
-unsubscribeFromTopic(options: UnsubscribeFromTopicOptions) => Promise<void>
+unsubscribeFromTopic(options: UnsubscribeFromTopicOptions) => any
 ```
 
 Unsubscribes from topic in the background.
@@ -421,6 +429,8 @@ Only available for Android and iOS.
 | ------------- | ----------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#unsubscribefromtopicoptions">UnsubscribeFromTopicOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.2.2
 
 --------------------
@@ -429,7 +439,7 @@ Only available for Android and iOS.
 ### createChannel(...)
 
 ```typescript
-createChannel(options: CreateChannelOptions) => Promise<void>
+createChannel(options: CreateChannelOptions) => any
 ```
 
 Create a notification channel.
@@ -440,6 +450,8 @@ Only available for Android (SDK 26+).
 | ------------- | ------------------------------------------- |
 | **`options`** | <code><a href="#channel">Channel</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 1.4.0
 
 --------------------
@@ -448,7 +460,7 @@ Only available for Android (SDK 26+).
 ### deleteChannel(...)
 
 ```typescript
-deleteChannel(options: DeleteChannelOptions) => Promise<void>
+deleteChannel(options: DeleteChannelOptions) => any
 ```
 
 Delete a notification channel.
@@ -459,6 +471,8 @@ Only available for Android (SDK 26+).
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletechanneloptions">DeleteChannelOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 1.4.0
 
 --------------------
@@ -467,14 +481,14 @@ Only available for Android (SDK 26+).
 ### listChannels()
 
 ```typescript
-listChannels() => Promise<ListChannelsResult>
+listChannels() => any
 ```
 
 List the available notification channels.
 
 Only available for Android (SDK 26+).
 
-**Returns:** <code>Promise&lt;<a href="#listchannelsresult">ListChannelsResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.4.0
 
@@ -484,7 +498,7 @@ Only available for Android (SDK 26+).
 ### addListener('tokenReceived', ...)
 
 ```typescript
-addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => any
 ```
 
 Called when a new FCM token is received.
@@ -496,7 +510,7 @@ Only available for Android and iOS.
 | **`eventName`**    | <code>'tokenReceived'</code>                                            |
 | **`listenerFunc`** | <code><a href="#tokenreceivedlistener">TokenReceivedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -506,7 +520,7 @@ Only available for Android and iOS.
 ### addListener('notificationReceived', ...)
 
 ```typescript
-addListener(eventName: 'notificationReceived', listenerFunc: NotificationReceivedListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'notificationReceived', listenerFunc: NotificationReceivedListener) => any
 ```
 
 Called when a new push notification is received.
@@ -524,7 +538,7 @@ See https://developer.apple.com/library/archive/documentation/NetworkingInternet
 | **`eventName`**    | <code>'notificationReceived'</code>                                                   |
 | **`listenerFunc`** | <code><a href="#notificationreceivedlistener">NotificationReceivedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -534,7 +548,7 @@ See https://developer.apple.com/library/archive/documentation/NetworkingInternet
 ### addListener('notificationActionPerformed', ...)
 
 ```typescript
-addListener(eventName: 'notificationActionPerformed', listenerFunc: NotificationActionPerformedListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'notificationActionPerformed', listenerFunc: NotificationActionPerformedListener) => any
 ```
 
 Called when a new push notification action is performed.
@@ -546,7 +560,7 @@ Only available for Android and iOS.
 | **`eventName`**    | <code>'notificationActionPerformed'</code>                                                          |
 | **`listenerFunc`** | <code><a href="#notificationactionperformedlistener">NotificationActionPerformedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -556,10 +570,12 @@ Only available for Android and iOS.
 ### removeAllListeners()
 
 ```typescript
-removeAllListeners() => Promise<void>
+removeAllListeners() => any
 ```
 
 Remove all listeners for this plugin.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -583,13 +599,6 @@ Remove all listeners for this plugin.
 | **`isSupported`** | <code>boolean</code> | 0.3.1 |
 
 
-#### GetTokenResult
-
-| Prop        | Type                | Since |
-| ----------- | ------------------- | ----- |
-| **`token`** | <code>string</code> | 0.2.2 |
-
-
 #### GetTokenOptions
 
 | Prop                            | Type                                   | Description                                                                                                                                                                                                |
@@ -598,11 +607,18 @@ Remove all listeners for this plugin.
 | **`serviceWorkerRegistration`** | <code>ServiceWorkerRegistration</code> | The service worker registration for receiving push messaging. If the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location. Only available for Web. |
 
 
+#### GetTokenResult
+
+| Prop        | Type                | Since |
+| ----------- | ------------------- | ----- |
+| **`token`** | <code>string</code> | 0.2.2 |
+
+
 #### GetDeliveredNotificationsResult
 
-| Prop                | Type                        | Since |
-| ------------------- | --------------------------- | ----- |
-| **`notifications`** | <code>Notification[]</code> | 0.2.2 |
+| Prop                | Type            | Since |
+| ------------------- | --------------- | ----- |
+| **`notifications`** | <code>{}</code> | 0.2.2 |
 
 
 #### Notification
@@ -622,9 +638,9 @@ Remove all listeners for this plugin.
 
 #### RemoveDeliveredNotificationsOptions
 
-| Prop                | Type                        | Since |
-| ------------------- | --------------------------- | ----- |
-| **`notifications`** | <code>Notification[]</code> | 0.4.0 |
+| Prop                | Type            | Since |
+| ------------------- | --------------- | ----- |
+| **`notifications`** | <code>{}</code> | 0.4.0 |
 
 
 #### SubscribeToTopicOptions
@@ -665,16 +681,9 @@ Remove all listeners for this plugin.
 
 #### ListChannelsResult
 
-| Prop           | Type                   |
-| -------------- | ---------------------- |
-| **`channels`** | <code>Channel[]</code> |
-
-
-#### PluginListenerHandle
-
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+| Prop           | Type            |
+| -------------- | --------------- |
+| **`channels`** | <code>{}</code> |
 
 
 #### TokenReceivedEvent
@@ -682,6 +691,13 @@ Remove all listeners for this plugin.
 | Prop        | Type                | Since |
 | ----------- | ------------------- | ----- |
 | **`token`** | <code>string</code> | 0.2.2 |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                      |
+| ------------ | ------------------------- |
+| **`remove`** | <code>() =&gt; any</code> |
 
 
 #### NotificationReceivedEvent

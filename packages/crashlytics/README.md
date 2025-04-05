@@ -171,7 +171,7 @@ const recordExceptionWithStacktrace = async (error: Error) => {
 ### crash(...)
 
 ```typescript
-crash(options: CrashOptions) => Promise<void>
+crash(options: CrashOptions) => any
 ```
 
 Forces a crash to test the implementation.
@@ -182,6 +182,8 @@ Only available for Android and iOS.
 | ------------- | ----------------------------------------------------- |
 | **`options`** | <code><a href="#crashoptions">CrashOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -190,7 +192,7 @@ Only available for Android and iOS.
 ### setCustomKey(...)
 
 ```typescript
-setCustomKey(options: SetCustomKeyOptions) => Promise<void>
+setCustomKey(options: SetCustomKeyOptions) => any
 ```
 
 Sets a custom key and value that is associated with subsequent fatal and non-fatal reports.
@@ -201,6 +203,8 @@ Only available for Android and iOS.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#customkeyandvalue">CustomKeyAndValue</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -209,7 +213,7 @@ Only available for Android and iOS.
 ### setUserId(...)
 
 ```typescript
-setUserId(options: SetUserIdOptions) => Promise<void>
+setUserId(options: SetUserIdOptions) => any
 ```
 
 Sets a user ID (identifier) that is associated with subsequent fatal and non-fatal reports.
@@ -220,6 +224,8 @@ Only available for Android and iOS.
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuseridoptions">SetUserIdOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -228,7 +234,7 @@ Only available for Android and iOS.
 ### log(...)
 
 ```typescript
-log(options: LogOptions) => Promise<void>
+log(options: LogOptions) => any
 ```
 
 Adds a custom log message that is sent with your crash data to give yourself more context for the events leading up to a crash.
@@ -239,6 +245,8 @@ Only available for Android and iOS.
 | ------------- | ------------------------------------------------- |
 | **`options`** | <code><a href="#logoptions">LogOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -247,7 +255,7 @@ Only available for Android and iOS.
 ### setEnabled(...)
 
 ```typescript
-setEnabled(options: SetEnabledOptions) => Promise<void>
+setEnabled(options: SetEnabledOptions) => any
 ```
 
 Enables/disables automatic data collection.
@@ -259,6 +267,8 @@ Only available for Android and iOS.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#setenabledoptions">SetEnabledOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -267,14 +277,14 @@ Only available for Android and iOS.
 ### isEnabled()
 
 ```typescript
-isEnabled() => Promise<IsEnabledResult>
+isEnabled() => any
 ```
 
 Returns whether or not automatic data collection is enabled.
 
 Only available for iOS.
 
-**Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -284,14 +294,14 @@ Only available for iOS.
 ### didCrashOnPreviousExecution()
 
 ```typescript
-didCrashOnPreviousExecution() => Promise<DidCrashOnPreviousExecutionResult>
+didCrashOnPreviousExecution() => any
 ```
 
 Returns whether the app crashed during the previous execution.
 
 Only available for Android and iOS.
 
-**Returns:** <code>Promise&lt;<a href="#didcrashonpreviousexecutionresult">DidCrashOnPreviousExecutionResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -301,7 +311,7 @@ Only available for Android and iOS.
 ### sendUnsentReports()
 
 ```typescript
-sendUnsentReports() => Promise<void>
+sendUnsentReports() => any
 ```
 
 Uploads any unsent reports to Crashlytics at next startup.
@@ -309,6 +319,8 @@ Uploads any unsent reports to Crashlytics at next startup.
 When automatic data collection is enabled, Crashlytics automatically uploads reports at startup.
 
 Only available for Android and iOS.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -318,12 +330,14 @@ Only available for Android and iOS.
 ### deleteUnsentReports()
 
 ```typescript
-deleteUnsentReports() => Promise<void>
+deleteUnsentReports() => any
 ```
 
 Deletes any unsent reports on the device.
 
 Only available for Android and iOS.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -333,7 +347,7 @@ Only available for Android and iOS.
 ### recordException(...)
 
 ```typescript
-recordException(options: RecordExceptionOptions) => Promise<void>
+recordException(options: RecordExceptionOptions) => any
 ```
 
 Records a non-fatal report to send to Crashlytics.
@@ -343,6 +357,8 @@ Only available for Android and iOS.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#recordexceptionoptions">RecordExceptionOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -405,13 +421,13 @@ Only available for Android and iOS.
 
 #### RecordExceptionOptions
 
-| Prop                | Type                             | Description                                                                                                                                                                                    | Since |
-| ------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`message`**       | <code>string</code>              | The message to record as a non-fatal exception.                                                                                                                                                | 0.1.0 |
-| **`code`**          | <code>number</code>              | Error code within a specific error domain. **Attention:** This option is ignored on iOS if `stacktrace` is provided. Only available for iOS.                                                   | 0.1.0 |
-| **`domain`**        | <code>string</code>              | A string containing the error domain. **Attention:** This option is ignored on iOS if `stacktrace` is provided. Only available for iOS.                                                        | 0.1.0 |
-| **`keysAndValues`** | <code>CustomKeyAndValue[]</code> | An array of keys and the values to associate with the non fatal exception, in addition to the app level custom keys. **Attention:** This option is ignored on iOS if `stacktrace` is provided. | 7.1.0 |
-| **`stacktrace`**    | <code>StackFrame[]</code>        | A stacktrace generated by stacktrace.js.                                                                                                                                                       | 1.1.0 |
+| Prop                | Type                | Description                                                                                                                                                                                    | Since |
+| ------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`message`**       | <code>string</code> | The message to record as a non-fatal exception.                                                                                                                                                | 0.1.0 |
+| **`code`**          | <code>number</code> | Error code within a specific error domain. **Attention:** This option is ignored on iOS if `stacktrace` is provided. Only available for iOS.                                                   | 0.1.0 |
+| **`domain`**        | <code>string</code> | A string containing the error domain. **Attention:** This option is ignored on iOS if `stacktrace` is provided. Only available for iOS.                                                        | 0.1.0 |
+| **`keysAndValues`** | <code>{}</code>     | An array of keys and the values to associate with the non fatal exception, in addition to the app level custom keys. **Attention:** This option is ignored on iOS if `stacktrace` is provided. | 7.1.0 |
+| **`stacktrace`**    | <code>{}</code>     | A stacktrace generated by stacktrace.js.                                                                                                                                                       | 1.1.0 |
 
 
 #### StackFrame

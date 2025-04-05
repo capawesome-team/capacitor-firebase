@@ -147,7 +147,7 @@ const record = async () => {
 ### startTrace(...)
 
 ```typescript
-startTrace(options: StartTraceOptions) => Promise<void>
+startTrace(options: StartTraceOptions) => any
 ```
 
 Starts a trace.
@@ -155,6 +155,8 @@ Starts a trace.
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#starttraceoptions">StartTraceOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -164,7 +166,7 @@ Starts a trace.
 ### stopTrace(...)
 
 ```typescript
-stopTrace(options: StopTraceOptions) => Promise<void>
+stopTrace(options: StopTraceOptions) => any
 ```
 
 Stops a trace.
@@ -172,6 +174,8 @@ Stops a trace.
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#stoptraceoptions">StopTraceOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -181,7 +185,7 @@ Stops a trace.
 ### incrementMetric(...)
 
 ```typescript
-incrementMetric(options: IncrementMetricOptions) => Promise<void>
+incrementMetric(options: IncrementMetricOptions) => any
 ```
 
 Atomically increments the metric with the given name for the selected trace by the `incrementBy` value.
@@ -189,6 +193,8 @@ Atomically increments the metric with the given name for the selected trace by t
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#incrementmetricoptions">IncrementMetricOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -198,7 +204,7 @@ Atomically increments the metric with the given name for the selected trace by t
 ### setEnabled(...)
 
 ```typescript
-setEnabled(options: SetEnabledOptions) => Promise<void>
+setEnabled(options: SetEnabledOptions) => any
 ```
 
 Enables or disables performance monitoring.
@@ -208,6 +214,8 @@ Will be applied with the next start of the app.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#setenabledoptions">SetEnabledOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -216,12 +224,12 @@ Will be applied with the next start of the app.
 ### isEnabled()
 
 ```typescript
-isEnabled() => Promise<IsEnabledResult>
+isEnabled() => any
 ```
 
 Determines whether performance monitoring is enabled or disabled.
 
-**Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -231,7 +239,7 @@ Determines whether performance monitoring is enabled or disabled.
 ### putAttribute(...)
 
 ```typescript
-putAttribute(options: PutAttributeOptions) => Promise<void>
+putAttribute(options: PutAttributeOptions) => any
 ```
 
 Sets a custom attribute of a trace to a given value.
@@ -239,6 +247,8 @@ Sets a custom attribute of a trace to a given value.
 | Param         | Type                                                                |
 | ------------- | ------------------------------------------------------------------- |
 | **`options`** | <code><a href="#putattributeoptions">PutAttributeOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -248,7 +258,7 @@ Sets a custom attribute of a trace to a given value.
 ### getAttribute(...)
 
 ```typescript
-getAttribute(options: GetAttributeOptions) => Promise<GetAttributeResult>
+getAttribute(options: GetAttributeOptions) => any
 ```
 
 Returns the value of a custom attribute of a trace.
@@ -257,7 +267,7 @@ Returns the value of a custom attribute of a trace.
 | ------------- | ------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getattributeoptions">GetAttributeOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getattributeresult">GetAttributeResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -267,7 +277,7 @@ Returns the value of a custom attribute of a trace.
 ### getAttributes(...)
 
 ```typescript
-getAttributes(options: GetAttributesOptions) => Promise<GetAttributesResult>
+getAttributes(options: GetAttributesOptions) => any
 ```
 
 Gets the all the custom attributes of a trace with their values.
@@ -276,7 +286,7 @@ Gets the all the custom attributes of a trace with their values.
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getattributesoptions">GetAttributesOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getattributesresult">GetAttributesResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -286,7 +296,7 @@ Gets the all the custom attributes of a trace with their values.
 ### removeAttribute(...)
 
 ```typescript
-removeAttribute(options: RemoveAttributeOptions) => Promise<void>
+removeAttribute(options: RemoveAttributeOptions) => any
 ```
 
 Removes a custom attribute from a trace given its name.
@@ -294,6 +304,8 @@ Removes a custom attribute from a trace given its name.
 | Param         | Type                                                                |
 | ------------- | ------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getattributeoptions">GetAttributeOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -303,7 +315,7 @@ Removes a custom attribute from a trace given its name.
 ### putMetric(...)
 
 ```typescript
-putMetric(options: PutMetricOptions) => Promise<void>
+putMetric(options: PutMetricOptions) => any
 ```
 
 Sets the value of a custom metric.
@@ -311,6 +323,8 @@ Sets the value of a custom metric.
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#putmetricoptions">PutMetricOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -320,7 +334,7 @@ Sets the value of a custom metric.
 ### getMetric(...)
 
 ```typescript
-getMetric(options: GetMetricOptions) => Promise<GetMetricResult>
+getMetric(options: GetMetricOptions) => any
 ```
 
 Get the value of a custom metric by name.
@@ -329,7 +343,7 @@ Get the value of a custom metric by name.
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#getmetricoptions">GetMetricOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getmetricresult">GetMetricResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -339,7 +353,7 @@ Get the value of a custom metric by name.
 ### record(...)
 
 ```typescript
-record(options: RecordOptions) => Promise<void>
+record(options: RecordOptions) => any
 ```
 
 Records a trace given its name and options.
@@ -349,6 +363,8 @@ Only available on web.
 | Param         | Type                                                    |
 | ------------- | ------------------------------------------------------- |
 | **`options`** | <code><a href="#recordoptions">RecordOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -404,13 +420,6 @@ Only available on web.
 | **`value`**     | <code>string</code> | The value to set to the attribute.      | 6.3.0 |
 
 
-#### GetAttributeResult
-
-| Prop        | Type                        | Description                        | Since |
-| ----------- | --------------------------- | ---------------------------------- | ----- |
-| **`value`** | <code>string \| null</code> | The value of the custom attribute. | 6.3.0 |
-
-
 #### GetAttributeOptions
 
 | Prop            | Type                | Description                                  | Since |
@@ -419,11 +428,11 @@ Only available on web.
 | **`attribute`** | <code>string</code> | Name of the attribute to retrieve its value. | 6.3.0 |
 
 
-#### GetAttributesResult
+#### GetAttributeResult
 
-| Prop             | Type                                    | Description                                                  | Since |
-| ---------------- | --------------------------------------- | ------------------------------------------------------------ | ----- |
-| **`attributes`** | <code>{ [key: string]: string; }</code> | A map of all custom attributes of a trace with their values. | 6.3.0 |
+| Prop        | Type                        | Description                        | Since |
+| ----------- | --------------------------- | ---------------------------------- | ----- |
+| **`value`** | <code>string \| null</code> | The value of the custom attribute. | 6.3.0 |
 
 
 #### GetAttributesOptions
@@ -431,6 +440,13 @@ Only available on web.
 | Prop            | Type                | Description                              | Since |
 | --------------- | ------------------- | ---------------------------------------- | ----- |
 | **`traceName`** | <code>string</code> | Name of the trace to get its attributes. | 6.3.0 |
+
+
+#### GetAttributesResult
+
+| Prop             | Type                                    | Description                                                  | Since |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------ | ----- |
+| **`attributes`** | <code>{ [key: string]: string; }</code> | A map of all custom attributes of a trace with their values. | 6.3.0 |
 
 
 #### PutMetricOptions
@@ -442,19 +458,19 @@ Only available on web.
 | **`num`**        | <code>number</code> | The value to set for the metric. The given value is floored down to the nearest integer. | 6.3.0 |
 
 
-#### GetMetricResult
-
-| Prop        | Type                | Description                        | Since |
-| ----------- | ------------------- | ---------------------------------- | ----- |
-| **`value`** | <code>number</code> | The value of the metric if exists. | 6.3.0 |
-
-
 #### GetMetricOptions
 
 | Prop             | Type                | Description                          | Since |
 | ---------------- | ------------------- | ------------------------------------ | ----- |
 | **`traceName`**  | <code>string</code> | Name of the trace to get its metric. | 6.3.0 |
 | **`metricName`** | <code>string</code> | The metric name.                     | 6.3.0 |
+
+
+#### GetMetricResult
+
+| Prop        | Type                | Description                        | Since |
+| ----------- | ------------------- | ---------------------------------- | ----- |
+| **`value`** | <code>number</code> | The value of the metric if exists. | 6.3.0 |
 
 
 #### RecordOptions

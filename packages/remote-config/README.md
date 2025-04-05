@@ -133,10 +133,12 @@ const removeAllListeners = async () => {
 ### activate()
 
 ```typescript
-activate() => Promise<void>
+activate() => any
 ```
 
 Make the last fetched configuration available to the getters.
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -146,10 +148,12 @@ Make the last fetched configuration available to the getters.
 ### fetchAndActivate()
 
 ```typescript
-fetchAndActivate() => Promise<void>
+fetchAndActivate() => any
 ```
 
 Perform fetch and activate operations.
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -159,7 +163,7 @@ Perform fetch and activate operations.
 ### fetchConfig(...)
 
 ```typescript
-fetchConfig(options?: FetchConfigOptions | undefined) => Promise<void>
+fetchConfig(options?: FetchConfigOptions | undefined) => any
 ```
 
 Fetch and cache configuration from the Remote Config service.
@@ -167,6 +171,8 @@ Fetch and cache configuration from the Remote Config service.
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#fetchconfigoptions">FetchConfigOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -176,7 +182,7 @@ Fetch and cache configuration from the Remote Config service.
 ### getBoolean(...)
 
 ```typescript
-getBoolean(options: GetBooleanOptions) => Promise<GetBooleanResult>
+getBoolean(options: GetBooleanOptions) => any
 ```
 
 Get the value for the given key as a boolean.
@@ -185,7 +191,7 @@ Get the value for the given key as a boolean.
 | ------------- | ------------------------------------------------- |
 | **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getbooleanresult">GetBooleanResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -195,7 +201,7 @@ Get the value for the given key as a boolean.
 ### getNumber(...)
 
 ```typescript
-getNumber(options: GetNumberOptions) => Promise<GetNumberResult>
+getNumber(options: GetNumberOptions) => any
 ```
 
 Get the value for the given key as a number.
@@ -204,7 +210,7 @@ Get the value for the given key as a number.
 | ------------- | ------------------------------------------------- |
 | **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getnumberresult">GetNumberResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -214,7 +220,7 @@ Get the value for the given key as a number.
 ### getString(...)
 
 ```typescript
-getString(options: GetStringOptions) => Promise<GetStringResult>
+getString(options: GetStringOptions) => any
 ```
 
 Get the value for the given key as a string.
@@ -223,7 +229,7 @@ Get the value for the given key as a string.
 | ------------- | ------------------------------------------------- |
 | **`options`** | <code><a href="#getoptions">GetOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getstringresult">GetStringResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -233,7 +239,7 @@ Get the value for the given key as a string.
 ### setMinimumFetchInterval(...)
 
 ```typescript
-setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions) => Promise<void>
+setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions) => any
 ```
 
 Set the minimum fetch interval.
@@ -244,6 +250,8 @@ Only available for Web.
 | ------------- | ----------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setminimumfetchintervaloptions">SetMinimumFetchIntervalOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 1.3.0
 
 --------------------
@@ -252,7 +260,7 @@ Only available for Web.
 ### setSettings(...)
 
 ```typescript
-setSettings(options: SetSettingsOptions) => Promise<void>
+setSettings(options: SetSettingsOptions) => any
 ```
 
 Set the remote config settings.
@@ -263,6 +271,8 @@ On Android, the settings values are persisted in SharedPreferences.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#setsettingsoptions">SetSettingsOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 6.2.0
 
 --------------------
@@ -271,7 +281,7 @@ On Android, the settings values are persisted in SharedPreferences.
 ### addConfigUpdateListener(...)
 
 ```typescript
-addConfigUpdateListener(callback: AddConfigUpdateListenerOptionsCallback) => Promise<CallbackId>
+addConfigUpdateListener(callback: AddConfigUpdateListenerOptionsCallback) => any
 ```
 
 Add a listener for the config update event.
@@ -282,7 +292,7 @@ Only available for Android and iOS.
 | -------------- | --------------------------------------------------------------------------------------------------------- |
 | **`callback`** | <code><a href="#addconfigupdatelisteneroptionscallback">AddConfigUpdateListenerOptionsCallback</a></code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.4.0
 
@@ -292,7 +302,7 @@ Only available for Android and iOS.
 ### removeConfigUpdateListener(...)
 
 ```typescript
-removeConfigUpdateListener(options: RemoveConfigUpdateListenerOptions) => Promise<void>
+removeConfigUpdateListener(options: RemoveConfigUpdateListenerOptions) => any
 ```
 
 Remove a listener for the config update event.
@@ -303,6 +313,8 @@ Only available for Android and iOS.
 | ------------- | ----------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#removeconfigupdatelisteneroptions">RemoveConfigUpdateListenerOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 5.4.0
 
 --------------------
@@ -311,10 +323,12 @@ Only available for Android and iOS.
 ### removeAllListeners()
 
 ```typescript
-removeAllListeners() => Promise<void>
+removeAllListeners() => any
 ```
 
 Remove all listeners for this plugin.
+
+**Returns:** <code>any</code>
 
 **Since:** 5.4.0
 
@@ -331,19 +345,19 @@ Remove all listeners for this plugin.
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. Only available for Android and iOS. | <code>43200</code> | 1.3.0 |
 
 
+#### GetOptions
+
+| Prop      | Type                | Description                  | Since |
+| --------- | ------------------- | ---------------------------- | ----- |
+| **`key`** | <code>string</code> | The key of the value to get. | 1.3.0 |
+
+
 #### GetBooleanResult
 
 | Prop         | Type                                                      | Description                                                                         | Since |
 | ------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`value`**  | <code>boolean</code>                                      | The value for the given key as a boolean.                                           | 1.3.0 |
 | **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
-
-
-#### GetOptions
-
-| Prop      | Type                | Description                  | Since |
-| --------- | ------------------- | ---------------------------- | ----- |
-| **`key`** | <code>string</code> | The key of the value to get. | 1.3.0 |
 
 
 #### GetNumberResult
@@ -379,9 +393,9 @@ Remove all listeners for this plugin.
 
 #### AddConfigUpdateListenerOptionsCallbackEvent
 
-| Prop              | Type                  | Description                                                                        | Since |
-| ----------------- | --------------------- | ---------------------------------------------------------------------------------- | ----- |
-| **`updatedKeys`** | <code>string[]</code> | Parameter keys whose values have been updated from the currently activated values. | 5.4.0 |
+| Prop              | Type            | Description                                                                        | Since |
+| ----------------- | --------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`updatedKeys`** | <code>{}</code> | Parameter keys whose values have been updated from the currently activated values. | 5.4.0 |
 
 
 #### RemoveConfigUpdateListenerOptions

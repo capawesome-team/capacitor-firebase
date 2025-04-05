@@ -61,10 +61,10 @@ For more information, see [Third-Party SDKs](https://github.com/capawesome-team/
 
 These configuration values are available:
 
-| Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                                    | Default            | Since |
-| -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
-| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
+| Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                    | Default            | Since |
+| -------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`skipNativeAuth`** | <code>boolean</code> | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
+| **`providers`**      | <code>{}</code>      | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
 
 ### Examples
 
@@ -504,7 +504,7 @@ const verifyBeforeUpdateEmail = async () => {
 ### applyActionCode(...)
 
 ```typescript
-applyActionCode(options: ApplyActionCodeOptions) => Promise<void>
+applyActionCode(options: ApplyActionCodeOptions) => any
 ```
 
 Applies a verification code sent to the user by email.
@@ -512,6 +512,8 @@ Applies a verification code sent to the user by email.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#applyactioncodeoptions">ApplyActionCodeOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -521,7 +523,7 @@ Applies a verification code sent to the user by email.
 ### confirmPasswordReset(...)
 
 ```typescript
-confirmPasswordReset(options: ConfirmPasswordResetOptions) => Promise<void>
+confirmPasswordReset(options: ConfirmPasswordResetOptions) => any
 ```
 
 Completes the password reset process.
@@ -529,6 +531,8 @@ Completes the password reset process.
 | Param         | Type                                                                                |
 | ------------- | ----------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#confirmpasswordresetoptions">ConfirmPasswordResetOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -538,7 +542,7 @@ Completes the password reset process.
 ### confirmVerificationCode(...)
 
 ```typescript
-confirmVerificationCode(options: ConfirmVerificationCodeOptions) => Promise<SignInResult>
+confirmVerificationCode(options: ConfirmVerificationCodeOptions) => any
 ```
 
 Finishes the phone number verification process.
@@ -547,7 +551,7 @@ Finishes the phone number verification process.
 | ------------- | ----------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#confirmverificationcodeoptions">ConfirmVerificationCodeOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.0.0
 
@@ -557,7 +561,7 @@ Finishes the phone number verification process.
 ### createUserWithEmailAndPassword(...)
 
 ```typescript
-createUserWithEmailAndPassword(options: CreateUserWithEmailAndPasswordOptions) => Promise<SignInResult>
+createUserWithEmailAndPassword(options: CreateUserWithEmailAndPasswordOptions) => any
 ```
 
 Creates a new user account with email and password.
@@ -567,7 +571,7 @@ If the new account was created, the user is signed in automatically.
 | ------------- | ------------------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createuserwithemailandpasswordoptions">CreateUserWithEmailAndPasswordOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -577,10 +581,12 @@ If the new account was created, the user is signed in automatically.
 ### deleteUser()
 
 ```typescript
-deleteUser() => Promise<void>
+deleteUser() => any
 ```
 
 Deletes and signs out the user.
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -590,7 +596,7 @@ Deletes and signs out the user.
 ### fetchSignInMethodsForEmail(...)
 
 ```typescript
-fetchSignInMethodsForEmail(options: FetchSignInMethodsForEmailOptions) => Promise<FetchSignInMethodsForEmailResult>
+fetchSignInMethodsForEmail(options: FetchSignInMethodsForEmailOptions) => any
 ```
 
 Fetches the sign-in methods for an email address.
@@ -599,7 +605,7 @@ Fetches the sign-in methods for an email address.
 | ------------- | ----------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#fetchsigninmethodsforemailoptions">FetchSignInMethodsForEmailOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#fetchsigninmethodsforemailresult">FetchSignInMethodsForEmailResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.0.0
 
@@ -609,12 +615,12 @@ Fetches the sign-in methods for an email address.
 ### getCurrentUser()
 
 ```typescript
-getCurrentUser() => Promise<GetCurrentUserResult>
+getCurrentUser() => any
 ```
 
 Fetches the currently signed-in user.
 
-**Returns:** <code>Promise&lt;<a href="#getcurrentuserresult">GetCurrentUserResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -624,14 +630,14 @@ Fetches the currently signed-in user.
 ### getPendingAuthResult()
 
 ```typescript
-getPendingAuthResult() => Promise<SignInResult>
+getPendingAuthResult() => any
 ```
 
 Returns the <a href="#signinresult">`SignInResult`</a> if your app launched a web sign-in flow and the OS cleans up the app while in the background.
 
 Only available for Android.
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.0.0
 
@@ -641,7 +647,7 @@ Only available for Android.
 ### getIdToken(...)
 
 ```typescript
-getIdToken(options?: GetIdTokenOptions | undefined) => Promise<GetIdTokenResult>
+getIdToken(options?: GetIdTokenOptions | undefined) => any
 ```
 
 Fetches the Firebase Auth ID Token for the currently signed-in user.
@@ -650,7 +656,7 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#getidtokenoptions">GetIdTokenOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getidtokenresult">GetIdTokenResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -660,7 +666,7 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 ### getRedirectResult()
 
 ```typescript
-getRedirectResult() => Promise<SignInResult>
+getRedirectResult() => any
 ```
 
 Returns the <a href="#signinresult">`SignInResult`</a> from the redirect-based sign-in flow.
@@ -670,7 +676,7 @@ If no redirect operation was called, returns a <a href="#signinresult">`SignInRe
 
 Only available for Web.
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -680,12 +686,12 @@ Only available for Web.
 ### getTenantId()
 
 ```typescript
-getTenantId() => Promise<GetTenantIdResult>
+getTenantId() => any
 ```
 
 Get the tenant id.
 
-**Returns:** <code>Promise&lt;<a href="#gettenantidresult">GetTenantIdResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -695,7 +701,7 @@ Get the tenant id.
 ### isSignInWithEmailLink(...)
 
 ```typescript
-isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions) => Promise<IsSignInWithEmailLinkResult>
+isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions) => any
 ```
 
 Checks if an incoming link is a sign-in with email link suitable for `signInWithEmailLink`.
@@ -704,7 +710,7 @@ Checks if an incoming link is a sign-in with email link suitable for `signInWith
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#issigninwithemaillinkoptions">IsSignInWithEmailLinkOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#issigninwithemaillinkresult">IsSignInWithEmailLinkResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -714,7 +720,7 @@ Checks if an incoming link is a sign-in with email link suitable for `signInWith
 ### linkWithApple(...)
 
 ```typescript
-linkWithApple(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithApple(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Apple authentication provider.
@@ -726,7 +732,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -736,7 +742,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithEmailAndPassword(...)
 
 ```typescript
-linkWithEmailAndPassword(options: LinkWithEmailAndPasswordOptions) => Promise<LinkResult>
+linkWithEmailAndPassword(options: LinkWithEmailAndPasswordOptions) => any
 ```
 
 Links the user account with Email authentication provider.
@@ -748,7 +754,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#linkwithemailandpasswordoptions">LinkWithEmailAndPasswordOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -758,7 +764,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithEmailLink(...)
 
 ```typescript
-linkWithEmailLink(options: LinkWithEmailLinkOptions) => Promise<LinkResult>
+linkWithEmailLink(options: LinkWithEmailLinkOptions) => any
 ```
 
 Links the user account with Email authentication provider.
@@ -770,7 +776,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ----------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#linkwithemaillinkoptions">LinkWithEmailLinkOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -780,7 +786,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithFacebook(...)
 
 ```typescript
-linkWithFacebook(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithFacebook(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Facebook authentication provider.
@@ -792,7 +798,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -802,7 +808,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithGameCenter(...)
 
 ```typescript
-linkWithGameCenter(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithGameCenter(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Game Center authentication provider.
@@ -816,7 +822,7 @@ Only available for iOS.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -826,7 +832,7 @@ Only available for iOS.
 ### linkWithGithub(...)
 
 ```typescript
-linkWithGithub(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithGithub(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with GitHub authentication provider.
@@ -838,7 +844,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -848,7 +854,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithGoogle(...)
 
 ```typescript
-linkWithGoogle(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithGoogle(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Google authentication provider.
@@ -860,7 +866,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -870,7 +876,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithMicrosoft(...)
 
 ```typescript
-linkWithMicrosoft(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithMicrosoft(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Microsoft authentication provider.
@@ -882,7 +888,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -892,7 +898,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithOpenIdConnect(...)
 
 ```typescript
-linkWithOpenIdConnect(options: LinkWithOpenIdConnectOptions) => Promise<LinkResult>
+linkWithOpenIdConnect(options: LinkWithOpenIdConnectOptions) => any
 ```
 
 Links the user account with an OpenID Connect provider.
@@ -901,7 +907,7 @@ Links the user account with an OpenID Connect provider.
 | ------------- | ----------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithopenidconnectoptions">SignInWithOpenIdConnectOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -911,7 +917,7 @@ Links the user account with an OpenID Connect provider.
 ### linkWithPhoneNumber(...)
 
 ```typescript
-linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => Promise<void>
+linkWithPhoneNumber(options: LinkWithPhoneNumberOptions) => any
 ```
 
 Links the user account with Phone Number authentication provider.
@@ -927,6 +933,8 @@ Use the `phoneCodeSent` listener to get the verification id.
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 1.1.0
 
 --------------------
@@ -935,7 +943,7 @@ Use the `phoneCodeSent` listener to get the verification id.
 ### linkWithPlayGames(...)
 
 ```typescript
-linkWithPlayGames(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithPlayGames(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Play Games authentication provider.
@@ -949,7 +957,7 @@ Only available for Android.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -959,7 +967,7 @@ Only available for Android.
 ### linkWithTwitter(...)
 
 ```typescript
-linkWithTwitter(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithTwitter(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Twitter authentication provider.
@@ -971,7 +979,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -981,7 +989,7 @@ The `skipNativeAuth` configuration option has no effect here.
 ### linkWithYahoo(...)
 
 ```typescript
-linkWithYahoo(options?: SignInWithOAuthOptions | undefined) => Promise<LinkResult>
+linkWithYahoo(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Links the user account with Yahoo authentication provider.
@@ -993,7 +1001,7 @@ The `skipNativeAuth` configuration option has no effect here.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -1003,10 +1011,12 @@ The `skipNativeAuth` configuration option has no effect here.
 ### reload()
 
 ```typescript
-reload() => Promise<void>
+reload() => any
 ```
 
 Reloads user account data, if signed in.
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -1016,7 +1026,7 @@ Reloads user account data, if signed in.
 ### revokeAccessToken(...)
 
 ```typescript
-revokeAccessToken(options: RevokeAccessTokenOptions) => Promise<void>
+revokeAccessToken(options: RevokeAccessTokenOptions) => any
 ```
 
 Revokes the given access token. Currently only supports Apple OAuth access tokens.
@@ -1024,6 +1034,8 @@ Revokes the given access token. Currently only supports Apple OAuth access token
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#revokeaccesstokenoptions">RevokeAccessTokenOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -1033,7 +1045,7 @@ Revokes the given access token. Currently only supports Apple OAuth access token
 ### sendEmailVerification(...)
 
 ```typescript
-sendEmailVerification(options?: SendEmailVerificationOptions | undefined) => Promise<void>
+sendEmailVerification(options?: SendEmailVerificationOptions | undefined) => any
 ```
 
 Sends a verification email to the currently signed in user.
@@ -1041,6 +1053,8 @@ Sends a verification email to the currently signed in user.
 | Param         | Type                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#sendemailverificationoptions">SendEmailVerificationOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -1050,7 +1064,7 @@ Sends a verification email to the currently signed in user.
 ### sendPasswordResetEmail(...)
 
 ```typescript
-sendPasswordResetEmail(options: SendPasswordResetEmailOptions) => Promise<void>
+sendPasswordResetEmail(options: SendPasswordResetEmailOptions) => any
 ```
 
 Sends a password reset email.
@@ -1058,6 +1072,8 @@ Sends a password reset email.
 | Param         | Type                                                                                    |
 | ------------- | --------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#sendpasswordresetemailoptions">SendPasswordResetEmailOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -1067,7 +1083,7 @@ Sends a password reset email.
 ### sendSignInLinkToEmail(...)
 
 ```typescript
-sendSignInLinkToEmail(options: SendSignInLinkToEmailOptions) => Promise<void>
+sendSignInLinkToEmail(options: SendSignInLinkToEmailOptions) => any
 ```
 
 Sends a sign-in email link to the user with the specified email.
@@ -1078,6 +1094,8 @@ To complete sign in with the email link, call `signInWithEmailLink` with the ema
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#sendsigninlinktoemailoptions">SendSignInLinkToEmailOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 1.1.0
 
 --------------------
@@ -1086,7 +1104,7 @@ To complete sign in with the email link, call `signInWithEmailLink` with the ema
 ### setLanguageCode(...)
 
 ```typescript
-setLanguageCode(options: SetLanguageCodeOptions) => Promise<void>
+setLanguageCode(options: SetLanguageCodeOptions) => any
 ```
 
 Sets the user-facing language code for auth operations.
@@ -1094,6 +1112,8 @@ Sets the user-facing language code for auth operations.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setlanguagecodeoptions">SetLanguageCodeOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1103,7 +1123,7 @@ Sets the user-facing language code for auth operations.
 ### setPersistence(...)
 
 ```typescript
-setPersistence(options: SetPersistenceOptions) => Promise<void>
+setPersistence(options: SetPersistenceOptions) => any
 ```
 
 Sets the type of persistence for the currently saved auth session.
@@ -1114,6 +1134,8 @@ Only available for Web.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setpersistenceoptions">SetPersistenceOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 5.2.0
 
 --------------------
@@ -1122,7 +1144,7 @@ Only available for Web.
 ### setTenantId(...)
 
 ```typescript
-setTenantId(options: SetTenantIdOptions) => Promise<void>
+setTenantId(options: SetTenantIdOptions) => any
 ```
 
 Sets the tenant id.
@@ -1130,6 +1152,8 @@ Sets the tenant id.
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#settenantidoptions">SetTenantIdOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -1139,12 +1163,12 @@ Sets the tenant id.
 ### signInAnonymously()
 
 ```typescript
-signInAnonymously() => Promise<SignInResult>
+signInAnonymously() => any
 ```
 
 Signs in as an anonymous user.
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -1154,7 +1178,7 @@ Signs in as an anonymous user.
 ### signInWithApple(...)
 
 ```typescript
-signInWithApple(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithApple(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the Apple sign-in flow.
@@ -1163,7 +1187,7 @@ Starts the Apple sign-in flow.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1173,7 +1197,7 @@ Starts the Apple sign-in flow.
 ### signInWithCustomToken(...)
 
 ```typescript
-signInWithCustomToken(options: SignInWithCustomTokenOptions) => Promise<SignInResult>
+signInWithCustomToken(options: SignInWithCustomTokenOptions) => any
 ```
 
 Starts the Custom Token sign-in flow.
@@ -1185,7 +1209,7 @@ In this case you have to use the `signInWithCustomToken` interface of the Fireba
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithcustomtokenoptions">SignInWithCustomTokenOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1195,7 +1219,7 @@ In this case you have to use the `signInWithCustomToken` interface of the Fireba
 ### signInWithEmailAndPassword(...)
 
 ```typescript
-signInWithEmailAndPassword(options: SignInWithEmailAndPasswordOptions) => Promise<SignInResult>
+signInWithEmailAndPassword(options: SignInWithEmailAndPasswordOptions) => any
 ```
 
 Starts the sign-in flow using an email and password.
@@ -1204,7 +1228,7 @@ Starts the sign-in flow using an email and password.
 | ------------- | ----------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithemailandpasswordoptions">SignInWithEmailAndPasswordOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.2.2
 
@@ -1214,7 +1238,7 @@ Starts the sign-in flow using an email and password.
 ### signInWithEmailLink(...)
 
 ```typescript
-signInWithEmailLink(options: SignInWithEmailLinkOptions) => Promise<SignInResult>
+signInWithEmailLink(options: SignInWithEmailLinkOptions) => any
 ```
 
 Signs in using an email and sign-in email link.
@@ -1223,7 +1247,7 @@ Signs in using an email and sign-in email link.
 | ------------- | --------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithemaillinkoptions">SignInWithEmailLinkOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -1233,7 +1257,7 @@ Signs in using an email and sign-in email link.
 ### signInWithFacebook(...)
 
 ```typescript
-signInWithFacebook(options?: SignInWithFacebookOptions | undefined) => Promise<SignInResult>
+signInWithFacebook(options?: SignInWithFacebookOptions | undefined) => any
 ```
 
 Starts the Facebook sign-in flow.
@@ -1242,7 +1266,7 @@ Starts the Facebook sign-in flow.
 | ------------- | ------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithfacebookoptions">SignInWithFacebookOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1252,7 +1276,7 @@ Starts the Facebook sign-in flow.
 ### signInWithGameCenter(...)
 
 ```typescript
-signInWithGameCenter(options?: SignInWithOAuthOptions | SignInOptions | undefined) => Promise<SignInResult>
+signInWithGameCenter(options?: SignInWithOAuthOptions | SignInOptions | undefined) => any
 ```
 
 Starts the Game Center sign-in flow.
@@ -1263,7 +1287,7 @@ Only available for iOS.
 | ------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a> \| <a href="#signinoptions">SignInOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -1273,7 +1297,7 @@ Only available for iOS.
 ### signInWithGithub(...)
 
 ```typescript
-signInWithGithub(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithGithub(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the GitHub sign-in flow.
@@ -1282,7 +1306,7 @@ Starts the GitHub sign-in flow.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1292,7 +1316,7 @@ Starts the GitHub sign-in flow.
 ### signInWithGoogle(...)
 
 ```typescript
-signInWithGoogle(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithGoogle(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the Google sign-in flow.
@@ -1301,7 +1325,7 @@ Starts the Google sign-in flow.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1311,7 +1335,7 @@ Starts the Google sign-in flow.
 ### signInWithMicrosoft(...)
 
 ```typescript
-signInWithMicrosoft(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithMicrosoft(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the Microsoft sign-in flow.
@@ -1320,7 +1344,7 @@ Starts the Microsoft sign-in flow.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1330,7 +1354,7 @@ Starts the Microsoft sign-in flow.
 ### signInWithOpenIdConnect(...)
 
 ```typescript
-signInWithOpenIdConnect(options: SignInWithOpenIdConnectOptions) => Promise<SignInResult>
+signInWithOpenIdConnect(options: SignInWithOpenIdConnectOptions) => any
 ```
 
 Starts the OpenID Connect sign-in flow.
@@ -1339,7 +1363,7 @@ Starts the OpenID Connect sign-in flow.
 | ------------- | ----------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithopenidconnectoptions">SignInWithOpenIdConnectOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -1349,7 +1373,7 @@ Starts the OpenID Connect sign-in flow.
 ### signInWithPhoneNumber(...)
 
 ```typescript
-signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => Promise<void>
+signInWithPhoneNumber(options: SignInWithPhoneNumberOptions) => any
 ```
 
 Starts the sign-in flow using a phone number.
@@ -1364,6 +1388,8 @@ Only available for Android and iOS.
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -1372,7 +1398,7 @@ Only available for Android and iOS.
 ### signInWithPlayGames(...)
 
 ```typescript
-signInWithPlayGames(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithPlayGames(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the Play Games sign-in flow.
@@ -1383,7 +1409,7 @@ Only available for Android.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1393,7 +1419,7 @@ Only available for Android.
 ### signInWithTwitter(...)
 
 ```typescript
-signInWithTwitter(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithTwitter(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the Twitter sign-in flow.
@@ -1402,7 +1428,7 @@ Starts the Twitter sign-in flow.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1412,7 +1438,7 @@ Starts the Twitter sign-in flow.
 ### signInWithYahoo(...)
 
 ```typescript
-signInWithYahoo(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithYahoo(options?: SignInWithOAuthOptions | undefined) => any
 ```
 
 Starts the Yahoo sign-in flow.
@@ -1421,7 +1447,7 @@ Starts the Yahoo sign-in flow.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1431,10 +1457,12 @@ Starts the Yahoo sign-in flow.
 ### signOut()
 
 ```typescript
-signOut() => Promise<void>
+signOut() => any
 ```
 
 Starts the sign-out flow.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1444,7 +1472,7 @@ Starts the sign-out flow.
 ### unlink(...)
 
 ```typescript
-unlink(options: UnlinkOptions) => Promise<UnlinkResult>
+unlink(options: UnlinkOptions) => any
 ```
 
 Unlinks a provider from a user account.
@@ -1453,7 +1481,7 @@ Unlinks a provider from a user account.
 | ------------- | ------------------------------------------------------- |
 | **`options`** | <code><a href="#unlinkoptions">UnlinkOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#unlinkresult">UnlinkResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.1.0
 
@@ -1463,7 +1491,7 @@ Unlinks a provider from a user account.
 ### updateEmail(...)
 
 ```typescript
-updateEmail(options: UpdateEmailOptions) => Promise<void>
+updateEmail(options: UpdateEmailOptions) => any
 ```
 
 Updates the email address of the currently signed in user.
@@ -1471,6 +1499,8 @@ Updates the email address of the currently signed in user.
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#updateemailoptions">UpdateEmailOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1480,7 +1510,7 @@ Updates the email address of the currently signed in user.
 ### updatePassword(...)
 
 ```typescript
-updatePassword(options: UpdatePasswordOptions) => Promise<void>
+updatePassword(options: UpdatePasswordOptions) => any
 ```
 
 Updates the password of the currently signed in user.
@@ -1488,6 +1518,8 @@ Updates the password of the currently signed in user.
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#updatepasswordoptions">UpdatePasswordOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1497,7 +1529,7 @@ Updates the password of the currently signed in user.
 ### updateProfile(...)
 
 ```typescript
-updateProfile(options: UpdateProfileOptions) => Promise<void>
+updateProfile(options: UpdateProfileOptions) => any
 ```
 
 Updates a user's profile data.
@@ -1505,6 +1537,8 @@ Updates a user's profile data.
 | Param         | Type                                                                  |
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#updateprofileoptions">UpdateProfileOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -1514,10 +1548,12 @@ Updates a user's profile data.
 ### useAppLanguage()
 
 ```typescript
-useAppLanguage() => Promise<void>
+useAppLanguage() => any
 ```
 
 Sets the user-facing language code to be the default app language.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1527,7 +1563,7 @@ Sets the user-facing language code to be the default app language.
 ### useEmulator(...)
 
 ```typescript
-useEmulator(options: UseEmulatorOptions) => Promise<void>
+useEmulator(options: UseEmulatorOptions) => any
 ```
 
 Instrument your app to talk to the Authentication emulator.
@@ -1535,6 +1571,8 @@ Instrument your app to talk to the Authentication emulator.
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.2.0
 
@@ -1544,7 +1582,7 @@ Instrument your app to talk to the Authentication emulator.
 ### verifyBeforeUpdateEmail(...)
 
 ```typescript
-verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions) => Promise<void>
+verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions) => any
 ```
 
 Verifies the new email address before updating the email address of the currently signed in user.
@@ -1552,6 +1590,8 @@ Verifies the new email address before updating the email address of the currentl
 | Param         | Type                                                                                      |
 | ------------- | ----------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -1561,14 +1601,14 @@ Verifies the new email address before updating the email address of the currentl
 ### checkAppTrackingTransparencyPermission()
 
 ```typescript
-checkAppTrackingTransparencyPermission() => Promise<CheckAppTrackingTransparencyPermissionResult>
+checkAppTrackingTransparencyPermission() => any
 ```
 
 Checks the current status of app tracking transparency.
 
 Only available on iOS.
 
-**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 7.2.0
 
@@ -1578,7 +1618,7 @@ Only available on iOS.
 ### requestAppTrackingTransparencyPermission()
 
 ```typescript
-requestAppTrackingTransparencyPermission() => Promise<RequestAppTrackingTransparencyPermissionResult>
+requestAppTrackingTransparencyPermission() => any
 ```
 
 Opens the system dialog to authorize app tracking transparency.
@@ -1587,7 +1627,7 @@ Opens the system dialog to authorize app tracking transparency.
 
 Only available on iOS.
 
-**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 7.2.0
 
@@ -1597,7 +1637,7 @@ Only available on iOS.
 ### addListener('authStateChange', ...)
 
 ```typescript
-addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener) => any
 ```
 
 Listen for the user's sign-in state changes.
@@ -1609,7 +1649,7 @@ Listen for the user's sign-in state changes.
 | **`eventName`**    | <code>'authStateChange'</code>                                              |
 | **`listenerFunc`** | <code><a href="#authstatechangelistener">AuthStateChangeListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1619,7 +1659,7 @@ Listen for the user's sign-in state changes.
 ### addListener('idTokenChange', ...)
 
 ```typescript
-addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => any
 ```
 
 Listen to ID token changes for the currently signed-in user.
@@ -1631,7 +1671,7 @@ Listen to ID token changes for the currently signed-in user.
 | **`eventName`**    | <code>'idTokenChange'</code>                                            |
 | **`listenerFunc`** | <code><a href="#idtokenchangelistener">IdTokenChangeListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.3.0
 
@@ -1641,7 +1681,7 @@ Listen to ID token changes for the currently signed-in user.
 ### addListener('phoneVerificationCompleted', ...)
 
 ```typescript
-addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerificationCompletedListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerificationCompletedListener) => any
 ```
 
 Listen for a completed phone verification.
@@ -1660,7 +1700,7 @@ Only available for Android.
 | **`eventName`**    | <code>'phoneVerificationCompleted'</code>                                                         |
 | **`listenerFunc`** | <code><a href="#phoneverificationcompletedlistener">PhoneVerificationCompletedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -1670,7 +1710,7 @@ Only available for Android.
 ### addListener('phoneVerificationFailed', ...)
 
 ```typescript
-addListener(eventName: 'phoneVerificationFailed', listenerFunc: PhoneVerificationFailedListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'phoneVerificationFailed', listenerFunc: PhoneVerificationFailedListener) => any
 ```
 
 Listen for a failed phone verification.
@@ -1680,7 +1720,7 @@ Listen for a failed phone verification.
 | **`eventName`**    | <code>'phoneVerificationFailed'</code>                                                      |
 | **`listenerFunc`** | <code><a href="#phoneverificationfailedlistener">PhoneVerificationFailedListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -1690,7 +1730,7 @@ Listen for a failed phone verification.
 ### addListener('phoneCodeSent', ...)
 
 ```typescript
-addListener(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener) => any
 ```
 
 Listen for a phone verification code.
@@ -1700,7 +1740,7 @@ Listen for a phone verification code.
 | **`eventName`**    | <code>'phoneCodeSent'</code>                                            |
 | **`listenerFunc`** | <code><a href="#phonecodesentlistener">PhoneCodeSentListener</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.3.0
 
@@ -1710,10 +1750,12 @@ Listen for a phone verification code.
 ### removeAllListeners()
 
 ```typescript
-removeAllListeners() => Promise<void>
+removeAllListeners() => any
 ```
 
 Remove all listeners for this plugin.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -1738,6 +1780,14 @@ Remove all listeners for this plugin.
 | **`newPassword`** | <code>string</code> | The new password.                     | 0.2.2 |
 
 
+#### ConfirmVerificationCodeOptions
+
+| Prop                   | Type                | Description                                                                                                                                        | Since |
+| ---------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                               | 5.0.0 |
+| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided. | 5.0.0 |
+
+
 #### SignInResult
 
 | Prop                     | Type                                                                      | Description                                                     | Since |
@@ -1758,7 +1808,7 @@ Remove all listeners for this plugin.
 | **`metadata`**      | <code><a href="#usermetadata">UserMetadata</a></code> | The user's metadata.                                                 | 5.2.0 |
 | **`phoneNumber`**   | <code>string \| null</code>                           |                                                                      | 0.1.0 |
 | **`photoUrl`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
-| **`providerData`**  | <code>UserInfo[]</code>                               | Additional per provider such as displayName and profile information. | 5.2.0 |
+| **`providerData`**  | <code>{}</code>                                       | Additional per provider such as displayName and profile information. | 5.2.0 |
 | **`providerId`**    | <code>string</code>                                   |                                                                      | 0.1.0 |
 | **`tenantId`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
 | **`uid`**           | <code>string</code>                                   |                                                                      | 0.1.0 |
@@ -1807,27 +1857,12 @@ Remove all listeners for this plugin.
 | **`username`**   | <code>string</code>                      | The username if the provider is GitHub or Twitter.          | 0.5.1 |
 
 
-#### ConfirmVerificationCodeOptions
-
-| Prop                   | Type                | Description                                                                                                                                        | Since |
-| ---------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                               | 5.0.0 |
-| **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided. | 5.0.0 |
-
-
 #### CreateUserWithEmailAndPasswordOptions
 
 | Prop           | Type                | Since |
 | -------------- | ------------------- | ----- |
 | **`email`**    | <code>string</code> | 0.2.2 |
 | **`password`** | <code>string</code> | 0.2.2 |
-
-
-#### FetchSignInMethodsForEmailResult
-
-| Prop                | Type                  | Description                                                                                                                                                                                                                                                                                     | Since |
-| ------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`signInMethods`** | <code>string[]</code> | The sign-in methods for the specified email address. This list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, irrespective of the number of authentication methods available for the given email. | 6.0.0 |
 
 
 #### FetchSignInMethodsForEmailOptions
@@ -1837,18 +1872,18 @@ Remove all listeners for this plugin.
 | **`email`** | <code>string</code> | The user's email address. | 6.0.0 |
 
 
+#### FetchSignInMethodsForEmailResult
+
+| Prop                | Type            | Description                                                                                                                                                                                                                                                                                     | Since |
+| ------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`signInMethods`** | <code>{}</code> | The sign-in methods for the specified email address. This list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, irrespective of the number of authentication methods available for the given email. | 6.0.0 |
+
+
 #### GetCurrentUserResult
 
 | Prop       | Type                                          | Description                                               | Since |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
-
-
-#### GetIdTokenResult
-
-| Prop        | Type                | Description                            | Since |
-| ----------- | ------------------- | -------------------------------------- | ----- |
-| **`token`** | <code>string</code> | The Firebase Auth ID token JWT string. | 0.1.0 |
 
 
 #### GetIdTokenOptions
@@ -1858,18 +1893,18 @@ Remove all listeners for this plugin.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
 
 
+#### GetIdTokenResult
+
+| Prop        | Type                | Description                            | Since |
+| ----------- | ------------------- | -------------------------------------- | ----- |
+| **`token`** | <code>string</code> | The Firebase Auth ID token JWT string. | 0.1.0 |
+
+
 #### GetTenantIdResult
 
 | Prop           | Type                        | Description                                     | Since |
 | -------------- | --------------------------- | ----------------------------------------------- | ----- |
 | **`tenantId`** | <code>string \| null</code> | The tenant id. `null` if it has never been set. | 1.1.0 |
-
-
-#### IsSignInWithEmailLinkResult
-
-| Prop                        | Type                 | Description                                                                                   |
-| --------------------------- | -------------------- | --------------------------------------------------------------------------------------------- |
-| **`isSignInWithEmailLink`** | <code>boolean</code> | Whether an incoming link is a signup with email link suitable for `signInWithEmailLink(...)`. |
 
 
 #### IsSignInWithEmailLinkOptions
@@ -1879,13 +1914,20 @@ Remove all listeners for this plugin.
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
+#### IsSignInWithEmailLinkResult
+
+| Prop                        | Type                 | Description                                                                                   |
+| --------------------------- | -------------------- | --------------------------------------------------------------------------------------------- |
+| **`isSignInWithEmailLink`** | <code>boolean</code> | Whether an incoming link is a signup with email link suitable for `signInWithEmailLink(...)`. |
+
+
 #### SignInWithOAuthOptions
 
-| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                       | Default              | Since |
-| ---------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS. |                      | 1.1.0 |
-| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                             | <code>'popup'</code> | 1.3.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                      |                      | 1.1.0 |
+| Prop                   | Type                               | Description                                                                                                                                                                                                                                                                                                       | Default              | Since |
+| ---------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- |
+| **`customParameters`** | <code>{}</code>                    | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS. |                      | 1.1.0 |
+| **`mode`**             | <code>'popup' \| 'redirect'</code> | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                             | <code>'popup'</code> | 1.3.0 |
+| **`scopes`**           | <code>{}</code>                    | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                      |                      | 1.1.0 |
 
 
 #### SignInCustomParameter
@@ -1987,6 +2029,15 @@ bundle identifiers.
 | **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
 
 
+#### Persistence
+
+An interface covering the possible persistence mechanism types.
+
+| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
+
+
 #### SetTenantIdOptions
 
 | Prop           | Type                | Description    | Since |
@@ -2031,18 +2082,18 @@ bundle identifiers.
 | **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
 
 
-#### UnlinkResult
-
-| Prop       | Type                                          | Description                                               | Since |
-| ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
-| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 1.1.0 |
-
-
 #### UnlinkOptions
 
 | Prop             | Type                                              | Description             | Since |
 | ---------------- | ------------------------------------------------- | ----------------------- | ----- |
 | **`providerId`** | <code><a href="#providerid">ProviderId</a></code> | The provider to unlink. | 1.1.0 |
+
+
+#### UnlinkResult
+
+| Prop       | Type                                          | Description                                               | Since |
+| ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
+| **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 1.1.0 |
 
 
 #### UpdateEmailOptions
@@ -2091,18 +2142,18 @@ bundle identifiers.
 | **`status`** | <code><a href="#apptrackingtransparencypermissionstate">AppTrackingTransparencyPermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
 
 
-#### PluginListenerHandle
-
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
-
-
 #### AuthStateChange
 
 | Prop       | Type                                          | Description                                               | Since |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                      |
+| ------------ | ------------------------- |
+| **`remove`** | <code>() =&gt; any</code> |
 
 
 #### PhoneVerificationCompletedEvent

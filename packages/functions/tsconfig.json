@@ -4,7 +4,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "inlineSources": true,
-    "lib": ["dom", "es2017"],
+    "lib": ["dom", "ES2017", "ES2018.AsyncIterable"],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -14,7 +14,8 @@
     "pretty": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "typeRoots": ["./src/types"]
   },
   "files": ["src/index.ts"]
 }

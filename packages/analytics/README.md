@@ -146,14 +146,14 @@ const resetAnalyticsData = async () => {
 ### getAppInstanceId()
 
 ```typescript
-getAppInstanceId() => Promise<GetAppInstanceIdResult>
+getAppInstanceId() => any
 ```
 
 Retrieves the app instance id.
 
 Only available for Android and iOS.
 
-**Returns:** <code>Promise&lt;<a href="#getappinstanceidresult">GetAppInstanceIdResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.4.0
 
@@ -163,14 +163,14 @@ Only available for Android and iOS.
 ### getAppSessionId()
 
 ```typescript
-getAppSessionId() => Promise<GetSessionIdResult>
+getAppSessionId() => any
 ```
 
 Retrieves the session id.
 
 Only available for Android and iOS.
 
-**Returns:** <code>Promise&lt;<a href="#getsessionidresult">GetSessionIdResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.4.0
 
@@ -180,7 +180,7 @@ Only available for Android and iOS.
 ### setConsent(...)
 
 ```typescript
-setConsent(options: SetConsentOptions) => Promise<void>
+setConsent(options: SetConsentOptions) => any
 ```
 
 Sets the user's consent mode.
@@ -188,6 +188,8 @@ Sets the user's consent mode.
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#setconsentoptions">SetConsentOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.0.0
 
@@ -197,7 +199,7 @@ Sets the user's consent mode.
 ### setUserId(...)
 
 ```typescript
-setUserId(options: SetUserIdOptions) => Promise<void>
+setUserId(options: SetUserIdOptions) => any
 ```
 
 Sets the user ID property.
@@ -205,6 +207,8 @@ Sets the user ID property.
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuseridoptions">SetUserIdOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -214,7 +218,7 @@ Sets the user ID property.
 ### setUserProperty(...)
 
 ```typescript
-setUserProperty(options: SetUserPropertyOptions) => Promise<void>
+setUserProperty(options: SetUserPropertyOptions) => any
 ```
 
 Sets a custom user property to a given value.
@@ -222,6 +226,8 @@ Sets a custom user property to a given value.
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setuserpropertyoptions">SetUserPropertyOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -231,7 +237,7 @@ Sets a custom user property to a given value.
 ### setCurrentScreen(...)
 
 ```typescript
-setCurrentScreen(options: SetCurrentScreenOptions) => Promise<void>
+setCurrentScreen(options: SetCurrentScreenOptions) => any
 ```
 
 Sets the current screen name.
@@ -239,6 +245,8 @@ Sets the current screen name.
 | Param         | Type                                                                        |
 | ------------- | --------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setcurrentscreenoptions">SetCurrentScreenOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -248,7 +256,7 @@ Sets the current screen name.
 ### logEvent(...)
 
 ```typescript
-logEvent(options: LogEventOptions) => Promise<void>
+logEvent(options: LogEventOptions) => any
 ```
 
 Logs an app event.
@@ -256,6 +264,8 @@ Logs an app event.
 | Param         | Type                                                        |
 | ------------- | ----------------------------------------------------------- |
 | **`options`** | <code><a href="#logeventoptions">LogEventOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -265,7 +275,7 @@ Logs an app event.
 ### setSessionTimeoutDuration(...)
 
 ```typescript
-setSessionTimeoutDuration(options: SetSessionTimeoutDurationOptions) => Promise<void>
+setSessionTimeoutDuration(options: SetSessionTimeoutDurationOptions) => any
 ```
 
 Sets the duration of inactivity that terminates the current session.
@@ -276,6 +286,8 @@ Only available for Android and iOS.
 | ------------- | --------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#setsessiontimeoutdurationoptions">SetSessionTimeoutDurationOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -284,7 +296,7 @@ Only available for Android and iOS.
 ### setEnabled(...)
 
 ```typescript
-setEnabled(options: SetEnabledOptions) => Promise<void>
+setEnabled(options: SetEnabledOptions) => any
 ```
 
 Enables/disables automatic data collection.
@@ -294,6 +306,8 @@ The value does not apply until the next run of the app.
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#setenabledoptions">SetEnabledOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 0.1.0
 
 --------------------
@@ -302,14 +316,14 @@ The value does not apply until the next run of the app.
 ### isEnabled()
 
 ```typescript
-isEnabled() => Promise<IsEnabledResult>
+isEnabled() => any
 ```
 
 Returns whether or not automatic data collection is enabled.
 
 Only available for Web.
 
-**Returns:** <code>Promise&lt;<a href="#isenabledresult">IsEnabledResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -319,13 +333,15 @@ Only available for Web.
 ### resetAnalyticsData()
 
 ```typescript
-resetAnalyticsData() => Promise<void>
+resetAnalyticsData() => any
 ```
 
 Clears all analytics data for this app from the device.
 Resets the app instance id.
 
 Only available for Android and iOS.
+
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 

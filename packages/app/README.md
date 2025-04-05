@@ -57,12 +57,12 @@ const getOptions = async () => {
 ### getName()
 
 ```typescript
-getName() => Promise<GetNameResult>
+getName() => any
 ```
 
 Get the name for this app.
 
-**Returns:** <code>Promise&lt;<a href="#getnameresult">GetNameResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 
@@ -72,12 +72,12 @@ Get the name for this app.
 ### getOptions()
 
 ```typescript
-getOptions() => Promise<GetOptionsResult>
+getOptions() => any
 ```
 
 Get the configuration options for this app.
 
-**Returns:** <code>Promise&lt;<a href="#getoptionsresult">GetOptionsResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 0.1.0
 

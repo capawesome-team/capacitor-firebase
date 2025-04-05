@@ -138,7 +138,7 @@ const useEmulator = async () => {
 ### deleteFile(...)
 
 ```typescript
-deleteFile(options: DeleteFileOptions) => Promise<void>
+deleteFile(options: DeleteFileOptions) => any
 ```
 
 Delete a file.
@@ -146,6 +146,8 @@ Delete a file.
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletefileoptions">DeleteFileOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 5.3.0
 
@@ -155,7 +157,7 @@ Delete a file.
 ### getDownloadUrl(...)
 
 ```typescript
-getDownloadUrl(options: GetDownloadUrlOptions) => Promise<GetDownloadUrlResult>
+getDownloadUrl(options: GetDownloadUrlOptions) => any
 ```
 
 Get the download url for a file.
@@ -164,7 +166,7 @@ Get the download url for a file.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getdownloadurloptions">GetDownloadUrlOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getdownloadurlresult">GetDownloadUrlResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.3.0
 
@@ -174,7 +176,7 @@ Get the download url for a file.
 ### getMetadata(...)
 
 ```typescript
-getMetadata(options: GetMetadataOptions) => Promise<GetMetadataResult>
+getMetadata(options: GetMetadataOptions) => any
 ```
 
 Get the metadata for a file.
@@ -183,7 +185,7 @@ Get the metadata for a file.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#getmetadataoptions">GetMetadataOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getmetadataresult">GetMetadataResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.3.0
 
@@ -193,7 +195,7 @@ Get the metadata for a file.
 ### listFiles(...)
 
 ```typescript
-listFiles(options: ListFilesOptions) => Promise<ListFilesResult>
+listFiles(options: ListFilesOptions) => any
 ```
 
 List files in a directory.
@@ -202,7 +204,7 @@ List files in a directory.
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#listfilesoptions">ListFilesOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#listfilesresult">ListFilesResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.3.0
 
@@ -212,7 +214,7 @@ List files in a directory.
 ### updateMetadata(...)
 
 ```typescript
-updateMetadata(options: UpdateMetadataOptions) => Promise<void>
+updateMetadata(options: UpdateMetadataOptions) => any
 ```
 
 Update the metadata for a file.
@@ -220,6 +222,8 @@ Update the metadata for a file.
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#updatemetadataoptions">UpdateMetadataOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 5.3.0
 
@@ -229,7 +233,7 @@ Update the metadata for a file.
 ### uploadFile(...)
 
 ```typescript
-uploadFile(options: UploadFileOptions, callback: UploadFileCallback) => Promise<CallbackId>
+uploadFile(options: UploadFileOptions, callback: UploadFileCallback) => any
 ```
 
 Upload a file.
@@ -239,7 +243,7 @@ Upload a file.
 | **`options`**  | <code><a href="#uploadfileoptions">UploadFileOptions</a></code>   |
 | **`callback`** | <code><a href="#uploadfilecallback">UploadFileCallback</a></code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.3.0
 
@@ -249,7 +253,7 @@ Upload a file.
 ### useEmulator(...)
 
 ```typescript
-useEmulator(options: UseEmulatorOptions) => Promise<void>
+useEmulator(options: UseEmulatorOptions) => any
 ```
 
 Instrument your app to talk to the Cloud Storage emulator.
@@ -268,6 +272,8 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 6.1.0
 
 --------------------
@@ -283,6 +289,13 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | **`path`** | <code>string</code> | The full path to the file to delete, including the file name. | 5.3.0 |
 
 
+#### GetDownloadUrlOptions
+
+| Prop       | Type                | Description                                                                     | Since |
+| ---------- | ------------------- | ------------------------------------------------------------------------------- | ----- |
+| **`path`** | <code>string</code> | The full path to the file to get the download url for, including the file name. | 5.3.0 |
+
+
 #### GetDownloadUrlResult
 
 | Prop              | Type                | Description                    | Since |
@@ -290,11 +303,11 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | **`downloadUrl`** | <code>string</code> | The download url for the file. | 5.3.0 |
 
 
-#### GetDownloadUrlOptions
+#### GetMetadataOptions
 
-| Prop       | Type                | Description                                                                     | Since |
-| ---------- | ------------------- | ------------------------------------------------------------------------------- | ----- |
-| **`path`** | <code>string</code> | The full path to the file to get the download url for, including the file name. | 5.3.0 |
+| Prop       | Type                | Description                                                                 | Since |
+| ---------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **`path`** | <code>string</code> | The full path to the file to get the metadata for, including the file name. | 5.3.0 |
 
 
 #### GetMetadataResult
@@ -318,19 +331,21 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | **`customMetadata`**     | <code>{ [key: string]: string; }</code> | Additional user-defined custom metadata.                                          | 6.1.0 |
 
 
-#### GetMetadataOptions
+#### ListFilesOptions
 
-| Prop       | Type                | Description                                                                 | Since |
-| ---------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **`path`** | <code>string</code> | The full path to the file to get the metadata for, including the file name. | 5.3.0 |
+| Prop             | Type                | Description                                                                                                             | Default           | Since |
+| ---------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
+| **`path`**       | <code>string</code> | The full path to the directory to list files for.                                                                       |                   | 5.3.0 |
+| **`maxResults`** | <code>number</code> | The maximum number of results to return.                                                                                | <code>1000</code> | 5.3.0 |
+| **`pageToken`**  | <code>string</code> | The page token, returned by a previous call to this method. If provided, listing is resumed from the previous position. |                   | 5.3.0 |
 
 
 #### ListFilesResult
 
-| Prop                | Type                            | Description                                                                           | Since |
-| ------------------- | ------------------------------- | ------------------------------------------------------------------------------------- | ----- |
-| **`items`**         | <code>StorageReference[]</code> | The list of files in the directory.                                                   | 5.3.0 |
-| **`nextPageToken`** | <code>string</code>             | If set, there might be more results for this list. Use this token to resume the list. | 5.3.0 |
+| Prop                | Type                | Description                                                                           | Since |
+| ------------------- | ------------------- | ------------------------------------------------------------------------------------- | ----- |
+| **`items`**         | <code>{}</code>     | The list of files in the directory.                                                   | 5.3.0 |
+| **`nextPageToken`** | <code>string</code> | If set, there might be more results for this list. Use this token to resume the list. | 5.3.0 |
 
 
 #### StorageReference
@@ -340,15 +355,6 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | **`bucket`** | <code>string</code> | The bucket this file is contained in.                                      | 5.3.0 |
 | **`path`**   | <code>string</code> | The full path to the file, including the file name.                        | 5.3.0 |
 | **`name`**   | <code>string</code> | The short name of this file, which is the last component of the full path. | 5.3.0 |
-
-
-#### ListFilesOptions
-
-| Prop             | Type                | Description                                                                                                             | Default           | Since |
-| ---------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
-| **`path`**       | <code>string</code> | The full path to the directory to list files for.                                                                       |                   | 5.3.0 |
-| **`maxResults`** | <code>number</code> | The maximum number of results to return.                                                                                | <code>1000</code> | 5.3.0 |
-| **`pageToken`**  | <code>string</code> | The page token, returned by a previous call to this method. If provided, listing is resumed from the previous position. |                   | 5.3.0 |
 
 
 #### UpdateMetadataOptions

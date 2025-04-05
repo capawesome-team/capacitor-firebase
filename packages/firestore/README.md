@@ -294,7 +294,7 @@ const removeAllListeners = async () => {
 ### addDocument(...)
 
 ```typescript
-addDocument(options: AddDocumentOptions) => Promise<AddDocumentResult>
+addDocument(options: AddDocumentOptions) => any
 ```
 
 Adds a new document to a collection with the given data.
@@ -303,7 +303,7 @@ Adds a new document to a collection with the given data.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#adddocumentoptions">AddDocumentOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#adddocumentresult">AddDocumentResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -313,7 +313,7 @@ Adds a new document to a collection with the given data.
 ### setDocument(...)
 
 ```typescript
-setDocument(options: SetDocumentOptions) => Promise<void>
+setDocument(options: SetDocumentOptions) => any
 ```
 
 Writes to the document referred to by the specified reference.
@@ -323,6 +323,8 @@ If the document does not yet exist, it will be created.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#setdocumentoptions">SetDocumentOptions</a></code> |
 
+**Returns:** <code>any</code>
+
 **Since:** 5.2.0
 
 --------------------
@@ -331,7 +333,7 @@ If the document does not yet exist, it will be created.
 ### getDocument(...)
 
 ```typescript
-getDocument<T extends DocumentData = DocumentData>(options: GetDocumentOptions) => Promise<GetDocumentResult<T>>
+getDocument<T extends DocumentData = DocumentData>(options: GetDocumentOptions) => any
 ```
 
 Reads the document referred to by the specified reference.
@@ -340,7 +342,7 @@ Reads the document referred to by the specified reference.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#getdocumentoptions">GetDocumentOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getdocumentresult">GetDocumentResult</a>&lt;T&gt;&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -350,7 +352,7 @@ Reads the document referred to by the specified reference.
 ### updateDocument(...)
 
 ```typescript
-updateDocument(options: UpdateDocumentOptions) => Promise<void>
+updateDocument(options: UpdateDocumentOptions) => any
 ```
 
 Updates fields in the document referred to by the specified reference.
@@ -358,6 +360,8 @@ Updates fields in the document referred to by the specified reference.
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#updatedocumentoptions">UpdateDocumentOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -367,7 +371,7 @@ Updates fields in the document referred to by the specified reference.
 ### deleteDocument(...)
 
 ```typescript
-deleteDocument(options: DeleteDocumentOptions) => Promise<void>
+deleteDocument(options: DeleteDocumentOptions) => any
 ```
 
 Deletes the document referred to by the specified reference.
@@ -375,6 +379,8 @@ Deletes the document referred to by the specified reference.
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletedocumentoptions">DeleteDocumentOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -384,7 +390,7 @@ Deletes the document referred to by the specified reference.
 ### writeBatch(...)
 
 ```typescript
-writeBatch(options: WriteBatchOptions) => Promise<void>
+writeBatch(options: WriteBatchOptions) => any
 ```
 
 Execute multiple write operations as a single batch.
@@ -392,6 +398,8 @@ Execute multiple write operations as a single batch.
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#writebatchoptions">WriteBatchOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -401,7 +409,7 @@ Execute multiple write operations as a single batch.
 ### getCollection(...)
 
 ```typescript
-getCollection<T extends DocumentData = DocumentData>(options: GetCollectionOptions) => Promise<GetCollectionResult<T>>
+getCollection<T extends DocumentData = DocumentData>(options: GetCollectionOptions) => any
 ```
 
 Reads the collection referenced by the specified reference.
@@ -410,7 +418,7 @@ Reads the collection referenced by the specified reference.
 | ------------- | --------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getcollectionoptions">GetCollectionOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getcollectionresult">GetCollectionResult</a>&lt;T&gt;&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -420,7 +428,7 @@ Reads the collection referenced by the specified reference.
 ### getCollectionGroup(...)
 
 ```typescript
-getCollectionGroup<T extends DocumentData = DocumentData>(options: GetCollectionGroupOptions) => Promise<GetCollectionGroupResult<T>>
+getCollectionGroup<T extends DocumentData = DocumentData>(options: GetCollectionGroupOptions) => any
 ```
 
 Reads the collection group referenced by the specified reference.
@@ -429,7 +437,7 @@ Reads the collection group referenced by the specified reference.
 | ------------- | ------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getcollectiongroupoptions">GetCollectionGroupOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;&gt;</code>
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -437,7 +445,7 @@ Reads the collection group referenced by the specified reference.
 ### getCountFromServer(...)
 
 ```typescript
-getCountFromServer(options: GetCountFromServerOptions) => Promise<GetCountFromServerResult>
+getCountFromServer(options: GetCountFromServerOptions) => any
 ```
 
 Fetches the number of documents in a collection.
@@ -446,7 +454,7 @@ Fetches the number of documents in a collection.
 | ------------- | ------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getcountfromserveroptions">GetCountFromServerOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#getcountfromserverresult">GetCountFromServerResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.4.0
 
@@ -456,12 +464,14 @@ Fetches the number of documents in a collection.
 ### clearPersistence()
 
 ```typescript
-clearPersistence() => Promise<void>
+clearPersistence() => any
 ```
 
 Clears the persistent storage. This includes pending writes and cached documents.
 
 Must be called after the app is shutdown or when the app is first initialized.
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -471,10 +481,12 @@ Must be called after the app is shutdown or when the app is first initialized.
 ### enableNetwork()
 
 ```typescript
-enableNetwork() => Promise<void>
+enableNetwork() => any
 ```
 
 Re-enables use of the network.
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -484,10 +496,12 @@ Re-enables use of the network.
 ### disableNetwork()
 
 ```typescript
-disableNetwork() => Promise<void>
+disableNetwork() => any
 ```
 
 Disables use of the network.
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -497,7 +511,7 @@ Disables use of the network.
 ### useEmulator(...)
 
 ```typescript
-useEmulator(options: UseEmulatorOptions) => Promise<void>
+useEmulator(options: UseEmulatorOptions) => any
 ```
 
 Instrument your app to talk to the Firestore emulator.
@@ -505,6 +519,8 @@ Instrument your app to talk to the Firestore emulator.
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#useemulatoroptions">UseEmulatorOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -514,7 +530,7 @@ Instrument your app to talk to the Firestore emulator.
 ### addDocumentSnapshotListener(...)
 
 ```typescript
-addDocumentSnapshotListener<T extends DocumentData = DocumentData>(options: AddDocumentSnapshotListenerOptions, callback: AddDocumentSnapshotListenerCallback<T>) => Promise<CallbackId>
+addDocumentSnapshotListener<T extends DocumentData = DocumentData>(options: AddDocumentSnapshotListenerOptions, callback: AddDocumentSnapshotListenerCallback<T>) => any
 ```
 
 Adds a listener for document snapshot events.
@@ -524,7 +540,7 @@ Adds a listener for document snapshot events.
 | **`options`**  | <code><a href="#adddocumentsnapshotlisteneroptions">AddDocumentSnapshotListenerOptions</a></code>            |
 | **`callback`** | <code><a href="#adddocumentsnapshotlistenercallback">AddDocumentSnapshotListenerCallback</a>&lt;T&gt;</code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -534,7 +550,7 @@ Adds a listener for document snapshot events.
 ### addCollectionSnapshotListener(...)
 
 ```typescript
-addCollectionSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionSnapshotListenerOptions, callback: AddCollectionSnapshotListenerCallback<T>) => Promise<CallbackId>
+addCollectionSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionSnapshotListenerOptions, callback: AddCollectionSnapshotListenerCallback<T>) => any
 ```
 
 Adds a listener for collection snapshot events.
@@ -544,7 +560,7 @@ Adds a listener for collection snapshot events.
 | **`options`**  | <code><a href="#addcollectionsnapshotlisteneroptions">AddCollectionSnapshotListenerOptions</a></code>            |
 | **`callback`** | <code><a href="#addcollectionsnapshotlistenercallback">AddCollectionSnapshotListenerCallback</a>&lt;T&gt;</code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -554,7 +570,7 @@ Adds a listener for collection snapshot events.
 ### addCollectionGroupSnapshotListener(...)
 
 ```typescript
-addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionGroupSnapshotListenerOptions, callback: AddCollectionGroupSnapshotListenerCallback<T>) => Promise<CallbackId>
+addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(options: AddCollectionGroupSnapshotListenerOptions, callback: AddCollectionGroupSnapshotListenerCallback<T>) => any
 ```
 
 Adds a listener for collection group snapshot events.
@@ -564,7 +580,7 @@ Adds a listener for collection group snapshot events.
 | **`options`**  | <code><a href="#addcollectiongroupsnapshotlisteneroptions">AddCollectionGroupSnapshotListenerOptions</a></code>            |
 | **`callback`** | <code><a href="#addcollectiongroupsnapshotlistenercallback">AddCollectionGroupSnapshotListenerCallback</a>&lt;T&gt;</code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 6.1.0
 
@@ -574,7 +590,7 @@ Adds a listener for collection group snapshot events.
 ### removeSnapshotListener(...)
 
 ```typescript
-removeSnapshotListener(options: RemoveSnapshotListenerOptions) => Promise<void>
+removeSnapshotListener(options: RemoveSnapshotListenerOptions) => any
 ```
 
 Remove a listener for document or collection snapshot events.
@@ -582,6 +598,8 @@ Remove a listener for document or collection snapshot events.
 | Param         | Type                                                                                    |
 | ------------- | --------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#removesnapshotlisteneroptions">RemoveSnapshotListenerOptions</a></code> |
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -591,10 +609,12 @@ Remove a listener for document or collection snapshot events.
 ### removeAllListeners()
 
 ```typescript
-removeAllListeners() => Promise<void>
+removeAllListeners() => any
 ```
 
 Remove all listeners for this plugin.
+
+**Returns:** <code>any</code>
 
 **Since:** 5.2.0
 
@@ -602,6 +622,17 @@ Remove all listeners for this plugin.
 
 
 ### Interfaces
+
+
+#### AddDocumentOptions
+
+| Prop            | Type                                                  | Description                                                                         | Since |
+| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
+
+
+#### DocumentData
 
 
 #### AddDocumentResult
@@ -619,17 +650,6 @@ Remove all listeners for this plugin.
 | **`path`** | <code>string</code> | The path of the document.                        | 5.2.0 |
 
 
-#### AddDocumentOptions
-
-| Prop            | Type                                                  | Description                                                                         | Since |
-| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
-
-
-#### DocumentData
-
-
 #### SetDocumentOptions
 
 | Prop            | Type                                                  | Description                                                                         | Default            | Since |
@@ -637,6 +657,13 @@ Remove all listeners for this plugin.
 | **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). |                    | 5.2.0 |
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 |                    | 5.2.0 |
 | **`merge`**     | <code>boolean</code>                                  | Whether to merge the provided data with an existing document.                       | <code>false</code> | 5.2.0 |
+
+
+#### GetDocumentOptions
+
+| Prop            | Type                | Description                                                                         | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
 
 
 #### GetDocumentResult
@@ -664,13 +691,6 @@ Remove all listeners for this plugin.
 | **`hasPendingWrites`** | <code>boolean</code> | True if the snapshot was created from pending write data. | 6.2.0 |
 
 
-#### GetDocumentOptions
-
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-
-
 #### UpdateDocumentOptions
 
 | Prop            | Type                                                  | Description                                                                         | Since |
@@ -688,9 +708,9 @@ Remove all listeners for this plugin.
 
 #### WriteBatchOptions
 
-| Prop             | Type                               | Description                             | Since |
-| ---------------- | ---------------------------------- | --------------------------------------- | ----- |
-| **`operations`** | <code>WriteBatchOperation[]</code> | The operations to execute in the batch. | 6.1.0 |
+| Prop             | Type            | Description                             | Since |
+| ---------------- | --------------- | --------------------------------------- | ----- |
+| **`operations`** | <code>{}</code> | The operations to execute in the batch. | 6.1.0 |
 
 
 #### WriteBatchOperation
@@ -702,28 +722,21 @@ Remove all listeners for this plugin.
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 6.1.0 |
 
 
-#### GetCollectionResult
-
-| Prop            | Type                                                                     | Description                      | Since |
-| --------------- | ------------------------------------------------------------------------ | -------------------------------- | ----- |
-| **`snapshots`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
-
-
 #### GetCollectionOptions
 
 | Prop                   | Type                                                                                      | Description                                                                                         | Since |
 | ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
 | **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| **`queryConstraints`** | <code>{}</code>                                                                           | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
 
 #### QueryCompositeFilterConstraint
 
-| Prop                   | Type                                 | Description                 | Since |
-| ---------------------- | ------------------------------------ | --------------------------- | ----- |
-| **`type`**             | <code>'and' \| 'or'</code>           | The type of the constraint. | 5.2.0 |
-| **`queryConstraints`** | <code>QueryFilterConstraint[]</code> | The filters to apply.       | 5.2.0 |
+| Prop                   | Type                       | Description                 | Since |
+| ---------------------- | -------------------------- | --------------------------- | ----- |
+| **`type`**             | <code>'and' \| 'or'</code> | The type of the constraint. | 5.2.0 |
+| **`queryConstraints`** | <code>{}</code>            | The filters to apply.       | 5.2.0 |
 
 
 #### QueryFieldFilterConstraint
@@ -769,11 +782,11 @@ Remove all listeners for this plugin.
 | **`reference`** | <code>string</code>                 | The reference as to end at or before as a string, with path components separated by a forward slash (`/`). **Attention**: This requires an additional document read. | 5.2.0 |
 
 
-#### GetCollectionGroupResult
+#### GetCollectionResult
 
-| Prop            | Type                                                                     | Description                      | Since |
-| --------------- | ------------------------------------------------------------------------ | -------------------------------- | ----- |
-| **`snapshots`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;[]</code> | The documents in the collection. | 5.2.0 |
+| Prop            | Type            | Description                      | Since |
+| --------------- | --------------- | -------------------------------- | ----- |
+| **`snapshots`** | <code>{}</code> | The documents in the collection. | 5.2.0 |
 
 
 #### GetCollectionGroupOptions
@@ -782,14 +795,14 @@ Remove all listeners for this plugin.
 | ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
 | **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| **`queryConstraints`** | <code>{}</code>                                                                           | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
 
-#### GetCountFromServerResult
+#### GetCollectionGroupResult
 
-| Prop        | Type                | Description                                | Since |
-| ----------- | ------------------- | ------------------------------------------ | ----- |
-| **`count`** | <code>number</code> | The number of documents in the collection. | 6.4.0 |
+| Prop            | Type            | Description                      | Since |
+| --------------- | --------------- | -------------------------------- | ----- |
+| **`snapshots`** | <code>{}</code> | The documents in the collection. | 5.2.0 |
 
 
 #### GetCountFromServerOptions
@@ -797,6 +810,13 @@ Remove all listeners for this plugin.
 | Prop            | Type                | Description                                                                         | Since |
 | --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
+
+
+#### GetCountFromServerResult
+
+| Prop        | Type                | Description                                | Since |
+| ----------- | ------------------- | ------------------------------------------ | ----- |
+| **`count`** | <code>number</code> | The number of documents in the collection. | 6.4.0 |
 
 
 #### UseEmulatorOptions
@@ -820,7 +840,7 @@ Remove all listeners for this plugin.
 | ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
 | **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| **`queryConstraints`** | <code>{}</code>                                                                           | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
 
 #### AddCollectionGroupSnapshotListenerOptions
@@ -829,7 +849,7 @@ Remove all listeners for this plugin.
 | ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
 | **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 6.1.0 |
 | **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 6.1.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 6.1.0 |
+| **`queryConstraints`** | <code>{}</code>                                                                           | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 6.1.0 |
 
 
 #### RemoveSnapshotListenerOptions
