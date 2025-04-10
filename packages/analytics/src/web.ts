@@ -111,20 +111,35 @@ export class FirebaseAnalyticsWeb
     throw this.unimplemented('Not implemented on web.');
   }
 
-  public async initiateOnDeviceConversionMeasurementWithEmail(options: InitiateOnDeviceConversionMeasurementWithEmailOptions): Promise<void> {
-    throw this.unimplemented('Not implemented on web.' + JSON.stringify(options));
+  public async initiateOnDeviceConversionMeasurementWithEmail(
+    options: InitiateOnDeviceConversionMeasurementWithEmailOptions,
+  ): Promise<void> {
+    throw this.unimplemented(
+      'Not implemented on web.' + JSON.stringify(options),
+    );
   }
 
-  public async initiateOnDeviceConversionMeasurementWithPhoneNumber(options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions): Promise<void> {
-    throw this.unimplemented('Not implemented on web.' + JSON.stringify(options));
+  public async initiateOnDeviceConversionMeasurementWithPhoneNumber(
+    options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
+  ): Promise<void> {
+    throw this.unimplemented(
+      'Not implemented on web.' + JSON.stringify(options),
+    );
   }
-  
-  public async initiateOnDeviceConversionMeasurementWithHashedEmail(options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions): Promise<void> {
-    throw this.unimplemented('Not implemented on web.' + JSON.stringify(options));
+
+  public async initiateOnDeviceConversionMeasurementWithHashedEmail(
+    options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
+  ): Promise<void> {
+    throw this.unimplemented(
+      'Not implemented on web.' + JSON.stringify(options),
+    );
   }
-  
-  public async initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions): Promise<void> {
-    throw this.unimplemented('Not implemented on web.' + JSON.stringify(options));
+
+  public async initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
+    options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
+  ): Promise<void> {
+    throw this.unimplemented(
+      'Not implemented on web.' + JSON.stringify(options),
+    );
   }
-  
 }

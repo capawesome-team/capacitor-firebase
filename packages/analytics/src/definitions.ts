@@ -78,7 +78,9 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 6.0.0
    */
-  initiateOnDeviceConversionMeasurementWithEmail(options: InitiateOnDeviceConversionMeasurementWithEmailOptions): Promise<void>;
+  initiateOnDeviceConversionMeasurementWithEmail(
+    options: InitiateOnDeviceConversionMeasurementWithEmailOptions,
+  ): Promise<void>;
   /**
    * Initiates on-device conversion measurement with a phone number.
    *
@@ -86,7 +88,9 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 6.0.0
    */
-  initiateOnDeviceConversionMeasurementWithPhoneNumber(options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions): Promise<void>;
+  initiateOnDeviceConversionMeasurementWithPhoneNumber(
+    options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
+  ): Promise<void>;
   /**
    * Initiates on-device conversion measurement with a hashed email address.
    *
@@ -94,7 +98,9 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 6.0.0
    */
-  initiateOnDeviceConversionMeasurementWithHashedEmail(options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions): Promise<void>;
+  initiateOnDeviceConversionMeasurementWithHashedEmail(
+    options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
+  ): Promise<void>;
   /**
    * Initiates on-device conversion measurement with a hashed phone number.
    *
@@ -102,7 +108,9 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 6.0.0
    */
-  initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions): Promise<void>;
+  initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
+    options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
+  ): Promise<void>;
 }
 
 /**

@@ -183,7 +183,7 @@ public class FirebaseAnalyticsPlugin extends Plugin {
         call.unimplemented("Not implemented on Android.");
     }
 
-    @PluginMethod 
+    @PluginMethod
     public void initiateOnDeviceConversionMeasurementWithPhoneNumber(PluginCall call) {
         call.unimplemented("Not implemented on Android.");
     }
