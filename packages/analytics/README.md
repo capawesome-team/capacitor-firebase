@@ -466,30 +466,30 @@ Only available for iOS.
 
 #### InitiateOnDeviceConversionMeasurementWithEmailOptions
 
-| Prop        | Type                | Description                                                          | Since |
-| ----------- | ------------------- | -------------------------------------------------------------------- | ----- |
-| **`email`** | <code>string</code> | The email address to initiate on-device conversion measurement with. | 7.2.0 |
+| Prop               | Type                | Description                                                          | Since |
+| ------------------ | ------------------- | -------------------------------------------------------------------- | ----- |
+| **`emailAddress`** | <code>string</code> | The email address to initiate on-device conversion measurement with. | 7.2.0 |
 
 
 #### InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions
 
-| Prop        | Type                | Description                                                         | Since |
-| ----------- | ------------------- | ------------------------------------------------------------------- | ----- |
-| **`phone`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
+| Prop              | Type                | Description                                                         | Since |
+| ----------------- | ------------------- | ------------------------------------------------------------------- | ----- |
+| **`phoneNumber`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
 
 
 #### InitiateOnDeviceConversionMeasurementWithHashedEmailOptions
 
-| Prop        | Type                | Description                                                          | Since |
-| ----------- | ------------------- | -------------------------------------------------------------------- | ----- |
-| **`email`** | <code>string</code> | The email address to initiate on-device conversion measurement with. | 7.2.0 |
+| Prop                     | Type                | Description                                                          | Since |
+| ------------------------ | ------------------- | -------------------------------------------------------------------- | ----- |
+| **`emailAddressToHash`** | <code>string</code> | The email address to initiate on-device conversion measurement with. | 7.2.0 |
 
 
 #### InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions
 
-| Prop        | Type                | Description                                                         | Since |
-| ----------- | ------------------- | ------------------------------------------------------------------- | ----- |
-| **`phone`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
+| Prop                    | Type                | Description                                                         | Since |
+| ----------------------- | ------------------- | ------------------------------------------------------------------- | ----- |
+| **`phoneNumberToHash`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
 
 
 ### Enums
