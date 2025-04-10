@@ -114,32 +114,24 @@ export class FirebaseAnalyticsWeb
   public async initiateOnDeviceConversionMeasurementWithEmail(
     options: InitiateOnDeviceConversionMeasurementWithEmailOptions,
   ): Promise<void> {
-    throw this.unimplemented(
-      'Not implemented on web.' + JSON.stringify(options),
-    );
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async initiateOnDeviceConversionMeasurementWithPhoneNumber(
     options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
   ): Promise<void> {
-    throw this.unimplemented(
-      'Not implemented on web.' + JSON.stringify(options),
-    );
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async initiateOnDeviceConversionMeasurementWithHashedEmail(
     options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
   ): Promise<void> {
-    throw this.unimplemented(
-      'Not implemented on web.' + JSON.stringify(options),
-    );
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
     options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
   ): Promise<void> {
-    throw this.unimplemented(
-      'Not implemented on web.' + JSON.stringify(options),
-    );
+    throw this.unimplemented('Not implemented on web.');
   }
 }
