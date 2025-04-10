@@ -74,7 +74,7 @@ export interface FirebaseAnalyticsPlugin {
   /**
    * Initiates on-device conversion measurement with an email address.
    *
-   * Only available for Android and iOS.
+   * Only available for iOS.
    *
    * @since 7.2.0
    */
@@ -84,7 +84,7 @@ export interface FirebaseAnalyticsPlugin {
   /**
    * Initiates on-device conversion measurement with a phone number.
    *
-   * Only available for Android and iOS.
+   * Only available for iOS.
    *
    * @since 7.2.0
    */
@@ -94,7 +94,7 @@ export interface FirebaseAnalyticsPlugin {
   /**
    * Initiates on-device conversion measurement with a hashed email address.
    *
-   * Only available for Android and iOS.
+   * Only available for iOS.
    *
    * @since 7.2.0
    */
@@ -104,7 +104,7 @@ export interface FirebaseAnalyticsPlugin {
   /**
    * Initiates on-device conversion measurement with a hashed phone number.
    *
-   * Only available for Android and iOS.
+   * Only available for iOS.
    *
    * @since 7.2.0
    */
