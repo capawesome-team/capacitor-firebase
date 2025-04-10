@@ -29,6 +29,24 @@ public class FirebaseAnalyticsHelper {
         }
     }
 
+    /**
+     * Normalizes email addresses according to Google Analytics API requirements before SHA256 hashing.
+     * See: https://firebase.google.com/docs/tutorials/ads-ios-on-device-measurement/step-3#use-hashed-credentials
+     * 
+     * The normalization process:
+     * 1. Converts email to lowercase
+     * 2. Replaces @googlemail.com with @gmail.com
+     * 3. For @gmail.com addresses:
+     *    - Removes all periods from username
+     *    - Replaces i, I, 1 with l
+     *    - Replaces 0 with o
+     *    - Replaces 2 with z 
+     *    - Replaces 5 with s
+     *
+     * Examples: 
+     * - an.email.user0125@googlemail.com -> anemalluserolzs@gmail.com
+     * - CAPSUSER0125@provider.net -> capsuser0125@provider.net
+     */
     public static func normalizeEmail(_ email: String) -> String {
         var normalized = email.lowercased()
         
@@ -64,6 +82,13 @@ public class FirebaseAnalyticsHelper {
         return regex?.firstMatch(in: email, range: range) != nil
     }
     
+    /**
+    * See: https://firebase.google.com/docs/tutorials/ads-ios-on-device-measurement/step-3#use-hashed-credentials
+     * Note: For phone numbers, they must be in E.164 format before hashing:
+     * - Must start with +
+     * - 1-3 digits for country code
+     * - Max 12 digits for subscriber number
+     */
     public static func isValidE164PhoneNumber(_ phoneNumber: String) -> Bool {
         let pattern = "^\\+[0-9]{1,3}[0-9]{1,12}$"
         let regex = try? NSRegularExpression(pattern: pattern)
