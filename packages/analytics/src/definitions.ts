@@ -76,7 +76,7 @@ export interface FirebaseAnalyticsPlugin {
    *
    * Only available for Android and iOS.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   initiateOnDeviceConversionMeasurementWithEmail(
     options: InitiateOnDeviceConversionMeasurementWithEmailOptions,
@@ -86,7 +86,7 @@ export interface FirebaseAnalyticsPlugin {
    *
    * Only available for Android and iOS.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   initiateOnDeviceConversionMeasurementWithPhoneNumber(
     options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
@@ -96,7 +96,7 @@ export interface FirebaseAnalyticsPlugin {
    *
    * Only available for Android and iOS.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   initiateOnDeviceConversionMeasurementWithHashedEmail(
     options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
@@ -106,7 +106,7 @@ export interface FirebaseAnalyticsPlugin {
    *
    * Only available for Android and iOS.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
     options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
@@ -282,49 +282,49 @@ export enum ConsentStatus {
 }
 
 /**
- * @since 6.0.0
+ * @since 7.2.0
  */
 export interface InitiateOnDeviceConversionMeasurementWithEmailOptions {
   /**
    * The email address to initiate on-device conversion measurement with.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   email: string;
 }
 
 /**
- * @since 6.0.0
+ * @since 7.2.0
  */
 export interface InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions {
   /**
    * The phone number to initiate on-device conversion measurement with.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   phone: string;
 }
 
 /**
- * @since 6.0.0
+ * @since 7.2.0
  */
 export interface InitiateOnDeviceConversionMeasurementWithHashedEmailOptions {
   /**
    * The email address to initiate on-device conversion measurement with.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   email: string;
 }
 
 /**
- * @since 6.0.0
+ * @since 7.2.0
  */
 export interface InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions {
   /**
    * The phone number to initiate on-device conversion measurement with.
    *
-   * @since 6.0.0
+   * @since 7.2.0
    */
   phone: string;
 }
