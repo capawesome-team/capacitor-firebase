@@ -290,7 +290,7 @@ export interface InitiateOnDeviceConversionMeasurementWithEmailOptions {
    *
    * @since 7.2.0
    */
-  email: string;
+  emailAddress: string;
 }
 
 /**
@@ -302,7 +302,7 @@ export interface InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions {
    *
    * @since 7.2.0
    */
-  phone: string;
+  phoneNumber: string;
 }
 
 /**
@@ -314,7 +314,7 @@ export interface InitiateOnDeviceConversionMeasurementWithHashedEmailOptions {
    *
    * @since 7.2.0
    */
-  email: string;
+  emailAddressToHash: string;
 }
 
 /**
@@ -326,5 +326,5 @@ export interface InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptio
    *
    * @since 7.2.0
    */
-  phone: string;
+  phoneNumberToHash: string;
 }
