@@ -179,7 +179,7 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void initiateOnDeviceConversionMeasurementWithEmail(PluginCall call) {
+    public void initiateOnDeviceConversionMeasurementWithEmailAddress(PluginCall call) {
         call.unimplemented("Not implemented on Android.");
     }
 
@@ -189,7 +189,7 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void initiateOnDeviceConversionMeasurementWithHashedEmail(PluginCall call) {
+    public void initiateOnDeviceConversionMeasurementWithHashedEmailAddress(PluginCall call) {
         call.unimplemented("Not implemented on Android.");
     }
 

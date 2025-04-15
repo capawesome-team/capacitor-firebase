@@ -12,9 +12,9 @@ import {
 import type {
   FirebaseAnalyticsPlugin,
   GetAppInstanceIdResult,
-  InitiateOnDeviceConversionMeasurementWithEmailOptions,
+  InitiateOnDeviceConversionMeasurementWithEmailAddressOptions,
   InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
-  InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
+  InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions,
   InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
   IsEnabledResult,
   LogEventOptions,
@@ -111,8 +111,8 @@ export class FirebaseAnalyticsWeb
     throw this.unimplemented('Not implemented on web.');
   }
 
-  public async initiateOnDeviceConversionMeasurementWithEmail(
-    _options: InitiateOnDeviceConversionMeasurementWithEmailOptions,
+  public async initiateOnDeviceConversionMeasurementWithEmailAddress(
+    _options: InitiateOnDeviceConversionMeasurementWithEmailAddressOptions,
   ): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
@@ -123,8 +123,8 @@ export class FirebaseAnalyticsWeb
     throw this.unimplemented('Not implemented on web.');
   }
 
-  public async initiateOnDeviceConversionMeasurementWithHashedEmail(
-    _options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
+  public async initiateOnDeviceConversionMeasurementWithHashedEmailAddress(
+    _options: InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions,
   ): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }

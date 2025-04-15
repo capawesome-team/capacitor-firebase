@@ -78,8 +78,8 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 7.2.0
    */
-  initiateOnDeviceConversionMeasurementWithEmail(
-    options: InitiateOnDeviceConversionMeasurementWithEmailOptions,
+  initiateOnDeviceConversionMeasurementWithEmailAddress(
+    options: InitiateOnDeviceConversionMeasurementWithEmailAddressOptions,
   ): Promise<void>;
   /**
    * Initiates on-device conversion measurement with a phone number.
@@ -98,8 +98,8 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 7.2.0
    */
-  initiateOnDeviceConversionMeasurementWithHashedEmail(
-    options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions,
+  initiateOnDeviceConversionMeasurementWithHashedEmailAddress(
+    options: InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions,
   ): Promise<void>;
   /**
    * Initiates on-device conversion measurement with a hashed phone number.
@@ -284,7 +284,7 @@ export enum ConsentStatus {
 /**
  * @since 7.2.0
  */
-export interface InitiateOnDeviceConversionMeasurementWithEmailOptions {
+export interface InitiateOnDeviceConversionMeasurementWithEmailAddressOptions {
   /**
    * The email address to initiate on-device conversion measurement with.
    *
@@ -308,7 +308,7 @@ export interface InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions {
 /**
  * @since 7.2.0
  */
-export interface InitiateOnDeviceConversionMeasurementWithHashedEmailOptions {
+export interface InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions {
   /**
    * The email address to initiate on-device conversion measurement with.
    *

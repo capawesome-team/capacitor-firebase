@@ -134,9 +134,9 @@ const resetAnalyticsData = async () => {
 * [`setEnabled(...)`](#setenabled)
 * [`isEnabled()`](#isenabled)
 * [`resetAnalyticsData()`](#resetanalyticsdata)
-* [`initiateOnDeviceConversionMeasurementWithEmail(...)`](#initiateondeviceconversionmeasurementwithemail)
+* [`initiateOnDeviceConversionMeasurementWithEmailAddress(...)`](#initiateondeviceconversionmeasurementwithemailaddress)
 * [`initiateOnDeviceConversionMeasurementWithPhoneNumber(...)`](#initiateondeviceconversionmeasurementwithphonenumber)
-* [`initiateOnDeviceConversionMeasurementWithHashedEmail(...)`](#initiateondeviceconversionmeasurementwithhashedemail)
+* [`initiateOnDeviceConversionMeasurementWithHashedEmailAddress(...)`](#initiateondeviceconversionmeasurementwithhashedemailaddress)
 * [`initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(...)`](#initiateondeviceconversionmeasurementwithhashedphonenumber)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
@@ -318,19 +318,19 @@ Only available for Android and iOS.
 --------------------
 
 
-### initiateOnDeviceConversionMeasurementWithEmail(...)
+### initiateOnDeviceConversionMeasurementWithEmailAddress(...)
 
 ```typescript
-initiateOnDeviceConversionMeasurementWithEmail(options: InitiateOnDeviceConversionMeasurementWithEmailOptions) => Promise<void>
+initiateOnDeviceConversionMeasurementWithEmailAddress(options: InitiateOnDeviceConversionMeasurementWithEmailAddressOptions) => Promise<void>
 ```
 
 Initiates on-device conversion measurement with an email address.
 
 Only available for iOS.
 
-| Param         | Type                                                                                                                                    |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithemailoptions">InitiateOnDeviceConversionMeasurementWithEmailOptions</a></code> |
+| Param         | Type                                                                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithemailaddressoptions">InitiateOnDeviceConversionMeasurementWithEmailAddressOptions</a></code> |
 
 **Since:** 7.2.0
 
@@ -356,19 +356,19 @@ Only available for iOS.
 --------------------
 
 
-### initiateOnDeviceConversionMeasurementWithHashedEmail(...)
+### initiateOnDeviceConversionMeasurementWithHashedEmailAddress(...)
 
 ```typescript
-initiateOnDeviceConversionMeasurementWithHashedEmail(options: InitiateOnDeviceConversionMeasurementWithHashedEmailOptions) => Promise<void>
+initiateOnDeviceConversionMeasurementWithHashedEmailAddress(options: InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions) => Promise<void>
 ```
 
 Initiates on-device conversion measurement with a hashed email address.
 
 Only available for iOS.
 
-| Param         | Type                                                                                                                                                |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithhashedemailoptions">InitiateOnDeviceConversionMeasurementWithHashedEmailOptions</a></code> |
+| Param         | Type                                                                                                                                                              |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithhashedemailaddressoptions">InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions</a></code> |
 
 **Since:** 7.2.0
 
@@ -464,7 +464,7 @@ Only available for iOS.
 | **`enabled`** | <code>boolean</code> | 0.1.0 |
 
 
-#### InitiateOnDeviceConversionMeasurementWithEmailOptions
+#### InitiateOnDeviceConversionMeasurementWithEmailAddressOptions
 
 | Prop               | Type                | Description                                                          | Since |
 | ------------------ | ------------------- | -------------------------------------------------------------------- | ----- |
@@ -478,7 +478,7 @@ Only available for iOS.
 | **`phoneNumber`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
 
 
-#### InitiateOnDeviceConversionMeasurementWithHashedEmailOptions
+#### InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions
 
 | Prop                     | Type                | Description                                                          | Since |
 | ------------------------ | ------------------- | -------------------------------------------------------------------- | ----- |

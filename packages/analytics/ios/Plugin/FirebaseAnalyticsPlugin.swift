@@ -22,9 +22,9 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resetAnalyticsData", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithEmailAddress", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithPhoneNumber", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithHashedEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithHashedEmailAddress", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithHashedPhoneNumber", returnType: CAPPluginReturnPromise)
     ]
     public let errorUserIdMissing = "userId must be provided."
@@ -125,7 +125,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve()
     }
 
-    @objc func initiateOnDeviceConversionMeasurementWithEmail(_ call: CAPPluginCall) {
+    @objc func initiateOnDeviceConversionMeasurementWithEmailAddress(_ call: CAPPluginCall) {
         guard let emailAddress = call.getString("emailAddress") else {
             call.reject(errorEmailAddressMissing)
             return
@@ -151,7 +151,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve()
     }
 
-    @objc func initiateOnDeviceConversionMeasurementWithHashedEmail(_ call: CAPPluginCall) {
+    @objc func initiateOnDeviceConversionMeasurementWithHashedEmailAddress(_ call: CAPPluginCall) {
         guard let email = call.getString("emailAddressToHash") else {
             call.reject(errorEmailAddressToHashMissing)
             return
