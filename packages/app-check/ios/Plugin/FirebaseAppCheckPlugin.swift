@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import FirebaseAppCheck
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -17,10 +18,11 @@ public class FirebaseAppCheckPlugin: CAPPlugin, CAPBridgedPlugin {
     public let tag = "FirebaseApp"
     public let errorEnabledMissing = "enabled must be provided."
     public let errorGetTokenFailed = "Failed to get token."
+    public let tokenChangedEvent = "tokenChanged"
     private var implementation: FirebaseAppCheck?
 
     override public func load() {
-        implementation = FirebaseAppCheck()
+        implementation = FirebaseAppCheck(plugin: self)
     }
 
     @objc func getToken(_ call: CAPPluginCall) {
@@ -67,5 +69,17 @@ public class FirebaseAppCheckPlugin: CAPPlugin, CAPBridgedPlugin {
         }
         implementation?.setTokenAutoRefreshEnabled(enabled)
         call.resolve()
+    }
+
+    @objc func handleTokenChanged(_ notification: Notification) {
+        guard let userInfo = notification.userInfo else {
+            return
+        }
+
+        let token = userInfo[AppCheckTokenNotificationKey] as? String
+
+        var result = JSObject()
+        result["token"] = token ?? NSNull()
+        notifyListeners(tokenChangedEvent, data: result, retainUntilConsumed: true)
     }
 }
