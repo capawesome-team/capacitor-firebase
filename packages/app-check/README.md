@@ -160,8 +160,6 @@ addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => Pr
 
 Called when the App Check token changed.
 
-Only available for Web.
-
 | Param              | Type                                                                  |
 | ------------------ | --------------------------------------------------------------------- |
 | **`eventName`**    | <code>'tokenChanged'</code>                                           |

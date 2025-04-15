@@ -6,14 +6,16 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.appcheck.AppCheckToken;
 
 @CapacitorPlugin(name = "FirebaseAppCheck")
 public class FirebaseAppCheckPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAppCheck";
     public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
+    public static final String TOKEN_CHANGED_EVENT = "tokenChanged";
 
-    private FirebaseAppCheck implementation = new FirebaseAppCheck();
+    private final FirebaseAppCheck implementation = new FirebaseAppCheck(this);
 
     @PluginMethod
     public void getToken(PluginCall call) {
@@ -83,5 +85,11 @@ public class FirebaseAppCheckPlugin extends Plugin {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
         }
+    }
+
+    public void handleTokenChanged(AppCheckToken token) {
+        JSObject result = new JSObject();
+        result.put("token", token.getToken());
+        notifyListeners(TOKEN_CHANGED_EVENT, result, true);
     }
 }

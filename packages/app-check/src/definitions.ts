@@ -25,8 +25,6 @@ export interface FirebaseAppCheckPlugin {
   /**
    * Called when the App Check token changed.
    *
-   * Only available for Web.
-   *
    * @since 1.3.0
    */
   addListener(
