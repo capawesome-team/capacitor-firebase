@@ -71,6 +71,46 @@ export interface FirebaseAnalyticsPlugin {
    * @since 0.1.0
    */
   resetAnalyticsData(): Promise<void>;
+  /**
+   * Initiates on-device conversion measurement with an email address.
+   *
+   * Only available for iOS.
+   *
+   * @since 7.2.0
+   */
+  initiateOnDeviceConversionMeasurementWithEmailAddress(
+    options: InitiateOnDeviceConversionMeasurementWithEmailAddressOptions,
+  ): Promise<void>;
+  /**
+   * Initiates on-device conversion measurement with a phone number.
+   *
+   * Only available for iOS.
+   *
+   * @since 7.2.0
+   */
+  initiateOnDeviceConversionMeasurementWithPhoneNumber(
+    options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
+  ): Promise<void>;
+  /**
+   * Initiates on-device conversion measurement with a hashed email address.
+   *
+   * Only available for iOS.
+   *
+   * @since 7.2.0
+   */
+  initiateOnDeviceConversionMeasurementWithHashedEmailAddress(
+    options: InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions,
+  ): Promise<void>;
+  /**
+   * Initiates on-device conversion measurement with a hashed phone number.
+   *
+   * Only available for iOS.
+   *
+   * @since 7.2.0
+   */
+  initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
+    options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
+  ): Promise<void>;
 }
 
 /**
@@ -239,4 +279,52 @@ export enum ConsentStatus {
    * @since 6.0.0
    */
   Denied = 'DENIED',
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface InitiateOnDeviceConversionMeasurementWithEmailAddressOptions {
+  /**
+   * The email address to initiate on-device conversion measurement with.
+   *
+   * @since 7.2.0
+   */
+  emailAddress: string;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions {
+  /**
+   * The phone number to initiate on-device conversion measurement with.
+   *
+   * @since 7.2.0
+   */
+  phoneNumber: string;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions {
+  /**
+   * The email address to initiate on-device conversion measurement with.
+   *
+   * @since 7.2.0
+   */
+  emailAddressToHash: string;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions {
+  /**
+   * The phone number to initiate on-device conversion measurement with.
+   *
+   * @since 7.2.0
+   */
+  phoneNumberToHash: string;
 }

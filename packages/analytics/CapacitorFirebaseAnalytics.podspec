@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Analytics' do |analytics|
     analytics.dependency 'FirebaseAnalytics', '~> 11.7.0'
+    analytics.dependency 'GoogleAppMeasurementOnDeviceConversion', '~> 11.7.0'
   end
 
   s.subspec 'AnalyticsWithoutAdIdSupport' do |analyticsWithoutAdIdSupport|

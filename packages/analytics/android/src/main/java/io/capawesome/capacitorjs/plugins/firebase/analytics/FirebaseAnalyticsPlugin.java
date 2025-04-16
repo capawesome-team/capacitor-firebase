@@ -177,4 +177,24 @@ public class FirebaseAnalyticsPlugin extends Plugin {
             call.reject(exception.getMessage());
         }
     }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithEmailAddress(PluginCall call) {
+        call.unimplemented("Not implemented on Android.");
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithPhoneNumber(PluginCall call) {
+        call.unimplemented("Not implemented on Android.");
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithHashedEmailAddress(PluginCall call) {
+        call.unimplemented("Not implemented on Android.");
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(PluginCall call) {
+        call.unimplemented("Not implemented on Android.");
+    }
 }

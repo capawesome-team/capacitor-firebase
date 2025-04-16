@@ -59,4 +59,20 @@ import FirebaseAnalytics
     @objc public func resetAnalyticsData() {
         Analytics.resetAnalyticsData()
     }
+
+    @objc public func initiateOnDeviceConversionMeasurement(email: String) {
+        Analytics.initiateOnDeviceConversionMeasurement(emailAddress: email)
+    }
+
+    @objc public func initiateOnDeviceConversionMeasurement(phone: String) {
+        Analytics.initiateOnDeviceConversionMeasurement(phoneNumber: phone)
+    }
+
+    @objc public func initiateOnDeviceConversionMeasurement(hashedEmail: Data) {
+        Analytics.initiateOnDeviceConversionMeasurement(hashedEmailAddress: hashedEmail)
+    }
+
+    @objc public func initiateOnDeviceConversionMeasurement(hashedPhone: Data) {
+        Analytics.initiateOnDeviceConversionMeasurement(hashedPhoneNumber: hashedPhone)
+    }
 }

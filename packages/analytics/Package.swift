@@ -20,7 +20,8 @@ let package = Package(
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseCore", package: "firebase-ios-sdk")
+                .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
+                .product(name: "GoogleAppMeasurementOnDeviceConversion", package: "firebase-ios-sdk")
             ],
             path: "ios/Plugin"),
         .testTarget(
