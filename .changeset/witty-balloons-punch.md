@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/analytics': major
+'@capacitor-firebase/analytics': minor
 ---
 
-feat(analytics): add initiateOnDeviceConversionMeasurement for iOS
+feat(analytics): support `initiateOnDeviceConversionMeasurement` on iOS
