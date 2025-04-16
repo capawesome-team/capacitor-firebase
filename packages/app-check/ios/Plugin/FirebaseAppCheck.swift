@@ -4,10 +4,18 @@ import FirebaseCore
 import FirebaseAppCheck
 
 @objc public class FirebaseAppCheck: NSObject {
-    override init() {
+    private let plugin: FirebaseAppCheckPlugin
+
+    public init(plugin: FirebaseAppCheckPlugin) {
+        self.plugin = plugin
+
+        super.init()
+
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.plugin.handleTokenChanged(_:)), name: Notification.Name.AppCheckTokenDidChange, object: nil)
     }
 
     @objc public func getToken(forceRefresh: Bool, completion: @escaping (String?, Int, Error?) -> Void) {
