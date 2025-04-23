@@ -93,6 +93,7 @@ import type {
   SignInWithCustomTokenOptions,
   SignInWithEmailAndPasswordOptions,
   SignInWithEmailLinkOptions,
+  SignInWithGoogleOptions,
   SignInWithOAuthOptions,
   SignInWithOpenIdConnectOptions,
   SignInWithPhoneNumberOptions,
@@ -586,7 +587,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithGoogle(
-    options?: SignInWithOAuthOptions,
+    options?: SignInWithGoogleOptions,
   ): Promise<SignInResult> {
     const provider = new GoogleAuthProvider();
     this.applySignInOptions(options || {}, provider);

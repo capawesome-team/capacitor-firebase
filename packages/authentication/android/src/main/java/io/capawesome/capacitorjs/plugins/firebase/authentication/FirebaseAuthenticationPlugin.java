@@ -1020,6 +1020,22 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     }
 
     @ActivityCallback
+    private void handleGoogleAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
+        implementation.handleGoogleAuthProviderSignInActivityResult(call, result);
+    }
+
+    @ActivityCallback
+    private void handleGoogleAuthProviderLinkActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
+        if (call == null || result == null) {
+            return;
+        }
+        implementation.handleGoogleAuthProviderLinkActivityResult(call, result);
+    }
+
+    @ActivityCallback
     private void handlePlayGamesAuthProviderSignInActivityResult(@Nullable PluginCall call, @Nullable ActivityResult result) {
         if (call == null || result == null) {
             return;

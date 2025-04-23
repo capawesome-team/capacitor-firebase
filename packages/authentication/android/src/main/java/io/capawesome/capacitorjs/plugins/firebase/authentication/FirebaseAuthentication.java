@@ -609,6 +609,14 @@ public class FirebaseAuthentication {
         plugin.startActivityForResult(call, intent, callbackName);
     }
 
+    public void handleGoogleAuthProviderSignInActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
+        googleAuthProviderHandler.handleOnActivityResult(call, result, false);
+    }
+
+    public void handleGoogleAuthProviderLinkActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
+        googleAuthProviderHandler.handleOnActivityResult(call, result, true);
+    }
+
     public void handlePlayGamesAuthProviderSignInActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
         playGamesAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
