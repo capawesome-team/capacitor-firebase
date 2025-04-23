@@ -377,7 +377,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithGoogle(options?: SignInWithOAuthOptions): Promise<SignInResult>;
+  signInWithGoogle(options?: SignInWithGoogleOptions): Promise<SignInResult>;
   /**
    * Starts the Microsoft sign-in flow.
    *
@@ -1039,6 +1039,21 @@ export interface SignInWithFacebookOptions extends SignInWithOAuthOptions {
    * @since 7.2.0
    */
   useLimitedLogin?: boolean;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface SignInWithGoogleOptions extends SignInWithOAuthOptions {
+  /**
+   * Whether to use the Credential Manager API to sign in.
+   *
+   * Only available for Android.
+   *
+   * @since 7.2.0
+   * @default true
+   */
+  useCredentialManager?: boolean;
 }
 
 /**
