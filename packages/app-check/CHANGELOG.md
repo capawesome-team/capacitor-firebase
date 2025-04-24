@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.0
+
+### Minor Changes
+
+- [`1227d0dea3def4c64b2c1e13162a84908d42cc4f`](https://github.com/capawesome-team/capacitor-firebase/commit/1227d0dea3def4c64b2c1e13162a84908d42cc4f) ([#855](https://github.com/capawesome-team/capacitor-firebase/pull/855)): feat: implement support for `tokenChanged` listener on Android and iOS
+
 ## 7.1.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.0
+
+### Minor Changes
+
+- [`33743e2ab5c06ce81226a8bba90c64f84ff26d46`](https://github.com/capawesome-team/capacitor-firebase/commit/33743e2ab5c06ce81226a8bba90c64f84ff26d46) ([#852](https://github.com/capawesome-team/capacitor-firebase/pull/852)): feat(analytics): support `initiateOnDeviceConversionMeasurement` on iOS
+
 ## 7.1.0
 
 ## 7.0.0
