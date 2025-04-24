@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.0
+
+### Patch Changes
+
+- [`61a15cb4d12f5132569d2e8a681c0fd31838e2de`](https://github.com/capawesome-team/capacitor-firebase/commit/61a15cb4d12f5132569d2e8a681c0fd31838e2de) ([#839](https://github.com/capawesome-team/capacitor-firebase/pull/839)): fix(ios): `tokenReceived` event did not always contain a token
+
 ## 7.1.0
 
 ### Patch Changes
