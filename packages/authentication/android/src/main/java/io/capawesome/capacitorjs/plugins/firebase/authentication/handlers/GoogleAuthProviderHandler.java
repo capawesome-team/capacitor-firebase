@@ -163,29 +163,11 @@ public class GoogleAuthProviderHandler {
     }
 
     public void signIn(final PluginCall call) {
-        Boolean useCredentialManagerRaw = call.getBoolean("useCredentialManager");
-        boolean useCredentialManager = (useCredentialManagerRaw != null) ? useCredentialManagerRaw : true;
-
-        if (useCredentialManager) {
-            signInOrLink(call, false);
-        } else {
-            mGoogleSignInClient = buildGoogleSignInClient(call);
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderSignInActivityResult");
-        }
+        signInOrLink(call, false);
     }
 
     public void link(final PluginCall call) {
-        Boolean useCredentialManagerRaw = call.getBoolean("useCredentialManager");
-        boolean useCredentialManager = (useCredentialManagerRaw != null) ? useCredentialManagerRaw : true;
-
-        if (useCredentialManager) {
-            signInOrLink(call, true);
-        } else {
-            mGoogleSignInClient = buildGoogleSignInClient(call);
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderLinkActivityResult");
-        }
+        signInOrLink(call, true);
     }
 
     private GoogleSignInClient buildGoogleSignInClient() {
@@ -313,32 +295,46 @@ public class GoogleAuthProviderHandler {
     }
 
     private void signInOrLink(final PluginCall call, final boolean isLink) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
-            // Your server's client ID, not your Android client ID
-            .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-            // Show all accounts on the device (not just the accounts that have been used previously)
-            .setFilterByAuthorizedAccounts(false)
-            .build();
-        GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build();
-        CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
-        credentialManager.getCredentialAsync(
-            pluginImplementation.getPlugin().getContext(),
-            request,
-            null,
-            executor,
-            new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
-                @Override
-                public void onResult(GetCredentialResponse response) {
-                    handleGetCredentialResult(call, isLink, response);
-                }
+        Boolean useCredentialManagerRaw = call.getBoolean("useCredentialManager");
+        boolean useCredentialManager = (useCredentialManagerRaw != null) ? useCredentialManagerRaw : true;
 
-                @Override
-                public void onError(@NonNull GetCredentialException exception) {
-                    handleGetCredentialError(call, isLink, exception);
+        if (useCredentialManager) {
+            Executor executor = Executors.newSingleThreadExecutor();
+            GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
+                // Your server's client ID, not your Android client ID
+                .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+                // Show all accounts on the device (not just the accounts that have been used previously)
+                .setFilterByAuthorizedAccounts(false)
+                .build();
+            GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build();
+            CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
+            credentialManager.getCredentialAsync(
+                pluginImplementation.getPlugin().getContext(),
+                request,
+                null,
+                executor,
+                new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                    @Override
+                    public void onResult(GetCredentialResponse response) {
+                        handleGetCredentialResult(call, isLink, response);
+                    }
+
+                    @Override
+                    public void onError(@NonNull GetCredentialException exception) {
+                        handleGetCredentialError(call, isLink, exception);
+                    }
                 }
+            );
+        } else {
+            mGoogleSignInClient = buildGoogleSignInClient(call);
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+
+            if (isLink) {
+                pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderLinkActivityResult");
+            } else {
+                pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderSignInActivityResult");
             }
-        );
+        }
     }
 
     /**
