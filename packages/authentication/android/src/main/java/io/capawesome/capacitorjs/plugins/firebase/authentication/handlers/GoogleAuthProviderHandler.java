@@ -21,11 +21,18 @@ import androidx.credentials.exceptions.GetCredentialException;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.Logger;
 import com.getcapacitor.PluginCall;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.identity.AuthorizationRequest;
 import com.google.android.gms.auth.api.identity.AuthorizationResult;
 import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 import com.google.firebase.auth.AuthCredential;
@@ -34,6 +41,7 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthent
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyCallback;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -43,6 +51,7 @@ import org.json.JSONException;
 public class GoogleAuthProviderHandler {
 
     private FirebaseAuthentication pluginImplementation;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Nullable
     private AuthCredential lastAuthCredential;
@@ -57,6 +66,7 @@ public class GoogleAuthProviderHandler {
 
     public GoogleAuthProviderHandler(FirebaseAuthentication pluginImplementation) {
         this.pluginImplementation = pluginImplementation;
+        this.mGoogleSignInClient = buildGoogleSignInClient();
     }
 
     public void handleActivityResult(@NonNull ActivityResult result) {
@@ -72,6 +82,53 @@ public class GoogleAuthProviderHandler {
             }
         } else {
             handleAuthorizationResultError(new Exception("Authorization canceled."));
+        }
+    }
+
+    public void handleOnActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result, boolean isLink) {
+        Intent data = result.getData();
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String idToken = account.getIdToken();
+            String serverAuthCode = account.getServerAuthCode();
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+
+            new Thread(() -> {
+                String accessToken = null;
+                List<String> scopes = new ArrayList<>();
+                scopes.add("oauth2:email");
+                scopes.addAll(getScopesAsList(call));
+
+                try {
+                    accessToken = GoogleAuthUtil.getToken(
+                        mGoogleSignInClient.getApplicationContext(),
+                        account.getAccount(),
+                        String.join(" ", scopes)
+                    );
+                    // Clears local cache after every login attempt
+                    // to ensure permissions changes elsewhere are reflected in future tokens
+                    GoogleAuthUtil.clearToken(mGoogleSignInClient.getApplicationContext(), accessToken);
+                } catch (IOException | GoogleAuthException exception) {
+                    if (isLink) {
+                        pluginImplementation.handleFailedLink(call, null, exception);
+                    } else {
+                        pluginImplementation.handleFailedSignIn(call, null, exception);
+                    }
+                    return;
+                }
+                if (isLink) {
+                    pluginImplementation.handleSuccessfulLink(call, credential, idToken, null, accessToken, serverAuthCode);
+                } else {
+                    pluginImplementation.handleSuccessfulSignIn(call, credential, idToken, null, accessToken, serverAuthCode, null);
+                }
+            }).start();
+        } catch (ApiException exception) {
+            if (isLink) {
+                pluginImplementation.handleFailedLink(call, null, exception);
+            } else {
+                pluginImplementation.handleFailedSignIn(call, null, exception);
+            }
         }
     }
 
@@ -105,12 +162,32 @@ public class GoogleAuthProviderHandler {
         lastIdToken = null;
     }
 
+    public void signIn(final PluginCall call) {
+        signInOrLink(call, false);
+    }
+
     public void link(final PluginCall call) {
         signInOrLink(call, true);
     }
 
-    public void signIn(final PluginCall call) {
-        signInOrLink(call, false);
+    private GoogleSignInClient buildGoogleSignInClient() {
+        return buildGoogleSignInClient(null);
+    }
+
+    private GoogleSignInClient buildGoogleSignInClient(@Nullable PluginCall call) {
+        GoogleSignInOptions.Builder googleSignInOptionsBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+            .requestServerAuthCode(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+            .requestEmail();
+
+        if (call != null) {
+            List<String> scopeList = getScopesAsList(call);
+            for (String scope : scopeList) {
+                googleSignInOptionsBuilder = googleSignInOptionsBuilder.requestScopes(new Scope(scope));
+            }
+        }
+
+        return GoogleSignIn.getClient(pluginImplementation.getPlugin().getActivity(), googleSignInOptionsBuilder.build());
     }
 
     public void signOut() {
@@ -146,6 +223,19 @@ public class GoogleAuthProviderHandler {
                 }
             } catch (JSONException exception) {
                 Log.e(FirebaseAuthenticationPlugin.TAG, "Error parsing scopes.", exception);
+            }
+        }
+        return scopeList;
+    }
+
+    private List<String> getScopesAsList(@NonNull PluginCall call) {
+        List<String> scopeList = new ArrayList<>();
+        JSArray scopes = call.getArray("scopes");
+        if (scopes != null) {
+            try {
+                scopeList = scopes.toList();
+            } catch (JSONException exception) {
+                Log.e(FirebaseAuthenticationPlugin.TAG, "getScopesAsList failed.", exception);
             }
         }
         return scopeList;
@@ -205,32 +295,46 @@ public class GoogleAuthProviderHandler {
     }
 
     private void signInOrLink(final PluginCall call, final boolean isLink) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
-            // Your server's client ID, not your Android client ID
-            .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-            // Show all accounts on the device (not just the accounts that have been used previously)
-            .setFilterByAuthorizedAccounts(false)
-            .build();
-        GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build();
-        CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
-        credentialManager.getCredentialAsync(
-            pluginImplementation.getPlugin().getContext(),
-            request,
-            null,
-            executor,
-            new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
-                @Override
-                public void onResult(GetCredentialResponse response) {
-                    handleGetCredentialResult(call, isLink, response);
-                }
+        Boolean useCredentialManagerRaw = call.getBoolean("useCredentialManager");
+        boolean useCredentialManager = (useCredentialManagerRaw != null) ? useCredentialManagerRaw : true;
 
-                @Override
-                public void onError(@NonNull GetCredentialException exception) {
-                    handleGetCredentialError(call, isLink, exception);
+        if (useCredentialManager) {
+            Executor executor = Executors.newSingleThreadExecutor();
+            GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
+                // Your server's client ID, not your Android client ID
+                .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
+                // Show all accounts on the device (not just the accounts that have been used previously)
+                .setFilterByAuthorizedAccounts(false)
+                .build();
+            GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build();
+            CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
+            credentialManager.getCredentialAsync(
+                pluginImplementation.getPlugin().getContext(),
+                request,
+                null,
+                executor,
+                new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                    @Override
+                    public void onResult(GetCredentialResponse response) {
+                        handleGetCredentialResult(call, isLink, response);
+                    }
+
+                    @Override
+                    public void onError(@NonNull GetCredentialException exception) {
+                        handleGetCredentialError(call, isLink, exception);
+                    }
                 }
+            );
+        } else {
+            mGoogleSignInClient = buildGoogleSignInClient(call);
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+
+            if (isLink) {
+                pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderLinkActivityResult");
+            } else {
+                pluginImplementation.startActivityForResult(call, signInIntent, "handleGoogleAuthProviderSignInActivityResult");
             }
-        );
+        }
     }
 
     /**
