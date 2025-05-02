@@ -118,6 +118,30 @@ const isEnabled = async () => {
 const resetAnalyticsData = async () => {
   await FirebaseAnalytics.resetAnalyticsData();
 };
+
+const initiateOnDeviceConversionMeasurementWithEmailAddress = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithEmailAddress({
+    emailAddress: 'mail@example.com',
+  });
+};
+
+const initiateOnDeviceConversionMeasurementWithPhoneNumber = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithPhoneNumber({
+    phoneNumber: '+49123456789',
+  });
+};
+
+const initiateOnDeviceConversionMeasurementWithHashedEmailAddress = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithHashedEmailAddress({
+    emailAddressToHash: 'mail@example.com',
+  });
+};
+
+const initiateOnDeviceConversionMeasurementWithHashedPhoneNumber = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithHashedPhoneNumber({
+    phoneNumberToHash: '+49123456789',
+  });
+};
 ```
 
 ## API
