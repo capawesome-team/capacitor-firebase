@@ -22,7 +22,8 @@ public class FirebaseAppCheckPlugin: CAPPlugin, CAPBridgedPlugin {
     private var implementation: FirebaseAppCheck?
 
     override public func load() {
-        implementation = FirebaseAppCheck(plugin: self)
+        implementation = FirebaseAppCheck()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTokenChanged), name: Notification.Name.AppCheckTokenDidChange, object: nil)
     }
 
     @objc func getToken(_ call: CAPPluginCall) {
