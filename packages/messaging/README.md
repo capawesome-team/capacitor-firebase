@@ -350,6 +350,7 @@ getDeliveredNotifications() => Promise<GetDeliveredNotificationsResult>
 ```
 
 Get a list of notifications that are visible on the notifications screen.
+Note: This will return all delivered notifications, including local notifications, and not just FCM notifications.
 
 **Returns:** <code>Promise&lt;<a href="#getdeliverednotificationsresult">GetDeliveredNotificationsResult</a>&gt;</code>
 
