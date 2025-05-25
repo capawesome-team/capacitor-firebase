@@ -387,6 +387,8 @@ removeAllDeliveredNotifications() => Promise<void>
 
 Remove all notifications from the notifications screen.
 
+Note: This will remove all delivered notifications, including local notifications, and not just FCM notifications.
+
 **Since:** 0.2.2
 
 --------------------

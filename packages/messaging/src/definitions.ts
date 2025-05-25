@@ -92,6 +92,8 @@ export interface FirebaseMessagingPlugin {
   /**
    * Remove all notifications from the notifications screen.
    *
+   * Note: This will remove all delivered notifications, including local notifications, and not just FCM notifications.
+   *
    * @since 0.2.2
    */
   removeAllDeliveredNotifications(): Promise<void>;
