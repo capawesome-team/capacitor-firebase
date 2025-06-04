@@ -279,7 +279,7 @@ export interface WriteBatchOperation {
   /**
    * An object to configure the set behavior.
    *
-   * @since 7.X.X
+   * @since 7.3.0
    */
   options?: SetOptions;
 }
