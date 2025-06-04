@@ -289,10 +289,7 @@ export interface WriteBatchOperation {
  */
 export interface SetOptions {
   /**
-   * An optional object that configures the behavior of setDoc(), and calls.
-   * These calls can be configured to perform granular merges instead of
-   * overwriting the target documents in their entirety by providing a
-   * SetOptions with merge: true.
+   * Whether a merge should be performed or the document should be overwritten.
    *
    * @since 7.3.0
    * @default false
