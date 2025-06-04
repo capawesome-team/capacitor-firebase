@@ -285,7 +285,7 @@ export interface WriteBatchOperation {
 }
 
 /**
- * @since 7.X.X
+ * @since 7.3.0
  */
 export interface SetOptions {
   /**
