@@ -11,6 +11,7 @@ public class WriteBatchOperation {
     private String type;
     private String reference;
     private Map<String, Object> data;
+    @Nullable
     private SetOptions options;
 
     public WriteBatchOperation(@NonNull JSObject operation) throws JSONException {
