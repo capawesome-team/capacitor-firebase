@@ -294,7 +294,8 @@ export interface SetOptions {
    * overwriting the target documents in their entirety by providing a
    * SetOptions with merge: true.
    *
-   * @since 7.X.X
+   * @since 7.3.0
+   * @default false
    */
   merge?: boolean;
 }
