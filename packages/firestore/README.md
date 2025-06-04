@@ -700,6 +700,14 @@ Remove all listeners for this plugin.
 | **`type`**      | <code>'set' \| 'update' \| 'delete'</code>            | The type of operation.                                                              | 6.1.0 |
 | **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 6.1.0 |
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 6.1.0 |
+| **`options`**   | <code><a href="#setoptions">SetOptions</a></code>     | An object to configure the set behavior.                                            | 7.X.X |
+
+
+#### SetOptions
+
+| Prop        | Type                 | Description                                                                                                                                                                                                                               | Since |
+| ----------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`merge`** | <code>boolean</code> | An options object that configures the behavior of setDoc(), and calls. These calls can be configured to perform granular merges instead of overwriting the target documents in their entirety by providing a SetOptions with merge: true. | 7.X.X |
 
 
 #### GetCollectionResult
@@ -840,6 +848,13 @@ Remove all listeners for this plugin.
 
 
 ### Type Aliases
+
+
+#### SetOptions
+
+An options object that configures the behavior of {@link @firebase/firestore/lite#(setDoc:1)}, {@link
+
+<code>{ readonly merge?: boolean; } | { readonly mergeFields?: <a href="#array">Array</a>&lt;string | FieldPath&gt;; }</code>
 
 
 #### QueryFilterConstraint

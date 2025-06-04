@@ -123,7 +123,11 @@ public class FirebaseFirestore {
             DocumentReference documentReference = getFirebaseFirestoreInstance().document(reference);
             switch (type) {
                 case "set":
-                    batch.set(documentReference, data);
+                    if (operation.getOptions() != null && operation.getOptions().isMerge()) {
+                        batch.set(documentReference, data, SetOptions.merge());
+                    } else {
+                        batch.set(documentReference, data);
+                    }
                     break;
                 case "update":
                     batch.update(documentReference, data);

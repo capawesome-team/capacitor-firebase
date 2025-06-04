@@ -115,7 +115,15 @@ private actor ListenerRegistrationMap {
             let documentReference = Firestore.firestore().document(reference)
             switch type {
             case "set":
-                batch.setData(data, forDocument: documentReference)
+                if let setOpts = operation.getOptions(), setOpts.isMerge() {
+                    batch.setData(
+                        data,
+                        forDocument: documentReference,
+                        merge: true
+                    )
+                } else {
+                    batch.setData(data, forDocument: documentReference)
+                }
             case "update":
                 batch.updateData(data, forDocument: documentReference)
             case "delete":
