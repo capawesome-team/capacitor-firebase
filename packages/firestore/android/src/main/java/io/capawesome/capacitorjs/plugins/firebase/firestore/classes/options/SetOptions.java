@@ -7,7 +7,6 @@ public class SetOptions {
     private boolean merge;
 
     public SetOptions(@NonNull JSObject options) {
-        // default to false if "merge" is not provided
         this.merge = options.optBoolean("merge", false);
     }
 
