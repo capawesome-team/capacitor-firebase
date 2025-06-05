@@ -276,6 +276,25 @@ export interface WriteBatchOperation {
    * @since 6.1.0
    */
   data?: DocumentData;
+  /**
+   * An object to configure the set behavior.
+   *
+   * @since 7.3.0
+   */
+  options?: SetOptions;
+}
+
+/**
+ * @since 7.3.0
+ */
+export interface SetOptions {
+  /**
+   * Whether a merge should be performed or the document should be overwritten.
+   *
+   * @since 7.3.0
+   * @default false
+   */
+  merge?: boolean;
 }
 
 /**
