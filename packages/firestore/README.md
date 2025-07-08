@@ -1,4 +1,3 @@
-[!WARNING]
 ## ⚠️ Important Notice: Unsupported Data Types
 
 This library does not currently support the Firestore `Timestamp` and `GeoPoint` data types. If your project relies on these data types, we recommend using [AngularFire](https://github.com/angular/angularfire) instead to ensure full functionality.
