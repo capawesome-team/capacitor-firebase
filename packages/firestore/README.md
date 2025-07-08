@@ -966,6 +966,13 @@ An options object that configures the behavior of {@link @firebase/firestore/lit
 
 </docgen-api>
 
+## Limitations
+
+This plugin currently has the following limitations:
+
+- The `Timestamp` data type is not yet supported (see https://github.com/capawesome-team/capacitor-firebase/issues/474). Use a `number` or a `string` instead.
+- The `FieldValue` data type is not yet supported (see https://github.com/capawesome-team/capacitor-firebase/issues/443).
+
 ## Changelog
 
 See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/firestore/CHANGELOG.md).
