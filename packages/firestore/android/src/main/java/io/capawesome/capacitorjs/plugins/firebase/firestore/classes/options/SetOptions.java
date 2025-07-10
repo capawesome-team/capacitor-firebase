@@ -1,4 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
+
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
 
