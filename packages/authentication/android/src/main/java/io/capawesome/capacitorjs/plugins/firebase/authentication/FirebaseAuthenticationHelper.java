@@ -56,6 +56,12 @@ public class FirebaseAuthenticationHelper {
                 android.getString("minimumVersion")
             );
         }
+        
+        String dynamicLinkDomain = settings.getString("dynamicLinkDomain");
+        if (dynamicLinkDomain != null) {
+            builder.setDynamicLinkDomain(dynamicLinkDomain);
+        }
+
         String linkDomain = settings.getString("linkDomain");
         if (linkDomain != null) {
             builder.setLinkDomain(linkDomain);

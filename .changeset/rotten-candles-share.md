@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/authentication': major
+'@capacitor-firebase/authentication': minor
 ---
 
-Added linkDomain property to ActionCodeSettings for sign-in with email flow
+feat: add `linkDomain` property to `ActionCodeSettings` interface 

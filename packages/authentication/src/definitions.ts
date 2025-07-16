@@ -1610,10 +1610,18 @@ export interface ActionCodeSettings {
    */
   url: string;
   /**
+   * @deprecated Use `linkDomain` instead.
    * When multiple custom dynamic link domains are defined for a project, specify which one to use
    * when the link is to be opened via a specified mobile app (for example, `example.page.link`).
    */
-  linkDomain?: string;
+  dynamicLinkDomain?: string;
+
+  /**
+   * The optional custom Firebase Hosting domain to use when the link is to be opened using a specified mobile app. 
+   * The domain must be configured in Firebase Hosting and owned by the project. 
+   * This cannot be a default Hosting domain (web.app or firebaseapp.com). This replaces the deprecated dynamicLinkDomain setting.
+   */
+  linkDomain?: string;  
 }
 
 export enum ProviderId {
