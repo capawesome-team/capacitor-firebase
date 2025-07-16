@@ -1613,7 +1613,7 @@ export interface ActionCodeSettings {
    * When multiple custom dynamic link domains are defined for a project, specify which one to use
    * when the link is to be opened via a specified mobile app (for example, `example.page.link`).
    */
-  dynamicLinkDomain?: string;
+  linkDomain?: string;
 }
 
 export enum ProviderId {
