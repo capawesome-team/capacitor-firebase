@@ -230,7 +230,7 @@ const sendSignInLinkToEmail = async () => {
         installApp: true,
         minimumVersion: '12',
       },
-      dynamicLinkDomain: 'example.page.link',
+      linkDomain: 'example.page.link',
     },
   });
   // The link was successfully sent. Inform the user.
@@ -1954,13 +1954,14 @@ Remove all listeners for this plugin.
 An interface that defines the required continue/state URL with optional Android and iOS
 bundle identifiers.
 
-| Prop                    | Type                                                                                 | Description                                                                                                                                                                                |
-| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                             |
-| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                 |
-| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
-| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
-| **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
+| Prop                    | Type                                                                                 | Description                                                                                                                                                                                                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                                                                                                                                                           |
+| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                                                                                                                                               |
+| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                                                                                                                                                  |
+| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                                                                                                                                                        |
+| **`dynamicLinkDomain`** | <code>string</code>                                                                  |                                                                                                                                                                                                                                                                                                                          |
+| **`linkDomain`**        | <code>string</code>                                                                  | The optional custom Firebase Hosting domain to use when the link is to be opened using a specified mobile app. The domain must be configured in Firebase Hosting and owned by the project. This cannot be a default Hosting domain (web.app or firebaseapp.com). This replaces the deprecated dynamicLinkDomain setting. |
 
 
 #### SendPasswordResetEmailOptions
