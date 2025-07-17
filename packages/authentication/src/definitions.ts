@@ -1610,9 +1610,10 @@ export interface ActionCodeSettings {
    */
   url: string;
   /**
-   * @deprecated Use `linkDomain` instead.
    * When multiple custom dynamic link domains are defined for a project, specify which one to use
    * when the link is to be opened via a specified mobile app (for example, `example.page.link`).
+   *
+   * @deprecated Use `linkDomain` instead.
    */
   dynamicLinkDomain?: string;
 
