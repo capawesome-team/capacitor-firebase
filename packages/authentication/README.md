@@ -71,6 +71,7 @@ These configuration values are available:
 | -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
 | **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
+| **`authDomain`**     | <code>string</code>   | Configure the custom auth domain you want to use. Only available for Android and iOS.                                                                                                                                                                                                                          |                    | 7.2.0 |
 
 ### Examples
 
@@ -81,7 +82,8 @@ In `capacitor.config.json`:
   "plugins": {
     "FirebaseAuthentication": {
       "skipNativeAuth": false,
-      "providers": ["apple.com", "facebook.com"]
+      "providers": ["apple.com", "facebook.com"],
+      "authDomain": "auth.domain.tld"
     }
   }
 }
@@ -99,6 +101,7 @@ const config: CapacitorConfig = {
     FirebaseAuthentication: {
       skipNativeAuth: false,
       providers: ["apple.com", "facebook.com"],
+      authDomain: "auth.domain.tld",
     },
   },
 };
@@ -1954,14 +1957,14 @@ Remove all listeners for this plugin.
 An interface that defines the required continue/state URL with optional Android and iOS
 bundle identifiers.
 
-| Prop                    | Type                                                                                 | Description                                                                                                                                                                                                                                                                                                              |
-| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                                                                                                                                                           |
-| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                                                                                                                                               |
-| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                                                                                                                                                  |
-| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                                                                                                                                                        |
-| **`dynamicLinkDomain`** | <code>string</code>                                                                  |                                                                                                                                                                                                                                                                                                                          |
-| **`linkDomain`**        | <code>string</code>                                                                  | The optional custom Firebase Hosting domain to use when the link is to be opened using a specified mobile app. The domain must be configured in Firebase Hosting and owned by the project. This cannot be a default Hosting domain (web.app or firebaseapp.com). This replaces the deprecated dynamicLinkDomain setting. |
+| Prop                    | Type                                                                                 | Description                                                                                                                                                                                                                                                                                                              | Since |
+| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                                                                                                                                                           |       |
+| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                                                                                                                                               |       |
+| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                                                                                                                                                  |       |
+| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                                                                                                                                                        |       |
+| **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`).                                                                                                                               |       |
+| **`linkDomain`**        | <code>string</code>                                                                  | The optional custom Firebase Hosting domain to use when the link is to be opened using a specified mobile app. The domain must be configured in Firebase Hosting and owned by the project. This cannot be a default Hosting domain (web.app or firebaseapp.com). This replaces the deprecated dynamicLinkDomain setting. | 7.3.0 |
 
 
 #### SendPasswordResetEmailOptions
