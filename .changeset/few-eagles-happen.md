@@ -1,5 +1,4 @@
 ---
-'@capacitor-firebase/authentication': major
+'@capacitor-firebase/authentication': minor
 ---
-
-Added configuration for custom authDomain in native SDK handling.
+feat: add `authDomain` configuration option

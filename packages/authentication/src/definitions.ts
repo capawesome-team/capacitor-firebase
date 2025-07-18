@@ -11,6 +11,14 @@ declare module '@capacitor/cli' {
      */
     FirebaseAuthentication?: {
       /**
+       * Configure the custom auth domain you want to use.
+       *
+       * Only available for Android and iOS.
+       *
+       * @since 7.2.0
+       */
+      authDomain?: string;
+      /**
        * Configure whether the plugin should skip the native authentication.
        * Only needed if you want to use the Firebase JavaScript SDK.
        * This configuration option has no effect on Firebase account linking.
@@ -36,14 +44,6 @@ declare module '@capacitor/cli' {
        * @since 0.1.0
        */
       providers?: string[];
-      /**
-       * Configure the custom auth domain you want to use.
-       *
-       * Only available for Android and iOS.
-       *
-       * @since 7.2.0
-       */
-      authDomain?: string;
     };
   }
 }

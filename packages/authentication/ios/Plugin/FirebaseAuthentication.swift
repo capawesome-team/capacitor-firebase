@@ -32,8 +32,8 @@ public typealias AuthStateChangedObserver = () -> Void
         _ = Auth.auth().addIDTokenDidChangeListener {_, _ in
             self.plugin.handleIdTokenChange()
         }
-        if config.authDomain != nil {
-            Auth.auth().customAuthDomain = config.authDomain!
+        if let authDomain = config.authDomain {
+            Auth.auth().customAuthDomain = authDomain
         }
     }
 
