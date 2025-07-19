@@ -60,10 +60,6 @@ public class FirebaseAuthenticationHelper {
         if (dynamicLinkDomain != null) {
             builder.setDynamicLinkDomain(dynamicLinkDomain);
         }
-        String linkDomain = settings.getString("linkDomain");
-        if (linkDomain != null) {
-            builder.setLinkDomain(linkDomain);
-        }
         return builder.build();
     }
 
