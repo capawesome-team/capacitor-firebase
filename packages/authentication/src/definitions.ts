@@ -11,6 +11,14 @@ declare module '@capacitor/cli' {
      */
     FirebaseAuthentication?: {
       /**
+       * Configure the custom auth domain you want to use.
+       *
+       * Only available for Android and iOS.
+       *
+       * @since 7.3.0
+       */
+      authDomain?: string;
+      /**
        * Configure whether the plugin should skip the native authentication.
        * Only needed if you want to use the Firebase JavaScript SDK.
        * This configuration option has no effect on Firebase account linking.
@@ -1618,13 +1626,13 @@ export interface ActionCodeSettings {
   dynamicLinkDomain?: string;
 
   /**
-   * The optional custom Firebase Hosting domain to use when the link is to be opened using a specified mobile app. 
-   * The domain must be configured in Firebase Hosting and owned by the project. 
+   * The optional custom Firebase Hosting domain to use when the link is to be opened using a specified mobile app.
+   * The domain must be configured in Firebase Hosting and owned by the project.
    * This cannot be a default Hosting domain (web.app or firebaseapp.com). This replaces the deprecated dynamicLinkDomain setting.
    *
    * @since 7.3.0
    */
-  linkDomain?: string;  
+  linkDomain?: string;
 }
 
 export enum ProviderId {

@@ -79,6 +79,9 @@ public class FirebaseAuthentication {
             this.plugin.handleIdTokenChange();
         };
         getFirebaseAuthInstance().addIdTokenListener(this.firebaseIdTokenChangeListener);
+        if (config.getAuthDomain() != null && !config.getAuthDomain().isEmpty()) {
+            getFirebaseAuthInstance().setCustomAuthDomain(config.getAuthDomain());
+        }
     }
 
     public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {

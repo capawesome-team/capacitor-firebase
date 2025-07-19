@@ -32,6 +32,9 @@ public typealias AuthStateChangedObserver = () -> Void
         _ = Auth.auth().addIDTokenDidChangeListener {_, _ in
             self.plugin.handleIdTokenChange()
         }
+        if let authDomain = config.authDomain {
+            Auth.auth().customAuthDomain = authDomain
+        }
     }
 
     @objc func applyActionCode(oobCode: String, completion: @escaping (Error?) -> Void) {

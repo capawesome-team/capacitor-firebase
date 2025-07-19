@@ -4,6 +4,7 @@ public class FirebaseAuthenticationConfig {
 
     private boolean skipNativeAuth = false;
     private String[] providers = new String[] {};
+    private String authDomain = null;
 
     public boolean getSkipNativeAuth() {
         return skipNativeAuth;
@@ -19,5 +20,13 @@ public class FirebaseAuthenticationConfig {
 
     public void setProviders(String[] providers) {
         this.providers = providers;
+    }
+
+    public String getAuthDomain() {
+        return authDomain;
+    }
+
+    public void setAuthDomain(String authDomain) {
+        this.authDomain = authDomain;
     }
 }
