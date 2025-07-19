@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.0
+
+### Minor Changes
+
+- [`6b4a71a27a0cb6a680a94691ca0afde39b4fe4a0`](https://github.com/capawesome-team/capacitor-firebase/commit/6b4a71a27a0cb6a680a94691ca0afde39b4fe4a0) ([#894](https://github.com/capawesome-team/capacitor-firebase/pull/894)): feat: add `authDomain` configuration option
+
 ## 7.2.0
 
 ### Minor Changes

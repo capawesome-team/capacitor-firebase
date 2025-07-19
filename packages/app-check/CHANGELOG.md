@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.0
+
+### Patch Changes
+
+- [`32de1381463014166c0ed03f9b503462f675f1ec`](https://github.com/capawesome-team/capacitor-firebase/commit/32de1381463014166c0ed03f9b503462f675f1ec) ([#862](https://github.com/capawesome-team/capacitor-firebase/pull/862)): fix(ios): `tokenChanged` listener unrecognized selector
+
 ## 7.2.0
 
 ### Minor Changes
