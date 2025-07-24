@@ -27,6 +27,7 @@ If needed, you can define the following project variable in your app’s `variab
 
 - `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `18.0.0`)
 - `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `18.0.0`)
+- `$useAppCheckDebugOnDebugBuilds` whether to use the debug provider on debug builds (default: `true`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
@@ -88,6 +89,116 @@ const removeAllListeners = async () => {
   await FirebaseAppCheck.removeAllListeners();
 };
 ```
+
+## Debug Mode for App Check
+
+This guide explains how to enable debug mode for App Check in your Capacitor app. Debug mode allows you to bypass App Check enforcement during development, which is useful for testing your app without needing valid App Check tokens.
+Enabling the debug mode alters between platforms due to the different implementations of App Check attestations Firebase App Check.
+
+### Web
+To use debug mode on the web, you need to set the `debugToken` option when initializing App Check. This will allow you to bypass App Check enforcement in your web application.
+
+**Usage with boolean flag:**
+
+With the `debugToken` set to `true`, App Check will generate a debug token that you can use during development.
+
+```ts
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+await FirebaseAppCheck.initialize({
+    debugToken: true,
+});
+```
+
+**Usage with string flag:**
+
+If you want to use a specific debug token, you can pass it as a string to the `debugToken` option. This is useful if you have a pre-generated debug token that you want to use.
+
+```ts
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+await FirebaseAppCheck.initialize({
+    debugToken: "123a4567-b89c-12d3-e456-789012345678",
+});
+```
+
+Visit your web app locally and open the browser's developer tool. In the debug console, you'll see a debug token:
+
+> AppCheck debug token: "123a4567-b89c-12d3-e456-789012345678". You will
+> need to safelist it in the Firebase console for it to work.
+
+[Learn more about debug tokens in the Firebase documentation](https://firebase.google.com/docs/app-check/web/debug-provider).
+
+### Android
+On Android, you can enable debug mode by adding truthy value for the `debugToken` flag to the `FirebaseAppCheck` initialization options. This will allow you to bypass App Check enforcement during development.
+
+```ts
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+await FirebaseAppCheck.initialize({
+    debugToken: true, // or non-empty string
+});
+```
+
+Open your Android app and check the logcat output. You should see a debug token similar to this:
+> D DebugAppCheckProvider: Enter this debug secret into the allow list in
+> the Firebase Console for your project: 123a4567-b89c-12d3-e456-789012345678
+
+**Note:** There is limitation on Play Integrity attestation provider, which is used by default on Android. So, running your app directly from Android Studio or using `adb` will not work. You need to install the app from Play Store to use that attestation ([more information](https://firebase.google.com/docs/app-check/android/play-integrity-provider)).
+
+So, in order to use test your app locally, this module uses a debug provider everytime you build your app with `debug` build type. To disable this, you can
+add `useAppCheckDebugOnDebugBuilds = false` in your `variables.gradle` file.
+
+For example:
+```gradle
+// ./android/variables.gradle
+ext {
+    /... other variables
+    useAppCheckDebugOnDebugBuilds = false
+}
+```
+
+Also, it is not possible to predefine debug tokens in your app's source code. You must retrieve them from the log output as described above.
+
+[Learn more about debug tokens in the Firebase documentation](https://firebase.google.com/docs/app-check/android/debug-provider).
+
+
+### iOS
+On iOS you can enable debug mode only by setting it up before initializing Firebase App. So, if this is your only native Firebase plugin, you can
+add the `debugToken` flag to the `FirebaseAppCheck` initialization options and by adding `-FIRDebugEnabled` argument on your scheme's launch.
+
+```ts
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+await FirebaseAppCheck.initialize({
+    debugToken: true, // or non-empty string
+});
+```
+
+Open your iOS app and check the log output. You should see a debug token similar to this:
+> [Firebase/AppCheck][I-FAA001001] Firebase App Check Debug Token:
+> 123a4567-b89c-12d3-e456-789012345678
+
+If you use other native Firebase plugins or set `FirebaseApp.configure()` in your native code you would need to set the Debug App Check provider before that.
+You can do this in your app's `AppDelegate.swift` file, for example:
+
+```swift
+import CapacitorFirebaseAppCheck
+
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    //... other your own initialization code
+
+    // Initializing FirebaseAppCheck plugin also configures FirebaseApp
+    // with FirebaseApp.configure()
+    #if DEBUG || targetEnvironment(simulator)
+        FirebaseAppCheck.shared.initialize(debug: true)
+    #else
+        FirebaseAppCheck.shared.initialize(debug: false)
+    #endif
+
+    //... other your own initialization code
+}
+```
+
+**Note:** It is not possible to predefine debug tokens in your app's source code. You must retrieve them from the log output as described above.
+
+[Learn more about debug tokens in the Firebase documentation](https://firebase.google.com/docs/app-check/ios/debug-provider).
 
 ## API
 
@@ -215,13 +326,13 @@ Only available for Web.
 
 #### InitializeOptions
 
-| Prop                            | Type                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                         | Default                          | Since |
-| ------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----- |
-| **`debug`**                     | <code>boolean</code>           | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. ⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code>               | 1.3.0 |
-| **`debugToken`**                | <code>string \| boolean</code> | If `true`, the debug provider is used. On **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.                          | <code>false</code>               | 7.1.0 |
-| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>           | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                                                                                                                              | <code>false</code>               | 1.3.0 |
-| **`provider`**                  | <code>any</code>               | The provider to use for App Check. Must be an instance of `ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`. Only available for Web.                                                                                                                                                                                                                                                                                        | <code>ReCaptchaV3Provider</code> | 7.1.0 |
-| **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set. Only available for Web.                                                                                                                                                                                                                                                                                                                                      |                                  | 1.3.0 |
+| Prop                            | Type                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Default                          | Since |
+| ------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----- |
+| **`debug`**                     | <code>boolean</code>           | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. ⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version. Read more: https://firebase.google.com/docs/app-check/web/debug-provider             | <code>false</code>               | 1.3.0 |
+| **`debugToken`**                | <code>string \| boolean</code> | If `true`, the debug provider is used. On **Web**, you can also set a predefined debug token string instead of `true`. On **Android** and **iOS** refer to the [documentation](#debug-mode-for-app-check) for more information. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. | <code>false</code>               | 7.1.0 |
+| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>           | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                                                                                                                                          | <code>false</code>               | 1.3.0 |
+| **`provider`**                  | <code>any</code>               | The provider to use for App Check. Must be an instance of `ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`. Only available for Web.                                                                                                                                                                                                                                                                                                    | <code>ReCaptchaV3Provider</code> | 7.1.0 |
+| **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set. Only available for Web.                                                                                                                                                                                                                                                                                                                                                  |                                  | 1.3.0 |
 
 
 #### InstanceFactoryOptions

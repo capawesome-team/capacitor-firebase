@@ -97,15 +97,15 @@ export interface InitializeOptions {
   /**
    * If `true`, the debug provider is used.
    *
-   * On **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this.
+   * On **Web**, you can also set a predefined debug token string instead of `true`. On **Android** and **iOS** refer to the [documentation](#debug-mode-for-app-check) for more information.
    *
    * ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices.
    * Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.
    *
    * @since 7.1.0
    * @default false
-   * @see https://firebase.google.com/docs/app-check/android/debug-provider#ci
-   * @see https://firebase.google.com/docs/app-check/ios/debug-provider#ci
+   * @see https://firebase.google.com/docs/app-check/android/debug-provider
+   * @see https://firebase.google.com/docs/app-check/ios/debug-provider
    * @see https://firebase.google.com/docs/app-check/web/debug-provider
    */
   debugToken?: boolean | string;

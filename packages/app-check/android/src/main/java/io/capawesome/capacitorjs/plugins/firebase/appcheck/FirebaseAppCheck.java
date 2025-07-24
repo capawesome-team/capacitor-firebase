@@ -33,7 +33,7 @@ public class FirebaseAppCheck {
     }
 
     public void initialize(boolean debug, boolean isTokenAutoRefreshEnabled) {
-        if (debug) {
+        if (debug || BuildConfig.USE_APP_CHECK_DEBUG) {
             getFirebaseAppCheckInstance()
                 .installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance(), isTokenAutoRefreshEnabled);
         } else {

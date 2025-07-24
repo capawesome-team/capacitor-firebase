@@ -5,6 +5,7 @@ ext {
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.6.1'
     firebaseAppCheckPlayIntegrityVersion = project.hasProperty('firebaseAppCheckPlayIntegrityVersion') ? rootProject.ext.firebaseAppCheckPlayIntegrityVersion : '18.0.0'
     firebaseAppCheckDebugVersion = project.hasProperty('firebaseAppCheckDebugVersion') ? rootProject.ext.firebaseAppCheckDebugVersion : '18.0.0'
+    useAppCheckDebugOnDebugBuilds = project.hasProperty('useAppCheckDebugOnDebugBuilds') ? rootProject.ext.useAppCheckDebugOnDebugBuilds : true
 }
 
 buildscript {
@@ -29,10 +30,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    buildFeatures {
+        buildConfig true
+    }
     buildTypes {
+        debug {
+            buildConfigField "boolean", "USE_APP_CHECK_DEBUG", "${useAppCheckDebugOnDebugBuilds}"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "USE_APP_CHECK_DEBUG", "false"
         }
     }
     lintOptions {
