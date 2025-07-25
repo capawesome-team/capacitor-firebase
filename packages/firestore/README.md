@@ -93,6 +93,36 @@ const deleteDocument = async () => {
   });
 };
 
+const writeBatch = async () => {
+  await FirebaseFirestore.writeBatch({
+    operations: [
+      {
+        type: 'set',
+        reference: 'users/Aorq09lkt1ynbR7xhTUx',
+        data: { 
+          first: 'Alan', 
+          last: 'Turing', 
+          born: 1912 
+        },
+        options: { merge: true },
+      },
+      {
+        type: 'update',
+        reference: 'users/Aorq09lkt1ynbR7xhTUx',
+        data: { 
+          first: 'Alan', 
+          last: 'Turing', 
+          born: 1912 
+        },
+      },
+      {
+        type: 'delete',
+        reference: 'users/Aorq09lkt1ynbR7xhTUx',
+      },
+    ],
+  });
+};
+
 const getCollection = async () => {
   const { snapshots } = await FirebaseFirestore.getCollection({
     reference: 'users',
