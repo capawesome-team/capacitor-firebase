@@ -1,5 +1,11 @@
 # @capacitor-firebase/firestore
 
+## 7.3.0
+
+### Minor Changes
+
+- [`bd4165e755f3abd8d39d5c85aa2735844fd5fc00`](https://github.com/capawesome-team/capacitor-firebase/commit/bd4165e755f3abd8d39d5c85aa2735844fd5fc00) ([#879](https://github.com/capawesome-team/capacitor-firebase/pull/879)): feat: support merge option for batch operations
+
 ## 7.2.0
 
 ## 7.1.0
