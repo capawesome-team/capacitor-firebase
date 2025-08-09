@@ -8,6 +8,10 @@ Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.goog
   </a>
 </div>
 
+## Guides
+
+- [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
+
 ## Installation
 
 ```bash
