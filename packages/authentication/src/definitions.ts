@@ -971,7 +971,7 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
    * Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android.
-   * Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS.
+   * Supports GitHub, Microsoft, Twitter and Yahoo on iOS.
    *
    * @since 1.1.0
    */
