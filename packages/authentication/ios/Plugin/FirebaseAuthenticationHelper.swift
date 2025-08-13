@@ -43,9 +43,6 @@ public class FirebaseAuthenticationHelper {
                 )
             }
         }
-        if let dynamicLinkDomain = settings["dynamicLinkDomain"] as? String {
-            actionCodeSettings.dynamicLinkDomain = dynamicLinkDomain
-        }
         return actionCodeSettings
     }
 

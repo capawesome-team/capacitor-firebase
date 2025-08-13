@@ -101,7 +101,7 @@ const config: CapacitorConfig = {
     FirebaseAuthentication: {
       authDomain: undefined,
       skipNativeAuth: false,
-      providers: ["apple.com", "facebook.com"],
+      providers: ['apple.com', 'facebook.com'],
     },
   },
 };
@@ -233,7 +233,6 @@ const sendSignInLinkToEmail = async () => {
         installApp: true,
         minimumVersion: '12',
       },
-      dynamicLinkDomain: 'example.page.link',
     },
   });
   // The link was successfully sent. Inform the user.
@@ -420,15 +419,15 @@ const verifyBeforeUpdateEmail = async () => {
     actionCodeSettings: {
       url: 'https://www.example.com/cart?email=user@example.com&cartId=123',
       iOS: {
-        bundleId: 'com.example.ios'
+        bundleId: 'com.example.ios',
       },
       android: {
         packageName: 'com.example.android',
         installApp: true,
-        minimumVersion: '12'
+        minimumVersion: '12',
       },
-      handleCodeInApp: true
-    }
+      handleCodeInApp: true,
+    },
   });
 };
 ```
@@ -437,73 +436,73 @@ const verifyBeforeUpdateEmail = async () => {
 
 <docgen-index>
 
-* [`applyActionCode(...)`](#applyactioncode)
-* [`confirmPasswordReset(...)`](#confirmpasswordreset)
-* [`confirmVerificationCode(...)`](#confirmverificationcode)
-* [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
-* [`deleteUser()`](#deleteuser)
-* [`fetchSignInMethodsForEmail(...)`](#fetchsigninmethodsforemail)
-* [`getCurrentUser()`](#getcurrentuser)
-* [`getPendingAuthResult()`](#getpendingauthresult)
-* [`getIdToken(...)`](#getidtoken)
-* [`getRedirectResult()`](#getredirectresult)
-* [`getTenantId()`](#gettenantid)
-* [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
-* [`linkWithApple(...)`](#linkwithapple)
-* [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
-* [`linkWithEmailLink(...)`](#linkwithemaillink)
-* [`linkWithFacebook(...)`](#linkwithfacebook)
-* [`linkWithGameCenter(...)`](#linkwithgamecenter)
-* [`linkWithGithub(...)`](#linkwithgithub)
-* [`linkWithGoogle(...)`](#linkwithgoogle)
-* [`linkWithMicrosoft(...)`](#linkwithmicrosoft)
-* [`linkWithOpenIdConnect(...)`](#linkwithopenidconnect)
-* [`linkWithPhoneNumber(...)`](#linkwithphonenumber)
-* [`linkWithPlayGames(...)`](#linkwithplaygames)
-* [`linkWithTwitter(...)`](#linkwithtwitter)
-* [`linkWithYahoo(...)`](#linkwithyahoo)
-* [`reload()`](#reload)
-* [`revokeAccessToken(...)`](#revokeaccesstoken)
-* [`sendEmailVerification(...)`](#sendemailverification)
-* [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
-* [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
-* [`setLanguageCode(...)`](#setlanguagecode)
-* [`setPersistence(...)`](#setpersistence)
-* [`setTenantId(...)`](#settenantid)
-* [`signInAnonymously()`](#signinanonymously)
-* [`signInWithApple(...)`](#signinwithapple)
-* [`signInWithCustomToken(...)`](#signinwithcustomtoken)
-* [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
-* [`signInWithEmailLink(...)`](#signinwithemaillink)
-* [`signInWithFacebook(...)`](#signinwithfacebook)
-* [`signInWithGameCenter(...)`](#signinwithgamecenter)
-* [`signInWithGithub(...)`](#signinwithgithub)
-* [`signInWithGoogle(...)`](#signinwithgoogle)
-* [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
-* [`signInWithOpenIdConnect(...)`](#signinwithopenidconnect)
-* [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
-* [`signInWithPlayGames(...)`](#signinwithplaygames)
-* [`signInWithTwitter(...)`](#signinwithtwitter)
-* [`signInWithYahoo(...)`](#signinwithyahoo)
-* [`signOut()`](#signout)
-* [`unlink(...)`](#unlink)
-* [`updateEmail(...)`](#updateemail)
-* [`updatePassword(...)`](#updatepassword)
-* [`updateProfile(...)`](#updateprofile)
-* [`useAppLanguage()`](#useapplanguage)
-* [`useEmulator(...)`](#useemulator)
-* [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
-* [`checkAppTrackingTransparencyPermission()`](#checkapptrackingtransparencypermission)
-* [`requestAppTrackingTransparencyPermission()`](#requestapptrackingtransparencypermission)
-* [`addListener('authStateChange', ...)`](#addlistenerauthstatechange-)
-* [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange-)
-* [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted-)
-* [`addListener('phoneVerificationFailed', ...)`](#addlistenerphoneverificationfailed-)
-* [`addListener('phoneCodeSent', ...)`](#addlistenerphonecodesent-)
-* [`removeAllListeners()`](#removealllisteners)
-* [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
-* [Enums](#enums)
+- [`applyActionCode(...)`](#applyactioncode)
+- [`confirmPasswordReset(...)`](#confirmpasswordreset)
+- [`confirmVerificationCode(...)`](#confirmverificationcode)
+- [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
+- [`deleteUser()`](#deleteuser)
+- [`fetchSignInMethodsForEmail(...)`](#fetchsigninmethodsforemail)
+- [`getCurrentUser()`](#getcurrentuser)
+- [`getPendingAuthResult()`](#getpendingauthresult)
+- [`getIdToken(...)`](#getidtoken)
+- [`getRedirectResult()`](#getredirectresult)
+- [`getTenantId()`](#gettenantid)
+- [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
+- [`linkWithApple(...)`](#linkwithapple)
+- [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
+- [`linkWithEmailLink(...)`](#linkwithemaillink)
+- [`linkWithFacebook(...)`](#linkwithfacebook)
+- [`linkWithGameCenter(...)`](#linkwithgamecenter)
+- [`linkWithGithub(...)`](#linkwithgithub)
+- [`linkWithGoogle(...)`](#linkwithgoogle)
+- [`linkWithMicrosoft(...)`](#linkwithmicrosoft)
+- [`linkWithOpenIdConnect(...)`](#linkwithopenidconnect)
+- [`linkWithPhoneNumber(...)`](#linkwithphonenumber)
+- [`linkWithPlayGames(...)`](#linkwithplaygames)
+- [`linkWithTwitter(...)`](#linkwithtwitter)
+- [`linkWithYahoo(...)`](#linkwithyahoo)
+- [`reload()`](#reload)
+- [`revokeAccessToken(...)`](#revokeaccesstoken)
+- [`sendEmailVerification(...)`](#sendemailverification)
+- [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
+- [`sendSignInLinkToEmail(...)`](#sendsigninlinktoemail)
+- [`setLanguageCode(...)`](#setlanguagecode)
+- [`setPersistence(...)`](#setpersistence)
+- [`setTenantId(...)`](#settenantid)
+- [`signInAnonymously()`](#signinanonymously)
+- [`signInWithApple(...)`](#signinwithapple)
+- [`signInWithCustomToken(...)`](#signinwithcustomtoken)
+- [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
+- [`signInWithEmailLink(...)`](#signinwithemaillink)
+- [`signInWithFacebook(...)`](#signinwithfacebook)
+- [`signInWithGameCenter(...)`](#signinwithgamecenter)
+- [`signInWithGithub(...)`](#signinwithgithub)
+- [`signInWithGoogle(...)`](#signinwithgoogle)
+- [`signInWithMicrosoft(...)`](#signinwithmicrosoft)
+- [`signInWithOpenIdConnect(...)`](#signinwithopenidconnect)
+- [`signInWithPhoneNumber(...)`](#signinwithphonenumber)
+- [`signInWithPlayGames(...)`](#signinwithplaygames)
+- [`signInWithTwitter(...)`](#signinwithtwitter)
+- [`signInWithYahoo(...)`](#signinwithyahoo)
+- [`signOut()`](#signout)
+- [`unlink(...)`](#unlink)
+- [`updateEmail(...)`](#updateemail)
+- [`updatePassword(...)`](#updatepassword)
+- [`updateProfile(...)`](#updateprofile)
+- [`useAppLanguage()`](#useapplanguage)
+- [`useEmulator(...)`](#useemulator)
+- [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
+- [`checkAppTrackingTransparencyPermission()`](#checkapptrackingtransparencypermission)
+- [`requestAppTrackingTransparencyPermission()`](#requestapptrackingtransparencypermission)
+- [`addListener('authStateChange', ...)`](#addlistenerauthstatechange-)
+- [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange-)
+- [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted-)
+- [`addListener('phoneVerificationFailed', ...)`](#addlistenerphoneverificationfailed-)
+- [`addListener('phoneCodeSent', ...)`](#addlistenerphonecodesent-)
+- [`removeAllListeners()`](#removealllisteners)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
+- [Enums](#enums)
 
 </docgen-index>
 
@@ -524,8 +523,7 @@ Applies a verification code sent to the user by email.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### confirmPasswordReset(...)
 
@@ -541,8 +539,7 @@ Completes the password reset process.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### confirmVerificationCode(...)
 
@@ -560,8 +557,7 @@ Finishes the phone number verification process.
 
 **Since:** 5.0.0
 
---------------------
-
+---
 
 ### createUserWithEmailAndPassword(...)
 
@@ -580,8 +576,7 @@ If the new account was created, the user is signed in automatically.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### deleteUser()
 
@@ -593,8 +588,7 @@ Deletes and signs out the user.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### fetchSignInMethodsForEmail(...)
 
@@ -612,8 +606,7 @@ Fetches the sign-in methods for an email address.
 
 **Since:** 6.0.0
 
---------------------
-
+---
 
 ### getCurrentUser()
 
@@ -627,8 +620,7 @@ Fetches the currently signed-in user.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### getPendingAuthResult()
 
@@ -644,8 +636,7 @@ Only available for Android.
 
 **Since:** 6.0.0
 
---------------------
-
+---
 
 ### getIdToken(...)
 
@@ -663,8 +654,7 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### getRedirectResult()
 
@@ -683,8 +673,7 @@ Only available for Web.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### getTenantId()
 
@@ -698,8 +687,7 @@ Get the tenant id.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### isSignInWithEmailLink(...)
 
@@ -717,8 +705,7 @@ Checks if an incoming link is a sign-in with email link suitable for `signInWith
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithApple(...)
 
@@ -739,8 +726,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithEmailAndPassword(...)
 
@@ -761,8 +747,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithEmailLink(...)
 
@@ -783,8 +768,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithFacebook(...)
 
@@ -805,8 +789,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithGameCenter(...)
 
@@ -829,8 +812,7 @@ Only available for iOS.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### linkWithGithub(...)
 
@@ -851,8 +833,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithGoogle(...)
 
@@ -873,8 +854,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithMicrosoft(...)
 
@@ -895,8 +875,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithOpenIdConnect(...)
 
@@ -914,8 +893,7 @@ Links the user account with an OpenID Connect provider.
 
 **Since:** 6.1.0
 
---------------------
-
+---
 
 ### linkWithPhoneNumber(...)
 
@@ -938,8 +916,7 @@ Use the `phoneCodeSent` listener to get the verification id.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithPlayGames(...)
 
@@ -962,8 +939,7 @@ Only available for Android.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithTwitter(...)
 
@@ -984,8 +960,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### linkWithYahoo(...)
 
@@ -1006,8 +981,7 @@ The `skipNativeAuth` configuration option has no effect here.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### reload()
 
@@ -1019,8 +993,7 @@ Reloads user account data, if signed in.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### revokeAccessToken(...)
 
@@ -1036,8 +1009,7 @@ Revokes the given access token. Currently only supports Apple OAuth access token
 
 **Since:** 6.1.0
 
---------------------
-
+---
 
 ### sendEmailVerification(...)
 
@@ -1053,8 +1025,7 @@ Sends a verification email to the currently signed in user.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### sendPasswordResetEmail(...)
 
@@ -1070,8 +1041,7 @@ Sends a password reset email.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### sendSignInLinkToEmail(...)
 
@@ -1089,8 +1059,7 @@ To complete sign in with the email link, call `signInWithEmailLink` with the ema
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### setLanguageCode(...)
 
@@ -1106,8 +1075,7 @@ Sets the user-facing language code for auth operations.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### setPersistence(...)
 
@@ -1125,8 +1093,7 @@ Only available for Web.
 
 **Since:** 5.2.0
 
---------------------
-
+---
 
 ### setTenantId(...)
 
@@ -1142,8 +1109,7 @@ Sets the tenant id.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### signInAnonymously()
 
@@ -1157,8 +1123,7 @@ Signs in as an anonymous user.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### signInWithApple(...)
 
@@ -1176,8 +1141,7 @@ Starts the Apple sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithCustomToken(...)
 
@@ -1198,8 +1162,7 @@ In this case you have to use the `signInWithCustomToken` interface of the Fireba
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithEmailAndPassword(...)
 
@@ -1217,8 +1180,7 @@ Starts the sign-in flow using an email and password.
 
 **Since:** 0.2.2
 
---------------------
-
+---
 
 ### signInWithEmailLink(...)
 
@@ -1236,8 +1198,7 @@ Signs in using an email and sign-in email link.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### signInWithFacebook(...)
 
@@ -1255,8 +1216,7 @@ Starts the Facebook sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithGameCenter(...)
 
@@ -1276,8 +1236,7 @@ Only available for iOS.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### signInWithGithub(...)
 
@@ -1295,8 +1254,7 @@ Starts the GitHub sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithGoogle(...)
 
@@ -1314,8 +1272,7 @@ Starts the Google sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithMicrosoft(...)
 
@@ -1333,8 +1290,7 @@ Starts the Microsoft sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithOpenIdConnect(...)
 
@@ -1352,8 +1308,7 @@ Starts the OpenID Connect sign-in flow.
 
 **Since:** 6.1.0
 
---------------------
-
+---
 
 ### signInWithPhoneNumber(...)
 
@@ -1375,8 +1330,7 @@ Only available for Android and iOS.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithPlayGames(...)
 
@@ -1396,8 +1350,7 @@ Only available for Android.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithTwitter(...)
 
@@ -1415,8 +1368,7 @@ Starts the Twitter sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signInWithYahoo(...)
 
@@ -1434,8 +1386,7 @@ Starts the Yahoo sign-in flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### signOut()
 
@@ -1447,8 +1398,7 @@ Starts the sign-out flow.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### unlink(...)
 
@@ -1466,8 +1416,7 @@ Unlinks a provider from a user account.
 
 **Since:** 1.1.0
 
---------------------
-
+---
 
 ### updateEmail(...)
 
@@ -1483,8 +1432,7 @@ Updates the email address of the currently signed in user.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### updatePassword(...)
 
@@ -1500,8 +1448,7 @@ Updates the password of the currently signed in user.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### updateProfile(...)
 
@@ -1517,8 +1464,7 @@ Updates a user's profile data.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### useAppLanguage()
 
@@ -1530,8 +1476,7 @@ Sets the user-facing language code to be the default app language.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### useEmulator(...)
 
@@ -1547,8 +1492,7 @@ Instrument your app to talk to the Authentication emulator.
 
 **Since:** 0.2.0
 
---------------------
-
+---
 
 ### verifyBeforeUpdateEmail(...)
 
@@ -1564,8 +1508,7 @@ Verifies the new email address before updating the email address of the currentl
 
 **Since:** 6.3.0
 
---------------------
-
+---
 
 ### checkAppTrackingTransparencyPermission()
 
@@ -1581,8 +1524,7 @@ Only available on iOS.
 
 **Since:** 7.2.0
 
---------------------
-
+---
 
 ### requestAppTrackingTransparencyPermission()
 
@@ -1600,8 +1542,7 @@ Only available on iOS.
 
 **Since:** 7.2.0
 
---------------------
-
+---
 
 ### addListener('authStateChange', ...)
 
@@ -1622,8 +1563,7 @@ Listen for the user's sign-in state changes.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### addListener('idTokenChange', ...)
 
@@ -1644,8 +1584,7 @@ Listen to ID token changes for the currently signed-in user.
 
 **Since:** 6.3.0
 
---------------------
-
+---
 
 ### addListener('phoneVerificationCompleted', ...)
 
@@ -1656,11 +1595,12 @@ addListener(eventName: 'phoneVerificationCompleted', listenerFunc: PhoneVerifica
 Listen for a completed phone verification.
 
 This listener only fires in two situations:
+
 1. **Instant verification**: In some cases the phone number can be instantly
-verified without needing to send or enter a verification code.
+   verified without needing to send or enter a verification code.
 2. **Auto-retrieval**: On some devices Google Play services can automatically
-detect the incoming verification SMS and perform verification without
-user action.
+   detect the incoming verification SMS and perform verification without
+   user action.
 
 Only available for Android.
 
@@ -1673,8 +1613,7 @@ Only available for Android.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### addListener('phoneVerificationFailed', ...)
 
@@ -1693,8 +1632,7 @@ Listen for a failed phone verification.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### addListener('phoneCodeSent', ...)
 
@@ -1713,8 +1651,7 @@ Listen for a phone verification code.
 
 **Since:** 1.3.0
 
---------------------
-
+---
 
 ### removeAllListeners()
 
@@ -1726,18 +1663,15 @@ Remove all listeners for this plugin.
 
 **Since:** 0.1.0
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### ApplyActionCodeOptions
 
 | Prop          | Type                | Description                           | Since |
 | ------------- | ------------------- | ------------------------------------- | ----- |
 | **`oobCode`** | <code>string</code> | A verification code sent to the user. | 0.2.2 |
-
 
 #### ConfirmPasswordResetOptions
 
@@ -1746,7 +1680,6 @@ Remove all listeners for this plugin.
 | **`oobCode`**     | <code>string</code> | A verification code sent to the user. | 0.2.2 |
 | **`newPassword`** | <code>string</code> | The new password.                     | 0.2.2 |
 
-
 #### SignInResult
 
 | Prop                     | Type                                                                      | Description                                                     | Since |
@@ -1754,7 +1687,6 @@ Remove all listeners for this plugin.
 | **`user`**               | <code><a href="#user">User</a> \| null</code>                             | The currently signed-in user, or null if there isn't any.       | 0.1.0 |
 | **`credential`**         | <code><a href="#authcredential">AuthCredential</a> \| null</code>         | Credentials returned by an auth provider.                       | 0.1.0 |
 | **`additionalUserInfo`** | <code><a href="#additionaluserinfo">AdditionalUserInfo</a> \| null</code> | Additional user information from a federated identity provider. | 0.5.1 |
-
 
 #### User
 
@@ -1772,14 +1704,12 @@ Remove all listeners for this plugin.
 | **`tenantId`**      | <code>string \| null</code>                           |                                                                      | 0.1.0 |
 | **`uid`**           | <code>string</code>                                   |                                                                      | 0.1.0 |
 
-
 #### UserMetadata
 
 | Prop                 | Type                | Description                                                   | Since |
 | -------------------- | ------------------- | ------------------------------------------------------------- | ----- |
 | **`creationTime`**   | <code>number</code> | Time the user was created in milliseconds since the epoch.    | 5.2.0 |
 | **`lastSignInTime`** | <code>number</code> | Time the user last signed in in milliseconds since the epoch. | 5.2.0 |
-
 
 #### UserInfo
 
@@ -1791,7 +1721,6 @@ Remove all listeners for this plugin.
 | **`photoUrl`**    | <code>string \| null</code> | The profile photo URL of the user.                                                        | 5.2.0 |
 | **`providerId`**  | <code>string</code>         | The provider used to authenticate the user.                                               | 5.2.0 |
 | **`uid`**         | <code>string</code>         | The user's unique ID.                                                                     | 5.2.0 |
-
 
 #### AuthCredential
 
@@ -1805,7 +1734,6 @@ Remove all listeners for this plugin.
 | **`secret`**            | <code>string</code> | The OAuth access token secret associated with the credential if it belongs to an OAuth 1.0 provider.                                     | 0.1.0 |
 | **`serverAuthCode`**    | <code>string</code> | The server auth code. Only available for Google Sign-in and Play Games Sign-In on Android and iOS.                                       | 5.2.0 |
 
-
 #### AdditionalUserInfo
 
 | Prop             | Type                                     | Description                                                 | Since |
@@ -1815,14 +1743,12 @@ Remove all listeners for this plugin.
 | **`providerId`** | <code>string</code>                      | Identifier for the provider used to authenticate this user. | 0.5.1 |
 | **`username`**   | <code>string</code>                      | The username if the provider is GitHub or Twitter.          | 0.5.1 |
 
-
 #### ConfirmVerificationCodeOptions
 
 | Prop                   | Type                | Description                                                                                                                                        | Since |
 | ---------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | **`verificationId`**   | <code>string</code> | The verification ID received from the `phoneCodeSent` listener. The `verificationCode` option must also be provided.                               | 5.0.0 |
 | **`verificationCode`** | <code>string</code> | The verification code either received from the `phoneCodeSent` listener or entered by the user. The `verificationId` option must also be provided. | 5.0.0 |
-
 
 #### CreateUserWithEmailAndPasswordOptions
 
@@ -1831,13 +1757,11 @@ Remove all listeners for this plugin.
 | **`email`**    | <code>string</code> | 0.2.2 |
 | **`password`** | <code>string</code> | 0.2.2 |
 
-
 #### FetchSignInMethodsForEmailResult
 
 | Prop                | Type                  | Description                                                                                                                                                                                                                                                                                     | Since |
 | ------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | **`signInMethods`** | <code>string[]</code> | The sign-in methods for the specified email address. This list is empty when [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, irrespective of the number of authentication methods available for the given email. | 6.0.0 |
-
 
 #### FetchSignInMethodsForEmailOptions
 
@@ -1845,13 +1769,11 @@ Remove all listeners for this plugin.
 | ----------- | ------------------- | ------------------------- | ----- |
 | **`email`** | <code>string</code> | The user's email address. | 6.0.0 |
 
-
 #### GetCurrentUserResult
 
 | Prop       | Type                                          | Description                                               | Since |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
-
 
 #### GetIdTokenResult
 
@@ -1859,13 +1781,11 @@ Remove all listeners for this plugin.
 | ----------- | ------------------- | -------------------------------------- | ----- |
 | **`token`** | <code>string</code> | The Firebase Auth ID token JWT string. | 0.1.0 |
 
-
 #### GetIdTokenOptions
 
 | Prop               | Type                 | Description                                   | Since |
 | ------------------ | -------------------- | --------------------------------------------- | ----- |
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
-
 
 #### GetTenantIdResult
 
@@ -1873,20 +1793,17 @@ Remove all listeners for this plugin.
 | -------------- | --------------------------- | ----------------------------------------------- | ----- |
 | **`tenantId`** | <code>string \| null</code> | The tenant id. `null` if it has never been set. | 1.1.0 |
 
-
 #### IsSignInWithEmailLinkResult
 
 | Prop                        | Type                 | Description                                                                                   |
 | --------------------------- | -------------------- | --------------------------------------------------------------------------------------------- |
 | **`isSignInWithEmailLink`** | <code>boolean</code> | Whether an incoming link is a signup with email link suitable for `signInWithEmailLink(...)`. |
 
-
 #### IsSignInWithEmailLinkOptions
 
 | Prop            | Type                | Description                                | Since |
 | --------------- | ------------------- | ------------------------------------------ | ----- |
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
-
 
 #### SignInWithOAuthOptions
 
@@ -1896,14 +1813,12 @@ Remove all listeners for this plugin.
 | **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                   | <code>'popup'</code> | 1.3.0 |
 | **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                            |                      | 1.1.0 |
 
-
 #### SignInCustomParameter
 
 | Prop        | Type                | Description                                                        | Since |
 | ----------- | ------------------- | ------------------------------------------------------------------ | ----- |
 | **`key`**   | <code>string</code> | The custom parameter key (e.g. `login_hint`).                      | 0.1.0 |
 | **`value`** | <code>string</code> | The custom parameter value (e.g. `user@firstadd.onmicrosoft.com`). | 0.1.0 |
-
 
 #### LinkWithEmailAndPasswordOptions
 
@@ -1912,7 +1827,6 @@ Remove all listeners for this plugin.
 | **`email`**    | <code>string</code> | The user's email address. | 1.1.0 |
 | **`password`** | <code>string</code> | The user's password.      | 1.1.0 |
 
-
 #### LinkWithEmailLinkOptions
 
 | Prop            | Type                | Description                                | Since |
@@ -1920,13 +1834,11 @@ Remove all listeners for this plugin.
 | **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
-
 #### SignInWithOpenIdConnectOptions
 
 | Prop             | Type                | Description                     | Since |
 | ---------------- | ------------------- | ------------------------------- | ----- |
 | **`providerId`** | <code>string</code> | The OpenID Connect provider ID. | 6.1.0 |
-
 
 #### SignInWithPhoneNumberOptions
 
@@ -1937,13 +1849,11 @@ Remove all listeners for this plugin.
 | **`resendCode`**        | <code>boolean</code> | Resend the verification code to the specified phone number. `signInWithPhoneNumber` must be called once before using this option. Only available for Android. | <code>false</code> | 1.3.0 |
 | **`timeout`**           | <code>number</code>  | The maximum amount of time in seconds to wait for the SMS auto-retrieval. Use 0 to disable SMS-auto-retrieval. Only available for Android.                    | <code>60</code>    | 5.4.0 |
 
-
 #### RevokeAccessTokenOptions
 
 | Prop        | Type                | Description                 | Since |
 | ----------- | ------------------- | --------------------------- | ----- |
 | **`token`** | <code>string</code> | The access token to revoke. | 6.1.0 |
-
 
 #### SendEmailVerificationOptions
 
@@ -1951,20 +1861,17 @@ Remove all listeners for this plugin.
 | ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
 | **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 6.1.0 |
 
-
 #### ActionCodeSettings
 
 An interface that defines the required continue/state URL with optional Android and iOS
 bundle identifiers.
 
-| Prop                    | Type                                                                                 | Description                                                                                                                                                                                |
-| ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`android`**           | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                                                                             |
-| **`handleCodeInApp`**   | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed.                                                 |
-| **`iOS`**               | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                                                                    |
-| **`url`**               | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                                                                          |
-| **`dynamicLinkDomain`** | <code>string</code>                                                                  | When multiple custom dynamic link domains are defined for a project, specify which one to use when the link is to be opened via a specified mobile app (for example, `example.page.link`). |
-
+| Prop                  | Type                                                                                 | Description                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`android`**         | <code>{ installApp?: boolean; minimumVersion?: string; packageName: string; }</code> | Sets the Android package name.                                                                                                             |
+| **`handleCodeInApp`** | <code>boolean</code>                                                                 | When set to true, the action code link will be be sent as a Universal Link or Android App Link and will be opened by the app if installed. |
+| **`iOS`**             | <code>{ bundleId: string; }</code>                                                   | Sets the iOS bundle ID.                                                                                                                    |
+| **`url`**             | <code>string</code>                                                                  | Sets the link continue/state URL.                                                                                                          |
 
 #### SendPasswordResetEmailOptions
 
@@ -1973,7 +1880,6 @@ bundle identifiers.
 | **`email`**              | <code>string</code>                                               |                                                                                                           | 0.2.2 |
 | **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 6.1.0 |
 
-
 #### SendSignInLinkToEmailOptions
 
 | Prop                     | Type                                                              | Description                                                                                               | Since |
@@ -1981,13 +1887,11 @@ bundle identifiers.
 | **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 1.1.0 |
 | **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
 
-
 #### SetLanguageCodeOptions
 
 | Prop               | Type                | Description           | Since |
 | ------------------ | ------------------- | --------------------- | ----- |
 | **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
-
 
 #### SetPersistenceOptions
 
@@ -1995,15 +1899,13 @@ bundle identifiers.
 | ----------------- | --------------------------------------------------- | ---------------------- | ----- |
 | **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
 
-
 #### Persistence
 
 An interface covering the possible persistence mechanism types.
 
-| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
-| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
-
+| Prop       | Type                                          | Description                                                                                                                                                                                                                                                   |
+| ---------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE' \</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
 
 #### SetTenantIdOptions
 
@@ -2011,13 +1913,11 @@ An interface covering the possible persistence mechanism types.
 | -------------- | ------------------- | -------------- | ----- |
 | **`tenantId`** | <code>string</code> | The tenant id. | 1.1.0 |
 
-
 #### SignInWithCustomTokenOptions
 
 | Prop        | Type                | Description                       | Since |
 | ----------- | ------------------- | --------------------------------- | ----- |
 | **`token`** | <code>string</code> | The custom token to sign in with. | 0.1.0 |
-
 
 #### SignInWithEmailAndPasswordOptions
 
@@ -2026,7 +1926,6 @@ An interface covering the possible persistence mechanism types.
 | **`email`**    | <code>string</code> | The user's email address. | 0.2.2 |
 | **`password`** | <code>string</code> | The user's password.      | 0.2.2 |
 
-
 #### SignInWithEmailLinkOptions
 
 | Prop            | Type                | Description                                | Since |
@@ -2034,13 +1933,11 @@ An interface covering the possible persistence mechanism types.
 | **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
-
 #### SignInWithFacebookOptions
 
 | Prop                  | Type                 | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
 | --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`useLimitedLogin`** | <code>boolean</code> | Whether to use the Facebook Limited Login mode. If set to `true`, no access token will be returned but the user does not have to grant App Tracking Transparency permission. If set to `false`, the user has to grant App Tracking Transparency permission. You can request the permission with `requestAppTrackingTransparencyPermission()`. Only available for iOS. | <code>false</code> | 7.2.0 |
-
 
 #### SignInOptions
 
@@ -2048,13 +1945,11 @@ An interface covering the possible persistence mechanism types.
 | -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
 | **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
 
-
 #### SignInWithGoogleOptions
 
 | Prop                       | Type                 | Description                                                                       | Default           | Since |
 | -------------------------- | -------------------- | --------------------------------------------------------------------------------- | ----------------- | ----- |
 | **`useCredentialManager`** | <code>boolean</code> | Whether to use the Credential Manager API to sign in. Only available for Android. | <code>true</code> | 7.2.0 |
-
 
 #### UnlinkResult
 
@@ -2062,13 +1957,11 @@ An interface covering the possible persistence mechanism types.
 | ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 1.1.0 |
 
-
 #### UnlinkOptions
 
 | Prop             | Type                                              | Description             | Since |
 | ---------------- | ------------------------------------------------- | ----------------------- | ----- |
 | **`providerId`** | <code><a href="#providerid">ProviderId</a></code> | The provider to unlink. | 1.1.0 |
-
 
 #### UpdateEmailOptions
 
@@ -2076,13 +1969,11 @@ An interface covering the possible persistence mechanism types.
 | -------------- | ------------------- | ---------------------- | ----- |
 | **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
 
-
 #### UpdatePasswordOptions
 
 | Prop              | Type                | Description       | Since |
 | ----------------- | ------------------- | ----------------- | ----- |
 | **`newPassword`** | <code>string</code> | The new password. | 0.2.2 |
-
 
 #### UpdateProfileOptions
 
@@ -2090,7 +1981,6 @@ An interface covering the possible persistence mechanism types.
 | ----------------- | --------------------------- | ------------------------ | ----- |
 | **`displayName`** | <code>string \| null</code> | The user's display name. | 1.3.0 |
 | **`photoUrl`**    | <code>string \| null</code> | The user's photo URL.    | 1.3.0 |
-
 
 #### UseEmulatorOptions
 
@@ -2100,7 +1990,6 @@ An interface covering the possible persistence mechanism types.
 | **`port`**   | <code>number</code> | The emulator port.                            | <code>9099</code>   | 0.2.0 |
 | **`scheme`** | <code>string</code> | The emulator scheme. Only available for Web.  | <code>"http"</code> | 5.2.0 |
 
-
 #### VerifyBeforeUpdateEmailOptions
 
 | Prop                     | Type                                                              | Description                                         | Since |
@@ -2108,13 +1997,11 @@ An interface covering the possible persistence mechanism types.
 | **`newEmail`**           | <code>string</code>                                               | The new email address to be verified before update. | 6.3.0 |
 | **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | The action code settings                            | 6.3.0 |
 
-
 #### CheckAppTrackingTransparencyPermissionResult
 
 | Prop         | Type                                                                                                      | Description                                         | Since |
 | ------------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----- |
 | **`status`** | <code><a href="#apptrackingtransparencypermissionstate">AppTrackingTransparencyPermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
-
 
 #### PluginListenerHandle
 
@@ -2122,13 +2009,11 @@ An interface covering the possible persistence mechanism types.
 | ------------ | ----------------------------------------- |
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
-
 #### AuthStateChange
 
 | Prop       | Type                                          | Description                                               | Since |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
-
 
 #### PhoneVerificationCompletedEvent
 
@@ -2136,13 +2021,11 @@ An interface covering the possible persistence mechanism types.
 | ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------- | ----- |
 | **`verificationCode`** | <code>string</code> | The verification code sent to the user's phone number. If instant verification is used, this property is not set. | 5.0.0 |
 
-
 #### PhoneVerificationFailedEvent
 
 | Prop          | Type                | Description        | Since |
 | ------------- | ------------------- | ------------------ | ----- |
 | **`message`** | <code>string</code> | The error message. | 1.3.0 |
-
 
 #### PhoneCodeSentEvent
 
@@ -2150,44 +2033,35 @@ An interface covering the possible persistence mechanism types.
 | -------------------- | ------------------- | ----------------------------------------------------------------------- | ----- |
 | **`verificationId`** | <code>string</code> | The verification ID, which is needed to identify the verification code. | 1.3.0 |
 
-
 ### Type Aliases
-
 
 #### LinkWithOAuthOptions
 
 <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code>
 
-
 #### LinkResult
 
 <code><a href="#signinresult">SignInResult</a></code>
-
 
 #### LinkWithOpenIdConnectOptions
 
 <code><a href="#signinwithopenidconnectoptions">SignInWithOpenIdConnectOptions</a></code>
 
-
 #### LinkWithPhoneNumberOptions
 
 <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
-
 
 #### AppTrackingTransparencyPermissionState
 
 <code><a href="#permissionstate">PermissionState</a> | 'restricted'</code>
 
-
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
-
 #### RequestAppTrackingTransparencyPermissionResult
 
 <code><a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a></code>
-
 
 #### AuthStateChangeListener
 
@@ -2195,13 +2069,11 @@ Callback to receive the user's sign-in state change notifications.
 
 <code>(change: <a href="#authstatechange">AuthStateChange</a>): void</code>
 
-
 #### IdTokenChangeListener
 
 Callback to receive the ID token change notifications.
 
 <code>(change: <a href="#getidtokenresult">GetIdTokenResult</a>): void</code>
-
 
 #### PhoneVerificationCompletedListener
 
@@ -2209,13 +2081,11 @@ Callback to receive the verification code sent to the user's phone number.
 
 <code>(event: <a href="#phoneverificationcompletedevent">PhoneVerificationCompletedEvent</a>): void</code>
 
-
 #### PhoneVerificationFailedListener
 
 Callback to receive notifications of failed phone verification.
 
 <code>(event: <a href="#phoneverificationfailedevent">PhoneVerificationFailedEvent</a>): void</code>
-
 
 #### PhoneCodeSentListener
 
@@ -2223,9 +2093,7 @@ Callback to receive the verification ID.
 
 <code>(event: <a href="#phonecodesentevent">PhoneCodeSentEvent</a>): void</code>
 
-
 ### Enums
-
 
 #### Persistence
 
@@ -2235,7 +2103,6 @@ Callback to receive the verification ID.
 | **`InMemory`**       | <code>'IN_MEMORY'</code>        | No persistence.                              | 5.2.0 |
 | **`BrowserLocal`**   | <code>'BROWSER_LOCAL'</code>    | Long term persistence using local storage.   | 5.2.0 |
 | **`BrowserSession`** | <code>'BROWSER_SESSION'</code>  | Temporary persistence using session storage. | 5.2.0 |
-
 
 #### ProviderId
 

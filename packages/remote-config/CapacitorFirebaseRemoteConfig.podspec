@@ -11,9 +11,9 @@ Pod::Spec.new do |s|
   s.author = package['author']
   s.source = { :git => package['repository']['url'], :tag => s.version.to_s }
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
-  s.ios.deployment_target  = '14.0'
+  s.ios.deployment_target  = '15.0'
   s.dependency 'Capacitor'
-  s.dependency 'FirebaseRemoteConfig', '~> 11.7.0'
+  s.dependency 'FirebaseRemoteConfig', '~> 12.0.0'
   s.swift_version = '5.1'
   s.static_framework = true
 end
