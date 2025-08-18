@@ -17,7 +17,7 @@
     "ios:pod:install": "turbo run ios:pod:install --concurrency=1 --no-cache",
     "ios:spm:install": "turbo run ios:spm:install --concurrency=1 --no-cache",
     "affected:verify": "npm run affected:verify:android && npm run affected:verify:ios && npm run affected:verify:web",
-    "affected:verify:android": "turbo run verify:android --affected --no-cache --env-mode=loose",
+    "affected:verify:android": "turbo run verify:android --affected --concurrency=1 --no-cache --env-mode=loose",
     "affected:verify:ios": "turbo run verify:ios --affected --concurrency=1 --no-cache --env-mode=loose",
     "affected:verify:web": "turbo run verify:web --affected --no-cache --env-mode=loose",
     "affected:lint": "turbo run lint --affected",
