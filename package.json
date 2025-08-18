@@ -7,9 +7,9 @@
   ],
   "scripts": {
     "verify": "npm run verify:android && npm run verify:ios && npm run verify:web",
-    "verify:android": "turbo run verify:android --concurrency=1 --no-cache",
-    "verify:ios": "turbo run verify:ios --concurrency=1 --no-cache",
-    "verify:web": "turbo run verify:web --no-cache",
+    "verify:android": "turbo run verify:android --concurrency=1 --no-cache --env-mode=loose",
+    "verify:ios": "turbo run verify:ios --concurrency=1 --no-cache --env-mode=loose",
+    "verify:web": "turbo run verify:web --no-cache --env-mode=loose",
     "lint": "turbo run lint",
     "fmt": "turbo run fmt",
     "docgen": "turbo run docgen",
@@ -17,15 +17,15 @@
     "ios:pod:install": "turbo run ios:pod:install --concurrency=1 --no-cache",
     "ios:spm:install": "turbo run ios:spm:install --concurrency=1 --no-cache",
     "affected:verify": "npm run affected:verify:android && npm run affected:verify:ios && npm run affected:verify:web",
-    "affected:verify:android": "turbo run verify:android --since=origin/main --concurrency=1 --no-cache",
-    "affected:verify:ios": "turbo run verify:ios --since=origin/main --concurrency=1 --no-cache",
-    "affected:verify:web": "turbo run verify:web --since=origin/main --no-cache",
-    "affected:lint": "turbo run lint --since=origin/main",
-    "affected:fmt": "turbo run fmt --since=origin/main",
-    "affected:docgen": "turbo run docgen --since=origin/main",
-    "affected:build": "turbo run build --since=origin/main",
-    "affected:ios:pod:install": "turbo run ios:pod:install --since=origin/main --concurrency=1 --no-cache",
-    "affected:ios:spm:install": "turbo run ios:spm:install --since=origin/main --concurrency=1 --no-cache",
+    "affected:verify:android": "turbo run verify:android --affected --concurrency=1 --no-cache --env-mode=loose",
+    "affected:verify:ios": "turbo run verify:ios --affected --concurrency=1 --no-cache --env-mode=loose",
+    "affected:verify:web": "turbo run verify:web --affected --no-cache --env-mode=loose",
+    "affected:lint": "turbo run lint --affected",
+    "affected:fmt": "turbo run fmt --affected",
+    "affected:docgen": "turbo run docgen --affected",
+    "affected:build": "turbo run build --affected",
+    "affected:ios:pod:install": "turbo run ios:pod:install --affected --concurrency=1 --no-cache",
+    "affected:ios:spm:install": "turbo run ios:spm:install --affected --concurrency=1 --no-cache",
     "changeset": "changeset",
     "release": "npm run build && changeset publish",
     "release:preview": "pkg-pr-new publish './packages/*'"
@@ -35,6 +35,6 @@
     "@robingenz/changelog-github": "0.0.1",
     "pkg-pr-new": "0.0.20",
     "prettier-plugin-java": "2.6.7",
-    "turbo": "1.1.6"
+    "turbo": "2.5.6"
   }
 }
