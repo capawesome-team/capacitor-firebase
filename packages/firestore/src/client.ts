@@ -207,7 +207,7 @@ async function parseResultDocumentData(data: any): Promise<any> {
   if (typeof data === 'object') {
     await Promise.all(
       Object.keys(data).map(async key => {
-      data[key] = await parseResultDocumentData(data[key]);
+        data[key] = await parseResultDocumentData(data[key]);
       }),
     );
   }
