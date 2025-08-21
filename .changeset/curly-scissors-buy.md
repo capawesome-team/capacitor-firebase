@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/authentication': major
+'@capacitor-firebase/authentication': patch
 ---
 
-fix(android): timeout option was ignored in signInWithPhoneNumber method.
+fix(android): timeout option was ignored in signInWithPhoneNumber method
