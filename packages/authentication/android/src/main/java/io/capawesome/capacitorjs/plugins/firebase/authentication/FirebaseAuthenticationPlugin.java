@@ -745,7 +745,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            Long timeout = call.getLong("timeout", 60L);
+            Long timeout = call.getInt("timeout", 60).longValue();
             SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode, timeout);
 
             implementation.signInWithPhoneNumber(options);
