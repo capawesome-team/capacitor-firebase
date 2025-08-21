@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.1
+
+### Patch Changes
+
+- [`6b072ee0eccd653311e10c5f6001f506a53df755`](https://github.com/capawesome-team/capacitor-firebase/commit/6b072ee0eccd653311e10c5f6001f506a53df755) ([#907](https://github.com/capawesome-team/capacitor-firebase/pull/907)): fix(android): timeout option was ignored in signInWithPhoneNumber method
+
 ## 7.3.0
 
 ### Minor Changes
