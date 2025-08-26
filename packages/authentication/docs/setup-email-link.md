@@ -21,6 +21,24 @@
 		```
 
 		`[DOMAIN_NAME]` must be replaced with your domain name of the link.
+	
+	2. If the above doesnt work try the following:
+		```xml
+		<intent-filter android:autoVerify="true">
+			<action android:name="android.intent.action.VIEW" />
+
+			<category android:name="android.intent.category.DEFAULT" />
+			<category android:name="android.intent.category.BROWSABLE" />
+
+			<data
+				android:host="[PAGE_ROUTE]"
+				android:scheme="[APP_NAME]" />
+		</intent-filter>
+		```
+
+		`[PAGE_ROUTE]` must be replaced with your page route the link will go to e.g. for route */home* use *home*
+
+		`[APP_NAME]` must be replaced with your application name.
 
 ## iOS
 
