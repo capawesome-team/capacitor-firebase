@@ -1,5 +1,11 @@
 # @capacitor-firebase/storage
 
+## 7.3.1
+
+### Patch Changes
+
+- [`82ca9d7dc4767eab95378b766dba628302879048`](https://github.com/capawesome-team/capacitor-firebase/commit/82ca9d7dc4767eab95378b766dba628302879048) ([#910](https://github.com/capawesome-team/capacitor-firebase/pull/910)): fix: update CocoaPods dependency constraints to allow minor updates
+
 ## 7.3.0
 
 ## 7.2.0
