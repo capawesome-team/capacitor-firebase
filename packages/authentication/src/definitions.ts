@@ -1,6 +1,6 @@
 /// <reference types="@capacitor/cli" />
 
-import type { PluginListenerHandle } from '@capacitor/core';
+import type { PermissionState, PluginListenerHandle } from '@capacitor/core';
 
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
@@ -10,6 +10,14 @@ declare module '@capacitor/cli' {
      * @since 0.1.0
      */
     FirebaseAuthentication?: {
+      /**
+       * Configure the custom auth domain you want to use.
+       *
+       * Only available for Android and iOS.
+       *
+       * @since 7.3.0
+       */
+      authDomain?: string;
       /**
        * Configure whether the plugin should skip the native authentication.
        * Only needed if you want to use the Firebase JavaScript SDK.
@@ -361,7 +369,9 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithFacebook(options?: SignInWithOAuthOptions): Promise<SignInResult>;
+  signInWithFacebook(
+    options?: SignInWithFacebookOptions,
+  ): Promise<SignInResult>;
   /**
    * Starts the Game Center sign-in flow.
    *
@@ -383,7 +393,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithGoogle(options?: SignInWithOAuthOptions): Promise<SignInResult>;
+  signInWithGoogle(options?: SignInWithGoogleOptions): Promise<SignInResult>;
   /**
    * Starts the Microsoft sign-in flow.
    *
@@ -480,6 +490,24 @@ export interface FirebaseAuthenticationPlugin {
   verifyBeforeUpdateEmail(
     options: VerifyBeforeUpdateEmailOptions,
   ): Promise<void>;
+  /**
+   * Checks the current status of app tracking transparency.
+   *
+   * Only available on iOS.
+   *
+   * @since 7.2.0
+   */
+  checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult>;
+  /**
+   * Opens the system dialog to authorize app tracking transparency.
+   *
+   * **Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).
+   *
+   * Only available on iOS.
+   *
+   * @since 7.2.0
+   */
+  requestAppTrackingTransparencyPermission(): Promise<RequestAppTrackingTransparencyPermissionResult>;
   /**
    * Listen for the user's sign-in state changes.
    *
@@ -877,7 +905,7 @@ export interface VerifyBeforeUpdateEmailOptions {
    *
    * @since 6.3.0
    */
-  actionCodeSettings: ActionCodeSettings;
+  actionCodeSettings?: ActionCodeSettings;
 }
 
 /**
@@ -1006,7 +1034,7 @@ export interface SignInWithOAuthOptions extends SignInOptions {
    *
    * Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web.
    * Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android.
-   * Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS.
+   * Supports GitHub, Microsoft, Twitter and Yahoo on iOS.
    *
    * @since 1.1.0
    */
@@ -1063,6 +1091,63 @@ export interface SignInWithOpenIdConnectOptions extends SignInWithOAuthOptions {
    */
   providerId: string;
 }
+
+/**
+ * @since 7.2.0
+ */
+export interface SignInWithFacebookOptions extends SignInWithOAuthOptions {
+  /**
+   * Whether to use the Facebook Limited Login mode.
+   *
+   * If set to `true`, no access token will be returned but the user does not have to
+   * grant App Tracking Transparency permission.
+   * If set to `false`, the user has to grant App Tracking Transparency permission.
+   * You can request the permission with `requestAppTrackingTransparencyPermission()`.
+   *
+   * Only available for iOS.
+   *
+   * @default false
+   * @since 7.2.0
+   */
+  useLimitedLogin?: boolean;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface SignInWithGoogleOptions extends SignInWithOAuthOptions {
+  /**
+   * Whether to use the Credential Manager API to sign in.
+   *
+   * Only available for Android.
+   *
+   * @since 7.2.0
+   * @default true
+   */
+  useCredentialManager?: boolean;
+}
+
+/**
+ * @since 7.2.0
+ */
+export interface CheckAppTrackingTransparencyPermissionResult {
+  /**
+   * The permission status of App Tracking Transparency.
+   *
+   * @since 7.2.0
+   */
+  status: AppTrackingTransparencyPermissionState;
+}
+
+export type AppTrackingTransparencyPermissionState =
+  | PermissionState
+  | 'restricted';
+
+/**
+ * @since 7.2.0
+ */
+export type RequestAppTrackingTransparencyPermissionResult =
+  CheckAppTrackingTransparencyPermissionResult;
 
 /**
  * @since 0.1.0

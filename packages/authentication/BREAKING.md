@@ -4,10 +4,31 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
+
+## Version 7.x.x
+
+### Dependencies
+
+- The Firebase Javascript SDK has been updated to `11.2.0`.
+
+### Variables
+
+- On Android, the `facebookLoginVersion` variable has been updated to `18.0.0`.
+- On Android, the `firebaseAuthVersion` variable has been updated to `23.1.0`.
+- On Android, the `playServicesAuthVersion` variable has been updated to `20.7.0`.
+
+### Google Sign-In
+
+On **Android**, the `accessToken` and `serverAuthCode` are now only requested when the `scopes` option is set.
+
+### Error codes
+
+Error codes are now prefixed with `auth/` to be consistent with the Firebase Web SDK.
 
 ## Version 6.x.x
 

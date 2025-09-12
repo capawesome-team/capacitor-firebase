@@ -25,8 +25,6 @@ export interface FirebaseAppCheckPlugin {
   /**
    * Called when the App Check token changed.
    *
-   * Only available for Web.
-   *
    * @since 1.3.0
    */
   addListener(
@@ -87,12 +85,30 @@ export interface InitializeOptions {
    * ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices.
    * Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.
    *
+   * ⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version.
+   *
    * Read more: https://firebase.google.com/docs/app-check/web/debug-provider
    *
    * @since 1.3.0
+   * @deprecated Use `debugToken` instead. This option will be removed in the next major version.
    * @default false
    */
   debug?: boolean;
+  /**
+   * If `true`, the debug provider is used.
+   *
+   * On **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this.
+   *
+   * ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices.
+   * Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.
+   *
+   * @since 7.1.0
+   * @default false
+   * @see https://firebase.google.com/docs/app-check/android/debug-provider#ci
+   * @see https://firebase.google.com/docs/app-check/ios/debug-provider#ci
+   * @see https://firebase.google.com/docs/app-check/web/debug-provider
+   */
+  debugToken?: boolean | string;
   /**
    * If `true`, the SDK automatically refreshes App Check tokens as needed.
    *
@@ -101,10 +117,22 @@ export interface InitializeOptions {
    */
   isTokenAutoRefreshEnabled?: boolean;
   /**
-   * The reCAPTCHA v3 site key (public key).
+   * The provider to use for App Check. Must be an instance of
+   * `ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`.
    *
    * Only available for Web.
    *
+   * @since 7.1.0
+   * @default ReCaptchaV3Provider
+   * @see https://firebase.google.com/docs/app-check/web/custom-provider
+   */
+  provider?: any;
+  /**
+   * The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set.
+   *
+   * Only available for Web.
+   *
+   * @deprecated Use `provider` instead.
    * @since 1.3.0
    */
   siteKey?: string;

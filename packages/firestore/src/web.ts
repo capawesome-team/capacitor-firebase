@@ -21,6 +21,7 @@ import {
   enableNetwork,
   endAt,
   endBefore,
+  getCountFromServer,
   getDoc,
   getDocs,
   getFirestore,
@@ -55,6 +56,8 @@ import type {
   GetCollectionGroupResult,
   GetCollectionOptions,
   GetCollectionResult,
+  GetCountFromServerOptions,
+  GetCountFromServerResult,
   GetDocumentOptions,
   GetDocumentResult,
   QueryCompositeFilterConstraint,
@@ -141,11 +144,11 @@ export class FirebaseFirestoreWeb
     const { operations } = options;
     const batch = writeBatch(firestore);
     for (const operation of operations) {
-      const { type, reference, data } = operation;
+      const { type, reference, data, options } = operation;
       const documentReference = doc(firestore, reference);
       switch (type) {
         case 'set':
-          batch.set(documentReference, data);
+          batch.set(documentReference, data, options ?? {});
           break;
         case 'update':
           batch.update(documentReference, data ?? {});
@@ -198,6 +201,16 @@ export class FirebaseFirestoreWeb
         },
       })),
     };
+  }
+
+  public async getCountFromServer(
+    options: GetCountFromServerOptions,
+  ): Promise<GetCountFromServerResult> {
+    const firestore = getFirestore();
+    const { reference } = options;
+    const coll = collection(firestore, reference);
+    const snapshot = await getCountFromServer(coll);
+    return { count: snapshot.data().count };
   }
 
   public async clearPersistence(): Promise<void> {
@@ -489,9 +502,8 @@ export class FirebaseFirestoreWeb
   ): Promise<FirebaseQueryConstraint[]> {
     const firebaseQueryConstraints: FirebaseQueryConstraint[] = [];
     for (const queryConstraint of queryConstraints) {
-      const firebaseQueryConstraint = await this.buildFirebaseQueryConstraint(
-        queryConstraint,
-      );
+      const firebaseQueryConstraint =
+        await this.buildFirebaseQueryConstraint(queryConstraint);
       firebaseQueryConstraints.push(firebaseQueryConstraint);
     }
     return firebaseQueryConstraints;

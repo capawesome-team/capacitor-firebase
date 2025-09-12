@@ -6,7 +6,7 @@
 </div>
 <br />
 <p align="center">
-  <a href="https://github.com/capawesome-team/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2024?style=flat-square" /></a>
+  <a href="https://github.com/capawesome-team/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2025?style=flat-square" /></a>
   <a href="https://github.com/capawesome-team/capacitor-firebase/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/capawesome-team/capacitor-firebase/ci.yml?branch=main&style=flat-square" /></a>
   <a href="https://github.com/capawesome-team/capacitor-firebase"><img src="https://img.shields.io/github/license/capawesome-team/capacitor-firebase?style=flat-square" /></a>
   <a href="https://github.com/capawesome-team"><img src="https://img.shields.io/badge/part%20of-capawesome-%234f46e5?style=flat-square" /></a>
@@ -19,8 +19,8 @@
 Capacitor Firebase is a collection of Capacitor plugins that make it easier for you to use [Firebase](https://firebase.google.com/) in your Capacitor project.[^1]
 
 - 🔋 Supports **Android, iOS and the Web**
-- ⚡️ **Capacitor 6** support
-- 🔥 **Firebase Web SDK version 10** (modular) support
+- ⚡️ **Capacitor 7** support
+- 🔥 **Firebase Web SDK** (modular) support
 - 🦋 Consistent versioning (no more SDK versions conflicts)
 - 👁 Unified Typescript definitions
 - 📄 Full documentation
@@ -31,18 +31,6 @@ Capacitor Firebase is a collection of Capacitor plugins that make it easier for 
 | Maintainer | GitHub                                    | Social                                        |
 | ---------- | ----------------------------------------- | --------------------------------------------- |
 | Robin Genz | [robingenz](https://github.com/robingenz) | [@robin_genz](https://twitter.com/robin_genz) |
-
-## Sponsors
-
-This is an Apache-2.0-licensed open source project.
-It can grow thanks to the support by these awesome people.
-If you'd like to join them, please read more [here](https://github.com/sponsors/capawesome-team).
-
-<p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/capawesome-team/static/images/sponsors/sponsors.svg">
-    <img src="https://cdn.jsdelivr.net/gh/capawesome-team/static/images/sponsors/sponsors.svg" />
-  </a>
-</p>
 
 ## Installation
 

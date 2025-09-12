@@ -8,7 +8,25 @@ import FirebaseCore
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseAnalyticsPlugin)
-public class FirebaseAnalyticsPlugin: CAPPlugin {
+public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseAnalyticsPlugin"
+    public let jsName = "FirebaseAnalytics"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "getAppInstanceId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setConsent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setUserId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setUserProperty", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setCurrentScreen", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "logEvent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setSessionTimeoutDuration", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "resetAnalyticsData", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithEmailAddress", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithPhoneNumber", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithHashedEmailAddress", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithHashedPhoneNumber", returnType: CAPPluginReturnPromise)
+    ]
     public let errorUserIdMissing = "userId must be provided."
     public let errorKeyMissing = "key must be provided."
     public let errorValueMissing = "value must be provided."
@@ -16,6 +34,12 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
     public let errorEnabledMissing = "enabled must be provided."
     public let errorConsentTypeMissing = "consentType must be provided."
     public let errorConsentStatusMissing = "consentStatus must be provided."
+    public let errorEmailAddressMissing = "emailAddress must be provided."
+    public let errorInvalidEmailFormat = "Invalid email format. Please provide a valid email address."
+    public let errorPhoneNumberMissing = "phoneNumber must be provided."
+    public let errorEmailAddressToHashMissing = "emailAddressToHash must be provided."
+    public let errorPhoneNumberToHashMissing = "phoneNumberToHash must be provided."
+    public let errorInvalidPhoneNumberFormat = "Invalid phone number format. Please provide a valid E.164 formatted phone number."
     private var implementation: FirebaseAnalytics?
 
     override public func load() {
@@ -98,6 +122,61 @@ public class FirebaseAnalyticsPlugin: CAPPlugin {
 
     @objc func resetAnalyticsData(_ call: CAPPluginCall) {
         implementation?.resetAnalyticsData()
+        call.resolve()
+    }
+
+    @objc func initiateOnDeviceConversionMeasurementWithEmailAddress(_ call: CAPPluginCall) {
+        guard let emailAddress = call.getString("emailAddress") else {
+            call.reject(errorEmailAddressMissing)
+            return
+        }
+        if !FirebaseAnalyticsHelper.isValidEmail(emailAddress) {
+            call.reject(errorInvalidEmailFormat)
+            return
+        }
+        implementation?.initiateOnDeviceConversionMeasurement(email: emailAddress)
+        call.resolve()
+    }
+
+    @objc func initiateOnDeviceConversionMeasurementWithPhoneNumber(_ call: CAPPluginCall) {
+        guard let phoneNumber = call.getString("phoneNumber") else {
+            call.reject(errorPhoneNumberMissing)
+            return
+        }
+        if !FirebaseAnalyticsHelper.isValidE164PhoneNumber(phoneNumber) {
+            call.reject(errorInvalidPhoneNumberFormat)
+            return
+        }
+        implementation?.initiateOnDeviceConversionMeasurement(phone: phoneNumber)
+        call.resolve()
+    }
+
+    @objc func initiateOnDeviceConversionMeasurementWithHashedEmailAddress(_ call: CAPPluginCall) {
+        guard let email = call.getString("emailAddressToHash") else {
+            call.reject(errorEmailAddressToHashMissing)
+            return
+        }
+        if !FirebaseAnalyticsHelper.isValidEmail(email) {
+            call.reject(errorInvalidEmailFormat)
+            return
+        }
+        let normalizedEmail = FirebaseAnalyticsHelper.normalizeEmail(email)
+        let hashedEmail = FirebaseAnalyticsHelper.sha256(normalizedEmail)
+        implementation?.initiateOnDeviceConversionMeasurement(hashedEmail: hashedEmail)
+        call.resolve()
+    }
+
+    @objc func initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(_ call: CAPPluginCall) {
+        guard let phone = call.getString("phoneNumberToHash") else {
+            call.reject(errorPhoneNumberToHashMissing)
+            return
+        }
+        if !FirebaseAnalyticsHelper.isValidE164PhoneNumber(phone) {
+            call.reject(errorInvalidPhoneNumberFormat)
+            return
+        }
+        let hashedPhone = FirebaseAnalyticsHelper.sha256(phone)
+        implementation?.initiateOnDeviceConversionMeasurement(hashedPhone: hashedPhone)
         call.resolve()
     }
 }

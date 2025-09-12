@@ -1,7 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "baseBranch": "origin/main",
-  "pipeline": {
+  "tasks": {
     "verify:android": {},
     "verify:ios": {},
     "verify:web": {},
@@ -12,6 +11,7 @@
     "dev": {
       "cache": false
     },
-    "ios:pod:install": {}
+    "ios:pod:install": {},
+    "ios:spm:install": {}
   }
 }

@@ -2,6 +2,12 @@
 
 Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 
+<div class="capawesome-z29o10a">
+  <a href="https://cloud.capawesome.io/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+  </a>
+</div>
+
 ## Installation
 
 ```bash
@@ -63,6 +69,7 @@ These configuration values are available:
 
 | Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                                    | Default            | Since |
 | -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`authDomain`**     | <code>string</code>   | Configure the custom auth domain you want to use. Only available for Android and iOS.                                                                                                                                                                                                                          |                    | 7.3.0 |
 | **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
 | **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
 
@@ -74,6 +81,7 @@ In `capacitor.config.json`:
 {
   "plugins": {
     "FirebaseAuthentication": {
+      "authDomain": undefined,
       "skipNativeAuth": false,
       "providers": ["apple.com", "facebook.com"]
     }
@@ -91,6 +99,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   plugins: {
     FirebaseAuthentication: {
+      authDomain: undefined,
       skipNativeAuth: false,
       providers: ["apple.com", "facebook.com"],
     },
@@ -484,6 +493,8 @@ const verifyBeforeUpdateEmail = async () => {
 * [`useAppLanguage()`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
+* [`checkAppTrackingTransparencyPermission()`](#checkapptrackingtransparencypermission)
+* [`requestAppTrackingTransparencyPermission()`](#requestapptrackingtransparencypermission)
 * [`addListener('authStateChange', ...)`](#addlistenerauthstatechange-)
 * [`addListener('idTokenChange', ...)`](#addlisteneridtokenchange-)
 * [`addListener('phoneVerificationCompleted', ...)`](#addlistenerphoneverificationcompleted-)
@@ -1231,14 +1242,14 @@ Signs in using an email and sign-in email link.
 ### signInWithFacebook(...)
 
 ```typescript
-signInWithFacebook(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithFacebook(options?: SignInWithFacebookOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Facebook sign-in flow.
 
-| Param         | Type                                                                      |
-| ------------- | ------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithfacebookoptions">SignInWithFacebookOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1290,14 +1301,14 @@ Starts the GitHub sign-in flow.
 ### signInWithGoogle(...)
 
 ```typescript
-signInWithGoogle(options?: SignInWithOAuthOptions | undefined) => Promise<SignInResult>
+signInWithGoogle(options?: SignInWithGoogleOptions | undefined) => Promise<SignInResult>
 ```
 
 Starts the Google sign-in flow.
 
-| Param         | Type                                                                      |
-| ------------- | ------------------------------------------------------------------------- |
-| **`options`** | <code><a href="#signinwithoauthoptions">SignInWithOAuthOptions</a></code> |
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinwithgoogleoptions">SignInWithGoogleOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1552,6 +1563,42 @@ Verifies the new email address before updating the email address of the currentl
 | **`options`** | <code><a href="#verifybeforeupdateemailoptions">VerifyBeforeUpdateEmailOptions</a></code> |
 
 **Since:** 6.3.0
+
+--------------------
+
+
+### checkAppTrackingTransparencyPermission()
+
+```typescript
+checkAppTrackingTransparencyPermission() => Promise<CheckAppTrackingTransparencyPermissionResult>
+```
+
+Checks the current status of app tracking transparency.
+
+Only available on iOS.
+
+**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+
+**Since:** 7.2.0
+
+--------------------
+
+
+### requestAppTrackingTransparencyPermission()
+
+```typescript
+requestAppTrackingTransparencyPermission() => Promise<RequestAppTrackingTransparencyPermissionResult>
+```
+
+Opens the system dialog to authorize app tracking transparency.
+
+**Attention:** The user may have disabled the tracking request in the device settings, see [Apple's documentation](https://support.apple.com/guide/iphone/iph4f4cbd242/ios).
+
+Only available on iOS.
+
+**Returns:** <code>Promise&lt;<a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a>&gt;</code>
+
+**Since:** 7.2.0
 
 --------------------
 
@@ -1843,11 +1890,11 @@ Remove all listeners for this plugin.
 
 #### SignInWithOAuthOptions
 
-| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                                       | Default              | Since |
-| ---------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- |
-| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports Facebook, GitHub, Microsoft, Twitter and Yahoo on iOS. |                      | 1.1.0 |
-| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                             | <code>'popup'</code> | 1.3.0 |
-| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                                      |                      | 1.1.0 |
+| Prop                   | Type                                 | Description                                                                                                                                                                                                                                                                                             | Default              | Since |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- |
+| **`customParameters`** | <code>SignInCustomParameter[]</code> | Configures custom parameters to be passed to the identity provider during the OAuth sign-in flow. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Microsoft, Twitter and Yahoo on Android. Supports GitHub, Microsoft, Twitter and Yahoo on iOS. |                      | 1.1.0 |
+| **`mode`**             | <code>'popup' \| 'redirect'</code>   | Whether to use the popup-based OAuth authentication flow or the full-page redirect flow. If you choose `redirect`, you will get the result of the call via the `authStateChange` listener after the redirect. Only available for Web.                                                                   | <code>'popup'</code> | 1.3.0 |
+| **`scopes`**           | <code>string[]</code>                | Scopes to request from provider. Supports Apple, Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on Web. Supports Apple, GitHub, Google, Microsoft, Twitter, Yahoo and Play Games on Android. Supports Facebook, GitHub, Google, Microsoft, Twitter and Yahoo on iOS.                            |                      | 1.1.0 |
 
 
 #### SignInCustomParameter
@@ -1988,11 +2035,25 @@ An interface covering the possible persistence mechanism types.
 | **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
 
 
+#### SignInWithFacebookOptions
+
+| Prop                  | Type                 | Description                                                                                                                                                                                                                                                                                                                                                           | Default            | Since |
+| --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`useLimitedLogin`** | <code>boolean</code> | Whether to use the Facebook Limited Login mode. If set to `true`, no access token will be returned but the user does not have to grant App Tracking Transparency permission. If set to `false`, the user has to grant App Tracking Transparency permission. You can request the permission with `requestAppTrackingTransparencyPermission()`. Only available for iOS. | <code>false</code> | 7.2.0 |
+
+
 #### SignInOptions
 
 | Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
 | -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
 | **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configrations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
+
+
+#### SignInWithGoogleOptions
+
+| Prop                       | Type                 | Description                                                                       | Default           | Since |
+| -------------------------- | -------------------- | --------------------------------------------------------------------------------- | ----------------- | ----- |
+| **`useCredentialManager`** | <code>boolean</code> | Whether to use the Credential Manager API to sign in. Only available for Android. | <code>true</code> | 7.2.0 |
 
 
 #### UnlinkResult
@@ -2046,6 +2107,13 @@ An interface covering the possible persistence mechanism types.
 | ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------- | ----- |
 | **`newEmail`**           | <code>string</code>                                               | The new email address to be verified before update. | 6.3.0 |
 | **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | The action code settings                            | 6.3.0 |
+
+
+#### CheckAppTrackingTransparencyPermissionResult
+
+| Prop         | Type                                                                                                      | Description                                         | Since |
+| ------------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----- |
+| **`status`** | <code><a href="#apptrackingtransparencypermissionstate">AppTrackingTransparencyPermissionState</a></code> | The permission status of App Tracking Transparency. | 7.2.0 |
 
 
 #### PluginListenerHandle
@@ -2104,6 +2172,21 @@ An interface covering the possible persistence mechanism types.
 #### LinkWithPhoneNumberOptions
 
 <code><a href="#signinwithphonenumberoptions">SignInWithPhoneNumberOptions</a></code>
+
+
+#### AppTrackingTransparencyPermissionState
+
+<code><a href="#permissionstate">PermissionState</a> | 'restricted'</code>
+
+
+#### PermissionState
+
+<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+#### RequestAppTrackingTransparencyPermissionResult
+
+<code><a href="#checkapptrackingtransparencypermissionresult">CheckAppTrackingTransparencyPermissionResult</a></code>
 
 
 #### AuthStateChangeListener

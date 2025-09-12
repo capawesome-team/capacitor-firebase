@@ -4,9 +4,24 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 7.x.x
+
+### Dependencies
+
+- The Firebase Javascript SDK has been updated to `11.2.0`.
+
+### Variables
+
+- On Android, the `firebasePerfVersion` variable has been updated to `21.0.4`.
+
+### Error Handling
+
+The web implementation now throws an error when a `trace` is not found for a given `traceName`. This behavior was already in place on iOS and Android in earlier versions.
 
 ## Version 6.x.x
 

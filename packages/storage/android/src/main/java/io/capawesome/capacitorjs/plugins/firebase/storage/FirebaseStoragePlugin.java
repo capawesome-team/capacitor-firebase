@@ -51,14 +51,14 @@ public class FirebaseStoragePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
                 }
             };
 
             implementation.deleteFile(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 
@@ -81,14 +81,14 @@ public class FirebaseStoragePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
                 }
             };
 
             implementation.getDownloadUrl(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 
@@ -111,14 +111,14 @@ public class FirebaseStoragePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
                 }
             };
 
             implementation.getMetadata(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 
@@ -143,14 +143,14 @@ public class FirebaseStoragePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
                 }
             };
 
             implementation.listFiles(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 
@@ -178,14 +178,14 @@ public class FirebaseStoragePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
                 }
             };
 
             implementation.updateMetadata(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 
@@ -217,7 +217,7 @@ public class FirebaseStoragePlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
                 }
 
                 @Override
@@ -229,7 +229,7 @@ public class FirebaseStoragePlugin extends Plugin {
             implementation.uploadFile(options, callback);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 
@@ -247,7 +247,7 @@ public class FirebaseStoragePlugin extends Plugin {
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
         }
     }
 }

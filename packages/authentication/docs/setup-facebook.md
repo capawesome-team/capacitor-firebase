@@ -59,7 +59,7 @@
 ## iOS
 
 1. Add `facebook.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
-1. Add the `CapacitorFirebaseAuthentication/Facebook` pod to your `Podfile` (usually `ios/App/Podfile`):
+1. If you are using **CocoaPods** for your iOS project, add the `CapacitorFirebaseAuthentication/Facebook` pod to your `Podfile` (usually `ios/App/Podfile`):
 
    ```diff
    target 'App' do
@@ -154,6 +154,13 @@
    `[APP_ID]` must be replaced with your Facebook app ID.
    `[CLIENT_TOKEN]` must be replaced with your Facebook Client Token (App Dashboard > Settings > Advanced > Client Token).  
    `[APP_NAME]` must be replaced with your Facebook app name.
+
+1. Set the `NSUserTrackingUsageDescription` key in your app's `Info.plist`:
+    
+   ```
+   <key>NSUserTrackingUsageDescription</key>
+   <string>This identifier will be used to request permission to track the user's activity.</string>
+   ```
 
 ## Web
 

@@ -12,12 +12,11 @@
 		2F98D68224C9AAE500613A4C /* FirebaseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F98D68124C9AAE400613A4C /* FirebaseAuthentication.swift */; };
 		50ADFF92201F53D600D50D53 /* Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFF88201F53D600D50D53 /* Plugin.framework */; };
 		50ADFF97201F53D600D50D53 /* FirebaseAuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebaseAuthenticationPluginTests.swift */; };
-		50ADFF99201F53D600D50D53 /* FirebaseAuthenticationPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ADFF8B201F53D600D50D53 /* FirebaseAuthenticationPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
-		50ADFFA82020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m */; };
 		50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */; };
 		7C0C050B2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */; };
 		7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */; };
+		7C1F76152D83359D00386F35 /* CheckAppTrackingTransparencyPermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F76142D83359100386F35 /* CheckAppTrackingTransparencyPermissionResult.swift */; };
 		7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */; };
 		7C2094302C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */; };
 		7C3D92CA26D3CC62000C0B29 /* PhoneAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */; };
@@ -54,17 +53,16 @@
 		2F98D68124C9AAE400613A4C /* FirebaseAuthentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthentication.swift; sourceTree = "<group>"; };
 		3B2A61DA5A1F2DD4F959604D /* Pods_Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF88201F53D600D50D53 /* Plugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFF8B201F53D600D50D53 /* FirebaseAuthenticationPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseAuthenticationPlugin.h; sourceTree = "<group>"; };
 		50ADFF8C201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFF91201F53D600D50D53 /* PluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ADFF96201F53D600D50D53 /* FirebaseAuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthenticationPluginTests.swift; sourceTree = "<group>"; };
 		50ADFF98201F53D600D50D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ADFFA52020D75100D50D53 /* Capacitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Capacitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50ADFFA72020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseAuthenticationPlugin.m; sourceTree = "<group>"; };
 		50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthenticationPlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailOptions.swift; sourceTree = "<group>"; };
 		7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailResult.swift; sourceTree = "<group>"; };
+		7C1F76142D83359100386F35 /* CheckAppTrackingTransparencyPermissionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAppTrackingTransparencyPermissionResult.swift; sourceTree = "<group>"; };
 		7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailVerificationOptions.swift; sourceTree = "<group>"; };
 		7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPasswordResetEmailOptions.swift; sourceTree = "<group>"; };
 		7C3D92C926D3CC62000C0B29 /* PhoneAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthProviderHandler.swift; sourceTree = "<group>"; };
@@ -143,8 +141,6 @@
 				2F98D68124C9AAE400613A4C /* FirebaseAuthentication.swift */,
 				7CC1EA4E26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift */,
 				7CD588EF2688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift */,
-				50ADFF8B201F53D600D50D53 /* FirebaseAuthenticationPlugin.h */,
-				50ADFFA72020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
@@ -173,6 +169,7 @@
 		7C0C05092BAD80CF004252BE /* Results */ = {
 			isa = PBXGroup;
 			children = (
+				7C1F76142D83359100386F35 /* CheckAppTrackingTransparencyPermissionResult.swift */,
 				7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */,
 			);
 			path = Results;
@@ -244,7 +241,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ADFF99201F53D600D50D53 /* FirebaseAuthenticationPlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,12 +459,12 @@
 				7C461AFE29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift in Sources */,
 				7C579FFD29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift in Sources */,
 				7C579FFF29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift in Sources */,
-				50ADFFA82020EE4F00D50D53 /* FirebaseAuthenticationPlugin.m in Sources */,
 				7C461B0A29EC486000DD31E9 /* GetIdTokenResult.swift in Sources */,
 				7CD588F22688B5A4002BDF65 /* OAuthProviderHandler.swift in Sources */,
 				7C2094302C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift in Sources */,
 				7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */,
 				7C57A00129F4023E00B7778B /* RuntimeError.swift in Sources */,
+				7C1F76152D83359D00386F35 /* CheckAppTrackingTransparencyPermissionResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +542,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -606,7 +602,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -629,7 +625,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Plugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)\n$(FRAMEWORK_SEARCH_PATHS)\n$(FRAMEWORK_SEARCH_PATHS)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D RGCFA_INCLUDE_GOOGLE -D RGCFA_INCLUDE_FACEBOOK";
@@ -656,7 +652,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Plugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D RGCFA_INCLUDE_GOOGLE -D RGCFA_INCLUDE_FACEBOOK";

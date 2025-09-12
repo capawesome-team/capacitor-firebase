@@ -1,4 +1,4 @@
-platform :ios, '13.0'
+platform :ios, '14.0'
 
 def capacitor_pods
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -9,7 +9,8 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'FirebaseAnalytics', '11.0.0'
+  pod 'FirebaseAnalytics', '~> 11.7'
+  pod 'GoogleAppMeasurementOnDeviceConversion', '~> 11.7'
 end
 
 target 'PluginTests' do

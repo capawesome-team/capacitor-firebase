@@ -4,7 +4,8 @@ import FirebaseCore
 import FirebaseAppCheck
 
 @objc public class FirebaseAppCheck: NSObject {
-    override init() {
+
+    override public init() {
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }

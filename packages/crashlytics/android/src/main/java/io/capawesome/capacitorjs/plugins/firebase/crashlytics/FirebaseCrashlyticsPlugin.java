@@ -155,7 +155,8 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
             }
 
             JSArray stacktrace = call.getArray("stacktrace", null);
-            implementation.recordException(message, stacktrace);
+            JSArray keysAndValues = call.getArray("keysAndValues", null);
+            implementation.recordException(message, stacktrace, keysAndValues);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);

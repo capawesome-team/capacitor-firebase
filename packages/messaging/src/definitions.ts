@@ -21,8 +21,8 @@ declare module '@capacitor/cli' {
        *
        * Only available for iOS.
        *
-       * @example ["badge", "sound", "alert"]
-       * @default ["badge", "sound", "alert"]
+       * @example ["alert", "badge", "sound"]
+       * @default ["alert", "badge", "sound"]
        * @since 0.2.2
        */
       presentationOptions: PresentationOption[];
@@ -74,6 +74,10 @@ export interface FirebaseMessagingPlugin {
   /**
    * Get a list of notifications that are visible on the notifications screen.
    *
+   * Note: This will return all delivered notifications, including local notifications, and not just FCM notifications.
+   *
+   * On Android, the data field of the FCM notification will NOT be included.
+   *
    * @since 0.2.2
    */
   getDeliveredNotifications(): Promise<GetDeliveredNotificationsResult>;
@@ -87,6 +91,8 @@ export interface FirebaseMessagingPlugin {
   ): Promise<void>;
   /**
    * Remove all notifications from the notifications screen.
+   *
+   * Note: This will remove all delivered notifications, including local notifications, and not just FCM notifications.
    *
    * @since 0.2.2
    */

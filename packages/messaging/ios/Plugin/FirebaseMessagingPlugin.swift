@@ -10,7 +10,24 @@ import FirebaseCore
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseMessagingPlugin)
-public class FirebaseMessagingPlugin: CAPPlugin {
+public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseMessagingPlugin"
+    public let jsName = "FirebaseMessaging"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isSupported", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getDeliveredNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeDeliveredNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeAllDeliveredNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "subscribeToTopic", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "unsubscribeFromTopic", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "createChannel", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteChannel", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "listChannels", returnType: CAPPluginReturnPromise)
+    ]
     private var implementation: FirebaseMessaging?
 
     public let tag = "FirebaseMessaging"
@@ -160,6 +177,9 @@ public class FirebaseMessagingPlugin: CAPPlugin {
     }
 
     func handleTokenReceived(token: String?) {
+        guard let token = token else {
+            return
+        }
         var result = JSObject()
         result["token"] = token
         notifyListeners(tokenReceivedEvent, data: result, retainUntilConsumed: true)

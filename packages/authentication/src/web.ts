@@ -61,6 +61,7 @@ import type {
   ApplyActionCodeOptions,
   AuthCredential,
   AuthStateChange,
+  CheckAppTrackingTransparencyPermissionResult,
   ConfirmPasswordResetOptions,
   ConfirmVerificationCodeOptions,
   CreateUserWithEmailAndPasswordOptions,
@@ -81,6 +82,7 @@ import type {
   LinkWithPhoneNumberOptions,
   PhoneCodeSentEvent,
   PhoneVerificationFailedEvent,
+  RequestAppTrackingTransparencyPermissionResult,
   RevokeAccessTokenOptions,
   SendEmailVerificationOptions,
   SendPasswordResetEmailOptions,
@@ -92,6 +94,7 @@ import type {
   SignInWithCustomTokenOptions,
   SignInWithEmailAndPasswordOptions,
   SignInWithEmailLinkOptions,
+  SignInWithGoogleOptions,
   SignInWithOAuthOptions,
   SignInWithOpenIdConnectOptions,
   SignInWithPhoneNumberOptions,
@@ -275,9 +278,8 @@ export class FirebaseAuthenticationWeb
       options.email,
       options.password,
     );
-    const userCredential = await this.linkCurrentUserWithCredential(
-      authCredential,
-    );
+    const userCredential =
+      await this.linkCurrentUserWithCredential(authCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -288,9 +290,8 @@ export class FirebaseAuthenticationWeb
       options.email,
       options.emailLink,
     );
-    const userCredential = await this.linkCurrentUserWithCredential(
-      authCredential,
-    );
+    const userCredential =
+      await this.linkCurrentUserWithCredential(authCredential);
     return this.createSignInResult(userCredential, authCredential);
   }
 
@@ -599,7 +600,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithGoogle(
-    options?: SignInWithOAuthOptions,
+    options?: SignInWithGoogleOptions,
   ): Promise<SignInResult> {
     const provider = new GoogleAuthProvider();
     this.applySignInOptions(options || {}, provider);
@@ -873,6 +874,14 @@ export class FirebaseAuthenticationWeb
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
     return linkWithCredential(auth.currentUser, credential);
+  }
+
+  public requestAppTrackingTransparencyPermission(): Promise<RequestAppTrackingTransparencyPermissionResult> {
+    this.throwNotAvailableError();
+  }
+
+  public checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult> {
+    this.throwNotAvailableError();
   }
 
   private createSignInResult(

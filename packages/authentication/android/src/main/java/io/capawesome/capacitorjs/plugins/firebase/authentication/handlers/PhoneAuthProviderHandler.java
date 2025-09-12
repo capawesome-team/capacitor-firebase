@@ -15,8 +15,6 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInO
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.ResultCallback;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthProviderHandler {
@@ -55,8 +53,7 @@ public class PhoneAuthProviderHandler {
     }
 
     private void verifyPhoneNumber(@NonNull SignInWithPhoneNumberOptions options, boolean isLink) throws Exception {
-        PhoneAuthOptions.Builder builder = PhoneAuthOptions
-            .newBuilder(pluginImplementation.getFirebaseAuthInstance())
+        PhoneAuthOptions.Builder builder = PhoneAuthOptions.newBuilder(pluginImplementation.getFirebaseAuthInstance())
             .setPhoneNumber(options.getPhoneNumber())
             .setTimeout(options.getTimeout(), TimeUnit.SECONDS)
             .setActivity(pluginImplementation.getPlugin().getActivity())

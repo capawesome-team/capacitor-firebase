@@ -31,6 +31,7 @@ import org.json.JSONObject;
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
+    public static final String ERROR_CODE_PREFIX = "auth";
     public static final String PHONE_VERIFICATION_COMPLETED_EVENT = "phoneVerificationCompleted";
     public static final String PHONE_VERIFICATION_FAILED_EVENT = "phoneVerificationFailed";
     public static final String PHONE_CODE_SENT_EVENT = "phoneCodeSent";
@@ -63,6 +64,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         "signInAnonymously cannot be used in combination with skipNativeAuth.";
     public static final String AUTH_STATE_CHANGE_EVENT = "authStateChange";
     public static final String ID_TOKEN_CHANGE_EVENT = "idTokenChange";
+
     private FirebaseAuthenticationConfig config;
     private FirebaseAuthentication implementation;
 
@@ -770,7 +772,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            Long timeout = call.getLong("timeout", 60L);
+            Long timeout = call.getInt("timeout", 60).longValue();
             SignInWithPhoneNumberOptions options = new SignInWithPhoneNumberOptions(skipNativeAuth, phoneNumber, resendCode, timeout);
 
             implementation.signInWithPhoneNumber(options);
@@ -884,11 +886,9 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
 
             JSObject settings = call.getObject("actionCodeSettings");
-            if (settings == null) {
-                call.reject(ERROR_ACTION_CODE_SETTINGS_MISSING);
-                return;
-            }
-            ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
+            ActionCodeSettings actionCodeSettings = settings == null
+                ? null
+                : FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
@@ -980,6 +980,16 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
             call.reject(exception.getMessage(), code);
         }
+    }
+
+    @PluginMethod
+    public void requestAppTrackingTransparencyPermission(PluginCall call) {
+        call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
+    public void checkAppTrackingTransparencyPermission(PluginCall call) {
+        call.reject("Not available on Android.");
     }
 
     public void handlePhoneVerificationCompleted(@NonNull final PhoneVerificationCompletedEvent event) {

@@ -6,7 +6,21 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseRemoteConfigPlugin)
-public class FirebaseRemoteConfigPlugin: CAPPlugin {
+public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseRemoteConfigPlugin"
+    public let jsName = "FirebaseRemoteConfig"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "activate", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "fetchAndActivate", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "fetchConfig", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getBoolean", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getNumber", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getString", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setMinimumFetchInterval", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setSettings", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "addConfigUpdateListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "removeConfigUpdateListener", returnType: CAPPluginReturnPromise)
+    ]
     public let tag = "FirebaseRemoteConfig"
     public let errorKeyMissing = "key must be provided."
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."

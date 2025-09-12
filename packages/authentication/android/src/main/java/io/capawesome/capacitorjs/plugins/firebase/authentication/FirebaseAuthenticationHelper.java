@@ -1,5 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
+import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_CODE_PREFIX;
+
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -68,7 +70,8 @@ public class FirebaseAuthenticationHelper {
         } else if (exception instanceof FirebaseAuthException) {
             String errorCode = ((FirebaseAuthException) exception).getErrorCode();
             errorCode = errorCode.replaceFirst("ERROR_", "");
-            return snakeToKebabCase(errorCode);
+            String prefixedErrorCode = String.format("%s/%s", ERROR_CODE_PREFIX, errorCode);
+            return snakeToKebabCase(prefixedErrorCode);
         }
         return null;
     }

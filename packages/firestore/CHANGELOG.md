@@ -1,5 +1,43 @@
 # @capacitor-firebase/firestore
 
+## 7.3.1
+
+### Patch Changes
+
+- [`82ca9d7dc4767eab95378b766dba628302879048`](https://github.com/capawesome-team/capacitor-firebase/commit/82ca9d7dc4767eab95378b766dba628302879048) ([#910](https://github.com/capawesome-team/capacitor-firebase/pull/910)): fix: update CocoaPods dependency constraints to allow minor updates
+
+## 7.3.0
+
+### Minor Changes
+
+- [`bd4165e755f3abd8d39d5c85aa2735844fd5fc00`](https://github.com/capawesome-team/capacitor-firebase/commit/bd4165e755f3abd8d39d5c85aa2735844fd5fc00) ([#879](https://github.com/capawesome-team/capacitor-firebase/pull/879)): feat: support merge option for batch operations
+
+## 7.2.0
+
+## 7.1.0
+
+## 7.0.0
+
+### Major Changes
+
+- [`5c70cf954a48fa579bee9bd95e566201dc563a41`](https://github.com/capawesome-team/capacitor-firebase/commit/5c70cf954a48fa579bee9bd95e566201dc563a41) ([#805](https://github.com/capawesome-team/capacitor-firebase/pull/805)): refactor: add prefix to error codes on Android and iOS to be consistent with the Firebase Web SDK
+
+- [`604c69719fd84261115dd6fca9271f62bf1c1df9`](https://github.com/capawesome-team/capacitor-firebase/commit/604c69719fd84261115dd6fca9271f62bf1c1df9) ([#807](https://github.com/capawesome-team/capacitor-firebase/pull/807)): feat: update to Capacitor 7
+
+- [`e1d28962d4cb3a772940a61703f7c5ad21f1f994`](https://github.com/capawesome-team/capacitor-firebase/commit/e1d28962d4cb3a772940a61703f7c5ad21f1f994) ([#806](https://github.com/capawesome-team/capacitor-firebase/pull/806)): chore(deps): update the Firebase SDK to the latest version
+
+### Minor Changes
+
+- [`0bffff08b661c704a2e22cd024761f1b1599b791`](https://github.com/capawesome-team/capacitor-firebase/commit/0bffff08b661c704a2e22cd024761f1b1599b791) ([#795](https://github.com/capawesome-team/capacitor-firebase/pull/795)): feat: add SPM support
+
+- [`5344006ecece0ecc0699241d641b296ec7004813`](https://github.com/capawesome-team/capacitor-firebase/commit/5344006ecece0ecc0699241d641b296ec7004813) ([#792](https://github.com/capawesome-team/capacitor-firebase/pull/792)): feat: add `getCountFromServer` method
+
+- [`ea162046d226338e6ced56b977d8fea55a9e35f8`](https://github.com/capawesome-team/capacitor-firebase/commit/ea162046d226338e6ced56b977d8fea55a9e35f8) ([#789](https://github.com/capawesome-team/capacitor-firebase/pull/789)): feat: add the error codes
+
+### Patch Changes
+
+- [`f1f07aa6b7d069ee08d4b323e069195a414ceff7`](https://github.com/capawesome-team/capacitor-firebase/commit/f1f07aa6b7d069ee08d4b323e069195a414ceff7) ([#772](https://github.com/capawesome-team/capacitor-firebase/pull/772)): fix(ios): prevent crash caused by concurrency issue
+
 ## 6.3.1
 
 ## 6.3.0

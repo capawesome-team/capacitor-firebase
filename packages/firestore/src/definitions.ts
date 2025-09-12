@@ -53,6 +53,14 @@ export interface FirebaseFirestorePlugin {
     options: GetCollectionGroupOptions,
   ): Promise<GetCollectionGroupResult<T>>;
   /**
+   * Fetches the number of documents in a collection.
+   *
+   * @since 6.4.0
+   */
+  getCountFromServer(
+    options: GetCountFromServerOptions,
+  ): Promise<GetCountFromServerResult>;
+  /**
    * Clears the persistent storage. This includes pending writes and cached documents.
    *
    * Must be called after the app is shutdown or when the app is first initialized.
@@ -268,6 +276,25 @@ export interface WriteBatchOperation {
    * @since 6.1.0
    */
   data?: DocumentData;
+  /**
+   * An object to configure the set behavior.
+   *
+   * @since 7.3.0
+   */
+  options?: SetOptions;
+}
+
+/**
+ * @since 7.3.0
+ */
+export interface SetOptions {
+  /**
+   * Whether a merge should be performed or the document should be overwritten.
+   *
+   * @since 7.3.0
+   * @default false
+   */
+  merge?: boolean;
 }
 
 /**
@@ -506,6 +533,30 @@ export interface RemoveSnapshotListenerOptions {
    * @since 5.2.0
    */
   callbackId: CallbackId;
+}
+
+/**
+ * @since 6.4.0
+ */
+export interface GetCountFromServerOptions {
+  /**
+   * The reference as a string, with path components separated by a forward slash (`/`).
+   *
+   * @since 6.4.0
+   */
+  reference: string;
+}
+
+/**
+ * @since 6.4.0
+ */
+export interface GetCountFromServerResult {
+  /**
+   * The number of documents in the collection.
+   *
+   * @since 6.4.0
+   */
+  count: number;
 }
 
 /**

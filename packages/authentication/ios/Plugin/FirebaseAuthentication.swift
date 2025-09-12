@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 import FirebaseCore
 import FirebaseAuth
+import AppTrackingTransparency
 
 public typealias AuthStateChangedObserver = () -> Void
 
@@ -30,6 +31,9 @@ public typealias AuthStateChangedObserver = () -> Void
         }
         _ = Auth.auth().addIDTokenDidChangeListener {_, _ in
             self.plugin.handleIdTokenChange()
+        }
+        if let authDomain = config.authDomain {
+            Auth.auth().customAuthDomain = authDomain
         }
     }
 
@@ -286,7 +290,7 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc func verifyBeforeUpdateEmail(_ newEmail: String, actionCodeSettings: ActionCodeSettings, completion: @escaping (Error?) -> Void) {
+    @objc func verifyBeforeUpdateEmail(_ newEmail: String, actionCodeSettings: ActionCodeSettings?, completion: @escaping (Error?) -> Void) {
         guard let user = self.getCurrentUser() else {
             completion(RuntimeError(plugin.errorNoUserSignedIn))
             return
@@ -296,7 +300,11 @@ public typealias AuthStateChangedObserver = () -> Void
             completion(error)
         }
 
-        user.sendEmailVerification(beforeUpdatingEmail: newEmail, actionCodeSettings: actionCodeSettings, completion: completion)
+        if let actionCodeSettings = actionCodeSettings {
+            user.sendEmailVerification(beforeUpdatingEmail: newEmail, actionCodeSettings: actionCodeSettings, completion: completion)
+        } else {
+            user.sendEmailVerification(beforeUpdatingEmail: newEmail, completion: completion)
+        }
     }
 
     @objc func sendPasswordResetEmail(_ options: SendPasswordResetEmailOptions, completion: @escaping (Error?) -> Void) {
@@ -656,6 +664,16 @@ public typealias AuthStateChangedObserver = () -> Void
 
     func getConfig() -> FirebaseAuthenticationConfig {
         return self.config
+    }
+
+    func requestAppTrackingTransparencyPermission(completion: @escaping (CheckAppTrackingTransparencyPermissionResult) -> Void) {
+        ATTrackingManager.requestTrackingAuthorization { result in
+            completion(CheckAppTrackingTransparencyPermissionResult(result))
+        }
+    }
+
+    func checkAppTrackingTransparencyPermission(completion: @escaping (CheckAppTrackingTransparencyPermissionResult) -> Void) {
+        completion(CheckAppTrackingTransparencyPermissionResult(ATTrackingManager.trackingAuthorizationStatus))
     }
 
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {

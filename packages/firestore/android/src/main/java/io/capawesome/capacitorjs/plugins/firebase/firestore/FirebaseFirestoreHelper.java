@@ -1,10 +1,13 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
+import static io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestorePlugin.ERROR_CODE_PREFIX;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryEndAtConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryLimitConstraint;
@@ -133,5 +136,21 @@ public class FirebaseFirestoreHelper {
         obj.put("fromCache", snapshot.getMetadata().isFromCache());
         obj.put("hasPendingWrites", snapshot.getMetadata().hasPendingWrites());
         return obj;
+    }
+
+    @Nullable
+    public static String createErrorCode(@Nullable Exception exception) {
+        if (exception == null) {
+            return null;
+        } else if (exception instanceof FirebaseFirestoreException) {
+            String errorCode = ((FirebaseFirestoreException) exception).getCode().name();
+            String prefixedErrorCode = String.format("%s/%s", ERROR_CODE_PREFIX, errorCode);
+            return snakeToKebabCase(prefixedErrorCode);
+        }
+        return null;
+    }
+
+    private static String snakeToKebabCase(String snakeCase) {
+        return snakeCase.replaceAll("_+", "-").toLowerCase();
     }
 }

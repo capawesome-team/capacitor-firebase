@@ -2,6 +2,12 @@
 
 Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
+<div class="capawesome-z29o10a">
+  <a href="https://cloud.capawesome.io/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+  </a>
+</div>
+
 ## Installation
 
 ```bash
@@ -17,10 +23,12 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/an
 
 #### Variables
 
-This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
+If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `17.0.1`)
-- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `17.0.1`)
+- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `18.0.0`)
+- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `18.0.0`)
+
+This can be useful if you encounter dependency conflicts with other plugins in your project.
 
 ### iOS
 
@@ -50,18 +58,20 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ```typescript
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { ReCaptchaV3Provider } from '@capacitor-firebase/app-check';
+import { Capacitor } from '@capacitor/core';
+
+const initialize = async () => {
+  await FirebaseAppCheck.initialize({
+    provider: Capacitor.getPlatform() === 'web' ? new ReCaptchaV3Provider('myKey') : undefined,
+  });
+};
 
 const getToken = async () => {
   const { token } = FirebaseAppCheck.getToken({
     forceRefresh: false,
   });
   return token;
-};
-
-const initialize = async () => {
-  await FirebaseAppCheck.initialize({
-    siteKey: 'myKey',
-  });
 };
 
 const setTokenAutoRefreshEnabled = async () => {
@@ -158,8 +168,6 @@ addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener) => Pr
 
 Called when the App Check token changed.
 
-Only available for Web.
-
 | Param              | Type                                                                  |
 | ------------------ | --------------------------------------------------------------------- |
 | **`eventName`**    | <code>'tokenChanged'</code>                                           |
@@ -207,11 +215,13 @@ Only available for Web.
 
 #### InitializeOptions
 
-| Prop                            | Type                 | Description                                                                                                                                                                                                                                                                                                                                     | Default            | Since |
-| ------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`debug`**                     | <code>boolean</code> | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code> | 1.3.0 |
-| **`isTokenAutoRefreshEnabled`** | <code>boolean</code> | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                          | <code>false</code> | 1.3.0 |
-| **`siteKey`**                   | <code>string</code>  | The reCAPTCHA v3 site key (public key). Only available for Web.                                                                                                                                                                                                                                                                                 |                    | 1.3.0 |
+| Prop                            | Type                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                         | Default                          | Since |
+| ------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----- |
+| **`debug`**                     | <code>boolean</code>           | If `true`, the debug provider is used. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties. ⚠️ **Deprecated**: Use `debugToken` instead. This option will be removed in the next major version. Read more: https://firebase.google.com/docs/app-check/web/debug-provider | <code>false</code>               | 1.3.0 |
+| **`debugToken`**                | <code>string \| boolean</code> | If `true`, the debug provider is used. On **Web**, you can also set a predefined debug token string instead of `true`. On Android and iOS, you have to use environment variables for this. ⚠️ **Attention**: The debug provider allows access to your Firebase resources from unverified devices. Don't use the debug provider in production builds of your app, and don't share your debug builds with untrusted parties.                          | <code>false</code>               | 7.1.0 |
+| **`isTokenAutoRefreshEnabled`** | <code>boolean</code>           | If `true`, the SDK automatically refreshes App Check tokens as needed.                                                                                                                                                                                                                                                                                                                                                                              | <code>false</code>               | 1.3.0 |
+| **`provider`**                  | <code>any</code>               | The provider to use for App Check. Must be an instance of `ReCaptchaV3Provider`, `ReCaptchaEnterpriseProvider`, or `CustomProvider`. Only available for Web.                                                                                                                                                                                                                                                                                        | <code>ReCaptchaV3Provider</code> | 7.1.0 |
+| **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set. Only available for Web.                                                                                                                                                                                                                                                                                                                                      |                                  | 1.3.0 |
 
 
 #### InstanceFactoryOptions

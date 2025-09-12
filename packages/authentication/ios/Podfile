@@ -1,4 +1,4 @@
-platform :ios, '13.0'
+platform :ios, '14.0'
 
 def capacitor_pods
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -9,10 +9,10 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'FirebaseAuth', '11.0.0'
-  pod 'GoogleSignIn', '7.1.0'
-  pod 'FBSDKCoreKit', '17.1.0'
-  pod 'FBSDKLoginKit', '17.1.0'
+  pod 'FirebaseAuth', '~> 11.7'
+  pod 'GoogleSignIn', '~> 7.1'
+  pod 'FBSDKCoreKit', '~> 18.0'
+  pod 'FBSDKLoginKit', '~> 18.0'
 end
 
 target 'PluginTests' do

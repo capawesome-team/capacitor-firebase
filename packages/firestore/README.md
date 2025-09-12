@@ -2,6 +2,16 @@
 
 Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore/).[^1]
 
+<div class="capawesome-z29o10a">
+  <a href="https://cloud.capawesome.io/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+  </a>
+</div>
+
+## Guides
+
+- [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
+
 ## Installation
 
 ```bash
@@ -15,9 +25,11 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 #### Variables
 
-This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
+If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseFirestoreVersion` version of `com.google.firebase:firebase-firestore` (default: `24.7.1`)
+- `$firebaseFirestoreVersion` version of `com.google.firebase:firebase-firestore` (default: `25.1.1`)
+
+This can be useful if you encounter dependency conflicts with other plugins in your project.
 
 ## Configuration
 
@@ -82,6 +94,36 @@ const updateDocument = async () => {
 const deleteDocument = async () => {
   await FirebaseFirestore.deleteDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
+  });
+};
+
+const writeBatch = async () => {
+  await FirebaseFirestore.writeBatch({
+    operations: [
+      {
+        type: 'set',
+        reference: 'users/Aorq09lkt1ynbR7xhTUx',
+        data: { 
+          first: 'Alan', 
+          last: 'Turing', 
+          born: 1912 
+        },
+        options: { merge: true },
+      },
+      {
+        type: 'update',
+        reference: 'users/Aorq09lkt1ynbR7xhTUx',
+        data: { 
+          first: 'Alan', 
+          last: 'Turing', 
+          born: 1912 
+        },
+      },
+      {
+        type: 'delete',
+        reference: 'users/Aorq09lkt1ynbR7xhTUx',
+      },
+    ],
   });
 };
 
@@ -273,6 +315,7 @@ const removeAllListeners = async () => {
 * [`writeBatch(...)`](#writebatch)
 * [`getCollection(...)`](#getcollection)
 * [`getCollectionGroup(...)`](#getcollectiongroup)
+* [`getCountFromServer(...)`](#getcountfromserver)
 * [`clearPersistence()`](#clearpersistence)
 * [`enableNetwork()`](#enablenetwork)
 * [`disableNetwork()`](#disablenetwork)
@@ -429,6 +472,25 @@ Reads the collection group referenced by the specified reference.
 | **`options`** | <code><a href="#getcollectiongroupoptions">GetCollectionGroupOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;&gt;</code>
+
+--------------------
+
+
+### getCountFromServer(...)
+
+```typescript
+getCountFromServer(options: GetCountFromServerOptions) => Promise<GetCountFromServerResult>
+```
+
+Fetches the number of documents in a collection.
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getcountfromserveroptions">GetCountFromServerOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getcountfromserverresult">GetCountFromServerResult</a>&gt;</code>
+
+**Since:** 6.4.0
 
 --------------------
 
@@ -680,6 +742,65 @@ Remove all listeners for this plugin.
 | **`type`**      | <code>'set' \| 'update' \| 'delete'</code>            | The type of operation.                                                              | 6.1.0 |
 | **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 6.1.0 |
 | **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 6.1.0 |
+| **`options`**   | <code><a href="#setoptions">SetOptions</a></code>     | An object to configure the set behavior.                                            | 7.3.0 |
+
+
+#### SetOptions
+
+| Prop        | Type                 | Description                                                                | Default            | Since |
+| ----------- | -------------------- | -------------------------------------------------------------------------- | ------------------ | ----- |
+| **`merge`** | <code>boolean</code> | Whether a merge should be performed or the document should be overwritten. | <code>false</code> | 7.3.0 |
+
+
+#### Array
+
+| Prop         | Type                | Description                                                                                            |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------ |
+| **`length`** | <code>number</code> | Gets or sets the length of the array. This is a number one higher than the highest index in the array. |
+
+| Method             | Signature                                                                                                                     | Description                                                                                                                                                                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **toString**       | () =&gt; string                                                                                                               | Returns a string representation of an array.                                                                                                                                                                                                |
+| **toLocaleString** | () =&gt; string                                                                                                               | Returns a string representation of an array. The elements are converted to string using their toLocalString methods.                                                                                                                        |
+| **pop**            | () =&gt; T \| undefined                                                                                                       | Removes the last element from an array and returns it. If the array is empty, undefined is returned and the array is not modified.                                                                                                          |
+| **push**           | (...items: T[]) =&gt; number                                                                                                  | Appends new elements to the end of an array, and returns the new length of the array.                                                                                                                                                       |
+| **concat**         | (...items: <a href="#concatarray">ConcatArray</a>&lt;T&gt;[]) =&gt; T[]                                                       | Combines two or more arrays. This method returns a new array without modifying any existing arrays.                                                                                                                                         |
+| **concat**         | (...items: (T \| <a href="#concatarray">ConcatArray</a>&lt;T&gt;)[]) =&gt; T[]                                                | Combines two or more arrays. This method returns a new array without modifying any existing arrays.                                                                                                                                         |
+| **join**           | (separator?: string \| undefined) =&gt; string                                                                                | Adds all the elements of an array into a string, separated by the specified separator string.                                                                                                                                               |
+| **reverse**        | () =&gt; T[]                                                                                                                  | Reverses the elements in an array in place. This method mutates the array and returns a reference to the same array.                                                                                                                        |
+| **shift**          | () =&gt; T \| undefined                                                                                                       | Removes the first element from an array and returns it. If the array is empty, undefined is returned and the array is not modified.                                                                                                         |
+| **slice**          | (start?: number \| undefined, end?: number \| undefined) =&gt; T[]                                                            | Returns a copy of a section of an array. For both start and end, a negative index can be used to indicate an offset from the end of the array. For example, -2 refers to the second to last element of the array.                           |
+| **sort**           | (compareFn?: ((a: T, b: T) =&gt; number) \| undefined) =&gt; this                                                             | Sorts an array in place. This method mutates the array and returns a reference to the same array.                                                                                                                                           |
+| **splice**         | (start: number, deleteCount?: number \| undefined) =&gt; T[]                                                                  | Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.                                                                                                                      |
+| **splice**         | (start: number, deleteCount: number, ...items: T[]) =&gt; T[]                                                                 | Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.                                                                                                                      |
+| **unshift**        | (...items: T[]) =&gt; number                                                                                                  | Inserts new elements at the start of an array, and returns the new length of the array.                                                                                                                                                     |
+| **indexOf**        | (searchElement: T, fromIndex?: number \| undefined) =&gt; number                                                              | Returns the index of the first occurrence of a value in an array, or -1 if it is not present.                                                                                                                                               |
+| **lastIndexOf**    | (searchElement: T, fromIndex?: number \| undefined) =&gt; number                                                              | Returns the index of the last occurrence of a specified value in an array, or -1 if it is not present.                                                                                                                                      |
+| **every**          | &lt;S extends T&gt;(predicate: (value: T, index: number, array: T[]) =&gt; value is S, thisArg?: any) =&gt; this is S[]       | Determines whether all the members of an array satisfy the specified test.                                                                                                                                                                  |
+| **every**          | (predicate: (value: T, index: number, array: T[]) =&gt; unknown, thisArg?: any) =&gt; boolean                                 | Determines whether all the members of an array satisfy the specified test.                                                                                                                                                                  |
+| **some**           | (predicate: (value: T, index: number, array: T[]) =&gt; unknown, thisArg?: any) =&gt; boolean                                 | Determines whether the specified callback function returns true for any element of an array.                                                                                                                                                |
+| **forEach**        | (callbackfn: (value: T, index: number, array: T[]) =&gt; void, thisArg?: any) =&gt; void                                      | Performs the specified action for each element in an array.                                                                                                                                                                                 |
+| **map**            | &lt;U&gt;(callbackfn: (value: T, index: number, array: T[]) =&gt; U, thisArg?: any) =&gt; U[]                                 | Calls a defined callback function on each element of an array, and returns an array that contains the results.                                                                                                                              |
+| **filter**         | &lt;S extends T&gt;(predicate: (value: T, index: number, array: T[]) =&gt; value is S, thisArg?: any) =&gt; S[]               | Returns the elements of an array that meet the condition specified in a callback function.                                                                                                                                                  |
+| **filter**         | (predicate: (value: T, index: number, array: T[]) =&gt; unknown, thisArg?: any) =&gt; T[]                                     | Returns the elements of an array that meet the condition specified in a callback function.                                                                                                                                                  |
+| **reduce**         | (callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) =&gt; T) =&gt; T                           | Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.                      |
+| **reduce**         | (callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) =&gt; T, initialValue: T) =&gt; T          |                                                                                                                                                                                                                                             |
+| **reduce**         | &lt;U&gt;(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: T[]) =&gt; U, initialValue: U) =&gt; U | Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.                      |
+| **reduceRight**    | (callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) =&gt; T) =&gt; T                           | Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function. |
+| **reduceRight**    | (callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) =&gt; T, initialValue: T) =&gt; T          |                                                                                                                                                                                                                                             |
+| **reduceRight**    | &lt;U&gt;(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: T[]) =&gt; U, initialValue: U) =&gt; U | Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function. |
+
+
+#### ConcatArray
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`length`** | <code>number</code> |
+
+| Method    | Signature                                                          |
+| --------- | ------------------------------------------------------------------ |
+| **join**  | (separator?: string \| undefined) =&gt; string                     |
+| **slice** | (start?: number \| undefined, end?: number \| undefined) =&gt; T[] |
 
 
 #### GetCollectionResult
@@ -765,6 +886,20 @@ Remove all listeners for this plugin.
 | **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
 
 
+#### GetCountFromServerResult
+
+| Prop        | Type                | Description                                | Since |
+| ----------- | ------------------- | ------------------------------------------ | ----- |
+| **`count`** | <code>number</code> | The number of documents in the collection. | 6.4.0 |
+
+
+#### GetCountFromServerOptions
+
+| Prop            | Type                | Description                                                                         | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
+
+
 #### UseEmulatorOptions
 
 | Prop       | Type                | Description                                                                                                                                                                     | Default           | Since |
@@ -806,6 +941,13 @@ Remove all listeners for this plugin.
 
 
 ### Type Aliases
+
+
+#### SetOptions
+
+An options object that configures the behavior of {@link @firebase/firestore/lite#(setDoc:1)}, {@link
+
+<code>{ readonly merge?: boolean; } | { readonly mergeFields?: <a href="#array">Array</a>&lt;string | FieldPath&gt;; }</code>
 
 
 #### QueryFilterConstraint
@@ -863,6 +1005,13 @@ Remove all listeners for this plugin.
 <code><a href="#getcollectiongroupresult">GetCollectionGroupResult</a>&lt;T&gt;</code>
 
 </docgen-api>
+
+## Limitations
+
+This plugin currently has the following limitations:
+
+- The `Timestamp` data type is not yet supported (see https://github.com/capawesome-team/capacitor-firebase/issues/474). Use a `number` or a `string` instead.
+- The `FieldValue` data type is not yet supported (see https://github.com/capawesome-team/capacitor-firebase/issues/443).
 
 ## Changelog
 

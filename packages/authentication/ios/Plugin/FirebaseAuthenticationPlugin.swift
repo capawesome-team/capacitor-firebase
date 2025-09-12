@@ -9,7 +9,69 @@ import FirebaseAuth
  */
 // swiftlint:disable type_body_length
 @objc(FirebaseAuthenticationPlugin)
-public class FirebaseAuthenticationPlugin: CAPPlugin {
+public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseAuthenticationPlugin"
+    public let jsName = "FirebaseAuthentication"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "applyActionCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "confirmPasswordReset", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "confirmVerificationCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "createUserWithEmailAndPassword", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteUser", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "fetchSignInMethodsForEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCurrentUser", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getIdToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getPendingAuthResult", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getRedirectResult", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getTenantId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isSignInWithEmailLink", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithApple", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithEmailAndPassword", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithEmailLink", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithFacebook", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithGameCenter", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithGithub", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithGoogle", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithMicrosoft", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithOpenIdConnect", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithPhoneNumber", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithPlayGames", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithTwitter", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "linkWithYahoo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "reload", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "revokeAccessToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendEmailVerification", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendPasswordResetEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendSignInLinkToEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setLanguageCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setPersistence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setTenantId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInAnonymously", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithApple", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithCustomToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithEmailAndPassword", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithEmailLink", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithFacebook", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithGameCenter", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithGithub", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithGoogle", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithMicrosoft", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithPlayGames", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithTwitter", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithYahoo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithOpenIdConnect", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signInWithPhoneNumber", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "signOut", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "unlink", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updateEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updatePassword", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updateProfile", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "useAppLanguage", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "verifyBeforeUpdateEmail", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestAppTrackingTransparencyPermission", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "checkAppTrackingTransparencyPermission", returnType: CAPPluginReturnPromise)
+    ]
     public let tag = "FirebaseAuthentication"
     public let errorProviderIdMissing = "providerId must be provided."
     public let errorNoUserSignedIn = "No user is signed in."
@@ -526,14 +588,10 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
             return
         }
 
-        guard let actionCodeSettingsDict = call.getObject("actionCodeSettings") else {
-            call.reject(errorActionCodeSettingsMissing)
-            return
-        }
-        guard let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettingsDict) else {
-            call.reject(errorActionCodeSettingsMissing)
-            return
-        }
+        let actionCodeSettingsDict = call.getObject("actionCodeSettings")
+        let actionCodeSettings: ActionCodeSettings? = actionCodeSettingsDict != nil
+            ? FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettingsDict!)
+            : nil
 
         implementation?.verifyBeforeUpdateEmail(newEmail, actionCodeSettings: actionCodeSettings, completion: { error in
             if let error = error {
@@ -601,6 +659,22 @@ public class FirebaseAuthenticationPlugin: CAPPlugin {
 
         implementation?.useEmulator(host, port)
         call.resolve()
+    }
+
+    @objc func requestAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
+        implementation?.requestAppTrackingTransparencyPermission { status in
+            if let result = status.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        }
+    }
+
+    @objc func checkAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
+        implementation?.checkAppTrackingTransparencyPermission { status in
+            if let result = status.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        }
     }
 
     @objc func handleAuthStateChange() {

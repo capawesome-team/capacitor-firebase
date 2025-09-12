@@ -6,7 +6,21 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FirebaseCrashlyticsPlugin)
-public class FirebaseCrashlyticsPlugin: CAPPlugin {
+public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FirebaseCrashlyticsPlugin"
+    public let jsName = "FirebaseCrashlytics"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "crash", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setCustomKey", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "log", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setUserId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "didCrashOnPreviousExecution", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendUnsentReports", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteUnsentReports", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "recordException", returnType: CAPPluginReturnPromise)
+    ]
     public let errorMessageMissing = "message must be provided."
     public let errorKeyMissing = "key must be provided."
     public let errorValueMissing = "value must be provided."
@@ -100,11 +114,17 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin {
         }
 
         let stacktrace = call.getArray("stacktrace", JSObject.self)
+        let keysAndValues = call.getArray("keysAndValues", JSObject.self)
+
         if stacktrace == nil || stacktrace!.isEmpty {
             let domain = call.getString("domain") ?? ""
             let code = call.getInt("code") ?? -1001
 
-            implementation?.recordException(message, domain, code)
+            if keysAndValues == nil || keysAndValues!.isEmpty {
+                implementation?.recordException(message, domain, code)
+            } else {
+                implementation?.recordException(message, domain, code, keysAndValues!)
+            }
         } else {
             implementation?.recordExceptionWithStacktrace(message, stacktrace!)
         }

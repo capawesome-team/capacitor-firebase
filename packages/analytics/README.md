@@ -2,6 +2,12 @@
 
 Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com/docs/analytics).[^1]
 
+<div class="capawesome-z29o10a">
+  <a href="https://cloud.capawesome.io/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+  </a>
+</div>
+
 ## Installation
 
 ```bash
@@ -23,13 +29,15 @@ See [Disable Advertising ID collection](https://firebase.google.com/docs/analyti
 
 #### Variables
 
-This plugin will use the following project variables (defined in your app’s `variables.gradle` file):
+If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `21.5.1`)
+- `$firebaseAnalyticsVersion` version of `com.google.firebase:firebase-analytics` (default: `22.2.0`)
+
+This can be useful if you encounter dependency conflicts with other plugins in your project.
 
 ### iOS
 
-Add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
+If you are using **CocoaPods** for your iOS project, you need to add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
 
 ```diff
 target 'App' do
@@ -47,7 +55,7 @@ See [Disable Analytics data collection](https://firebase.google.com/docs/analyti
 
 #### Disable IDFA collection
 
-If you want to install Firebase without any IDFA collection capability, use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod in place of the `CapacitorFirebaseAnalytics/Analytics` pod:
+If you are using **CocoaPods** for your iOS project and you want to disable IDFA collection, you can use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod instead of the `CapacitorFirebaseAnalytics/Analytics` pod:
 
 ```diff
 target 'App' do
@@ -118,6 +126,30 @@ const isEnabled = async () => {
 const resetAnalyticsData = async () => {
   await FirebaseAnalytics.resetAnalyticsData();
 };
+
+const initiateOnDeviceConversionMeasurementWithEmailAddress = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithEmailAddress({
+    emailAddress: 'mail@example.com',
+  });
+};
+
+const initiateOnDeviceConversionMeasurementWithPhoneNumber = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithPhoneNumber({
+    phoneNumber: '+49123456789',
+  });
+};
+
+const initiateOnDeviceConversionMeasurementWithHashedEmailAddress = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithHashedEmailAddress({
+    emailAddressToHash: 'mail@example.com',
+  });
+};
+
+const initiateOnDeviceConversionMeasurementWithHashedPhoneNumber = async () => {
+  await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithHashedPhoneNumber({
+    phoneNumberToHash: '+49123456789',
+  });
+};
 ```
 
 ## API
@@ -134,6 +166,10 @@ const resetAnalyticsData = async () => {
 * [`setEnabled(...)`](#setenabled)
 * [`isEnabled()`](#isenabled)
 * [`resetAnalyticsData()`](#resetanalyticsdata)
+* [`initiateOnDeviceConversionMeasurementWithEmailAddress(...)`](#initiateondeviceconversionmeasurementwithemailaddress)
+* [`initiateOnDeviceConversionMeasurementWithPhoneNumber(...)`](#initiateondeviceconversionmeasurementwithphonenumber)
+* [`initiateOnDeviceConversionMeasurementWithHashedEmailAddress(...)`](#initiateondeviceconversionmeasurementwithhashedemailaddress)
+* [`initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(...)`](#initiateondeviceconversionmeasurementwithhashedphonenumber)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
 
@@ -314,6 +350,82 @@ Only available for Android and iOS.
 --------------------
 
 
+### initiateOnDeviceConversionMeasurementWithEmailAddress(...)
+
+```typescript
+initiateOnDeviceConversionMeasurementWithEmailAddress(options: InitiateOnDeviceConversionMeasurementWithEmailAddressOptions) => Promise<void>
+```
+
+Initiates on-device conversion measurement with an email address.
+
+Only available for iOS.
+
+| Param         | Type                                                                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithemailaddressoptions">InitiateOnDeviceConversionMeasurementWithEmailAddressOptions</a></code> |
+
+**Since:** 7.2.0
+
+--------------------
+
+
+### initiateOnDeviceConversionMeasurementWithPhoneNumber(...)
+
+```typescript
+initiateOnDeviceConversionMeasurementWithPhoneNumber(options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions) => Promise<void>
+```
+
+Initiates on-device conversion measurement with a phone number.
+
+Only available for iOS.
+
+| Param         | Type                                                                                                                                                |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithphonenumberoptions">InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions</a></code> |
+
+**Since:** 7.2.0
+
+--------------------
+
+
+### initiateOnDeviceConversionMeasurementWithHashedEmailAddress(...)
+
+```typescript
+initiateOnDeviceConversionMeasurementWithHashedEmailAddress(options: InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions) => Promise<void>
+```
+
+Initiates on-device conversion measurement with a hashed email address.
+
+Only available for iOS.
+
+| Param         | Type                                                                                                                                                              |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithhashedemailaddressoptions">InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions</a></code> |
+
+**Since:** 7.2.0
+
+--------------------
+
+
+### initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(...)
+
+```typescript
+initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions) => Promise<void>
+```
+
+Initiates on-device conversion measurement with a hashed phone number.
+
+Only available for iOS.
+
+| Param         | Type                                                                                                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#initiateondeviceconversionmeasurementwithhashedphonenumberoptions">InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions</a></code> |
+
+**Since:** 7.2.0
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -382,6 +494,34 @@ Only available for Android and iOS.
 | Prop          | Type                 | Since |
 | ------------- | -------------------- | ----- |
 | **`enabled`** | <code>boolean</code> | 0.1.0 |
+
+
+#### InitiateOnDeviceConversionMeasurementWithEmailAddressOptions
+
+| Prop               | Type                | Description                                                          | Since |
+| ------------------ | ------------------- | -------------------------------------------------------------------- | ----- |
+| **`emailAddress`** | <code>string</code> | The email address to initiate on-device conversion measurement with. | 7.2.0 |
+
+
+#### InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions
+
+| Prop              | Type                | Description                                                         | Since |
+| ----------------- | ------------------- | ------------------------------------------------------------------- | ----- |
+| **`phoneNumber`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
+
+
+#### InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions
+
+| Prop                     | Type                | Description                                                          | Since |
+| ------------------------ | ------------------- | -------------------------------------------------------------------- | ----- |
+| **`emailAddressToHash`** | <code>string</code> | The email address to initiate on-device conversion measurement with. | 7.2.0 |
+
+
+#### InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions
+
+| Prop                    | Type                | Description                                                         | Since |
+| ----------------------- | ------------------- | ------------------------------------------------------------------- | ----- |
+| **`phoneNumberToHash`** | <code>string</code> | The phone number to initiate on-device conversion measurement with. | 7.2.0 |
 
 
 ### Enums

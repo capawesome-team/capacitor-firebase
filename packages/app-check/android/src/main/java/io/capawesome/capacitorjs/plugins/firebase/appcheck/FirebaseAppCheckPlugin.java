@@ -6,14 +6,16 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.appcheck.AppCheckToken;
 
 @CapacitorPlugin(name = "FirebaseAppCheck")
 public class FirebaseAppCheckPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAppCheck";
     public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
+    public static final String TOKEN_CHANGED_EVENT = "tokenChanged";
 
-    private FirebaseAppCheck implementation = new FirebaseAppCheck();
+    private final FirebaseAppCheck implementation = new FirebaseAppCheck(this);
 
     @PluginMethod
     public void getToken(PluginCall call) {
@@ -45,9 +47,23 @@ public class FirebaseAppCheckPlugin extends Plugin {
     @PluginMethod
     public void initialize(PluginCall call) {
         try {
-            boolean debug = call.getBoolean("debug", false);
+            Boolean debugTokenBoolean = call.getBoolean("debugToken", false);
+
+            boolean hasDebugToken;
+            if (Boolean.TRUE.equals(debugTokenBoolean)) {
+                hasDebugToken = true;
+            } else {
+                String debugTokenString = call.getString("debugToken", "");
+                if (debugTokenString != null && !debugTokenString.isEmpty()) {
+                    hasDebugToken = true;
+                } else {
+                    Boolean debugOption = call.getBoolean("debug", false);
+                    hasDebugToken = Boolean.TRUE.equals(debugOption);
+                }
+            }
+
             boolean isTokenAutoRefreshEnabled = call.getBoolean("isTokenAutoRefreshEnabled", false);
-            implementation.initialize(debug, isTokenAutoRefreshEnabled);
+            implementation.initialize(hasDebugToken, isTokenAutoRefreshEnabled);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
@@ -69,5 +85,11 @@ public class FirebaseAppCheckPlugin extends Plugin {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage());
         }
+    }
+
+    public void handleTokenChanged(AppCheckToken token) {
+        JSObject result = new JSObject();
+        result.put("token", token.getToken());
+        notifyListeners(TOKEN_CHANGED_EVENT, result, true);
     }
 }

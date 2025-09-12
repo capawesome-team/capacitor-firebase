@@ -1,5 +1,43 @@
 # Changelog
 
+## 7.3.1
+
+### Patch Changes
+
+- [`82ca9d7dc4767eab95378b766dba628302879048`](https://github.com/capawesome-team/capacitor-firebase/commit/82ca9d7dc4767eab95378b766dba628302879048) ([#910](https://github.com/capawesome-team/capacitor-firebase/pull/910)): fix: update CocoaPods dependency constraints to allow minor updates
+
+## 7.3.0
+
+### Patch Changes
+
+- [`32de1381463014166c0ed03f9b503462f675f1ec`](https://github.com/capawesome-team/capacitor-firebase/commit/32de1381463014166c0ed03f9b503462f675f1ec) ([#862](https://github.com/capawesome-team/capacitor-firebase/pull/862)): fix(ios): `tokenChanged` listener unrecognized selector
+
+## 7.2.0
+
+### Minor Changes
+
+- [`1227d0dea3def4c64b2c1e13162a84908d42cc4f`](https://github.com/capawesome-team/capacitor-firebase/commit/1227d0dea3def4c64b2c1e13162a84908d42cc4f) ([#855](https://github.com/capawesome-team/capacitor-firebase/pull/855)): feat: implement support for `tokenChanged` listener on Android and iOS
+
+## 7.1.0
+
+### Minor Changes
+
+- [`22bf3b58f24014db55e875d858f5a6f6e2efc3da`](https://github.com/capawesome-team/capacitor-firebase/commit/22bf3b58f24014db55e875d858f5a6f6e2efc3da) ([#810](https://github.com/capawesome-team/capacitor-firebase/pull/810)): feat(web): support static debug tokens
+
+- [`7f6117e12b4cf470916f3207d5c3e7eb13afe1f4`](https://github.com/capawesome-team/capacitor-firebase/commit/7f6117e12b4cf470916f3207d5c3e7eb13afe1f4) ([#812](https://github.com/capawesome-team/capacitor-firebase/pull/812)): feat(web): support all app check providers
+
+## 7.0.0
+
+### Major Changes
+
+- [`604c69719fd84261115dd6fca9271f62bf1c1df9`](https://github.com/capawesome-team/capacitor-firebase/commit/604c69719fd84261115dd6fca9271f62bf1c1df9) ([#807](https://github.com/capawesome-team/capacitor-firebase/pull/807)): feat: update to Capacitor 7
+
+- [`e1d28962d4cb3a772940a61703f7c5ad21f1f994`](https://github.com/capawesome-team/capacitor-firebase/commit/e1d28962d4cb3a772940a61703f7c5ad21f1f994) ([#806](https://github.com/capawesome-team/capacitor-firebase/pull/806)): chore(deps): update the Firebase SDK to the latest version
+
+### Minor Changes
+
+- [`0bffff08b661c704a2e22cd024761f1b1599b791`](https://github.com/capawesome-team/capacitor-firebase/commit/0bffff08b661c704a2e22cd024761f1b1599b791) ([#795](https://github.com/capawesome-team/capacitor-firebase/pull/795)): feat: add SPM support
+
 ## 6.3.1
 
 ## 6.3.0
