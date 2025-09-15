@@ -195,18 +195,16 @@ public class FirebaseAuthentication {
             return;
         }
         Task<GetTokenResult> idTokenResultTask = user.getIdToken(forceRefresh);
-        idTokenResultTask.addOnCompleteListener(
-            task -> {
-                if (task.isSuccessful()) {
-                    GetTokenResult tokenResult = task.getResult();
-                    GetIdTokenResultResult result = new GetIdTokenResultResult(tokenResult);
-                    callback.success(result);
-                } else {
-                    Exception exception = task.getException();
-                    callback.error(exception);
-                }
+        idTokenResultTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                GetTokenResult tokenResult = task.getResult();
+                GetIdTokenResultResult result = new GetIdTokenResultResult(tokenResult);
+                callback.success(result);
+            } else {
+                Exception exception = task.getException();
+                callback.error(exception);
             }
-        );
+        });
     }
 
     public void getPendingAuthResult(PluginCall call) {
