@@ -36,6 +36,7 @@
 		7CD588F22688B5A4002BDF65 /* OAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */; };
 		7CD588F42688B6A7002BDF65 /* AppleAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD588F32688B6A7002BDF65 /* AppleAuthProviderHandler.swift */; };
 		7CE70B7526D1AA220025E915 /* FacebookAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */; };
+		82E4FEA02E78ACE100EC9C3E /* GetIdTokenResultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4FE9F2E78ACE100EC9C3E /* GetIdTokenResultResult.swift */; };
 		D8872AD52913A78800CF6CED /* GameCenterAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		7CD588F12688B5A4002BDF65 /* OAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthProviderHandler.swift; sourceTree = "<group>"; };
 		7CD588F32688B6A7002BDF65 /* AppleAuthProviderHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleAuthProviderHandler.swift; sourceTree = "<group>"; };
 		7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthProviderHandler.swift; sourceTree = "<group>"; };
+		82E4FE9F2E78ACE100EC9C3E /* GetIdTokenResultResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIdTokenResultResult.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterAuthProviderHandler.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 		7C461AF829EC356000DD31E9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				82E4FE9F2E78ACE100EC9C3E /* GetIdTokenResultResult.swift */,
 				7C0C05092BAD80CF004252BE /* Results */,
 				7C0C05082BAD80BF004252BE /* Options */,
 				7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */,
@@ -449,6 +452,7 @@
 				7CD588F02688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift in Sources */,
 				7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */,
 				7C579FFB29F3FBD000B7778B /* SignInOptions.swift in Sources */,
+				82E4FEA02E78ACE100EC9C3E /* GetIdTokenResultResult.swift in Sources */,
 				7C939DAD2C208CD30059B145 /* RevokeAccessTokenOptions.swift in Sources */,
 				7C461B0529EC430D00DD31E9 /* Result.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */,

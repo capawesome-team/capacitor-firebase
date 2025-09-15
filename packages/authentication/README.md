@@ -446,6 +446,7 @@ const verifyBeforeUpdateEmail = async () => {
 * [`getCurrentUser()`](#getcurrentuser)
 * [`getPendingAuthResult()`](#getpendingauthresult)
 * [`getIdToken(...)`](#getidtoken)
+* [`getIdTokenResult(...)`](#getidtokenresult)
 * [`getRedirectResult()`](#getredirectresult)
 * [`getTenantId()`](#gettenantid)
 * [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
@@ -662,6 +663,25 @@ Fetches the Firebase Auth ID Token for the currently signed-in user.
 **Returns:** <code>Promise&lt;<a href="#getidtokenresult">GetIdTokenResult</a>&gt;</code>
 
 **Since:** 0.1.0
+
+--------------------
+
+
+### getIdTokenResult(...)
+
+```typescript
+getIdTokenResult(options?: GetIdTokenResultOptions | undefined) => Promise<GetIdTokenResultResult>
+```
+
+Returns a deserialized JSON Web Token (JWT) used to identify the user to a Firebase service.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getidtokenresultoptions">GetIdTokenResultOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#getidtokenresultresult">GetIdTokenResultResult</a>&gt;</code>
+
+**Since:** 6.4.0
 
 --------------------
 
@@ -1867,6 +1887,25 @@ Remove all listeners for this plugin.
 | **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
 
 
+#### GetIdTokenResultResult
+
+| Prop                     | Type                                                             | Description                                                                                                                                      | Since |
+| ------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`authTime`**           | <code>string</code>                                              | The authentication time formatted as a UTC string. This is the time the user authenticated (signed in) and not the time the token was refreshed. | 6.4.0 |
+| **`expirationTime`**     | <code>string</code>                                              | The ID token expiration time formatted as a UTC string.                                                                                          | 6.4.0 |
+| **`issuedAtTime`**       | <code>string</code>                                              | The ID token issuance time formatted as a UTC string.                                                                                            | 6.4.0 |
+| **`signInProvider`**     | <code>string \| null</code>                                      | The sign-in provider through which the ID token was obtained.                                                                                    | 6.4.0 |
+| **`signInSecondFactor`** | <code>string \| null</code>                                      | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc).                       | 6.4.0 |
+| **`claims`**             | <code><a href="#record">Record</a>&lt;string, unknown&gt;</code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.                                   | 6.4.0 |
+
+
+#### GetIdTokenResultOptions
+
+| Prop               | Type                 | Description                                   | Since |
+| ------------------ | -------------------- | --------------------------------------------- | ----- |
+| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 6.4.0 |
+
+
 #### GetTenantIdResult
 
 | Prop           | Type                        | Description                                     | Since |
@@ -2152,6 +2191,13 @@ An interface covering the possible persistence mechanism types.
 
 
 ### Type Aliases
+
+
+#### Record
+
+Construct a type with a set of properties K of type T
+
+<code>{ [P in K]: T; }</code>
 
 
 #### LinkWithOAuthOptions
