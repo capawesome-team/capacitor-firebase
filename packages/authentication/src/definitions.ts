@@ -698,7 +698,7 @@ export interface GetIdTokenResultOptions {
   /**
    * Force refresh regardless of token expiration.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
   forceRefresh: boolean;
 }
