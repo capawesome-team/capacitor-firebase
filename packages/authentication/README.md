@@ -116,16 +116,16 @@ export default config;
 1. **What does this plugin do?**  
    This plugin enables the use of [Firebase Authentication](https://firebase.google.com/docs/auth) in a Capacitor app.
    It uses the Firebase SDK for [Java](https://firebase.google.com/docs/reference/android) (Android), [Swift](https://firebase.google.com/docs/reference/swift) (iOS) and [JavaScript](https://firebase.google.com/docs/reference/js).
-1. **What is the difference between the web implementation of this plugin and the Firebase JS SDK?**
+1. **What is the difference between the web implementation of this plugin and the Firebase JS SDK?**  
    The web implementation of this plugin encapsulates the Firebase JS SDK and enables a consistent interface across all platforms.
    You can decide if you prefer to use the web implementation or the Firebase JS SDK.
-1. **What is the difference between the native and web authentication?**
+1. **What is the difference between the native and web authentication?**  
    For web authentication, the Firebase JS SDK is used. This only works to a limited extent on Android and iOS in the WebViews (see [here](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html)).
    For native authentication, the native SDKs from Firebase, Google, etc. are used.
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
    If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md)).
-1. **How can I use this plugin with the Firebase JavaScript SDK?**
+1. **How can I use this plugin with the Firebase JavaScript SDK?** 
    See [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md).
 
 ## Firebase JavaScript SDK
