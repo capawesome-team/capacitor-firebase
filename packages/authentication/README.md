@@ -125,7 +125,7 @@ export default config;
    These offer all the functionalities that the Firebase JS SDK also offers on the web.
    However, after a login with the native SDK, the user is only logged in on the native layer of the app.
    If the user should also be logged in on the web layer (for example to access Cloud Firestore via Firebase JS SDK), additional steps are required (see [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md)).
-1. **How can I use this plugin with the Firebase JavaScript SDK?** 
+1. **How can I use this plugin with the Firebase JavaScript SDK?**  
    See [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/firebase-js-sdk.md).
 
 ## Firebase JavaScript SDK
