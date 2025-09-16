@@ -117,7 +117,7 @@ export interface FirebaseAuthenticationPlugin {
   /**
    * Returns a deserialized JSON Web Token (JWT) used to identify the user to a Firebase service.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
   getIdTokenResult(
     options?: GetIdTokenResultOptions,
@@ -692,7 +692,7 @@ export interface GetIdTokenOptions {
 }
 
 /**
- * @since 6.4.0
+ * @since 7.4.0
  */
 export interface GetIdTokenResultOptions {
   /**
@@ -717,43 +717,43 @@ export interface GetIdTokenResult {
 
 export interface GetIdTokenResultResult {
   /**
-   * The authentication time formatted as a UTC string.
+   * The authentication time in milliseconds since the epoch.
    *
    * This is the time the user authenticated (signed in) and not the time the token was refreshed.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
-  authTime: string;
+  authTime: number;
   /**
-   * The ID token expiration time formatted as a UTC string.
+   * The ID token expiration time in milliseconds since the epoch.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
-  expirationTime: string;
+  expirationTime: number;
   /**
-   * The ID token issuance time formatted as a UTC string.
+   * The ID token issuance time in milliseconds since the epoch.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
-  issuedAtTime: string;
+  issuedAtTime: number;
   /**
    * The sign-in provider through which the ID token was obtained.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
   signInProvider: string | null;
   /**
    * The type of second factor associated with this session, provided the user was multi-factor
    * authenticated (eg. phone, etc).
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
   signInSecondFactor: string | null;
   /**
    * The entire payload claims of the ID token including the standard reserved claims as well as
    * the custom claims.
    *
-   * @since 6.4.0
+   * @since 7.4.0
    */
   claims: Record<string, unknown>;
 }

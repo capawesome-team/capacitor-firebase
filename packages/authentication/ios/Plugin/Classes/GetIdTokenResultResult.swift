@@ -13,11 +13,10 @@ import Capacitor
         var result = JSObject()
 
         if let tokenResult = tokenResult {
-            let dateFormatter = ISO8601DateFormatter()
-
-            result["authTime"] = dateFormatter.string(from: tokenResult.authDate)
-            result["expirationTime"] = dateFormatter.string(from: tokenResult.expirationDate)
-            result["issuedAtTime"] = dateFormatter.string(from: tokenResult.issuedAtDate)
+            // Convert to milliseconds (JS commonly expects ms since epoch)
+            result["authTime"] = Int(tokenResult.authDate.timeIntervalSince1970 * 1000)
+            result["expirationTime"] = Int(tokenResult.expirationDate.timeIntervalSince1970 * 1000)
+            result["issuedAtTime"] = Int(tokenResult.issuedAtDate.timeIntervalSince1970 * 1000)
             result["signInProvider"] = tokenResult.signInProvider
             result["signInSecondFactor"] = tokenResult.signInSecondFactor
 
