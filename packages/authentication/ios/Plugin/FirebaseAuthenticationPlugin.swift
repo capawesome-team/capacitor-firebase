@@ -21,6 +21,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "fetchSignInMethodsForEmail", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getCurrentUser", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getIdToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getIdTokenResult", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getPendingAuthResult", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getRedirectResult", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getTenantId", returnType: CAPPluginReturnPromise),
@@ -223,6 +224,22 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         let forceRefresh = call.getBool("forceRefresh", false)
 
         implementation?.getIdToken(forceRefresh, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
+                call.reject(error.localizedDescription, code)
+                return
+            }
+            if let result = result {
+                call.resolve(result.toJSObject())
+            }
+        })
+    }
+
+    @objc func getIdTokenResult(_ call: CAPPluginCall) {
+        let forceRefresh = call.getBool("forceRefresh", false)
+
+        implementation?.getIdTokenResult(forceRefresh, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
