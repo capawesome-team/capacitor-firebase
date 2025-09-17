@@ -69,9 +69,9 @@ import type {
   FetchSignInMethodsForEmailResult,
   FirebaseAuthenticationPlugin,
   GetCurrentUserResult,
-  GetIdTokenResultResult,
   GetIdTokenOptions,
   GetIdTokenResult,
+  GetIdTokenResultResult,
   GetTenantIdResult,
   IsSignInWithEmailLinkOptions,
   IsSignInWithEmailLinkResult,
@@ -228,8 +228,17 @@ export class FirebaseAuthenticationWeb
     if (!auth.currentUser) {
       throw new Error(FirebaseAuthenticationWeb.ERROR_NO_USER_SIGNED_IN);
     }
-    const result: GetIdTokenResultResult =
-      await auth.currentUser.getIdTokenResult(options?.forceRefresh);
+    const idTokenResult = await auth.currentUser.getIdTokenResult(
+      options?.forceRefresh,
+    );
+
+    const result: GetIdTokenResultResult = {
+      ...idTokenResult,
+      authTime: Date.parse(idTokenResult.authTime),
+      expirationTime: Date.parse(idTokenResult.expirationTime),
+      issuedAtTime: Date.parse(idTokenResult.issuedAtTime),
+    };
+
     return result;
   }
 
