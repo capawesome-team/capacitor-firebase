@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/functions",
-  "version": "7.3.1",
+  "version": "7.4.0",
   "description": "Capacitor plugin for Firebase Cloud Functions.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
