@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.4.0
+
+### Minor Changes
+
+- [`2c72a4104d4285aafc2dc815545387a8a21c41d7`](https://github.com/capawesome-team/capacitor-firebase/commit/2c72a4104d4285aafc2dc815545387a8a21c41d7) ([#913](https://github.com/capawesome-team/capacitor-firebase/pull/913)): feat: add `getIdTokenResult()` method
+
 ## 7.3.1
 
 ### Patch Changes
