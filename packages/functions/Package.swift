@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "CapacitorFirebaseFunctions",
-    platforms: [.iOS(.v14)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(
             name: "CapacitorFirebaseFunctions",

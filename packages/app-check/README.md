@@ -32,6 +32,8 @@ This can be useful if you encounter dependency conflicts with other plugins in y
 
 ### iOS
 
+**Minimum iOS Version**: iOS 15.0 or higher is required for Firebase iOS SDK 12.x. If you need to support iOS 13-14, use version 7.3.1 of this plugin with Firebase 11.x.
+
 On **iOS 14 and later**, see [Set up your Firebase project](https://firebase.google.com/docs/app-check/ios/app-attest-provider#project-setup) and follow the instructions to set up your app correctly.
 
 On **iOS 13**, see [Set up your Firebase project](https://firebase.google.com/docs/app-check/ios/devicecheck-provider#project-setup) and follow the instructions to set up your app correctly.

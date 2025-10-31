@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.author = package['author']
   s.source = { :git => package['repository']['url'], :tag => s.version.to_s }
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
-  s.ios.deployment_target  = '14.0'
+  s.ios.deployment_target  = '15.0'
   s.dependency 'Capacitor'
   s.swift_version = '5.1'
   s.static_framework = true
@@ -22,11 +22,11 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Analytics' do |analytics|
-    analytics.dependency 'FirebaseAnalytics', '~> 11.7.0'
-    analytics.dependency 'GoogleAppMeasurementOnDeviceConversion', '~> 11.7.0'
+    analytics.dependency 'FirebaseAnalytics', '~> 12.5.0'
+    analytics.dependency 'GoogleAppMeasurementOnDeviceConversion', '~> 12.5.0'
   end
 
   s.subspec 'AnalyticsWithoutAdIdSupport' do |analyticsWithoutAdIdSupport|
-    analyticsWithoutAdIdSupport.dependency 'FirebaseAnalytics/WithoutAdIdSupport', '~> 11.7.0'
+    analyticsWithoutAdIdSupport.dependency 'FirebaseAnalytics/WithoutAdIdSupport', '~> 12.5.0'
   end
 end
