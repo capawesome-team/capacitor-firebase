@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/app': minor
+'@capacitor-firebase/app': patch
 ---
 
 fix(android): move `FirebaseAppPlugin` to correct package
