@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.4.0
+
+### Patch Changes
+
+- [`e6bb65db168226800bc2c307b905e9e92d32a058`](https://github.com/capawesome-team/capacitor-firebase/commit/e6bb65db168226800bc2c307b905e9e92d32a058) ([#922](https://github.com/capawesome-team/capacitor-firebase/pull/922)): fix(android): move `FirebaseAppPlugin` to correct package
+
 ## 7.3.1
 
 ### Patch Changes
