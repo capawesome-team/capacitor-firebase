@@ -13,6 +13,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "activate", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "fetchAndActivate", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "fetchConfig", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getInfo", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getBoolean", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getNumber", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getString", returnType: CAPPluginReturnPromise),
@@ -111,6 +112,19 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
         let minimumFetchIntervalInSeconds = call.getDouble("minimumFetchIntervalInSeconds") ?? defaultMinimumFetchIntervalInSeconds
         implementation?.setSettings(fetchTimeoutInSeconds: fetchTimeoutInSeconds, minimumFetchIntervalInSeconds: minimumFetchIntervalInSeconds)
         call.resolve()
+    }
+
+    @objc func getInfo(_ call: CAPPluginCall) {
+        implementation?.getInfo(completion: { lastFetchTime, lastFetchStatus, errorMessage in
+            if let errorMessage = errorMessage {
+                call.reject(errorMessage)
+                return
+            }
+            call.resolve([
+                "lastFetchTime": lastFetchTime,
+                "lastFetchStatus": lastFetchStatus
+            ])
+        })
     }
 
     @objc func addConfigUpdateListener(_ call: CAPPluginCall) {

@@ -56,6 +56,21 @@ import Capacitor
         return RemoteConfig.remoteConfig().configValue(forKey: key)
     }
 
+    @objc public func getInfo(completion: @escaping (Double, Int, String?) -> Void) {
+        let rc = RemoteConfig.remoteConfig()
+
+        let lastFetchTimeMillis: Double
+        if let lastFetchDate = rc.lastFetchTime {
+            lastFetchTimeMillis = lastFetchDate.timeIntervalSince1970 * 1000.0
+        } else {
+            lastFetchTimeMillis = 0
+        }
+
+        let statusInt = Int(rc.lastFetchStatus.rawValue)
+
+        completion(lastFetchTimeMillis, statusInt, nil)
+    }
+
     @objc public func setSettings(fetchTimeoutInSeconds: Double, minimumFetchIntervalInSeconds: Double) {
         let settings = RemoteConfigSettings()
         settings.fetchTimeout = fetchTimeoutInSeconds

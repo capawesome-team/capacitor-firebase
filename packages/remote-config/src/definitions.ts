@@ -36,6 +36,12 @@ export interface FirebaseRemoteConfigPlugin {
    */
   getString(options: GetStringOptions): Promise<GetStringResult>;
   /**
+   * Get information about the last fetch operation.
+   *
+   * @since 7.5.0
+   */
+  getInfo(): Promise<GetInfoResult>;
+  /**
    * Set the minimum fetch interval.
    *
    * Only available for Web.
@@ -225,6 +231,14 @@ export interface SetSettingsOptions {
 }
 
 /**
+ * @since 7.5.0
+ */
+export interface GetInfoResult {
+  lastFetchTime: number;
+  lastFetchStatus: LastFetchStatus;
+}
+
+/**
  * @since 5.4.0
  */
 export type AddConfigUpdateListenerOptionsCallback = (
@@ -283,4 +297,14 @@ export enum GetValueSource {
    * @since 1.3.0
    */
   Remote = 2,
+}
+
+/**
+ * @since 7.5.0
+ */
+export enum LastFetchStatus {
+  NoFetchYet = 0,
+  Success = 1,
+  Failure = 2,
+  Throttled = 3,
 }

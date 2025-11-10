@@ -10,6 +10,7 @@ import com.google.firebase.remoteconfig.ConfigUpdate;
 import com.google.firebase.remoteconfig.ConfigUpdateListener;
 import com.google.firebase.remoteconfig.ConfigUpdateListenerRegistration;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.events.AddConfigUpdateListenerOptionsCallbackEvent;
@@ -78,6 +79,14 @@ public class FirebaseRemoteConfig {
     public GetValueResult<String> getString(String key) {
         FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
         return new GetValueResult<String>(value.asString(), value.getSource());
+    }
+
+    public GetInfoResult getInfo() {
+        FirebaseRemoteConfigInfo info = getFirebaseRemoteConfigInstance().getInfo();
+        long lastFetchTime = info.getFetchTimeMillis();
+        int lastFetchStatus = info.getLastFetchStatus();
+
+        return new GetInfoResult(lastFetchTime, lastFetchStatus);
     }
 
     public Task<Void> setSettings(@Nullable Integer fetchTimeoutInSeconds, @Nullable Integer minimumFetchIntervalInSeconds) {

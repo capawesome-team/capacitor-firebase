@@ -124,6 +124,7 @@ const removeAllListeners = async () => {
 * [`getBoolean(...)`](#getboolean)
 * [`getNumber(...)`](#getnumber)
 * [`getString(...)`](#getstring)
+* [`getInfo()`](#getinfo)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
 * [`setSettings(...)`](#setsettings)
 * [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
@@ -234,6 +235,21 @@ Get the value for the given key as a string.
 **Returns:** <code>Promise&lt;<a href="#getstringresult">GetStringResult</a>&gt;</code>
 
 **Since:** 1.3.0
+
+--------------------
+
+
+### getInfo()
+
+```typescript
+getInfo() => Promise<GetInfoResult>
+```
+
+Get information about the last fetch operation.
+
+**Returns:** <code>Promise&lt;<a href="#getinforesult">GetInfoResult</a>&gt;</code>
+
+**Since:** 7.5.0
 
 --------------------
 
@@ -370,6 +386,14 @@ Remove all listeners for this plugin.
 | **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
 
 
+#### GetInfoResult
+
+| Prop                  | Type                                                        |
+| --------------------- | ----------------------------------------------------------- |
+| **`lastFetchTime`**   | <code>number</code>                                         |
+| **`lastFetchStatus`** | <code><a href="#lastfetchstatus">LastFetchStatus</a></code> |
+
+
 #### SetMinimumFetchIntervalOptions
 
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
@@ -437,6 +461,16 @@ Remove all listeners for this plugin.
 | **`Static`**  | <code>0</code> | Indicates that the value returned is the static default value.                          | 1.3.0 |
 | **`Default`** | <code>1</code> | Indicates that the value returned was retrieved from the defaults set by the client.    | 1.3.0 |
 | **`Remote`**  | <code>2</code> | Indicates that the value returned was retrieved from the Firebase Remote Config Server. | 1.3.0 |
+
+
+#### LastFetchStatus
+
+| Members          | Value          |
+| ---------------- | -------------- |
+| **`NoFetchYet`** | <code>0</code> |
+| **`Success`**    | <code>1</code> |
+| **`Failure`**    | <code>2</code> |
+| **`Throttled`**  | <code>3</code> |
 
 </docgen-api>
 
