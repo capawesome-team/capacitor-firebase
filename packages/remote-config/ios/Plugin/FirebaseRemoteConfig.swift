@@ -63,7 +63,7 @@ import Capacitor
         if let lastFetchDate = rc.lastFetchTime {
             lastFetchTimeMillis = lastFetchDate.timeIntervalSince1970 * 1000.0
         } else {
-            lastFetchTimeMillis = 0
+            lastFetchTimeMillis = -1
         }
 
         let statusInt = Int(rc.lastFetchStatus.rawValue)

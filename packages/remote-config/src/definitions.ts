@@ -235,7 +235,7 @@ export interface SetSettingsOptions {
  */
 export interface GetInfoResult {
   /**
-   * The Unix timestamp in milliseconds of the last successful fetch.
+   * The Unix timestamp in milliseconds of the last successful fetch, or -1 if no fetch has occurred or initialization is incomplete.
    * @since 7.5.0
    * @example 1762864760
    */
