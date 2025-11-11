@@ -158,6 +158,20 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void getInfo(PluginCall call) {
+        try {
+            GetInfoResult info = implementation.getInfo();
+            JSObject result = new JSObject();
+            result.put("lastFetchTime", info.lastFetchTime);
+            result.put("lastFetchStatus", info.lastFetchStatus);
+            call.resolve(result);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
     public void setMinimumFetchInterval(PluginCall call) {
         call.reject("Not available on Android.");
     }

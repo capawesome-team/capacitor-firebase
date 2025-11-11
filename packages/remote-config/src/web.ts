@@ -13,6 +13,7 @@ import type {
   AddConfigUpdateListenerOptionsCallback,
   FirebaseRemoteConfigPlugin,
   GetBooleanResult,
+  GetInfoResult,
   GetNumberResult,
   GetOptions,
   GetStringResult,
@@ -20,6 +21,7 @@ import type {
   SetMinimumFetchIntervalOptions,
   SetSettingsOptions,
 } from './definitions';
+import { LastFetchStatus } from './definitions';
 
 export class FirebaseRemoteConfigWeb
   extends WebPlugin
@@ -56,6 +58,22 @@ export class FirebaseRemoteConfigWeb
     const remoteConfig = getRemoteConfig();
     const value = getString(remoteConfig, options.key);
     return { value };
+  }
+
+  public async getInfo(): Promise<GetInfoResult> {
+    const remoteConfig = getRemoteConfig();
+
+    const status = {
+      'success': LastFetchStatus.Success,
+      'failure': LastFetchStatus.Failure,
+      'throttle': LastFetchStatus.Throttled,
+      'no-fetch-yet': LastFetchStatus.NoFetchYet,
+    };
+
+    return {
+      lastFetchTime: remoteConfig.fetchTimeMillis,
+      lastFetchStatus: status[remoteConfig.lastFetchStatus],
+    };
   }
 
   public async setMinimumFetchInterval(
