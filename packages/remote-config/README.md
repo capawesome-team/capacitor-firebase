@@ -388,10 +388,10 @@ Remove all listeners for this plugin.
 
 #### GetInfoResult
 
-| Prop                  | Type                                                        |
-| --------------------- | ----------------------------------------------------------- |
-| **`lastFetchTime`**   | <code>number</code>                                         |
-| **`lastFetchStatus`** | <code><a href="#lastfetchstatus">LastFetchStatus</a></code> |
+| Prop                  | Type                                                        | Description                                                      | Since |
+| --------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------- | ----- |
+| **`lastFetchTime`**   | <code>number</code>                                         | The Unix timestamp in milliseconds of the last successful fetch. | 7.5.0 |
+| **`lastFetchStatus`** | <code><a href="#lastfetchstatus">LastFetchStatus</a></code> | The status of the last fetch attempt.                            | 7.5.0 |
 
 
 #### SetMinimumFetchIntervalOptions

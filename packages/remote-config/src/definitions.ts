@@ -234,7 +234,17 @@ export interface SetSettingsOptions {
  * @since 7.5.0
  */
 export interface GetInfoResult {
+  /**
+   * The Unix timestamp in milliseconds of the last successful fetch.
+   * @since 7.5.0
+   * @example 1762864760
+   */
   lastFetchTime: number;
+  /**
+   * The status of the last fetch attempt.
+   * @since 7.5.0
+   * @example 1
+   */
   lastFetchStatus: LastFetchStatus;
 }
 
