@@ -1,10 +1,12 @@
+<a href="https://capgo.app/"><img src='https://raw.githubusercontent.com/Cap-go/capgo/main/assets/capgo_banner.png' alt='Capgo - Instant updates for capacitor'/></a>
+
+<div align="center">
+  <h2><a href="https://capgo.app/?ref=plugin"> ➡️ Get Instant updates for your App with Capgo</a></h2>
+  <h2><a href="https://capgo.app/consulting/?ref=plugin"> Missing a feature? We'll build the plugin for you 💪</a></h2>
+</div>
+
 <br />
 <div align="center">
-  <a href="https://capgo.app/">
-    <img src="https://capgo.app/capgo_banner.webp" alt="Capgo" width="720" />
-  </a>
-  <br />
-  <br />
   <h1>
     <img src="https://user-images.githubusercontent.com/13857929/161965231-b2c7f586-2ee8-4342-a71a-0532bb8b4c1f.png" alt="Capacitor Firebase" width="720" />
   </h1>
