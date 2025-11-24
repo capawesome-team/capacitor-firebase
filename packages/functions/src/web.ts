@@ -1,10 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import {
-  connectFunctionsEmulator,
-  getFunctions,
-  httpsCallable,
-  httpsCallableFromURL,
-} from 'firebase/functions';
+import { connectFunctionsEmulator, getFunctions, httpsCallable, httpsCallableFromURL } from 'firebase/functions';
 
 import type {
   CallByNameOptions,
@@ -15,18 +10,12 @@ import type {
   UseEmulatorOptions,
 } from './definitions';
 
-export class FirebaseFunctionsWeb
-  extends WebPlugin
-  implements FirebaseFunctionsPlugin
-{
+export class FirebaseFunctionsWeb extends WebPlugin implements FirebaseFunctionsPlugin {
   public async callByName<RequestData = unknown, ResponseData = unknown>(
     options: CallByNameOptions<RequestData>,
   ): Promise<CallByNameResult<ResponseData>> {
     const functions = getFunctions(undefined, options.region);
-    const callable = httpsCallable<RequestData, ResponseData>(
-      functions,
-      options.name,
-    );
+    const callable = httpsCallable<RequestData, ResponseData>(functions, options.name);
     const result = await callable(options.data);
     return {
       data: result.data,
@@ -37,10 +26,7 @@ export class FirebaseFunctionsWeb
     options: CallByUrlOptions<RequestData>,
   ): Promise<CallResult<ResponseData>> {
     const functions = getFunctions();
-    const callable = httpsCallableFromURL<RequestData, ResponseData>(
-      functions,
-      options.url,
-    );
+    const callable = httpsCallableFromURL<RequestData, ResponseData>(functions, options.url);
     const result = await callable(options.data);
     return {
       data: result.data,

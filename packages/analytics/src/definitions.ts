@@ -44,9 +44,7 @@ export interface FirebaseAnalyticsPlugin {
    *
    * @since 0.1.0
    */
-  setSessionTimeoutDuration(
-    options: SetSessionTimeoutDurationOptions,
-  ): Promise<void>;
+  setSessionTimeoutDuration(options: SetSessionTimeoutDurationOptions): Promise<void>;
   /**
    * Enables/disables automatic data collection.
    * The value does not apply until the next run of the app.

@@ -21,12 +21,8 @@ import type {
   StopTraceOptions,
 } from './definitions';
 
-export class FirebasePerformanceWeb
-  extends WebPlugin
-  implements FirebasePerformancePlugin
-{
-  private static readonly ERROR_TRACE_NOT_FOUND =
-    'No trace was found with the provided traceName.';
+export class FirebasePerformanceWeb extends WebPlugin implements FirebasePerformancePlugin {
+  private static readonly ERROR_TRACE_NOT_FOUND = 'No trace was found with the provided traceName.';
   private traces: { [key: string]: PerformanceTrace | undefined } = {};
 
   public async startTrace(options: StartTraceOptions): Promise<void> {
@@ -67,11 +63,7 @@ export class FirebasePerformanceWeb
     return result;
   }
 
-  public async putAttribute({
-    traceName,
-    attribute,
-    value,
-  }: PutAttributeOptions): Promise<void> {
+  public async putAttribute({ traceName, attribute, value }: PutAttributeOptions): Promise<void> {
     const trace = this.traces[traceName];
     if (!trace) {
       throw new Error(FirebasePerformanceWeb.ERROR_TRACE_NOT_FOUND);
@@ -80,10 +72,7 @@ export class FirebasePerformanceWeb
     return;
   }
 
-  public async getAttribute({
-    traceName,
-    attribute,
-  }: GetAttributeOptions): Promise<GetAttributeResult> {
+  public async getAttribute({ traceName, attribute }: GetAttributeOptions): Promise<GetAttributeResult> {
     const trace = this.traces[traceName];
     if (!trace) {
       throw new Error(FirebasePerformanceWeb.ERROR_TRACE_NOT_FOUND);
@@ -91,9 +80,7 @@ export class FirebasePerformanceWeb
     return { value: trace.getAttribute(attribute) ?? null };
   }
 
-  public async getAttributes({
-    traceName,
-  }: GetAttributesOptions): Promise<GetAttributesResult> {
+  public async getAttributes({ traceName }: GetAttributesOptions): Promise<GetAttributesResult> {
     const trace = this.traces[traceName];
     if (!trace) {
       throw new Error(FirebasePerformanceWeb.ERROR_TRACE_NOT_FOUND);
@@ -101,10 +88,7 @@ export class FirebasePerformanceWeb
     return { attributes: trace.getAttributes() };
   }
 
-  public async removeAttribute({
-    traceName,
-    attribute,
-  }: RemoveAttributeOptions): Promise<void> {
+  public async removeAttribute({ traceName, attribute }: RemoveAttributeOptions): Promise<void> {
     const trace = this.traces[traceName];
     if (!trace) {
       throw new Error(FirebasePerformanceWeb.ERROR_TRACE_NOT_FOUND);
@@ -112,11 +96,7 @@ export class FirebasePerformanceWeb
     trace.removeAttribute(attribute);
   }
 
-  public async putMetric({
-    traceName,
-    metricName,
-    num,
-  }: PutMetricOptions): Promise<void> {
+  public async putMetric({ traceName, metricName, num }: PutMetricOptions): Promise<void> {
     const trace = this.traces[traceName];
     if (!trace) {
       throw new Error(FirebasePerformanceWeb.ERROR_TRACE_NOT_FOUND);
@@ -124,10 +104,7 @@ export class FirebasePerformanceWeb
     trace.putMetric(metricName, num);
   }
 
-  public async getMetric({
-    traceName,
-    metricName,
-  }: GetMetricOptions): Promise<GetMetricResult> {
+  public async getMetric({ traceName, metricName }: GetMetricOptions): Promise<GetMetricResult> {
     const trace = this.traces[traceName];
     if (!trace) {
       throw new Error(FirebasePerformanceWeb.ERROR_TRACE_NOT_FOUND);
@@ -135,12 +112,7 @@ export class FirebasePerformanceWeb
     return { value: trace.getMetric(metricName) };
   }
 
-  public async record({
-    traceName,
-    startTime,
-    duration,
-    options,
-  }: RecordOptions): Promise<void> {
+  public async record({ traceName, startTime, duration, options }: RecordOptions): Promise<void> {
     const perf = getPerformance();
     const trace = createTrace(perf, traceName);
     trace.record(startTime, duration, options);

@@ -34,10 +34,7 @@ export interface FirebaseStoragePlugin {
    *
    * @since 5.3.0
    */
-  uploadFile(
-    options: UploadFileOptions,
-    callback: UploadFileCallback,
-  ): Promise<CallbackId>;
+  uploadFile(options: UploadFileOptions, callback: UploadFileCallback): Promise<CallbackId>;
   /**
    * Instrument your app to talk to the Cloud Storage emulator.
    *
@@ -421,10 +418,7 @@ export interface UploadFileOptions {
 /**
  * @since 5.3.0
  */
-export type UploadFileCallback = (
-  event: UploadFileCallbackEvent | null,
-  error: any,
-) => void;
+export type UploadFileCallback = (event: UploadFileCallbackEvent | null, error: any) => void;
 
 /**
  * @since 5.3.0

@@ -1,10 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import type {
-  ListOptions,
-  SettableMetadata,
-  UploadMetadata,
-  UploadTaskSnapshot,
-} from 'firebase/storage';
+import type { ListOptions, SettableMetadata, UploadMetadata, UploadTaskSnapshot } from 'firebase/storage';
 import {
   connectStorageEmulator,
   deleteObject,
@@ -33,10 +28,7 @@ import type {
   UseEmulatorOptions,
 } from './definitions';
 
-export class FirebaseStorageWeb
-  extends WebPlugin
-  implements FirebaseStoragePlugin
-{
+export class FirebaseStorageWeb extends WebPlugin implements FirebaseStoragePlugin {
   public static readonly ERROR_BLOB_MISSING = 'blob must be provided.';
 
   public async deleteFile(options: DeleteFileOptions): Promise<void> {
@@ -45,18 +37,14 @@ export class FirebaseStorageWeb
     await deleteObject(storageRef);
   }
 
-  public async getDownloadUrl(
-    options: GetDownloadUrlOptions,
-  ): Promise<GetDownloadUrlResult> {
+  public async getDownloadUrl(options: GetDownloadUrlOptions): Promise<GetDownloadUrlResult> {
     const storage = getStorage();
     const storageRef = ref(storage, options.path);
     const downloadUrl = await getDownloadURL(storageRef);
     return { downloadUrl };
   }
 
-  public async getMetadata(
-    options: GetMetadataOptions,
-  ): Promise<GetMetadataResult> {
+  public async getMetadata(options: GetMetadataOptions): Promise<GetMetadataResult> {
     const storage = getStorage();
     const storageRef = ref(storage, options.path);
     const metadata = await getMetadata(storageRef);
@@ -91,7 +79,7 @@ export class FirebaseStorageWeb
     };
     const listResult = await list(storageRef, listOptions);
     const result: ListFilesResult = {
-      items: listResult.items.map(item => ({
+      items: listResult.items.map((item) => ({
         bucket: item.bucket,
         name: item.name,
         path: item.fullPath,
@@ -117,10 +105,7 @@ export class FirebaseStorageWeb
     await updateMetadata(storageRef, metadata);
   }
 
-  public async uploadFile(
-    options: UploadFileOptions,
-    callback: UploadFileCallback,
-  ): Promise<string> {
+  public async uploadFile(options: UploadFileOptions, callback: UploadFileCallback): Promise<string> {
     if (!options.blob) {
       throw new Error(FirebaseStorageWeb.ERROR_BLOB_MISSING);
     }
@@ -140,11 +125,11 @@ export class FirebaseStorageWeb
     }
     const uploadTask = uploadBytesResumable(storageRef, options.blob, metadata);
     uploadTask.on('state_changed', {
-      next: snapshot => {
+      next: (snapshot) => {
         const result = this.createUploadFileCallbackEvent(snapshot);
         callback(result, undefined);
       },
-      error: error => {
+      error: (error) => {
         callback(null, error);
       },
       complete: () => {
@@ -161,9 +146,7 @@ export class FirebaseStorageWeb
     connectStorageEmulator(storage, options.host, port);
   }
 
-  private createUploadFileCallbackEvent(
-    snapshot: UploadTaskSnapshot,
-  ): UploadFileCallbackEvent {
+  private createUploadFileCallbackEvent(snapshot: UploadTaskSnapshot): UploadFileCallbackEvent {
     const result: UploadFileCallbackEvent = {
       progress: snapshot.bytesTransferred / snapshot.totalBytes,
       bytesTransferred: snapshot.bytesTransferred,

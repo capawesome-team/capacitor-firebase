@@ -71,21 +71,13 @@ import type {
   WriteBatchOptions,
 } from './definitions';
 
-export class FirebaseFirestoreWeb
-  extends WebPlugin
-  implements FirebaseFirestorePlugin
-{
+export class FirebaseFirestoreWeb extends WebPlugin implements FirebaseFirestorePlugin {
   private readonly unsubscribesMap: Map<string, Unsubscribe> = new Map();
 
-  public async addDocument(
-    options: AddDocumentOptions,
-  ): Promise<AddDocumentResult> {
+  public async addDocument(options: AddDocumentOptions): Promise<AddDocumentResult> {
     const firestore = getFirestore();
     const { reference, data } = options;
-    const documentReference = await addDoc<DocumentData, DocumentData>(
-      collection(firestore, reference),
-      data,
-    );
+    const documentReference = await addDoc<DocumentData, DocumentData>(collection(firestore, reference), data);
     return {
       reference: {
         id: documentReference.id,
@@ -102,9 +94,7 @@ export class FirebaseFirestoreWeb
     });
   }
 
-  public async getDocument<T extends DocumentData>(
-    options: GetDocumentOptions,
-  ): Promise<GetDocumentResult<T>> {
+  public async getDocument<T extends DocumentData>(options: GetDocumentOptions): Promise<GetDocumentResult<T>> {
     const firestore = getFirestore();
     const { reference } = options;
     const documentSnapshot = await getDoc(doc(firestore, reference));
@@ -113,9 +103,7 @@ export class FirebaseFirestoreWeb
       snapshot: {
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
-        data: (documentSnapshotData === undefined
-          ? null
-          : documentSnapshotData) as T | null,
+        data: (documentSnapshotData === undefined ? null : documentSnapshotData) as T | null,
         metadata: {
           hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
           fromCache: documentSnapshot.metadata.fromCache,
@@ -127,10 +115,7 @@ export class FirebaseFirestoreWeb
   public async updateDocument(options: SetDocumentOptions): Promise<void> {
     const firestore = getFirestore();
     const { reference, data } = options;
-    await updateDoc<DocumentData, DocumentData>(
-      doc(firestore, reference),
-      data,
-    );
+    await updateDoc<DocumentData, DocumentData>(doc(firestore, reference), data);
   }
 
   public async deleteDocument(options: SetDocumentOptions): Promise<void> {
@@ -161,16 +146,11 @@ export class FirebaseFirestoreWeb
     await batch.commit();
   }
 
-  public async getCollection<T extends DocumentData>(
-    options: GetCollectionOptions,
-  ): Promise<GetCollectionResult<T>> {
-    const collectionQuery = await this.buildCollectionQuery(
-      options,
-      'collection',
-    );
+  public async getCollection<T extends DocumentData>(options: GetCollectionOptions): Promise<GetCollectionResult<T>> {
+    const collectionQuery = await this.buildCollectionQuery(options, 'collection');
     const collectionSnapshot = await getDocs(collectionQuery);
     return {
-      snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
+      snapshots: collectionSnapshot.docs.map((documentSnapshot) => ({
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
         data: documentSnapshot.data() as T,
@@ -185,13 +165,10 @@ export class FirebaseFirestoreWeb
   public async getCollectionGroup<T extends DocumentData>(
     options: GetCollectionGroupOptions,
   ): Promise<GetCollectionGroupResult<T>> {
-    const collectionQuery = await this.buildCollectionQuery(
-      options,
-      'collectionGroup',
-    );
+    const collectionQuery = await this.buildCollectionQuery(options, 'collectionGroup');
     const collectionSnapshot = await getDocs(collectionQuery);
     return {
-      snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
+      snapshots: collectionSnapshot.docs.map((documentSnapshot) => ({
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
         data: documentSnapshot.data() as T,
@@ -203,9 +180,7 @@ export class FirebaseFirestoreWeb
     };
   }
 
-  public async getCountFromServer(
-    options: GetCountFromServerOptions,
-  ): Promise<GetCountFromServerResult> {
+  public async getCountFromServer(options: GetCountFromServerOptions): Promise<GetCountFromServerResult> {
     const firestore = getFirestore();
     const { reference } = options;
     const coll = collection(firestore, reference);
@@ -234,9 +209,7 @@ export class FirebaseFirestoreWeb
     connectFirestoreEmulator(firestore, options.host, port);
   }
 
-  public async addDocumentSnapshotListener<
-    T extends DocumentData = DocumentData,
-  >(
+  public async addDocumentSnapshotListener<T extends DocumentData = DocumentData>(
     options: AddDocumentSnapshotListenerOptions,
     callback: AddDocumentSnapshotListenerCallback<T>,
   ): Promise<string> {
@@ -247,7 +220,7 @@ export class FirebaseFirestoreWeb
         includeMetadataChanges: options.includeMetadataChanges,
         source: options.source,
       },
-      snapshot => {
+      (snapshot) => {
         const data = snapshot.data();
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {
@@ -262,32 +235,27 @@ export class FirebaseFirestoreWeb
         };
         callback(event, undefined);
       },
-      error => callback(null, error),
+      (error) => callback(null, error),
     );
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
 
-  public async addCollectionSnapshotListener<
-    T extends DocumentData = DocumentData,
-  >(
+  public async addCollectionSnapshotListener<T extends DocumentData = DocumentData>(
     options: AddCollectionSnapshotListenerOptions,
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<string> {
-    const collectionQuery = await this.buildCollectionQuery(
-      options,
-      'collection',
-    );
+    const collectionQuery = await this.buildCollectionQuery(options, 'collection');
     const unsubscribe = onSnapshot(
       collectionQuery,
       {
         includeMetadataChanges: options.includeMetadataChanges,
         source: options.source,
       },
-      snapshot => {
+      (snapshot) => {
         const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
-          snapshots: snapshot.docs.map(documentSnapshot => ({
+          snapshots: snapshot.docs.map((documentSnapshot) => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
             data: documentSnapshot.data() as T,
@@ -299,32 +267,27 @@ export class FirebaseFirestoreWeb
         };
         callback(event, undefined);
       },
-      error => callback(null, error),
+      (error) => callback(null, error),
     );
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
 
-  public async addCollectionGroupSnapshotListener<
-    T extends DocumentData = DocumentData,
-  >(
+  public async addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(
     options: AddCollectionGroupSnapshotListenerOptions,
     callback: AddCollectionGroupSnapshotListenerCallback<T>,
   ): Promise<string> {
-    const collectionQuery = await this.buildCollectionQuery(
-      options,
-      'collectionGroup',
-    );
+    const collectionQuery = await this.buildCollectionQuery(options, 'collectionGroup');
     const unsubscribe = onSnapshot(
       collectionQuery,
       {
         includeMetadataChanges: options.includeMetadataChanges,
         source: options.source,
       },
-      snapshot => {
+      (snapshot) => {
         const event: AddCollectionSnapshotListenerCallbackEvent<T> = {
-          snapshots: snapshot.docs.map(documentSnapshot => ({
+          snapshots: snapshot.docs.map((documentSnapshot) => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
             data: documentSnapshot.data() as T,
@@ -336,16 +299,14 @@ export class FirebaseFirestoreWeb
         };
         callback(event, undefined);
       },
-      error => callback(null, error),
+      (error) => callback(null, error),
     );
     const id = Date.now().toString();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
 
-  public async removeSnapshotListener(
-    options: RemoveSnapshotListenerOptions,
-  ): Promise<void> {
+  public async removeSnapshotListener(options: RemoveSnapshotListenerOptions): Promise<void> {
     const unsubscribe = this.unsubscribesMap.get(options.callbackId);
 
     if (!unsubscribe) {
@@ -357,28 +318,20 @@ export class FirebaseFirestoreWeb
   }
 
   public async removeAllListeners(): Promise<void> {
-    this.unsubscribesMap.forEach(unsubscribe => unsubscribe());
+    this.unsubscribesMap.forEach((unsubscribe) => unsubscribe());
     this.unsubscribesMap.clear();
     await super.removeAllListeners();
   }
 
   private async buildCollectionQuery(
-    options:
-      | GetCollectionOptions
-      | GetCollectionGroupOptions
-      | AddCollectionSnapshotListenerOptions,
+    options: GetCollectionOptions | GetCollectionGroupOptions | AddCollectionSnapshotListenerOptions,
     type: 'collection' | 'collectionGroup',
   ): Promise<Query<DocumentData, DocumentData>> {
     const firestore = getFirestore();
     let collectionQuery: Query;
     if (options.compositeFilter) {
-      const compositeFilter = this.buildFirebaseQueryCompositeFilterConstraint(
-        options.compositeFilter,
-      );
-      const queryConstraints =
-        await this.buildFirebaseQueryNonFilterConstraints(
-          options.queryConstraints || [],
-        );
+      const compositeFilter = this.buildFirebaseQueryCompositeFilterConstraint(options.compositeFilter);
+      const queryConstraints = await this.buildFirebaseQueryNonFilterConstraints(options.queryConstraints || []);
       collectionQuery = query(
         type === 'collection'
           ? collection(firestore, options.reference)
@@ -387,9 +340,7 @@ export class FirebaseFirestoreWeb
         ...queryConstraints,
       );
     } else {
-      const queryConstraints = await this.buildFirebaseQueryConstraints(
-        options.queryConstraints || [],
-      );
+      const queryConstraints = await this.buildFirebaseQueryConstraints(options.queryConstraints || []);
       collectionQuery = query(
         type === 'collection'
           ? collection(firestore, options.reference)
@@ -403,9 +354,7 @@ export class FirebaseFirestoreWeb
   private buildFirebaseQueryCompositeFilterConstraint(
     compositeFilter: QueryCompositeFilterConstraint,
   ): FirebaseQueryCompositeFilterConstraint {
-    const queryConstraints = this.buildFirebaseQueryFilterConstraints(
-      compositeFilter.queryConstraints,
-    );
+    const queryConstraints = this.buildFirebaseQueryFilterConstraints(compositeFilter.queryConstraints);
     if (compositeFilter.type === 'and') {
       return and(...queryConstraints);
     } else {
@@ -418,8 +367,7 @@ export class FirebaseFirestoreWeb
   ): FirebaseQueryFilterConstraint[] {
     const firebaseQueryFilterConstraints: FirebaseQueryFilterConstraint[] = [];
     for (const queryfilterConstraint of queryfilterConstraints) {
-      const firebaseQueryFilterConstraint =
-        this.buildFirebaseQueryFilterConstraint(queryfilterConstraint);
+      const firebaseQueryFilterConstraint = this.buildFirebaseQueryFilterConstraint(queryfilterConstraint);
       firebaseQueryFilterConstraints.push(firebaseQueryFilterConstraint);
     }
     return firebaseQueryFilterConstraints;
@@ -429,34 +377,24 @@ export class FirebaseFirestoreWeb
     queryFilterConstraints: QueryFilterConstraint,
   ): FirebaseQueryFilterConstraint {
     if (queryFilterConstraints.type === 'where') {
-      return this.buildFirebaseQueryFieldFilterConstraint(
-        queryFilterConstraints,
-      );
+      return this.buildFirebaseQueryFieldFilterConstraint(queryFilterConstraints);
     } else {
-      return this.buildFirebaseQueryCompositeFilterConstraint(
-        queryFilterConstraints,
-      );
+      return this.buildFirebaseQueryCompositeFilterConstraint(queryFilterConstraints);
     }
   }
 
   private buildFirebaseQueryFieldFilterConstraint(
     queryfilterConstraints: QueryFieldFilterConstraint,
   ): FirebaseQueryFieldFilterConstraint {
-    return where(
-      queryfilterConstraints.fieldPath,
-      queryfilterConstraints.opStr,
-      queryfilterConstraints.value,
-    );
+    return where(queryfilterConstraints.fieldPath, queryfilterConstraints.opStr, queryfilterConstraints.value);
   }
 
   private async buildFirebaseQueryNonFilterConstraints(
     queryConstraints: QueryNonFilterConstraint[],
   ): Promise<FirebaseQueryNonFilterConstraint[]> {
-    const firebaseQueryNonFilterConstraints: FirebaseQueryNonFilterConstraint[] =
-      [];
+    const firebaseQueryNonFilterConstraints: FirebaseQueryNonFilterConstraint[] = [];
     for (const queryConstraint of queryConstraints) {
-      const firebaseQueryNonFilterConstraint =
-        await this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
+      const firebaseQueryNonFilterConstraint = await this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
       firebaseQueryNonFilterConstraints.push(firebaseQueryNonFilterConstraint);
     }
     return firebaseQueryNonFilterConstraints;
@@ -467,10 +405,7 @@ export class FirebaseFirestoreWeb
   ): Promise<FirebaseQueryNonFilterConstraint> {
     switch (queryConstraints.type) {
       case 'orderBy':
-        return orderBy(
-          queryConstraints.fieldPath,
-          queryConstraints.directionStr,
-        );
+        return orderBy(queryConstraints.fieldPath, queryConstraints.directionStr);
       case 'limit':
         return limit(queryConstraints.limit);
       case 'limitToLast':
@@ -480,9 +415,7 @@ export class FirebaseFirestoreWeb
       case 'endAt':
       case 'endBefore': {
         const firestore = getFirestore();
-        const documentSnapshot = await getDoc(
-          doc(firestore, queryConstraints.reference),
-        );
+        const documentSnapshot = await getDoc(doc(firestore, queryConstraints.reference));
         switch (queryConstraints.type) {
           case 'startAt':
             return startAt(documentSnapshot);
@@ -497,21 +430,16 @@ export class FirebaseFirestoreWeb
     }
   }
 
-  private async buildFirebaseQueryConstraints(
-    queryConstraints: QueryConstraint[],
-  ): Promise<FirebaseQueryConstraint[]> {
+  private async buildFirebaseQueryConstraints(queryConstraints: QueryConstraint[]): Promise<FirebaseQueryConstraint[]> {
     const firebaseQueryConstraints: FirebaseQueryConstraint[] = [];
     for (const queryConstraint of queryConstraints) {
-      const firebaseQueryConstraint =
-        await this.buildFirebaseQueryConstraint(queryConstraint);
+      const firebaseQueryConstraint = await this.buildFirebaseQueryConstraint(queryConstraint);
       firebaseQueryConstraints.push(firebaseQueryConstraint);
     }
     return firebaseQueryConstraints;
   }
 
-  private async buildFirebaseQueryConstraint(
-    queryConstraint: QueryConstraint,
-  ): Promise<FirebaseQueryConstraint> {
+  private async buildFirebaseQueryConstraint(queryConstraint: QueryConstraint): Promise<FirebaseQueryConstraint> {
     if (queryConstraint.type === 'where') {
       return this.buildFirebaseQueryFieldFilterConstraint(queryConstraint);
     } else {

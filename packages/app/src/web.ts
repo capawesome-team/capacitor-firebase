@@ -1,11 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
 import { getApp } from 'firebase/app';
 
-import type {
-  FirebaseAppPlugin,
-  GetNameResult,
-  GetOptionsResult,
-} from './definitions';
+import type { FirebaseAppPlugin, GetNameResult, GetOptionsResult } from './definitions';
 
 export class FirebaseAppWeb extends WebPlugin implements FirebaseAppPlugin {
   async getName(): Promise<GetNameResult> {

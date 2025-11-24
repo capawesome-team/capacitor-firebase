@@ -1,0 +1,73 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "schedule:earlyMondays"
+  ],
+  "dependencyDashboard": false,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "branch",
+    "platformAutomerge": true
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["eslint"],
+      "matchManagers": ["npm"],
+      "enabled": false
+    },
+    {
+      "groupName": "Firebase SDK",
+      "matchPackageNames": ["firebase"],
+      "matchPackagePatterns": [
+        "^com\\.google\\.firebase.*",
+        "^Firebase.*"
+      ],
+      "matchManagers": ["npm", "gradle", "cocoapods", "swift-pm"],
+      "automerge": true,
+      "automergeType": "branch",
+      "platformAutomerge": true,
+      "schedule": ["at any time"],
+      "minimumReleaseAge": "0 days",
+      "updatePinnedDependencies": true,
+      "rangeStrategy": "bump",
+      "semanticCommits": "disabled",
+      "commitMessagePrefix": "chore(firebase): ",
+      "commitMessageAction": "update",
+      "commitMessageTopic": "Firebase SDK"
+    },
+    {
+      "matchPackagePatterns": ["^com\\.google\\..*"],
+      "matchCurrentVersion": "/^.*-android$/",
+      "allowedVersions": "/^.*-android$/"
+    },
+    {
+      "matchPackagePatterns": ["^com\\.android\\.tools\\.build\\:gradle$"],
+      "matchManagers": ["gradle"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["ionic-team/capacitor-swift-pm"],
+      "matchManagers": ["swift-pm"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "matchPackageNames": ["@capacitor/core"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "matchPackageNames": ["@capacitor/core"],
+      "rangeStrategy": "replace",
+      "allowedVersions": "/^>=\\d+\\.0\\.0$/"
+    }
+  ]
+}

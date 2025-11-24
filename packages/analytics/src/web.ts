@@ -27,17 +27,13 @@ import type {
 } from './definitions';
 import { ConsentStatus, ConsentType } from './definitions';
 
-export class FirebaseAnalyticsWeb
-  extends WebPlugin
-  implements FirebaseAnalyticsPlugin
-{
+export class FirebaseAnalyticsWeb extends WebPlugin implements FirebaseAnalyticsPlugin {
   public async getAppInstanceId(): Promise<GetAppInstanceIdResult> {
     throw this.unimplemented('Not implemented on web.');
   }
 
   public async setConsent(options: SetConsentOptions): Promise<void> {
-    const status: ConsentStatusString =
-      options.status === ConsentStatus.Granted ? 'granted' : 'denied';
+    const status: ConsentStatusString = options.status === ConsentStatus.Granted ? 'granted' : 'denied';
     const consentSettings: ConsentSettings = {};
     switch (options.type) {
       case ConsentType.AdPersonalization:
@@ -74,9 +70,7 @@ export class FirebaseAnalyticsWeb
     });
   }
 
-  public async setCurrentScreen(
-    options: SetCurrentScreenOptions,
-  ): Promise<void> {
+  public async setCurrentScreen(options: SetCurrentScreenOptions): Promise<void> {
     const analytics = getAnalytics();
     logEvent(analytics, 'screen_view', {
       firebase_screen: options.screenName || undefined,
@@ -89,9 +83,7 @@ export class FirebaseAnalyticsWeb
     logEvent(analytics, options.name, options.params);
   }
 
-  public async setSessionTimeoutDuration(
-    _options: SetSessionTimeoutDurationOptions,
-  ): Promise<void> {
+  public async setSessionTimeoutDuration(_options: SetSessionTimeoutDurationOptions): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
 

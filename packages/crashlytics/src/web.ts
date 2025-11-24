@@ -11,10 +11,7 @@ import type {
   SetUserIdOptions,
 } from './definitions';
 
-export class FirebaseCrashlyticsWeb
-  extends WebPlugin
-  implements FirebaseCrashlyticsPlugin
-{
+export class FirebaseCrashlyticsWeb extends WebPlugin implements FirebaseCrashlyticsPlugin {
   public async crash(): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
@@ -51,9 +48,7 @@ export class FirebaseCrashlyticsWeb
     throw this.unimplemented('Not implemented on web.');
   }
 
-  public async recordException(
-    _options: RecordExceptionOptions,
-  ): Promise<void> {
+  public async recordException(_options: RecordExceptionOptions): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
 }

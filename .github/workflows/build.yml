@@ -1,0 +1,76 @@
+name: Build and publish
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    tags:
+      - "*/v*"
+
+jobs:
+  # Tests already passed before tag was created, so just build and deploy
+  deploy:
+    runs-on: ubuntu-latest
+    name: "Build and publish to npm"
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - uses: oven-sh/setup-bun@v2
+      - name: Extract package name from tag
+        id: extract
+        run: |
+          TAG=${{ github.ref_name }}
+          PACKAGE_NAME=$(echo $TAG | sed 's|/v.*||')
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "Publishing package: $PACKAGE_NAME"
+      - name: Install dependencies
+        run: bun i
+      - name: Build package
+        run: |
+          cd packages/${{ steps.extract.outputs.package_name }}
+          bun run build
+      - name: Generate AI changelog
+        id: changelog
+        uses: mistricky/ccc@v0.2.3
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          model: claude-sonnet-4-5-20250929
+      - name: Publish to npm
+        uses: js-devtools/npm-publish@v4
+        if: ${{ !contains(github.ref, '-alpha.') }}
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          provenance: true
+          package: packages/${{ steps.extract.outputs.package_name }}/package.json
+      - name: Publish to npm (alpha)
+        uses: js-devtools/npm-publish@v4
+        if: ${{ contains(github.ref, '-alpha.') }}
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          tag: next
+          provenance: true
+          package: packages/${{ steps.extract.outputs.package_name }}/package.json
+      - name: Create GitHub release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: |
+            ## 🆕 Changelog
+
+            ${{ steps.changelog.outputs.result }}
+
+            ---
+
+            🔗 **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.changelog.outputs.from_tag }}...${{ steps.changelog.outputs.to_tag }}
+          make_latest: true
+          token: '${{ secrets.PERSONAL_ACCESS_TOKEN }}'
+          prerelease: ${{ contains(github.ref, '-alpha.') }}

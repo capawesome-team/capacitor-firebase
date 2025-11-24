@@ -17,9 +17,7 @@ export interface FirebaseFirestorePlugin {
    *
    * @since 5.2.0
    */
-  getDocument<T extends DocumentData = DocumentData>(
-    options: GetDocumentOptions,
-  ): Promise<GetDocumentResult<T>>;
+  getDocument<T extends DocumentData = DocumentData>(options: GetDocumentOptions): Promise<GetDocumentResult<T>>;
   /**
    * Updates fields in the document referred to by the specified reference.
    *
@@ -43,9 +41,7 @@ export interface FirebaseFirestorePlugin {
    *
    * @since 5.2.0
    */
-  getCollection<T extends DocumentData = DocumentData>(
-    options: GetCollectionOptions,
-  ): Promise<GetCollectionResult<T>>;
+  getCollection<T extends DocumentData = DocumentData>(options: GetCollectionOptions): Promise<GetCollectionResult<T>>;
   /**
    * Reads the collection group referenced by the specified reference.
    */
@@ -57,9 +53,7 @@ export interface FirebaseFirestorePlugin {
    *
    * @since 6.4.0
    */
-  getCountFromServer(
-    options: GetCountFromServerOptions,
-  ): Promise<GetCountFromServerResult>;
+  getCountFromServer(options: GetCountFromServerOptions): Promise<GetCountFromServerResult>;
   /**
    * Clears the persistent storage. This includes pending writes and cached documents.
    *
@@ -419,8 +413,7 @@ export interface SnapshotListenerOptions {
 /**
  * @since 5.2.0
  */
-export interface AddDocumentSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddDocumentSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -445,8 +438,7 @@ export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 /**
  * @since 5.2.0
  */
-export interface AddCollectionSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -478,14 +470,12 @@ export type AddCollectionSnapshotListenerCallback<T> = (
 /**
  * @since 5.2.0
  */
-export type AddCollectionSnapshotListenerCallbackEvent<T> =
-  GetCollectionResult<T>;
+export type AddCollectionSnapshotListenerCallbackEvent<T> = GetCollectionResult<T>;
 
 /**
  * @since 6.1.0
  */
-export interface AddCollectionGroupSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionGroupSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -517,8 +507,7 @@ export type AddCollectionGroupSnapshotListenerCallback<T> = (
 /**
  * @since 6.1.0
  */
-export type AddCollectionGroupSnapshotListenerCallbackEvent<T> =
-  GetCollectionGroupResult<T>;
+export type AddCollectionGroupSnapshotListenerCallbackEvent<T> = GetCollectionGroupResult<T>;
 
 /**
  * @since 5.2.0
@@ -632,9 +621,7 @@ export interface SnapshotMetadata {
 /**
  * @since 5.2.0
  */
-export type QueryFilterConstraint =
-  | QueryFieldFilterConstraint
-  | QueryCompositeFilterConstraint;
+export type QueryFilterConstraint = QueryFieldFilterConstraint | QueryCompositeFilterConstraint;
 
 /**
  * @since 5.2.0
@@ -666,9 +653,7 @@ export interface QueryCompositeFilterConstraint {
 /**
  * @since 5.2.0
  */
-export type QueryConstraint =
-  | QueryFieldFilterConstraint
-  | QueryNonFilterConstraint;
+export type QueryConstraint = QueryFieldFilterConstraint | QueryNonFilterConstraint;
 
 /**
  * @since 5.2.0

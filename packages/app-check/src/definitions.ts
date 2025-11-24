@@ -19,18 +19,13 @@ export interface FirebaseAppCheckPlugin {
    *
    * @since 1.3.0
    */
-  setTokenAutoRefreshEnabled(
-    options: SetTokenAutoRefreshEnabledOptions,
-  ): Promise<void>;
+  setTokenAutoRefreshEnabled(options: SetTokenAutoRefreshEnabledOptions): Promise<void>;
   /**
    * Called when the App Check token changed.
    *
    * @since 1.3.0
    */
-  addListener(
-    eventName: 'tokenChanged',
-    listenerFunc: TokenChangedListener,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'tokenChanged', listenerFunc: TokenChangedListener): Promise<PluginListenerHandle>;
   /**
    * Remove all listeners for this plugin.
    *

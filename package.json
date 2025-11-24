@@ -1,12 +1,17 @@
 {
-  "name": "capacitor-firebase",
+  "name": "@capgo/capacitor-firebase",
   "private": true,
-  "packageManager": "npm@8.3.0",
+  "packageManager": "bun@1.1.38",
   "workspaces": [
     "packages/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cap-go/capacitor-firebase.git"
+  },
+  "author": "Capgo Team",
   "scripts": {
-    "verify": "npm run verify:android && npm run verify:ios && npm run verify:web",
+    "verify": "bun run verify:android && bun run verify:ios && bun run verify:web",
     "verify:android": "turbo run verify:android --concurrency=1 --no-cache --env-mode=loose",
     "verify:ios": "turbo run verify:ios --concurrency=1 --no-cache --env-mode=loose",
     "verify:web": "turbo run verify:web --no-cache --env-mode=loose",
@@ -16,7 +21,7 @@
     "build": "turbo run build",
     "ios:pod:install": "turbo run ios:pod:install --concurrency=1 --no-cache",
     "ios:spm:install": "turbo run ios:spm:install --concurrency=1 --no-cache",
-    "affected:verify": "npm run affected:verify:android && npm run affected:verify:ios && npm run affected:verify:web",
+    "affected:verify": "bun run affected:verify:android && bun run affected:verify:ios && bun run affected:verify:web",
     "affected:verify:android": "turbo run verify:android --affected --concurrency=1 --no-cache --env-mode=loose",
     "affected:verify:ios": "turbo run verify:ios --affected --concurrency=1 --no-cache --env-mode=loose",
     "affected:verify:web": "turbo run verify:web --affected --no-cache --env-mode=loose",
@@ -25,15 +30,9 @@
     "affected:docgen": "turbo run docgen --affected",
     "affected:build": "turbo run build --affected",
     "affected:ios:pod:install": "turbo run ios:pod:install --affected --concurrency=1 --no-cache",
-    "affected:ios:spm:install": "turbo run ios:spm:install --affected --concurrency=1 --no-cache",
-    "changeset": "changeset",
-    "release": "npm run build && changeset publish",
-    "release:preview": "pkg-pr-new publish './packages/*'"
+    "affected:ios:spm:install": "turbo run ios:spm:install --affected --concurrency=1 --no-cache"
   },
   "devDependencies": {
-    "@changesets/cli": "2.27.12",
-    "@robingenz/changelog-github": "0.0.1",
-    "pkg-pr-new": "0.0.20",
     "prettier-plugin-java": "2.6.7",
     "turbo": "2.5.6"
   }

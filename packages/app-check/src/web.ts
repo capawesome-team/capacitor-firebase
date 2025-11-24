@@ -1,16 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
 import { getApp } from 'firebase/app';
-import type {
-  AppCheck,
-  AppCheckTokenResult,
-  Unsubscribe,
-} from 'firebase/app-check';
-import {
-  getToken,
-  initializeAppCheck,
-  onTokenChanged,
-  setTokenAutoRefreshEnabled,
-} from 'firebase/app-check';
+import type { AppCheck, AppCheckTokenResult, Unsubscribe } from 'firebase/app-check';
+import { getToken, initializeAppCheck, onTokenChanged, setTokenAutoRefreshEnabled } from 'firebase/app-check';
 
 import type {
   FirebaseAppCheckPlugin,
@@ -27,13 +18,9 @@ declare global {
   }
 }
 
-export class FirebaseAppCheckWeb
-  extends WebPlugin
-  implements FirebaseAppCheckPlugin
-{
+export class FirebaseAppCheckWeb extends WebPlugin implements FirebaseAppCheckPlugin {
   public static readonly tokenChangedEvent = 'tokenChanged';
-  public static readonly errorNotInitialized =
-    'AppCheck has not been initialized.';
+  public static readonly errorNotInitialized = 'AppCheck has not been initialized.';
   public static readonly errorSiteKeyMissing = 'siteKey must be provided.';
 
   private _appCheckInstance: AppCheck | undefined;
@@ -81,9 +68,7 @@ export class FirebaseAppCheckWeb
     });
   }
 
-  public async setTokenAutoRefreshEnabled(
-    options: SetTokenAutoRefreshEnabledOptions,
-  ): Promise<void> {
+  public async setTokenAutoRefreshEnabled(options: SetTokenAutoRefreshEnabledOptions): Promise<void> {
     if (!this.appCheckInstance) {
       throw new Error(FirebaseAppCheckWeb.errorNotInitialized);
     }
@@ -94,10 +79,8 @@ export class FirebaseAppCheckWeb
     if (!this.appCheckInstance) {
       return;
     }
-    this.onTokenChangedListenerUnsubscribe = onTokenChanged(
-      this.appCheckInstance,
-      (tokenResult: AppCheckTokenResult) =>
-        this.handleTokenChanged(tokenResult.token),
+    this.onTokenChangedListenerUnsubscribe = onTokenChanged(this.appCheckInstance, (tokenResult: AppCheckTokenResult) =>
+      this.handleTokenChanged(tokenResult.token),
     );
   }
 

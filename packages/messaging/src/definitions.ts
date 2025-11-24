@@ -86,9 +86,7 @@ export interface FirebaseMessagingPlugin {
    *
    * @since 0.2.2
    */
-  removeDeliveredNotifications(
-    options: RemoveDeliveredNotificationsOptions,
-  ): Promise<void>;
+  removeDeliveredNotifications(options: RemoveDeliveredNotificationsOptions): Promise<void>;
   /**
    * Remove all notifications from the notifications screen.
    *
@@ -144,10 +142,7 @@ export interface FirebaseMessagingPlugin {
    *
    * @since 0.2.2
    */
-  addListener(
-    eventName: 'tokenReceived',
-    listenerFunc: TokenReceivedListener,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener): Promise<PluginListenerHandle>;
   /**
    * Called when a new push notification is received.
    *
@@ -441,18 +436,14 @@ export type TokenReceivedListener = (event: TokenReceivedEvent) => void;
  *
  * @since 0.2.2
  */
-export type NotificationReceivedListener = (
-  event: NotificationReceivedEvent,
-) => void;
+export type NotificationReceivedListener = (event: NotificationReceivedEvent) => void;
 
 /**
  * Callback to receive the notification action performed event.
  *
  * @since 0.2.2
  */
-export type NotificationActionPerformedListener = (
-  event: NotificationActionPerformedEvent,
-) => void;
+export type NotificationActionPerformedListener = (event: NotificationActionPerformedEvent) => void;
 
 /**
  * @since 0.2.2

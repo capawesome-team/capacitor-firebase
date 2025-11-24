@@ -1,0 +1,78 @@
+name: Bump version
+
+on:
+  push:
+    branches:
+      - main
+      - development
+    paths:
+      - 'packages/**'
+    paths-ignore:
+      - '**.md'
+      - '.github/**'
+
+jobs:
+  # Run all tests first before creating any tags
+  test:
+    if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    uses: ./.github/workflows/test.yml
+
+  # Only bump version and create tag if all tests pass
+  bump-version:
+    needs: [test]
+    if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    runs-on: ubuntu-latest
+    name: "Bump version and create tags"
+    steps:
+      - name: Check out
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: '${{ secrets.PERSONAL_ACCESS_TOKEN }}'
+      - uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun i
+      - name: Git config
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get changed packages
+        id: changed
+        run: |
+          # Get list of changed packages
+          CHANGED_PACKAGES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/' | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+          echo "packages=$CHANGED_PACKAGES" >> $GITHUB_OUTPUT
+          echo "Changed packages: $CHANGED_PACKAGES"
+      - name: Bump versions and create tags
+        run: |
+          for pkg in ${{ steps.changed.outputs.packages }}; do
+            if [ -d "packages/$pkg" ]; then
+              cd "packages/$pkg"
+
+              # Update documentation
+              bun run docgen || true
+              git add README.md || true
+              git commit -m "docs: update documentation for $pkg" || true
+
+              # Create version bump
+              if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+                bunx capacitor-plugin-standard-version@latest --skip.changelog --releaseCommitMessageFormat "chore(release): $pkg {{currentTag}}"
+              else
+                bunx capacitor-plugin-standard-version@latest --prerelease alpha --skip.changelog --releaseCommitMessageFormat "chore(release): $pkg {{currentTag}}"
+              fi
+
+              # Rename tag to include package name
+              LATEST_TAG=$(git describe --tags --abbrev=0)
+              NEW_TAG="$pkg/$LATEST_TAG"
+              git tag $NEW_TAG $LATEST_TAG
+              git tag -d $LATEST_TAG
+
+              cd ../..
+            fi
+          done
+      - name: Push to origin
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          remote_repo="https://${GITHUB_ACTOR}:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull $remote_repo $CURRENT_BRANCH
+          git push $remote_repo HEAD:$CURRENT_BRANCH --follow-tags --tags

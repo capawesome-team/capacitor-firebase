@@ -36,8 +36,7 @@ export interface FirebaseFunctionsPlugin {
 /**
  * @since 6.1.0
  */
-export interface CallByNameOptions<RequestData = unknown>
-  extends CallOptions<RequestData> {
+export interface CallByNameOptions<RequestData = unknown> extends CallOptions<RequestData> {
   /**
    * The name of the callable function.
    *
@@ -62,8 +61,7 @@ export type CallByNameResult<ResponseData = unknown> = CallResult<ResponseData>;
 /**
  * @since 6.1.0
  */
-export interface CallByUrlOptions<RequestData = unknown>
-  extends CallOptions<RequestData> {
+export interface CallByUrlOptions<RequestData = unknown> extends CallOptions<RequestData> {
   /**
    * The URL of the callable function.
    *

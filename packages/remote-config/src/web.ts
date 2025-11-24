@@ -23,10 +23,7 @@ import type {
 } from './definitions';
 import { LastFetchStatus } from './definitions';
 
-export class FirebaseRemoteConfigWeb
-  extends WebPlugin
-  implements FirebaseRemoteConfigPlugin
-{
+export class FirebaseRemoteConfigWeb extends WebPlugin implements FirebaseRemoteConfigPlugin {
   public async activate(): Promise<void> {
     const remoteConfig = getRemoteConfig();
     await activate(remoteConfig);
@@ -64,9 +61,9 @@ export class FirebaseRemoteConfigWeb
     const remoteConfig = getRemoteConfig();
 
     const status = {
-      'success': LastFetchStatus.Success,
-      'failure': LastFetchStatus.Failure,
-      'throttle': LastFetchStatus.Throttled,
+      success: LastFetchStatus.Success,
+      failure: LastFetchStatus.Failure,
+      throttle: LastFetchStatus.Throttled,
       'no-fetch-yet': LastFetchStatus.NoFetchYet,
     };
 
@@ -76,35 +73,26 @@ export class FirebaseRemoteConfigWeb
     };
   }
 
-  public async setMinimumFetchInterval(
-    options: SetMinimumFetchIntervalOptions,
-  ): Promise<void> {
+  public async setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions): Promise<void> {
     const remoteConfig = getRemoteConfig();
-    remoteConfig.settings.minimumFetchIntervalMillis =
-      options.minimumFetchIntervalInSeconds * 1000;
+    remoteConfig.settings.minimumFetchIntervalMillis = options.minimumFetchIntervalInSeconds * 1000;
   }
 
   public async setSettings(options: SetSettingsOptions): Promise<void> {
     const remoteConfig = getRemoteConfig();
     if (options.fetchTimeoutInSeconds !== undefined) {
-      remoteConfig.settings.fetchTimeoutMillis =
-        options.fetchTimeoutInSeconds * 1000;
+      remoteConfig.settings.fetchTimeoutMillis = options.fetchTimeoutInSeconds * 1000;
     }
     if (options.minimumFetchIntervalInSeconds !== undefined) {
-      remoteConfig.settings.minimumFetchIntervalMillis =
-        options.minimumFetchIntervalInSeconds * 1000;
+      remoteConfig.settings.minimumFetchIntervalMillis = options.minimumFetchIntervalInSeconds * 1000;
     }
   }
 
-  public async addConfigUpdateListener(
-    _callback: AddConfigUpdateListenerOptionsCallback,
-  ): Promise<string> {
+  public async addConfigUpdateListener(_callback: AddConfigUpdateListenerOptionsCallback): Promise<string> {
     this.throwUnimplementedError();
   }
 
-  public async removeConfigUpdateListener(
-    _options: RemoveConfigUpdateListenerOptions,
-  ): Promise<void> {
+  public async removeConfigUpdateListener(_options: RemoveConfigUpdateListenerOptions): Promise<void> {
     this.throwUnimplementedError();
   }
 

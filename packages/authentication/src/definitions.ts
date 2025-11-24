@@ -66,18 +66,14 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 5.0.0
    */
-  confirmVerificationCode(
-    options: ConfirmVerificationCodeOptions,
-  ): Promise<SignInResult>;
+  confirmVerificationCode(options: ConfirmVerificationCodeOptions): Promise<SignInResult>;
   /**
    * Creates a new user account with email and password.
    * If the new account was created, the user is signed in automatically.
    *
    * @since 0.2.2
    */
-  createUserWithEmailAndPassword(
-    options: CreateUserWithEmailAndPasswordOptions,
-  ): Promise<SignInResult>;
+  createUserWithEmailAndPassword(options: CreateUserWithEmailAndPasswordOptions): Promise<SignInResult>;
   /**
    * Deletes and signs out the user.
    *
@@ -91,9 +87,7 @@ export interface FirebaseAuthenticationPlugin {
    * @deprecated Migrating off of this method is recommended as a security best-practice.
    * Learn more in the Identity Platform documentation for [Email Enumeration Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection).
    */
-  fetchSignInMethodsForEmail(
-    options: FetchSignInMethodsForEmailOptions,
-  ): Promise<FetchSignInMethodsForEmailResult>;
+  fetchSignInMethodsForEmail(options: FetchSignInMethodsForEmailOptions): Promise<FetchSignInMethodsForEmailResult>;
   /**
    * Fetches the currently signed-in user.
    *
@@ -119,9 +113,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 7.4.0
    */
-  getIdTokenResult(
-    options?: GetIdTokenResultOptions,
-  ): Promise<GetIdTokenResultResult>;
+  getIdTokenResult(options?: GetIdTokenResultOptions): Promise<GetIdTokenResultResult>;
   /**
    * Returns the `SignInResult` from the redirect-based sign-in flow.
    *
@@ -144,9 +136,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  isSignInWithEmailLink(
-    options: IsSignInWithEmailLinkOptions,
-  ): Promise<IsSignInWithEmailLinkResult>;
+  isSignInWithEmailLink(options: IsSignInWithEmailLinkOptions): Promise<IsSignInWithEmailLinkResult>;
   /**
    * Links the user account with Apple authentication provider.
    *
@@ -164,9 +154,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.1.0
    */
-  linkWithEmailAndPassword(
-    options: LinkWithEmailAndPasswordOptions,
-  ): Promise<LinkResult>;
+  linkWithEmailAndPassword(options: LinkWithEmailAndPasswordOptions): Promise<LinkResult>;
   /**
    * Links the user account with Email authentication provider.
    *
@@ -228,9 +216,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 6.1.0
    */
-  linkWithOpenIdConnect(
-    options: LinkWithOpenIdConnectOptions,
-  ): Promise<LinkResult>;
+  linkWithOpenIdConnect(options: LinkWithOpenIdConnectOptions): Promise<LinkResult>;
   /**
    * Links the user account with Phone Number authentication provider.
    *
@@ -345,33 +331,25 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  signInWithCustomToken(
-    options: SignInWithCustomTokenOptions,
-  ): Promise<SignInResult>;
+  signInWithCustomToken(options: SignInWithCustomTokenOptions): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using an email and password.
    *
    * @since 0.2.2
    */
-  signInWithEmailAndPassword(
-    options: SignInWithEmailAndPasswordOptions,
-  ): Promise<SignInResult>;
+  signInWithEmailAndPassword(options: SignInWithEmailAndPasswordOptions): Promise<SignInResult>;
   /**
    * Signs in using an email and sign-in email link.
    *
    * @since 1.1.0
    */
-  signInWithEmailLink(
-    options: SignInWithEmailLinkOptions,
-  ): Promise<SignInResult>;
+  signInWithEmailLink(options: SignInWithEmailLinkOptions): Promise<SignInResult>;
   /**
    * Starts the Facebook sign-in flow.
    *
    * @since 0.1.0
    */
-  signInWithFacebook(
-    options?: SignInWithFacebookOptions,
-  ): Promise<SignInResult>;
+  signInWithFacebook(options?: SignInWithFacebookOptions): Promise<SignInResult>;
   /**
    * Starts the Game Center sign-in flow.
    *
@@ -379,9 +357,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.3.0
    */
-  signInWithGameCenter(
-    options?: SignInOptions | SignInWithOAuthOptions,
-  ): Promise<SignInResult>;
+  signInWithGameCenter(options?: SignInOptions | SignInWithOAuthOptions): Promise<SignInResult>;
   /**
    * Starts the GitHub sign-in flow.
    *
@@ -405,9 +381,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 6.1.0
    */
-  signInWithOpenIdConnect(
-    options: SignInWithOpenIdConnectOptions,
-  ): Promise<SignInResult>;
+  signInWithOpenIdConnect(options: SignInWithOpenIdConnectOptions): Promise<SignInResult>;
   /**
    * Starts the sign-in flow using a phone number.
    *
@@ -487,9 +461,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 6.3.0
    */
-  verifyBeforeUpdateEmail(
-    options: VerifyBeforeUpdateEmailOptions,
-  ): Promise<void>;
+  verifyBeforeUpdateEmail(options: VerifyBeforeUpdateEmailOptions): Promise<void>;
   /**
    * Checks the current status of app tracking transparency.
    *
@@ -515,10 +487,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 0.1.0
    */
-  addListener(
-    eventName: 'authStateChange',
-    listenerFunc: AuthStateChangeListener,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener): Promise<PluginListenerHandle>;
   /**
    * Listen to ID token changes for the currently signed-in user.
    *
@@ -526,10 +495,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 6.3.0
    */
-  addListener(
-    eventName: 'idTokenChange',
-    listenerFunc: IdTokenChangeListener,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener): Promise<PluginListenerHandle>;
   /**
    * Listen for a completed phone verification.
    *
@@ -562,10 +528,7 @@ export interface FirebaseAuthenticationPlugin {
    *
    * @since 1.3.0
    */
-  addListener(
-    eventName: 'phoneCodeSent',
-    listenerFunc: PhoneCodeSentListener,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'phoneCodeSent', listenerFunc: PhoneCodeSentListener): Promise<PluginListenerHandle>;
   /**
    * Remove all listeners for this plugin.
    *
@@ -1011,7 +974,7 @@ export interface SignInOptions {
   /**
    * Whether the plugin should skip the native authentication or not.
    * Only needed if you want to use the Firebase JavaScript SDK.
-   * This value overwrites the configrations value of the `skipNativeAuth` option.
+   * This value overwrites the configurations value of the `skipNativeAuth` option.
    * If no value is set, the configuration value is used.
    *
    * **Note that the plugin may behave differently across the platforms.**
@@ -1139,15 +1102,12 @@ export interface CheckAppTrackingTransparencyPermissionResult {
   status: AppTrackingTransparencyPermissionState;
 }
 
-export type AppTrackingTransparencyPermissionState =
-  | PermissionState
-  | 'restricted';
+export type AppTrackingTransparencyPermissionState = PermissionState | 'restricted';
 
 /**
  * @since 7.2.0
  */
-export type RequestAppTrackingTransparencyPermissionResult =
-  CheckAppTrackingTransparencyPermissionResult;
+export type RequestAppTrackingTransparencyPermissionResult = CheckAppTrackingTransparencyPermissionResult;
 
 /**
  * @since 0.1.0
@@ -1592,9 +1552,7 @@ export interface AuthStateChange {
  *
  * @since 1.3.0
  */
-export type PhoneVerificationCompletedListener = (
-  event: PhoneVerificationCompletedEvent,
-) => void;
+export type PhoneVerificationCompletedListener = (event: PhoneVerificationCompletedEvent) => void;
 
 /**
  * @since 5.0.0
@@ -1615,9 +1573,7 @@ export interface PhoneVerificationCompletedEvent extends SignInResult {
  *
  * @since 1.3.0
  */
-export type PhoneVerificationFailedListener = (
-  event: PhoneVerificationFailedEvent,
-) => void;
+export type PhoneVerificationFailedListener = (event: PhoneVerificationFailedEvent) => void;
 
 /**
  * @since 5.0.0

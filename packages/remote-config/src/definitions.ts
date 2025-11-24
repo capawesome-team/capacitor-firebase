@@ -49,9 +49,7 @@ export interface FirebaseRemoteConfigPlugin {
    * @since 1.3.0
    * @deprecated Use `setSettings(...)` instead.
    */
-  setMinimumFetchInterval(
-    options: SetMinimumFetchIntervalOptions,
-  ): Promise<void>;
+  setMinimumFetchInterval(options: SetMinimumFetchIntervalOptions): Promise<void>;
   /**
    * Set the remote config settings.
    *
@@ -67,9 +65,7 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * @since 5.4.0
    */
-  addConfigUpdateListener(
-    callback: AddConfigUpdateListenerOptionsCallback,
-  ): Promise<CallbackId>;
+  addConfigUpdateListener(callback: AddConfigUpdateListenerOptionsCallback): Promise<CallbackId>;
   /**
    * Remove a listener for the config update event.
    *
@@ -77,9 +73,7 @@ export interface FirebaseRemoteConfigPlugin {
    *
    * @since 5.4.0
    */
-  removeConfigUpdateListener(
-    options: RemoveConfigUpdateListenerOptions,
-  ): Promise<void>;
+  removeConfigUpdateListener(options: RemoveConfigUpdateListenerOptions): Promise<void>;
   /**
    * Remove all listeners for this plugin.
    *
