@@ -18,6 +18,7 @@ on:
       - '**.md'
       - '.vscode/**'
       - 'docs/**'
+  workflow_call:
 
 env:
   NODE_VERSION: 20
