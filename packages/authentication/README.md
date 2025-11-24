@@ -92,7 +92,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor-firebase/authentication" />
+/// <reference types="@capgo/capacitor-firebase-authentication" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
@@ -1889,14 +1889,14 @@ Remove all listeners for this plugin.
 
 #### GetIdTokenResultResult
 
-| Prop                     | Type                                                             | Description                                                                                                                                      | Since |
-| ------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| Prop                     | Type                                                             | Description                                                                                                                                            | Since |
+| ------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
 | **`authTime`**           | <code>number</code>                                              | The authentication time in milliseconds since the epoch. This is the time the user authenticated (signed in) and not the time the token was refreshed. | 7.4.0 |
 | **`expirationTime`**     | <code>number</code>                                              | The ID token expiration time in milliseconds since the epoch.                                                                                          | 7.4.0 |
 | **`issuedAtTime`**       | <code>number</code>                                              | The ID token issuance time in milliseconds since the epoch.                                                                                            | 7.4.0 |
-| **`signInProvider`**     | <code>string \| null</code>                                      | The sign-in provider through which the ID token was obtained.                                                                                    | 7.4.0 |
-| **`signInSecondFactor`** | <code>string \| null</code>                                      | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc).                       | 7.4.0 |
-| **`claims`**             | <code><a href="#record">Record</a>&lt;string, unknown&gt;</code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.                                   | 7.4.0 |
+| **`signInProvider`**     | <code>string \| null</code>                                      | The sign-in provider through which the ID token was obtained.                                                                                          | 7.4.0 |
+| **`signInSecondFactor`** | <code>string \| null</code>                                      | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc).                             | 7.4.0 |
+| **`claims`**             | <code><a href="#record">Record</a>&lt;string, unknown&gt;</code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.                                         | 7.4.0 |
 
 
 #### GetIdTokenResultOptions
@@ -2039,9 +2039,9 @@ bundle identifiers.
 
 An interface covering the possible persistence mechanism types.
 
-| Prop       | Type                                        | Description                                                                                                                                                                                                                                                   |
-| ---------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. |
+| Prop       | Type                                                    | Description                                                                                                                                                                                                                                                                                                                                |
+| ---------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE' \| 'COOKIE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. - 'COOKIE' is used for cookie persistence, useful for server-side rendering. |
 
 
 #### SetTenantIdOptions
@@ -2083,8 +2083,8 @@ An interface covering the possible persistence mechanism types.
 
 #### SignInOptions
 
-| Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Since |
-| -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| Prop                 | Type                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Since |
+| -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | **`skipNativeAuth`** | <code>boolean</code> | Whether the plugin should skip the native authentication or not. Only needed if you want to use the Firebase JavaScript SDK. This value overwrites the configurations value of the `skipNativeAuth` option. If no value is set, the configuration value is used. **Note that the plugin may behave differently across the platforms.** `skipNativeAuth` cannot be used in combination with `signInWithCustomToken`, `createUserWithEmailAndPassword` or `signInWithEmailAndPassword`. Only available for Android and iOS. | 1.1.0 |
 
 
@@ -2197,9 +2197,7 @@ An interface covering the possible persistence mechanism types.
 
 Construct a type with a set of properties K of type T
 
-<code>{
- [P in K]: T;
- }</code>
+<code>{ [P in K]: T; }</code>
 
 
 #### LinkWithOAuthOptions

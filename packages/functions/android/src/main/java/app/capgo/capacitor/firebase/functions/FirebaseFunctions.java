@@ -1,0 +1,63 @@
+package app.capgo.capacitor.firebase.functions;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.functions.classes.options.CallByNameOptions;
+import app.capgo.capacitor.firebase.functions.classes.options.CallByUrlOptions;
+import app.capgo.capacitor.firebase.functions.classes.results.CallResult;
+import app.capgo.capacitor.firebase.functions.interfaces.NonEmptyResultCallback;
+import java.net.URL;
+
+public class FirebaseFunctions {
+
+    private FirebaseFunctionsPlugin plugin;
+
+    public FirebaseFunctions(FirebaseFunctionsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void callByName(@NonNull CallByNameOptions options, @NonNull NonEmptyResultCallback callback) {
+        String name = options.getName();
+        String region = options.getRegion();
+        Object data = options.getData();
+
+        getFirebaseFunctionsInstance(region)
+            .getHttpsCallable(name)
+            .call(data)
+            .addOnSuccessListener(task -> {
+                CallResult result = new CallResult(task.getData());
+                callback.success(result);
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
+    }
+
+    public void callByUrl(@NonNull CallByUrlOptions options, @NonNull NonEmptyResultCallback callback) {
+        URL url = options.getUrl();
+        Object data = options.getData();
+
+        getFirebaseFunctionsInstance(null)
+            .getHttpsCallableFromUrl(url)
+            .call(data)
+            .addOnSuccessListener(task -> {
+                CallResult result = new CallResult(task.getData());
+                callback.success(result);
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
+    }
+
+    public void useEmulator(@NonNull String host, int port) {
+        getFirebaseFunctionsInstance(null).useEmulator(host, port);
+    }
+
+    private com.google.firebase.functions.FirebaseFunctions getFirebaseFunctionsInstance(@Nullable String regionOrCustomDomain) {
+        if (regionOrCustomDomain == null) {
+            return com.google.firebase.functions.FirebaseFunctions.getInstance();
+        } else {
+            return com.google.firebase.functions.FirebaseFunctions.getInstance(regionOrCustomDomain);
+        }
+    }
+}

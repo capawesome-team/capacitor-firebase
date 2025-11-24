@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-firebase-messaging",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "description": "Capacitor plugin for Firebase Cloud Messaging (FCM).",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseMessaging.podspec",
+    "CapgoCapacitorFirebaseMessaging.podspec",
     "Package.swift"
   ],
   "author": "Capgo Team",

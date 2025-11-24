@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "CapacitorFirebaseRemoteConfig",
-    platforms: [.iOS(.v14)],
+    name: "CapgoCapacitorFirebaseRemoteConfig",
+    platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "CapacitorFirebaseRemoteConfig",
-            targets: ["FirebaseRemoteConfigPlugin"])
+            name: "CapgoCapacitorFirebaseRemoteConfig",
+            targets: ["CapgoFirebaseRemoteConfigPlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.0.0"),
@@ -15,7 +15,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FirebaseRemoteConfigPlugin",
+            name: "CapgoFirebaseRemoteConfigPlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
@@ -24,8 +24,8 @@ let package = Package(
             ],
             path: "ios/Plugin"),
         .testTarget(
-            name: "FirebaseRemoteConfigPluginTests",
-            dependencies: ["FirebaseRemoteConfigPlugin"],
+            name: "CapgoFirebaseRemoteConfigPluginTests",
+            dependencies: ["CapgoFirebaseRemoteConfigPlugin"],
             path: "ios/PluginTests")
     ]
 )

@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "CapacitorFirebaseFirestore",
-    platforms: [.iOS(.v14)],
+    name: "CapgoCapacitorFirebaseFirestore",
+    platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "CapacitorFirebaseFirestore",
-            targets: ["FirebaseFirestorePlugin"])
+            name: "CapgoCapacitorFirebaseFirestore",
+            targets: ["CapgoFirebaseFirestorePlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.0.0"),
@@ -15,7 +15,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FirebaseFirestorePlugin",
+            name: "CapgoFirebaseFirestorePlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
@@ -24,8 +24,8 @@ let package = Package(
             ],
             path: "ios/Plugin"),
         .testTarget(
-            name: "FirebaseFirestorePluginTests",
-            dependencies: ["FirebaseFirestorePlugin"],
+            name: "CapgoFirebaseFirestorePluginTests",
+            dependencies: ["CapgoFirebaseFirestorePlugin"],
             path: "ios/PluginTests")
     ]
 )

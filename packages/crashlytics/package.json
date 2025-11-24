@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-firebase-crashlytics",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "description": "Capacitor plugin for Firebase Crashlytics.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseCrashlytics.podspec",
+    "CapgoCapacitorFirebaseCrashlytics.podspec",
     "Package.swift"
   ],
   "author": "Capgo Team",

@@ -26,7 +26,7 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    namespace "io.capawesome.capacitorjs.plugins.firebase.authentication"
+    namespace "app.capgo.capacitor.firebase.authentication"
     compileSdk project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 35
     defaultConfig {
         minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 23

@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-firebase-authentication",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "description": "Capacitor plugin for Firebase Authentication.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseAuthentication.podspec",
+    "CapgoCapacitorFirebaseAuthentication.podspec",
     "Package.swift"
   ],
   "author": "Capgo Team",

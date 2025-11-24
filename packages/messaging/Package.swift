@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "CapacitorFirebaseMessaging",
-    platforms: [.iOS(.v14)],
+    name: "CapgoCapacitorFirebaseMessaging",
+    platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "CapacitorFirebaseMessaging",
-            targets: ["FirebaseMessagingPlugin"])
+            name: "CapgoCapacitorFirebaseMessaging",
+            targets: ["CapgoFirebaseMessagingPlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.0.0"),
@@ -15,7 +15,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FirebaseMessagingPlugin",
+            name: "CapgoFirebaseMessagingPlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
@@ -24,8 +24,8 @@ let package = Package(
             ],
             path: "ios/Plugin"),
         .testTarget(
-            name: "FirebaseMessagingPluginTests",
-            dependencies: ["FirebaseMessagingPlugin"],
+            name: "CapgoFirebaseMessagingPluginTests",
+            dependencies: ["CapgoFirebaseMessagingPlugin"],
             path: "ios/PluginTests")
     ]
 )
