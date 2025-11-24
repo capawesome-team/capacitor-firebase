@@ -7,17 +7,9 @@ concurrency:
 on:
   push:
     branches:
-      - main
-      - development
-    paths-ignore:
-      - '**.md'
-      - '.vscode/**'
-      - 'docs/**'
+      - renovate/**
   pull_request:
-    paths-ignore:
-      - '**.md'
-      - '.vscode/**'
-      - 'docs/**'
+    branches: [ main ]
   workflow_call:
 
 env:
