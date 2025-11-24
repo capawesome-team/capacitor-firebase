@@ -36,11 +36,7 @@ jobs:
       - name: Install dependencies
         run: bun i
       - name: Build packages affected by changes
-        if: github.ref != 'refs/heads/main'
         run: bun run affected:verify:android
-      - name: Build all packages
-        if: github.ref == 'refs/heads/main'
-        run: bun run verify:android
 
   test-ios:
     name: Test iOS platform
@@ -59,23 +55,11 @@ jobs:
       - name: Install dependencies
         run: bun i
       - name: Install CocoaPods dependencies of packages affected by changes
-        if: github.ref != 'refs/heads/main'
         run: bun run affected:ios:pod:install
-      - name: Install all CocoaPods dependencies
-        if: github.ref == 'refs/heads/main'
-        run: bun run ios:pod:install
       - name: Install SPM dependencies of packages affected by changes
-        if: github.ref != 'refs/heads/main'
         run: bun run affected:ios:spm:install
-      - name: Install all SPM dependencies
-        if: github.ref == 'refs/heads/main'
-        run: bun run ios:spm:install
       - name: Build packages affected by changes
-        if: github.ref != 'refs/heads/main'
         run: bun run affected:verify:ios
-      - name: Build all packages
-        if: github.ref == 'refs/heads/main'
-        run: bun run verify:ios
 
   test-web:
     name: Test Web platform
@@ -90,11 +74,7 @@ jobs:
       - name: Install dependencies
         run: bun i
       - name: Build packages affected by changes
-        if: github.ref != 'refs/heads/main'
         run: bun run affected:verify:web
-      - name: Build all packages
-        if: github.ref == 'refs/heads/main'
-        run: bun run verify:web
 
   lint:
     name: Lint
@@ -110,8 +90,4 @@ jobs:
       - name: Install dependencies
         run: bun i
       - name: Lint packages affected by changes
-        if: github.ref != 'refs/heads/main'
         run: bun run affected:lint
-      - name: Lint all packages
-        if: github.ref == 'refs/heads/main'
-        run: bun run lint
