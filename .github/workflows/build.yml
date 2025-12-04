@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     tags:
-      - "*/v*"
+      - "*/*"
 
 jobs:
   # Tests already passed before tag was created, so just build and deploy
@@ -27,7 +27,7 @@ jobs:
         id: extract
         run: |
           TAG=${{ github.ref_name }}
-          PACKAGE_NAME=$(echo $TAG | sed 's|/v.*||')
+          PACKAGE_NAME=$(echo $TAG | sed 's|/.*||')
           echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
           echo "Publishing package: $PACKAGE_NAME"
       - name: Install dependencies
