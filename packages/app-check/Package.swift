@@ -19,6 +19,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
+                .product(name: "AppCheckCore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAppCheck", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk")
             ],
