@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.5.0
+
+### Patch Changes
+
+- [`e7ab015854b977715c04ff2c512be461654563fe`](https://github.com/capawesome-team/capacitor-firebase/commit/e7ab015854b977715c04ff2c512be461654563fe) ([#928](https://github.com/capawesome-team/capacitor-firebase/pull/928)): fix(ios): update spm dependency
+
 ## 7.4.0
 
 ## 7.3.1

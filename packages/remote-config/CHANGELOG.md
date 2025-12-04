@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.5.0
+
+### Minor Changes
+
+- [`1d0cc72260e80c79d8a772fa6ce98c14362de6ec`](https://github.com/capawesome-team/capacitor-firebase/commit/1d0cc72260e80c79d8a772fa6ce98c14362de6ec) ([#923](https://github.com/capawesome-team/capacitor-firebase/pull/923)): feat(remote-config): add `getInfo()` method
+
 ## 7.4.0
 
 ## 7.3.1
