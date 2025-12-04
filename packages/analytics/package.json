@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-firebase-analytics",
-  "version": "8.0.0",
+  "version": "7.4.2",
   "description": "Capacitor plugin for Firebase Analytics.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
