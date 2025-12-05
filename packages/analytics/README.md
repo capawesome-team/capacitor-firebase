@@ -556,6 +556,10 @@ Only available for iOS.
 
 See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics/CHANGELOG.md).
 
+## Breaking Changes
+
+See [BREAKING.md](https://github.com/Cap-go/capacitor-firebase/blob/main/packages/analytics/BREAKING.md).
+
 ## License
 
 See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics/LICENSE).
