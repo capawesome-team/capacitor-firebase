@@ -9,7 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'FirebaseRemoteConfig', '~> 11.7'
+  pod 'FirebaseRemoteConfig', '~> 12.6.0'
 end
 
 target 'PluginTests' do
