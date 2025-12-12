@@ -10,7 +10,7 @@ Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.goog
 
 ## Guides
 
-- [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
+- [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capgo.app/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
 
 ## Installation
 

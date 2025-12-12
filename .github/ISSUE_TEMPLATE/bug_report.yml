@@ -85,7 +85,7 @@ body:
         A well-written bug report allows the maintainers to quickly recreate the necessary conditions to inspect the bug and quickly find its root cause.
         Please ensure your bug report fulfills all of the following requirements.
       options:
-      - label: I have read and followed the [bug report guidelines](https://capawesome.io/contributing/bug-reports/).
+      - label: I have read and followed the [bug report guidelines](https://capgo.app/contributing/bug-reports/).
         required: true
       - label: I have attached links to possibly related issues and discussions.
         required: true

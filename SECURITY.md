@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-Please report security vulnerabilities via email to [support@capawesome.io](mailto:support@capawesome.io).
+Please report security vulnerabilities via email to [support@capgo.app](mailto:support@capgo.app).

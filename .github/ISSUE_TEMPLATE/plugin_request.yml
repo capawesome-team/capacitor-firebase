@@ -35,7 +35,7 @@ body:
       description: |
         Please ensure your idea fulfills all of the following requirements.
       options:
-      - label: I have read and followed the [plugin request guidelines](https://capawesome.io/contributing/plugin-requests/).
+      - label: I have read and followed the [plugin request guidelines](https://capgo.app/contributing/plugin-requests/).
         required: true
       - label: I have attached links to possibly related issues and discussions.
         required: true
