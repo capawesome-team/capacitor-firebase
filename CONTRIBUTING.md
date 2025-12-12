@@ -46,7 +46,7 @@ We want to have a consistent style and structure for easier cooperation.
 
 ## Upstream Sync
 
-This repository is a fork of [capawesome-team/capacitor-firebase](https://github.com/capawesome-team/capacitor-firebase) and automatically syncs changes from the upstream repository.
+This repository is a fork of [cap-go/capacitor-firebase](https://github.com/cap-go/capacitor-firebase) and automatically syncs changes from the upstream repository.
 
 ### Automated Sync Process
 

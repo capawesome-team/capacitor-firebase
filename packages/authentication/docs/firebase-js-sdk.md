@@ -175,7 +175,7 @@ const signOut = async () => {
 When using the Firebase JS SDK on Android and iOS, you must be aware of the following:
 
 - **Apple Sign-In**: Works on Android and iOS only with `skipNativeAuth=true` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/41#issuecomment-884106449)).
-- **Microsoft Sign-In**: Not supported (see https://github.com/capawesome-team/capacitor-firebase/discussions/216#discussioncomment-3803525)
+- **Microsoft Sign-In**: Not supported (see https://github.com/cap-go/capacitor-firebase/discussions/216#discussioncomment-3803525)
 - **Twitter Sign-In**: Works on iOS only with `skipNativeAuth=false` (see [here](https://github.com/robingenz/capacitor-firebase-authentication/issues/93#issuecomment-939459594)).
 
-**Note**: The [`skipNativeAuth`](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/README.md#signinoptions)).
+**Note**: The [`skipNativeAuth`](https://github.com/cap-go/capacitor-firebase/blob/main/packages/authentication/README.md#configuration) configuration option can be overwritten for each plugin call individually (see `skipNativeAuth` parameter in [SignInOptions](https://github.com/cap-go/capacitor-firebase/blob/main/packages/authentication/README.md#signinoptions)).

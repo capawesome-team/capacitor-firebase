@@ -53,7 +53,7 @@ body:
       label: Reproduction
       description: |
         Please provide a [Minimal, Reproducible Example](https://stackoverflow.com/help/minimal-reproducible-example) in a public GitHub repository so that we can debug the issue.
-        We have prepared a template repository that you can use: [capawesome-team/.capacitor-app](https://github.com/capawesome-team/.capacitor-app).
+        We have prepared a template repository that you can use: [cap-go/.capacitor-app](https://github.com/cap-go/.capacitor-app).
       placeholder: https://github.com/...
     validations:
       required: true

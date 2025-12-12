@@ -19,7 +19,7 @@ npm install @capacitor-firebase/messaging firebase
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -57,7 +57,7 @@ If you prefer to prevent token autogeneration, disable Analytics collection and 
 
 ### iOS
 
-> **Important**: Make sure that no other Capacitor Push Notification plugin is installed (see [here](https://github.com/capawesome-team/capacitor-firebase/pull/267#issuecomment-1328885820)).
+> **Important**: Make sure that no other Capacitor Push Notification plugin is installed (see [here](https://github.com/cap-go/capacitor-firebase/pull/267#issuecomment-1328885820)).
 
 See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-firebase#prerequisites) and complete the prerequisites first.
 
@@ -774,10 +774,10 @@ Callback to receive the notification action performed event.
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/messaging/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/cap-go/capacitor-firebase/blob/main/packages/messaging/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/messaging/LICENSE).
+See [LICENSE](https://github.com/cap-go/capacitor-firebase/blob/main/packages/messaging/LICENSE).
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

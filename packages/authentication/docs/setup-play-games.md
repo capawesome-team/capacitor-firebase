@@ -2,7 +2,7 @@
 
 ## Android
 
-1. Add `playgames.google.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1. Add `playgames.google.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1.  Add the following project variable to your `variables.gradle` file (usually `android/variables.gradle`):
     ```diff
     ext {

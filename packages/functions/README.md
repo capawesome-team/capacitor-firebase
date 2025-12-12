@@ -210,10 +210,10 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/functions/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/cap-go/capacitor-firebase/blob/main/packages/functions/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/functions/LICENSE).
+See [LICENSE](https://github.com/cap-go/capacitor-firebase/blob/main/packages/functions/LICENSE).
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

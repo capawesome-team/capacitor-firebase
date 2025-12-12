@@ -19,7 +19,7 @@ npm install @capacitor-firebase/firestore
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#ios) / [Web](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#web)).
 
 ### Android
 
@@ -1010,15 +1010,15 @@ An options object that configures the behavior of {@link @firebase/firestore/lit
 
 This plugin currently has the following limitations:
 
-- The `Timestamp` data type is not yet supported (see https://github.com/capawesome-team/capacitor-firebase/issues/474). Use a `number` or a `string` instead.
-- The `FieldValue` data type is not yet supported (see https://github.com/capawesome-team/capacitor-firebase/issues/443).
+- The `Timestamp` data type is not yet supported (see https://github.com/cap-go/capacitor-firebase/issues/474). Use a `number` or a `string` instead.
+- The `FieldValue` data type is not yet supported (see https://github.com/cap-go/capacitor-firebase/issues/443).
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/firestore/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/cap-go/capacitor-firebase/blob/main/packages/firestore/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/firestore/LICENSE).
+See [LICENSE](https://github.com/cap-go/capacitor-firebase/blob/main/packages/firestore/LICENSE).
 
 [^1]: This project is not affiliated with, endorsed by, sponsored by, or approved by Google LLC or any of their affiliates or subsidiaries.

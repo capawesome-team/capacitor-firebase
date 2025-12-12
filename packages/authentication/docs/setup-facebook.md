@@ -2,7 +2,7 @@
 
 ## Android
 
-1.  Add `facebook.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1.  Add `facebook.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1.  Add the following project variable to your `variables.gradle` file (usually `android/variables.gradle`):
     ```diff
     ext {
@@ -54,11 +54,11 @@
     </activity>
     ```
 
-> ⚠️ You may encounter the following error with Gradle lint: `Class referenced in the manifest, com.facebook.FacebookActivity, was not found in the project or the libraries [MissingClass]`. Check out this comment in that case: [issues/117#issuecomment-1208612107](https://github.com/capawesome-team/capacitor-firebase/issues/117#issuecomment-1208612107).
+> ⚠️ You may encounter the following error with Gradle lint: `Class referenced in the manifest, com.facebook.FacebookActivity, was not found in the project or the libraries [MissingClass]`. Check out this comment in that case: [issues/117#issuecomment-1208612107](https://github.com/cap-go/capacitor-firebase/issues/117#issuecomment-1208612107).
 
 ## iOS
 
-1. Add `facebook.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1. Add `facebook.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1. If you are using **CocoaPods** for your iOS project, add the `CapacitorFirebaseAuthentication/Facebook` pod to your `Podfile` (usually `ios/App/Podfile`):
 
    ```diff

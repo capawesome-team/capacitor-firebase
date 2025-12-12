@@ -2,13 +2,13 @@
 
 ## Android
 
-1. Add `microsoft.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1. Add `microsoft.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1. See [Before you begin](https://firebase.google.com/docs/auth/android/microsoft-oauth#before_you_begin) and follow the instructions to configure sign-in with Microsoft correctly.
 **Attention**: Make sure you select `Web` as the platform for your redirect URI when registering a Microsoft OAuth client (step 4).
 
 ## iOS
 
-1. Add `microsoft.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1. Add `microsoft.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1. See [Before you begin](https://firebase.google.com/docs/auth/ios/microsoft-oauth#before_you_begin) and follow the instructions to configure sign-in with Microsoft correctly.  
 **Attention**: Make sure you select `Web` as the platform for your redirect URI when registering a Microsoft OAuth client (step 4).
 1. Add custom URL schemes to your Xcode project:

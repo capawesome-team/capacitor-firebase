@@ -20,7 +20,7 @@
   <a href="https://turborepo.org/"><img src="https://img.shields.io/badge/maintained%20with-turborepo-%237f6ab2?style=flat-square" /></a>
 </p>
 
-> **Note:** This is a fork of the excellent [capacitor-firebase](https://github.com/capawesome-team/capacitor-firebase) by [Robin Genz](https://github.com/robingenz). We are deeply grateful for Robin's pioneering work on these plugins. This fork is maintained by the Capgo team with a focus on automatically releasing new versions whenever Firebase SDKs are updated, ensuring users always have access to the latest Firebase features and fixes through automated releases via Renovate.</p>
+> **Note:** This is a fork of the excellent [capacitor-firebase](https://github.com/cap-go/capacitor-firebase) by [Robin Genz](https://github.com/robingenz). We are deeply grateful for Robin's pioneering work on these plugins. This fork is maintained by the Capgo team with a focus on automatically releasing new versions whenever Firebase SDKs are updated, ensuring users always have access to the latest Firebase features and fixes through automated releases via Renovate.</p>
 
 ## Features
 
@@ -37,7 +37,7 @@ Capacitor Firebase is a collection of Capacitor plugins that make it easier for 
 
 ## What's Different in This Fork?
 
-This fork differs from the original [capawesome-team/capacitor-firebase](https://github.com/capawesome-team/capacitor-firebase) in its release philosophy:
+This fork differs from the original [cap-go/capacitor-firebase](https://github.com/cap-go/capacitor-firebase) in its release philosophy:
 
 ### Release Cadence
 - **Original (Capawesome)**: Releases approximately once per year, typically aligned with major Capacitor version updates

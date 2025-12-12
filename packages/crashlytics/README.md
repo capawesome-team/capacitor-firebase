@@ -15,7 +15,7 @@ npm install @capacitor-firebase/crashlytics
 npx cap sync
 ```
 
-Add Firebase to your project if you haven't already ([Android](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/capawesome-team/capacitor-firebase/blob/main/docs/firebase-setup.md#ios)).
+Add Firebase to your project if you haven't already ([Android](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#android) / [iOS](https://github.com/cap-go/capacitor-firebase/blob/main/docs/firebase-setup.md#ios)).
 
 ### Android
 
@@ -451,11 +451,11 @@ If you get obfuscated crash reports for iOS, make sure you have [initialized Cra
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/cap-go/capacitor-firebase/blob/main/packages/crashlytics/CHANGELOG.md).
 
 ## License
 
-See [LICENSE](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/crashlytics/LICENSE).
+See [LICENSE](https://github.com/cap-go/capacitor-firebase/blob/main/packages/crashlytics/LICENSE).
 
 ## Credits
 

@@ -2,12 +2,12 @@
 
 ## Android
 
-1. Add `yahoo.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1. Add `yahoo.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1. See [Before you begin](https://firebase.google.com/docs/auth/android/yahoo-oauth#before_you_begin) and follow the instructions to configure sign-in with Yahoo correctly.
 
 ## iOS
 
-1. Add `yahoo.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
+1. Add `yahoo.com` to the `providers` [configuration](https://github.com/cap-go/capacitor-firebase/tree/main/packages/authentication#configuration) array.
 1. See [Before you begin](https://firebase.google.com/docs/auth/ios/yahoo-oauth#before_you_begin) and follow the instructions to configure and enable sign-in with Yahoo correctly.
 1. Add custom URL schemes to your Xcode project:
    1. Open your project configuration.
