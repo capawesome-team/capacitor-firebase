@@ -1,17 +1,17 @@
-# @capacitor-firebase/remote-config
+# @capgo/capacitor-firebase-remote-config
 
 Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/remote-config firebase
+npm install @capgo/capacitor-firebase-remote-config firebase
 npx cap sync
 ```
 
@@ -46,7 +46,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+import { FirebaseRemoteConfig } from '@capgo/capacitor-firebase-remote-config';
 
 const activate = async () => {
   await FirebaseRemoteConfig.activate();

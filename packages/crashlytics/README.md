@@ -1,17 +1,17 @@
-# @capacitor-firebase/crashlytics
+# @capgo/capacitor-firebase-crashlytics
 
 Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/crashlytics
+npm install @capgo/capacitor-firebase-crashlytics
 npx cap sync
 ```
 
@@ -88,7 +88,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseCrashlytics } from '@capacitor-firebase/crashlytics';
+import { FirebaseCrashlytics } from '@capgo/capacitor-firebase-crashlytics';
 
 const crash = async () => {
   await FirebaseCrashlytics.crash({ message: 'Test' });

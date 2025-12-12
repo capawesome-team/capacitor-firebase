@@ -1,17 +1,17 @@
-# @capacitor-firebase/storage
+# @capgo/capacitor-firebase-storage
 
 Unofficial Capacitor plugin for [Firebase Cloud Storage](https://firebase.google.com/docs/storage/).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/storage
+npm install @capgo/capacitor-firebase-storage
 npx cap sync
 ```
 
@@ -44,7 +44,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseStorage } from '@capacitor-firebase/storage';
+import { FirebaseStorage } from '@capgo/capacitor-firebase-storage';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
 const uploadFile = async () => {

@@ -1,17 +1,17 @@
-# @capacitor-firebase/performance
+# @capgo/capacitor-firebase-performance
 
 Unofficial Capacitor plugin for [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/performance firebase
+npm install @capgo/capacitor-firebase-performance firebase
 npx cap sync
 ```
 
@@ -40,7 +40,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebasePerformance } from '@capacitor-firebase/performance';
+import { FirebasePerformance } from '@capgo/capacitor-firebase-performance';
 
 const startTrace = async () => {
   await FirebasePerformance.startTrace({ traceName: 'test_trace' });

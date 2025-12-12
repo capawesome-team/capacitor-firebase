@@ -39,7 +39,7 @@ This makes sure that the user is still signed in the next time the app is starte
 Sign in the user on the native layer, create web credentials and sign in the user on the web layer using [`signInWithCredential`](https://firebase.google.com/docs/reference/js/auth.md#signinwithcredential).
 
 ```js
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { FirebaseAuthentication } from '@capgo/capacitor-firebase-authentication';
 import {
   getAuth,
   GoogleAuthProvider,

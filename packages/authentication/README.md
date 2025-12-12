@@ -1,17 +1,17 @@
-# @capacitor-firebase/authentication
+# @capgo/capacitor-firebase-authentication
 
 Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/authentication firebase
+npm install @capgo/capacitor-firebase-authentication firebase
 npx cap sync
 ```
 
@@ -25,7 +25,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
-**Attention**: If you use this plugin on **iOS** in combination with `@capacitor-firebase/messaging`, then add the following to your app's `AppDelegate.swift`:
+**Attention**: If you use this plugin on **iOS** in combination with `@capgo/capacitor-firebase-messaging`, then add the following to your app's `AppDelegate.swift`:
 
 ```diff
 + import FirebaseAuth
@@ -145,7 +145,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { FirebaseAuthentication } from '@capgo/capacitor-firebase-authentication';
 
 const applyActionCode = async () => {
   await FirebaseAuthentication.applyActionCode({ oobCode: '1234' });

@@ -1,17 +1,17 @@
-# @capacitor-firebase/analytics
+# @capgo/capacitor-firebase-analytics
 
 Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com/docs/analytics).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/analytics firebase
+npm install @capgo/capacitor-firebase-analytics firebase
 npx cap sync
 ```
 
@@ -43,7 +43,7 @@ If you are using **CocoaPods** for your iOS project, you need to add the `Capaci
 target 'App' do
 capacitor_pods
 # Add your Pods here
-+  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
++  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capgo/capacitor-firebase-analytics'
 end
 ```
 
@@ -61,8 +61,8 @@ If you are using **CocoaPods** for your iOS project and you want to disable IDFA
 target 'App' do
 capacitor_pods
 # Add your Pods here
--  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
-+  pod 'CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport', :path => '../../node_modules/@capacitor-firebase/analytics'
+-  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capgo/capacitor-firebase-analytics'
++  pod 'CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport', :path => '../../node_modules/@capgo/capacitor-firebase-analytics'
 end
 ```
 
@@ -77,7 +77,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+import { FirebaseAnalytics } from '@capgo/capacitor-firebase-analytics';
 
 const setUserId = async () => {
   await FirebaseAnalytics.setUserId({

@@ -14,7 +14,7 @@ Add Firebase to your JavaScript project if you haven't already (see [here](https
 Initialize App Check on the native layer, create a custom provider and then initialize app check on the web layer using the token from the native layer.
 
 ```ts
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { FirebaseAppCheck } from '@capgo/capacitor-firebase-app-check';
 import { getApp } from 'firebase/app';
 import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 

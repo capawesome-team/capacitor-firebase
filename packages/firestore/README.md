@@ -1,10 +1,10 @@
-# @capacitor-firebase/firestore
+# @capgo/capacitor-firebase-firestore
 
 Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore/).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
@@ -15,7 +15,7 @@ Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.goog
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/firestore
+npm install @capgo/capacitor-firebase-firestore
 npx cap sync
 ```
 
@@ -48,7 +48,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+import { FirebaseFirestore } from '@capgo/capacitor-firebase-firestore';
 
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({

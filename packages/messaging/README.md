@@ -1,10 +1,10 @@
-# @capacitor-firebase/messaging
+# @capgo/capacitor-firebase-messaging
 
 Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
@@ -15,7 +15,7 @@ Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.goog
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/messaging firebase
+npm install @capgo/capacitor-firebase-messaging firebase
 npx cap sync
 ```
 
@@ -81,7 +81,7 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
 }
 ```
 
-**Attention**: If you use this plugin in combination with `@capacitor-firebase/authentication`, then add the following to your app's `AppDelegate.swift`:
+**Attention**: If you use this plugin in combination with `@capgo/capacitor-firebase-authentication`, then add the following to your app's `AppDelegate.swift`:
 
 ```diff
 + import FirebaseAuth
@@ -163,7 +163,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+import { FirebaseMessaging } from '@capgo/capacitor-firebase-messaging';
 
 const checkPermissions = async () => {
   const result = await FirebaseMessaging.checkPermissions();

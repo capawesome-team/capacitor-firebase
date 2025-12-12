@@ -1,17 +1,17 @@
-# @capacitor-firebase/app
+# @capgo/capacitor-firebase-app
 
 Unofficial Capacitor plugin for [Firebase App](https://firebase.google.com/docs).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/app firebase
+npm install @capgo/capacitor-firebase-app firebase
 npx cap sync
 ```
 
@@ -38,7 +38,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseApp } from '@capacitor-firebase/app';
+import { FirebaseApp } from '@capgo/capacitor-firebase-app';
 
 const getName = async () => {
   const result = await FirebaseApp.getName();

@@ -26,7 +26,7 @@
    target 'App' do
      capacitor_pods
      # Add your Pods here
-   +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@capacitor-firebase/authentication'
+   +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@capgo/capacitor-firebase-authentication'
    end
    ```
 

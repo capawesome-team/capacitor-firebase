@@ -1,17 +1,17 @@
-# @capacitor-firebase/app-check
+# @capgo/capacitor-firebase-app-check
 
 Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
+<div class="capgo-z29o10a">
+  <a href="https://capgo.app/" target="_blank">
+    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
   </a>
 </div>
 
 ## Installation
 
 ```bash
-npm install @capacitor-firebase/app-check firebase
+npm install @capgo/capacitor-firebase-app-check firebase
 npx cap sync
 ```
 
@@ -57,8 +57,8 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { ReCaptchaV3Provider } from '@capacitor-firebase/app-check';
+import { FirebaseAppCheck } from '@capgo/capacitor-firebase-app-check';
+import { ReCaptchaV3Provider } from '@capgo/capacitor-firebase-app-check';
 import { Capacitor } from '@capacitor/core';
 
 const initialize = async () => {
