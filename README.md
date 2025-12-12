@@ -40,7 +40,7 @@ Capacitor Firebase is a collection of Capacitor plugins that make it easier for 
 This fork differs from the original [cap-go/capacitor-firebase](https://github.com/cap-go/capacitor-firebase) in its release philosophy:
 
 ### Release Cadence
-- **Original (Capawesome)**: Releases approximately once per year, typically aligned with major Capacitor version updates
+- **Original (Capgo)**: Releases approximately once per year, typically aligned with major Capacitor version updates
 - **This Fork (Capgo)**: Automatically releases new versions whenever Firebase releases updates to their iOS, Android, or Web SDKs
 
 ### Key Benefits
