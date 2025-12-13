@@ -33,6 +33,8 @@
     "affected:ios:spm:install": "turbo run ios:spm:install --affected --concurrency=1 --no-cache"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
+    "eslint-plugin-import": "^2.31.0",
     "prettier-plugin-java": "2.6.7",
     "turbo": "2.5.6"
   }
