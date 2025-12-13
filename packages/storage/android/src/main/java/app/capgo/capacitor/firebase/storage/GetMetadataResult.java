@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.storage.classes.results;
 
+import app.capgo.capacitor.firebase.storage.interfaces.Result;
 import com.getcapacitor.JSObject;
 import com.google.firebase.storage.StorageMetadata;
-import app.capgo.capacitor.firebase.storage.interfaces.Result;
 import java.util.Set;
 
 public class GetMetadataResult implements Result {

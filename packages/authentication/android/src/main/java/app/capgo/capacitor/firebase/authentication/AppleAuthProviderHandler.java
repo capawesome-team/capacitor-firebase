@@ -1,6 +1,10 @@
 package app.capgo.capacitor.firebase.authentication.handlers;
 
 import android.util.Log;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthentication;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationPlugin;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
@@ -9,10 +13,6 @@ import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.OAuthProvider;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthentication;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper.ProviderId;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharsetDecoder;

@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.authentication.classes;
 
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSObject;
 import app.capgo.capacitor.firebase.authentication.interfaces.Result;
+import com.getcapacitor.JSObject;
 
 public class GetIdTokenResult implements Result {
 

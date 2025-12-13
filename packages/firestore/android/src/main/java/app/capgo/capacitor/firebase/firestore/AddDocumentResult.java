@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.firestore.classes.results;
 
+import app.capgo.capacitor.firebase.firestore.interfaces.Result;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentReference;
-import app.capgo.capacitor.firebase.firestore.interfaces.Result;
 
 public class AddDocumentResult implements Result {
 

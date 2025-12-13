@@ -1,11 +1,5 @@
 package app.capgo.capacitor.firebase.storage;
 
-import com.getcapacitor.JSObject;
-import com.getcapacitor.Logger;
-import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
-import com.getcapacitor.annotation.CapacitorPlugin;
 import app.capgo.capacitor.firebase.storage.classes.options.DeleteFileOptions;
 import app.capgo.capacitor.firebase.storage.classes.options.GetDownloadUrlOptions;
 import app.capgo.capacitor.firebase.storage.classes.options.GetMetadataOptions;
@@ -16,6 +10,12 @@ import app.capgo.capacitor.firebase.storage.interfaces.EmptyResultCallback;
 import app.capgo.capacitor.firebase.storage.interfaces.NonEmptyEventCallback;
 import app.capgo.capacitor.firebase.storage.interfaces.NonEmptyResultCallback;
 import app.capgo.capacitor.firebase.storage.interfaces.Result;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
 
 @CapacitorPlugin(name = "FirebaseStorage")
 public class FirebaseStoragePlugin extends Plugin {

@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.firestore.classes.constraints;
 
+import app.capgo.capacitor.firebase.firestore.interfaces.QueryNonFilterConstraint;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Query;
-import app.capgo.capacitor.firebase.firestore.interfaces.QueryNonFilterConstraint;
 
 public class QueryOrderByConstraint implements QueryNonFilterConstraint {
 

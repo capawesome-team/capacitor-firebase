@@ -2,12 +2,12 @@ package app.capgo.capacitor.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
-import com.getcapacitor.PluginCall;
 import app.capgo.capacitor.firebase.firestore.FirebaseFirestoreHelper;
 import app.capgo.capacitor.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import app.capgo.capacitor.firebase.firestore.interfaces.QueryNonFilterConstraint;
+import com.getcapacitor.JSArray;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.PluginCall;
 import org.json.JSONException;
 
 public class AddCollectionSnapshotListenerOptions {

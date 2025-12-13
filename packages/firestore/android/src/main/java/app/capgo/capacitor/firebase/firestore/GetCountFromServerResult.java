@@ -1,7 +1,7 @@
 package app.capgo.capacitor.firebase.firestore.classes.results;
 
-import com.getcapacitor.JSObject;
 import app.capgo.capacitor.firebase.firestore.interfaces.Result;
+import com.getcapacitor.JSObject;
 
 public class GetCountFromServerResult implements Result {
 

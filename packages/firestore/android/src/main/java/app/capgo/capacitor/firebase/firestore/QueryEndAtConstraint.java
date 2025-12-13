@@ -1,11 +1,11 @@
 package app.capgo.capacitor.firebase.firestore.classes.constraints;
 
+import app.capgo.capacitor.firebase.firestore.interfaces.QueryNonFilterConstraint;
 import com.getcapacitor.JSObject;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-import app.capgo.capacitor.firebase.firestore.interfaces.QueryNonFilterConstraint;
 import java.util.concurrent.ExecutionException;
 
 public class QueryEndAtConstraint implements QueryNonFilterConstraint {

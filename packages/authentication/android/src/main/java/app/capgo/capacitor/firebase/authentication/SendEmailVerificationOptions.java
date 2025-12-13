@@ -1,9 +1,9 @@
 package app.capgo.capacitor.firebase.authentication.classes.options;
 
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.ActionCodeSettings;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper;
 import org.json.JSONException;
 
 public class SendEmailVerificationOptions {

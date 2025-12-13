@@ -3,6 +3,8 @@ package app.capgo.capacitor.firebase.authentication.handlers;
 import android.content.Intent;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthentication;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationPlugin;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -15,8 +17,6 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthentication;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationPlugin;
 import java.util.List;
 import org.json.JSONException;
 

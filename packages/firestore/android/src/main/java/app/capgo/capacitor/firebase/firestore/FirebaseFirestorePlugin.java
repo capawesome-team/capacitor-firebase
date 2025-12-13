@@ -1,13 +1,6 @@
 package app.capgo.capacitor.firebase.firestore;
 
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
-import com.getcapacitor.Logger;
-import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
-import com.getcapacitor.annotation.CapacitorPlugin;
 import app.capgo.capacitor.firebase.firestore.classes.options.AddCollectionGroupSnapshotListenerOptions;
 import app.capgo.capacitor.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import app.capgo.capacitor.firebase.firestore.classes.options.AddDocumentOptions;
@@ -25,6 +18,13 @@ import app.capgo.capacitor.firebase.firestore.interfaces.EmptyResultCallback;
 import app.capgo.capacitor.firebase.firestore.interfaces.NonEmptyResultCallback;
 import app.capgo.capacitor.firebase.firestore.interfaces.Result;
 import app.capgo.capacitor.firebase.firestore.interfaces.ResultCallback;
+import com.getcapacitor.JSArray;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

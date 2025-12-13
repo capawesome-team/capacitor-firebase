@@ -4,15 +4,6 @@ import android.content.Intent;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSObject;
-import com.getcapacitor.Logger;
-import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
-import com.getcapacitor.annotation.ActivityCallback;
-import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.firebase.auth.ActionCodeSettings;
-import com.google.firebase.auth.FirebaseUser;
 import app.capgo.capacitor.firebase.authentication.classes.ConfirmVerificationCodeOptions;
 import app.capgo.capacitor.firebase.authentication.classes.LinkWithPhoneNumberOptions;
 import app.capgo.capacitor.firebase.authentication.classes.PhoneVerificationCompletedEvent;
@@ -25,6 +16,15 @@ import app.capgo.capacitor.firebase.authentication.handlers.FacebookAuthProvider
 import app.capgo.capacitor.firebase.authentication.interfaces.EmptyResultCallback;
 import app.capgo.capacitor.firebase.authentication.interfaces.NonEmptyResultCallback;
 import app.capgo.capacitor.firebase.authentication.interfaces.Result;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.ActivityCallback;
+import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })

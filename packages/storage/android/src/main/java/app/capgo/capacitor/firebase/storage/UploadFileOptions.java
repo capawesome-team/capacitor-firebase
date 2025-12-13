@@ -2,9 +2,9 @@ package app.capgo.capacitor.firebase.storage.classes.options;
 
 import android.net.Uri;
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.storage.FirebaseStorageHelper;
 import com.getcapacitor.JSObject;
 import com.google.firebase.storage.StorageMetadata;
-import app.capgo.capacitor.firebase.storage.FirebaseStorageHelper;
 import org.json.JSONException;
 
 public class UploadFileOptions {

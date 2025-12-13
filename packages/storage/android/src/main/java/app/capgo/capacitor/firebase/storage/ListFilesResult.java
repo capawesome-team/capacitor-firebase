@@ -1,9 +1,9 @@
 package app.capgo.capacitor.firebase.storage.classes.results;
 
+import app.capgo.capacitor.firebase.storage.interfaces.Result;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.storage.ListResult;
-import app.capgo.capacitor.firebase.storage.interfaces.Result;
 
 public class ListFilesResult implements Result {
 

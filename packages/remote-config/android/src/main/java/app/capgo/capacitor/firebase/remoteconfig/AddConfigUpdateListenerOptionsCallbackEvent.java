@@ -1,9 +1,9 @@
 package app.capgo.capacitor.firebase.remoteconfig.classes.events;
 
+import app.capgo.capacitor.firebase.remoteconfig.interfaces.Result;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.remoteconfig.ConfigUpdate;
-import app.capgo.capacitor.firebase.remoteconfig.interfaces.Result;
 import java.util.Set;
 
 public class AddConfigUpdateListenerOptionsCallbackEvent implements Result {

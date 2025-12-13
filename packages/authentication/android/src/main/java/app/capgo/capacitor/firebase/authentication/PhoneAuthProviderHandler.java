@@ -2,10 +2,6 @@ package app.capgo.capacitor.firebase.authentication.handlers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
 import app.capgo.capacitor.firebase.authentication.FirebaseAuthentication;
 import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationPlugin;
 import app.capgo.capacitor.firebase.authentication.classes.ConfirmVerificationCodeOptions;
@@ -15,6 +11,10 @@ import app.capgo.capacitor.firebase.authentication.classes.SignInOptions;
 import app.capgo.capacitor.firebase.authentication.classes.SignInResult;
 import app.capgo.capacitor.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import app.capgo.capacitor.firebase.authentication.interfaces.NonEmptyResultCallback;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthProviderHandler {

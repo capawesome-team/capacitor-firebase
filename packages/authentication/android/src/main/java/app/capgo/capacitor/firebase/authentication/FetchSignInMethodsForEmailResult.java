@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.authentication.classes.results;
 
+import app.capgo.capacitor.firebase.authentication.interfaces.Result;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-import app.capgo.capacitor.firebase.authentication.interfaces.Result;
 import java.util.List;
 
 public class FetchSignInMethodsForEmailResult implements Result {

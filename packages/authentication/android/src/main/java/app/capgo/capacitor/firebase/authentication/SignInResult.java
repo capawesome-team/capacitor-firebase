@@ -2,13 +2,13 @@ package app.capgo.capacitor.firebase.authentication.classes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper;
+import app.capgo.capacitor.firebase.authentication.interfaces.Result;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import app.capgo.capacitor.firebase.authentication.FirebaseAuthenticationHelper;
-import app.capgo.capacitor.firebase.authentication.interfaces.Result;
 
 public class SignInResult implements Result {
 

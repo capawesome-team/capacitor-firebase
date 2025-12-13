@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.storage.classes.results;
 
 import android.net.Uri;
-import com.getcapacitor.JSObject;
 import app.capgo.capacitor.firebase.storage.interfaces.Result;
+import com.getcapacitor.JSObject;
 
 public class GetDownloadUrlResult implements Result {
 

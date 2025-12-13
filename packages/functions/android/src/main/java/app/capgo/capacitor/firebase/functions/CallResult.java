@@ -2,9 +2,9 @@ package app.capgo.capacitor.firebase.functions.classes.results;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.functions.interfaces.Result;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-import app.capgo.capacitor.firebase.functions.interfaces.Result;
 import java.util.ArrayList;
 import java.util.Map;
 

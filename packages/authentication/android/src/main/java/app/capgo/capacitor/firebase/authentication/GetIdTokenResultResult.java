@@ -1,9 +1,9 @@
 package app.capgo.capacitor.firebase.authentication.classes;
 
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.authentication.interfaces.Result;
 import com.getcapacitor.JSObject;
 import com.google.firebase.auth.GetTokenResult;
-import app.capgo.capacitor.firebase.authentication.interfaces.Result;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;

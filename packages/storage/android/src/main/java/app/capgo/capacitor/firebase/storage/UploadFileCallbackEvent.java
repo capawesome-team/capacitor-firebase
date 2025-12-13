@@ -2,10 +2,10 @@ package app.capgo.capacitor.firebase.storage.classes.events;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSObject;
-import com.google.firebase.storage.UploadTask;
 import app.capgo.capacitor.firebase.storage.enums.UploadFileState;
 import app.capgo.capacitor.firebase.storage.interfaces.Result;
+import com.getcapacitor.JSObject;
+import com.google.firebase.storage.UploadTask;
 
 public class UploadFileCallbackEvent implements Result {
 

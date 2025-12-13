@@ -1,8 +1,8 @@
 package app.capgo.capacitor.firebase.storage.classes.options;
 
+import app.capgo.capacitor.firebase.storage.FirebaseStorageHelper;
 import com.getcapacitor.JSObject;
 import com.google.firebase.storage.StorageMetadata;
-import app.capgo.capacitor.firebase.storage.FirebaseStorageHelper;
 import org.json.JSONException;
 
 public class UpdateMetadataOptions {

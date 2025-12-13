@@ -3,11 +3,6 @@ package app.capgo.capacitor.firebase.storage;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.ListResult;
-import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import app.capgo.capacitor.firebase.storage.classes.events.UploadFileCallbackEvent;
 import app.capgo.capacitor.firebase.storage.classes.options.DeleteFileOptions;
 import app.capgo.capacitor.firebase.storage.classes.options.GetDownloadUrlOptions;
@@ -22,6 +17,11 @@ import app.capgo.capacitor.firebase.storage.enums.UploadFileState;
 import app.capgo.capacitor.firebase.storage.interfaces.EmptyResultCallback;
 import app.capgo.capacitor.firebase.storage.interfaces.NonEmptyEventCallback;
 import app.capgo.capacitor.firebase.storage.interfaces.NonEmptyResultCallback;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class FirebaseStorage {
 

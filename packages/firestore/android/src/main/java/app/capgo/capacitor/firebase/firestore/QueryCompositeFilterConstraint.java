@@ -2,9 +2,9 @@ package app.capgo.capacitor.firebase.firestore.classes.constraints;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.capgo.capacitor.firebase.firestore.interfaces.QueryFilterConstraint;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.Filter;
-import app.capgo.capacitor.firebase.firestore.interfaces.QueryFilterConstraint;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;

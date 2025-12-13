@@ -1,15 +1,15 @@
 package app.capgo.capacitor.firebase.remoteconfig;
 
+import app.capgo.capacitor.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
+import app.capgo.capacitor.firebase.remoteconfig.classes.options.RemoveConfigUpdateListenerOptions;
+import app.capgo.capacitor.firebase.remoteconfig.interfaces.NonEmptyResultCallback;
+import app.capgo.capacitor.firebase.remoteconfig.interfaces.Result;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import app.capgo.capacitor.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
-import app.capgo.capacitor.firebase.remoteconfig.classes.options.RemoveConfigUpdateListenerOptions;
-import app.capgo.capacitor.firebase.remoteconfig.interfaces.NonEmptyResultCallback;
-import app.capgo.capacitor.firebase.remoteconfig.interfaces.Result;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

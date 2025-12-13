@@ -4,16 +4,16 @@ import static app.capgo.capacitor.firebase.firestore.FirebaseFirestorePlugin.ERR
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import app.capgo.capacitor.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import app.capgo.capacitor.firebase.firestore.classes.constraints.QueryEndAtConstraint;
 import app.capgo.capacitor.firebase.firestore.classes.constraints.QueryLimitConstraint;
 import app.capgo.capacitor.firebase.firestore.classes.constraints.QueryOrderByConstraint;
 import app.capgo.capacitor.firebase.firestore.classes.constraints.QueryStartAtConstraint;
 import app.capgo.capacitor.firebase.firestore.interfaces.QueryNonFilterConstraint;
+import com.getcapacitor.JSArray;
+import com.getcapacitor.JSObject;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
