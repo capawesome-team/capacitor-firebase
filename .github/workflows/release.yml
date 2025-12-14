@@ -11,7 +11,7 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 22
 
 jobs:
   release:
@@ -25,6 +25,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Update npm for OIDC trusted publishing
+        run: |
+          # npm trusted publishing requires npm >= 11.5.1
+          # Node.js 20.x ships with npm 10.x, so we need to update
+          echo "Current npm version: $(npm --version)"
+          npm install -g npm@latest
+          echo "Updated npm version: $(npm --version)"
       - name: Install Dependencies
         run: npm ci
       - name: Create Release Pull Request or Publish to npm
@@ -32,8 +39,8 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: npm run release
-          commit: 'chore(release): publish'
-          title: 'chore(release): publish'
+          commit: "chore(release): publish"
+          title: "chore(release): publish"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
