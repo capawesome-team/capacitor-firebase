@@ -1,0 +1,25 @@
+diff --git a/node_modules/@capacitor/docgen/dist/parse.js b/node_modules/@capacitor/docgen/dist/parse.js
+index 8e863fb..38d9d99 100644
+--- a/node_modules/@capacitor/docgen/dist/parse.js
++++ b/node_modules/@capacitor/docgen/dist/parse.js
+@@ -17,7 +17,19 @@ const formatting_1 = require("./formatting");
+ function parse(opts) {
+     const tsProgram = transpile_1.getTsProgram(opts);
+     const typeChecker = tsProgram.getTypeChecker();
+-    const tsSourceFiles = tsProgram.getSourceFiles();
++    const tsSourceFiles = tsProgram.getSourceFiles().filter((sourceFile) => {
++        const fileName = sourceFile.fileName;
++        // Filter out TypeScript lib files (lib.dom.d.ts, lib.es2017.d.ts, etc.)
++        if (fileName.includes('/typescript/lib/lib.') || fileName.includes('\\typescript\\lib\\lib.')) {
++            return false;
++        }
++        // Filter out node_modules except @capacitor packages
++        if ((fileName.includes('/node_modules/') || fileName.includes('\\node_modules\\')) &&
++            !fileName.includes('/@capacitor/') && !fileName.includes('\\@capacitor\\')) {
++            return false;
++        }
++        return true;
++    });
+     const interfaces = [];
+     const enums = [];
+     const typeAliases = [];

@@ -224,14 +224,6 @@ Only available for Web.
 | **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set. Only available for Web.                                                                                                                                                                                                                                                                                                                                      |                                  | 1.3.0 |
 
 
-#### InstanceFactoryOptions
-
-| Prop                     | Type                |
-| ------------------------ | ------------------- |
-| **`instanceIdentifier`** | <code>string</code> |
-| **`options`**            | <code>{}</code>     |
-
-
 #### SetTokenAutoRefreshEnabledOptions
 
 | Prop          | Type                 | Description                                                                                                                      | Since |
@@ -254,11 +246,6 @@ Only available for Web.
 
 
 ### Type Aliases
-
-
-#### InitializeOptions
-
-<code><a href="#instancefactoryoptions">InstanceFactoryOptions</a></code>
 
 
 #### TokenChangedListener
