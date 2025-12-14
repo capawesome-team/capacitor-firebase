@@ -31,10 +31,10 @@
     "release:preview": "pkg-pr-new publish './packages/*'"
   },
   "devDependencies": {
-    "@changesets/cli": "2.27.12",
+    "@changesets/cli": "2.29.8",
     "@robingenz/changelog-github": "0.0.1",
     "pkg-pr-new": "0.0.20",
     "prettier-plugin-java": "2.6.7",
-    "turbo": "2.5.6"
+    "turbo": "2.6.3"
   }
 }
