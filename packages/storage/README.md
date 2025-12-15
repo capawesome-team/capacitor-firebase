@@ -8,6 +8,14 @@ Unofficial Capacitor plugin for [Firebase Cloud Storage](https://firebase.google
   </a>
 </div>
 
+## Compatibility
+
+| Plugin Version | Capacitor Version | Status         |
+| -------------- | ----------------- | -------------- |
+| 8.x.x          | >=8.x.x           | Active support |
+| 7.x.x          | 7.x.x             | Deprecated     |
+| 6.x.x          | 6.x.x             | Deprecated     |
+
 ## Installation
 
 ```bash
