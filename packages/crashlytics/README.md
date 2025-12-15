@@ -52,7 +52,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `19.4.0`)
+- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `20.0.3`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 

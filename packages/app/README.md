@@ -33,7 +33,7 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseCommonVersion` version of `com.google.firebase:firebase-common` (default: `21.0.0`)
+- `$firebaseCommonVersion` version of `com.google.firebase:firebase-common` (default: `22.0.1`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
