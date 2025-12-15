@@ -7,6 +7,7 @@
    ```diff
    ext {
    +    rgcfaIncludeGoogle = true
+   +    androidxCredentialsVersion = '1.3.0'
    }
    ```
    Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
