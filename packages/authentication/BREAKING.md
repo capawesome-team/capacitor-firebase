@@ -17,6 +17,14 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 This plugin now supports **Capacitor 8**. The minimum Android SDK version is **36** and the iOS deployment target is **15.0**. Ensure your project meets these requirements before upgrading.
 
+### Error codes
+
+The following methods now correctly return `UNIMPLEMENTED` instead of generic error messages when called on platforms where they are not implemented:
+
+- On **Web**: `getPendingAuthResult()`, `linkWithGameCenter(...)`, `linkWithPlayGames(...)`, `signInWithPlayGames()`, `signInWithGameCenter()`, `requestAppTrackingTransparencyPermission()`, and `checkAppTrackingTransparencyPermission()` now return `UNIMPLEMENTED`.
+- On **Android**: `getRedirectResult()`, `setPersistence(...)`, `signInWithGameCenter()`, `requestAppTrackingTransparencyPermission()`, and `checkAppTrackingTransparencyPermission()` now return `UNIMPLEMENTED`.
+- On **iOS**: `getPendingAuthResult()`, `getRedirectResult()`, `linkWithPlayGames(...)`, `setPersistence(...)`, and `signInWithPlayGames()` now return `UNIMPLEMENTED`.
+
 ## Version 7.x.x
 
 ### Dependencies

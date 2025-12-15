@@ -253,11 +253,11 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func getPendingAuthResult(_ call: CAPPluginCall) {
-        call.reject("Not available on iOS.")
+        rejectCallAsUnimplemented(call)
     }
 
     @objc func getRedirectResult(_ call: CAPPluginCall) {
-        call.reject("Not available on iOS.")
+        rejectCallAsUnimplemented(call)
     }
 
     @objc func getTenantId(_ call: CAPPluginCall) {
@@ -332,7 +332,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func linkWithPlayGames(_ call: CAPPluginCall) {
-        call.reject("Not available on iOS.")
+        rejectCallAsUnimplemented(call)
     }
 
     @objc func linkWithTwitter(_ call: CAPPluginCall) {
@@ -448,7 +448,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func setPersistence(_ call: CAPPluginCall) {
-        call.reject("Not available on iOS.")
+        rejectCallAsUnimplemented(call)
     }
 
     @objc func setTenantId(_ call: CAPPluginCall) {
@@ -523,7 +523,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func signInWithPlayGames(_ call: CAPPluginCall) {
-        call.reject("Not available on iOS.")
+        rejectCallAsUnimplemented(call)
     }
 
     @objc func signInWithTwitter(_ call: CAPPluginCall) {
@@ -709,6 +709,14 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         var result = JSObject()
         result["verificationId"] = verificationId
         notifyListeners(phoneCodeSentEvent, data: result, retainUntilConsumed: true)
+    }
+
+    private func rejectCallAsUnavailable(_ call: CAPPluginCall) {
+        call.unavailable("This method is not available on this platform.")
+    }
+
+    private func rejectCallAsUnimplemented(_ call: CAPPluginCall) {
+        call.unimplemented("This method is not implemented on this platform.")
     }
 
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {

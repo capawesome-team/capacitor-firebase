@@ -98,41 +98,41 @@ export class FirebaseMessagingWeb
   }
 
   public async getDeliveredNotifications(): Promise<GetDeliveredNotificationsResult> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async removeDeliveredNotifications(
     _options: RemoveDeliveredNotificationsOptions,
   ): Promise<void> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async removeAllDeliveredNotifications(): Promise<void> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async subscribeToTopic(
     _options: SubscribeToTopicOptions,
   ): Promise<void> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async unsubscribeFromTopic(
     _options: UnsubscribeFromTopicOptions,
   ): Promise<void> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async createChannel(_options: Channel): Promise<void> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async deleteChannel(_options: DeleteChannelOptions): Promise<void> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   public async listChannels(): Promise<ListChannelsResult> {
-    this.throwUnavailableError();
+    this.throwUnimplementedError();
   }
 
   private handleNotificationReceived(messagePayload: MessagePayload): void {
@@ -171,7 +171,7 @@ export class FirebaseMessagingWeb
     return state;
   }
 
-  private throwUnavailableError(): never {
-    throw this.unavailable('Not available on web.');
+  private throwUnimplementedError(): never {
+    throw this.unimplemented('Not implemented on web.');
   }
 }

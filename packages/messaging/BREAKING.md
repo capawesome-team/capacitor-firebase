@@ -22,6 +22,21 @@ This plugin now supports **Capacitor 8**. The minimum Android SDK version is **3
 
 - On Android, the `firebaseMessagingVersion` variable has been updated to `25.0.1`.
 
+### Error codes
+
+On **Web**, the following methods now correctly return `UNIMPLEMENTED` instead of `UNAVAILABLE` when called:
+
+- `getDeliveredNotifications()`
+- `removeDeliveredNotifications(...)`
+- `removeAllDeliveredNotifications()`
+- `subscribeToTopic(...)`
+- `unsubscribeFromTopic(...)`
+- `createChannel(...)`
+- `deleteChannel(...)`
+- `listChannels()`
+
+These are mobile-specific features that cannot be implemented on the web platform.
+
 ## Version 7.x.x
 
 ### Dependencies

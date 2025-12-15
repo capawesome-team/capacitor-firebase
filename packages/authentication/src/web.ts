@@ -195,7 +195,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async getPendingAuthResult(): Promise<SignInResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
@@ -319,7 +319,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async linkWithGameCenter(): Promise<LinkResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async linkWithGithub(
@@ -422,7 +422,7 @@ export class FirebaseAuthenticationWeb
   }
 
   public async linkWithPlayGames(): Promise<LinkResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async linkWithTwitter(
@@ -690,11 +690,11 @@ export class FirebaseAuthenticationWeb
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async signInWithGameCenter(): Promise<SignInResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async signInWithTwitter(
@@ -886,11 +886,11 @@ export class FirebaseAuthenticationWeb
   }
 
   public requestAppTrackingTransparencyPermission(): Promise<RequestAppTrackingTransparencyPermissionResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   private createSignInResult(
@@ -1007,9 +1007,5 @@ export class FirebaseAuthenticationWeb
       return error['message'];
     }
     return JSON.stringify(error);
-  }
-
-  private throwNotAvailableError(): never {
-    throw new Error('Not available on web.');
   }
 }

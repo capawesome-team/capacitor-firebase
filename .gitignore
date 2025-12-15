@@ -4,3 +4,8 @@ node_modules
 
 # VSCode
 .vscode/settings.json
+
+# Others
+CLAUDE.md
+AGENTS.md
+TODO.md
