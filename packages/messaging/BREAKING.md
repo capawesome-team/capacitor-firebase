@@ -37,6 +37,10 @@ On **Web**, the following methods now correctly return `UNIMPLEMENTED` instead o
 
 These are mobile-specific features that cannot be implemented on the web platform.
 
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.6.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
+
 ## Version 7.x.x
 
 ### Dependencies

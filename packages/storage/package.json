@@ -76,7 +76,7 @@
   },
   "peerDependencies": {
     "@capacitor/core": ">=8.0.0",
-    "firebase": "^11.2.0"
+    "firebase": "^12.6.0"
   },
   "peerDependenciesMeta": {
     "firebase": {
