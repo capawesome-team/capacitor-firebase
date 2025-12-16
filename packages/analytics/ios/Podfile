@@ -9,8 +9,8 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'FirebaseAnalytics', '~> 11.7'
-  pod 'GoogleAppMeasurementOnDeviceConversion', '~> 11.7'
+  pod 'FirebaseAnalytics/Core', '~> 12.7'
+  pod 'FirebaseAnalytics/IdentitySupport', '~> 12.7'
 end
 
 target 'PluginTests' do
