@@ -28,6 +28,10 @@ The Firebase iOS SDK has been updated to version `12.7.0`. The deprecated `Googl
 
 - On Android, the `firebaseAnalyticsVersion` variable has been updated to `23.0.0`.
 
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.6.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
+
 ## Version 7.x.x
 
 ### Dependencies

@@ -18,6 +18,10 @@ This plugin now supports **Capacitor 8**. The minimum Android SDK version is **3
 
 - On Android, the `firebaseStorageVersion` variable has been updated to `22.0.1`.
 
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.6.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
+
 ## Version 7.x.x
 
 ### Dependencies
