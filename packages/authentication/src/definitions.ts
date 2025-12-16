@@ -1681,10 +1681,14 @@ export interface ActionCodeSettings {
    */
   url: string;
   /**
-   * When multiple custom dynamic link domains are defined for a project, specify which one to use
+   * When multiple custom Firebase Hosting link domains are defined for a project, specify which one to use
    * when the link is to be opened via a specified mobile app (for example, `example.page.link`).
+   *
+   * The domain must be configured in Firebase Hosting and owned by the project.
+   *
+   * @since 7.1.0
    */
-  dynamicLinkDomain?: string;
+  linkDomain?: string;
 }
 
 export enum ProviderId {

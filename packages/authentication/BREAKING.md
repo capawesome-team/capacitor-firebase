@@ -17,6 +17,10 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 This plugin now supports **Capacitor 8**. The minimum Android SDK version is **36** and the iOS deployment target is **15.0**. Ensure your project meets these requirements before upgrading.
 
+### `ActionCodeSettings` interface
+
+The `dynamicLinkDomain` property in `ActionCodeSettings` has been replaced with `linkDomain`.
+
 ### Error codes
 
 The following methods now correctly return `UNIMPLEMENTED` instead of generic error messages when called on platforms where they are not implemented:
