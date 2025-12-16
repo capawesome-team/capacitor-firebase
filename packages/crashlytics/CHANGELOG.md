@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.0
+
+### Major Changes
+
+- [`f735dc9855918df69c005e1aac34f6e98f153699`](https://github.com/capawesome-team/capacitor-firebase/commit/f735dc9855918df69c005e1aac34f6e98f153699) ([#933](https://github.com/capawesome-team/capacitor-firebase/pull/933)): feat!: update dependencies to the latest versions (see `BREAKING.md`)
+
+- [`2f71a20012b6f8f8caf07136301580bae8b5e660`](https://github.com/capawesome-team/capacitor-firebase/commit/2f71a20012b6f8f8caf07136301580bae8b5e660) ([#931](https://github.com/capawesome-team/capacitor-firebase/pull/931)): feat!: update to Capacitor 8 (see `BREAKING.md`)
+
 ## 7.5.0
 
 ## 7.4.0
