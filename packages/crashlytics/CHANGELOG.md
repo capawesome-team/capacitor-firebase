@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.1
+
+### Patch Changes
+
+- [`43d0b1d502157e5e8ab8182d48305fba3e6fcbf8`](https://github.com/capawesome-team/capacitor-firebase/commit/43d0b1d502157e5e8ab8182d48305fba3e6fcbf8) ([#936](https://github.com/capawesome-team/capacitor-firebase/pull/936)): fix(ios): update GoogleSignIn SDK to 9.0.0
+
 ## 8.0.0
 
 ### Major Changes

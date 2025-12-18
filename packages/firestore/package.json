@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/firestore",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Capacitor plugin for Firebase Cloud Firestore.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
