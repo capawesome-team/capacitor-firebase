@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Google' do |google|
     google.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DRGCFA_INCLUDE_GOOGLE' }
-    google.dependency 'GoogleSignIn', '7.1.0'
+    google.dependency 'GoogleSignIn', '9.0.0'
   end
 
   s.subspec 'Facebook' do |facebook|
