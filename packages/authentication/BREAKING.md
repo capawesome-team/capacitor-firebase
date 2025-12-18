@@ -33,6 +33,10 @@ The following methods now correctly return `UNIMPLEMENTED` instead of generic er
 
 The `firebase` peer dependency has been updated to version `^12.6.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
 
+### iOS Dependencies
+
+The Google Sign-In SDK has been updated to version `9.0.0`.
+
 ## Version 7.x.x
 
 ### Dependencies
