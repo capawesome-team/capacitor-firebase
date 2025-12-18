@@ -73,6 +73,7 @@
 
    Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
 
+1. If you are using **Swift Package Manager** for your iOS project, the Facebook SDK dependencies are already included by default. No additional configuration is needed for the package dependencies.
 1. On the [Facebook for Developers](https://developers.facebook.com/) site, get the App ID and an App Secret for your app.
 1. Enable Facebook Login:
    1. In the [Firebase console](https://console.firebase.google.com/), open the Auth section.
