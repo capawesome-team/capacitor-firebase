@@ -15,26 +15,17 @@ class AppleAuthProviderHandler: NSObject {
     }
 
     func signIn(call: CAPPluginCall) {
-        if #available(iOS 13, *) {
-            self.isLink = false
-            self.startSignInWithAppleFlow()
-        } else {
-            call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
-        }
+        self.isLink = false
+        self.startSignInWithAppleFlow()
     }
 
     func link(call: CAPPluginCall) {
-        if #available(iOS 13, *) {
-            self.isLink = true
-            self.startSignInWithAppleFlow()
-        } else {
-            call.reject(self.pluginImplementation.getPlugin().errorDeviceUnsupported)
-        }
+        self.isLink = true
+        self.startSignInWithAppleFlow()
     }
 }
 
 // Source: https://firebase.google.com/docs/auth/ios/apple
-@available(iOS 13.0, *)
 extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return (self.pluginImplementation.getPlugin().bridge?.webView?.window)!
@@ -73,7 +64,6 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
         return result
     }
 
-    @available(iOS 13, *)
     func startSignInWithAppleFlow() {
         let nonce = randomNonceString()
         currentNonce = nonce
@@ -88,7 +78,6 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
         authorizationController.performRequests()
     }
 
-    @available(iOS 13, *)
     private func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)

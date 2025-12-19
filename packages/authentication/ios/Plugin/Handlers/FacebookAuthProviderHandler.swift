@@ -141,7 +141,6 @@ class FacebookAuthProviderHandler: NSObject {
         return String(nonce)
     }
 
-    @available(iOS 13, *)
     private func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
