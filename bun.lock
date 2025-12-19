@@ -8,6 +8,7 @@
         "@types/node": "^24.10.1",
         "eslint-plugin-import": "^2.31.0",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "turbo": "2.5.6",
       },
     },
@@ -27,6 +28,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -56,6 +58,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -85,6 +88,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -114,6 +118,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -143,6 +148,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -168,6 +174,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -197,6 +204,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -226,6 +234,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -255,6 +264,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -284,6 +294,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -313,6 +324,7 @@
         "firebase": "12.6.0",
         "prettier": "3.4.2",
         "prettier-plugin-java": "2.6.7",
+        "prettier-pretty-check": "^0.2.0",
         "rimraf": "6.0.1",
         "rollup": "4.30.1",
         "swiftlint": "2.0.0",
@@ -700,6 +712,8 @@
 
     "define-properties": ["define-properties@1.2.1", "", { "dependencies": { "define-data-property": "^1.0.1", "has-property-descriptors": "^1.0.0", "object-keys": "^1.1.1" } }, "sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg=="],
 
+    "diff": ["diff@5.2.0", "", {}, "sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A=="],
+
     "dir-glob": ["dir-glob@3.0.1", "", { "dependencies": { "path-type": "^4.0.0" } }, "sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA=="],
 
     "doctrine": ["doctrine@2.1.0", "", { "dependencies": { "esutils": "^2.0.2" } }, "sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw=="],
@@ -1045,6 +1059,8 @@
     "prettier": ["prettier@3.4.2", "", { "bin": "bin/prettier.cjs" }, "sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ=="],
 
     "prettier-plugin-java": ["prettier-plugin-java@2.6.7", "", { "dependencies": { "java-parser": "2.3.3", "lodash": "4.17.21" }, "peerDependencies": { "prettier": "^3.0.0" } }, "sha512-AVm+X7fhAZpYKiUCdUIGZ8HJbkGkTUgYQIKVuCQEplcqpGw2ewVnNGcPb1Kc3+MYMfiEqzhd8ZYhMGVHw6tZdQ=="],
+
+    "prettier-pretty-check": ["prettier-pretty-check@0.2.0", "", { "dependencies": { "diff": "^5.2.0" }, "bin": { "prettier-pretty-check": "index.js" } }, "sha512-gVmwxYvm1Qii1H6eULNcNchlruyXyKkluP1LBhUaqdSvvACc8FZ99zTWzqQHJrBu9qUrYmNRysPmnYSm9c7G6Q=="],
 
     "prompts": ["prompts@2.4.2", "", { "dependencies": { "kleur": "^3.0.3", "sisteransi": "^1.0.5" } }, "sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q=="],
 

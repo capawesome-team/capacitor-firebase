@@ -37,7 +37,7 @@
     "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
     "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
     "eslint": "eslint . --ext ts",
-    "prettier": "node ../../../prettier-pretty-check/index.js \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
+    "prettier": "prettier-pretty-check \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api FirebaseRemoteConfigPlugin --output-readme README.md --output-json dist/docs.json",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
@@ -63,7 +63,8 @@
     "rollup": "4.30.1",
     "swiftlint": "2.0.0",
     "typescript": "4.1.5",
-    "@ionic/prettier-config": "^4.0.0"
+    "@ionic/prettier-config": "^4.0.0",
+    "prettier-pretty-check": "^0.2.0"
   },
   "peerDependencies": {
     "@capacitor/core": ">=7.0.0",
