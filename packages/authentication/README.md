@@ -92,7 +92,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capgo/capacitor-firebase-authentication" />
+import '@capgo/capacitor-firebase-authentication'
 
 import { CapacitorConfig } from '@capacitor/cli';
 
