@@ -1,4 +1,4 @@
-import '@capacitor/cli'
+/// <reference types="@capacitor/cli" />
 
 import type { PermissionState, PluginListenerHandle } from '@capacitor/core';
 
