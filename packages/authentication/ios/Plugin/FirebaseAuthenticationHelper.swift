@@ -43,9 +43,7 @@ public class FirebaseAuthenticationHelper {
                 )
             }
         }
-        if let dynamicLinkDomain = settings["dynamicLinkDomain"] as? String {
-            actionCodeSettings.dynamicLinkDomain = dynamicLinkDomain
-        }
+        // Note: dynamicLinkDomain was removed as Firebase Dynamic Links has been deprecated
         return actionCodeSettings
     }
 
