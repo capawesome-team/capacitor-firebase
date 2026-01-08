@@ -42,6 +42,6 @@
     "patch-package": "8.0.1",
     "pkg-pr-new": "0.0.20",
     "prettier-plugin-java": "2.6.7",
-    "turbo": "2.6.3"
+    "turbo": "^2.7.3"
   }
 }
