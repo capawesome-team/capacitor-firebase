@@ -1,12 +1,12 @@
 # @capgo/capacitor-firebase-remote-config
+ <a href="https://capgo.app/"><img src='https://raw.githubusercontent.com/Cap-go/capgo/main/assets/capgo_banner.png' alt='Capgo - Instant updates for capacitor'/></a>
+
+<div align="center">
+  <h2><a href="https://capgo.app/?ref=plugin"> ➡️ Get Instant updates for your App with Capgo</a></h2>
+  <h2><a href="https://capgo.app/consulting/?ref=plugin"> Missing a feature? We'll build the plugin for you 💪</a></h2>
+</div>
 
 Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config).[^1]
-
-<div class="capgo-z29o10a">
-  <a href="https://capgo.app/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capgo Cloud" src="https://capgo.app/assets/banners/cloud-deploy-real-time-app-updates.png?t=1" />
-  </a>
-</div>
 
 ## Installation
 
