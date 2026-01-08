@@ -1,12 +1,38 @@
 # Breaking Changes
 
-## Upcoming
+This is a comprehensive list of the breaking changes introduced in the major version releases.
 
 ### iOS Minimum Version Requirement
 
-- **Minimum iOS version increased from 14.0 to 15.0**
+- [Version 8.x.x](#version-8xx)
+- [Version 7.x.x](#version-7xx)
+- [Version 6.x.x](#version-6xx)
+- [Version 5.x.x](#version-5xx)
+- [Version 1.x.x](#version-1xx)
 
-  The minimum iOS deployment target has been updated to iOS 15.0 to support Firebase SDK 12.6.0 and newer features. Applications targeting iOS 14.x will need to update their deployment target.
+## Version 8.x.x
+
+### Capacitor 8
+
+This plugin now supports **Capacitor 8**. The minimum Android SDK version is **24** and the iOS deployment target is **15.0**. Ensure your project meets these requirements before upgrading.
+
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.6.0`.
+
+### iOS Dependencies
+
+The Firebase iOS SDK has been updated to version `12.7.0`. The deprecated `GoogleAppMeasurementOnDeviceConversion`, `FirebaseAnalyticsOnDeviceConversion`, and `WithoutAdIdSupport` pods have been removed. No migration required if you're using `CapacitorFirebaseAnalytics/Analytics` or `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` subspecs.
+
+### Variables
+
+- On Android, the `firebaseAnalyticsVersion` variable has been updated to `23.0.0`.
+
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.6.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
+
+## Version 7.x.x
 
   **Migration Required:**
 

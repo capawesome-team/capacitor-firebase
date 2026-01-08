@@ -8,6 +8,16 @@
 
 Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 
+## Compatibility
+
+| Plugin Version | Capacitor Version | Status         |
+| -------------- | ----------------- | -------------- |
+| 8.x.x          | >=8.x.x           | Active support |
+| 7.x.x          | 7.x.x             | Deprecated     |
+| 6.x.x          | 6.x.x             | Deprecated     |
+| 5.x.x          | 5.x.x             | Deprecated     |
+| 1.x.x          | 4.x.x             | Deprecated     |
+
 ## Installation
 
 ```bash
@@ -42,7 +52,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `19.4.0`)
+- `$firebaseCrashlyticsVersion` version of `com.google.firebase:firebase-crashlytics` (default: `20.0.3`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
@@ -58,17 +68,51 @@ The following steps describe how to automatically upload dSYM files to Firebase 
    2. Set **Debug Information Format** to `DWARF with dSYM File` for all your build types.
 4. Click the **Build Phases** tab and complete the following steps:
    1. Click the **+** button, then select **New Run Script Phase**.
+
+      Make sure this new **Run Script** phase is your project's last build phase; otherwise, Crashlytics can't properly process dSYMs.
    2. Expand the new **Run Script** section.
-   3. In the script field (located under the *Shell* label), add the following run script:
+   3. In the script field (located under the *Shell* label), add the run script based on your package manager:
+
+      **CocoaPods:**
       ```
       "${PODS_ROOT}/FirebaseCrashlytics/run"
       ```
-   4. In the Input Files section, add the paths for the locations of the following files:
+
+      **Swift Package Manager:**
+      ```
+      "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+      ```
+
+   4. In the **Input Files** section, add the paths for the locations of the following files based on your package manager:
+
+      **CocoaPods:**
       ```
       ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
       ```
       ```
       $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
+      ```
+
+      **Swift Package Manager:**
+      ```
+      ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}
+      ```
+      ```
+      ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}
+      ```
+      ```
+      ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist
+      ```
+      ```
+      $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist
+      ```
+      ```
+      $(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)
+      ```
+
+      If you have `ENABLE_USER_SCRIPT_SANDBOXING=YES` and `ENABLE_DEBUG_DYLIB=YES` in your project build settings, also include:
+      ```
+      ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib
       ```
 
 ## Configuration

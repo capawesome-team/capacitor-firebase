@@ -178,7 +178,7 @@ export class FirebaseAuthenticationWeb extends WebPlugin implements FirebaseAuth
   }
 
   public async getPendingAuthResult(): Promise<SignInResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async getCurrentUser(): Promise<GetCurrentUserResult> {
@@ -269,7 +269,7 @@ export class FirebaseAuthenticationWeb extends WebPlugin implements FirebaseAuth
   }
 
   public async linkWithGameCenter(): Promise<LinkResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async linkWithGithub(options?: LinkWithOAuthOptions): Promise<LinkResult> {
@@ -333,7 +333,7 @@ export class FirebaseAuthenticationWeb extends WebPlugin implements FirebaseAuth
   }
 
   public async linkWithPlayGames(): Promise<LinkResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async linkWithTwitter(options?: LinkWithOAuthOptions): Promise<LinkResult> {
@@ -510,11 +510,11 @@ export class FirebaseAuthenticationWeb extends WebPlugin implements FirebaseAuth
   }
 
   public async signInWithPlayGames(): Promise<SignInResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async signInWithGameCenter(): Promise<SignInResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async signInWithTwitter(options?: SignInWithOAuthOptions): Promise<SignInResult> {
@@ -679,11 +679,11 @@ export class FirebaseAuthenticationWeb extends WebPlugin implements FirebaseAuth
   }
 
   public requestAppTrackingTransparencyPermission(): Promise<RequestAppTrackingTransparencyPermissionResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult> {
-    this.throwNotAvailableError();
+    throw this.unimplemented('Not implemented on web.');
   }
 
   private createSignInResult(
@@ -787,9 +787,5 @@ export class FirebaseAuthenticationWeb extends WebPlugin implements FirebaseAuth
       return error['message'];
     }
     return JSON.stringify(error);
-  }
-
-  private throwNotAvailableError(): never {
-    throw new Error('Not available on web.');
   }
 }

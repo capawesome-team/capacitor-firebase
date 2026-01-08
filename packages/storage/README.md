@@ -8,6 +8,15 @@
 
 Unofficial Capacitor plugin for [Firebase Cloud Storage](https://firebase.google.com/docs/storage/).[^1]
 
+
+## Compatibility
+
+| Plugin Version | Capacitor Version | Status         |
+| -------------- | ----------------- | -------------- |
+| 8.x.x          | >=8.x.x           | Active support |
+| 7.x.x          | 7.x.x             | Deprecated     |
+| 6.x.x          | 6.x.x             | Deprecated     |
+
 ## Installation
 
 ```bash
@@ -23,7 +32,7 @@ Add Firebase to your project if you haven't already ([Android](https://firebase.
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseStorageVersion` version of `com.google.firebase:firebase-storage` (default: `21.0.1`)
+- `$firebaseStorageVersion` version of `com.google.firebase:firebase-storage` (default: `22.0.1`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 

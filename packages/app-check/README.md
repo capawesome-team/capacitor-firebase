@@ -8,6 +8,15 @@
 
 Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
+## Compatibility
+
+| Plugin Version | Capacitor Version | Status         |
+| -------------- | ----------------- | -------------- |
+| 8.x.x          | >=8.x.x           | Active support |
+| 7.x.x          | 7.x.x             | Deprecated     |
+| 6.x.x          | 6.x.x             | Deprecated     |
+| 5.x.x          | 5.x.x             | Deprecated     |
+
 ## Installation
 
 ```bash
@@ -25,8 +34,8 @@ See [Set up your Firebase project](https://firebase.google.com/docs/app-check/an
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `18.0.0`)
-- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `18.0.0`)
+- `$firebaseAppCheckPlayIntegrityVersion` version of `com.google.firebase:firebase-appcheck-playintegrity` (default: `19.0.1`)
+- `$firebaseAppCheckDebugVersion` version of `com.google.firebase:firebase-appcheck-debug` (default: `19.0.1`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
@@ -224,14 +233,6 @@ Only available for Web.
 | **`siteKey`**                   | <code>string</code>            | The reCAPTCHA v3 site key (public key). This option is ignored when `provider` is set. Only available for Web.                                                                                                                                                                                                                                                                                                                                      |                                  | 1.3.0 |
 
 
-#### InstanceFactoryOptions
-
-| Prop                     | Type                |
-| ------------------------ | ------------------- |
-| **`instanceIdentifier`** | <code>string</code> |
-| **`options`**            | <code>{}</code>     |
-
-
 #### SetTokenAutoRefreshEnabledOptions
 
 | Prop          | Type                 | Description                                                                                                                      | Since |
@@ -254,11 +255,6 @@ Only available for Web.
 
 
 ### Type Aliases
-
-
-#### InitializeOptions
-
-<code><a href="#instancefactoryoptions">InstanceFactoryOptions</a></code>
 
 
 #### TokenChangedListener

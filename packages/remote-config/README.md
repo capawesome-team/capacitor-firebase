@@ -8,6 +8,15 @@
 
 Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config).[^1]
 
+## Compatibility
+
+| Plugin Version | Capacitor Version | Status         |
+| -------------- | ----------------- | -------------- |
+| 8.x.x          | >=8.x.x           | Active support |
+| 7.x.x          | 7.x.x             | Deprecated     |
+| 6.x.x          | 6.x.x             | Deprecated     |
+| 5.x.x          | 5.x.x             | Deprecated     |
+
 ## Installation
 
 ```bash
@@ -25,7 +34,7 @@ Google Analytics is required for the [conditional targeting of app instances](ht
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseConfigVersion` version of `com.google.firebase:firebase-config` (default: `22.1.0`)
+- `$firebaseConfigVersion` version of `com.google.firebase:firebase-config` (default: `23.0.1`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 

@@ -8,6 +8,17 @@
 
 Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 
+
+## Compatibility
+
+| Plugin Version | Capacitor Version | Status         |
+| -------------- | ----------------- | -------------- |
+| 8.x.x          | >=8.x.x           | Active support |
+| 7.x.x          | 7.x.x             | Deprecated     |
+| 6.x.x          | 6.x.x             | Deprecated     |
+| 5.x.x          | 5.x.x             | Deprecated     |
+| 1.x.x          | 4.x.x             | Deprecated     |
+
 ## Installation
 
 ```bash
@@ -1889,14 +1900,14 @@ Remove all listeners for this plugin.
 
 #### GetIdTokenResultResult
 
-| Prop                     | Type                                                             | Description                                                                                                                                            | Since |
-| ------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
-| **`authTime`**           | <code>number</code>                                              | The authentication time in milliseconds since the epoch. This is the time the user authenticated (signed in) and not the time the token was refreshed. | 7.4.0 |
-| **`expirationTime`**     | <code>number</code>                                              | The ID token expiration time in milliseconds since the epoch.                                                                                          | 7.4.0 |
-| **`issuedAtTime`**       | <code>number</code>                                              | The ID token issuance time in milliseconds since the epoch.                                                                                            | 7.4.0 |
-| **`signInProvider`**     | <code>string \| null</code>                                      | The sign-in provider through which the ID token was obtained.                                                                                          | 7.4.0 |
-| **`signInSecondFactor`** | <code>string \| null</code>                                      | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc).                             | 7.4.0 |
-| **`claims`**             | <code><a href="#record">Record</a>&lt;string, unknown&gt;</code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.                                         | 7.4.0 |
+| Prop                     | Type                                       | Description                                                                                                                                            | Since |
+| ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`authTime`**           | <code>number</code>                        | The authentication time in milliseconds since the epoch. This is the time the user authenticated (signed in) and not the time the token was refreshed. | 7.4.0 |
+| **`expirationTime`**     | <code>number</code>                        | The ID token expiration time in milliseconds since the epoch.                                                                                          | 7.4.0 |
+| **`issuedAtTime`**       | <code>number</code>                        | The ID token issuance time in milliseconds since the epoch.                                                                                            | 7.4.0 |
+| **`signInProvider`**     | <code>string \| null</code>                | The sign-in provider through which the ID token was obtained.                                                                                          | 7.4.0 |
+| **`signInSecondFactor`** | <code>string \| null</code>                | The type of second factor associated with this session, provided the user was multi-factor authenticated (eg. phone, etc).                             | 7.4.0 |
+| **`claims`**             | <code>Record&lt;string, unknown&gt;</code> | The entire payload claims of the ID token including the standard reserved claims as well as the custom claims.                                         | 7.4.0 |
 
 
 #### GetIdTokenResultOptions
@@ -2033,15 +2044,6 @@ bundle identifiers.
 | Prop              | Type                                                | Description            | Since |
 | ----------------- | --------------------------------------------------- | ---------------------- | ----- |
 | **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
-
-
-#### Persistence
-
-An interface covering the possible persistence mechanism types.
-
-| Prop       | Type                                                    | Description                                                                                                                                                                                                                                                                                                                                |
-| ---------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`type`** | <code>'SESSION' \| 'LOCAL' \| 'NONE' \| 'COOKIE'</code> | Type of <a href="#persistence">Persistence</a>. - 'SESSION' is used for temporary persistence such as `sessionStorage`. - 'LOCAL' is used for long term persistence such as `localStorage` or `IndexedDB`. - 'NONE' is used for in-memory, or no persistence. - 'COOKIE' is used for cookie persistence, useful for server-side rendering. |
 
 
 #### SetTenantIdOptions
@@ -2191,15 +2193,6 @@ An interface covering the possible persistence mechanism types.
 
 
 ### Type Aliases
-
-
-#### Record
-
-Construct a type with a set of properties K of type T
-
-<code>{
- [P in K]: T;
- }</code>
 
 
 #### LinkWithOAuthOptions

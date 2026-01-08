@@ -287,7 +287,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     @PluginMethod
     public void getRedirectResult(PluginCall call) {
-        call.reject("Not available on Android.");
+        rejectCallAsUnimplemented(call);
     }
 
     @PluginMethod
@@ -620,7 +620,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     @PluginMethod
     public void setPersistence(PluginCall call) {
-        call.reject("Not available on Android.");
+        rejectCallAsUnimplemented(call);
     }
 
     @PluginMethod
@@ -665,7 +665,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     @PluginMethod
     public void signInWithGameCenter(PluginCall call) {
-        call.reject("Not available on Android.");
+        rejectCallAsUnimplemented(call);
     }
 
     @PluginMethod
@@ -984,12 +984,12 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
     @PluginMethod
     public void requestAppTrackingTransparencyPermission(PluginCall call) {
-        call.reject("Not available on Android.");
+        rejectCallAsUnimplemented(call);
     }
 
     @PluginMethod
     public void checkAppTrackingTransparencyPermission(PluginCall call) {
-        call.reject("Not available on Android.");
+        rejectCallAsUnimplemented(call);
     }
 
     public void handlePhoneVerificationCompleted(@NonNull final PhoneVerificationCompletedEvent event) {
@@ -1076,6 +1076,14 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             return;
         }
         implementation.handlePlayGamesAuthProviderLinkActivityResult(call, result);
+    }
+
+    private void rejectCallAsUnavailable(@NonNull PluginCall call) {
+        call.unavailable("This method is not available on this platform.");
+    }
+
+    private void rejectCallAsUnimplemented(@NonNull PluginCall call) {
+        call.unimplemented("This method is not implemented on this platform.");
     }
 
     private FirebaseAuthenticationConfig getFirebaseAuthenticationConfig() {

@@ -9,7 +9,8 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'FirebaseAnalytics', '~> 12.6.0'
+  pod 'FirebaseAnalytics/Core', '~> 12.7'
+  pod 'FirebaseAnalytics/IdentitySupport', '~> 12.7'
 end
 
 target 'PluginTests' do

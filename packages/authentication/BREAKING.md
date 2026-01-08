@@ -1,12 +1,43 @@
 # Breaking Changes
 
-## Upcoming
+This is a comprehensive list of the breaking changes introduced in the major version releases.
 
 ### iOS Minimum Version Requirement
 
-- **Minimum iOS version increased from 14.0 to 15.0**
+- [Version 8.x.x](#version-8xx)
+- [Version 7.x.x](#version-7xx)
+- [Version 6.x.x](#version-6xx)
+- [Version 5.x.x](#version-5xx)
+- [Version 1.x.x](#version-1xx)
+- [Version 0.4.x](#version-04x)
 
-  The minimum iOS deployment target has been updated to iOS 15.0 to support Firebase SDK 12.6.0 and newer features. Applications targeting iOS 14.x will need to update their deployment target.
+## Version 8.x.x
+
+### Capacitor 8
+
+This plugin now supports **Capacitor 8**. The minimum Android SDK version is **24** and the iOS deployment target is **15.0**. Ensure your project meets these requirements before upgrading.
+
+### `ActionCodeSettings` interface
+
+The `dynamicLinkDomain` property in `ActionCodeSettings` has been replaced with `linkDomain`.
+
+### Error codes
+
+The following methods now correctly return `UNIMPLEMENTED` instead of generic error messages when called on platforms where they are not implemented:
+
+- On **Web**: `getPendingAuthResult()`, `linkWithGameCenter(...)`, `linkWithPlayGames(...)`, `signInWithPlayGames()`, `signInWithGameCenter()`, `requestAppTrackingTransparencyPermission()`, and `checkAppTrackingTransparencyPermission()` now return `UNIMPLEMENTED`.
+- On **Android**: `getRedirectResult()`, `setPersistence(...)`, `signInWithGameCenter()`, `requestAppTrackingTransparencyPermission()`, and `checkAppTrackingTransparencyPermission()` now return `UNIMPLEMENTED`.
+- On **iOS**: `getPendingAuthResult()`, `getRedirectResult()`, `linkWithPlayGames(...)`, `setPersistence(...)`, and `signInWithPlayGames()` now return `UNIMPLEMENTED`.
+
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.6.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
+
+### iOS Dependencies
+
+The Google Sign-In SDK has been updated to version `9.0.0`.
+
+## Version 7.x.x
 
   **Migration Required:**
 
