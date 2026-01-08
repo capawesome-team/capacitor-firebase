@@ -13,7 +13,7 @@
 </div>
 <br />
 <p align="center">
-  <a href="https://github.com/Cap-go/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2025?style=flat-square" /></a>
+  <a href="https://github.com/Cap-go/capacitor-firebase"><img src="https://img.shields.io/maintenance/yes/2026?style=flat-square" /></a>
   <a href="https://github.com/Cap-go/capacitor-firebase/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/Cap-go/capacitor-firebase/test.yml?branch=main&style=flat-square" /></a>
   <a href="https://github.com/Cap-go/capacitor-firebase"><img src="https://img.shields.io/github/license/Cap-go/capacitor-firebase?style=flat-square" /></a>
   <a href="https://github.com/Cap-go"><img src="https://img.shields.io/badge/part%20of-capgo-%234f46e5?style=flat-square" /></a>
