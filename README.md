@@ -20,8 +20,12 @@
   <a href="https://turborepo.org/"><img src="https://img.shields.io/badge/maintained%20with-turborepo-%237f6ab2?style=flat-square" /></a>
 </p>
 
-> **Note:** This is a fork of the excellent [capacitor-firebase](https://github.com/cap-go/capacitor-firebase) by [Robin Genz](https://github.com/robingenz). We are deeply grateful for Robin's pioneering work on these plugins. This fork is maintained by the Capgo team and requested by our clients with a focus on automatically releasing new versions whenever Firebase SDKs are updated, ensuring users always have access to the latest Firebase features and fixes through automated releases via Renovate.
-Capawesome bump Firebase SDK usually on major update once a year as stated [here](https://github.com/capawesome-team/capacitor-firebase/issues/899#issuecomment-3138948137), we always bump and recommend you to use fix version when you use our fork, to not get breaking Native SDK changes without wanting it</p>
+> **Note:** This is a fork of the excellent [capacitor-firebase](https://github.com/cap-go/capacitor-firebase) by [Robin Genz](https://github.com/robingenz). 
+We are deeply grateful for Robin's pioneering work on these plugins. 
+
+> This fork is maintained by the Capgo team and requested by our clients with a focus on automatically releasing new versions whenever Firebase SDKs are updated, ensuring users always have access to the latest Firebase features and fixes through automated releases via Renovate.
+
+> Capawesome bump Firebase SDK usually on major update once a year as stated [here](https://github.com/capawesome-team/capacitor-firebase/issues/899#issuecomment-3138948137), we always bump and recommend you to use fix version when you use our fork, to not get breaking Native SDK changes without wanting it</p>
 
 ## Features
 
