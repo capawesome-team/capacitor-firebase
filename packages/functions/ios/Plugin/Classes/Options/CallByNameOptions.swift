@@ -4,10 +4,10 @@ import Foundation
     private var name: String
     private var region: String?
 
-    init(name: String, region: String?, data: Any?) {
+    init(name: String, region: String?, data: Any?, timeout: Int?) {
         self.name = name
         self.region = region
-        super.init(data: data)
+        super.init(data: data, timeout: timeout)
     }
 
     func getName() -> String {

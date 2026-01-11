@@ -7,6 +7,7 @@ import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.Call
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.results.CallResult;
 import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.NonEmptyResultCallback;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class FirebaseFunctions {
 
@@ -20,9 +21,15 @@ public class FirebaseFunctions {
         String name = options.getName();
         String region = options.getRegion();
         Object data = options.getData();
+        Long timeout = options.getTimeout();
 
-        getFirebaseFunctionsInstance(region)
-            .getHttpsCallable(name)
+        com.google.firebase.functions.HttpsCallableReference callable = getFirebaseFunctionsInstance(region).getHttpsCallable(name);
+
+        if (timeout != null) {
+            callable.setTimeout(timeout, TimeUnit.MILLISECONDS);
+        }
+
+        callable
             .call(data)
             .addOnSuccessListener(task -> {
                 CallResult result = new CallResult(task.getData());
@@ -36,9 +43,15 @@ public class FirebaseFunctions {
     public void callByUrl(@NonNull CallByUrlOptions options, @NonNull NonEmptyResultCallback callback) {
         URL url = options.getUrl();
         Object data = options.getData();
+        Long timeout = options.getTimeout();
 
-        getFirebaseFunctionsInstance(null)
-            .getHttpsCallableFromUrl(url)
+        com.google.firebase.functions.HttpsCallableReference callable = getFirebaseFunctionsInstance(null).getHttpsCallableFromUrl(url);
+
+        if (timeout != null) {
+            callable.setTimeout(timeout, TimeUnit.MILLISECONDS);
+        }
+
+        callable
             .call(data)
             .addOnSuccessListener(task -> {
                 CallResult result = new CallResult(task.getData());
