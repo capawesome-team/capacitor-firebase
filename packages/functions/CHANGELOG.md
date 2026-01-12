@@ -1,5 +1,11 @@
 # @capacitor-firebase/functions
 
+## 8.1.0
+
+### Minor Changes
+
+- [`aa7da7ebc95fd3e5fedda0c0f2979e5c894980e6`](https://github.com/capawesome-team/capacitor-firebase/commit/aa7da7ebc95fd3e5fedda0c0f2979e5c894980e6): feat: add `timeout` option
+
 ## 8.0.1
 
 ## 8.0.0
