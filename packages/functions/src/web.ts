@@ -27,8 +27,8 @@ export class FirebaseFunctionsWeb
       functions,
       options.name,
       {
-        timeout: options.timeout
-      }
+        timeout: options.timeout,
+      },
     );
     const result = await callable(options.data);
     return {
@@ -44,8 +44,8 @@ export class FirebaseFunctionsWeb
       functions,
       options.url,
       {
-        timeout: options.timeout
-      }
+        timeout: options.timeout,
+      },
     );
     const result = await callable(options.data);
     return {
