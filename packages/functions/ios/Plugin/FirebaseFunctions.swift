@@ -17,6 +17,7 @@ import FirebaseFunctions
         let name = options.getName()
         let region = options.getRegion()
         let data = options.getData()
+        let timeout = options.getTimeout()
 
         let functions: Functions
         if let region = region {
@@ -25,6 +26,9 @@ import FirebaseFunctions
             functions = Functions.functions()
         }
         let callable = functions.httpsCallable(name)
+        if let timeout = timeout {
+            callable.timeoutInterval = TimeInterval(timeout) / 1000.0
+        }
         callable.call(data) { (result, error) in
             if let error = error {
                 completion(nil, error)
@@ -38,9 +42,13 @@ import FirebaseFunctions
     @objc public func callByUrl(_ options: CallByUrlOptions, completion: @escaping (Result?, Error?) -> Void) {
         let url = options.getUrl()
         let data = options.getData()
+        let timeout = options.getTimeout()
 
         let functions = Functions.functions()
         let callable = functions.httpsCallable(url)
+        if let timeout = timeout {
+            callable.timeoutInterval = TimeInterval(timeout) / 1000.0
+        }
         callable.call(data) { (result, error) in
             if let error = error {
                 completion(nil, error)
