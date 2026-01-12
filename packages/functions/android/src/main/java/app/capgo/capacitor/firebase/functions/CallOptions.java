@@ -7,12 +7,21 @@ public class CallOptions {
     @Nullable
     private Object data;
 
-    public CallOptions(@Nullable Object data) {
+    @Nullable
+    private Long timeout;
+
+    public CallOptions(@Nullable Object data, @Nullable Long timeout) {
         this.data = data;
+        this.timeout = timeout;
     }
 
     @Nullable
     public Object getData() {
         return data;
+    }
+
+    @Nullable
+    public Long getTimeout() {
+        return timeout;
     }
 }

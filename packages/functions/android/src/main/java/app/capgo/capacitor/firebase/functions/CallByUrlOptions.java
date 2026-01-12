@@ -1,6 +1,7 @@
 package app.capgo.capacitor.firebase.functions.classes.options;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -9,8 +10,8 @@ public class CallByUrlOptions extends CallOptions {
     @NonNull
     private URL url;
 
-    public CallByUrlOptions(@NonNull String url, Object data) throws MalformedURLException {
-        super(data);
+    public CallByUrlOptions(@NonNull String url, Object data, @Nullable Long timeout) throws MalformedURLException {
+        super(data, timeout);
         this.url = new URL(url);
     }
 

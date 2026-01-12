@@ -30,8 +30,9 @@ public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
         }
         let region = call.getString("region")
         let data = call.getValue("data")
+        let timeout = call.getInt("timeout")
 
-        let options = CallByNameOptions(name: name, region: region, data: data)
+        let options = CallByNameOptions(name: name, region: region, data: data, timeout: timeout)
 
         implementation?.callByName(options, completion: { result, error in
             if let error = error {
@@ -51,8 +52,9 @@ public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
         let data = call.getValue("data")
+        let timeout = call.getInt("timeout")
 
-        let options = CallByUrlOptions(url: url, data: data)
+        let options = CallByUrlOptions(url: url, data: data, timeout: timeout)
 
         implementation?.callByUrl(options, completion: { result, error in
             if let error = error {

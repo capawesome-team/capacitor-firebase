@@ -36,8 +36,9 @@ public class FirebaseFunctionsPlugin extends Plugin {
             }
             String region = json.getString("region", null);
             Object data = json.opt("data");
+            Long timeout = json.has("timeout") ? json.getLong("timeout") : null;
 
-            CallByNameOptions options = new CallByNameOptions(name, region, data);
+            CallByNameOptions options = new CallByNameOptions(name, region, data, timeout);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -68,8 +69,9 @@ public class FirebaseFunctionsPlugin extends Plugin {
                 return;
             }
             Object data = json.opt("data");
+            Long timeout = json.has("timeout") ? json.getLong("timeout") : null;
 
-            CallByUrlOptions options = new CallByUrlOptions(url, data);
+            CallByUrlOptions options = new CallByUrlOptions(url, data, timeout);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
