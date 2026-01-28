@@ -1,0 +1,7 @@
+{
+  "name": "@capacitor-firebase/firestore/timestamp",
+  "main": "../dist/timestamp.cjs.js",
+  "browser": "../dist/esm/timestamp.js",
+  "module": "../dist/esm/timestamp.js",
+  "typings": "../dist/esm/timestamp.d.ts"
+}

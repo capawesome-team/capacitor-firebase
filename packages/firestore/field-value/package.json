@@ -1,0 +1,7 @@
+{
+  "name": "@capacitor-firebase/firestore/field-value",
+  "main": "../dist/field-value.cjs.js",
+  "browser": "../dist/esm/field-value.js",
+  "module": "../dist/esm/field-value.js",
+  "typings": "../dist/esm/field-value.d.ts"
+}
