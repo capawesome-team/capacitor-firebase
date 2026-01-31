@@ -63,6 +63,17 @@ We maintain full compatibility with the original plugins while ensuring you're a
 
 **Original Author**: [Robin Genz](https://github.com/robingenz) ([@robin_genz](https://twitter.com/robin_genz))
 
+## Compatibility
+
+| Plugin version | Capacitor compatibility | Maintained |
+| -------------- | ----------------------- | ---------- |
+| v8.\*.\*       | v8.\*.\*                | ✅          |
+| v7.\*.\*       | v7.\*.\*                | On demand   |
+| v6.\*.\*       | v6.\*.\*                | ❌          |
+| v5.\*.\*       | v5.\*.\*                | ❌          |
+
+> **Note:** The major version of this plugin follows the major version of Capacitor. Use the version that matches your Capacitor installation (e.g., plugin v8 for Capacitor 8). Only the latest major version is actively maintained.
+
 ## Installation
 
 Each plugin has its own installation instructions.
