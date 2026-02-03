@@ -2,17 +2,38 @@
   "name": "@capacitor-firebase/firestore",
   "version": "8.0.1",
   "description": "Capacitor plugin for Firebase Cloud Firestore.",
-  "main": "dist/plugin.cjs.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.cjs.js",
   "types": "dist/esm/index.d.ts",
-  "unpkg": "dist/plugin.js",
+  "unpkg": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.cjs.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./field-value": {
+      "types": "./dist/esm/field-value.d.ts",
+      "require": "./dist/field-value.cjs.js",
+      "import": "./dist/esm/field-value.js",
+      "default": "./dist/esm/field-value.js"
+    },
+    "./timestamp": {
+      "types": "./dist/esm/timestamp.d.ts",
+      "import": "./dist/esm/timestamp.js",
+      "require": "./dist/timestamp.cjs.js",
+      "default": "./dist/esm/timestamp.js"
+    }
+  },
   "files": [
     "android/src/main/",
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
     "CapacitorFirebaseFirestore.podspec",
-    "Package.swift"
+    "Package.swift",
+    "field-value",
+    "timestamp"
   ],
   "author": "Robin Genz <mail@robingenz.dev>",
   "license": "Apache-2.0",
