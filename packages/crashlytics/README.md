@@ -8,11 +8,6 @@
 
 Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 
-<div class="capawesome-z29o10a">
-  <a href="https://cloud.capawesome.io/" target="_blank">
-    <img alt="Deliver Live Updates to your Capacitor app with Capawesome Cloud" src="https://cloud.capawesome.io/assets/banners/cloud-build-and-deploy-capacitor-apps.png?t=1" />
-  </a>
-</div>
 
 ## Compatibility
 
