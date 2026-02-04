@@ -46,7 +46,10 @@ public class FirebaseMessaging {
     }
 
     public StatusBarNotification[] getDeliveredNotifications() {
-        return notificationManager.getActiveNotifications();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return notificationManager.getActiveNotifications();
+        }
+        return new StatusBarNotification[0];
     }
 
     public void removeDeliveredNotifications(List<String> tags, List<String> ids) {
