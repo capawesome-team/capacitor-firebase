@@ -59,7 +59,18 @@ import FirebaseFunctions
         }
     }
 
-    @objc func useEmulator(_ host: String, _ port: Int) {
-        Functions.functions().useEmulator(withHost: host, port: port)
+    @objc func useEmulator(_ host: String, _ port: Int, _ regionOrCustomDomain: String?) {
+        let functions = getFunctions(regionOrCustomDomain)
+        functions.useEmulator(withHost: host, port: port)
+    }
+
+    private func getFunctions(_ regionOrCustomDomain: String?) -> Functions {
+        guard let value = regionOrCustomDomain else {
+            return Functions.functions()
+        }
+        if value.hasPrefix("http://") || value.hasPrefix("https://") {
+            return Functions.functions(customDomain: value)
+        }
+        return Functions.functions(region: value)
     }
 }

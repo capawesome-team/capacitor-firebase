@@ -101,8 +101,9 @@ public class FirebaseFunctionsPlugin extends Plugin {
                 return;
             }
             int port = call.getInt("port", 5001);
+            String regionOrCustomDomain = call.getString("regionOrCustomDomain", null);
 
-            implementation.useEmulator(host, port);
+            implementation.useEmulator(host, port, regionOrCustomDomain);
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);

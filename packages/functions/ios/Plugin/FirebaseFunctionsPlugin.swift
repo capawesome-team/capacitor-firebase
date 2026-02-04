@@ -74,8 +74,9 @@ public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
         let port = call.getInt("port") ?? 5001
+        let regionOrCustomDomain = call.getString("regionOrCustomDomain") ?? nil
 
-        implementation?.useEmulator(host, port)
+        implementation?.useEmulator(host, port, regionOrCustomDomain)
         call.resolve()
     }
 }
