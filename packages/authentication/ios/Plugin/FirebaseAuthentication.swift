@@ -22,8 +22,14 @@ public typealias AuthStateChangedObserver = () -> Void
         self.plugin = plugin
         self.config = config
         super.init()
+        // iOS 26 beta bug workaround: FirebaseApp.app() can return nil even when
+        // Firebase is already auto-configured from GoogleService-Info.plist.
+        // Use ObjC exception handler to catch the "already configured" exception.
         if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
+            var error: NSError?
+            ObjCExceptionCatcher.tryBlock({
+                FirebaseApp.configure()
+            }, error: &error)
         }
         self.initAuthProviderHandlers(config: config)
         Auth.auth().addStateDidChangeListener {_, _ in
