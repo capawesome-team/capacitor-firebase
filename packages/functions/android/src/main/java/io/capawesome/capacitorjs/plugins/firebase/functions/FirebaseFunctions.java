@@ -62,8 +62,8 @@ public class FirebaseFunctions {
             });
     }
 
-    public void useEmulator(@NonNull String host, int port) {
-        getFirebaseFunctionsInstance(null).useEmulator(host, port);
+    public void useEmulator(@NonNull String host, int port, @Nullable String regionOrCustomDomain) {
+        getFirebaseFunctionsInstance(regionOrCustomDomain).useEmulator(host, port);
     }
 
     private com.google.firebase.functions.FirebaseFunctions getFirebaseFunctionsInstance(@Nullable String regionOrCustomDomain) {
