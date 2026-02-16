@@ -782,6 +782,13 @@ Callback to receive the notification action performed event.
 
 </docgen-api>
 
+## FAQ
+
+1. **What is the difference between the Capacitor Firebase Cloud Messaging plugin and the Capacitor Push Notifications plugin?**  
+   The [Capacitor Push Notifications plugin](https://capacitorjs.com/docs/apis/push-notifications) is an official Capacitor plugin that supports Android (FCM) and iOS (APNs).
+   The Capacitor Firebase Cloud Messaging plugin, on the other hand, uses the Firebase SDK for [Android](https://firebase.google.com/docs/cloud-messaging/android/client), [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) and [Web](https://firebase.google.com/docs/cloud-messaging/js/client) and provides additional features such as topic subscriptions and the ability to receive notifications in the foreground.
+   If you already use Firebase in your project and want to take advantage of Firebase-specific features, this plugin is the better choice.
+
 ## Changelog
 
 See [CHANGELOG.md](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/messaging/CHANGELOG.md).
