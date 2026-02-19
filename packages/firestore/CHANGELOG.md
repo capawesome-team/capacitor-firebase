@@ -1,5 +1,11 @@
 # @capacitor-firebase/firestore
 
+## 8.1.0
+
+### Patch Changes
+
+- [`4da8bb58d5144995ad451487f79a1e887b3b8a7f`](https://github.com/capawesome-team/capacitor-firebase/commit/4da8bb58d5144995ad451487f79a1e887b3b8a7f) ([#952](https://github.com/capawesome-team/capacitor-firebase/pull/952)): fix(android): AGP 9.0 no longer supports `proguard-android.txt`
+
 ## 8.0.1
 
 ## 8.0.0

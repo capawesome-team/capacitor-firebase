@@ -1,5 +1,17 @@
 # @capacitor-firebase/functions
 
+## 8.1.0
+
+### Minor Changes
+
+- [`aa7da7ebc95fd3e5fedda0c0f2979e5c894980e6`](https://github.com/capawesome-team/capacitor-firebase/commit/aa7da7ebc95fd3e5fedda0c0f2979e5c894980e6): feat: add `timeout` option
+
+### Patch Changes
+
+- [`66db16820abf1c377680c5c30b8db9339bd0b38c`](https://github.com/capawesome-team/capacitor-firebase/commit/66db16820abf1c377680c5c30b8db9339bd0b38c) ([#946](https://github.com/capawesome-team/capacitor-firebase/pull/946)): fix(android): support `regionOrCustomDomain` option
+
+- [`4da8bb58d5144995ad451487f79a1e887b3b8a7f`](https://github.com/capawesome-team/capacitor-firebase/commit/4da8bb58d5144995ad451487f79a1e887b3b8a7f) ([#952](https://github.com/capawesome-team/capacitor-firebase/pull/952)): fix(android): AGP 9.0 no longer supports `proguard-android.txt`
+
 ## 8.0.1
 
 ## 8.0.0
