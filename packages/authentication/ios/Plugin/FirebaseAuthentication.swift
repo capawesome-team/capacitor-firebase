@@ -82,7 +82,11 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func confirmVerificationCode(_ options: ConfirmVerificationCodeOptions, completion: @escaping (Result?, Error?) -> Void) {
-        self.phoneAuthProviderHandler?.confirmVerificationCode(options, completion: completion)
+        guard let phoneAuthProviderHandler = self.phoneAuthProviderHandler else {
+            completion(nil, RuntimeError(createProviderNotEnabledErrorMessage("Phone")))
+            return
+        }
+        phoneAuthProviderHandler.confirmVerificationCode(options, completion: completion)
     }
 
     @objc func deleteUser(user: User, completion: @escaping (Error?) -> Void) {
@@ -151,8 +155,12 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func linkWithApple(_ call: CAPPluginCall) {
+        guard let appleAuthProviderHandler = self.appleAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Apple"))
+            return
+        }
         self.savedCall = call
-        self.appleAuthProviderHandler?.link(call: call)
+        appleAuthProviderHandler.link(call: call)
     }
 
     @objc func linkWithEmailAndPassword(_ call: CAPPluginCall) {
@@ -215,13 +223,21 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func linkWithFacebook(_ call: CAPPluginCall) {
+        guard let facebookAuthProviderHandler = self.facebookAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Facebook"))
+            return
+        }
         self.savedCall = call
-        self.facebookAuthProviderHandler?.link(call: call)
+        facebookAuthProviderHandler.link(call: call)
     }
 
     @objc func linkWithGameCenter(_ call: CAPPluginCall) {
+        guard let gameCenterAuthProviderHandler = self.gameCenterAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Game Center"))
+            return
+        }
         self.savedCall = call
-        self.gameCenterAuthProviderHandler?.link(call: call)
+        gameCenterAuthProviderHandler.link(call: call)
     }
 
     @objc func linkWithGithub(_ call: CAPPluginCall) {
@@ -230,8 +246,12 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func linkWithGoogle(_ call: CAPPluginCall) {
+        guard let googleAuthProviderHandler = self.googleAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Google"))
+            return
+        }
         self.savedCall = call
-        self.googleAuthProviderHandler?.link(call: call)
+        googleAuthProviderHandler.link(call: call)
     }
 
     @objc func linkWithMicrosoft(_ call: CAPPluginCall) {
@@ -244,8 +264,11 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.link(call: call, providerId: providerId)
     }
 
-    @objc func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) {
-        self.phoneAuthProviderHandler?.link(options)
+    func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) throws {
+        guard let phoneAuthProviderHandler = self.phoneAuthProviderHandler else {
+            throw RuntimeError(createProviderNotEnabledErrorMessage("Phone"))
+        }
+        phoneAuthProviderHandler.link(options)
     }
 
     @objc func linkWithTwitter(_ call: CAPPluginCall) {
@@ -358,8 +381,12 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithApple(_ call: CAPPluginCall) {
+        guard let appleAuthProviderHandler = self.appleAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Apple"))
+            return
+        }
         self.savedCall = call
-        self.appleAuthProviderHandler?.signIn(call: call)
+        appleAuthProviderHandler.signIn(call: call)
     }
 
     @objc func signInWithCustomToken(_ call: CAPPluginCall) {
@@ -440,13 +467,21 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithFacebook(_ call: CAPPluginCall) {
+        guard let facebookAuthProviderHandler = self.facebookAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Facebook"))
+            return
+        }
         self.savedCall = call
-        self.facebookAuthProviderHandler?.signIn(call: call)
+        facebookAuthProviderHandler.signIn(call: call)
     }
 
     @objc func signInWithGameCenter(_ call: CAPPluginCall) {
+        guard let gameCenterAuthProviderHandler = self.gameCenterAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Game Center"))
+            return
+        }
         self.savedCall = call
-        self.gameCenterAuthProviderHandler?.signIn(call: call)
+        gameCenterAuthProviderHandler.signIn(call: call)
     }
 
     @objc func signInWithGithub(_ call: CAPPluginCall) {
@@ -455,8 +490,12 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     @objc func signInWithGoogle(_ call: CAPPluginCall) {
+        guard let googleAuthProviderHandler = self.googleAuthProviderHandler else {
+            call.reject(createProviderNotEnabledErrorMessage("Google"))
+            return
+        }
         self.savedCall = call
-        self.googleAuthProviderHandler?.signIn(call: call)
+        googleAuthProviderHandler.signIn(call: call)
     }
 
     @objc func signInWithMicrosoft(_ call: CAPPluginCall) {
@@ -469,8 +508,11 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.signIn(call: call, providerId: providerId)
     }
 
-    @objc func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) {
-        self.phoneAuthProviderHandler?.signIn(options)
+    func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) throws {
+        guard let phoneAuthProviderHandler = self.phoneAuthProviderHandler else {
+            throw RuntimeError(createProviderNotEnabledErrorMessage("Phone"))
+        }
+        phoneAuthProviderHandler.signIn(options)
     }
 
     @objc func signInWithTwitter(_ call: CAPPluginCall) {
@@ -674,6 +716,10 @@ public typealias AuthStateChangedObserver = () -> Void
 
     func checkAppTrackingTransparencyPermission(completion: @escaping (CheckAppTrackingTransparencyPermissionResult) -> Void) {
         completion(CheckAppTrackingTransparencyPermissionResult(ATTrackingManager.trackingAuthorizationStatus))
+    }
+
+    private func createProviderNotEnabledErrorMessage(_ providerName: String) -> String {
+        return "\(providerName) sign-in provider is not enabled. Make sure to add the provider to the 'providers' list in the Capacitor configuration."
     }
 
     private func initAuthProviderHandlers(config: FirebaseAuthenticationConfig) {

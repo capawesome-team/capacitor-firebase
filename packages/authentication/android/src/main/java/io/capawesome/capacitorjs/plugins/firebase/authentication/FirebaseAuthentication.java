@@ -60,12 +60,23 @@ public class FirebaseAuthentication {
     private FirebaseAuthenticationConfig config;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseAuth.IdTokenListener firebaseIdTokenChangeListener;
+
+    @Nullable
     private AppleAuthProviderHandler appleAuthProviderHandler;
+
+    @Nullable
     private FacebookAuthProviderHandler facebookAuthProviderHandler;
+
+    @Nullable
     private GoogleAuthProviderHandler googleAuthProviderHandler;
+
     public ActivityResultLauncher<IntentSenderRequest> googleAuthorizationResultLauncher;
     private OAuthProviderHandler oAuthProviderHandler;
+
+    @Nullable
     private PhoneAuthProviderHandler phoneAuthProviderHandler;
+
+    @Nullable
     private PlayGamesAuthProviderHandler playGamesAuthProviderHandler;
 
     public FirebaseAuthentication(FirebaseAuthenticationPlugin plugin, FirebaseAuthenticationConfig config) {
@@ -136,6 +147,10 @@ public class FirebaseAuthentication {
     }
 
     public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyResultCallback callback) {
+        if (phoneAuthProviderHandler == null) {
+            callback.error(new Exception(createProviderNotEnabledErrorMessage("Phone")));
+            return;
+        }
         phoneAuthProviderHandler.confirmVerificationCode(options, callback);
     }
 
@@ -221,6 +236,10 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithApple(final PluginCall call) {
+        if (appleAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Apple"));
+            return;
+        }
         appleAuthProviderHandler.link(call);
     }
 
@@ -289,6 +308,10 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithFacebook(final PluginCall call) {
+        if (facebookAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Facebook"));
+            return;
+        }
         facebookAuthProviderHandler.link(call);
     }
 
@@ -297,6 +320,10 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithGoogle(final PluginCall call) {
+        if (googleAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Google"));
+            return;
+        }
         googleAuthProviderHandler.link(call);
     }
 
@@ -309,10 +336,17 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithPhoneNumber(@NonNull final LinkWithPhoneNumberOptions options) throws Exception {
+        if (phoneAuthProviderHandler == null) {
+            throw new Exception(createProviderNotEnabledErrorMessage("Phone"));
+        }
         phoneAuthProviderHandler.link(options);
     }
 
     public void linkWithPlayGames(final PluginCall call) {
+        if (playGamesAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Play Games"));
+            return;
+        }
         playGamesAuthProviderHandler.link(call);
     }
 
@@ -416,6 +450,10 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithApple(final PluginCall call) {
+        if (appleAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Apple"));
+            return;
+        }
         appleAuthProviderHandler.signIn(call);
     }
 
@@ -479,6 +517,10 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithFacebook(final PluginCall call) {
+        if (facebookAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Facebook"));
+            return;
+        }
         facebookAuthProviderHandler.signIn(call);
     }
 
@@ -487,6 +529,10 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithGoogle(final PluginCall call) {
+        if (googleAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Google"));
+            return;
+        }
         googleAuthProviderHandler.signIn(call);
     }
 
@@ -499,10 +545,17 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithPhoneNumber(final SignInWithPhoneNumberOptions options) throws Exception {
+        if (phoneAuthProviderHandler == null) {
+            throw new Exception(createProviderNotEnabledErrorMessage("Phone"));
+        }
         phoneAuthProviderHandler.signIn(options);
     }
 
     public void signInWithPlayGames(final PluginCall call) {
+        if (playGamesAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Play Games"));
+            return;
+        }
         playGamesAuthProviderHandler.signIn(call);
     }
 
@@ -633,18 +686,34 @@ public class FirebaseAuthentication {
     }
 
     public void handleGoogleAuthProviderSignInActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
+        if (googleAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Google"));
+            return;
+        }
         googleAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
     public void handleGoogleAuthProviderLinkActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
+        if (googleAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Google"));
+            return;
+        }
         googleAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
     public void handlePlayGamesAuthProviderSignInActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
+        if (playGamesAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Play Games"));
+            return;
+        }
         playGamesAuthProviderHandler.handleOnActivityResult(call, result, false);
     }
 
     public void handlePlayGamesAuthProviderLinkActivityResult(@NonNull final PluginCall call, @NonNull ActivityResult result) {
+        if (playGamesAuthProviderHandler == null) {
+            call.reject(createProviderNotEnabledErrorMessage("Play Games"));
+            return;
+        }
         playGamesAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
@@ -895,6 +964,14 @@ public class FirebaseAuthentication {
 
     public FirebaseAuthenticationConfig getConfig() {
         return config;
+    }
+
+    @NonNull
+    private static String createProviderNotEnabledErrorMessage(@NonNull String providerName) {
+        return (
+            providerName +
+            " sign-in provider is not enabled. Make sure to add the provider to the 'providers' list in the Capacitor configuration."
+        );
     }
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {
