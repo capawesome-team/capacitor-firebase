@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.1.1
+
+### Patch Changes
+
+- [`cbdc8030397534d3fca25647ea03c47fdfd91303`](https://github.com/capawesome-team/capacitor-firebase/commit/cbdc8030397534d3fca25647ea03c47fdfd91303) ([#954](https://github.com/capawesome-team/capacitor-firebase/pull/954)): fix: reject calls when provider is not configured
+
 ## 8.1.0
 
 ### Patch Changes
