@@ -828,3 +828,115 @@ export type QueryConstraintType =
  * @since 5.2.0
  */
 export type OrderByDirection = 'desc' | 'asc';
+
+/**
+ * Represents a Firestore Timestamp as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreTimestamp {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'timestamp';
+  /**
+   * @since 8.2.0
+   */
+  seconds: number;
+  /**
+   * @since 8.2.0
+   */
+  nanoseconds: number;
+}
+
+/**
+ * Represents a Firestore GeoPoint as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreGeoPoint {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'geopoint';
+  /**
+   * @since 8.2.0
+   */
+  latitude: number;
+  /**
+   * @since 8.2.0
+   */
+  longitude: number;
+}
+
+/**
+ * Represents a Firestore server timestamp sentinel as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreServerTimestamp {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'serverTimestamp';
+}
+
+/**
+ * Represents a Firestore arrayUnion operation as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreArrayUnion {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'arrayUnion';
+  /**
+   * @since 8.2.0
+   */
+  elements: any[];
+}
+
+/**
+ * Represents a Firestore arrayRemove operation as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreArrayRemove {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'arrayRemove';
+  /**
+   * @since 8.2.0
+   */
+  elements: any[];
+}
+
+/**
+ * Represents a Firestore delete field sentinel as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreDelete {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'delete';
+}
+
+/**
+ * Represents a Firestore increment operation as a plain marker object.
+ *
+ * @since 8.2.0
+ */
+export interface FirestoreIncrement {
+  /**
+   * @since 8.2.0
+   */
+  __type__: 'increment';
+  /**
+   * @since 8.2.0
+   */
+  operand: number;
+}

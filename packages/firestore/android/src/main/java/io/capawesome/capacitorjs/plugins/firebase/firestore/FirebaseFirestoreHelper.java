@@ -6,8 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryEndAtConstraint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryLimitConstraint;
@@ -43,7 +46,11 @@ public class FirebaseFirestoreHelper {
         JSObject object = new JSObject();
         for (String key : map.keySet()) {
             Object value = map.get(key);
-            if (value instanceof ArrayList) {
+            if (value instanceof Timestamp) {
+                value = createJSObjectFromTimestamp((Timestamp) value);
+            } else if (value instanceof GeoPoint) {
+                value = createJSObjectFromGeoPoint((GeoPoint) value);
+            } else if (value instanceof ArrayList) {
                 value = createJSArrayFromArrayList((ArrayList) value);
             } else if (value instanceof Map) {
                 value = createJSObjectFromMap((Map<String, Object>) value);
@@ -57,7 +64,12 @@ public class FirebaseFirestoreHelper {
         if (value.toString().equals("null")) {
             return null;
         } else if (value instanceof JSONObject) {
-            return createHashMapFromJSONObject((JSONObject) value);
+            JSONObject jsonObject = (JSONObject) value;
+            Object nativeValue = createNativeValueFromMarker(jsonObject);
+            if (nativeValue != null) {
+                return nativeValue;
+            }
+            return createHashMapFromJSONObject(jsonObject);
         } else if (value instanceof JSONArray) {
             return createArrayListFromJSONArray((JSONArray) value);
         } else {
@@ -106,6 +118,62 @@ public class FirebaseFirestoreHelper {
         }
     }
 
+    @Nullable
+    private static Object createNativeValueFromMarker(@NonNull JSONObject jsonObject) throws JSONException {
+        if (!jsonObject.has("__type__")) {
+            return null;
+        }
+        String type = jsonObject.getString("__type__");
+        switch (type) {
+            case "timestamp":
+                return new Timestamp(jsonObject.getLong("seconds"), jsonObject.getInt("nanoseconds"));
+            case "geopoint":
+                return new GeoPoint(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
+            case "serverTimestamp":
+                return FieldValue.serverTimestamp();
+            case "arrayUnion": {
+                JSONArray elements = jsonObject.getJSONArray("elements");
+                Object[] args = new Object[elements.length()];
+                for (int i = 0; i < elements.length(); i++) {
+                    args[i] = createObjectFromJSValue(elements.get(i));
+                }
+                return FieldValue.arrayUnion(args);
+            }
+            case "arrayRemove": {
+                JSONArray elements = jsonObject.getJSONArray("elements");
+                Object[] args = new Object[elements.length()];
+                for (int i = 0; i < elements.length(); i++) {
+                    args[i] = createObjectFromJSValue(elements.get(i));
+                }
+                return FieldValue.arrayRemove(args);
+            }
+            case "delete":
+                return FieldValue.delete();
+            case "increment":
+                return FieldValue.increment(jsonObject.getDouble("operand"));
+            default:
+                return null;
+        }
+    }
+
+    @NonNull
+    private static JSObject createJSObjectFromTimestamp(@NonNull Timestamp timestamp) {
+        JSObject object = new JSObject();
+        object.put("__type__", "timestamp");
+        object.put("seconds", timestamp.getSeconds());
+        object.put("nanoseconds", timestamp.getNanoseconds());
+        return object;
+    }
+
+    @NonNull
+    private static JSObject createJSObjectFromGeoPoint(@NonNull GeoPoint geoPoint) {
+        JSObject object = new JSObject();
+        object.put("__type__", "geopoint");
+        object.put("latitude", geoPoint.getLatitude());
+        object.put("longitude", geoPoint.getLongitude());
+        return object;
+    }
+
     private static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
         ArrayList<Object> arrayList = new ArrayList<>();
         for (int x = 0; x < array.length(); x++) {
@@ -123,7 +191,11 @@ public class FirebaseFirestoreHelper {
     private static JSArray createJSArrayFromArrayList(ArrayList arrayList) {
         JSArray array = new JSArray();
         for (Object value : arrayList) {
-            if (value instanceof Map) {
+            if (value instanceof Timestamp) {
+                value = createJSObjectFromTimestamp((Timestamp) value);
+            } else if (value instanceof GeoPoint) {
+                value = createJSObjectFromGeoPoint((GeoPoint) value);
+            } else if (value instanceof Map) {
                 value = createJSObjectFromMap((Map<String, Object>) value);
             }
             array.put(value);
