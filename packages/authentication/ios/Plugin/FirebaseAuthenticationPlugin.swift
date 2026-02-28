@@ -327,8 +327,13 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         }
         let options = LinkWithPhoneNumberOptions(phoneNumber: phoneNumber)
 
-        implementation?.linkWithPhoneNumber(options)
-        call.resolve()
+        do {
+            try implementation?.linkWithPhoneNumber(options)
+            call.resolve()
+        } catch {
+            CAPLog.print("[", self.tag, "] ", error)
+            call.reject(error.localizedDescription)
+        }
     }
 
     @objc func linkWithPlayGames(_ call: CAPPluginCall) {
@@ -518,8 +523,13 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         }
         let options = SignInWithPhoneNumberOptions(skipNativeAuth: skipNativeAuth, phoneNumber: phoneNumber)
 
-        implementation?.signInWithPhoneNumber(options)
-        call.resolve()
+        do {
+            try implementation?.signInWithPhoneNumber(options)
+            call.resolve()
+        } catch {
+            CAPLog.print("[", self.tag, "] ", error)
+            call.reject(error.localizedDescription)
+        }
     }
 
     @objc func signInWithPlayGames(_ call: CAPPluginCall) {
