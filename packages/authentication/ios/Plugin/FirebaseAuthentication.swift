@@ -264,7 +264,7 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.link(call: call, providerId: providerId)
     }
 
-    @objc func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) throws {
+    func linkWithPhoneNumber(_ options: LinkWithPhoneNumberOptions) throws {
         guard let phoneAuthProviderHandler = self.phoneAuthProviderHandler else {
             throw RuntimeError(createProviderNotEnabledErrorMessage("Phone"))
         }
@@ -508,7 +508,7 @@ public typealias AuthStateChangedObserver = () -> Void
         self.oAuthProviderHandler?.signIn(call: call, providerId: providerId)
     }
 
-    @objc func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) throws {
+    func signInWithPhoneNumber(_ options: SignInWithPhoneNumberOptions) throws {
         guard let phoneAuthProviderHandler = self.phoneAuthProviderHandler else {
             throw RuntimeError(createProviderNotEnabledErrorMessage("Phone"))
         }
