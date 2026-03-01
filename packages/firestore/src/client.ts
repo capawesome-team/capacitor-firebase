@@ -25,7 +25,7 @@ import type {
   UseEmulatorOptions,
   WriteBatchOptions,
 } from './definitions';
-import { deserializeData } from './utils';
+import { deserializeData, serializeData } from './utils';
 
 export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   private readonly plugin: FirebaseFirestorePlugin;
@@ -35,11 +35,17 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   }
 
   async addDocument(options: AddDocumentOptions): Promise<AddDocumentResult> {
-    return this.plugin.addDocument(options);
+    return this.plugin.addDocument({
+      ...options,
+      data: serializeData(options.data),
+    });
   }
 
   async setDocument(options: SetDocumentOptions): Promise<void> {
-    return this.plugin.setDocument(options);
+    return this.plugin.setDocument({
+      ...options,
+      data: serializeData(options.data),
+    });
   }
 
   async getDocument<T extends DocumentData = DocumentData>(
@@ -53,7 +59,10 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   }
 
   async updateDocument(options: UpdateDocumentOptions): Promise<void> {
-    return this.plugin.updateDocument(options);
+    return this.plugin.updateDocument({
+      ...options,
+      data: serializeData(options.data),
+    });
   }
 
   async deleteDocument(options: DeleteDocumentOptions): Promise<void> {
@@ -61,7 +70,13 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   }
 
   async writeBatch(options: WriteBatchOptions): Promise<void> {
-    return this.plugin.writeBatch(options);
+    return this.plugin.writeBatch({
+      ...options,
+      operations: options.operations.map(op => ({
+        ...op,
+        data: op.data ? serializeData(op.data) : op.data,
+      })),
+    });
   }
 
   async getCollection<T extends DocumentData = DocumentData>(

@@ -82,12 +82,12 @@ public class FirebaseFirestoreHelper {
     private static func createNativeValueFromMarker(type: String, dict: [String: Any]) -> Any? {
         switch type {
         case "timestamp":
-            let seconds = dict["seconds"] as? Int64 ?? 0
-            let nanoseconds = dict["nanoseconds"] as? Int32 ?? 0
+            guard let seconds = (dict["seconds"] as? NSNumber)?.int64Value,
+                  let nanoseconds = (dict["nanoseconds"] as? NSNumber)?.int32Value else { return nil }
             return Timestamp(seconds: seconds, nanoseconds: nanoseconds)
         case "geopoint":
-            let latitude = dict["latitude"] as? Double ?? 0
-            let longitude = dict["longitude"] as? Double ?? 0
+            guard let latitude = (dict["latitude"] as? NSNumber)?.doubleValue,
+                  let longitude = (dict["longitude"] as? NSNumber)?.doubleValue else { return nil }
             return GeoPoint(latitude: latitude, longitude: longitude)
         case "serverTimestamp":
             return FieldValue.serverTimestamp()
@@ -100,12 +100,13 @@ public class FirebaseFirestoreHelper {
         case "delete":
             return FieldValue.delete()
         case "increment":
-            if let operand = dict["operand"] as? Int64 {
-                return FieldValue.increment(operand)
-            } else {
-                let operand = dict["operand"] as? Double ?? 0
-                return FieldValue.increment(operand)
+            guard let operand = dict["operand"] as? NSNumber else {
+                return FieldValue.increment(Int64(0))
             }
+            if floor(operand.doubleValue) == operand.doubleValue {
+                return FieldValue.increment(operand.int64Value)
+            }
+            return FieldValue.increment(operand.doubleValue)
         default:
             return nil
         }
