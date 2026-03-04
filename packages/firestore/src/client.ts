@@ -82,7 +82,7 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   async getCollection<T extends DocumentData = DocumentData>(
     options: GetCollectionOptions,
   ): Promise<GetCollectionResult<T>> {
-    const result = await this.plugin.getCollection<T>(options);
+    const result = await this.plugin.getCollection<T>(serializeData(options));
     for (const snapshot of result.snapshots) {
       if (snapshot.data !== null) {
         snapshot.data = deserializeData(snapshot.data);
@@ -94,7 +94,9 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   async getCollectionGroup<T extends DocumentData = DocumentData>(
     options: GetCollectionGroupOptions,
   ): Promise<GetCollectionGroupResult<T>> {
-    const result = await this.plugin.getCollectionGroup<T>(options);
+    const result = await this.plugin.getCollectionGroup<T>(
+      serializeData(options),
+    );
     for (const snapshot of result.snapshots) {
       if (snapshot.data !== null) {
         snapshot.data = deserializeData(snapshot.data);
@@ -148,7 +150,7 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
     callback: AddCollectionSnapshotListenerCallback<T>,
   ): Promise<CallbackId> {
     return this.plugin.addCollectionSnapshotListener<T>(
-      options,
+      serializeData(options),
       (event, error) => {
         if (event) {
           for (const snapshot of event.snapshots) {
@@ -169,7 +171,7 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
     callback: AddCollectionGroupSnapshotListenerCallback<T>,
   ): Promise<CallbackId> {
     return this.plugin.addCollectionGroupSnapshotListener<T>(
-      options,
+      serializeData(options),
       (event, error) => {
         if (event) {
           for (const snapshot of event.snapshots) {
