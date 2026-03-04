@@ -5,12 +5,13 @@ import FirebaseFirestore
 @objc public class QueryFieldFilterConstraint: NSObject, QueryFilterConstraint {
     private var fieldPath: String
     private var opStr: String
-    private var value: AnyObject
+    private var value: Any
 
     public init(_ queryConstraint: JSObject) {
         self.fieldPath = queryConstraint["fieldPath"] as? String ?? ""
         self.opStr = queryConstraint["opStr"] as? String ?? ""
-        self.value = queryConstraint["value"] as AnyObject
+        let rawValue = queryConstraint["value"] as Any
+        self.value = FirebaseFirestoreHelper.createNativeValue(rawValue)
     }
 
     public func toFilter() -> Filter? {
