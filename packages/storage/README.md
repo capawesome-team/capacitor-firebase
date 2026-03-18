@@ -23,7 +23,7 @@ Stay up to date with the latest news and updates about the Capawesome, Capacitor
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.
-Add the Capawesome Skills to your AI tool using the following command:
+Add the [Capawesome Skills](https://github.com/capawesome-team/skills) to your AI tool using the following command:
 
 ```bash
 npx skills add capawesome-team/skills
