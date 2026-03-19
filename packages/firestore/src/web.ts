@@ -9,13 +9,18 @@ import type {
   Unsubscribe,
 } from 'firebase/firestore';
 import {
+  GeoPoint as FirebaseGeoPoint,
+  Timestamp as FirebaseTimestamp,
   addDoc,
   and,
+  arrayRemove,
+  arrayUnion,
   clearIndexedDbPersistence,
   collection,
   collectionGroup,
   connectFirestoreEmulator,
   deleteDoc,
+  deleteField,
   disableNetwork,
   doc,
   enableNetwork,
@@ -25,12 +30,14 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  increment,
   limit,
   limitToLast,
   onSnapshot,
   or,
   orderBy,
   query,
+  serverTimestamp,
   setDoc,
   startAfter,
   startAt,
@@ -70,6 +77,9 @@ import type {
   UseEmulatorOptions,
   WriteBatchOptions,
 } from './definitions';
+import { FieldValue } from './field-value';
+import { GeoPoint } from './geopoint';
+import { Timestamp } from './timestamp';
 
 export class FirebaseFirestoreWeb
   extends WebPlugin
@@ -84,7 +94,7 @@ export class FirebaseFirestoreWeb
     const { reference, data } = options;
     const documentReference = await addDoc<DocumentData, DocumentData>(
       collection(firestore, reference),
-      data,
+      this.serializeData(data),
     );
     return {
       reference: {
@@ -97,9 +107,13 @@ export class FirebaseFirestoreWeb
   public async setDocument(options: SetDocumentOptions): Promise<void> {
     const firestore = getFirestore();
     const { reference, data, merge } = options;
-    await setDoc<DocumentData, DocumentData>(doc(firestore, reference), data, {
-      merge,
-    });
+    await setDoc<DocumentData, DocumentData>(
+      doc(firestore, reference),
+      this.serializeData(data),
+      {
+        merge,
+      },
+    );
   }
 
   public async getDocument<T extends DocumentData>(
@@ -115,7 +129,7 @@ export class FirebaseFirestoreWeb
         path: documentSnapshot.ref.path,
         data: (documentSnapshotData === undefined
           ? null
-          : documentSnapshotData) as T | null,
+          : this.deserializeData(documentSnapshotData)) as T | null,
         metadata: {
           hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
           fromCache: documentSnapshot.metadata.fromCache,
@@ -129,7 +143,7 @@ export class FirebaseFirestoreWeb
     const { reference, data } = options;
     await updateDoc<DocumentData, DocumentData>(
       doc(firestore, reference),
-      data,
+      this.serializeData(data),
     );
   }
 
@@ -148,10 +162,14 @@ export class FirebaseFirestoreWeb
       const documentReference = doc(firestore, reference);
       switch (type) {
         case 'set':
-          batch.set(documentReference, data, options ?? {});
+          batch.set(
+            documentReference,
+            this.serializeData(data ?? {}),
+            options ?? {},
+          );
           break;
         case 'update':
-          batch.update(documentReference, data ?? {});
+          batch.update(documentReference, this.serializeData(data ?? {}));
           break;
         case 'delete':
           batch.delete(documentReference);
@@ -173,7 +191,7 @@ export class FirebaseFirestoreWeb
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
-        data: documentSnapshot.data() as T,
+        data: this.deserializeData(documentSnapshot.data()) as T,
         metadata: {
           hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
           fromCache: documentSnapshot.metadata.fromCache,
@@ -194,7 +212,7 @@ export class FirebaseFirestoreWeb
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
-        data: documentSnapshot.data() as T,
+        data: this.deserializeData(documentSnapshot.data()) as T,
         metadata: {
           hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
           fromCache: documentSnapshot.metadata.fromCache,
@@ -253,7 +271,9 @@ export class FirebaseFirestoreWeb
           snapshot: {
             id: snapshot.id,
             path: snapshot.ref.path,
-            data: (data === undefined ? null : data) as T | null,
+            data: (data === undefined
+              ? null
+              : this.deserializeData(data)) as T | null,
             metadata: {
               hasPendingWrites: snapshot.metadata.hasPendingWrites,
               fromCache: snapshot.metadata.fromCache,
@@ -290,7 +310,7 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: documentSnapshot.data() as T,
+            data: this.deserializeData(documentSnapshot.data()) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -327,7 +347,7 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: documentSnapshot.data() as T,
+            data: this.deserializeData(documentSnapshot.data()) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -360,6 +380,99 @@ export class FirebaseFirestoreWeb
     this.unsubscribesMap.forEach(unsubscribe => unsubscribe());
     this.unsubscribesMap.clear();
     await super.removeAllListeners();
+  }
+
+  private serializeData(data: any): any {
+    if (data instanceof Timestamp) {
+      return new FirebaseTimestamp(data.seconds, data.nanoseconds);
+    }
+    if (data instanceof GeoPoint) {
+      return new FirebaseGeoPoint(data.latitude, data.longitude);
+    }
+    if (data instanceof FieldValue) {
+      return this.serializeFieldValue(data.toJSON());
+    }
+    if (data === null || data === undefined) {
+      return data;
+    }
+    if (Array.isArray(data)) {
+      return data.map(item => this.serializeData(item));
+    }
+    if (typeof data === 'object') {
+      if (data.__type__) {
+        return this.serializeMarker(data);
+      }
+      const result: Record<string, any> = {};
+      for (const key of Object.keys(data)) {
+        result[key] = this.serializeData(data[key]);
+      }
+      return result;
+    }
+    return data;
+  }
+
+  private serializeMarker(marker: any): any {
+    switch (marker.__type__) {
+      case 'timestamp':
+        return new FirebaseTimestamp(marker.seconds, marker.nanoseconds);
+      case 'geopoint':
+        return new FirebaseGeoPoint(marker.latitude, marker.longitude);
+      case 'serverTimestamp':
+        return serverTimestamp();
+      case 'arrayUnion':
+        return arrayUnion(
+          ...(marker.elements || []).map((e: any) => this.serializeData(e)),
+        );
+      case 'arrayRemove':
+        return arrayRemove(
+          ...(marker.elements || []).map((e: any) => this.serializeData(e)),
+        );
+      case 'delete':
+        return deleteField();
+      case 'increment':
+        return increment(marker.operand);
+      default:
+        return marker;
+    }
+  }
+
+  private serializeFieldValue(marker: any): any {
+    return this.serializeMarker(marker);
+  }
+
+  private deserializeData(data: any): any {
+    if (data === null || data === undefined) {
+      return data;
+    }
+    if (data instanceof FirebaseTimestamp) {
+      return {
+        __type__: 'timestamp',
+        seconds: data.seconds,
+        nanoseconds: data.nanoseconds,
+      };
+    }
+    if (data instanceof FirebaseGeoPoint) {
+      return {
+        __type__: 'geopoint',
+        latitude: data.latitude,
+        longitude: data.longitude,
+      };
+    }
+    if (Array.isArray(data)) {
+      return data.map(item => this.deserializeData(item));
+    }
+    if (typeof data === 'object') {
+      const result: Record<string, any> = {};
+      for (const key of Object.keys(data)) {
+        result[key] = this.deserializeData(data[key]);
+      }
+      return result;
+    }
+    return data;
+  }
+
+  private serializeFilterValue(value: any): any {
+    return this.serializeData(value);
   }
 
   private async buildCollectionQuery(
@@ -445,7 +558,7 @@ export class FirebaseFirestoreWeb
     return where(
       queryfilterConstraints.fieldPath,
       queryfilterConstraints.opStr,
-      queryfilterConstraints.value,
+      this.serializeFilterValue(queryfilterConstraints.value),
     );
   }
 
