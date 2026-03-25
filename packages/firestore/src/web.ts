@@ -63,6 +63,7 @@ import type {
   AddDocumentSnapshotListenerCallback,
   AddDocumentSnapshotListenerCallbackEvent,
   AddDocumentSnapshotListenerOptions,
+  DeleteDocumentOptions,
   DocumentData,
   EnablePersistenceOptions,
   FirebaseFirestorePlugin,
@@ -81,6 +82,7 @@ import type {
   QueryNonFilterConstraint,
   RemoveSnapshotListenerOptions,
   SetDocumentOptions,
+  UpdateDocumentOptions,
   UseEmulatorOptions,
   WriteBatchOptions,
 } from './definitions';
@@ -227,7 +229,7 @@ export class FirebaseFirestoreWeb
     await clearIndexedDbPersistence(firestore);
   }
 
-  public async deleteDocument(options: SetDocumentOptions): Promise<void> {
+  public async deleteDocument(options: DeleteDocumentOptions): Promise<void> {
     const firestore = getFirestore();
     const { reference } = options;
     await deleteDoc(doc(firestore, reference));
@@ -368,7 +370,7 @@ export class FirebaseFirestoreWeb
     );
   }
 
-  public async updateDocument(options: SetDocumentOptions): Promise<void> {
+  public async updateDocument(options: UpdateDocumentOptions): Promise<void> {
     const firestore = getFirestore();
     const { reference, data } = options;
     await updateDoc<DocumentData, DocumentData>(
