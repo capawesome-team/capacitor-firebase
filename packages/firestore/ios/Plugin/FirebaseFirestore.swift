@@ -206,10 +206,10 @@ private actor ListenerRegistrationMap {
         Firestore.firestore().settings = settings
     }
 
-    @objc public func enablePersistence(_ cacheSizeBytes: Int?) {
+    @objc public func enablePersistence(_ cacheSizeBytes: NSNumber?) {
         let settings = Firestore.firestore().settings
         if let cacheSizeBytes = cacheSizeBytes {
-            settings.cacheSettings = PersistentCacheSettings(sizeBytes: NSNumber(value: cacheSizeBytes))
+            settings.cacheSettings = PersistentCacheSettings(sizeBytes: cacheSizeBytes)
         } else {
             settings.cacheSettings = PersistentCacheSettings()
         }

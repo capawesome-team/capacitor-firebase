@@ -250,7 +250,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func enablePersistence(_ call: CAPPluginCall) {
-        let cacheSizeBytes = call.has("cacheSizeBytes") ? call.getInt("cacheSizeBytes") : nil
+        let cacheSizeBytes = call.getInt("cacheSizeBytes") as NSNumber?
 
         implementation?.enablePersistence(cacheSizeBytes)
         call.resolve()
