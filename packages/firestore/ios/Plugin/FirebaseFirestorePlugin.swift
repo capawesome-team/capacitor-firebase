@@ -19,8 +19,10 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getCollection", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getCollectionGroup", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getCountFromServer", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "enableNetwork", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "disableNetwork", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "disablePersistence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "enableNetwork", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "enablePersistence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "addDocumentSnapshotListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "addCollectionSnapshotListener", returnType: CAPPluginReturnCallback),
@@ -220,6 +222,22 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         })
     }
 
+    @objc func disableNetwork(_ call: CAPPluginCall) {
+        implementation?.disableNetwork(completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
+                return
+            }
+            call.resolve()
+        })
+    }
+
+    @objc func disablePersistence(_ call: CAPPluginCall) {
+        implementation?.disablePersistence()
+        call.resolve()
+    }
+
     @objc func enableNetwork(_ call: CAPPluginCall) {
         implementation?.enableNetwork(completion: { error in
             if let error = error {
@@ -231,15 +249,11 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         })
     }
 
-    @objc func disableNetwork(_ call: CAPPluginCall) {
-        implementation?.disableNetwork(completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
+    @objc func enablePersistence(_ call: CAPPluginCall) {
+        let cacheSizeBytes = call.has("cacheSizeBytes") ? call.getInt("cacheSizeBytes") : nil
+
+        implementation?.enablePersistence(cacheSizeBytes)
+        call.resolve()
     }
 
     @objc func useEmulator(_ call: CAPPluginCall) {

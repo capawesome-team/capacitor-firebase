@@ -6,26 +6,40 @@ export interface FirebaseFirestorePlugin {
    */
   addDocument(options: AddDocumentOptions): Promise<AddDocumentResult>;
   /**
-   * Writes to the document referred to by the specified reference.
-   * If the document does not yet exist, it will be created.
+   * Adds a listener for collection group snapshot events.
    *
-   * @since 5.2.0
+   * @since 6.1.0
    */
-  setDocument(options: SetDocumentOptions): Promise<void>;
+  addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(
+    options: AddCollectionGroupSnapshotListenerOptions,
+    callback: AddCollectionGroupSnapshotListenerCallback<T>,
+  ): Promise<CallbackId>;
   /**
-   * Reads the document referred to by the specified reference.
+   * Adds a listener for collection snapshot events.
    *
    * @since 5.2.0
    */
-  getDocument<T extends DocumentData = DocumentData>(
-    options: GetDocumentOptions,
-  ): Promise<GetDocumentResult<T>>;
+  addCollectionSnapshotListener<T extends DocumentData = DocumentData>(
+    options: AddCollectionSnapshotListenerOptions,
+    callback: AddCollectionSnapshotListenerCallback<T>,
+  ): Promise<CallbackId>;
   /**
-   * Updates fields in the document referred to by the specified reference.
+   * Adds a listener for document snapshot events.
    *
    * @since 5.2.0
    */
-  updateDocument(options: UpdateDocumentOptions): Promise<void>;
+  addDocumentSnapshotListener<T extends DocumentData = DocumentData>(
+    options: AddDocumentSnapshotListenerOptions,
+    callback: AddDocumentSnapshotListenerCallback<T>,
+  ): Promise<CallbackId>;
+  /**
+   * Clears the persistent storage. This includes pending writes and cached documents.
+   *
+   * Must be called after the app is shutdown or when the app is first initialized.
+   *
+   * @since 5.2.0
+   */
+  clearPersistence(): Promise<void>;
   /**
    * Deletes the document referred to by the specified reference.
    *
@@ -33,11 +47,33 @@ export interface FirebaseFirestorePlugin {
    */
   deleteDocument(options: DeleteDocumentOptions): Promise<void>;
   /**
-   * Execute multiple write operations as a single batch.
+   * Disables use of the network.
    *
-   * @since 6.1.0
+   * @since 5.2.0
    */
-  writeBatch(options: WriteBatchOptions): Promise<void>;
+  disableNetwork(): Promise<void>;
+  /**
+   * Disables offline persistence.
+   *
+   * Must be called before any other Firestore method.
+   *
+   * @since 8.2.0
+   */
+  disablePersistence(): Promise<void>;
+  /**
+   * Enables offline persistence.
+   *
+   * Must be called before any other Firestore method.
+   *
+   * @since 8.2.0
+   */
+  enablePersistence(options?: EnablePersistenceOptions): Promise<void>;
+  /**
+   * Re-enables use of the network.
+   *
+   * @since 5.2.0
+   */
+  enableNetwork(): Promise<void>;
   /**
    * Reads the collection referenced by the specified reference.
    *
@@ -61,58 +97,19 @@ export interface FirebaseFirestorePlugin {
     options: GetCountFromServerOptions,
   ): Promise<GetCountFromServerResult>;
   /**
-   * Clears the persistent storage. This includes pending writes and cached documents.
-   *
-   * Must be called after the app is shutdown or when the app is first initialized.
+   * Reads the document referred to by the specified reference.
    *
    * @since 5.2.0
    */
-  clearPersistence(): Promise<void>;
+  getDocument<T extends DocumentData = DocumentData>(
+    options: GetDocumentOptions,
+  ): Promise<GetDocumentResult<T>>;
   /**
-   * Re-enables use of the network.
+   * Remove all listeners for this plugin.
    *
    * @since 5.2.0
    */
-  enableNetwork(): Promise<void>;
-  /**
-   * Disables use of the network.
-   *
-   * @since 5.2.0
-   */
-  disableNetwork(): Promise<void>;
-  /**
-   * Instrument your app to talk to the Firestore emulator.
-   *
-   * @since 6.1.0
-   */
-  useEmulator(options: UseEmulatorOptions): Promise<void>;
-  /**
-   * Adds a listener for document snapshot events.
-   *
-   * @since 5.2.0
-   */
-  addDocumentSnapshotListener<T extends DocumentData = DocumentData>(
-    options: AddDocumentSnapshotListenerOptions,
-    callback: AddDocumentSnapshotListenerCallback<T>,
-  ): Promise<CallbackId>;
-  /**
-   * Adds a listener for collection snapshot events.
-   *
-   * @since 5.2.0
-   */
-  addCollectionSnapshotListener<T extends DocumentData = DocumentData>(
-    options: AddCollectionSnapshotListenerOptions,
-    callback: AddCollectionSnapshotListenerCallback<T>,
-  ): Promise<CallbackId>;
-  /**
-   * Adds a listener for collection group snapshot events.
-   *
-   * @since 6.1.0
-   */
-  addCollectionGroupSnapshotListener<T extends DocumentData = DocumentData>(
-    options: AddCollectionGroupSnapshotListenerOptions,
-    callback: AddCollectionGroupSnapshotListenerCallback<T>,
-  ): Promise<CallbackId>;
+  removeAllListeners(): Promise<void>;
   /**
    * Remove a listener for document or collection snapshot events.
    *
@@ -120,11 +117,30 @@ export interface FirebaseFirestorePlugin {
    */
   removeSnapshotListener(options: RemoveSnapshotListenerOptions): Promise<void>;
   /**
-   * Remove all listeners for this plugin.
+   * Writes to the document referred to by the specified reference.
+   * If the document does not yet exist, it will be created.
    *
    * @since 5.2.0
    */
-  removeAllListeners(): Promise<void>;
+  setDocument(options: SetDocumentOptions): Promise<void>;
+  /**
+   * Updates fields in the document referred to by the specified reference.
+   *
+   * @since 5.2.0
+   */
+  updateDocument(options: UpdateDocumentOptions): Promise<void>;
+  /**
+   * Instrument your app to talk to the Firestore emulator.
+   *
+   * @since 6.1.0
+   */
+  useEmulator(options: UseEmulatorOptions): Promise<void>;
+  /**
+   * Execute multiple write operations as a single batch.
+   *
+   * @since 6.1.0
+   */
+  writeBatch(options: WriteBatchOptions): Promise<void>;
 }
 
 /**
@@ -577,6 +593,28 @@ export interface DocumentReference {
    * @example 'users/Aorq09lkt1ynbR7xhTUx'
    */
   path: string;
+}
+
+/**
+ * @since 8.2.0
+ */
+export interface EnablePersistenceOptions {
+  /**
+   * The cache size in bytes.
+   *
+   * @since 8.2.0
+   * @default 104857600 (100 MB)
+   */
+  cacheSizeBytes?: number;
+  /**
+   * Whether to synchronize persistence across multiple tabs.
+   *
+   * Only available for Web.
+   *
+   * @since 8.2.0
+   * @default false
+   */
+  synchronizeTabs?: boolean;
 }
 
 /**

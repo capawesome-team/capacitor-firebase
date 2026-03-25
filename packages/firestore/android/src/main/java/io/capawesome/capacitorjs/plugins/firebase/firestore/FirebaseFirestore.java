@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.AggregateQuery;
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Filter;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
@@ -188,6 +190,22 @@ public class FirebaseFirestore {
                 callback.success(result);
             })
             .addOnFailureListener(exception -> callback.error(exception));
+    }
+
+    public void disablePersistence() {
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(getFirebaseFirestoreInstance().getFirestoreSettings())
+            .setPersistenceEnabled(false)
+            .build();
+        getFirebaseFirestoreInstance().setFirestoreSettings(settings);
+    }
+
+    public void enablePersistence(@Nullable Long cacheSizeBytes) {
+        FirebaseFirestoreSettings.Builder builder = new FirebaseFirestoreSettings.Builder(getFirebaseFirestoreInstance().getFirestoreSettings())
+            .setPersistenceEnabled(true);
+        if (cacheSizeBytes != null) {
+            builder.setCacheSizeBytes(cacheSizeBytes);
+        }
+        getFirebaseFirestoreInstance().setFirestoreSettings(builder.build());
     }
 
     public void clearPersistence(@NonNull EmptyResultCallback callback) {

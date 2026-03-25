@@ -309,6 +309,30 @@ public class FirebaseFirestorePlugin extends Plugin {
     }
 
     @PluginMethod
+    public void disablePersistence(PluginCall call) {
+        try {
+            implementation.disablePersistence();
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+        }
+    }
+
+    @PluginMethod
+    public void enablePersistence(PluginCall call) {
+        try {
+            Long cacheSizeBytes = call.has("cacheSizeBytes") ? call.getLong("cacheSizeBytes") : null;
+
+            implementation.enablePersistence(cacheSizeBytes);
+            call.resolve();
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+        }
+    }
+
+    @PluginMethod
     public void clearPersistence(PluginCall call) {
         try {
             EmptyResultCallback callback = new EmptyResultCallback() {

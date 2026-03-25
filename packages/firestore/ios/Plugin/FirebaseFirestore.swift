@@ -200,6 +200,22 @@ private actor ListenerRegistrationMap {
         }
     }
 
+    @objc public func disablePersistence() {
+        let settings = Firestore.firestore().settings
+        settings.cacheSettings = MemoryCacheSettings()
+        Firestore.firestore().settings = settings
+    }
+
+    @objc public func enablePersistence(_ cacheSizeBytes: Int?) {
+        let settings = Firestore.firestore().settings
+        if let cacheSizeBytes = cacheSizeBytes {
+            settings.cacheSettings = PersistentCacheSettings(sizeBytes: NSNumber(value: cacheSizeBytes))
+        } else {
+            settings.cacheSettings = PersistentCacheSettings()
+        }
+        Firestore.firestore().settings = settings
+    }
+
     @objc public func clearPersistence(completion: @escaping (Error?) -> Void) {
         Firestore.firestore().clearPersistence { error in
             completion(error)
