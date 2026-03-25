@@ -322,7 +322,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void enablePersistence(PluginCall call) {
         try {
-            Long cacheSizeBytes = call.has("cacheSizeBytes") ? call.getLong("cacheSizeBytes") : null;
+            Long cacheSizeBytes = call.getLong("cacheSizeBytes");
 
             implementation.enablePersistence(cacheSizeBytes);
             call.resolve();
