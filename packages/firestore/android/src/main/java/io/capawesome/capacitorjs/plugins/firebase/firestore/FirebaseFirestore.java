@@ -200,8 +200,9 @@ public class FirebaseFirestore {
     }
 
     public void enablePersistence(@Nullable Long cacheSizeBytes) {
-        FirebaseFirestoreSettings.Builder builder = new FirebaseFirestoreSettings.Builder(getFirebaseFirestoreInstance().getFirestoreSettings())
-            .setPersistenceEnabled(true);
+        FirebaseFirestoreSettings.Builder builder = new FirebaseFirestoreSettings.Builder(
+            getFirebaseFirestoreInstance().getFirestoreSettings()
+        ).setPersistenceEnabled(true);
         if (cacheSizeBytes != null) {
             builder.setCacheSizeBytes(cacheSizeBytes);
         }
