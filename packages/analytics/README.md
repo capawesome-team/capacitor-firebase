@@ -95,6 +95,25 @@ capacitor_pods
 end
 ```
 
+If you are using **Swift Package Manager** for your iOS project and you want to disable IDFA collection, you can enable the `AnalyticsWithoutAdIdSupport` trait in your `capacitor.config.json` (or `capacitor.config.ts`):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "swiftToolsVersion": "6.1",
+        "packageTraits": {
+          "@capacitor-firebase/analytics": ["AnalyticsWithoutAdIdSupport"]
+        }
+      }
+    }
+  }
+}
+```
+
+**Note**: SPM trait support requires Capacitor CLI **8.3.0+** and Xcode **16.3+** (Swift 6.1+).
+
 ## Configuration
 
 No configuration required for this plugin.

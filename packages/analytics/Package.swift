@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
@@ -8,6 +8,17 @@ let package = Package(
         .library(
             name: "CapacitorFirebaseAnalytics",
             targets: ["FirebaseAnalyticsPlugin"])
+    ],
+    traits: [
+        .default(enabledTraits: ["Analytics"]),
+        .trait(
+            name: "Analytics",
+            description: "Includes IDFA collection support."
+        ),
+        .trait(
+            name: "AnalyticsWithoutAdIdSupport",
+            description: "Disables IDFA collection."
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
@@ -19,7 +30,10 @@ let package = Package(
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
-                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk",
+                         condition: .when(traits: ["Analytics"])),
+                .product(name: "FirebaseAnalyticsCore", package: "firebase-ios-sdk",
+                         condition: .when(traits: ["AnalyticsWithoutAdIdSupport"])),
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk")
             ],
             path: "ios/Plugin"),
@@ -27,5 +41,6 @@ let package = Package(
             name: "FirebaseAnalyticsPluginTests",
             dependencies: ["FirebaseAnalyticsPlugin"],
             path: "ios/PluginTests")
-    ]
+    ],
+    swiftLanguageModes: [.v5]
 )
