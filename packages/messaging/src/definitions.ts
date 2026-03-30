@@ -177,6 +177,17 @@ export interface FirebaseMessagingPlugin {
     listenerFunc: NotificationActionPerformedListener,
   ): Promise<PluginListenerHandle>;
   /**
+   * Called when the APNs token is received.
+   *
+   * Only available for iOS.
+   *
+   * @since 8.2.0
+   */
+  addListener(
+    eventName: 'apnsTokenReceived',
+    listenerFunc: ApnsTokenReceivedListener,
+  ): Promise<PluginListenerHandle>;
+  /**
    * Remove all listeners for this plugin.
    *
    * @since 0.2.2
@@ -455,11 +466,32 @@ export type NotificationActionPerformedListener = (
 ) => void;
 
 /**
+ * Callback to receive the APNs token received event.
+ *
+ * @since 8.2.0
+ */
+export type ApnsTokenReceivedListener = (
+  event: ApnsTokenReceivedEvent,
+) => void;
+
+/**
  * @since 0.2.2
  */
 export interface TokenReceivedEvent {
   /**
    * @since 0.2.2
+   */
+  token: string;
+}
+
+/**
+ * @since 8.2.0
+ */
+export interface ApnsTokenReceivedEvent {
+  /**
+   * The native APNs token as an uppercase hex-encoded string.
+   *
+   * @since 8.2.0
    */
   token: string;
 }

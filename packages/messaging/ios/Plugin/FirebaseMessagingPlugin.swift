@@ -34,6 +34,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     public let tokenReceivedEvent = "tokenReceived"
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
+    public let apnsTokenReceivedEvent = "apnsTokenReceived"
     public let errorTopicMissing = "topic must be provided."
     public let errorNotificationsMissing = "notifications must be provided."
     public let errorNotificationsInvalid = "The provided notifications are invalid."
@@ -221,6 +222,10 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
         Messaging.messaging().apnsToken = deviceToken
+        let token = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        var result = JSObject()
+        result["token"] = token
+        notifyListeners(apnsTokenReceivedEvent, data: result, retainUntilConsumed: true)
     }
 
     @objc private func didReceiveRemoteNotification(notification: NSNotification) {
