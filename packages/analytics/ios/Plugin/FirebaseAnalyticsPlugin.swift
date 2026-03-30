@@ -22,6 +22,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resetAnalyticsData", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "logTransaction", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithEmailAddress", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithPhoneNumber", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initiateOnDeviceConversionMeasurementWithHashedEmailAddress", returnType: CAPPluginReturnPromise),
@@ -34,6 +35,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorEnabledMissing = "enabled must be provided."
     public let errorConsentTypeMissing = "consentType must be provided."
     public let errorConsentStatusMissing = "consentStatus must be provided."
+    public let errorTransactionIdMissing = "transactionId must be provided."
     public let errorEmailAddressMissing = "emailAddress must be provided."
     public let errorInvalidEmailFormat = "Invalid email format. Please provide a valid email address."
     public let errorPhoneNumberMissing = "phoneNumber must be provided."
@@ -123,6 +125,25 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func resetAnalyticsData(_ call: CAPPluginCall) {
         implementation?.resetAnalyticsData()
         call.resolve()
+    }
+
+    @objc func logTransaction(_ call: CAPPluginCall) {
+        guard let transactionId = call.getString("transactionId") else {
+            call.reject(errorTransactionIdMissing)
+            return
+        }
+        if #available(iOS 15.0, *) {
+            Task {
+                do {
+                    try await implementation?.logTransaction(transactionId: transactionId)
+                    call.resolve()
+                } catch {
+                    call.reject(error.localizedDescription)
+                }
+            }
+        } else {
+            call.unimplemented("Not implemented on iOS < 15.0.")
+        }
     }
 
     @objc func initiateOnDeviceConversionMeasurementWithEmailAddress(_ call: CAPPluginCall) {

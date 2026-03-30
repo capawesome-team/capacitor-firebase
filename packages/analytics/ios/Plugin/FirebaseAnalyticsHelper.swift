@@ -1,4 +1,5 @@
 import Foundation
+import StoreKit
 import FirebaseAnalytics
 import CommonCrypto
 
@@ -94,6 +95,16 @@ public class FirebaseAnalyticsHelper {
         let regex = try? NSRegularExpression(pattern: pattern)
         let range = NSRange(location: 0, length: phoneNumber.utf16.count)
         return regex?.firstMatch(in: phoneNumber, range: range) != nil
+    }
+
+    @available(iOS 15.0, *)
+    public static func getTransaction(from verificationResult: VerificationResult<Transaction>) -> Transaction {
+        switch verificationResult {
+        case .verified(let transaction):
+            return transaction
+        case .unverified(let transaction, _):
+            return transaction
+        }
     }
 
     public static func sha256(_ string: String) -> Data {
