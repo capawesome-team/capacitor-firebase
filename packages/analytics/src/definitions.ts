@@ -294,7 +294,7 @@ export enum ConsentStatus {
  */
 export interface LogTransactionOptions {
   /**
-   * The StoreKit 2 transaction ID.
+   * The StoreKit 2 `Transaction.id` value as a numeric string.
    *
    * @since 8.2.0
    */

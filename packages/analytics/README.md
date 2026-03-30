@@ -566,9 +566,9 @@ Only available for iOS.
 
 #### LogTransactionOptions
 
-| Prop                | Type                | Description                    | Since |
-| ------------------- | ------------------- | ------------------------------ | ----- |
-| **`transactionId`** | <code>string</code> | The StoreKit 2 transaction ID. | 8.2.0 |
+| Prop                | Type                | Description                                                | Since |
+| ------------------- | ------------------- | ---------------------------------------------------------- | ----- |
+| **`transactionId`** | <code>string</code> | The StoreKit 2 `Transaction.id` value as a numeric string. | 8.2.0 |
 
 
 #### InitiateOnDeviceConversionMeasurementWithEmailAddressOptions
