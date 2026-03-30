@@ -30,6 +30,21 @@ export interface FirebaseStoragePlugin {
    */
   updateMetadata(options: UpdateMetadataOptions): Promise<void>;
   /**
+   * Download a file.
+   *
+   * On **Android** and **iOS**, the file is downloaded to the local file system
+   * using the `uri` option.
+   *
+   * On **Web**, the file is downloaded as a `Blob` and returned in the
+   * callback event.
+   *
+   * @since 8.2.0
+   */
+  downloadFile(
+    options: DownloadFileOptions,
+    callback: DownloadFileCallback,
+  ): Promise<CallbackId>;
+  /**
    * Upload a file.
    *
    * @since 5.3.0
@@ -378,6 +393,82 @@ export interface UploadMetadata extends SettableMetadata {
    * @since 5.4.0
    */
   md5Hash?: string;
+}
+
+/**
+ * @since 8.2.0
+ */
+export interface DownloadFileOptions {
+  /**
+   * The full path to the file to download, including the file name.
+   *
+   * @since 8.2.0
+   * @example 'mountains.png'
+   * @example 'images/mountains.png'
+   */
+  path: string;
+  /**
+   * The uri to download the file to.
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 8.2.0
+   */
+  uri?: string;
+}
+
+/**
+ * @since 8.2.0
+ */
+export type DownloadFileCallback = (
+  event: DownloadFileCallbackEvent | null,
+  error: any,
+) => void;
+
+/**
+ * @since 8.2.0
+ */
+export interface DownloadFileCallbackEvent {
+  /**
+   * The download progress, as a percentage between 0 and 1.
+   *
+   * @since 8.2.0
+   * @example 0.5
+   */
+  progress: number;
+  /**
+   * The number of bytes that have been transferred.
+   *
+   * Only available for Android and Web.
+   *
+   * @since 8.2.0
+   * @example 1000
+   */
+  bytesTransferred?: number;
+  /**
+   * The total number of bytes to be transferred.
+   *
+   * Only available for Android and Web.
+   *
+   * @since 8.2.0
+   * @example 2000
+   */
+  totalBytes?: number;
+  /**
+   * Whether the download is completed or not.
+   *
+   * @since 8.2.0
+   * @example true
+   */
+  completed: boolean;
+  /**
+   * The downloaded file as a Blob.
+   *
+   * Only available for Web.
+   *
+   * @since 8.2.0
+   */
+  blob?: Blob;
 }
 
 /**

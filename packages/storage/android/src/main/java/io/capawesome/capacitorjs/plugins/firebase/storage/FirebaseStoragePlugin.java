@@ -7,6 +7,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.DeleteFileOptions;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.DownloadFileOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.GetDownloadUrlOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.GetMetadataOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.ListFilesOptions;
@@ -30,6 +31,49 @@ public class FirebaseStoragePlugin extends Plugin {
 
     public void load() {
         implementation = new FirebaseStorage(this);
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void downloadFile(PluginCall call) {
+        try {
+            call.setKeepAlive(true);
+
+            String path = call.getString("path");
+            if (path == null) {
+                call.reject(ERROR_PATH_MISSING);
+                return;
+            }
+            String uri = call.getString("uri");
+            if (uri == null) {
+                call.reject(ERROR_URI_MISSING);
+                return;
+            }
+            String callbackId = call.getCallbackId();
+
+            DownloadFileOptions options = new DownloadFileOptions(path, uri, callbackId);
+            NonEmptyEventCallback callback = new NonEmptyEventCallback() {
+                @Override
+                public void success(Result result) {
+                    call.resolve(result.toJSObject());
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                }
+
+                @Override
+                public void release() {
+                    call.release(bridge);
+                }
+            };
+
+            implementation.downloadFile(options, callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+        }
     }
 
     @PluginMethod

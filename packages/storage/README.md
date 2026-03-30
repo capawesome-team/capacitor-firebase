@@ -160,6 +160,7 @@ const useEmulator = async () => {
 * [`getMetadata(...)`](#getmetadata)
 * [`listFiles(...)`](#listfiles)
 * [`updateMetadata(...)`](#updatemetadata)
+* [`downloadFile(...)`](#downloadfile)
 * [`uploadFile(...)`](#uploadfile)
 * [`useEmulator(...)`](#useemulator)
 * [Interfaces](#interfaces)
@@ -257,6 +258,32 @@ Update the metadata for a file.
 | **`options`** | <code><a href="#updatemetadataoptions">UpdateMetadataOptions</a></code> |
 
 **Since:** 5.3.0
+
+--------------------
+
+
+### downloadFile(...)
+
+```typescript
+downloadFile(options: DownloadFileOptions, callback: DownloadFileCallback) => Promise<CallbackId>
+```
+
+Download a file.
+
+On **Android** and **iOS**, the file is downloaded to the local file system
+using the `uri` option.
+
+On **Web**, the file is downloaded as a `Blob` and returned in the
+callback event.
+
+| Param          | Type                                                                  |
+| -------------- | --------------------------------------------------------------------- |
+| **`options`**  | <code><a href="#downloadfileoptions">DownloadFileOptions</a></code>   |
+| **`callback`** | <code><a href="#downloadfilecallback">DownloadFileCallback</a></code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
+
+**Since:** 8.2.0
 
 --------------------
 
@@ -406,6 +433,25 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 | **`customMetadata`**     | <code>{ [key: string]: string; }</code> | Additional user-defined custom metadata.                       | 5.3.0 |
 
 
+#### DownloadFileOptions
+
+| Prop       | Type                | Description                                                          | Since |
+| ---------- | ------------------- | -------------------------------------------------------------------- | ----- |
+| **`path`** | <code>string</code> | The full path to the file to download, including the file name.      | 8.2.0 |
+| **`uri`**  | <code>string</code> | The uri to download the file to. Only available for Android and iOS. | 8.2.0 |
+
+
+#### DownloadFileCallbackEvent
+
+| Prop                   | Type                 | Description                                                                         | Since |
+| ---------------------- | -------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`progress`**         | <code>number</code>  | The download progress, as a percentage between 0 and 1.                             | 8.2.0 |
+| **`bytesTransferred`** | <code>number</code>  | The number of bytes that have been transferred. Only available for Android and Web. | 8.2.0 |
+| **`totalBytes`**       | <code>number</code>  | The total number of bytes to be transferred. Only available for Android and Web.    | 8.2.0 |
+| **`completed`**        | <code>boolean</code> | Whether the download is completed or not.                                           | 8.2.0 |
+| **`blob`**             | <code>Blob</code>    | The downloaded file as a Blob. Only available for Web.                              | 8.2.0 |
+
+
 #### UploadFileOptions
 
 | Prop           | Type                                                      | Description                                                           | Since |
@@ -444,14 +490,19 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 ### Type Aliases
 
 
-#### UploadFileCallback
+#### DownloadFileCallback
 
-<code>(event: <a href="#uploadfilecallbackevent">UploadFileCallbackEvent</a> | null, error: any): void</code>
+<code>(event: <a href="#downloadfilecallbackevent">DownloadFileCallbackEvent</a> | null, error: any): void</code>
 
 
 #### CallbackId
 
 <code>string</code>
+
+
+#### UploadFileCallback
+
+<code>(event: <a href="#uploadfilecallbackevent">UploadFileCallbackEvent</a> | null, error: any): void</code>
 
 </docgen-api>
 

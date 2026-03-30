@@ -8,6 +8,7 @@ import type {
 import {
   connectStorageEmulator,
   deleteObject,
+  getBlob,
   getDownloadURL,
   getMetadata,
   getStorage,
@@ -19,6 +20,9 @@ import {
 
 import type {
   DeleteFileOptions,
+  DownloadFileCallback,
+  DownloadFileCallbackEvent,
+  DownloadFileOptions,
   FirebaseStoragePlugin,
   GetDownloadUrlOptions,
   GetDownloadUrlResult,
@@ -38,6 +42,29 @@ export class FirebaseStorageWeb
   implements FirebaseStoragePlugin
 {
   public static readonly ERROR_BLOB_MISSING = 'blob must be provided.';
+
+  public async downloadFile(
+    options: DownloadFileOptions,
+    callback: DownloadFileCallback,
+  ): Promise<string> {
+    const storage = getStorage();
+    const storageRef = ref(storage, options.path);
+    getBlob(storageRef)
+      .then(blob => {
+        const result: DownloadFileCallbackEvent = {
+          progress: 1,
+          bytesTransferred: blob.size,
+          totalBytes: blob.size,
+          completed: true,
+          blob,
+        };
+        callback(result, undefined);
+      })
+      .catch(error => {
+        callback(null, error);
+      });
+    return Date.now().toString();
+  }
 
   public async deleteFile(options: DeleteFileOptions): Promise<void> {
     const storage = getStorage();
