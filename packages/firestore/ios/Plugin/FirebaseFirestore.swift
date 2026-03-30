@@ -203,19 +203,21 @@ private actor ListenerRegistrationMap {
     }
 
     @objc public func disablePersistence() {
-        let settings = getFirestoreInstance().settings
+        let firestore = getFirestoreInstance()
+        let settings = firestore.settings
         settings.cacheSettings = MemoryCacheSettings()
-        getFirestoreInstance().settings = settings
+        firestore.settings = settings
     }
 
     @objc public func enablePersistence(_ cacheSizeBytes: NSNumber?) {
-        let settings = getFirestoreInstance().settings
+        let firestore = getFirestoreInstance()
+        let settings = firestore.settings
         if let cacheSizeBytes = cacheSizeBytes {
             settings.cacheSettings = PersistentCacheSettings(sizeBytes: cacheSizeBytes)
         } else {
             settings.cacheSettings = PersistentCacheSettings()
         }
-        getFirestoreInstance().settings = settings
+        firestore.settings = settings
     }
 
     @objc public func clearPersistence(completion: @escaping (Error?) -> Void) {
@@ -237,10 +239,11 @@ private actor ListenerRegistrationMap {
     }
 
     @objc func useEmulator(_ host: String, _ port: Int) {
-        let settings = getFirestoreInstance().settings
+        let firestore = getFirestoreInstance()
+        let settings = firestore.settings
         settings.host = "\(host):\(port)"
         settings.isSSLEnabled = false
-        getFirestoreInstance().settings = settings
+        firestore.settings = settings
     }
 
     @objc public func getCountFromServer(_ options: GetCountFromServerOptions, completion: @escaping (Result?, Error?) -> Void) {
