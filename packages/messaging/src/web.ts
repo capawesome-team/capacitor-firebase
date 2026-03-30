@@ -13,6 +13,7 @@ import type {
   Channel,
   DeleteChannelOptions,
   FirebaseMessagingPlugin,
+  GetApnsTokenResult,
   GetDeliveredNotificationsResult,
   GetTokenOptions,
   GetTokenResult,
@@ -95,6 +96,10 @@ export class FirebaseMessagingWeb
   public async deleteToken(): Promise<void> {
     const messaging = getMessaging();
     await deleteToken(messaging);
+  }
+
+  public async getApnsToken(): Promise<GetApnsTokenResult> {
+    this.throwUnimplementedError();
   }
 
   public async getDeliveredNotifications(): Promise<GetDeliveredNotificationsResult> {

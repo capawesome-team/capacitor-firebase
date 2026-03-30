@@ -19,6 +19,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "isSupported", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getToken", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getApnsToken", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getDeliveredNotifications", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "removeDeliveredNotifications", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "removeAllDeliveredNotifications", returnType: CAPPluginReturnPromise),
@@ -95,6 +96,13 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
             }
             call.resolve()
         })
+    }
+
+    @objc func getApnsToken(_ call: CAPPluginCall) {
+        let token = implementation?.getApnsToken()
+        var result = JSObject()
+        result["token"] = token
+        call.resolve(result)
     }
 
     @objc func getDeliveredNotifications(_ call: CAPPluginCall) {

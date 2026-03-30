@@ -74,6 +74,13 @@ import FirebaseCore
         })
     }
 
+    public func getApnsToken() -> String? {
+        guard let tokenData = Messaging.messaging().apnsToken else {
+            return nil
+        }
+        return tokenData.map { String(format: "%02x", $0) }.joined()
+    }
+
     public func getDeliveredNotifications(completion: @escaping ([UNNotification]) -> Void) {
         UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
             completion(notifications)
