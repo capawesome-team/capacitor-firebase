@@ -1,5 +1,15 @@
 # @capacitor-firebase/firestore
 
+## 8.2.0
+
+### Minor Changes
+
+- [`78c174d9fece08831dedc48ef8cbec26516cfc16`](https://github.com/capawesome-team/capacitor-firebase/commit/78c174d9fece08831dedc48ef8cbec26516cfc16) ([#966](https://github.com/capawesome-team/capacitor-firebase/pull/966)): feat: add `databaseId` configuration option
+
+- [`199e56c0565e526ead9c75d18a7ec95cc4f9d870`](https://github.com/capawesome-team/capacitor-firebase/commit/199e56c0565e526ead9c75d18a7ec95cc4f9d870) ([#961](https://github.com/capawesome-team/capacitor-firebase/pull/961)): feat: add `enablePersistence` and `disablePersistence` methods
+
+- [`5467d1314553ce27a929a893c71bf80221cb6569`](https://github.com/capawesome-team/capacitor-firebase/commit/5467d1314553ce27a929a893c71bf80221cb6569): feat: add support for Timestamp, GeoPoint, and FieldValue data types
+
 ## 8.1.0
 
 ### Patch Changes

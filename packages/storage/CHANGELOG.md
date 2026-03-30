@@ -1,5 +1,11 @@
 # @capacitor-firebase/storage
 
+## 8.2.0
+
+### Minor Changes
+
+- [`efa5b6fc503521431cf4ec6d39d5bfb07b1f6535`](https://github.com/capawesome-team/capacitor-firebase/commit/efa5b6fc503521431cf4ec6d39d5bfb07b1f6535) ([#965](https://github.com/capawesome-team/capacitor-firebase/pull/965)): feat: add `downloadFile` method
+
 ## 8.1.0
 
 ### Patch Changes

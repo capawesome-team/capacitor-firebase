@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.2.0
+
+### Minor Changes
+
+- [`34dfb6b00cd9fa35eda0d9a7e6c3f86756b33ff8`](https://github.com/capawesome-team/capacitor-firebase/commit/34dfb6b00cd9fa35eda0d9a7e6c3f86756b33ff8) ([#964](https://github.com/capawesome-team/capacitor-firebase/pull/964)): feat: add `apnsTokenReceived` listener
+
 ## 8.1.0
 
 ### Patch Changes
