@@ -90,9 +90,7 @@ export class FirebaseAnalyticsWeb
     logEvent(analytics, options.name, options.params);
   }
 
-  public async logTransaction(
-    _options: LogTransactionOptions,
-  ): Promise<void> {
+  public async logTransaction(_options: LogTransactionOptions): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
 
