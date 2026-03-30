@@ -114,16 +114,6 @@ export interface FirebaseMessagingPlugin {
    */
   unsubscribeFromTopic(options: UnsubscribeFromTopicOptions): Promise<void>;
   /**
-   * Get the native APNs token.
-   *
-   * The token is returned as an uppercase hex-encoded string.
-   *
-   * Only available for iOS.
-   *
-   * @since 8.2.0
-   */
-  getApnsToken(): Promise<GetApnsTokenResult>;
-  /**
    * Create a notification channel.
    *
    * Only available for Android (SDK 26+).
@@ -239,18 +229,6 @@ export interface IsSupportedResult {
 export interface GetTokenResult {
   /**
    * @since 0.2.2
-   */
-  token: string;
-}
-
-/**
- * @since 8.2.0
- */
-export interface GetApnsTokenResult {
-  /**
-   * The native APNs token.
-   *
-   * @since 8.2.0
    */
   token: string;
 }

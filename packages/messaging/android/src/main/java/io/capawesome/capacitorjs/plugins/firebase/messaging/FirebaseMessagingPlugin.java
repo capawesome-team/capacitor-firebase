@@ -159,11 +159,6 @@ public class FirebaseMessagingPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void getApnsToken(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
-    }
-
-    @PluginMethod
     public void getDeliveredNotifications(PluginCall call) {
         try {
             JSArray notificationsResult = new JSArray();

@@ -277,7 +277,6 @@ const removeAllListeners = async () => {
 * [`removeAllDeliveredNotifications()`](#removealldeliverednotifications)
 * [`subscribeToTopic(...)`](#subscribetotopic)
 * [`unsubscribeFromTopic(...)`](#unsubscribefromtopic)
-* [`getApnsToken()`](#getapnstoken)
 * [`createChannel(...)`](#createchannel)
 * [`deleteChannel(...)`](#deletechannel)
 * [`listChannels()`](#listchannels)
@@ -466,25 +465,6 @@ Only available for Android and iOS.
 | **`options`** | <code><a href="#unsubscribefromtopicoptions">UnsubscribeFromTopicOptions</a></code> |
 
 **Since:** 0.2.2
-
---------------------
-
-
-### getApnsToken()
-
-```typescript
-getApnsToken() => Promise<GetApnsTokenResult>
-```
-
-Get the native APNs token.
-
-The token is returned as an uppercase hex-encoded string.
-
-Only available for iOS.
-
-**Returns:** <code>Promise&lt;<a href="#getapnstokenresult">GetApnsTokenResult</a>&gt;</code>
-
-**Since:** 8.2.0
 
 --------------------
 
@@ -702,13 +682,6 @@ Remove all listeners for this plugin.
 | Prop        | Type                | Description                                | Since |
 | ----------- | ------------------- | ------------------------------------------ | ----- |
 | **`topic`** | <code>string</code> | The name of the topic to unsubscribe from. | 0.2.2 |
-
-
-#### GetApnsTokenResult
-
-| Prop        | Type                | Description            | Since |
-| ----------- | ------------------- | ---------------------- | ----- |
-| **`token`** | <code>string</code> | The native APNs token. | 8.2.0 |
 
 
 #### Channel
