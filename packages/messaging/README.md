@@ -478,6 +478,8 @@ getApnsToken() => Promise<GetApnsTokenResult>
 
 Get the native APNs token.
 
+The token is returned as an uppercase hex-encoded string.
+
 Only available for iOS.
 
 **Returns:** <code>Promise&lt;<a href="#getapnstokenresult">GetApnsTokenResult</a>&gt;</code>

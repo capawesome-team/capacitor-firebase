@@ -116,6 +116,8 @@ export interface FirebaseMessagingPlugin {
   /**
    * Get the native APNs token.
    *
+   * The token is returned as an uppercase hex-encoded string.
+   *
    * Only available for iOS.
    *
    * @since 8.2.0

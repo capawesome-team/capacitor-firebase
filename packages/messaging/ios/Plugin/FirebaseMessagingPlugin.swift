@@ -99,7 +99,10 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func getApnsToken(_ call: CAPPluginCall) {
-        let token = implementation?.getApnsToken()
+        guard let token = implementation?.getApnsToken() else {
+            call.reject("APNs token is not available.")
+            return
+        }
         var result = JSObject()
         result["token"] = token
         call.resolve(result)
