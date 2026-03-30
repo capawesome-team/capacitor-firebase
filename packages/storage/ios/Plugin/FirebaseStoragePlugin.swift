@@ -10,6 +10,7 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "FirebaseStoragePlugin"
     public let jsName = "FirebaseStorage"
     public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "downloadFile", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "deleteFile", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getDownloadUrl", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getMetadata", returnType: CAPPluginReturnPromise),
@@ -29,6 +30,46 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
 
     override public func load() {
         self.implementation = FirebaseStorage(plugin: self)
+    }
+
+    @objc func downloadFile(_ call: CAPPluginCall) {
+        call.keepAlive = true
+
+        guard let path = call.getString("path") else {
+            call.reject(errorPathMissing)
+            return
+        }
+        guard let uri = call.getString("uri") else {
+            call.reject(errorUriMissing)
+            return
+        }
+        guard let url = URL(string: uri) else {
+            call.reject(errorFileNotExist)
+            return
+        }
+        guard let callbackId = call.callbackId else {
+            call.reject(errorCallbackIdMissing)
+            return
+        }
+
+        let options = DownloadFileOptions(path: path, uri: url, callbackId: callbackId)
+
+        implementation?.downloadFile(options, completion: { result, error, releaseCall in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
+                if releaseCall == true {
+                    self.bridge?.releaseCall(call)
+                }
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+            if releaseCall == true {
+                self.bridge?.releaseCall(call)
+            }
+        })
     }
 
     @objc func deleteFile(_ call: CAPPluginCall) {

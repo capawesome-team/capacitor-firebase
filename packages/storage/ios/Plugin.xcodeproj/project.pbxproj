@@ -26,6 +26,8 @@
 		7C7A8D7E2ADBCD8400C195CB /* UpdateMetadataOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D7D2ADBCD8400C195CB /* UpdateMetadataOptions.swift */; };
 		7C7A8D802ADBCD8C00C195CB /* UploadFileOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D7F2ADBCD8C00C195CB /* UploadFileOptions.swift */; };
 		7C7A8D832ADBCD9C00C195CB /* UploadFileCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */; };
+		7C7A8D852ADCAE0100C195CB /* DownloadFileOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D842ADCAE0100C195CB /* DownloadFileOptions.swift */; };
+		7C7A8D872ADCAE0200C195CB /* DownloadFileCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D862ADCAE0200C195CB /* DownloadFileCallbackEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		7C7A8D7D2ADBCD8400C195CB /* UpdateMetadataOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMetadataOptions.swift; sourceTree = "<group>"; };
 		7C7A8D7F2ADBCD8C00C195CB /* UploadFileOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileOptions.swift; sourceTree = "<group>"; };
 		7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileCallbackEvent.swift; sourceTree = "<group>"; };
+		7C7A8D842ADCAE0100C195CB /* DownloadFileOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFileOptions.swift; sourceTree = "<group>"; };
+		7C7A8D862ADCAE0200C195CB /* DownloadFileCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFileCallbackEvent.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				7C7A8D752ADBCD6200C195CB /* DeleteFileOptions.swift */,
+				7C7A8D842ADCAE0100C195CB /* DownloadFileOptions.swift */,
 				7C7A8D772ADBCD6B00C195CB /* GetDownloadUrlOptions.swift */,
 				7C7A8D792ADBCD7400C195CB /* GetMetadataOptions.swift */,
 				7C7A8D7B2ADBCD7C00C195CB /* ListFilesOptions.swift */,
@@ -175,6 +180,7 @@
 		7C7A8D812ADBCD9500C195CB /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				7C7A8D862ADCAE0200C195CB /* DownloadFileCallbackEvent.swift */,
 				7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */,
 			);
 			path = Events;
@@ -396,6 +402,8 @@
 				50E1A94820377CB70090CE1A /* FirebaseStoragePlugin.swift in Sources */,
 				7C7A8D7E2ADBCD8400C195CB /* UpdateMetadataOptions.swift in Sources */,
 				7C7A8D762ADBCD6200C195CB /* DeleteFileOptions.swift in Sources */,
+				7C7A8D852ADCAE0100C195CB /* DownloadFileOptions.swift in Sources */,
+				7C7A8D872ADCAE0200C195CB /* DownloadFileCallbackEvent.swift in Sources */,
 				7C7A8D832ADBCD9C00C195CB /* UploadFileCallbackEvent.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseStorage.swift in Sources */,
 				7C7A8D7A2ADBCD7400C195CB /* GetMetadataOptions.swift in Sources */,

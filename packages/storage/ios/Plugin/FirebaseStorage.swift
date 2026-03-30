@@ -13,6 +13,25 @@ import FirebaseStorage
         }
     }
 
+    @objc public func downloadFile(_ options: DownloadFileOptions, completion: @escaping (Result?, Error?, Bool) -> Void) {
+        let path = options.getPath()
+        let uri = options.getUri()
+
+        let storageRef = Storage.storage().reference(withPath: path)
+        let downloadTask = storageRef.write(toFile: uri)
+        downloadTask.observe(.progress) { snapshot in
+            let result = DownloadFileCallbackEvent(snapshot: snapshot)
+            completion(result, nil, false)
+        }
+        downloadTask.observe(.success) { snapshot in
+            let result = DownloadFileCallbackEvent(snapshot: snapshot)
+            completion(result, nil, true)
+        }
+        downloadTask.observe(.failure) { snapshot in
+            completion(nil, snapshot.error, true)
+        }
+    }
+
     @objc public func deleteFile(_ options: DeleteFileOptions, completion: @escaping (Error?) -> Void) {
         let path = options.getPath()
 
