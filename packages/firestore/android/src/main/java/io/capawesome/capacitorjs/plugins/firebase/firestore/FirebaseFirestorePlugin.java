@@ -42,10 +42,12 @@ public class FirebaseFirestorePlugin extends Plugin {
 
     private Map<String, PluginCall> pluginCallMap = new HashMap<>();
 
+    private FirebaseFirestoreConfig config;
     private FirebaseFirestore implementation;
 
     public void load() {
-        implementation = new FirebaseFirestore(this);
+        config = getFirebaseFirestoreConfig();
+        implementation = new FirebaseFirestore(this, config);
     }
 
     @PluginMethod
@@ -616,5 +618,14 @@ public class FirebaseFirestorePlugin extends Plugin {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
         }
+    }
+
+    private FirebaseFirestoreConfig getFirebaseFirestoreConfig() {
+        FirebaseFirestoreConfig config = new FirebaseFirestoreConfig();
+
+        String databaseId = getConfig().getString("databaseId");
+        config.setDatabaseId(databaseId);
+
+        return config;
     }
 }

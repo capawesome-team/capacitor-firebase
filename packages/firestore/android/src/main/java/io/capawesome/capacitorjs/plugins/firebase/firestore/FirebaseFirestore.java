@@ -44,10 +44,12 @@ import java.util.Map;
 public class FirebaseFirestore {
 
     private FirebaseFirestorePlugin plugin;
+    private FirebaseFirestoreConfig config;
     private Map<String, ListenerRegistration> listenerRegistrationMap = new HashMap<>();
 
-    public FirebaseFirestore(FirebaseFirestorePlugin plugin) {
+    public FirebaseFirestore(FirebaseFirestorePlugin plugin, FirebaseFirestoreConfig config) {
         this.plugin = plugin;
+        this.config = config;
     }
 
     public void addDocument(@NonNull AddDocumentOptions options, @NonNull NonEmptyResultCallback callback) {
@@ -370,6 +372,10 @@ public class FirebaseFirestore {
     }
 
     private com.google.firebase.firestore.FirebaseFirestore getFirebaseFirestoreInstance() {
+        String databaseId = config.getDatabaseId();
+        if (databaseId != null) {
+            return com.google.firebase.firestore.FirebaseFirestore.getInstance(databaseId);
+        }
         return com.google.firebase.firestore.FirebaseFirestore.getInstance();
     }
 }

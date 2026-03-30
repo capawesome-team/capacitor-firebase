@@ -39,7 +39,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
     private var pluginCallMap: [String: CAPPluginCall] = [:]
 
     override public func load() {
-        self.implementation = FirebaseFirestore(plugin: self)
+        self.implementation = FirebaseFirestore(plugin: self, config: firebaseFirestoreConfig())
     }
 
     @objc func addDocument(_ call: CAPPluginCall) {
@@ -417,5 +417,13 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         implementation?.removeAllListeners {
             call.resolve()
         }
+    }
+
+    private func firebaseFirestoreConfig() -> FirebaseFirestoreConfig {
+        var config = FirebaseFirestoreConfig()
+
+        config.databaseId = getConfig().getString("databaseId")
+
+        return config
     }
 }
