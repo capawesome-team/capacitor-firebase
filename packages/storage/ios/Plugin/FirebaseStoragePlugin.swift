@@ -58,6 +58,9 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
+                if releaseCall == true {
+                    self.bridge?.releaseCall(call)
+                }
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
