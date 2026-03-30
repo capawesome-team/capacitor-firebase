@@ -470,9 +470,7 @@ export type NotificationActionPerformedListener = (
  *
  * @since 8.2.0
  */
-export type ApnsTokenReceivedListener = (
-  event: ApnsTokenReceivedEvent,
-) => void;
+export type ApnsTokenReceivedListener = (event: ApnsTokenReceivedEvent) => void;
 
 /**
  * @since 0.2.2
