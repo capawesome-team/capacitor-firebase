@@ -38,6 +38,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorTopicMissing = "topic must be provided."
     public let errorNotificationsMissing = "notifications must be provided."
     public let errorNotificationsInvalid = "The provided notifications are invalid."
+    public let errorApnsTokenMissing = "APNs token is not available."
 
     override public func load() {
         implementation = FirebaseMessaging(plugin: self, config: firebaseMessagingConfig())
@@ -100,7 +101,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func getApnsToken(_ call: CAPPluginCall) {
         guard let token = implementation?.getApnsToken() else {
-            call.reject("APNs token is not available.")
+            call.reject(errorApnsTokenMissing)
             return
         }
         var result = JSObject()
