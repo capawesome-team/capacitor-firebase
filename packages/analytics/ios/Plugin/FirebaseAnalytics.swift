@@ -7,7 +7,11 @@ import FirebaseAnalytics
 
 @objc public class FirebaseAnalytics: NSObject {
 
-    override init() {
+    private let plugin: FirebaseAnalyticsPlugin
+
+    init(plugin: FirebaseAnalyticsPlugin) {
+        self.plugin = plugin
+        super.init()
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
@@ -62,22 +66,23 @@ import FirebaseAnalytics
     }
 
     @available(iOS 15.0, *)
-    public func logTransaction(transactionId: String) async throws {
-        guard let id = UInt64(transactionId) else {
-            throw NSError(domain: "FirebaseAnalytics", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid transaction identifier."])
-        }
-        var matchedTransaction: Transaction?
-        for await result in Transaction.all {
-            let transaction = FirebaseAnalyticsHelper.getTransaction(from: result)
-            if transaction.id == id {
-                matchedTransaction = transaction
-                break
+    public func logTransaction(transactionId: UInt64, completion: @escaping (String?) -> Void) {
+        Task {
+            var matchedTransaction: Transaction?
+            for await result in Transaction.all {
+                let transaction = FirebaseAnalyticsHelper.getTransaction(from: result)
+                if transaction.id == transactionId {
+                    matchedTransaction = transaction
+                    break
+                }
             }
+            guard let transaction = matchedTransaction else {
+                completion(self.plugin.errorTransactionNotFound)
+                return
+            }
+            Analytics.logTransaction(transaction)
+            completion(nil)
         }
-        guard let transaction = matchedTransaction else {
-            throw NSError(domain: "FirebaseAnalytics", code: 0, userInfo: [NSLocalizedDescriptionKey: "Transaction not found."])
-        }
-        Analytics.logTransaction(transaction)
     }
 
     @objc public func initiateOnDeviceConversionMeasurement(email: String) {

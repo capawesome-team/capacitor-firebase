@@ -36,6 +36,8 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorConsentTypeMissing = "consentType must be provided."
     public let errorConsentStatusMissing = "consentStatus must be provided."
     public let errorTransactionIdMissing = "transactionId must be provided."
+    public let errorInvalidTransactionId = "transactionId is not a valid numeric identifier."
+    public let errorTransactionNotFound = "Transaction not found."
     public let errorEmailAddressMissing = "emailAddress must be provided."
     public let errorInvalidEmailFormat = "Invalid email format. Please provide a valid email address."
     public let errorPhoneNumberMissing = "phoneNumber must be provided."
@@ -45,7 +47,7 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
     private var implementation: FirebaseAnalytics?
 
     override public func load() {
-        implementation = FirebaseAnalytics()
+        implementation = FirebaseAnalytics(plugin: self)
     }
 
     @objc func getAppInstanceId(_ call: CAPPluginCall) {
@@ -132,17 +134,20 @@ public class FirebaseAnalyticsPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(errorTransactionIdMissing)
             return
         }
+        guard let transactionIdUInt64 = UInt64(transactionId) else {
+            call.reject(errorInvalidTransactionId)
+            return
+        }
         if #available(iOS 15.0, *) {
-            Task {
-                do {
-                    try await implementation?.logTransaction(transactionId: transactionId)
+            implementation?.logTransaction(transactionId: transactionIdUInt64) { errorMessage in
+                if let errorMessage = errorMessage {
+                    call.reject(errorMessage)
+                } else {
                     call.resolve()
-                } catch {
-                    call.reject(error.localizedDescription)
                 }
             }
         } else {
-            call.unimplemented("Not implemented on iOS < 15.0.")
+            call.unavailable("Not available on iOS < 15.0.")
         }
     }
 
