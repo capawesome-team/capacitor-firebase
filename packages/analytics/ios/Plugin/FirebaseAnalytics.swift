@@ -63,7 +63,9 @@ import FirebaseAnalytics
 
     @available(iOS 15.0, *)
     public func logTransaction(transactionId: String) async throws {
-        let id = UInt64(transactionId)
+        guard let id = UInt64(transactionId) else {
+            throw NSError(domain: "FirebaseAnalytics", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid transaction identifier."])
+        }
         var matchedTransaction: Transaction?
         for await result in Transaction.all {
             let transaction = FirebaseAnalyticsHelper.getTransaction(from: result)
