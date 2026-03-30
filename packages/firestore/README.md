@@ -449,7 +449,7 @@ clearPersistence() => Promise<void>
 
 Clears the persistent storage. This includes pending writes and cached documents.
 
-Must be called after the app is shutdown or when the app is first initialized.
+**Attention**: Must be called after the app is shutdown or when the app is first initialized.
 
 **Since:** 5.2.0
 
@@ -494,7 +494,7 @@ disablePersistence() => Promise<void>
 
 Disables offline persistence.
 
-Must be called before any other Firestore method.
+**Attention**: Must be called before any other Firestore method.
 
 **Since:** 8.2.0
 
@@ -509,7 +509,7 @@ enablePersistence(options?: EnablePersistenceOptions | undefined) => Promise<voi
 
 Enables offline persistence.
 
-Must be called before any other Firestore method.
+**Attention**: Must be called before any other Firestore method.
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |

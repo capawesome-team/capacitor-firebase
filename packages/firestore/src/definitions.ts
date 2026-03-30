@@ -35,7 +35,7 @@ export interface FirebaseFirestorePlugin {
   /**
    * Clears the persistent storage. This includes pending writes and cached documents.
    *
-   * Must be called after the app is shutdown or when the app is first initialized.
+   * **Attention**: Must be called after the app is shutdown or when the app is first initialized.
    *
    * @since 5.2.0
    */
@@ -55,7 +55,7 @@ export interface FirebaseFirestorePlugin {
   /**
    * Disables offline persistence.
    *
-   * Must be called before any other Firestore method.
+   * **Attention**: Must be called before any other Firestore method.
    *
    * @since 8.2.0
    */
@@ -63,7 +63,7 @@ export interface FirebaseFirestorePlugin {
   /**
    * Enables offline persistence.
    *
-   * Must be called before any other Firestore method.
+   * **Attention**: Must be called before any other Firestore method.
    *
    * @since 8.2.0
    */
