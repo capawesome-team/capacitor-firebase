@@ -160,7 +160,7 @@ private actor ListenerRegistrationMap {
                 }
                 if !queryConstraints.isEmpty {
                     for queryConstraint in queryConstraints {
-                        query = try await queryConstraint.toQuery(query: query)
+                        query = try await queryConstraint.toQuery(query: query, firestore: getFirestoreInstance())
                     }
                 }
 
@@ -189,7 +189,7 @@ private actor ListenerRegistrationMap {
                 }
                 if !queryConstraints.isEmpty {
                     for queryConstraint in queryConstraints {
-                        query = try await queryConstraint.toQuery(query: query)
+                        query = try await queryConstraint.toQuery(query: query, firestore: getFirestoreInstance())
                     }
                 }
 
@@ -298,7 +298,7 @@ private actor ListenerRegistrationMap {
                 }
                 if !queryConstraints.isEmpty {
                     for queryConstraint in queryConstraints {
-                        query = try await queryConstraint.toQuery(query: query)
+                        query = try await queryConstraint.toQuery(query: query, firestore: getFirestoreInstance())
                     }
                 }
 
@@ -335,7 +335,7 @@ private actor ListenerRegistrationMap {
                 }
                 if !queryConstraints.isEmpty {
                     for queryConstraint in queryConstraints {
-                        query = try await queryConstraint.toQuery(query: query)
+                        query = try await queryConstraint.toQuery(query: query, firestore: getFirestoreInstance())
                     }
                 }
 

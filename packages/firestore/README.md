@@ -60,7 +60,48 @@ This can be useful if you encounter dependency conflicts with other plugins in y
 
 ## Configuration
 
-No configuration required for this plugin.
+<docgen-config>
+<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+These configuration values are available:
+
+| Prop             | Type                | Description                                                                           | Since |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------------- | ----- |
+| **`databaseId`** | <code>string</code> | The database ID of the Firestore database to use. Only available for Android and iOS. | 8.3.0 |
+
+### Examples
+
+In `capacitor.config.json`:
+
+```json
+{
+  "plugins": {
+    "FirebaseFirestore": {
+      "databaseId": undefined
+    }
+  }
+}
+```
+
+In `capacitor.config.ts`:
+
+```ts
+/// <reference types="@capacitor-firebase/firestore" />
+
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  plugins: {
+    FirebaseFirestore: {
+      databaseId: undefined,
+    },
+  },
+};
+
+export default config;
+```
+
+</docgen-config>
 
 ## Demo
 

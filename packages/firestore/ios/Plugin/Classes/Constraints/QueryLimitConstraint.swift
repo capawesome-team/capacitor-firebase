@@ -11,7 +11,7 @@ import Capacitor
         self.limit = queryConstraint["limit"] as? Int ?? 0
     }
 
-    public func toQuery(query: Query) async throws -> Query {
+    public func toQuery(query: Query, firestore: Firestore) async throws -> Query {
         switch self.type {
         case "limit":
             return query.limit(to: self.limit)

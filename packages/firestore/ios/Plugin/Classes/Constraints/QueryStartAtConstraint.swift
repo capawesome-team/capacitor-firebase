@@ -11,8 +11,8 @@ import Capacitor
         self.reference = queryConstraint["reference"] as? String ?? ""
     }
 
-    public func toQuery(query: Query) async throws -> Query {
-        let documentSnapshot = try await Firestore.firestore().document(reference).getDocument()
+    public func toQuery(query: Query, firestore: Firestore) async throws -> Query {
+        let documentSnapshot = try await firestore.document(reference).getDocument()
         switch self.type {
         case "startAt":
             return query.start(atDocument: documentSnapshot)
