@@ -1,4 +1,5 @@
 import Foundation
+import StoreKit
 
 import Capacitor
 import FirebaseCore
@@ -58,6 +59,25 @@ import FirebaseAnalytics
 
     @objc public func resetAnalyticsData() {
         Analytics.resetAnalyticsData()
+    }
+
+    @available(iOS 15.0, *)
+    public func logTransaction(transactionId: String) async throws {
+        guard let id = UInt64(transactionId) else {
+            throw NSError(domain: "FirebaseAnalytics", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid transaction identifier."])
+        }
+        var matchedTransaction: Transaction?
+        for await result in Transaction.all {
+            let transaction = FirebaseAnalyticsHelper.getTransaction(from: result)
+            if transaction.id == id {
+                matchedTransaction = transaction
+                break
+            }
+        }
+        guard let transaction = matchedTransaction else {
+            throw NSError(domain: "FirebaseAnalytics", code: 0, userInfo: [NSLocalizedDescriptionKey: "Transaction not found."])
+        }
+        Analytics.logTransaction(transaction)
     }
 
     @objc public func initiateOnDeviceConversionMeasurement(email: String) {

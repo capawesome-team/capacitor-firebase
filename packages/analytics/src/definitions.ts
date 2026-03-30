@@ -72,6 +72,14 @@ export interface FirebaseAnalyticsPlugin {
    */
   resetAnalyticsData(): Promise<void>;
   /**
+   * Logs a StoreKit 2 transaction.
+   *
+   * Only available for iOS (15.0+).
+   *
+   * @since 8.2.0
+   */
+  logTransaction(options: LogTransactionOptions): Promise<void>;
+  /**
    * Initiates on-device conversion measurement with an email address.
    *
    * Only available for iOS.
@@ -279,6 +287,18 @@ export enum ConsentStatus {
    * @since 6.0.0
    */
   Denied = 'DENIED',
+}
+
+/**
+ * @since 8.2.0
+ */
+export interface LogTransactionOptions {
+  /**
+   * The StoreKit 2 `Transaction.id` value as a numeric string.
+   *
+   * @since 8.2.0
+   */
+  transactionId: string;
 }
 
 /**

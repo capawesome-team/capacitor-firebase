@@ -18,6 +18,7 @@ import type {
   InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
   IsEnabledResult,
   LogEventOptions,
+  LogTransactionOptions,
   SetConsentOptions,
   SetCurrentScreenOptions,
   SetEnabledOptions,
@@ -87,6 +88,10 @@ export class FirebaseAnalyticsWeb
   public async logEvent(options: LogEventOptions): Promise<void> {
     const analytics = getAnalytics();
     logEvent(analytics, options.name, options.params);
+  }
+
+  public async logTransaction(_options: LogTransactionOptions): Promise<void> {
+    throw this.unimplemented('Not implemented on web.');
   }
 
   public async setSessionTimeoutDuration(
