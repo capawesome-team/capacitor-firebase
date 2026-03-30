@@ -1,3 +1,25 @@
+/// <reference types="@capacitor/cli" />
+
+declare module '@capacitor/cli' {
+  export interface PluginsConfig {
+    /**
+     * These configuration values are available:
+     *
+     * @since 8.3.0
+     */
+    FirebaseFirestore?: {
+      /**
+       * The database ID of the Firestore database to use.
+       *
+       * Only available for Android and iOS.
+       *
+       * @since 8.3.0
+       */
+      databaseId?: string;
+    };
+  }
+}
+
 export interface FirebaseFirestorePlugin {
   /**
    * Adds a new document to a collection with the given data.
