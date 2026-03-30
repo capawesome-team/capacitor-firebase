@@ -78,7 +78,7 @@ import FirebaseCore
         guard let tokenData = Messaging.messaging().apnsToken else {
             return nil
         }
-        return tokenData.map { String(format: "%02x", $0) }.joined()
+        return tokenData.reduce("", {$0 + String(format: "%02X", $1)})
     }
 
     public func getDeliveredNotifications(completion: @escaping ([UNNotification]) -> Void) {
