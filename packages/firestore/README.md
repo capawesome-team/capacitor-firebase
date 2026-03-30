@@ -67,7 +67,7 @@ These configuration values are available:
 
 | Prop             | Type                | Description                                                                           | Since |
 | ---------------- | ------------------- | ------------------------------------------------------------------------------------- | ----- |
-| **`databaseId`** | <code>string</code> | The database ID of the Firestore database to use. Only available for Android and iOS. | 8.3.0 |
+| **`databaseId`** | <code>string</code> | The database ID of the Firestore database to use. Only available for Android and iOS. | 8.2.0 |
 
 ### Examples
 

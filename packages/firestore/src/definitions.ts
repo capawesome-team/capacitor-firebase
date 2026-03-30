@@ -5,7 +5,7 @@ declare module '@capacitor/cli' {
     /**
      * These configuration values are available:
      *
-     * @since 8.3.0
+     * @since 8.2.0
      */
     FirebaseFirestore?: {
       /**
@@ -13,7 +13,7 @@ declare module '@capacitor/cli' {
        *
        * Only available for Android and iOS.
        *
-       * @since 8.3.0
+       * @since 8.2.0
        */
       databaseId?: string;
     };
