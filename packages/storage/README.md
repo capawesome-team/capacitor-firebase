@@ -92,7 +92,26 @@ const uploadFile = async () => {
   });
 };
 
-const downloadFile = async () => {
+const downloadFileWithFirebaseStorage = async () => {
+  return new Promise((resolve, reject) => {
+    await FirebaseStorage.downloadFile(
+      {
+        path: 'images/mountains.png',
+        uri: 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/mountains.png', // Only available for Android and iOS
+      },
+      (event, error) => {
+        if (error) {
+          reject(error);
+        } else if (event?.completed) {
+          // On Web, the downloaded file is available as a Blob in event.blob
+          resolve(event?.blob);
+        }
+      }
+    );
+  });
+};
+
+const downloadFileWithFilesystem = async () => {
   const { downloadUrl } = await FirebaseStorage.getDownloadUrl({
     path: 'images/mountains.png',
   });
