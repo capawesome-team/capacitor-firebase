@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.2.0
+
+### Minor Changes
+
+- [`745e066cc1aeae0e177c057b762e203f99b22e66`](https://github.com/capawesome-team/capacitor-firebase/commit/745e066cc1aeae0e177c057b762e203f99b22e66) ([#967](https://github.com/capawesome-team/capacitor-firebase/pull/967)): feat(ios): add `logTransaction` method
+
+- [`5467d1314553ce27a929a893c71bf80221cb6569`](https://github.com/capawesome-team/capacitor-firebase/commit/5467d1314553ce27a929a893c71bf80221cb6569): feat(ios): add SPM trait to disable IDFA collection
+
 ## 8.1.0
 
 ### Patch Changes
