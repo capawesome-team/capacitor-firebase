@@ -53,6 +53,12 @@ export interface FirebaseRemoteConfigPlugin {
     options: SetMinimumFetchIntervalOptions,
   ): Promise<void>;
   /**
+   * Sets config defaults for parameter keys and values in the default namespace config.
+   *
+   * @since 8.3.0
+   */
+  setDefaults(options: SetDefaultsOptions): Promise<void>;
+  /**
    * Set the remote config settings.
    *
    * On Android, the settings values are persisted in SharedPreferences.
@@ -205,6 +211,18 @@ export interface SetMinimumFetchIntervalOptions {
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
    */
   minimumFetchIntervalInSeconds: number;
+}
+
+/**
+ * @since 8.3.0
+ */
+export interface SetDefaultsOptions {
+  /**
+   * Defines the dictionary of values to set as defaults.
+   *
+   * @since 8.3.0
+   */
+  defaults: Record<string, string | number | boolean>;
 }
 
 /**

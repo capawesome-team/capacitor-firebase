@@ -71,6 +71,10 @@ import Capacitor
         completion(lastFetchTimeMillis, statusInt, nil)
     }
 
+    @objc public func setDefaults(_ defaults: [String: NSObject]) {
+        RemoteConfig.remoteConfig().setDefaults(defaults)
+    }
+
     @objc public func setSettings(fetchTimeoutInSeconds: Double, minimumFetchIntervalInSeconds: Double) {
         let settings = RemoteConfigSettings()
         settings.fetchTimeout = fetchTimeoutInSeconds

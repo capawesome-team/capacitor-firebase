@@ -154,6 +154,7 @@ const removeAllListeners = async () => {
 * [`getString(...)`](#getstring)
 * [`getInfo()`](#getinfo)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [`setDefaults(...)`](#setdefaults)
 * [`setSettings(...)`](#setsettings)
 * [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
 * [`removeConfigUpdateListener(...)`](#removeconfigupdatelistener)
@@ -301,6 +302,23 @@ Only available for Web.
 --------------------
 
 
+### setDefaults(...)
+
+```typescript
+setDefaults(options: SetDefaultsOptions) => Promise<void>
+```
+
+Sets config defaults for parameter keys and values in the default namespace config.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#setdefaultsoptions">SetDefaultsOptions</a></code> |
+
+**Since:** 8.3.0
+
+--------------------
+
+
 ### setSettings(...)
 
 ```typescript
@@ -427,6 +445,13 @@ Remove all listeners for this plugin.
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
+
+
+#### SetDefaultsOptions
+
+| Prop           | Type                                                           | Description                                          | Since |
+| -------------- | -------------------------------------------------------------- | ---------------------------------------------------- | ----- |
+| **`defaults`** | <code>Record&lt;string, string \| number \| boolean&gt;</code> | Defines the dictionary of values to set as defaults. | 8.3.0 |
 
 
 #### SetSettingsOptions
