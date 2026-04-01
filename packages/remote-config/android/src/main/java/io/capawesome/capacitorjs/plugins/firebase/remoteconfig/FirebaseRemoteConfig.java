@@ -89,6 +89,10 @@ public class FirebaseRemoteConfig {
         return new GetInfoResult(lastFetchTime, lastFetchStatus);
     }
 
+    public Task<Void> setDefaults(@NonNull Map<String, Object> defaults) {
+        return getFirebaseRemoteConfigInstance().setDefaultsAsync(defaults);
+    }
+
     public Task<Void> setSettings(@Nullable Integer fetchTimeoutInSeconds, @Nullable Integer minimumFetchIntervalInSeconds) {
         FirebaseRemoteConfigSettings.Builder builder = new FirebaseRemoteConfigSettings.Builder();
         if (fetchTimeoutInSeconds != null) {

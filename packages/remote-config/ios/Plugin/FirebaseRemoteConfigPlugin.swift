@@ -18,6 +18,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getNumber", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getString", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setMinimumFetchInterval", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setDefaults", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setSettings", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "addConfigUpdateListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "removeConfigUpdateListener", returnType: CAPPluginReturnPromise)
@@ -26,6 +27,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorKeyMissing = "key must be provided."
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."
     public let errorCallbackIdMissing = "callbackId must be provided."
+    public let errorDefaultsMissing = "defaults must be provided."
 
     private let defaultMinimumFetchIntervalInSeconds: Double = 43200
     private let defaultFetchTimeoutInSeconds: Double = 60
@@ -105,6 +107,21 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func setMinimumFetchInterval(_ call: CAPPluginCall) {
         call.reject("Not available on iOS.")
+    }
+
+    @objc func setDefaults(_ call: CAPPluginCall) {
+        guard let defaults = call.getObject("defaults") else {
+            call.reject(errorDefaultsMissing)
+            return
+        }
+
+        // Convert JSObject ([String: Any]) to [String: NSObject]
+        let bridgedDefaults = defaults.compactMapValues { $0 as? NSObject }
+
+        // Pass the correctly typed dictionary to your implementation
+        implementation?.setDefaults(bridgedDefaults)
+
+        call.resolve()
     }
 
     @objc func setSettings(_ call: CAPPluginCall) {

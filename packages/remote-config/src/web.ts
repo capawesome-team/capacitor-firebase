@@ -19,6 +19,7 @@ import type {
   GetStringResult,
   RemoveConfigUpdateListenerOptions,
   SetMinimumFetchIntervalOptions,
+  SetDefaultsOptions,
   SetSettingsOptions,
 } from './definitions';
 import { LastFetchStatus } from './definitions';
@@ -82,6 +83,11 @@ export class FirebaseRemoteConfigWeb
     const remoteConfig = getRemoteConfig();
     remoteConfig.settings.minimumFetchIntervalMillis =
       options.minimumFetchIntervalInSeconds * 1000;
+  }
+
+  public async setDefaults(options: SetDefaultsOptions): Promise<void> {
+    const remoteConfig = getRemoteConfig();
+    remoteConfig.defaultConfig = options.defaults;
   }
 
   public async setSettings(options: SetSettingsOptions): Promise<void> {
