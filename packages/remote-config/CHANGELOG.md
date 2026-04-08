@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.3.0
+
+### Minor Changes
+
+- [`a031d713effcd5abcb46a4c603996a2ff6a54940`](https://github.com/capawesome-team/capacitor-firebase/commit/a031d713effcd5abcb46a4c603996a2ff6a54940) ([#970](https://github.com/capawesome-team/capacitor-firebase/pull/970)): feat: add `setDefaults(...)` method
+
 ## 8.2.0
 
 ## 8.1.0
