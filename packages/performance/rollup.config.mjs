@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebasePerformance',
+      name: 'capawesomeCapacitorFirebasePerformance',
       globals: {
         '@capacitor/core': 'capacitorExports',
         'firebase/performance': 'firebasePerformanceExports',

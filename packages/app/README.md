@@ -1,4 +1,4 @@
-# @capacitor-firebase/app
+# @capawesome/capacitor-firebase-app
 
 Unofficial Capacitor plugin for [Firebase App](https://firebase.google.com/docs).[^1]
 
@@ -34,13 +34,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/app` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-app` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/app firebase
+npm install @capawesome/capacitor-firebase-app firebase
 npx cap sync
 ```
 
@@ -67,7 +67,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseApp } from '@capacitor-firebase/app';
+import { FirebaseApp } from '@capawesome/capacitor-firebase-app';
 
 const getName = async () => {
   const result = await FirebaseApp.getName();

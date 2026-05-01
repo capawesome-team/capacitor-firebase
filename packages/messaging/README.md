@@ -1,4 +1,4 @@
-# @capacitor-firebase/messaging
+# @capawesome/capacitor-firebase-messaging
 
 Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging).[^1]
 
@@ -38,13 +38,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/messaging` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-messaging` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/messaging firebase
+npm install @capawesome/capacitor-firebase-messaging firebase
 npx cap sync
 ```
 
@@ -110,7 +110,7 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
 }
 ```
 
-**Attention**: If you use this plugin in combination with `@capacitor-firebase/authentication`, then add the following to your app's `AppDelegate.swift`:
+**Attention**: If you use this plugin in combination with `@capawesome/capacitor-firebase-authentication`, then add the following to your app's `AppDelegate.swift`:
 
 ```diff
 + import FirebaseAuth
@@ -162,7 +162,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor-firebase/messaging" />
+/// <reference types="@capawesome/capacitor-firebase-messaging" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
@@ -192,7 +192,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+import { FirebaseMessaging } from '@capawesome/capacitor-firebase-messaging';
 
 const checkPermissions = async () => {
   const result = await FirebaseMessaging.checkPermissions();

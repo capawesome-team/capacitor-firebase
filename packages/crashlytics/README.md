@@ -1,4 +1,4 @@
-# @capacitor-firebase/crashlytics
+# @capawesome/capacitor-firebase-crashlytics
 
 Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 
@@ -34,13 +34,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/crashlytics` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-crashlytics` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/crashlytics
+npm install @capawesome/capacitor-firebase-crashlytics
 npx cap sync
 ```
 
@@ -151,7 +151,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseCrashlytics } from '@capacitor-firebase/crashlytics';
+import { FirebaseCrashlytics } from '@capawesome/capacitor-firebase-crashlytics';
 
 const crash = async () => {
   await FirebaseCrashlytics.crash({ message: 'Test' });

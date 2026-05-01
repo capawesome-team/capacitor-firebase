@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseAuthentication',
+      name: 'capawesomeCapacitorFirebaseAuthentication',
       globals: {
         '@capacitor/core': 'capacitorExports',
         'firebase/auth': 'firebaseAuthExports',

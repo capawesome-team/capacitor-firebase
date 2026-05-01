@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseMessaging',
+      name: 'capawesomeCapacitorFirebaseMessaging',
       globals: {
         '@capacitor/core': 'capacitorExports',
         'firebase/messaging': 'firebaseMessagingExports',

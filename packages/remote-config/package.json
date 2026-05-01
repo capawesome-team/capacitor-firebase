@@ -1,5 +1,5 @@
 {
-  "name": "@capacitor-firebase/remote-config",
+  "name": "@capawesome/capacitor-firebase-remote-config",
   "version": "8.2.0",
   "description": "Capacitor plugin for Firebase Remote Config.",
   "main": "dist/plugin.cjs.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseRemoteConfig.podspec",
+    "CapawesomeCapacitorFirebaseRemoteConfig.podspec",
     "Package.swift"
   ],
   "author": "Robin Genz <mail@robingenz.dev>",

@@ -7,17 +7,17 @@
   "commit": false,
   "fixed": [
     [
-      "@capacitor-firebase/analytics",
-      "@capacitor-firebase/app",
-      "@capacitor-firebase/app-check",
-      "@capacitor-firebase/authentication",
-      "@capacitor-firebase/crashlytics",
-      "@capacitor-firebase/firestore",
-      "@capacitor-firebase/functions",
-      "@capacitor-firebase/messaging",
-      "@capacitor-firebase/performance",
-      "@capacitor-firebase/remote-config",
-      "@capacitor-firebase/storage"
+      "@capawesome/capacitor-firebase-analytics",
+      "@capawesome/capacitor-firebase-app",
+      "@capawesome/capacitor-firebase-app-check",
+      "@capawesome/capacitor-firebase-authentication",
+      "@capawesome/capacitor-firebase-crashlytics",
+      "@capawesome/capacitor-firebase-firestore",
+      "@capawesome/capacitor-firebase-functions",
+      "@capawesome/capacitor-firebase-messaging",
+      "@capawesome/capacitor-firebase-performance",
+      "@capawesome/capacitor-firebase-remote-config",
+      "@capawesome/capacitor-firebase-storage"
     ]
   ],
   "linked": [],

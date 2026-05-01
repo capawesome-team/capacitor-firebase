@@ -1,5 +1,5 @@
 {
-  "name": "@capacitor-firebase/authentication",
+  "name": "@capawesome/capacitor-firebase-authentication",
   "version": "8.2.0",
   "description": "Capacitor plugin for Firebase Authentication.",
   "main": "dist/plugin.cjs.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseAuthentication.podspec",
+    "CapawesomeCapacitorFirebaseAuthentication.podspec",
     "Package.swift"
   ],
   "author": "Robin Genz <mail@robingenz.dev>",

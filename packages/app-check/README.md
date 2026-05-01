@@ -1,4 +1,4 @@
-# @capacitor-firebase/app-check
+# @capawesome/capacitor-firebase-app-check
 
 Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
@@ -33,13 +33,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/app-check` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-app-check` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/app-check firebase
+npm install @capawesome/capacitor-firebase-app-check firebase
 npx cap sync
 ```
 
@@ -85,8 +85,8 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { ReCaptchaV3Provider } from '@capacitor-firebase/app-check';
+import { FirebaseAppCheck } from '@capawesome/capacitor-firebase-app-check';
+import { ReCaptchaV3Provider } from '@capawesome/capacitor-firebase-app-check';
 import { Capacitor } from '@capacitor/core';
 
 const initialize = async () => {

@@ -20,13 +20,13 @@
 ## iOS
 
 1. Add `google.com` to the `providers` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) array.
-1. If you are using **CocoaPods** for your iOS project, add the `CapacitorFirebaseAuthentication/Google` pod to your `Podfile` (usually `ios/App/Podfile`):
+1. If you are using **CocoaPods** for your iOS project, add the `CapawesomeCapacitorFirebaseAuthentication/Google` pod to your `Podfile` (usually `ios/App/Podfile`):
 
    ```diff
    target 'App' do
      capacitor_pods
      # Add your Pods here
-   +  pod 'CapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@capacitor-firebase/authentication'
+   +  pod 'CapawesomeCapacitorFirebaseAuthentication/Google', :path => '../../node_modules/@capawesome/capacitor-firebase-authentication'
    end
    ```
 

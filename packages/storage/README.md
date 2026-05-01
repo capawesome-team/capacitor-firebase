@@ -1,4 +1,4 @@
-# @capacitor-firebase/storage
+# @capawesome/capacitor-firebase-storage
 
 Unofficial Capacitor plugin for [Firebase Cloud Storage](https://firebase.google.com/docs/storage/).[^1]
 
@@ -32,13 +32,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/storage` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-storage` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/storage
+npm install @capawesome/capacitor-firebase-storage
 npx cap sync
 ```
 
@@ -71,7 +71,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseStorage } from '@capacitor-firebase/storage';
+import { FirebaseStorage } from '@capawesome/capacitor-firebase-storage';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
 const uploadFile = async () => {

@@ -1,4 +1,4 @@
-# @capacitor-firebase/firestore
+# @capawesome/capacitor-firebase-firestore
 
 Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore/).[^1]
 
@@ -36,13 +36,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/firestore` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-firestore` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/firestore
+npm install @capawesome/capacitor-firebase-firestore
 npx cap sync
 ```
 
@@ -86,7 +86,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor-firebase/firestore" />
+/// <reference types="@capawesome/capacitor-firebase-firestore" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
@@ -116,7 +116,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+import { FirebaseFirestore } from '@capawesome/capacitor-firebase-firestore';
 
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({

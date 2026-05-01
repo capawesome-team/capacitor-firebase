@@ -1,4 +1,4 @@
-# @capacitor-firebase/analytics
+# @capawesome/capacitor-firebase-analytics
 
 Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com/docs/analytics).[^1]
 
@@ -34,13 +34,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/analytics` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-analytics` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/analytics firebase
+npm install @capawesome/capacitor-firebase-analytics firebase
 npx cap sync
 ```
 
@@ -66,13 +66,13 @@ This can be useful if you encounter dependency conflicts with other plugins in y
 
 ### iOS
 
-If you are using **CocoaPods** for your iOS project, you need to add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
+If you are using **CocoaPods** for your iOS project, you need to add the `CapawesomeCapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
 
 ```diff
 target 'App' do
 capacitor_pods
 # Add your Pods here
-+  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
++  pod 'CapawesomeCapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capawesome/capacitor-firebase-analytics'
 end
 ```
 
@@ -84,14 +84,14 @@ See [Disable Analytics data collection](https://firebase.google.com/docs/analyti
 
 #### Disable IDFA collection
 
-If you are using **CocoaPods** for your iOS project and you want to disable IDFA collection, you can use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod instead of the `CapacitorFirebaseAnalytics/Analytics` pod:
+If you are using **CocoaPods** for your iOS project and you want to disable IDFA collection, you can use the `CapawesomeCapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod instead of the `CapawesomeCapacitorFirebaseAnalytics/Analytics` pod:
 
 ```diff
 target 'App' do
 capacitor_pods
 # Add your Pods here
--  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
-+  pod 'CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport', :path => '../../node_modules/@capacitor-firebase/analytics'
+-  pod 'CapawesomeCapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capawesome/capacitor-firebase-analytics'
++  pod 'CapawesomeCapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport', :path => '../../node_modules/@capawesome/capacitor-firebase-analytics'
 end
 ```
 
@@ -104,7 +104,7 @@ If you are using **Swift Package Manager** for your iOS project and you want to 
       "spm": {
         "swiftToolsVersion": "6.1",
         "packageTraits": {
-          "@capacitor-firebase/analytics": ["AnalyticsWithoutAdIdSupport"]
+          "@capawesome/capacitor-firebase-analytics": ["AnalyticsWithoutAdIdSupport"]
         }
       }
     }
@@ -125,7 +125,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+import { FirebaseAnalytics } from '@capawesome/capacitor-firebase-analytics';
 
 const setUserId = async () => {
   await FirebaseAnalytics.setUserId({

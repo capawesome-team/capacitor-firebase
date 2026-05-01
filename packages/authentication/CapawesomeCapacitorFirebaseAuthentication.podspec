@@ -3,7 +3,7 @@ require 'json'
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
 Pod::Spec.new do |s|
-  s.name = 'CapacitorFirebaseAnalytics'
+  s.name = 'CapawesomeCapacitorFirebaseAuthentication'
   s.version = package['version']
   s.summary = package['description']
   s.license = package['license']
@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
   s.ios.deployment_target = '15.0'
   s.dependency 'Capacitor'
+  s.dependency 'FirebaseAuth', '~> 12.7.0'
   s.swift_version = '5.1'
   s.static_framework = true
   s.default_subspec = 'Lite'
@@ -21,12 +22,14 @@ Pod::Spec.new do |s|
     # Default subspec that does not contain optional third party dependencies.
   end
 
-  s.subspec 'Analytics' do |analytics|
-    analytics.dependency 'FirebaseAnalytics/Core', '~> 12.7.0'
-    analytics.dependency 'FirebaseAnalytics/IdentitySupport', '~> 12.7.0'
+  s.subspec 'Google' do |google|
+    google.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DRGCFA_INCLUDE_GOOGLE' }
+    google.dependency 'GoogleSignIn', '9.0.0'
   end
 
-  s.subspec 'AnalyticsWithoutAdIdSupport' do |analyticsWithoutAdIdSupport|
-    analyticsWithoutAdIdSupport.dependency 'FirebaseAnalytics/Core', '~> 12.7.0'
+  s.subspec 'Facebook' do |facebook|
+    facebook.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DRGCFA_INCLUDE_FACEBOOK' }
+    facebook.dependency 'FBSDKCoreKit', '18.0.0'
+    facebook.dependency 'FBSDKLoginKit', '18.0.0'
   end
 end

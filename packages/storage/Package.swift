@@ -2,11 +2,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "CapacitorFirebaseStorage",
+    name: "CapawesomeCapacitorFirebaseStorage",
     platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "CapacitorFirebaseStorage",
+            name: "CapawesomeCapacitorFirebaseStorage",
             targets: ["FirebaseStoragePlugin"])
     ],
     dependencies: [

@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseStorage',
+      name: 'capawesomeCapacitorFirebaseStorage',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

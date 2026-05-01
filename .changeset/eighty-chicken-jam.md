@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/remote-config': minor
+'@capawesome/capacitor-firebase-remote-config': minor
 ---
 
 feat: add `setDefaults(...)` method

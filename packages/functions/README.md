@@ -1,4 +1,4 @@
-# @capacitor-firebase/functions
+# @capawesome/capacitor-firebase-functions
 
 Unofficial Capacitor plugin for [Firebase Cloud Functions](https://firebase.google.com/docs/functions/).[^1]
 
@@ -31,13 +31,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/functions` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-functions` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/functions
+npm install @capawesome/capacitor-firebase-functions
 npx cap sync
 ```
 
@@ -64,7 +64,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebaseFunctions } from '@capacitor-firebase/functions';
+import { FirebaseFunctions } from '@capawesome/capacitor-firebase-functions';
 
 const callByName = async () => {
     const { data } = await FirebaseFunctions.callByName({

@@ -1,4 +1,4 @@
-# @capacitor-firebase/performance
+# @capawesome/capacitor-firebase-performance
 
 Unofficial Capacitor plugin for [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon).[^1]
 
@@ -34,13 +34,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/performance` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-performance` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/performance firebase
+npm install @capawesome/capacitor-firebase-performance firebase
 npx cap sync
 ```
 
@@ -69,7 +69,7 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 ## Usage
 
 ```typescript
-import { FirebasePerformance } from '@capacitor-firebase/performance';
+import { FirebasePerformance } from '@capawesome/capacitor-firebase-performance';
 
 const startTrace = async () => {
   await FirebasePerformance.startTrace({ traceName: 'test_trace' });

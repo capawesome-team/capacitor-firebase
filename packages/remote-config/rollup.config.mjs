@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseRemoteConfig',
+      name: 'capawesomeCapacitorFirebaseRemoteConfig',
       globals: {
         '@capacitor/core': 'capacitorExports',
         'firebase/remote-config': 'firebaseRemoteConfigExports',

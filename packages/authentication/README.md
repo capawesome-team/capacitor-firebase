@@ -1,4 +1,4 @@
-# @capacitor-firebase/authentication
+# @capawesome/capacitor-firebase-authentication
 
 Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 
@@ -34,13 +34,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/authentication` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-authentication` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/authentication firebase
+npm install @capawesome/capacitor-firebase-authentication firebase
 npx cap sync
 ```
 
@@ -54,7 +54,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
-**Attention**: If you use this plugin on **iOS** in combination with `@capacitor-firebase/messaging`, then add the following to your app's `AppDelegate.swift`:
+**Attention**: If you use this plugin on **iOS** in combination with `@capawesome/capacitor-firebase-messaging`, then add the following to your app's `AppDelegate.swift`:
 
 ```diff
 + import FirebaseAuth
@@ -121,7 +121,7 @@ In `capacitor.config.json`:
 In `capacitor.config.ts`:
 
 ```ts
-/// <reference types="@capacitor-firebase/authentication" />
+/// <reference types="@capawesome/capacitor-firebase-authentication" />
 
 import { CapacitorConfig } from '@capacitor/cli';
 
@@ -174,7 +174,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { FirebaseAuthentication } from '@capawesome/capacitor-firebase-authentication';
 
 const applyActionCode = async () => {
   await FirebaseAuthentication.applyActionCode({ oobCode: '1234' });

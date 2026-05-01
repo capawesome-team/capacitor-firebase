@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseCrashlytics',
+      name: 'capawesomeCapacitorFirebaseCrashlytics',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

@@ -2,11 +2,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "CapacitorFirebaseRemoteConfig",
+    name: "CapawesomeCapacitorFirebaseRemoteConfig",
     platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "CapacitorFirebaseRemoteConfig",
+            name: "CapawesomeCapacitorFirebaseRemoteConfig",
             targets: ["FirebaseRemoteConfigPlugin"])
     ],
     dependencies: [

@@ -1,5 +1,5 @@
 {
-  "name": "@capacitor-firebase/functions",
+  "name": "@capawesome/capacitor-firebase-functions",
   "version": "8.2.0",
   "description": "Capacitor plugin for Firebase Cloud Functions.",
   "main": "dist/plugin.cjs.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFirebaseFunctions.podspec",
+    "CapawesomeCapacitorFirebaseFunctions.podspec",
     "Package.swift"
   ],
   "author": "Robin Genz <mail@robingenz.dev>",

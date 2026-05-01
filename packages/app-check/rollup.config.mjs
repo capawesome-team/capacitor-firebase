@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseAppCheck',
+      name: 'capawesomeCapacitorFirebaseAppCheck',
       globals: {
         '@capacitor/core': 'capacitorExports',
         'firebase/app-check': 'firebaseAppCheckExports',

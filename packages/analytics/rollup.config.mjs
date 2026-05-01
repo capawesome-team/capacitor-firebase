@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorFirebaseAnalytics',
+      name: 'capawesomeCapacitorFirebaseAnalytics',
       globals: {
         '@capacitor/core': 'capacitorExports',
         'firebase/analytics': 'firebaseAnalyticsExports',

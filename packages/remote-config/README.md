@@ -1,4 +1,4 @@
-# @capacitor-firebase/remote-config
+# @capawesome/capacitor-firebase-remote-config
 
 Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config).[^1]
 
@@ -33,13 +33,13 @@ npx skills add capawesome-team/skills --skill capacitor-plugins
 Then use the following prompt:
 
 ```
-Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capacitor-firebase/remote-config` plugin in my project.
+Use the `capacitor-plugins` skill from `capawesome-team/skills` to install the `@capawesome/capacitor-firebase-remote-config` plugin in my project.
 ```
 
 If you prefer **Manual Setup**, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
-npm install @capacitor-firebase/remote-config firebase
+npm install @capawesome/capacitor-firebase-remote-config firebase
 npx cap sync
 ```
 
@@ -74,7 +74,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+import { FirebaseRemoteConfig } from '@capawesome/capacitor-firebase-remote-config';
 
 const activate = async () => {
   await FirebaseRemoteConfig.activate();
