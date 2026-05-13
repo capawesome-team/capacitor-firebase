@@ -81,6 +81,10 @@ public class FirebaseRemoteConfig {
         return new GetValueResult<String>(value.asString(), value.getSource());
     }
 
+    public Map<String, FirebaseRemoteConfigValue> getAll() {
+        return getFirebaseRemoteConfigInstance().getAll();
+    }
+
     public GetInfoResult getInfo() {
         FirebaseRemoteConfigInfo info = getFirebaseRemoteConfigInstance().getInfo();
         long lastFetchTime = info.getFetchTimeMillis();

@@ -56,6 +56,18 @@ import Capacitor
         return RemoteConfig.remoteConfig().configValue(forKey: key)
     }
 
+    @objc public func getAll() -> [String: RemoteConfigValue] {
+        let rc = RemoteConfig.remoteConfig()
+        var keys = Set<String>()
+        keys.formUnion(rc.allKeys(from: .remote))
+        keys.formUnion(rc.allKeys(from: .default))
+        var values: [String: RemoteConfigValue] = [:]
+        for key in keys {
+            values[key] = rc.configValue(forKey: key)
+        }
+        return values
+    }
+
     @objc public func getInfo(completion: @escaping (Double, Int, String?) -> Void) {
         let rc = RemoteConfig.remoteConfig()
 
