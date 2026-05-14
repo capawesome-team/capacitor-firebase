@@ -17,6 +17,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getBoolean", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getNumber", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getString", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getAll", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setMinimumFetchInterval", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setDefaults", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setSettings", returnType: CAPPluginReturnPromise),
@@ -102,6 +103,20 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve([
             "value": value!.stringValue ?? "",
             "source": FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value!.source)
+        ])
+    }
+
+    @objc func getAll(_ call: CAPPluginCall) {
+        let all = implementation?.getAll() ?? [:]
+        var values: [String: Any] = [:]
+        for (key, value) in all {
+            values[key] = [
+                "value": value.stringValue ?? "",
+                "source": FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value.source)
+            ]
+        }
+        call.resolve([
+            "values": values
         ])
     }
 

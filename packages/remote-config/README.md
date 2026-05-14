@@ -152,6 +152,7 @@ const removeAllListeners = async () => {
 * [`getBoolean(...)`](#getboolean)
 * [`getNumber(...)`](#getnumber)
 * [`getString(...)`](#getstring)
+* [`getAll()`](#getall)
 * [`getInfo()`](#getinfo)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
 * [`setDefaults(...)`](#setdefaults)
@@ -264,6 +265,21 @@ Get the value for the given key as a string.
 **Returns:** <code>Promise&lt;<a href="#getstringresult">GetStringResult</a>&gt;</code>
 
 **Since:** 1.3.0
+
+--------------------
+
+
+### getAll()
+
+```typescript
+getAll() => Promise<GetAllResult>
+```
+
+Get all the values from the Remote Config service.
+
+**Returns:** <code>Promise&lt;<a href="#getallresult">GetAllResult</a>&gt;</code>
+
+**Since:** 8.3.0
 
 --------------------
 
@@ -430,6 +446,21 @@ Remove all listeners for this plugin.
 | ------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
 | **`value`**  | <code>string</code>                                       | The value for the given key as a string.                                            | 1.3.0 |
 | **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 1.3.0 |
+
+
+#### GetAllResult
+
+| Prop         | Type                                                                                  | Description              | Since |
+| ------------ | ------------------------------------------------------------------------------------- | ------------------------ | ----- |
+| **`values`** | <code>Record&lt;string, <a href="#getallresultvalue">GetAllResultValue</a>&gt;</code> | The values for all keys. | 8.3.0 |
+
+
+#### GetAllResultValue
+
+| Prop         | Type                                                      | Description                                                                         | Since |
+| ------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| **`value`**  | <code>string</code>                                       | The value as a string.                                                              | 8.3.0 |
+| **`source`** | <code><a href="#getvaluesource">GetValueSource</a></code> | Indicates at which source this value came from. Only available for Android and iOS. | 8.3.0 |
 
 
 #### GetInfoResult

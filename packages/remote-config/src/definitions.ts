@@ -36,6 +36,12 @@ export interface FirebaseRemoteConfigPlugin {
    */
   getString(options: GetStringOptions): Promise<GetStringResult>;
   /**
+   * Get all the values from the Remote Config service.
+   *
+   * @since 8.3.0
+   */
+  getAll(): Promise<GetAllResult>;
+  /**
    * Get information about the last fetch operation.
    *
    * @since 7.5.0
@@ -194,6 +200,38 @@ export interface GetStringResult {
    * Only available for Android and iOS.
    *
    * @since 1.3.0
+   */
+  source?: GetValueSource;
+}
+
+/**
+ * @since 8.3.0
+ */
+export interface GetAllResult {
+  /**
+   * The values for all keys.
+   *
+   * @since 8.3.0
+   */
+  values: Record<string, GetAllResultValue>;
+}
+
+/**
+ * @since 8.3.0
+ */
+export interface GetAllResultValue {
+  /**
+   * The value as a string.
+   *
+   * @since 8.3.0
+   */
+  value: string;
+  /**
+   * Indicates at which source this value came from.
+   *
+   * Only available for Android and iOS.
+   *
+   * @since 8.3.0
    */
   source?: GetValueSource;
 }

@@ -6,6 +6,7 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.RemoveConfigUpdateListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.interfaces.NonEmptyResultCallback;
@@ -151,6 +152,27 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
             JSObject result = new JSObject();
             result.put("value", getValueResult.value);
             result.put("source", getValueResult.source);
+            call.resolve(result);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void getAll(PluginCall call) {
+        try {
+            Map<String, FirebaseRemoteConfigValue> all = implementation.getAll();
+            JSObject values = new JSObject();
+            for (Map.Entry<String, FirebaseRemoteConfigValue> entry : all.entrySet()) {
+                FirebaseRemoteConfigValue value = entry.getValue();
+                JSObject valueObject = new JSObject();
+                valueObject.put("value", value.asString());
+                valueObject.put("source", value.getSource());
+                values.put(entry.getKey(), valueObject);
+            }
+            JSObject result = new JSObject();
+            result.put("values", values);
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);

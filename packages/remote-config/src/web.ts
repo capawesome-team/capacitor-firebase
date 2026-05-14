@@ -3,6 +3,7 @@ import {
   activate,
   fetchAndActivate,
   fetchConfig,
+  getAll,
   getBoolean,
   getNumber,
   getRemoteConfig,
@@ -12,6 +13,8 @@ import {
 import type {
   AddConfigUpdateListenerOptionsCallback,
   FirebaseRemoteConfigPlugin,
+  GetAllResult,
+  GetAllResultValue,
   GetBooleanResult,
   GetInfoResult,
   GetNumberResult,
@@ -59,6 +62,16 @@ export class FirebaseRemoteConfigWeb
     const remoteConfig = getRemoteConfig();
     const value = getString(remoteConfig, options.key);
     return { value };
+  }
+
+  public async getAll(): Promise<GetAllResult> {
+    const remoteConfig = getRemoteConfig();
+    const all = getAll(remoteConfig);
+    const values: Record<string, GetAllResultValue> = {};
+    for (const key of Object.keys(all)) {
+      values[key] = { value: all[key].asString() };
+    }
+    return { values };
   }
 
   public async getInfo(): Promise<GetInfoResult> {
