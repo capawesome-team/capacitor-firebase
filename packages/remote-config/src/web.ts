@@ -4,11 +4,10 @@ import {
   fetchAndActivate,
   fetchConfig,
   getAll,
-  getBoolean,
-  getNumber,
   getRemoteConfig,
-  getString,
+  getValue,
 } from 'firebase/remote-config';
+import type { Value } from 'firebase/remote-config';
 
 import type {
   AddConfigUpdateListenerOptionsCallback,
@@ -25,7 +24,7 @@ import type {
   SetDefaultsOptions,
   SetSettingsOptions,
 } from './definitions';
-import { LastFetchStatus } from './definitions';
+import { GetValueSource, LastFetchStatus } from './definitions';
 
 export class FirebaseRemoteConfigWeb
   extends WebPlugin
@@ -48,20 +47,29 @@ export class FirebaseRemoteConfigWeb
 
   public async getBoolean(options: GetOptions): Promise<GetBooleanResult> {
     const remoteConfig = getRemoteConfig();
-    const value = getBoolean(remoteConfig, options.key);
-    return { value };
+    const value = getValue(remoteConfig, options.key);
+    return {
+      value: value.asBoolean(),
+      source: this.mapValueSource(value.getSource()),
+    };
   }
 
   public async getNumber(options: GetOptions): Promise<GetNumberResult> {
     const remoteConfig = getRemoteConfig();
-    const value = getNumber(remoteConfig, options.key);
-    return { value };
+    const value = getValue(remoteConfig, options.key);
+    return {
+      value: value.asNumber(),
+      source: this.mapValueSource(value.getSource()),
+    };
   }
 
   public async getString(options: GetOptions): Promise<GetStringResult> {
     const remoteConfig = getRemoteConfig();
-    const value = getString(remoteConfig, options.key);
-    return { value };
+    const value = getValue(remoteConfig, options.key);
+    return {
+      value: value.asString(),
+      source: this.mapValueSource(value.getSource()),
+    };
   }
 
   public async getAll(): Promise<GetAllResult> {
@@ -69,7 +77,11 @@ export class FirebaseRemoteConfigWeb
     const all = getAll(remoteConfig);
     const values: Record<string, GetAllResultValue> = {};
     for (const key of Object.keys(all)) {
-      values[key] = { value: all[key].asString() };
+      const value = all[key];
+      values[key] = {
+        value: value.asString(),
+        source: this.mapValueSource(value.getSource()),
+      };
     }
     return { values };
   }
@@ -125,6 +137,20 @@ export class FirebaseRemoteConfigWeb
     _options: RemoveConfigUpdateListenerOptions,
   ): Promise<void> {
     this.throwUnimplementedError();
+  }
+
+  private mapValueSource(
+    source: ReturnType<Value['getSource']>,
+  ): GetValueSource {
+    switch (source) {
+      case 'default':
+        return GetValueSource.Default;
+      case 'remote':
+        return GetValueSource.Remote;
+      case 'static':
+      default:
+        return GetValueSource.Static;
+    }
   }
 
   private throwUnimplementedError(): never {
