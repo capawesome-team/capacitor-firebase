@@ -157,8 +157,6 @@ export interface GetBooleanResult {
   /**
    * Indicates at which source this value came from.
    *
-   * Only available for Android and iOS.
-   *
    * @since 1.3.0
    */
   source?: GetValueSource;
@@ -177,8 +175,6 @@ export interface GetNumberResult {
   /**
    * Indicates at which source this value came from.
    *
-   * Only available for Android and iOS.
-   *
    * @since 1.3.0
    */
   source?: GetValueSource;
@@ -196,8 +192,6 @@ export interface GetStringResult {
   value: string;
   /**
    * Indicates at which source this value came from.
-   *
-   * Only available for Android and iOS.
    *
    * @since 1.3.0
    */
@@ -228,8 +222,6 @@ export interface GetAllResultValue {
   value: string;
   /**
    * Indicates at which source this value came from.
-   *
-   * Only available for Android and iOS.
    *
    * @since 8.3.0
    */
