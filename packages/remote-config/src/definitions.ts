@@ -159,7 +159,7 @@ export interface GetBooleanResult {
    *
    * @since 1.3.0
    */
-  source: GetValueSource;
+  source?: GetValueSource;
 }
 
 /**
@@ -177,7 +177,7 @@ export interface GetNumberResult {
    *
    * @since 1.3.0
    */
-  source: GetValueSource;
+  source?: GetValueSource;
 }
 
 /**
@@ -195,7 +195,7 @@ export interface GetStringResult {
    *
    * @since 1.3.0
    */
-  source: GetValueSource;
+  source?: GetValueSource;
 }
 
 /**
@@ -225,7 +225,7 @@ export interface GetAllResultValue {
    *
    * @since 8.3.0
    */
-  source: GetValueSource;
+  source?: GetValueSource;
 }
 
 /**
