@@ -17,7 +17,7 @@ permissions:
   pull-requests: write
 
 env:
-  NODE_VERSION: 22
+  NODE_VERSION: 24
 
 jobs:
   release:
@@ -31,13 +31,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Update npm for OIDC trusted publishing
-        run: |
-          # npm trusted publishing requires npm >= 11.5.1
-          # Node.js 20.x ships with npm 10.x, so we need to update
-          echo "Current npm version: $(npm --version)"
-          npm install -g npm@latest
-          echo "Updated npm version: $(npm --version)"
       - name: Install Dependencies
         run: npm ci
       - name: Create Release Pull Request or Publish to npm
