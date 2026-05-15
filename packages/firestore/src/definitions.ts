@@ -930,6 +930,30 @@ export interface FirestoreGeoPoint {
 }
 
 /**
+ * Represents a Firestore DocumentReference as a plain marker object.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreDocumentReference {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'documentReference';
+  /**
+   * The document's identifier within its collection.
+   *
+   * @since 8.3.0
+   */
+  id: string;
+  /**
+   * The path of the document.
+   *
+   * @since 8.3.0
+   */
+  path: string;
+}
+
+/**
  * Represents a Firestore server timestamp sentinel as a plain marker object.
  *
  * @since 8.2.0
