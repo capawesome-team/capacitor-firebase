@@ -10,6 +10,7 @@ import type {
   Unsubscribe,
 } from 'firebase/firestore';
 import {
+  DocumentReference as FirebaseDocumentReference,
   GeoPoint as FirebaseGeoPoint,
   Timestamp as FirebaseTimestamp,
   addDoc,
@@ -586,6 +587,13 @@ export class FirebaseFirestoreWeb
         longitude: data.longitude,
       };
     }
+    if (data instanceof FirebaseDocumentReference) {
+      return {
+        __type__: 'documentReference',
+        id: data.id,
+        path: data.path,
+      };
+    }
     if (Array.isArray(data)) {
       return data.map(item => this.deserializeData(item));
     }
@@ -642,6 +650,8 @@ export class FirebaseFirestoreWeb
         return new FirebaseTimestamp(marker.seconds, marker.nanoseconds);
       case 'geopoint':
         return new FirebaseGeoPoint(marker.latitude, marker.longitude);
+      case 'documentReference':
+        return doc(getFirestore(), marker.path);
       case 'serverTimestamp':
         return serverTimestamp();
       case 'arrayUnion':
