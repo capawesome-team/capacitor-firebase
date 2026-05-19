@@ -8,14 +8,20 @@ import org.json.JSONObject;
 
 public class GetDocumentResult implements Result {
 
-    private DocumentSnapshot documentSnapshot;
+    private final DocumentSnapshot documentSnapshot;
+    private final DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior;
 
     public GetDocumentResult(DocumentSnapshot documentSnapshot) {
+        this(documentSnapshot, DocumentSnapshot.ServerTimestampBehavior.NONE);
+    }
+
+    public GetDocumentResult(DocumentSnapshot documentSnapshot, DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior) {
         this.documentSnapshot = documentSnapshot;
+        this.serverTimestampBehavior = serverTimestampBehavior;
     }
 
     public JSObject toJSObject() {
-        Object snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(documentSnapshot.getData());
+        Object snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(documentSnapshot.getData(serverTimestampBehavior));
 
         JSObject snapshotResult = new JSObject();
         snapshotResult.put("id", documentSnapshot.getId());

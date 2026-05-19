@@ -8,10 +8,19 @@ public class AddDocumentSnapshotListenerOptions {
     private final boolean includeMetadataChanges;
     private String callbackId;
 
-    public AddDocumentSnapshotListenerOptions(String reference, @Nullable Boolean includeMetadataChanges, String callbackId) {
+    @Nullable
+    private final String serverTimestampBehavior;
+
+    public AddDocumentSnapshotListenerOptions(
+        String reference,
+        @Nullable Boolean includeMetadataChanges,
+        String callbackId,
+        @Nullable String serverTimestampBehavior
+    ) {
         this.reference = reference;
         this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
         this.callbackId = callbackId;
+        this.serverTimestampBehavior = serverTimestampBehavior;
     }
 
     public String getReference() {
@@ -24,5 +33,10 @@ public class AddDocumentSnapshotListenerOptions {
 
     public String getCallbackId() {
         return callbackId;
+    }
+
+    @Nullable
+    public String getServerTimestampBehavior() {
+        return serverTimestampBehavior;
     }
 }

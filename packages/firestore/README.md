@@ -908,20 +908,22 @@ Execute multiple write operations as a single batch.
 
 #### GetCollectionOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                         | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                     | Default             | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                             |                     | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                            |                     | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.                                                             |                     | 5.2.0 |
+| **`serverTimestamps`** | <code><a href="#servertimestampbehavior">ServerTimestampBehavior</a></code>               | Controls how unresolved server timestamps in pending-write documents are returned. See <a href="#getdocumentoptions">`GetDocumentOptions.serverTimestamps`</a>. | <code>'none'</code> | 8.3.0 |
 
 
 #### GetCollectionGroupOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                         | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                     | Default             | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                             |                     | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                            |                     | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.                                                             |                     | 5.2.0 |
+| **`serverTimestamps`** | <code><a href="#servertimestampbehavior">ServerTimestampBehavior</a></code>               | Controls how unresolved server timestamps in pending-write documents are returned. See <a href="#getdocumentoptions">`GetDocumentOptions.serverTimestamps`</a>. | <code>'none'</code> | 8.3.0 |
 
 
 #### GetCountFromServerResult
@@ -933,16 +935,19 @@ Execute multiple write operations as a single batch.
 
 #### GetCountFromServerOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                            | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                                    | 6.4.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply to the count query.                                                                                                                                | 8.3.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow the set of documents being counted. Cursor-style constraints such as `limit`, `startAt`, etc. influence the result the same way they would for `getCollection`. | 8.3.0 |
 
 
 #### GetDocumentOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+| Prop                   | Type                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Default             | Since |
+| ---------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                         | The reference as a string, with path components separated by a forward slash (`/`).                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |                     | 5.2.0 |
+| **`serverTimestamps`** | <code><a href="#servertimestampbehavior">ServerTimestampBehavior</a></code> | Controls how server timestamps that have not yet been set to their final value are returned during a pending write. - `'none'` (default): unresolved server timestamps appear as `null`. - `'estimate'`: unresolved server timestamps return a local estimate based on the device's current clock. This estimate will differ from the final value and cause a snapshot to transition from the estimated value to the resolved value. - `'previous'`: unresolved server timestamps return the previous value, or `null` if there is no previous value. | <code>'none'</code> | 8.3.0 |
 
 
 #### RemoveSnapshotListenerOptions
@@ -1057,6 +1062,11 @@ Execute multiple write operations as a single batch.
 #### AddDocumentSnapshotListenerCallbackEvent
 
 <code><a href="#getdocumentresult">GetDocumentResult</a>&lt;T&gt;</code>
+
+
+#### ServerTimestampBehavior
+
+<code>'estimate' | 'previous' | 'none'</code>
 
 </docgen-api>
 

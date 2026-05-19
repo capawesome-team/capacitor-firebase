@@ -5,11 +5,13 @@ import Capacitor
     private var reference: String
     private var compositeFilter: QueryCompositeFilterConstraint?
     private var queryConstraints: [QueryNonFilterConstraint]
+    private var serverTimestampBehavior: String?
 
-    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?) {
+    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, serverTimestampBehavior: String? = nil) {
         self.reference = reference
         self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter)
         self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
+        self.serverTimestampBehavior = serverTimestampBehavior
     }
 
     func getReference() -> String {
@@ -22,5 +24,9 @@ import Capacitor
 
     func getQueryConstraints() -> [QueryNonFilterConstraint] {
         return queryConstraints
+    }
+
+    func getServerTimestampBehavior() -> String? {
+        return serverTimestampBehavior
     }
 }

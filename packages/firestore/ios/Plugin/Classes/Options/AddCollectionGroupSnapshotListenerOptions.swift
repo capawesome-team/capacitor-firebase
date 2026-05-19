@@ -7,13 +7,15 @@ import Capacitor
     private var queryConstraints: [QueryNonFilterConstraint]
     private var includeMetadataChanges: Bool
     private var callbackId: String
+    private var serverTimestampBehavior: String?
 
-    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, includeMetadataChanges: Bool, callbackId: String) {
+    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, includeMetadataChanges: Bool, callbackId: String, serverTimestampBehavior: String? = nil) {
         self.reference = reference
         self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter)
         self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
         self.includeMetadataChanges = includeMetadataChanges
         self.callbackId = callbackId
+        self.serverTimestampBehavior = serverTimestampBehavior
     }
 
     func getReference() -> String {
@@ -34,5 +36,9 @@ import Capacitor
 
     func getCallbackId() -> String {
         return callbackId
+    }
+
+    func getServerTimestampBehavior() -> String? {
+        return serverTimestampBehavior
     }
 }

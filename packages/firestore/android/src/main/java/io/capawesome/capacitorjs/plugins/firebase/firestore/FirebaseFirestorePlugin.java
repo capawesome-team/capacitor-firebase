@@ -129,8 +129,9 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            String serverTimestamps = call.getString("serverTimestamps");
 
-            GetDocumentOptions options = new GetDocumentOptions(reference);
+            GetDocumentOptions options = new GetDocumentOptions(reference, serverTimestamps);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -256,8 +257,9 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
             JSObject compositeFilter = call.getObject("compositeFilter", null);
             JSArray queryConstraints = call.getArray("queryConstraints", null);
+            String serverTimestamps = call.getString("serverTimestamps");
 
-            GetCollectionOptions options = new GetCollectionOptions(reference, compositeFilter, queryConstraints);
+            GetCollectionOptions options = new GetCollectionOptions(reference, compositeFilter, queryConstraints, serverTimestamps);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -288,8 +290,9 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
+            String serverTimestamps = call.getString("serverTimestamps");
 
-            GetCollectionGroupOptions options = new GetCollectionGroupOptions(reference, compositeFilter, queryConstraints);
+            GetCollectionGroupOptions options = new GetCollectionGroupOptions(reference, compositeFilter, queryConstraints, serverTimestamps);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -430,8 +433,10 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            JSObject compositeFilter = call.getObject("compositeFilter", null);
+            JSArray queryConstraints = call.getArray("queryConstraints", null);
 
-            GetCountFromServerOptions options = new GetCountFromServerOptions(reference);
+            GetCountFromServerOptions options = new GetCountFromServerOptions(reference, compositeFilter, queryConstraints);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -463,6 +468,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
             Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+            String serverTimestamps = call.getString("serverTimestamps");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -470,7 +476,8 @@ public class FirebaseFirestorePlugin extends Plugin {
             AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(
                 reference,
                 includeMetadataChanges,
-                callbackId
+                callbackId,
+                serverTimestamps
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
@@ -505,6 +512,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
             Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+            String serverTimestamps = call.getString("serverTimestamps");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -514,7 +522,8 @@ public class FirebaseFirestorePlugin extends Plugin {
                 compositeFilter,
                 queryConstraints,
                 includeMetadataChanges,
-                callbackId
+                callbackId,
+                serverTimestamps
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
@@ -549,6 +558,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
             Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+            String serverTimestamps = call.getString("serverTimestamps");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -558,7 +568,8 @@ public class FirebaseFirestorePlugin extends Plugin {
                 compositeFilter,
                 queryConstraints,
                 includeMetadataChanges,
-                callbackId
+                callbackId,
+                serverTimestamps
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
@@ -590,7 +601,9 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             PluginCall savedCall = this.pluginCallMap.remove(callbackId);
-            savedCall.release(this.bridge);
+            if (savedCall != null) {
+                savedCall.release(this.bridge);
+            }
 
             RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(callbackId);
             implementation.removeSnapshotListener(options);

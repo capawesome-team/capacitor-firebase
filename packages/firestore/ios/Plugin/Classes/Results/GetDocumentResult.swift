@@ -4,13 +4,16 @@ import Capacitor
 
 @objc public class GetDocumentResult: NSObject, Result {
     let documentSnapshot: DocumentSnapshot
+    let serverTimestampBehavior: ServerTimestampBehavior
 
-    init(_ documentSnapshot: DocumentSnapshot) {
+    init(_ documentSnapshot: DocumentSnapshot, serverTimestampBehavior: ServerTimestampBehavior = .none) {
         self.documentSnapshot = documentSnapshot
+        self.serverTimestampBehavior = serverTimestampBehavior
     }
 
     public func toJSObject() -> AnyObject {
-        let snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromHashMap(documentSnapshot.data())
+        let rawData = documentSnapshot.data(with: serverTimestampBehavior)
+        let snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromHashMap(rawData)
 
         var snapshotResult = JSObject()
         snapshotResult["id"] = documentSnapshot.documentID

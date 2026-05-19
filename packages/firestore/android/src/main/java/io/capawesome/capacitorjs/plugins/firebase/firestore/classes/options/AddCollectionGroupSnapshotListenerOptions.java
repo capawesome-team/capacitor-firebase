@@ -24,18 +24,23 @@ public class AddCollectionGroupSnapshotListenerOptions {
 
     private boolean includeMetadataChanges;
 
+    @Nullable
+    private final String serverTimestampBehavior;
+
     public AddCollectionGroupSnapshotListenerOptions(
         String reference,
         @Nullable JSObject compositeFilter,
         @Nullable JSArray queryConstraints,
         @Nullable Boolean includeMetadataChanges,
-        String callbackId
+        String callbackId,
+        @Nullable String serverTimestampBehavior
     ) throws JSONException {
         this.reference = reference;
         this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter);
         this.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints);
         this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
         this.callbackId = callbackId;
+        this.serverTimestampBehavior = serverTimestampBehavior;
     }
 
     public String getReference() {
@@ -58,5 +63,10 @@ public class AddCollectionGroupSnapshotListenerOptions {
 
     public String getCallbackId() {
         return callbackId;
+    }
+
+    @Nullable
+    public String getServerTimestampBehavior() {
+        return serverTimestampBehavior;
     }
 }

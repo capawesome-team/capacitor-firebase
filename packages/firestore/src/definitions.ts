@@ -235,7 +235,28 @@ export interface GetDocumentOptions {
    * @since 5.2.0
    */
   reference: string;
+  /**
+   * Controls how server timestamps that have not yet been set to their final
+   * value are returned during a pending write.
+   *
+   * - `'none'` (default): unresolved server timestamps appear as `null`.
+   * - `'estimate'`: unresolved server timestamps return a local estimate based
+   *   on the device's current clock. This estimate will differ from the final
+   *   value and cause a snapshot to transition from the estimated value to the
+   *   resolved value.
+   * - `'previous'`: unresolved server timestamps return the previous value, or
+   *   `null` if there is no previous value.
+   *
+   * @since 8.3.0
+   * @default 'none'
+   */
+  serverTimestamps?: ServerTimestampBehavior;
 }
+
+/**
+ * @since 8.3.0
+ */
+export type ServerTimestampBehavior = 'estimate' | 'previous' | 'none';
 
 /**
  * @since 5.2.0
@@ -357,6 +378,14 @@ export interface GetCollectionOptions {
    * @since 5.2.0
    */
   queryConstraints?: QueryNonFilterConstraint[];
+  /**
+   * Controls how unresolved server timestamps in pending-write documents are
+   * returned. See `GetDocumentOptions.serverTimestamps`.
+   *
+   * @since 8.3.0
+   * @default 'none'
+   */
+  serverTimestamps?: ServerTimestampBehavior;
 }
 
 /**
@@ -393,6 +422,14 @@ export interface GetCollectionGroupOptions {
    * @since 5.2.0
    */
   queryConstraints?: QueryNonFilterConstraint[];
+  /**
+   * Controls how unresolved server timestamps in pending-write documents are
+   * returned. See `GetDocumentOptions.serverTimestamps`.
+   *
+   * @since 8.3.0
+   * @default 'none'
+   */
+  serverTimestamps?: ServerTimestampBehavior;
 }
 
 /**
@@ -452,6 +489,14 @@ export interface SnapshotListenerOptions {
    * @default "default"
    */
   readonly source?: 'default' | 'cache';
+  /**
+   * Controls how unresolved server timestamps in pending-write documents are
+   * returned in each snapshot emission. See `GetDocumentOptions.serverTimestamps`.
+   *
+   * @since 8.3.0
+   * @default 'none'
+   */
+  readonly serverTimestamps?: ServerTimestampBehavior;
 }
 
 /**
@@ -583,6 +628,20 @@ export interface GetCountFromServerOptions {
    * @since 6.4.0
    */
   reference: string;
+  /**
+   * The filter to apply to the count query.
+   *
+   * @since 8.3.0
+   */
+  compositeFilter?: QueryCompositeFilterConstraint;
+  /**
+   * Narrow the set of documents being counted. Cursor-style constraints such as
+   * `limit`, `startAt`, etc. influence the result the same way they would for
+   * `getCollection`.
+   *
+   * @since 8.3.0
+   */
+  queryConstraints?: QueryNonFilterConstraint[];
 }
 
 /**
@@ -1007,6 +1066,26 @@ export interface FirestoreDelete {
    * @since 8.2.0
    */
   __type__: 'delete';
+}
+
+/**
+ * Represents a Firestore Bytes (Blob) value as a plain marker object. The
+ * underlying bytes are encoded as a base64 string for transport across the
+ * Capacitor bridge.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreBytes {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'bytes';
+  /**
+   * The bytes encoded as a base64 string.
+   *
+   * @since 8.3.0
+   */
+  base64: string;
 }
 
 /**

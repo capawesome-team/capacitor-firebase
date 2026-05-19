@@ -7,8 +7,11 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
@@ -50,6 +53,10 @@ public class FirebaseFirestoreHelper {
                 value = createJSObjectFromTimestamp((Timestamp) value);
             } else if (value instanceof GeoPoint) {
                 value = createJSObjectFromGeoPoint((GeoPoint) value);
+            } else if (value instanceof DocumentReference) {
+                value = createJSObjectFromDocumentReference((DocumentReference) value);
+            } else if (value instanceof Blob) {
+                value = createJSObjectFromBlob((Blob) value);
             } else if (value instanceof ArrayList) {
                 value = createJSArrayFromArrayList((ArrayList) value);
             } else if (value instanceof Map) {
@@ -61,7 +68,7 @@ public class FirebaseFirestoreHelper {
     }
 
     public static Object createObjectFromJSValue(Object value) throws JSONException {
-        if (value.toString().equals("null")) {
+        if (value == null || value.toString().equals("null")) {
             return null;
         } else if (value instanceof JSONObject) {
             JSONObject jsonObject = (JSONObject) value;
@@ -118,6 +125,26 @@ public class FirebaseFirestoreHelper {
         }
     }
 
+    /**
+     * Translates the JS-side {@code serverTimestamps} option string into the
+     * Android Firestore SDK's {@link DocumentSnapshot.ServerTimestampBehavior}.
+     * Unknown values fall back to {@code NONE} to match the SDK default.
+     */
+    @NonNull
+    public static DocumentSnapshot.ServerTimestampBehavior toServerTimestampBehavior(@Nullable String value) {
+        if (value == null) {
+            return DocumentSnapshot.ServerTimestampBehavior.NONE;
+        }
+        switch (value) {
+            case "estimate":
+                return DocumentSnapshot.ServerTimestampBehavior.ESTIMATE;
+            case "previous":
+                return DocumentSnapshot.ServerTimestampBehavior.PREVIOUS;
+            default:
+                return DocumentSnapshot.ServerTimestampBehavior.NONE;
+        }
+    }
+
     @Nullable
     private static Object createNativeValueFromMarker(@NonNull JSONObject jsonObject) throws JSONException {
         if (!jsonObject.has("__type__")) {
@@ -129,6 +156,15 @@ public class FirebaseFirestoreHelper {
                 return new Timestamp(jsonObject.getLong("seconds"), jsonObject.getInt("nanoseconds"));
             case "geopoint":
                 return new GeoPoint(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
+            case "documentReference": {
+                String path = jsonObject.getString("path");
+                return FirebaseFirestore.getInstance().document(path);
+            }
+            case "bytes": {
+                String base64 = jsonObject.getString("base64");
+                byte[] decoded = android.util.Base64.decode(base64, android.util.Base64.NO_WRAP);
+                return Blob.fromBytes(decoded);
+            }
             case "serverTimestamp":
                 return FieldValue.serverTimestamp();
             case "arrayUnion": {
@@ -174,12 +210,35 @@ public class FirebaseFirestoreHelper {
         return object;
     }
 
+    @NonNull
+    private static JSObject createJSObjectFromDocumentReference(@NonNull DocumentReference reference) {
+        JSObject object = new JSObject();
+        object.put("__type__", "documentReference");
+        object.put("id", reference.getId());
+        object.put("path", reference.getPath());
+        return object;
+    }
+
+    @NonNull
+    private static JSObject createJSObjectFromBlob(@NonNull Blob blob) {
+        JSObject object = new JSObject();
+        object.put("__type__", "bytes");
+        object.put("base64", android.util.Base64.encodeToString(blob.toBytes(), android.util.Base64.NO_WRAP));
+        return object;
+    }
+
     private static ArrayList<Object> createArrayListFromJSONArray(JSONArray array) throws JSONException {
         ArrayList<Object> arrayList = new ArrayList<>();
         for (int x = 0; x < array.length(); x++) {
             Object value = array.get(x);
             if (value instanceof JSONObject) {
-                value = createHashMapFromJSONObject((JSONObject) value);
+                JSONObject jsonObject = (JSONObject) value;
+                Object nativeValue = createNativeValueFromMarker(jsonObject);
+                if (nativeValue != null) {
+                    value = nativeValue;
+                } else {
+                    value = createHashMapFromJSONObject(jsonObject);
+                }
             } else if (value instanceof JSONArray) {
                 value = createArrayListFromJSONArray((JSONArray) value);
             }
@@ -195,6 +254,12 @@ public class FirebaseFirestoreHelper {
                 value = createJSObjectFromTimestamp((Timestamp) value);
             } else if (value instanceof GeoPoint) {
                 value = createJSObjectFromGeoPoint((GeoPoint) value);
+            } else if (value instanceof DocumentReference) {
+                value = createJSObjectFromDocumentReference((DocumentReference) value);
+            } else if (value instanceof Blob) {
+                value = createJSObjectFromBlob((Blob) value);
+            } else if (value instanceof ArrayList) {
+                value = createJSArrayFromArrayList((ArrayList) value);
             } else if (value instanceof Map) {
                 value = createJSObjectFromMap((Map<String, Object>) value);
             }

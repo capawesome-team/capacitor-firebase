@@ -2,6 +2,7 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
@@ -10,17 +11,23 @@ import org.json.JSONObject;
 
 public class GetCollectionGroupResult implements Result {
 
-    private QuerySnapshot querySnapshot;
+    private final QuerySnapshot querySnapshot;
+    private final DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior;
 
     public GetCollectionGroupResult(QuerySnapshot querySnapshot) {
+        this(querySnapshot, DocumentSnapshot.ServerTimestampBehavior.NONE);
+    }
+
+    public GetCollectionGroupResult(QuerySnapshot querySnapshot, DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior) {
         this.querySnapshot = querySnapshot;
+        this.serverTimestampBehavior = serverTimestampBehavior;
     }
 
     @Override
     public JSObject toJSObject() {
         JSArray snapshotsResult = new JSArray();
         for (QueryDocumentSnapshot document : querySnapshot) {
-            JSObject snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(document.getData());
+            JSObject snapshotDataResult = FirebaseFirestoreHelper.createJSObjectFromMap(document.getData(serverTimestampBehavior));
 
             JSObject snapshotResult = new JSObject();
             snapshotResult.put("id", document.getId());

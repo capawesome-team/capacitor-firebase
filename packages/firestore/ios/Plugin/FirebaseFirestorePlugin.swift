@@ -94,8 +94,9 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(errorReferenceMissing)
             return
         }
+        let serverTimestamps = call.getString("serverTimestamps")
 
-        let options = GetDocumentOptions(reference: reference)
+        let options = GetDocumentOptions(reference: reference, serverTimestampBehavior: serverTimestamps)
 
         implementation?.getDocument(options, completion: { result, error in
             if let error = error {
@@ -174,8 +175,9 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         }
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
+        let serverTimestamps = call.getString("serverTimestamps")
 
-        let options = GetCollectionOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints)
+        let options = GetCollectionOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, serverTimestampBehavior: serverTimestamps)
 
         implementation?.getCollection(options, completion: { result, error in
             if let error = error {
@@ -196,8 +198,9 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         }
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
+        let serverTimestamps = call.getString("serverTimestamps")
 
-        let options = GetCollectionGroupOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints)
+        let options = GetCollectionGroupOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, serverTimestampBehavior: serverTimestamps)
 
         implementation?.getCollectionGroup(options, completion: { result, error in
             if let error = error {
@@ -272,8 +275,10 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(errorReferenceMissing)
             return
         }
+        let compositeFilter = call.getObject("compositeFilter")
+        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
 
-        let options = GetCountFromServerOptions(reference: reference)
+        let options = GetCountFromServerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints)
 
         implementation?.getCountFromServer(options, completion: { result, error in
             if let error = error {
@@ -295,6 +300,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
         let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
+        let serverTimestamps = call.getString("serverTimestamps")
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
@@ -302,7 +308,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
 
         self.pluginCallMap[callbackId] = call
 
-        let options = AddDocumentSnapshotListenerOptions(reference: reference, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId)
+        let options = AddDocumentSnapshotListenerOptions(reference: reference, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId, serverTimestampBehavior: serverTimestamps)
 
         implementation?.addDocumentSnapshotListener(options, completion: { result, error in
             if let error = error {
@@ -326,6 +332,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
         let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
+        let serverTimestamps = call.getString("serverTimestamps")
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
@@ -333,7 +340,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
 
         self.pluginCallMap[callbackId] = call
 
-        let options = AddCollectionSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId)
+        let options = AddCollectionSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId, serverTimestampBehavior: serverTimestamps)
 
         do {
             implementation?.addCollectionSnapshotListener(options, completion: { result, error in
@@ -362,6 +369,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
         let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
+        let serverTimestamps = call.getString("serverTimestamps")
         guard let callbackId = call.callbackId else {
             call.reject(errorCallbackIdMissing)
             return
@@ -369,7 +377,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
 
         self.pluginCallMap[callbackId] = call
 
-        let options = AddCollectionGroupSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId)
+        let options = AddCollectionGroupSnapshotListenerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, includeMetadataChanges: includeMetadataChanges, callbackId: callbackId, serverTimestampBehavior: serverTimestamps)
 
         do {
             implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in

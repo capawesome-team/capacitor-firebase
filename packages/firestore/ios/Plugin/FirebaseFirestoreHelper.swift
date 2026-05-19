@@ -60,26 +60,41 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    public static func createNativeValue(_ value: Any) -> Any {
+    /// Translates the JS-side `serverTimestamps` option (`"estimate"` /
+    /// `"previous"` / `"none"` / nil) to the iOS Firestore SDK's
+    /// `ServerTimestampBehavior`. Unknown values fall back to `.none` to match
+    /// the SDK default rather than throw.
+    public static func toServerTimestampBehavior(_ value: String?) -> ServerTimestampBehavior {
+        switch value {
+        case "estimate":
+            return .estimate
+        case "previous":
+            return .previous
+        default:
+            return .none
+        }
+    }
+
+    public static func createNativeValue(_ value: Any, firestore: Firestore? = nil) -> Any {
         if let dict = value as? [String: Any], let type = dict["__type__"] as? String {
-            if let markerValue = createNativeValueFromMarker(type: type, dict: dict) {
+            if let markerValue = createNativeValueFromMarker(type: type, dict: dict, firestore: firestore) {
                 return markerValue
             }
         }
         if let dict = value as? [String: Any] {
             var result: [String: Any] = [:]
             for (key, val) in dict {
-                result[key] = createNativeValue(val)
+                result[key] = createNativeValue(val, firestore: firestore)
             }
             return result
         }
         if let array = value as? [Any] {
-            return array.map { createNativeValue($0) }
+            return array.map { createNativeValue($0, firestore: firestore) }
         }
         return value
     }
 
-    private static func createNativeValueFromMarker(type: String, dict: [String: Any]) -> Any? {
+    private static func createNativeValueFromMarker(type: String, dict: [String: Any], firestore: Firestore?) -> Any? {
         switch type {
         case "timestamp":
             guard let seconds = (dict["seconds"] as? NSNumber)?.int64Value,
@@ -89,13 +104,20 @@ public class FirebaseFirestoreHelper {
             guard let latitude = (dict["latitude"] as? NSNumber)?.doubleValue,
                   let longitude = (dict["longitude"] as? NSNumber)?.doubleValue else { return nil }
             return GeoPoint(latitude: latitude, longitude: longitude)
+        case "documentReference":
+            guard let path = dict["path"] as? String else { return nil }
+            return (firestore ?? Firestore.firestore()).document(path)
+        case "bytes":
+            guard let base64 = dict["base64"] as? String,
+                  let data = Data(base64Encoded: base64) else { return nil }
+            return data
         case "serverTimestamp":
             return FieldValue.serverTimestamp()
         case "arrayUnion":
-            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0) }
+            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0, firestore: firestore) }
             return FieldValue.arrayUnion(elements)
         case "arrayRemove":
-            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0) }
+            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0, firestore: firestore) }
             return FieldValue.arrayRemove(elements)
         case "delete":
             return FieldValue.delete()
@@ -121,6 +143,12 @@ public class FirebaseFirestoreHelper {
         }
         if let geoPoint = value as? GeoPoint {
             return createJSObjectFromGeoPoint(geoPoint) as JSValue
+        }
+        if let documentReference = value as? DocumentReference {
+            return createJSObjectFromDocumentReference(documentReference) as JSValue
+        }
+        if let data = value as? Data {
+            return createJSObjectFromBytes(data) as JSValue
         }
         if let array = value as? [Any] {
             return createJSArrayFromArray(array) as JSValue
@@ -153,6 +181,21 @@ public class FirebaseFirestoreHelper {
         return object
     }
 
+    private static func createJSObjectFromDocumentReference(_ reference: DocumentReference) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "documentReference"
+        object["id"] = reference.documentID
+        object["path"] = reference.path
+        return object
+    }
+
+    private static func createJSObjectFromBytes(_ data: Data) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "bytes"
+        object["base64"] = data.base64EncodedString()
+        return object
+    }
+
     private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
         return array.map { item -> Any in
             if let timestamp = item as? Timestamp {
@@ -160,6 +203,12 @@ public class FirebaseFirestoreHelper {
             }
             if let geoPoint = item as? GeoPoint {
                 return createJSObjectFromGeoPoint(geoPoint)
+            }
+            if let documentReference = item as? DocumentReference {
+                return createJSObjectFromDocumentReference(documentReference)
+            }
+            if let data = item as? Data {
+                return createJSObjectFromBytes(data)
             }
             if let dict = item as? [String: Any] {
                 return createJSObjectFromHashMap(dict) as Any

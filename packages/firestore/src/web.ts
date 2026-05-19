@@ -1,15 +1,18 @@
 import { WebPlugin } from '@capacitor/core';
 import { getApp } from 'firebase/app';
 import type {
+  DocumentSnapshot as FirebaseDocumentSnapshot,
   QueryCompositeFilterConstraint as FirebaseQueryCompositeFilterConstraint,
   QueryConstraint as FirebaseQueryConstraint,
   QueryFieldFilterConstraint as FirebaseQueryFieldFilterConstraint,
   QueryFilterConstraint as FirebaseQueryFilterConstraint,
   QueryNonFilterConstraint as FirebaseQueryNonFilterConstraint,
   Query,
+  SnapshotOptions,
   Unsubscribe,
 } from 'firebase/firestore';
 import {
+  Bytes as FirebaseBytes,
   DocumentReference as FirebaseDocumentReference,
   GeoPoint as FirebaseGeoPoint,
   Timestamp as FirebaseTimestamp,
@@ -82,6 +85,7 @@ import type {
   QueryFilterConstraint,
   QueryNonFilterConstraint,
   RemoveSnapshotListenerOptions,
+  ServerTimestampBehavior,
   SetDocumentOptions,
   UpdateDocumentOptions,
   UseEmulatorOptions,
@@ -96,6 +100,15 @@ export class FirebaseFirestoreWeb
   implements FirebaseFirestorePlugin
 {
   private readonly unsubscribesMap: Map<string, Unsubscribe> = new Map();
+  /**
+   * Monotonic counter used to generate unique listener IDs.
+   */
+  private listenerIdCounter = 0;
+
+  private nextListenerId(): string {
+    this.listenerIdCounter += 1;
+    return this.listenerIdCounter.toString();
+  }
 
   public async addCollectionGroupSnapshotListener<
     T extends DocumentData = DocumentData,
@@ -107,6 +120,7 @@ export class FirebaseFirestoreWeb
       options,
       'collectionGroup',
     );
+    const snapshotOptions = this.buildSnapshotOptions(options.serverTimestamps);
     const unsubscribe = onSnapshot(
       collectionQuery,
       {
@@ -118,7 +132,9 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              this.readSnapshotData(documentSnapshot, snapshotOptions),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -129,7 +145,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.nextListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -144,6 +160,7 @@ export class FirebaseFirestoreWeb
       options,
       'collection',
     );
+    const snapshotOptions = this.buildSnapshotOptions(options.serverTimestamps);
     const unsubscribe = onSnapshot(
       collectionQuery,
       {
@@ -155,7 +172,9 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              this.readSnapshotData(documentSnapshot, snapshotOptions),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -166,7 +185,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.nextListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -195,6 +214,7 @@ export class FirebaseFirestoreWeb
     callback: AddDocumentSnapshotListenerCallback<T>,
   ): Promise<string> {
     const firestore = getFirestore();
+    const snapshotOptions = this.buildSnapshotOptions(options.serverTimestamps);
     const unsubscribe = onSnapshot(
       doc(firestore, options.reference),
       {
@@ -202,7 +222,7 @@ export class FirebaseFirestoreWeb
         source: options.source,
       },
       snapshot => {
-        const data = snapshot.data();
+        const data = this.readSnapshotData(snapshot, snapshotOptions);
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {
             id: snapshot.id,
@@ -220,7 +240,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.nextListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -274,11 +294,14 @@ export class FirebaseFirestoreWeb
       'collection',
     );
     const collectionSnapshot = await getDocs(collectionQuery);
+    const snapshotOptions = this.buildSnapshotOptions(options.serverTimestamps);
     return {
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
-        data: this.deserializeData(documentSnapshot.data()) as T,
+        data: this.deserializeData(
+          this.readSnapshotData(documentSnapshot, snapshotOptions),
+        ) as T,
         metadata: {
           hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
           fromCache: documentSnapshot.metadata.fromCache,
@@ -295,11 +318,14 @@ export class FirebaseFirestoreWeb
       'collectionGroup',
     );
     const collectionSnapshot = await getDocs(collectionQuery);
+    const snapshotOptions = this.buildSnapshotOptions(options.serverTimestamps);
     return {
       snapshots: collectionSnapshot.docs.map(documentSnapshot => ({
         id: documentSnapshot.id,
         path: documentSnapshot.ref.path,
-        data: this.deserializeData(documentSnapshot.data()) as T,
+        data: this.deserializeData(
+          this.readSnapshotData(documentSnapshot, snapshotOptions),
+        ) as T,
         metadata: {
           hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
           fromCache: documentSnapshot.metadata.fromCache,
@@ -311,10 +337,24 @@ export class FirebaseFirestoreWeb
   public async getCountFromServer(
     options: GetCountFromServerOptions,
   ): Promise<GetCountFromServerResult> {
-    const firestore = getFirestore();
-    const { reference } = options;
-    const coll = collection(firestore, reference);
-    const snapshot = await getCountFromServer(coll);
+    // Accept the same `compositeFilter`/`queryConstraints` shape as
+    // `getCollection`, so callers can count a filtered query rather than only
+    // an entire collection.
+    const hasQuery =
+      options.compositeFilter != null ||
+      (options.queryConstraints != null &&
+        options.queryConstraints.length > 0);
+    const countQuery = hasQuery
+      ? await this.buildCollectionQuery(
+          {
+            reference: options.reference,
+            compositeFilter: options.compositeFilter,
+            queryConstraints: options.queryConstraints,
+          },
+          'collection',
+        )
+      : collection(getFirestore(), options.reference);
+    const snapshot = await getCountFromServer(countQuery);
     return { count: snapshot.data().count };
   }
 
@@ -324,7 +364,11 @@ export class FirebaseFirestoreWeb
     const firestore = getFirestore();
     const { reference } = options;
     const documentSnapshot = await getDoc(doc(firestore, reference));
-    const documentSnapshotData = documentSnapshot.data();
+    const snapshotOptions = this.buildSnapshotOptions(options.serverTimestamps);
+    const documentSnapshotData = this.readSnapshotData(
+      documentSnapshot,
+      snapshotOptions,
+    );
     return {
       snapshot: {
         id: documentSnapshot.id,
@@ -569,7 +613,21 @@ export class FirebaseFirestoreWeb
     return firebaseQueryNonFilterConstraints;
   }
 
-  private deserializeData(data: any): any {
+  /**
+   * Converts JS SDK class instances inside a snapshot's data into the plain
+   * `{ __type__: ... }` marker objects callers consume. A `WeakSet` cycle
+   * guard prevents the recursive walk from following self-referential
+   * properties that the JS SDK builds on some classes (notably
+   * `DocumentReference._firestore` → `... → documentReference`), which would
+   * otherwise stack-overflow when a document contains a DocumentReference
+   * field.
+   *
+   * Each known class (`Timestamp`, `GeoPoint`, `DocumentReference`, `Bytes`)
+   * is checked before the generic object walk. Unknown class instances are
+   * preserved unchanged — falling through to the object walk would also visit
+   * their internal fields and is rarely what callers want.
+   */
+  private deserializeData(data: any, seen: WeakSet<object> = new WeakSet()): any {
     if (data === null || data === undefined) {
       return data;
     }
@@ -594,42 +652,94 @@ export class FirebaseFirestoreWeb
         path: data.path,
       };
     }
+    if (data instanceof FirebaseBytes) {
+      return {
+        __type__: 'bytes',
+        base64: data.toBase64(),
+      };
+    }
+    if (typeof data !== 'object') {
+      return data;
+    }
+    if (seen.has(data)) {
+      return null;
+    }
+    seen.add(data);
     if (Array.isArray(data)) {
-      return data.map(item => this.deserializeData(item));
+      return data.map(item => this.deserializeData(item, seen));
     }
-    if (typeof data === 'object') {
-      const result: Record<string, any> = {};
-      for (const key of Object.keys(data)) {
-        result[key] = this.deserializeData(data[key]);
-      }
-      return result;
+    // Only walk plain objects. Class instances we don't recognize (e.g. an
+    // internal JS SDK type that leaked through) are preserved as-is rather
+    // than having their private fields traversed.
+    const proto = Object.getPrototypeOf(data);
+    if (proto !== Object.prototype && proto !== null) {
+      return data;
     }
-    return data;
+    const result: Record<string, any> = {};
+    for (const key of Object.keys(data)) {
+      result[key] = this.deserializeData(data[key], seen);
+    }
+    return result;
   }
 
-  private serializeData(data: any): any {
+  /**
+   * Converts caller-supplied data into the JS SDK shape `setDoc`/`updateDoc`
+   * expect. Known JS SDK class instances are handled explicitly so the
+   * generic object walk never tries to recurse into the cyclic internals
+   * (`_firestore`, `_query`, ...) of types like `DocumentReference`. `Date`
+   * values are reshaped into the plugin's `timestamp` marker because the
+   * Capacitor bridge would otherwise serialize them as empty objects.
+   */
+  private serializeData(data: any, seen: WeakSet<object> = new WeakSet()): any {
+    if (data === null || data === undefined) {
+      return data;
+    }
     if (data instanceof Timestamp) {
       return new FirebaseTimestamp(data.seconds, data.nanoseconds);
+    }
+    if (data instanceof FirebaseTimestamp) {
+      return data;
+    }
+    if (data instanceof Date) {
+      return FirebaseTimestamp.fromDate(data);
     }
     if (data instanceof GeoPoint) {
       return new FirebaseGeoPoint(data.latitude, data.longitude);
     }
+    if (data instanceof FirebaseGeoPoint) {
+      return data;
+    }
+    if (data instanceof FirebaseDocumentReference) {
+      return data;
+    }
+    if (data instanceof FirebaseBytes) {
+      return data;
+    }
     if (data instanceof FieldValue) {
       return this.serializeFieldValue(data.toJSON());
     }
-    if (data === null || data === undefined) {
-      return data;
-    }
     if (Array.isArray(data)) {
-      return data.map(item => this.serializeData(item));
+      if (seen.has(data)) return null;
+      seen.add(data);
+      return data.map(item => this.serializeData(item, seen));
     }
     if (typeof data === 'object') {
       if (data.__type__) {
         return this.serializeMarker(data);
       }
+      if (seen.has(data)) return null;
+      seen.add(data);
+      const proto = Object.getPrototypeOf(data);
+      if (proto !== Object.prototype && proto !== null) {
+        // Unknown class instance — pass through unchanged so the JS SDK can
+        // either accept it or report a clear validation error. Walking its
+        // internals usually causes a stack overflow or produces a malformed
+        // payload.
+        return data;
+      }
       const result: Record<string, any> = {};
       for (const key of Object.keys(data)) {
-        result[key] = this.serializeData(data[key]);
+        result[key] = this.serializeData(data[key], seen);
       }
       return result;
     }
@@ -652,6 +762,8 @@ export class FirebaseFirestoreWeb
         return new FirebaseGeoPoint(marker.latitude, marker.longitude);
       case 'documentReference':
         return doc(getFirestore(), marker.path);
+      case 'bytes':
+        return FirebaseBytes.fromBase64String(marker.base64);
       case 'serverTimestamp':
         return serverTimestamp();
       case 'arrayUnion':
@@ -669,5 +781,28 @@ export class FirebaseFirestoreWeb
       default:
         return marker;
     }
+  }
+
+  /**
+   * Wraps the provided behavior in the JS SDK's `SnapshotOptions` shape, or
+   * returns `undefined` when no override was requested so the SDK uses its
+   * default `'none'` behavior.
+   */
+  private buildSnapshotOptions(
+    serverTimestamps: ServerTimestampBehavior | undefined,
+  ): SnapshotOptions | undefined {
+    return serverTimestamps ? { serverTimestamps } : undefined;
+  }
+
+  /**
+   * Reads a snapshot's data with the provided behavior. Centralized so the
+   * `serverTimestamps` option doesn't have to be threaded through every
+   * caller, and so a future option can be added in one place.
+   */
+  private readSnapshotData<T extends DocumentData>(
+    snapshot: FirebaseDocumentSnapshot<T, DocumentData>,
+    options: SnapshotOptions | undefined,
+  ): T | undefined {
+    return options ? snapshot.data(options) : snapshot.data();
   }
 }
