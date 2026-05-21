@@ -1089,6 +1089,27 @@ export interface FirestoreBytes {
 }
 
 /**
+ * Represents a non-finite IEEE 754 double (`NaN`, `Infinity`, `-Infinity`) as a
+ * plain marker object. JSON cannot transport these values directly, so the
+ * Capacitor bridge serializes them via this marker.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreDouble {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'double';
+  /**
+   * The non-finite value as a string. One of `"NaN"`, `"Infinity"`, or
+   * `"-Infinity"` (matching `Number.prototype.toString` output).
+   *
+   * @since 8.3.0
+   */
+  value: 'NaN' | 'Infinity' | '-Infinity';
+}
+
+/**
  * Represents a Firestore increment operation as a plain marker object.
  *
  * @since 8.2.0

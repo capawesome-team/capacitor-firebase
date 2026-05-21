@@ -111,6 +111,15 @@ public class FirebaseFirestoreHelper {
             guard let base64 = dict["base64"] as? String,
                   let data = Data(base64Encoded: base64) else { return nil }
             return data
+        case "double":
+            // Marker carries NaN / Infinity / -Infinity, none of which survive
+            // a JSON round-trip on their own.
+            switch dict["value"] as? String {
+            case "NaN": return Double.nan
+            case "Infinity": return Double.infinity
+            case "-Infinity": return -Double.infinity
+            default: return Double.nan
+            }
         case "serverTimestamp":
             return FieldValue.serverTimestamp()
         case "arrayUnion":
@@ -134,9 +143,45 @@ public class FirebaseFirestoreHelper {
         }
     }
 
+    private static func createJSObjectFromDouble(_ value: Double) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "double"
+        if value.isNaN {
+            object["value"] = "NaN"
+        } else if value == .infinity {
+            object["value"] = "Infinity"
+        } else {
+            object["value"] = "-Infinity"
+        }
+        return object
+    }
+
+    private static func nonFiniteMarkerIfNeeded(_ value: Any) -> JSObject? {
+        if let n = value as? NSNumber {
+            // Distinguish a Double NSNumber from a Bool/Int. CFNumber type code is "d" for double.
+            let typeStr = String(cString: n.objCType)
+            if typeStr == "d" || typeStr == "f" {
+                let d = n.doubleValue
+                if !d.isFinite {
+                    return createJSObjectFromDouble(d)
+                }
+            }
+        }
+        if let d = value as? Double, !d.isFinite {
+            return createJSObjectFromDouble(d)
+        }
+        if let f = value as? Float, !f.isFinite {
+            return createJSObjectFromDouble(Double(f))
+        }
+        return nil
+    }
+
     private static func createJSValue(value: Any?) -> JSValue? {
         guard let value = value else {
             return nil
+        }
+        if let marker = nonFiniteMarkerIfNeeded(value) {
+            return marker as JSValue
         }
         if let timestamp = value as? Timestamp {
             return createJSObjectFromTimestamp(timestamp) as JSValue
@@ -198,6 +243,9 @@ public class FirebaseFirestoreHelper {
 
     private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
         return array.map { item -> Any in
+            if let marker = nonFiniteMarkerIfNeeded(item) {
+                return marker
+            }
             if let timestamp = item as? Timestamp {
                 return createJSObjectFromTimestamp(timestamp)
             }

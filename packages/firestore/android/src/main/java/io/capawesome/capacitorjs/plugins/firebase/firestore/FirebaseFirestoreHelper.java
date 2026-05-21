@@ -49,7 +49,10 @@ public class FirebaseFirestoreHelper {
         JSObject object = new JSObject();
         for (String key : map.keySet()) {
             Object value = map.get(key);
-            if (value instanceof Timestamp) {
+            JSObject nonFiniteMarker = nonFiniteMarkerIfNeeded(value);
+            if (nonFiniteMarker != null) {
+                value = nonFiniteMarker;
+            } else if (value instanceof Timestamp) {
                 value = createJSObjectFromTimestamp((Timestamp) value);
             } else if (value instanceof GeoPoint) {
                 value = createJSObjectFromGeoPoint((GeoPoint) value);
@@ -165,6 +168,21 @@ public class FirebaseFirestoreHelper {
                 byte[] decoded = android.util.Base64.decode(base64, android.util.Base64.NO_WRAP);
                 return Blob.fromBytes(decoded);
             }
+            case "double": {
+                // Marker carries NaN / Infinity / -Infinity, none of which survive
+                // a JSON round-trip on their own.
+                String v = jsonObject.optString("value", "NaN");
+                switch (v) {
+                    case "NaN":
+                        return Double.NaN;
+                    case "Infinity":
+                        return Double.POSITIVE_INFINITY;
+                    case "-Infinity":
+                        return Double.NEGATIVE_INFINITY;
+                    default:
+                        return Double.NaN;
+                }
+            }
             case "serverTimestamp":
                 return FieldValue.serverTimestamp();
             case "arrayUnion": {
@@ -250,7 +268,10 @@ public class FirebaseFirestoreHelper {
     private static JSArray createJSArrayFromArrayList(ArrayList arrayList) {
         JSArray array = new JSArray();
         for (Object value : arrayList) {
-            if (value instanceof Timestamp) {
+            JSObject nonFiniteMarker = nonFiniteMarkerIfNeeded(value);
+            if (nonFiniteMarker != null) {
+                value = nonFiniteMarker;
+            } else if (value instanceof Timestamp) {
                 value = createJSObjectFromTimestamp((Timestamp) value);
             } else if (value instanceof GeoPoint) {
                 value = createJSObjectFromGeoPoint((GeoPoint) value);
@@ -266,6 +287,37 @@ public class FirebaseFirestoreHelper {
             array.put(value);
         }
         return array;
+    }
+
+    @NonNull
+    private static JSObject createJSObjectFromDouble(double value) {
+        JSObject object = new JSObject();
+        object.put("__type__", "double");
+        if (Double.isNaN(value)) {
+            object.put("value", "NaN");
+        } else if (value == Double.POSITIVE_INFINITY) {
+            object.put("value", "Infinity");
+        } else {
+            object.put("value", "-Infinity");
+        }
+        return object;
+    }
+
+    @Nullable
+    private static JSObject nonFiniteMarkerIfNeeded(@Nullable Object value) {
+        if (value instanceof Double) {
+            double d = (Double) value;
+            if (Double.isNaN(d) || Double.isInfinite(d)) {
+                return createJSObjectFromDouble(d);
+            }
+        }
+        if (value instanceof Float) {
+            float f = (Float) value;
+            if (Float.isNaN(f) || Float.isInfinite(f)) {
+                return createJSObjectFromDouble((double) f);
+            }
+        }
+        return null;
     }
 
     public static JSObject createSnapshotMetadataResult(DocumentSnapshot snapshot) {

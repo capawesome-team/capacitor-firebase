@@ -94,6 +94,7 @@ import type {
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
 import { Timestamp } from './timestamp';
+import { deserializeNonFiniteValue, serializeNonFiniteValue } from './utils';
 
 export class FirebaseFirestoreWeb
   extends WebPlugin
@@ -658,6 +659,12 @@ export class FirebaseFirestoreWeb
         base64: data.toBase64(),
       };
     }
+    if (typeof data === 'number' && !Number.isFinite(data)) {
+      return {
+        __type__: 'double',
+        value: serializeNonFiniteValue(data),
+      };
+    }
     if (typeof data !== 'object') {
       return data;
     }
@@ -764,6 +771,8 @@ export class FirebaseFirestoreWeb
         return doc(getFirestore(), marker.path);
       case 'bytes':
         return FirebaseBytes.fromBase64String(marker.base64);
+      case 'double':
+        return deserializeNonFiniteValue(marker.value);
       case 'serverTimestamp':
         return serverTimestamp();
       case 'arrayUnion':

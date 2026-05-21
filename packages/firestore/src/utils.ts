@@ -13,6 +13,12 @@ export function serializeData(data: any): any {
   ) {
     return data.toJSON();
   }
+  // JSON cannot transport non-finite IEEE 754 doubles; carry them across the
+  // Capacitor bridge as `{ __type__: "double", value: "NaN" | "Infinity" |
+  // "-Infinity" }` and let the platform layer rebuild the primitive.
+  if (typeof data === 'number' && !Number.isFinite(data)) {
+    return { __type__: 'double', value: serializeNonFiniteValue(data) };
+  }
   if (Array.isArray(data)) {
     return data.map(item => serializeData(item));
   }
@@ -40,6 +46,9 @@ export function deserializeData(data: any): any {
     if (data.__type__ === 'geopoint') {
       return new GeoPoint(data.latitude, data.longitude);
     }
+    if (data.__type__ === 'double') {
+      return deserializeNonFiniteValue(data.value);
+    }
     const result: Record<string, any> = {};
     for (const key of Object.keys(data)) {
       result[key] = deserializeData(data[key]);
@@ -47,4 +56,20 @@ export function deserializeData(data: any): any {
     return result;
   }
   return data;
+}
+
+export function serializeNonFiniteValue(
+  n: number,
+): 'NaN' | 'Infinity' | '-Infinity' {
+  if (Number.isNaN(n)) return 'NaN';
+  return n > 0 ? 'Infinity' : '-Infinity';
+}
+
+export function deserializeNonFiniteValue(value: unknown): number {
+  if (value === 'NaN') return Number.NaN;
+  if (value === 'Infinity') return Number.POSITIVE_INFINITY;
+  if (value === '-Infinity') return Number.NEGATIVE_INFINITY;
+  // Unknown — fall back to NaN rather than throwing so a single bad payload
+  // doesn't tear down the listener.
+  return Number.NaN;
 }
