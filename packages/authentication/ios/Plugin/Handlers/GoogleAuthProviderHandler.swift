@@ -31,7 +31,8 @@ class GoogleAuthProviderHandler: NSObject {
     private func startSignInWithGoogleFlow(_ call: CAPPluginCall, isLink: Bool) {
         #if RGCFA_INCLUDE_GOOGLE
         guard let clientId = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientId, serverClientID: clientId)
+        let serverClientId = pluginImplementation.getConfig().googleServerClientId ?? clientId
+        let config = GIDConfiguration(clientID: clientId, serverClientID: serverClientId)
         GIDSignIn.sharedInstance.configuration = config
         guard let controller = self.pluginImplementation.getPlugin().bridge?.viewController else { return }
         let scopes = call.getArray("scopes", String.self) ?? []
