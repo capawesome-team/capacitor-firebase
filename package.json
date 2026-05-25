@@ -29,15 +29,22 @@
     "changeset": "changeset",
     "release": "npm run build && changeset publish",
     "release:preview": "pkg-pr-new publish './packages/*'",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@changesets/cli": "2.29.8",
     "@ionic/swiftlint-config": "2.0.0",
     "@robingenz/changelog-github": "0.0.1",
+    "husky": "9.1.7",
+    "lint-staged": "17.0.5",
     "patch-package": "8.0.1",
     "pkg-pr-new": "0.0.20",
+    "prettier": "3.4.2",
     "prettier-plugin-java": "2.6.7",
     "turbo": "2.6.3"
+  },
+  "lint-staged": {
+    "**/*.{css,html,ts,js,java}": "prettier --write"
   }
 }
