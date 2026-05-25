@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 24
   JAVA_VERSION: 21
   TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
 
