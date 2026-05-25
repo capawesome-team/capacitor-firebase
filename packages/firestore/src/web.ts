@@ -91,6 +91,10 @@ import type {
 } from './definitions';
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
+import {
+  deserializeSpecialNumber,
+  serializeSpecialNumber,
+} from './special-number';
 import { Timestamp } from './timestamp';
 
 export class FirebaseFirestoreWeb
@@ -603,7 +607,7 @@ export class FirebaseFirestoreWeb
       };
     }
     if (typeof data === 'number' && !Number.isFinite(data)) {
-      return this.serializeSpecialNumber(data);
+      return serializeSpecialNumber(data);
     }
     if (Array.isArray(data)) {
       return data.map(item => this.deserializeData(item));
@@ -669,7 +673,7 @@ export class FirebaseFirestoreWeb
       case 'bytes':
         return FirebaseBytes.fromBase64String(marker.bytes);
       case 'number':
-        return this.deserializeSpecialNumber(marker.value);
+        return deserializeSpecialNumber(marker.value);
       case 'serverTimestamp':
         return serverTimestamp();
       case 'arrayUnion':
@@ -687,31 +691,5 @@ export class FirebaseFirestoreWeb
       default:
         return marker;
     }
-  }
-
-  private serializeSpecialNumber(value: number): {
-    __type__: 'number';
-    value: 'NaN' | 'Infinity' | '-Infinity';
-  } {
-    if (Number.isNaN(value)) {
-      return { __type__: 'number', value: 'NaN' };
-    }
-    if (value === Infinity) {
-      return { __type__: 'number', value: 'Infinity' };
-    }
-    return { __type__: 'number', value: '-Infinity' };
-  }
-
-  private deserializeSpecialNumber(value: string): number {
-    if (value === 'NaN') {
-      return NaN;
-    }
-    if (value === 'Infinity') {
-      return Infinity;
-    }
-    if (value === '-Infinity') {
-      return -Infinity;
-    }
-    return Number(value);
   }
 }

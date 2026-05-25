@@ -10,11 +10,15 @@ export class Bytes {
   }
 
   static fromUint8Array(array: Uint8Array): Bytes {
-    let binary = '';
-    for (let i = 0; i < array.byteLength; i++) {
-      binary += String.fromCharCode(array[i]);
+    const chunkSize = 0x8000;
+    const chunks: string[] = [];
+    for (let i = 0; i < array.byteLength; i += chunkSize) {
+      const chunk = array.subarray(i, i + chunkSize);
+      chunks.push(
+        String.fromCharCode.apply(null, chunk as unknown as number[]),
+      );
     }
-    return new Bytes(btoa(binary));
+    return new Bytes(btoa(chunks.join('')));
   }
 
   toBase64(): string {

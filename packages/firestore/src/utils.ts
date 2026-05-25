@@ -1,6 +1,10 @@
 import { Bytes } from './bytes';
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
+import {
+  deserializeSpecialNumber,
+  serializeSpecialNumber,
+} from './special-number';
 import { Timestamp } from './timestamp';
 
 export function serializeData(data: any): any {
@@ -58,30 +62,4 @@ export function deserializeData(data: any): any {
     return result;
   }
   return data;
-}
-
-function serializeSpecialNumber(value: number): {
-  __type__: 'number';
-  value: 'NaN' | 'Infinity' | '-Infinity';
-} {
-  if (Number.isNaN(value)) {
-    return { __type__: 'number', value: 'NaN' };
-  }
-  if (value === Infinity) {
-    return { __type__: 'number', value: 'Infinity' };
-  }
-  return { __type__: 'number', value: '-Infinity' };
-}
-
-function deserializeSpecialNumber(value: string): number {
-  if (value === 'NaN') {
-    return NaN;
-  }
-  if (value === 'Infinity') {
-    return Infinity;
-  }
-  if (value === '-Infinity') {
-    return -Infinity;
-  }
-  return Number(value);
 }

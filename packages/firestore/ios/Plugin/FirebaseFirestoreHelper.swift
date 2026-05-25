@@ -226,8 +226,8 @@ public class FirebaseFirestoreHelper {
     }
 
     private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
-        return array.compactMap { item -> Any? in
-            return createJSValue(value: item)
+        return array.map { item -> Any in
+            return createJSValue(value: item) ?? NSNull()
         }
     }
 
