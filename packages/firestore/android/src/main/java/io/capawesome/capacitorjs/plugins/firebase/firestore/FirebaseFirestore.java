@@ -9,6 +9,7 @@ import com.google.firebase.firestore.AggregateQuerySnapshot;
 import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -269,6 +270,9 @@ public class FirebaseFirestore {
     public void addDocumentSnapshotListener(@NonNull AddDocumentSnapshotListenerOptions options, @NonNull NonEmptyResultCallback callback) {
         String reference = options.getReference();
         String callbackId = options.getCallbackId();
+        DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(
+            options.getServerTimestampBehavior()
+        );
 
         ListenerRegistration listenerRegistration = getFirebaseFirestoreInstance()
             .document(reference)
@@ -278,7 +282,7 @@ public class FirebaseFirestore {
                     if (exception != null) {
                         callback.error(exception);
                     } else {
-                        GetDocumentResult result = new GetDocumentResult(documentSnapshot);
+                        GetDocumentResult result = new GetDocumentResult(documentSnapshot, serverTimestampBehavior);
                         callback.success(result);
                     }
                 }
@@ -294,6 +298,9 @@ public class FirebaseFirestore {
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
         QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
         String callbackId = options.getCallbackId();
+        DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(
+            options.getServerTimestampBehavior()
+        );
 
         Query query = getFirebaseFirestoreInstance().collection(reference);
         if (compositeFilter != null) {
@@ -312,7 +319,7 @@ public class FirebaseFirestore {
                 if (exception != null) {
                     callback.error(exception);
                 } else {
-                    GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                    GetCollectionResult result = new GetCollectionResult(querySnapshot, serverTimestampBehavior);
                     callback.success(result);
                 }
             }
@@ -328,6 +335,9 @@ public class FirebaseFirestore {
         QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
         QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
         String callbackId = options.getCallbackId();
+        DocumentSnapshot.ServerTimestampBehavior serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(
+            options.getServerTimestampBehavior()
+        );
 
         Query query = getFirebaseFirestoreInstance().collectionGroup(reference);
         if (compositeFilter != null) {
@@ -346,7 +356,7 @@ public class FirebaseFirestore {
                 if (exception != null) {
                     callback.error(exception);
                 } else {
-                    GetCollectionResult result = new GetCollectionResult(querySnapshot);
+                    GetCollectionResult result = new GetCollectionResult(querySnapshot, serverTimestampBehavior);
                     callback.success(result);
                 }
             }

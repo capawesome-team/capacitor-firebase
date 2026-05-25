@@ -118,7 +118,11 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              documentSnapshot.data({
+                serverTimestamps: options.serverTimestamps,
+              }),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -155,7 +159,11 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              documentSnapshot.data({
+                serverTimestamps: options.serverTimestamps,
+              }),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -202,7 +210,9 @@ export class FirebaseFirestoreWeb
         source: options.source,
       },
       snapshot => {
-        const data = snapshot.data();
+        const data = snapshot.data({
+          serverTimestamps: options.serverTimestamps,
+        });
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {
             id: snapshot.id,

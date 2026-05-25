@@ -452,13 +452,26 @@ export interface SnapshotListenerOptions {
    * @default "default"
    */
   readonly source?: 'default' | 'cache';
+  /**
+   * Control how pending server timestamps are returned in snapshots
+   * that have not yet been acknowledged by the server.
+   *
+   * - `none`: pending server timestamps are returned as `null`.
+   * - `estimate`: pending server timestamps are replaced with the
+   *   local client's time estimate.
+   * - `previous`: pending server timestamps are replaced with the
+   *   previous value of the field (or `null` if there is no previous value).
+   *
+   * @since 8.3.0
+   * @default "none"
+   */
+  readonly serverTimestamps?: 'estimate' | 'previous' | 'none';
 }
 
 /**
  * @since 5.2.0
  */
-export interface AddDocumentSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddDocumentSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -483,8 +496,7 @@ export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 /**
  * @since 5.2.0
  */
-export interface AddCollectionSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -522,8 +534,7 @@ export type AddCollectionSnapshotListenerCallbackEvent<T> =
 /**
  * @since 6.1.0
  */
-export interface AddCollectionGroupSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionGroupSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
