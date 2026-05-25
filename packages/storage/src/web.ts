@@ -43,6 +43,8 @@ export class FirebaseStorageWeb
 {
   public static readonly ERROR_BLOB_MISSING = 'blob must be provided.';
 
+  private lastCallbackId = 0;
+
   public async downloadFile(
     options: DownloadFileOptions,
     callback: DownloadFileCallback,
@@ -63,7 +65,7 @@ export class FirebaseStorageWeb
       .catch(error => {
         callback(null, error);
       });
-    return Date.now().toString();
+    return this.generateCallbackId();
   }
 
   public async deleteFile(options: DeleteFileOptions): Promise<void> {
@@ -179,7 +181,7 @@ export class FirebaseStorageWeb
         callback(result, undefined);
       },
     });
-    return Date.now().toString();
+    return this.generateCallbackId();
   }
 
   public async useEmulator(options: UseEmulatorOptions): Promise<void> {
@@ -198,5 +200,9 @@ export class FirebaseStorageWeb
       completed: snapshot.state === 'success',
     };
     return result;
+  }
+
+  private generateCallbackId(): string {
+    return (++this.lastCallbackId).toString();
   }
 }
