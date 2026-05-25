@@ -2,12 +2,13 @@ name: Lock old issues and pull requests that are closed
 
 on:
   schedule:
-    - cron: '0 15 * * *'
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 permissions:
   issues: write
   pull-requests: write
+  discussions: write
 
 concurrency:
   group: lock
@@ -17,6 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'capawesome-team/capacitor-firebase'
     steps:
-      - uses: dessant/lock-threads@v3
+      - uses: dessant/lock-threads@v6
         with:
-          issue-inactive-days: '56'
+          issue-inactive-days: "56"
