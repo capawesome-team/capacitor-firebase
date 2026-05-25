@@ -371,7 +371,7 @@ public class FirebaseFirestore {
         this.listenerRegistrationMap.clear();
     }
 
-    private com.google.firebase.firestore.FirebaseFirestore getFirebaseFirestoreInstance() {
+    public com.google.firebase.firestore.FirebaseFirestore getFirebaseFirestoreInstance() {
         String databaseId = config.getDatabaseId();
         if (databaseId != null) {
             return com.google.firebase.firestore.FirebaseFirestore.getInstance(databaseId);

@@ -30,10 +30,11 @@ public class AddCollectionSnapshotListenerOptions {
         @Nullable JSObject compositeFilter,
         @Nullable JSArray queryConstraints,
         @Nullable Boolean includeMetadataChanges,
-        String callbackId
+        String callbackId,
+        @NonNull com.google.firebase.firestore.FirebaseFirestore firestore
     ) throws JSONException {
         this.reference = reference;
-        this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter);
+        this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter, firestore);
         this.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints);
         this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
         this.callbackId = callbackId;

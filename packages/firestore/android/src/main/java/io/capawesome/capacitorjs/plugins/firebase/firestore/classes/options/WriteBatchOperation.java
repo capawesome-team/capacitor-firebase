@@ -16,10 +16,11 @@ public class WriteBatchOperation {
     @Nullable
     private SetOptions options;
 
-    public WriteBatchOperation(@NonNull JSObject operation) throws JSONException {
+    public WriteBatchOperation(@NonNull JSObject operation, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)
+        throws JSONException {
         this.type = operation.getString("type");
         this.reference = operation.getString("reference");
-        this.data = FirebaseFirestoreHelper.createHashMapFromJSONObject(operation.getJSObject("data"));
+        this.data = FirebaseFirestoreHelper.createHashMapFromJSONObject(operation.getJSObject("data"), firestore);
 
         if (operation.has("options") && operation.getJSObject("options") != null) {
             JSObject optsObj = operation.getJSObject("options");

@@ -369,7 +369,7 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    private func getFirestoreInstance() -> Firestore {
+    public func getFirestoreInstance() -> Firestore {
         if let databaseId = config.databaseId {
             return Firestore.firestore(database: databaseId)
         }

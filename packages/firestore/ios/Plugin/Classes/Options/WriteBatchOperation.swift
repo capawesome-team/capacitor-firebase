@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import FirebaseFirestore
 
 @objc public class SetOptions: NSObject {
     private var merge: Bool
@@ -19,10 +20,10 @@ import Capacitor
     private var data: [String: Any]
     private var options: SetOptions?
 
-    init(_ operation: JSObject) {
+    init(_ operation: JSObject, firestore: Firestore) {
         self.type = operation["type"] as? String ?? ""
         self.reference = operation["reference"] as? String ?? ""
-        self.data = FirebaseFirestoreHelper.createHashMapFromJSObject(operation["data"] as? JSObject ?? [:])
+        self.data = FirebaseFirestoreHelper.createHashMapFromJSObject(operation["data"] as? JSObject ?? [:], firestore: firestore)
         if let optsObj = operation["options"] as? JSObject {
             self.options = SetOptions(optsObj)
         } else {

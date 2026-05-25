@@ -10,6 +10,7 @@ import type {
   Unsubscribe,
 } from 'firebase/firestore';
 import {
+  Bytes as FirebaseBytes,
   DocumentReference as FirebaseDocumentReference,
   GeoPoint as FirebaseGeoPoint,
   Timestamp as FirebaseTimestamp,
@@ -53,6 +54,7 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 
+import { Bytes } from './bytes';
 import type {
   AddCollectionGroupSnapshotListenerCallback,
   AddCollectionGroupSnapshotListenerOptions,
@@ -594,6 +596,15 @@ export class FirebaseFirestoreWeb
         path: data.path,
       };
     }
+    if (data instanceof FirebaseBytes) {
+      return {
+        __type__: 'bytes',
+        bytes: data.toBase64(),
+      };
+    }
+    if (typeof data === 'number' && !Number.isFinite(data)) {
+      return this.serializeSpecialNumber(data);
+    }
     if (Array.isArray(data)) {
       return data.map(item => this.deserializeData(item));
     }
@@ -613,6 +624,9 @@ export class FirebaseFirestoreWeb
     }
     if (data instanceof GeoPoint) {
       return new FirebaseGeoPoint(data.latitude, data.longitude);
+    }
+    if (data instanceof Bytes) {
+      return FirebaseBytes.fromBase64String(data.toBase64());
     }
     if (data instanceof FieldValue) {
       return this.serializeFieldValue(data.toJSON());
@@ -652,6 +666,10 @@ export class FirebaseFirestoreWeb
         return new FirebaseGeoPoint(marker.latitude, marker.longitude);
       case 'documentReference':
         return doc(getFirestore(), marker.path);
+      case 'bytes':
+        return FirebaseBytes.fromBase64String(marker.bytes);
+      case 'number':
+        return this.deserializeSpecialNumber(marker.value);
       case 'serverTimestamp':
         return serverTimestamp();
       case 'arrayUnion':
@@ -669,5 +687,31 @@ export class FirebaseFirestoreWeb
       default:
         return marker;
     }
+  }
+
+  private serializeSpecialNumber(value: number): {
+    __type__: 'number';
+    value: 'NaN' | 'Infinity' | '-Infinity';
+  } {
+    if (Number.isNaN(value)) {
+      return { __type__: 'number', value: 'NaN' };
+    }
+    if (value === Infinity) {
+      return { __type__: 'number', value: 'Infinity' };
+    }
+    return { __type__: 'number', value: '-Infinity' };
+  }
+
+  private deserializeSpecialNumber(value: string): number {
+    if (value === 'NaN') {
+      return NaN;
+    }
+    if (value === 'Infinity') {
+      return Infinity;
+    }
+    if (value === '-Infinity') {
+      return -Infinity;
+    }
+    return Number(value);
   }
 }

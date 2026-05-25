@@ -457,8 +457,7 @@ export interface SnapshotListenerOptions {
 /**
  * @since 5.2.0
  */
-export interface AddDocumentSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddDocumentSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -483,8 +482,7 @@ export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 /**
  * @since 5.2.0
  */
-export interface AddCollectionSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -522,8 +520,7 @@ export type AddCollectionSnapshotListenerCallbackEvent<T> =
 /**
  * @since 6.1.0
  */
-export interface AddCollectionGroupSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionGroupSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -951,6 +948,44 @@ export interface FirestoreDocumentReference {
    * @since 8.3.0
    */
   path: string;
+}
+
+/**
+ * Represents a Firestore Bytes value as a plain marker object.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreBytes {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'bytes';
+  /**
+   * The base64-encoded bytes value.
+   *
+   * @since 8.3.0
+   */
+  bytes: string;
+}
+
+/**
+ * Represents a special numeric value (`NaN`, `Infinity`, or `-Infinity`) as
+ * a plain marker object, since these values are not JSON-serializable and
+ * cannot be transferred over the Capacitor bridge as regular numbers.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreNumber {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'number';
+  /**
+   * The string representation of the special numeric value.
+   *
+   * @since 8.3.0
+   */
+  value: 'NaN' | 'Infinity' | '-Infinity';
 }
 
 /**
