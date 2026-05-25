@@ -91,6 +91,12 @@ import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
 import { Timestamp } from './timestamp';
 
+type ServerTimestamps = 'estimate' | 'previous' | 'none';
+
+function normalizeServerTimestamps(value: unknown): ServerTimestamps {
+  return value === 'estimate' || value === 'previous' ? value : 'none';
+}
+
 export class FirebaseFirestoreWeb
   extends WebPlugin
   implements FirebaseFirestorePlugin
@@ -120,7 +126,9 @@ export class FirebaseFirestoreWeb
             path: documentSnapshot.ref.path,
             data: this.deserializeData(
               documentSnapshot.data({
-                serverTimestamps: options.serverTimestamps,
+                serverTimestamps: normalizeServerTimestamps(
+                  options.serverTimestamps,
+                ),
               }),
             ) as T,
             metadata: {
@@ -161,7 +169,9 @@ export class FirebaseFirestoreWeb
             path: documentSnapshot.ref.path,
             data: this.deserializeData(
               documentSnapshot.data({
-                serverTimestamps: options.serverTimestamps,
+                serverTimestamps: normalizeServerTimestamps(
+                  options.serverTimestamps,
+                ),
               }),
             ) as T,
             metadata: {
@@ -211,7 +221,7 @@ export class FirebaseFirestoreWeb
       },
       snapshot => {
         const data = snapshot.data({
-          serverTimestamps: options.serverTimestamps,
+          serverTimestamps: normalizeServerTimestamps(options.serverTimestamps),
         });
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {

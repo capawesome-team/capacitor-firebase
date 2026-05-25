@@ -471,7 +471,8 @@ export interface SnapshotListenerOptions {
 /**
  * @since 5.2.0
  */
-export interface AddDocumentSnapshotListenerOptions extends SnapshotListenerOptions {
+export interface AddDocumentSnapshotListenerOptions
+  extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -496,7 +497,8 @@ export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 /**
  * @since 5.2.0
  */
-export interface AddCollectionSnapshotListenerOptions extends SnapshotListenerOptions {
+export interface AddCollectionSnapshotListenerOptions
+  extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -534,7 +536,8 @@ export type AddCollectionSnapshotListenerCallbackEvent<T> =
 /**
  * @since 6.1.0
  */
-export interface AddCollectionGroupSnapshotListenerOptions extends SnapshotListenerOptions {
+export interface AddCollectionGroupSnapshotListenerOptions
+  extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *

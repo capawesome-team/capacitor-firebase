@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.google.firebase.firestore.DocumentSnapshot;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
