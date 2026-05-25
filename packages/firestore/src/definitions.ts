@@ -457,8 +457,7 @@ export interface SnapshotListenerOptions {
 /**
  * @since 5.2.0
  */
-export interface AddDocumentSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddDocumentSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -483,8 +482,7 @@ export type AddDocumentSnapshotListenerCallbackEvent<T> = GetDocumentResult<T>;
 /**
  * @since 5.2.0
  */
-export interface AddCollectionSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -522,8 +520,7 @@ export type AddCollectionSnapshotListenerCallbackEvent<T> =
 /**
  * @since 6.1.0
  */
-export interface AddCollectionGroupSnapshotListenerOptions
-  extends SnapshotListenerOptions {
+export interface AddCollectionGroupSnapshotListenerOptions extends SnapshotListenerOptions {
   /**
    * The reference as a string, with path components separated by a forward slash (`/`).
    *
@@ -583,6 +580,18 @@ export interface GetCountFromServerOptions {
    * @since 6.4.0
    */
   reference: string;
+  /**
+   * The filter to apply.
+   *
+   * @since 8.3.0
+   */
+  compositeFilter?: QueryCompositeFilterConstraint;
+  /**
+   * Narrow or order the set of documents to count, but do not explicitly filter for document fields.
+   *
+   * @since 8.3.0
+   */
+  queryConstraints?: QueryNonFilterConstraint[];
 }
 
 /**

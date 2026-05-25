@@ -248,9 +248,23 @@ public class FirebaseFirestore {
         getFirebaseFirestoreInstance().useEmulator(host, port);
     }
 
-    public void getCountFromServer(@NonNull GetCountFromServerOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void getCountFromServer(@NonNull GetCountFromServerOptions options, @NonNull NonEmptyResultCallback callback) throws Exception {
         String reference = options.getReference();
+        QueryCompositeFilterConstraint compositeFilter = options.getCompositeFilter();
+        QueryNonFilterConstraint[] queryConstraints = options.getQueryConstraints();
+
         Query query = getFirebaseFirestoreInstance().collection(reference);
+        if (compositeFilter != null) {
+            Filter filter = compositeFilter.toFilter();
+            if (filter != null) {
+                query = query.where(filter);
+            }
+        }
+        if (queryConstraints.length > 0) {
+            for (QueryNonFilterConstraint queryConstraint : queryConstraints) {
+                query = queryConstraint.toQuery(query, getFirebaseFirestoreInstance());
+            }
+        }
         AggregateQuery countQuery = query.count();
 
         countQuery
