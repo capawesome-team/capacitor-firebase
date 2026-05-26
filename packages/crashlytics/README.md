@@ -77,6 +77,30 @@ This can be useful if you encounter dependency conflicts with other plugins in y
 
 ### iOS
 
+#### Swift Package Manager
+
+Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to avoid a [SwiftPM package identity collision](https://github.com/capawesome-team/capacitor-firebase/issues/959):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/crashlytics": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
+
+#### dSYM Upload
+
 To generate human readable crash reports, Crashlytics needs your project's debug symbol (dSYM) files.
 The following steps describe how to automatically upload dSYM files to Firebase whenever you build your app:
 

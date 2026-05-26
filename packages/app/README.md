@@ -56,6 +56,30 @@ If needed, you can define the following project variable in your app’s `variab
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
+### iOS
+
+#### Swift Package Manager
+
+Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to avoid a [SwiftPM package identity collision](https://github.com/capawesome-team/capacitor-firebase/issues/959):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/app": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
+
 ## Configuration
 
 No configuration required for this plugin.

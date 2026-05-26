@@ -66,6 +66,28 @@ This can be useful if you encounter dependency conflicts with other plugins in y
 
 ### iOS
 
+#### Swift Package Manager
+
+Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to avoid a [SwiftPM package identity collision](https://github.com/capawesome-team/capacitor-firebase/issues/959):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/analytics": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
+
 If you are using **CocoaPods** for your iOS project, you need to add the `CapacitorFirebaseAnalytics/Analytics` pod to your `Podfile` (usually `ios/App/Podfile`):
 
 ```diff
