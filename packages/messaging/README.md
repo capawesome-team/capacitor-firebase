@@ -86,6 +86,30 @@ If you prefer to prevent token autogeneration, disable Analytics collection and 
 
 ### iOS
 
+#### Swift Package Manager
+
+Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to avoid a [SwiftPM package identity collision](https://github.com/capawesome-team/capacitor-firebase/issues/959):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/messaging": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
+
+#### Setup
+
 > **Important**: Make sure that no other Capacitor Push Notification plugin is installed (see [here](https://github.com/capawesome-team/capacitor-firebase/pull/267#issuecomment-1328885820)).
 
 See [Prerequisites](https://capacitorjs.com/docs/guides/push-notifications-firebase#prerequisites) and complete the prerequisites first.

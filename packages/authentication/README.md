@@ -89,6 +89,30 @@ The further installation steps depend on the selected authentication method:
 These SDKs can initialize on their own and collect various data.
 For more information, see [Third-Party SDKs](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/third-party-sdks.md).
 
+### iOS
+
+#### Swift Package Manager
+
+Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to avoid a [SwiftPM package identity collision](https://github.com/capawesome-team/capacitor-firebase/issues/959):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/authentication": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
+
 ## Configuration
 
 <docgen-config>
