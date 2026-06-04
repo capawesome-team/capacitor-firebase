@@ -140,7 +140,7 @@ The following starter templates are available:
 ## Usage
 
 ```typescript
-import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+import { FieldValue, FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({
@@ -186,6 +186,19 @@ const updateDocument = async () => {
 const deleteDocument = async () => {
   await FirebaseFirestore.deleteDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
+  });
+};
+
+const updateDocumentWithFieldValue = async () => {
+  await FirebaseFirestore.updateDocument({
+    reference: 'users/Aorq09lkt1ynbR7xhTUx',
+    data: {
+      born: FieldValue.increment(1),
+      updatedAt: FieldValue.serverTimestamp(),
+      nicknames: FieldValue.arrayUnion('Prof'),
+      tags: FieldValue.arrayRemove('draft'),
+      deprecatedField: FieldValue.delete(),
+    },
   });
 };
 
