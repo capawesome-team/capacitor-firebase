@@ -1,5 +1,23 @@
 # @capacitor-firebase/firestore
 
+## 8.3.0
+
+### Minor Changes
+
+- [`a5fe048d2efb57dc195b0b99b375d85e6402c224`](https://github.com/capawesome-team/capacitor-firebase/commit/a5fe048d2efb57dc195b0b99b375d85e6402c224) ([#988](https://github.com/capawesome-team/capacitor-firebase/pull/988)): feat: support queries in `getCountFromServer`
+
+- [`7a1b9b7b17823b37d8fe090771c82bb646993028`](https://github.com/capawesome-team/capacitor-firebase/commit/7a1b9b7b17823b37d8fe090771c82bb646993028) ([#991](https://github.com/capawesome-team/capacitor-firebase/pull/991)): feat(firestore): add support for `DocumentReference`, `Bytes`, `NaN`, and `Infinity` data types across all platforms
+
+- [`34dbed61bb86c64e0a68b35382cd03cceabb0821`](https://github.com/capawesome-team/capacitor-firebase/commit/34dbed61bb86c64e0a68b35382cd03cceabb0821) ([#993](https://github.com/capawesome-team/capacitor-firebase/pull/993)): feat(firestore): support `serverTimestamps` behavior option for `addDocumentSnapshotListener(...)`, `addCollectionSnapshotListener(...)`, and `addCollectionGroupSnapshotListener(...)`
+
+### Patch Changes
+
+- [`52ce77d30eb39315beac86282a09df2f24fb14e9`](https://github.com/capawesome-team/capacitor-firebase/commit/52ce77d30eb39315beac86282a09df2f24fb14e9) ([#992](https://github.com/capawesome-team/capacitor-firebase/pull/992)): fix(firestore): handle `limitToLast` query constraint on Android
+
+- [`dff85f9a2029843390d191786e4ae212b85fb061`](https://github.com/capawesome-team/capacitor-firebase/commit/dff85f9a2029843390d191786e4ae212b85fb061) ([#989](https://github.com/capawesome-team/capacitor-firebase/pull/989)): fix: generate unique listener/callback IDs on web so listeners created in the same millisecond do not overwrite each other
+
+- [`79c95bc5fc821f8f420d7b04bcab3fffbff8215a`](https://github.com/capawesome-team/capacitor-firebase/commit/79c95bc5fc821f8f420d7b04bcab3fffbff8215a) ([#981](https://github.com/capawesome-team/capacitor-firebase/pull/981)): fix(firestore): handle `DocumentReference` fields in the web deserializer to prevent `Maximum call stack size exceeded`
+
 ## 8.2.0
 
 ### Minor Changes
