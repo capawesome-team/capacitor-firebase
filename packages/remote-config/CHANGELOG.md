@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.3.0
+
+### Minor Changes
+
+- [`a031d713effcd5abcb46a4c603996a2ff6a54940`](https://github.com/capawesome-team/capacitor-firebase/commit/a031d713effcd5abcb46a4c603996a2ff6a54940) ([#970](https://github.com/capawesome-team/capacitor-firebase/pull/970)): feat: add `setDefaults(...)` method
+
+- [`1289c74d8d0e749fa5bd68987b3c1e042c1d7bf6`](https://github.com/capawesome-team/capacitor-firebase/commit/1289c74d8d0e749fa5bd68987b3c1e042c1d7bf6) ([#977](https://github.com/capawesome-team/capacitor-firebase/pull/977)): feat: add `getAll()` method
+
+- [`aadecd630e8d90c15ef35e7beaf8126ca899ac23`](https://github.com/capawesome-team/capacitor-firebase/commit/aadecd630e8d90c15ef35e7beaf8126ca899ac23) ([#979](https://github.com/capawesome-team/capacitor-firebase/pull/979)): feat: expose value `source` on Web for `getBoolean(...)`, `getNumber(...)`, `getString(...)`, and `getAll()`
+
 ## 8.2.0
 
 ## 8.1.0

@@ -1,5 +1,11 @@
 # @capacitor-firebase/storage
 
+## 8.3.0
+
+### Patch Changes
+
+- [`dff85f9a2029843390d191786e4ae212b85fb061`](https://github.com/capawesome-team/capacitor-firebase/commit/dff85f9a2029843390d191786e4ae212b85fb061) ([#989](https://github.com/capawesome-team/capacitor-firebase/pull/989)): fix: generate unique listener/callback IDs on web so listeners created in the same millisecond do not overwrite each other
+
 ## 8.2.0
 
 ### Minor Changes
