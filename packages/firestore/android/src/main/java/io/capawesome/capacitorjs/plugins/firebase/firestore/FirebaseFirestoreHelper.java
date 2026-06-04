@@ -116,6 +116,7 @@ public class FirebaseFirestoreHelper {
                         queryNonFilterConstraint[i] = new QueryOrderByConstraint(queryConstraint);
                         break;
                     case "limit":
+                    case "limitToLast":
                         queryNonFilterConstraint[i] = new QueryLimitConstraint(queryConstraint);
                         break;
                     case "startAt":
