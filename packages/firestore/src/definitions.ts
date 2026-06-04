@@ -583,6 +583,18 @@ export interface GetCountFromServerOptions {
    * @since 6.4.0
    */
   reference: string;
+  /**
+   * The filter to apply.
+   *
+   * @since 8.3.0
+   */
+  compositeFilter?: QueryCompositeFilterConstraint;
+  /**
+   * Narrow or order the set of documents to count, but do not explicitly filter for document fields.
+   *
+   * @since 8.3.0
+   */
+  queryConstraints?: QueryNonFilterConstraint[];
 }
 
 /**

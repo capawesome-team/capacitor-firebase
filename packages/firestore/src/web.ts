@@ -312,10 +312,11 @@ export class FirebaseFirestoreWeb
   public async getCountFromServer(
     options: GetCountFromServerOptions,
   ): Promise<GetCountFromServerResult> {
-    const firestore = getFirestore();
-    const { reference } = options;
-    const coll = collection(firestore, reference);
-    const snapshot = await getCountFromServer(coll);
+    const collectionQuery = await this.buildCollectionQuery(
+      options,
+      'collection',
+    );
+    const snapshot = await getCountFromServer(collectionQuery);
     return { count: snapshot.data().count };
   }
 
@@ -417,6 +418,7 @@ export class FirebaseFirestoreWeb
     options:
       | GetCollectionOptions
       | GetCollectionGroupOptions
+      | GetCountFromServerOptions
       | AddCollectionSnapshotListenerOptions,
     type: 'collection' | 'collectionGroup',
   ): Promise<Query<DocumentData, DocumentData>> {

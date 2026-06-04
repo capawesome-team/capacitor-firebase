@@ -957,9 +957,11 @@ Execute multiple write operations as a single batch.
 
 #### GetCountFromServerOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
+| Prop                   | Type                                                                                      | Description                                                                                      | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).              | 6.4.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                             | 8.3.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to count, but do not explicitly filter for document fields. | 8.3.0 |
 
 
 #### GetDocumentOptions
