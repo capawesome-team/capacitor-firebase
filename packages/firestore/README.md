@@ -789,17 +789,9 @@ Execute multiple write operations as a single batch.
 
 #### AddDocumentResult
 
-| Prop            | Type                                                            | Description                                | Since |
-| --------------- | --------------------------------------------------------------- | ------------------------------------------ | ----- |
-| **`reference`** | <code><a href="#documentreference">DocumentReference</a></code> | The reference of the newly added document. | 5.2.0 |
-
-
-#### DocumentReference
-
-| Prop       | Type                | Description                                      | Since |
-| ---------- | ------------------- | ------------------------------------------------ | ----- |
-| **`id`**   | <code>string</code> | The document's identifier within its collection. | 5.2.0 |
-| **`path`** | <code>string</code> | The path of the document.                        | 5.2.0 |
+| Prop            | Type                           | Description                                | Since |
+| --------------- | ------------------------------ | ------------------------------------------ | ----- |
+| **`reference`** | <code>DocumentReference</code> | The reference of the newly added document. | 5.2.0 |
 
 
 #### AddDocumentOptions

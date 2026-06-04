@@ -1,4 +1,5 @@
 import { Bytes } from './bytes';
+import { DocumentReference } from './document-reference';
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
 import {
@@ -18,6 +19,7 @@ export function serializeData(data: any): any {
     data instanceof Timestamp ||
     data instanceof GeoPoint ||
     data instanceof Bytes ||
+    data instanceof DocumentReference ||
     data instanceof FieldValue
   ) {
     return data.toJSON();
@@ -51,6 +53,9 @@ export function deserializeData(data: any): any {
     }
     if (data.__type__ === 'bytes') {
       return Bytes.fromBase64String(data.bytes);
+    }
+    if (data.__type__ === 'documentReference') {
+      return DocumentReference.fromPath(data.path);
     }
     if (data.__type__ === 'number') {
       return deserializeSpecialNumber(data.value);

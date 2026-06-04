@@ -26,6 +26,7 @@ import type {
   UseEmulatorOptions,
   WriteBatchOptions,
 } from './definitions';
+import { DocumentReference } from './document-reference';
 import { deserializeData, serializeData } from './utils';
 
 export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
@@ -76,10 +77,12 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
   }
 
   async addDocument(options: AddDocumentOptions): Promise<AddDocumentResult> {
-    return this.plugin.addDocument({
+    const result = await this.plugin.addDocument({
       ...options,
       data: serializeData(options.data),
     });
+    result.reference = DocumentReference.fromPath(result.reference.path);
+    return result;
   }
 
   async addDocumentSnapshotListener<T extends DocumentData = DocumentData>(
