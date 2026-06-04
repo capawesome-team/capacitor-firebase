@@ -96,6 +96,7 @@ export class FirebaseFirestoreWeb
   implements FirebaseFirestorePlugin
 {
   private readonly unsubscribesMap: Map<string, Unsubscribe> = new Map();
+  private lastListenerId = 0;
 
   public async addCollectionGroupSnapshotListener<
     T extends DocumentData = DocumentData,
@@ -129,7 +130,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.generateListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -166,7 +167,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.generateListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -220,7 +221,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.generateListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -669,5 +670,9 @@ export class FirebaseFirestoreWeb
       default:
         return marker;
     }
+  }
+
+  private generateListenerId(): string {
+    return (++this.lastListenerId).toString();
   }
 }
