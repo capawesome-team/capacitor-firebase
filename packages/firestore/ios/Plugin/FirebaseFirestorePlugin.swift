@@ -310,7 +310,11 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         let compositeFilter = call.getObject("compositeFilter")
         let queryConstraints = call.getArray("queryConstraints", JSObject.self)
 
-        let options = GetCountFromServerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints)
+        guard let firestore = implementation?.getFirestoreInstance() else {
+            call.reject(errorImplementationMissing)
+            return
+        }
+        let options = GetCountFromServerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, firestore: firestore)
 
         implementation?.getCountFromServer(options, completion: { result, error in
             if let error = error {

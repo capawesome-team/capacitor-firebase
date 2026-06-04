@@ -443,7 +443,12 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter", null);
             JSArray queryConstraints = call.getArray("queryConstraints", null);
 
-            GetCountFromServerOptions options = new GetCountFromServerOptions(reference, compositeFilter, queryConstraints);
+            GetCountFromServerOptions options = new GetCountFromServerOptions(
+                reference,
+                compositeFilter,
+                queryConstraints,
+                implementation.getFirebaseFirestoreInstance()
+            );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
