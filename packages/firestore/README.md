@@ -58,6 +58,30 @@ If needed, you can define the following project variable in your app’s `variab
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
+### iOS
+
+#### Swift Package Manager
+
+Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to avoid a [SwiftPM package identity collision](https://github.com/capawesome-team/capacitor-firebase/issues/959):
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/firestore": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
+
 ## Configuration
 
 <docgen-config>
@@ -933,9 +957,11 @@ Execute multiple write operations as a single batch.
 
 #### GetCountFromServerOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 6.4.0 |
+| Prop                   | Type                                                                                      | Description                                                                                      | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).              | 6.4.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                             | 8.3.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to count, but do not explicitly filter for document fields. | 8.3.0 |
 
 
 #### GetDocumentOptions

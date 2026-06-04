@@ -97,11 +97,18 @@ import {
 } from './special-number';
 import { Timestamp } from './timestamp';
 
+type ServerTimestamps = 'estimate' | 'previous' | 'none';
+
+function normalizeServerTimestamps(value: unknown): ServerTimestamps {
+  return value === 'estimate' || value === 'previous' ? value : 'none';
+}
+
 export class FirebaseFirestoreWeb
   extends WebPlugin
   implements FirebaseFirestorePlugin
 {
   private readonly unsubscribesMap: Map<string, Unsubscribe> = new Map();
+  private lastListenerId = 0;
 
   public async addCollectionGroupSnapshotListener<
     T extends DocumentData = DocumentData,
@@ -124,7 +131,13 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              documentSnapshot.data({
+                serverTimestamps: normalizeServerTimestamps(
+                  options.serverTimestamps,
+                ),
+              }),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -135,7 +148,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.generateListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -161,7 +174,13 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              documentSnapshot.data({
+                serverTimestamps: normalizeServerTimestamps(
+                  options.serverTimestamps,
+                ),
+              }),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -172,7 +191,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.generateListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -208,7 +227,9 @@ export class FirebaseFirestoreWeb
         source: options.source,
       },
       snapshot => {
-        const data = snapshot.data();
+        const data = snapshot.data({
+          serverTimestamps: normalizeServerTimestamps(options.serverTimestamps),
+        });
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {
             id: snapshot.id,
@@ -226,7 +247,7 @@ export class FirebaseFirestoreWeb
       },
       error => callback(null, error),
     );
-    const id = Date.now().toString();
+    const id = this.generateListenerId();
     this.unsubscribesMap.set(id, unsubscribe);
     return id;
   }
@@ -317,10 +338,11 @@ export class FirebaseFirestoreWeb
   public async getCountFromServer(
     options: GetCountFromServerOptions,
   ): Promise<GetCountFromServerResult> {
-    const firestore = getFirestore();
-    const { reference } = options;
-    const coll = collection(firestore, reference);
-    const snapshot = await getCountFromServer(coll);
+    const collectionQuery = await this.buildCollectionQuery(
+      options,
+      'collection',
+    );
+    const snapshot = await getCountFromServer(collectionQuery);
     return { count: snapshot.data().count };
   }
 
@@ -422,6 +444,7 @@ export class FirebaseFirestoreWeb
     options:
       | GetCollectionOptions
       | GetCollectionGroupOptions
+      | GetCountFromServerOptions
       | AddCollectionSnapshotListenerOptions,
     type: 'collection' | 'collectionGroup',
   ): Promise<Query<DocumentData, DocumentData>> {
@@ -691,5 +714,9 @@ export class FirebaseFirestoreWeb
       default:
         return marker;
     }
+  }
+
+  private generateListenerId(): string {
+    return (++this.lastListenerId).toString();
   }
 }

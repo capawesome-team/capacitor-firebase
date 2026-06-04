@@ -248,12 +248,25 @@ private actor ListenerRegistrationMap {
 
     @objc public func getCountFromServer(_ options: GetCountFromServerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
-        let collectionReference = getFirestoreInstance().collection(reference)
-        let countQuery = collectionReference.count
+        let compositeFilter = options.getCompositeFilter()
+        let queryConstraints = options.getQueryConstraints()
 
         Task {
             do {
-                let snapshot = try await countQuery.getAggregation(source: .server)
+                let collectionReference = getFirestoreInstance().collection(reference)
+                var query = collectionReference as Query
+                if let compositeFilter = compositeFilter {
+                    if let filter = compositeFilter.toFilter() {
+                        query = query.whereFilter(filter)
+                    }
+                }
+                if !queryConstraints.isEmpty {
+                    for queryConstraint in queryConstraints {
+                        query = try await queryConstraint.toQuery(query: query, firestore: getFirestoreInstance())
+                    }
+                }
+
+                let snapshot = try await query.count.getAggregation(source: .server)
                 let result = GetCountFromServerResult(snapshot.count.intValue)
                 completion(result, nil)
             } catch {
@@ -265,13 +278,14 @@ private actor ListenerRegistrationMap {
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
         let includeMetadataChanges = options.getIncludeMetadataChanges()
+        let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.getServerTimestampBehavior())
         let callbackId = options.getCallbackId()
 
         let listenerRegistration = getFirestoreInstance().document(reference).addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { documentSnapshot, error in
             if let error = error {
                 completion(nil, error)
             } else {
-                let result = GetDocumentResult(documentSnapshot!)
+                let result = GetDocumentResult(documentSnapshot!, serverTimestampBehavior)
                 completion(result, nil)
             }
         }
@@ -285,6 +299,7 @@ private actor ListenerRegistrationMap {
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
         let includeMetadataChanges = options.getIncludeMetadataChanges()
+        let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.getServerTimestampBehavior())
         let callbackId = options.getCallbackId()
 
         Task {
@@ -306,7 +321,7 @@ private actor ListenerRegistrationMap {
                     if let error = error {
                         completion(nil, error)
                     } else {
-                        let result = GetCollectionResult(querySnapshot!)
+                        let result = GetCollectionResult(querySnapshot!, serverTimestampBehavior)
                         completion(result, nil)
                     }
                 }
@@ -322,6 +337,7 @@ private actor ListenerRegistrationMap {
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
         let includeMetadataChanges = options.getIncludeMetadataChanges()
+        let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.getServerTimestampBehavior())
         let callbackId = options.getCallbackId()
 
         Task {
@@ -343,7 +359,7 @@ private actor ListenerRegistrationMap {
                     if let error = error {
                         completion(nil, error)
                     } else {
-                        let result = GetCollectionGroupResult(querySnapshot!)
+                        let result = GetCollectionGroupResult(querySnapshot!, serverTimestampBehavior)
                         completion(result, nil)
                     }
                 }

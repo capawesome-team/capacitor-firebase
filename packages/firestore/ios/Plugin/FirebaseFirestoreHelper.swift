@@ -3,6 +3,17 @@ import FirebaseFirestore
 import Capacitor
 
 public class FirebaseFirestoreHelper {
+    public static func createServerTimestampBehavior(_ value: String?) -> ServerTimestampBehavior {
+        switch value {
+        case "estimate":
+            return .estimate
+        case "previous":
+            return .previous
+        default:
+            return .none
+        }
+    }
+
     public static func createHashMapFromJSObject(_ object: JSObject, firestore: Firestore) -> [String: Any] {
         var map: [String: Any] = [:]
         for key in object.keys {

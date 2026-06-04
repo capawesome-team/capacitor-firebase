@@ -440,8 +440,10 @@ public class FirebaseFirestorePlugin extends Plugin {
                 call.reject(ERROR_REFERENCE_MISSING);
                 return;
             }
+            JSObject compositeFilter = call.getObject("compositeFilter", null);
+            JSArray queryConstraints = call.getArray("queryConstraints", null);
 
-            GetCountFromServerOptions options = new GetCountFromServerOptions(reference);
+            GetCountFromServerOptions options = new GetCountFromServerOptions(reference, compositeFilter, queryConstraints);
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -473,6 +475,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
             Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+            String serverTimestampBehavior = call.getString("serverTimestamps");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -480,6 +483,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(
                 reference,
                 includeMetadataChanges,
+                serverTimestampBehavior,
                 callbackId
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
@@ -515,6 +519,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
             Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+            String serverTimestampBehavior = call.getString("serverTimestamps");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -524,6 +529,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 compositeFilter,
                 queryConstraints,
                 includeMetadataChanges,
+                serverTimestampBehavior,
                 callbackId,
                 implementation.getFirebaseFirestoreInstance()
             );
@@ -560,6 +566,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
             Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+            String serverTimestampBehavior = call.getString("serverTimestamps");
             String callbackId = call.getCallbackId();
 
             this.pluginCallMap.put(callbackId, call);
@@ -569,6 +576,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 compositeFilter,
                 queryConstraints,
                 includeMetadataChanges,
+                serverTimestampBehavior,
                 callbackId,
                 implementation.getFirebaseFirestoreInstance()
             );

@@ -30,6 +30,21 @@ import org.json.JSONObject;
 
 public class FirebaseFirestoreHelper {
 
+    @NonNull
+    public static DocumentSnapshot.ServerTimestampBehavior createServerTimestampBehavior(@Nullable String value) {
+        if (value == null) {
+            return DocumentSnapshot.ServerTimestampBehavior.NONE;
+        }
+        switch (value) {
+            case "estimate":
+                return DocumentSnapshot.ServerTimestampBehavior.ESTIMATE;
+            case "previous":
+                return DocumentSnapshot.ServerTimestampBehavior.PREVIOUS;
+            default:
+                return DocumentSnapshot.ServerTimestampBehavior.NONE;
+        }
+    }
+
     public static HashMap<String, Object> createHashMapFromJSONObject(
         JSONObject object,
         @NonNull com.google.firebase.firestore.FirebaseFirestore firestore
