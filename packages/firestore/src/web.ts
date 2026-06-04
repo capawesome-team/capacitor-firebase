@@ -10,6 +10,7 @@ import type {
   Unsubscribe,
 } from 'firebase/firestore';
 import {
+  Bytes as FirebaseBytes,
   DocumentReference as FirebaseDocumentReference,
   GeoPoint as FirebaseGeoPoint,
   Timestamp as FirebaseTimestamp,
@@ -53,6 +54,7 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 
+import { Bytes } from './bytes';
 import type {
   AddCollectionGroupSnapshotListenerCallback,
   AddCollectionGroupSnapshotListenerOptions,
@@ -89,6 +91,10 @@ import type {
 } from './definitions';
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
+import {
+  deserializeSpecialNumber,
+  serializeSpecialNumber,
+} from './special-number';
 import { Timestamp } from './timestamp';
 
 type ServerTimestamps = 'estimate' | 'previous' | 'none';
@@ -617,6 +623,15 @@ export class FirebaseFirestoreWeb
         path: data.path,
       };
     }
+    if (data instanceof FirebaseBytes) {
+      return {
+        __type__: 'bytes',
+        bytes: data.toBase64(),
+      };
+    }
+    if (typeof data === 'number' && !Number.isFinite(data)) {
+      return serializeSpecialNumber(data);
+    }
     if (Array.isArray(data)) {
       return data.map(item => this.deserializeData(item));
     }
@@ -636,6 +651,9 @@ export class FirebaseFirestoreWeb
     }
     if (data instanceof GeoPoint) {
       return new FirebaseGeoPoint(data.latitude, data.longitude);
+    }
+    if (data instanceof Bytes) {
+      return FirebaseBytes.fromBase64String(data.toBase64());
     }
     if (data instanceof FieldValue) {
       return this.serializeFieldValue(data.toJSON());
@@ -675,6 +693,10 @@ export class FirebaseFirestoreWeb
         return new FirebaseGeoPoint(marker.latitude, marker.longitude);
       case 'documentReference':
         return doc(getFirestore(), marker.path);
+      case 'bytes':
+        return FirebaseBytes.fromBase64String(marker.bytes);
+      case 'number':
+        return deserializeSpecialNumber(marker.value);
       case 'serverTimestamp':
         return serverTimestamp();
       case 'arrayUnion':

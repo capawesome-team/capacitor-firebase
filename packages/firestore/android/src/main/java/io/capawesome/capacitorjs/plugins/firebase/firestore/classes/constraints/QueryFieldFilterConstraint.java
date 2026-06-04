@@ -20,10 +20,11 @@ public class QueryFieldFilterConstraint implements QueryFilterConstraint {
     @NonNull
     private Object value;
 
-    public QueryFieldFilterConstraint(JSObject queryConstraint) throws JSONException {
+    public QueryFieldFilterConstraint(JSObject queryConstraint, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)
+        throws JSONException {
         this.fieldPath = queryConstraint.getString("fieldPath", "");
         this.opStr = queryConstraint.getString("opStr", "");
-        this.value = FirebaseFirestoreHelper.createObjectFromJSValue(queryConstraint.get("value"));
+        this.value = FirebaseFirestoreHelper.createObjectFromJSValue(queryConstraint.get("value"), firestore);
     }
 
     @Nullable

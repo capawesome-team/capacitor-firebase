@@ -17,7 +17,8 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
     @NonNull
     private QueryFilterConstraint[] queryConstraints;
 
-    public QueryCompositeFilterConstraint(JSObject compositeFilter) throws JSONException {
+    public QueryCompositeFilterConstraint(JSObject compositeFilter, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)
+        throws JSONException {
         this.type = compositeFilter.getString("type");
         JSONArray queryConstraints = compositeFilter.getJSONArray("queryConstraints");
         this.queryConstraints = new QueryFilterConstraint[queryConstraints.length()];
@@ -25,9 +26,9 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
             JSObject queryConstraint = JSObject.fromJSONObject(queryConstraints.getJSONObject(i));
             String queryConstraintType = queryConstraint.getString("type");
             if (queryConstraintType.equals("where")) {
-                this.queryConstraints[i] = new QueryFieldFilterConstraint(queryConstraint);
+                this.queryConstraints[i] = new QueryFieldFilterConstraint(queryConstraint, firestore);
             } else {
-                this.queryConstraints[i] = new QueryCompositeFilterConstraint(queryConstraint);
+                this.queryConstraints[i] = new QueryCompositeFilterConstraint(queryConstraint, firestore);
             }
         }
     }

@@ -13,6 +13,7 @@ const FirebaseFirestore = new FirebaseFirestoreClient(
 
 export * from './definitions';
 export { FirebaseFirestore };
+export { Bytes } from './bytes';
 export { FieldValue } from './field-value';
 export { GeoPoint } from './geopoint';
 export { Timestamp } from './timestamp';

@@ -1,14 +1,23 @@
+import { Bytes } from './bytes';
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
+import {
+  deserializeSpecialNumber,
+  serializeSpecialNumber,
+} from './special-number';
 import { Timestamp } from './timestamp';
 
 export function serializeData(data: any): any {
   if (data === null || data === undefined) {
     return data;
   }
+  if (typeof data === 'number' && !Number.isFinite(data)) {
+    return serializeSpecialNumber(data);
+  }
   if (
     data instanceof Timestamp ||
     data instanceof GeoPoint ||
+    data instanceof Bytes ||
     data instanceof FieldValue
   ) {
     return data.toJSON();
@@ -39,6 +48,12 @@ export function deserializeData(data: any): any {
     }
     if (data.__type__ === 'geopoint') {
       return new GeoPoint(data.latitude, data.longitude);
+    }
+    if (data.__type__ === 'bytes') {
+      return Bytes.fromBase64String(data.bytes);
+    }
+    if (data.__type__ === 'number') {
+      return deserializeSpecialNumber(data.value);
     }
     const result: Record<string, any> = {};
     for (const key of Object.keys(data)) {

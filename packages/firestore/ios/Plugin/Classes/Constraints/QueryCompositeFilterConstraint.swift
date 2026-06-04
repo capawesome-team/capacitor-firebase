@@ -6,7 +6,7 @@ import Capacitor
     private var type: String
     private var queryConstraints: [QueryFilterConstraint]
 
-    public init(_ compositeFilter: JSObject) {
+    public init(_ compositeFilter: JSObject, firestore: Firestore) {
         self.type = compositeFilter["type"] as? String ?? ""
         let queryConstraints = compositeFilter["queryConstraints"] as? [JSObject]
         self.queryConstraints = []
@@ -14,10 +14,10 @@ import Capacitor
             for queryConstraint in queryConstraints {
                 let queryConstraintType = queryConstraint["type"] as? String ?? ""
                 if queryConstraintType == "where" {
-                    let queryFieldFilterConstraint = QueryFieldFilterConstraint(queryConstraint)
+                    let queryFieldFilterConstraint = QueryFieldFilterConstraint(queryConstraint, firestore: firestore)
                     self.queryConstraints.append(queryFieldFilterConstraint)
                 } else {
-                    let queryCompositeFilterConstraint = QueryCompositeFilterConstraint(queryConstraint)
+                    let queryCompositeFilterConstraint = QueryCompositeFilterConstraint(queryConstraint, firestore: firestore)
                     self.queryConstraints.append(queryCompositeFilterConstraint)
                 }
             }

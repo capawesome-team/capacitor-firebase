@@ -14,11 +14,11 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    public static func createHashMapFromJSObject(_ object: JSObject) -> [String: Any] {
+    public static func createHashMapFromJSObject(_ object: JSObject, firestore: Firestore) -> [String: Any] {
         var map: [String: Any] = [:]
         for key in object.keys {
             if let value = object[key] {
-                map[key] = createNativeValue(value)
+                map[key] = createNativeValue(value, firestore: firestore)
             }
         }
         return map
@@ -35,9 +35,12 @@ public class FirebaseFirestoreHelper {
         return object
     }
 
-    public static func createQueryCompositeFilterConstraintFromJSObject(_ compositeFilter: JSObject?) -> QueryCompositeFilterConstraint? {
+    public static func createQueryCompositeFilterConstraintFromJSObject(
+        _ compositeFilter: JSObject?,
+        firestore: Firestore
+    ) -> QueryCompositeFilterConstraint? {
         if let compositeFilter = compositeFilter {
-            return QueryCompositeFilterConstraint(compositeFilter)
+            return QueryCompositeFilterConstraint(compositeFilter, firestore: firestore)
         } else {
             return nil
         }
@@ -71,26 +74,26 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    public static func createNativeValue(_ value: Any) -> Any {
+    public static func createNativeValue(_ value: Any, firestore: Firestore) -> Any {
         if let dict = value as? [String: Any], let type = dict["__type__"] as? String {
-            if let markerValue = createNativeValueFromMarker(type: type, dict: dict) {
+            if let markerValue = createNativeValueFromMarker(type: type, dict: dict, firestore: firestore) {
                 return markerValue
             }
         }
         if let dict = value as? [String: Any] {
             var result: [String: Any] = [:]
             for (key, val) in dict {
-                result[key] = createNativeValue(val)
+                result[key] = createNativeValue(val, firestore: firestore)
             }
             return result
         }
         if let array = value as? [Any] {
-            return array.map { createNativeValue($0) }
+            return array.map { createNativeValue($0, firestore: firestore) }
         }
         return value
     }
 
-    private static func createNativeValueFromMarker(type: String, dict: [String: Any]) -> Any? {
+    private static func createNativeValueFromMarker(type: String, dict: [String: Any], firestore: Firestore) -> Any? {
         switch type {
         case "timestamp":
             guard let seconds = (dict["seconds"] as? NSNumber)?.int64Value,
@@ -100,13 +103,23 @@ public class FirebaseFirestoreHelper {
             guard let latitude = (dict["latitude"] as? NSNumber)?.doubleValue,
                   let longitude = (dict["longitude"] as? NSNumber)?.doubleValue else { return nil }
             return GeoPoint(latitude: latitude, longitude: longitude)
+        case "documentReference":
+            guard let path = dict["path"] as? String else { return nil }
+            return firestore.document(path)
+        case "bytes":
+            guard let base64 = dict["bytes"] as? String,
+                  let data = Data(base64Encoded: base64) else { return nil }
+            return data
+        case "number":
+            guard let value = dict["value"] as? String else { return nil }
+            return parseSpecialNumber(value)
         case "serverTimestamp":
             return FieldValue.serverTimestamp()
         case "arrayUnion":
-            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0) }
+            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0, firestore: firestore) }
             return FieldValue.arrayUnion(elements)
         case "arrayRemove":
-            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0) }
+            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0, firestore: firestore) }
             return FieldValue.arrayRemove(elements)
         case "delete":
             return FieldValue.delete()
@@ -132,6 +145,15 @@ public class FirebaseFirestoreHelper {
         }
         if let geoPoint = value as? GeoPoint {
             return createJSObjectFromGeoPoint(geoPoint) as JSValue
+        }
+        if let documentReference = value as? DocumentReference {
+            return createJSObjectFromDocumentReference(documentReference) as JSValue
+        }
+        if let data = value as? Data {
+            return createJSObjectFromData(data) as JSValue
+        }
+        if let number = value as? NSNumber, isSpecialNumber(number) {
+            return createJSObjectFromSpecialNumber(number.doubleValue) as JSValue
         }
         if let array = value as? [Any] {
             return createJSArrayFromArray(array) as JSValue
@@ -164,21 +186,59 @@ public class FirebaseFirestoreHelper {
         return object
     }
 
+    private static func createJSObjectFromDocumentReference(_ reference: DocumentReference) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "documentReference"
+        object["id"] = reference.documentID
+        object["path"] = reference.path
+        return object
+    }
+
+    private static func createJSObjectFromData(_ data: Data) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "bytes"
+        object["bytes"] = data.base64EncodedString()
+        return object
+    }
+
+    private static func createJSObjectFromSpecialNumber(_ value: Double) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "number"
+        if value.isNaN {
+            object["value"] = "NaN"
+        } else if value > 0 {
+            object["value"] = "Infinity"
+        } else {
+            object["value"] = "-Infinity"
+        }
+        return object
+    }
+
+    private static func isSpecialNumber(_ number: NSNumber) -> Bool {
+        let type = String(cString: number.objCType)
+        guard type == "d" || type == "f" else {
+            return false
+        }
+        let value = number.doubleValue
+        return value.isNaN || value.isInfinite
+    }
+
+    private static func parseSpecialNumber(_ value: String) -> Double {
+        switch value {
+        case "NaN":
+            return Double.nan
+        case "Infinity":
+            return Double.infinity
+        case "-Infinity":
+            return -Double.infinity
+        default:
+            return Double(value) ?? Double.nan
+        }
+    }
+
     private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
         return array.map { item -> Any in
-            if let timestamp = item as? Timestamp {
-                return createJSObjectFromTimestamp(timestamp)
-            }
-            if let geoPoint = item as? GeoPoint {
-                return createJSObjectFromGeoPoint(geoPoint)
-            }
-            if let dict = item as? [String: Any] {
-                return createJSObjectFromHashMap(dict) as Any
-            }
-            if let arr = item as? [Any] {
-                return createJSArrayFromArray(arr)
-            }
-            return item
+            return createJSValue(value: item) ?? NSNull()
         }
     }
 

@@ -64,7 +64,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
 
-            AddDocumentOptions options = new AddDocumentOptions(reference, data);
+            AddDocumentOptions options = new AddDocumentOptions(reference, data, implementation.getFirebaseFirestoreInstance());
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -100,7 +100,7 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
             boolean merge = call.getBoolean("merge", false);
 
-            SetDocumentOptions options = new SetDocumentOptions(reference, data, merge);
+            SetDocumentOptions options = new SetDocumentOptions(reference, data, merge, implementation.getFirebaseFirestoreInstance());
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -165,7 +165,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
 
-            UpdateDocumentOptions options = new UpdateDocumentOptions(reference, data);
+            UpdateDocumentOptions options = new UpdateDocumentOptions(reference, data, implementation.getFirebaseFirestoreInstance());
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -225,7 +225,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 return;
             }
 
-            WriteBatchOptions options = new WriteBatchOptions(operations);
+            WriteBatchOptions options = new WriteBatchOptions(operations, implementation.getFirebaseFirestoreInstance());
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -257,7 +257,12 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter", null);
             JSArray queryConstraints = call.getArray("queryConstraints", null);
 
-            GetCollectionOptions options = new GetCollectionOptions(reference, compositeFilter, queryConstraints);
+            GetCollectionOptions options = new GetCollectionOptions(
+                reference,
+                compositeFilter,
+                queryConstraints,
+                implementation.getFirebaseFirestoreInstance()
+            );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -289,7 +294,12 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter");
             JSArray queryConstraints = call.getArray("queryConstraints");
 
-            GetCollectionGroupOptions options = new GetCollectionGroupOptions(reference, compositeFilter, queryConstraints);
+            GetCollectionGroupOptions options = new GetCollectionGroupOptions(
+                reference,
+                compositeFilter,
+                queryConstraints,
+                implementation.getFirebaseFirestoreInstance()
+            );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -433,7 +443,12 @@ public class FirebaseFirestorePlugin extends Plugin {
             JSObject compositeFilter = call.getObject("compositeFilter", null);
             JSArray queryConstraints = call.getArray("queryConstraints", null);
 
-            GetCountFromServerOptions options = new GetCountFromServerOptions(reference, compositeFilter, queryConstraints);
+            GetCountFromServerOptions options = new GetCountFromServerOptions(
+                reference,
+                compositeFilter,
+                queryConstraints,
+                implementation.getFirebaseFirestoreInstance()
+            );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
                 public void success(Result result) {
@@ -520,7 +535,8 @@ public class FirebaseFirestorePlugin extends Plugin {
                 queryConstraints,
                 includeMetadataChanges,
                 serverTimestampBehavior,
-                callbackId
+                callbackId,
+                implementation.getFirebaseFirestoreInstance()
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override
@@ -566,7 +582,8 @@ public class FirebaseFirestorePlugin extends Plugin {
                 queryConstraints,
                 includeMetadataChanges,
                 serverTimestampBehavior,
-                callbackId
+                callbackId,
+                implementation.getFirebaseFirestoreInstance()
             );
             NonEmptyResultCallback callback = new NonEmptyResultCallback() {
                 @Override

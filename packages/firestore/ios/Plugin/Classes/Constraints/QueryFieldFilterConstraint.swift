@@ -7,11 +7,11 @@ import FirebaseFirestore
     private var opStr: String
     private var value: Any
 
-    public init(_ queryConstraint: JSObject) {
+    public init(_ queryConstraint: JSObject, firestore: Firestore) {
         self.fieldPath = queryConstraint["fieldPath"] as? String ?? ""
         self.opStr = queryConstraint["opStr"] as? String ?? ""
         let rawValue = queryConstraint["value"] as Any
-        self.value = FirebaseFirestoreHelper.createNativeValue(rawValue)
+        self.value = FirebaseFirestoreHelper.createNativeValue(rawValue, firestore: firestore)
     }
 
     public func toFilter() -> Filter? {

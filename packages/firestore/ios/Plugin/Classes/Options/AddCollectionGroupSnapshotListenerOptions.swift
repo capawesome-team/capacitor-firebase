@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import FirebaseFirestore
 
 @objc public class AddCollectionGroupSnapshotListenerOptions: NSObject {
     private var reference: String
@@ -9,9 +10,17 @@ import Capacitor
     private var serverTimestampBehavior: String?
     private var callbackId: String
 
-    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, includeMetadataChanges: Bool, serverTimestampBehavior: String?, callbackId: String) {
+    init(
+        reference: String,
+        compositeFilter: JSObject?,
+        queryConstraints: [JSObject]?,
+        includeMetadataChanges: Bool,
+        serverTimestampBehavior: String?,
+        callbackId: String,
+        firestore: Firestore
+    ) {
         self.reference = reference
-        self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter)
+        self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter, firestore: firestore)
         self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
         self.includeMetadataChanges = includeMetadataChanges
         self.serverTimestampBehavior = serverTimestampBehavior

@@ -1,13 +1,14 @@
 import Foundation
 import Capacitor
+import FirebaseFirestore
 
 @objc public class UpdateDocumentOptions: NSObject {
     private var reference: String
     private var data: [String: Any]
 
-    init(reference: String, data: JSObject) {
+    init(reference: String, data: JSObject, firestore: Firestore) {
         self.reference = reference
-        self.data = FirebaseFirestoreHelper.createHashMapFromJSObject(data)
+        self.data = FirebaseFirestoreHelper.createHashMapFromJSObject(data, firestore: firestore)
     }
 
     func getReference() -> String {

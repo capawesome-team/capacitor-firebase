@@ -980,6 +980,44 @@ export interface FirestoreDocumentReference {
 }
 
 /**
+ * Represents a Firestore Bytes value as a plain marker object.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreBytes {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'bytes';
+  /**
+   * The base64-encoded bytes value.
+   *
+   * @since 8.3.0
+   */
+  bytes: string;
+}
+
+/**
+ * Represents a special numeric value (`NaN`, `Infinity`, or `-Infinity`) as
+ * a plain marker object, since these values are not JSON-serializable and
+ * cannot be transferred over the Capacitor bridge as regular numbers.
+ *
+ * @since 8.3.0
+ */
+export interface FirestoreNumber {
+  /**
+   * @since 8.3.0
+   */
+  __type__: 'number';
+  /**
+   * The string representation of the special numeric value.
+   *
+   * @since 8.3.0
+   */
+  value: 'NaN' | 'Infinity' | '-Infinity';
+}
+
+/**
  * Represents a Firestore server timestamp sentinel as a plain marker object.
  *
  * @since 8.2.0
