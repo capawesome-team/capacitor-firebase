@@ -91,6 +91,12 @@ import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
 import { Timestamp } from './timestamp';
 
+type ServerTimestamps = 'estimate' | 'previous' | 'none';
+
+function normalizeServerTimestamps(value: unknown): ServerTimestamps {
+  return value === 'estimate' || value === 'previous' ? value : 'none';
+}
+
 export class FirebaseFirestoreWeb
   extends WebPlugin
   implements FirebaseFirestorePlugin
@@ -119,7 +125,13 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              documentSnapshot.data({
+                serverTimestamps: normalizeServerTimestamps(
+                  options.serverTimestamps,
+                ),
+              }),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -156,7 +168,13 @@ export class FirebaseFirestoreWeb
           snapshots: snapshot.docs.map(documentSnapshot => ({
             id: documentSnapshot.id,
             path: documentSnapshot.ref.path,
-            data: this.deserializeData(documentSnapshot.data()) as T,
+            data: this.deserializeData(
+              documentSnapshot.data({
+                serverTimestamps: normalizeServerTimestamps(
+                  options.serverTimestamps,
+                ),
+              }),
+            ) as T,
             metadata: {
               hasPendingWrites: documentSnapshot.metadata.hasPendingWrites,
               fromCache: documentSnapshot.metadata.fromCache,
@@ -203,7 +221,9 @@ export class FirebaseFirestoreWeb
         source: options.source,
       },
       snapshot => {
-        const data = snapshot.data();
+        const data = snapshot.data({
+          serverTimestamps: normalizeServerTimestamps(options.serverTimestamps),
+        });
         const event: AddDocumentSnapshotListenerCallbackEvent<T> = {
           snapshot: {
             id: snapshot.id,

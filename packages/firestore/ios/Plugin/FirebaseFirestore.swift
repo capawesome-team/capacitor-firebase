@@ -278,13 +278,14 @@ private actor ListenerRegistrationMap {
     @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
         let reference = options.getReference()
         let includeMetadataChanges = options.getIncludeMetadataChanges()
+        let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.getServerTimestampBehavior())
         let callbackId = options.getCallbackId()
 
         let listenerRegistration = getFirestoreInstance().document(reference).addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { documentSnapshot, error in
             if let error = error {
                 completion(nil, error)
             } else {
-                let result = GetDocumentResult(documentSnapshot!)
+                let result = GetDocumentResult(documentSnapshot!, serverTimestampBehavior)
                 completion(result, nil)
             }
         }
@@ -298,6 +299,7 @@ private actor ListenerRegistrationMap {
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
         let includeMetadataChanges = options.getIncludeMetadataChanges()
+        let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.getServerTimestampBehavior())
         let callbackId = options.getCallbackId()
 
         Task {
@@ -319,7 +321,7 @@ private actor ListenerRegistrationMap {
                     if let error = error {
                         completion(nil, error)
                     } else {
-                        let result = GetCollectionResult(querySnapshot!)
+                        let result = GetCollectionResult(querySnapshot!, serverTimestampBehavior)
                         completion(result, nil)
                     }
                 }
@@ -335,6 +337,7 @@ private actor ListenerRegistrationMap {
         let compositeFilter = options.getCompositeFilter()
         let queryConstraints = options.getQueryConstraints()
         let includeMetadataChanges = options.getIncludeMetadataChanges()
+        let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.getServerTimestampBehavior())
         let callbackId = options.getCallbackId()
 
         Task {
@@ -356,7 +359,7 @@ private actor ListenerRegistrationMap {
                     if let error = error {
                         completion(nil, error)
                     } else {
-                        let result = GetCollectionGroupResult(querySnapshot!)
+                        let result = GetCollectionGroupResult(querySnapshot!, serverTimestampBehavior)
                         completion(result, nil)
                     }
                 }

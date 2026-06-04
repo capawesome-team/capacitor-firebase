@@ -452,6 +452,20 @@ export interface SnapshotListenerOptions {
    * @default "default"
    */
   readonly source?: 'default' | 'cache';
+  /**
+   * Control how pending server timestamps are returned in snapshots
+   * that have not yet been acknowledged by the server.
+   *
+   * - `none`: pending server timestamps are returned as `null`.
+   * - `estimate`: pending server timestamps are replaced with the
+   *   local client's time estimate.
+   * - `previous`: pending server timestamps are replaced with the
+   *   previous value of the field (or `null` if there is no previous value).
+   *
+   * @since 8.3.0
+   * @default "none"
+   */
+  readonly serverTimestamps?: 'estimate' | 'previous' | 'none';
 }
 
 /**
