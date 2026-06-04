@@ -1,5 +1,7 @@
 /// <reference types="@capacitor/cli" />
 
+import type { DocumentReference } from './document-reference';
+
 declare module '@capacitor/cli' {
   export interface PluginsConfig {
     /**
@@ -621,26 +623,6 @@ export interface GetCountFromServerResult {
    * @since 6.4.0
    */
   count: number;
-}
-
-/**
- * @since 5.2.0
- */
-export interface DocumentReference {
-  /**
-   * The document's identifier within its collection.
-   *
-   * @since 5.2.0
-   * @example 'Aorq09lkt1ynbR7xhTUx'
-   */
-  id: string;
-  /**
-   * The path of the document.
-   *
-   * @since 5.2.0
-   * @example 'users/Aorq09lkt1ynbR7xhTUx'
-   */
-  path: string;
 }
 
 /**

@@ -89,6 +89,7 @@ import type {
   UseEmulatorOptions,
   WriteBatchOptions,
 } from './definitions';
+import { DocumentReference } from './document-reference';
 import { FieldValue } from './field-value';
 import { GeoPoint } from './geopoint';
 import {
@@ -206,10 +207,7 @@ export class FirebaseFirestoreWeb
       this.serializeData(data),
     );
     return {
-      reference: {
-        id: documentReference.id,
-        path: documentReference.path,
-      },
+      reference: DocumentReference.fromPath(documentReference.path),
     };
   }
 
