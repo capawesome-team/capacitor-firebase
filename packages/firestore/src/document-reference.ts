@@ -3,6 +3,7 @@ export class DocumentReference {
   readonly path: string;
 
   private constructor(path: string) {
+    DocumentReference.validatePath(path);
     this.path = path;
     this.id = path.substring(path.lastIndexOf('/') + 1);
   }
@@ -17,5 +18,15 @@ export class DocumentReference {
       id: this.id,
       path: this.path,
     };
+  }
+
+  private static validatePath(path: string): void {
+    const segments = path.split('/');
+    const hasEmptySegment = segments.some(segment => segment.length === 0);
+    if (segments.length % 2 !== 0 || hasEmptySegment) {
+      throw new Error(
+        `Invalid document reference. Document references must point to a document with an even number of non-empty path segments, but got '${path}'.`,
+      );
+    }
   }
 }
