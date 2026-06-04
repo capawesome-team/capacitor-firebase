@@ -237,7 +237,11 @@ public class FirebaseFirestoreHelper {
             case "-Infinity":
                 return Double.NEGATIVE_INFINITY;
             default:
-                return Double.parseDouble(value);
+                try {
+                    return Double.parseDouble(value);
+                } catch (NumberFormatException exception) {
+                    return Double.NaN;
+                }
         }
     }
 
