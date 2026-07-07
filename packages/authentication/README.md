@@ -1,4 +1,4 @@
-# @capacitor-firebase/authentication
+# Capacitor Firebase Authentication Plugin
 
 Unofficial Capacitor plugin for [Firebase Authentication](https://firebase.google.com/docs/auth).[^1]
 

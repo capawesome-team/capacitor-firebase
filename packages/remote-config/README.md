@@ -1,4 +1,4 @@
-# @capacitor-firebase/remote-config
+# Capacitor Firebase Remote Config Plugin
 
 Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config).[^1]
 

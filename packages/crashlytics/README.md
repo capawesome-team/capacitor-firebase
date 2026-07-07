@@ -1,4 +1,4 @@
-# @capacitor-firebase/crashlytics
+# Capacitor Firebase Crashlytics Plugin
 
 Unofficial Capacitor plugin for [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/).[^1]
 

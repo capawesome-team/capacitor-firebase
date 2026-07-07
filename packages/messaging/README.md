@@ -1,4 +1,4 @@
-# @capacitor-firebase/messaging
+# Capacitor Firebase Cloud Messaging Plugin
 
 Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging).[^1]
 

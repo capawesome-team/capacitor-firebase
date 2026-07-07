@@ -1,4 +1,4 @@
-# @capacitor-firebase/app-check
+# Capacitor Firebase App Check Plugin
 
 Unofficial Capacitor plugin for [Firebase App Check](https://firebase.google.com/docs/app-check).[^1]
 
