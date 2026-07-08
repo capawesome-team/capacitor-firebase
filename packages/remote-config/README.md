@@ -8,9 +8,15 @@ Unofficial Capacitor plugin for [Firebase Remote Config](https://firebase.google
   </a>
 </div>
 
-## Newsletter
+## Use Cases
 
-Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
+The Firebase Remote Config plugin is typically used to change the behavior and appearance of your app without publishing an app update, for example:
+
+- **Feature flags**: Roll out new features gradually by toggling boolean parameters remotely.
+- **Promotions**: Activate sales or promotions remotely, for example via an `is_sale` parameter.
+- **Maintenance announcements**: Inform users about upcoming maintenance without releasing a new app version.
+- **Real-time updates**: React to configuration changes in real time using the config update listener.
+- **Default values**: Provide in-app default values so your app behaves predictably before the first fetch.
 
 ## Compatibility
 
@@ -97,8 +103,22 @@ The following starter templates are available:
 
 ## Usage
 
+Import the plugin and call its methods:
+
 ```typescript
 import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+```
+
+### Fetch and activate the configuration
+
+Fetch the latest configuration from the Remote Config service and activate it to make it available to the getters. Use `fetchAndActivate()` to perform both operations at once. On Android and iOS, you can pass a minimum fetch interval to `fetchConfig(...)`:
+
+```typescript
+const fetchConfig = async () => {
+  await FirebaseRemoteConfig.fetchConfig({
+    minimumFetchIntervalInSeconds: 1200,
+  });
+};
 
 const activate = async () => {
   await FirebaseRemoteConfig.activate();
@@ -107,13 +127,13 @@ const activate = async () => {
 const fetchAndActivate = async () => {
   await FirebaseRemoteConfig.fetchAndActivate();
 };
+```
 
-const fetchConfig = async () => {
-  await FirebaseRemoteConfig.fetchConfig({
-    minimumFetchIntervalInSeconds: 1200,
-  });
-};
+### Read configuration values
 
+Read the value for a given key as a boolean, number, or string:
+
+```typescript
 const getBoolean = async () => {
   const { value } = await FirebaseRemoteConfig.getBoolean({
     key: 'is_sale',
@@ -134,14 +154,26 @@ const getString = async () => {
   });
   return value;
 };
+```
 
+### Configure the fetch behavior
+
+Set the fetch timeout and the minimum fetch interval. During development, it's recommended to set a relatively low minimum fetch interval:
+
+```typescript
 const setSettings = async () => {
   await FirebaseRemoteConfig.setSettings({
     fetchTimeoutInSeconds: 10,
     minimumFetchIntervalInSeconds: 0,
   });
 };
+```
 
+### Listen for configuration updates in real time
+
+Add a listener for the config update event to be notified as soon as parameter values change. Only available on Android and iOS:
+
+```typescript
 const addConfigUpdateListener = async () => {
   const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
     (event, error) => {
@@ -160,7 +192,13 @@ const removeConfigUpdateListener = async (callbackId: string) => {
     callbackId,
   });
 };
+```
 
+### Remove all listeners
+
+Remove all listeners that have been added for this plugin:
+
+```typescript
 const removeAllListeners = async () => {
   await FirebaseRemoteConfig.removeAllListeners();
 };
@@ -581,6 +619,37 @@ Remove all listeners for this plugin.
 | **`Throttled`**  | <code>3</code> |
 
 </docgen-api>
+
+## FAQ
+
+### Why do the getters return default values instead of the remote ones?
+
+Fetched configuration values must be activated before they are available to the getters. Call `fetchConfig(...)` followed by `activate()`, or use `fetchAndActivate()` to perform both operations at once, as shown in the [usage example](#fetch-and-activate-the-configuration) above.
+
+### How often does the plugin fetch new configuration values?
+
+Fetched configuration values are cached. The minimum fetch interval defines the maximum age in seconds of an entry in the config cache before it is considered stale, with a default of 43200 seconds (12 hours). During development, it's recommended to set a relatively low minimum fetch interval using `setSettings(...)` on Android and iOS or `setMinimumFetchInterval(...)` on Web.
+
+### How can I react to configuration changes in real time?
+
+Use `addConfigUpdateListener(...)` to be notified as soon as parameter values change, including the keys whose values have been updated. This method is only available on Android and iOS. You can remove the listener again with `removeConfigUpdateListener(...)` or `removeAllListeners()`.
+
+### Do I need the Firebase Analytics plugin to use Remote Config?
+
+Google Analytics is only required for the conditional targeting of app instances to user properties and audiences. If you want to use conditions, make sure to also install the [Capacitor Firebase Analytics](https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/analytics) plugin in your project.
+
+### How can I tell where a configuration value came from?
+
+The getters return a `source` property in addition to the value. It indicates whether the value is the static default value, was retrieved from the defaults set by the client, or was retrieved from the Firebase Remote Config server.
+
+## Related Plugins
+
+- [Firebase Analytics](https://capawesome.io/docs/sdks/capacitor/firebase/analytics/): Log events and user properties with Firebase Analytics.
+- [Live Update](https://capawesome.io/docs/sdks/capacitor/live-update/): Update your app remotely in real-time without requiring users to download a new version from the app store.
+
+## Newsletter
+
+Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Changelog
 

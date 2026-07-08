@@ -8,13 +8,19 @@ Unofficial Capacitor plugin for [Firebase Cloud Messaging](https://firebase.goog
   </a>
 </div>
 
+## Use Cases
+
+The Firebase Cloud Messaging plugin is typically used to engage and re-engage users with push notifications, for example:
+
+- **Push notifications**: Notify users about new content, messages, or offers, even when the app is not in the foreground.
+- **Topic-based messaging**: Let users subscribe to topics such as news categories and send a message to all subscribers of a topic at once.
+- **Device targeting**: Retrieve the FCM token of a device to send push messages to specific users or devices.
+- **Background data sync**: Receive data push notifications in the background to keep the content of your app up to date.
+- **Notification management**: List, remove, or clear the notifications that are visible on the notifications screen.
+
 ## Guides
 
 - [The Push Notifications Guide for Capacitor](https://capawesome.io/blog/capacitor-push-notifications-guide/)
-
-## Newsletter
-
-Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Compatibility
 
@@ -215,9 +221,17 @@ The following starter templates are available:
 
 ## Usage
 
+Import the plugin and call its methods:
+
 ```typescript
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+```
 
+### Check and request permissions
+
+Check and request the permission to receive push notifications. On Android, these methods only need to be called on Android 13+:
+
+```typescript
 const checkPermissions = async () => {
   const result = await FirebaseMessaging.checkPermissions();
   return result.receive;
@@ -227,7 +241,13 @@ const requestPermissions = async () => {
   const result = await FirebaseMessaging.requestPermissions();
   return result.receive;
 };
+```
 
+### Retrieve or delete the FCM token
+
+Register the app to receive push notifications and retrieve the FCM token that can be used to send push messages to the device. Delete the token, for example when a user signs out, to stop receiving push notifications. You can also be notified when a new token is received using the `tokenReceived` event, which is only available on Android and iOS:
+
+```typescript
 const getToken = async () => {
   const result = await FirebaseMessaging.getToken();
   return result.token;
@@ -237,6 +257,56 @@ const deleteToken = async () => {
   await FirebaseMessaging.deleteToken();
 };
 
+const addTokenReceivedListener = async () => {
+  await FirebaseMessaging.addListener('tokenReceived', event => {
+    console.log('tokenReceived', { event });
+  });
+};
+```
+
+### Listen for incoming push notifications
+
+Be notified when a push notification is received. If the app is in the background, this listener is only called for data push notifications on Android and for silent push notifications on iOS:
+
+```typescript
+const addNotificationReceivedListener = async () => {
+  await FirebaseMessaging.addListener('notificationReceived', event => {
+    console.log('notificationReceived', { event });
+  });
+};
+```
+
+### React to notification actions
+
+Be notified when an action is performed on a push notification, for example when the user taps on it. Only available on Android and iOS:
+
+```typescript
+const addNotificationActionPerformedListener = async () => {
+  await FirebaseMessaging.addListener('notificationActionPerformed', event => {
+    console.log('notificationActionPerformed', { event });
+  });
+};
+```
+
+### Subscribe to topics
+
+Subscribe to or unsubscribe from a topic to receive push messages that are sent to that topic. Only available on Android and iOS:
+
+```typescript
+const subscribeToTopic = async () => {
+  await FirebaseMessaging.subscribeToTopic({ topic: 'news' });
+};
+
+const unsubscribeFromTopic = async () => {
+  await FirebaseMessaging.unsubscribeFromTopic({ topic: 'news' });
+};
+```
+
+### Manage delivered notifications
+
+Get, remove, or clear the notifications that are currently visible on the notifications screen:
+
+```typescript
 const getDeliveredNotifications = async () => {
   const result = await FirebaseMessaging.getDeliveredNotifications();
   return result.notifications;
@@ -255,33 +325,13 @@ const removeDeliveredNotifications = async () => {
 const removeAllDeliveredNotifications = async () => {
   await FirebaseMessaging.removeAllDeliveredNotifications();
 };
+```
 
-const subscribeToTopic = async () => {
-  await FirebaseMessaging.subscribeToTopic({ topic: 'news' });
-};
+### Remove all listeners
 
-const unsubscribeFromTopic = async () => {
-  await FirebaseMessaging.unsubscribeFromTopic({ topic: 'news' });
-};
+Remove all listeners that have been added for this plugin:
 
-const addTokenReceivedListener = async () => {
-  await FirebaseMessaging.addListener('tokenReceived', event => {
-    console.log('tokenReceived', { event });
-  });
-};
-
-const addNotificationReceivedListener = async () => {
-  await FirebaseMessaging.addListener('notificationReceived', event => {
-    console.log('notificationReceived', { event });
-  });
-};
-
-const addNotificationActionPerformedListener = async () => {
-  await FirebaseMessaging.addListener('notificationActionPerformed', event => {
-    console.log('notificationActionPerformed', { event });
-  });
-};
-
+```typescript
 const removeAllListeners = async () => {
   await FirebaseMessaging.removeAllListeners();
 };
@@ -867,6 +917,28 @@ Callback to receive the APNs token received event.
 ### What is the difference between the Capacitor Firebase Cloud Messaging plugin and the Capacitor Push Notifications plugin?
 
 The [Capacitor Push Notifications](https://capacitorjs.com/docs/apis/push-notifications) plugin supports Android (FCM) and iOS (APNs). The Capacitor Firebase Cloud Messaging plugin, on the other hand, uses the Firebase SDK for [Android](https://firebase.google.com/docs/cloud-messaging/android/client), [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) and [Web](https://firebase.google.com/docs/cloud-messaging/js/client) and provides additional features such as topic subscriptions and the ability to receive notifications in the foreground.
+
+### Why is the `notificationReceived` listener not called when the app is in the background?
+
+This is the expected behavior of the underlying platforms. On Android, the listener is called for every push notification only while the app is in the foreground. If the app is in the background, it is only called for data push notifications. On iOS, the listener is only called in the background for silent push notifications, which are messages with the `content-available` key.
+
+### Why is my push notification icon on Android displayed as a white square?
+
+Android expects the push notification icon to consist of white pixels on a transparent background. If no dedicated icon is specified, Android falls back to the application icon, which usually does not meet this requirement and is therefore displayed as a white square or circle. Provide a separate push notification icon as described in the [Installation](#installation) section.
+
+### Do I need to request permissions before receiving push notifications?
+
+Yes, use the `checkPermissions()` and `requestPermissions()` methods to check and request the permission to receive push notifications, as shown in the [usage example](#check-and-request-permissions) above. On Android, these methods only need to be called on Android 13+.
+
+## Related Plugins
+
+- [Firebase Authentication](https://capawesome.io/docs/sdks/capacitor/firebase/authentication/): Sign in users with Firebase Authentication.
+- [Firebase Analytics](https://capawesome.io/docs/sdks/capacitor/firebase/analytics/): Log events and user properties with Firebase Analytics.
+- [Badge](https://capawesome.io/docs/sdks/capacitor/badge/): Access and update the badge number of the app icon.
+
+## Newsletter
+
+Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Changelog
 

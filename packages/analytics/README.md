@@ -8,9 +8,15 @@ Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com
   </a>
 </div>
 
-## Newsletter
+## Use Cases
 
-Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
+The Firebase Analytics plugin is typically used to understand how users interact with your app, for example:
+
+- **Event tracking**: Log app events such as sign-ups with custom parameters using `logEvent(...)`.
+- **Screen tracking**: Record which screens users visit using `setCurrentScreen(...)`.
+- **Audience segmentation**: Assign user IDs and custom user properties to segment your users.
+- **Consent management**: Set the user's consent mode and enable or disable data collection to comply with privacy requirements.
+- **Conversion measurement**: Initiate on-device conversion measurement with an email address or phone number on iOS.
 
 ## Compatibility
 
@@ -146,9 +152,43 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
+Import the plugin and call its methods:
+
 ```typescript
 import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+```
 
+### Log events
+
+Log an app event with a name and optional parameters:
+
+```typescript
+const logEvent = async () => {
+  await FirebaseAnalytics.logEvent({
+    name: 'sign_up',
+    params: { method: 'password' },
+  });
+};
+```
+
+### Track screens
+
+Set the current screen name to record which screens users visit. The `screenClassOverride` option is only available on Android and iOS:
+
+```typescript
+const setCurrentScreen = async () => {
+  await FirebaseAnalytics.setCurrentScreen({
+    screenName: 'Login',
+    screenClassOverride: 'LoginPage',
+  });
+};
+```
+
+### Identify users
+
+Set the user ID property and custom user properties to segment your users:
+
+```typescript
 const setUserId = async () => {
   await FirebaseAnalytics.setUserId({
     userId: '123',
@@ -161,27 +201,13 @@ const setUserProperty = async () => {
     value: 'en',
   });
 };
+```
 
-const setCurrentScreen = async () => {
-  await FirebaseAnalytics.setCurrentScreen({
-    screenName: 'Login',
-    screenClassOverride: 'LoginPage',
-  });
-};
+### Manage data collection
 
-const logEvent = async () => {
-  await FirebaseAnalytics.logEvent({
-    name: 'sign_up',
-    params: { method: 'password' },
-  });
-};
+Enable or disable automatic data collection (the value does not apply until the next run of the app), check whether it is enabled (only available on Web), or clear all analytics data from the device (only available on Android and iOS):
 
-const setSessionTimeoutDuration = async () => {
-  await FirebaseAnalytics.setSessionTimeoutDuration({
-    duration: '120',
-  });
-};
-
+```typescript
 const setEnabled = async () => {
   await FirebaseAnalytics.setEnabled({
     enabled: true,
@@ -196,7 +222,25 @@ const isEnabled = async () => {
 const resetAnalyticsData = async () => {
   await FirebaseAnalytics.resetAnalyticsData();
 };
+```
 
+### Configure the session timeout
+
+Set the duration of inactivity that terminates the current session. Only available on Android and iOS:
+
+```typescript
+const setSessionTimeoutDuration = async () => {
+  await FirebaseAnalytics.setSessionTimeoutDuration({
+    duration: '120',
+  });
+};
+```
+
+### Initiate on-device conversion measurement
+
+Initiate on-device conversion measurement with a plain or hashed email address or phone number. Only available on iOS:
+
+```typescript
 const initiateOnDeviceConversionMeasurementWithEmailAddress = async () => {
   await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithEmailAddress({
     emailAddress: 'mail@example.com',
@@ -648,6 +692,43 @@ Only available for iOS.
 ## Test your implementation
 
 [Here](https://firebase.google.com/docs/analytics/debugview) you can find more information on how to test the Firebase Analytics implementation using the **DebugView**.
+
+## FAQ
+
+### How can I verify that my events are being logged?
+
+Use the **DebugView** in the Firebase console to inspect events as they are logged by your app. See the [DebugView documentation](https://firebase.google.com/docs/analytics/debugview) for more information on how to test your Firebase Analytics implementation.
+
+### How can I disable analytics data collection?
+
+You can enable or disable automatic data collection at runtime using the `setEnabled(...)` method; note that the value does not apply until the next run of the app. To disable data collection by default, follow the platform-specific instructions linked in the [Installation](#installation) section for Android and iOS.
+
+### How do I set the user's consent mode?
+
+Call the `setConsent(...)` method with a consent type (for example analytics storage or ad storage) and a consent status (granted or denied). This allows you to manage what data is collected based on the user's consent.
+
+### Why is the app instance ID not defined?
+
+The `appInstanceId` returned by `getAppInstanceId()` is not defined if the analytics storage consent type has been set to denied via `setConsent(...)`. Also note that `getAppInstanceId()` is only available on Android and iOS.
+
+### How do I disable Advertising ID or IDFA collection?
+
+On Android, follow the [Disable Advertising ID collection](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_advertising_id_collection) guide. On iOS, use the `CapacitorFirebaseAnalytics/AnalyticsWithoutAdIdSupport` pod instead of the `CapacitorFirebaseAnalytics/Analytics` pod if you are using CocoaPods, or enable the `AnalyticsWithoutAdIdSupport` package trait if you are using Swift Package Manager. See the [Installation](#installation) section for details.
+
+### Can I use this plugin with Ionic, React, Vue or Angular?
+
+Yes, the plugin is framework-agnostic. It works in any Capacitor app regardless of the web framework, including Ionic with Angular, React, or Vue, as well as plain JavaScript projects.
+
+## Related Plugins
+
+- [Firebase App](https://capawesome.io/docs/sdks/capacitor/firebase/app/): Access the core Firebase app configuration.
+- [Firebase Crashlytics](https://capawesome.io/docs/sdks/capacitor/firebase/crashlytics/): Track and report app crashes with Firebase Crashlytics.
+- [Firebase Performance Monitoring](https://capawesome.io/docs/sdks/capacitor/firebase/performance-monitoring/): Measure the performance of your app with Firebase Performance Monitoring.
+- [Firebase Remote Config](https://capawesome.io/docs/sdks/capacitor/firebase/remote-config/): Change the behavior and appearance of your app without publishing an app update.
+
+## Newsletter
+
+Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Changelog
 

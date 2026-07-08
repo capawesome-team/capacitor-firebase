@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/firestore",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase Cloud Firestore.",
+  "description": "Capacitor plugin for Firebase Cloud Firestore on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,15 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firestore",
+    "cloud firestore",
+    "nosql database",
+    "realtime data",
+    "snapshot listener",
+    "offline persistence"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

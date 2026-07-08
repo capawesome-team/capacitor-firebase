@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/storage",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase Cloud Storage.",
+  "description": "Capacitor plugin for Firebase Cloud Storage on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,15 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firebase storage",
+    "firebase cloud storage",
+    "cloud storage",
+    "file upload",
+    "file download",
+    "file storage"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

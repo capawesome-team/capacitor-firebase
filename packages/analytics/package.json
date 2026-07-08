@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/analytics",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase Analytics.",
+  "description": "Capacitor plugin for Firebase Analytics on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,15 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firebase analytics",
+    "analytics",
+    "event tracking",
+    "screen tracking",
+    "user properties",
+    "consent mode"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

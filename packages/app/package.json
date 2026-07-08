@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/app",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase App.",
+  "description": "Capacitor plugin for Firebase App on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,14 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firebase app",
+    "firebase core",
+    "firebase configuration",
+    "firebase options",
+    "firebase project"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

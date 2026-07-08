@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/authentication",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase Authentication.",
+  "description": "Capacitor plugin for Firebase Authentication on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,16 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firebase auth",
+    "authentication",
+    "sign in",
+    "social login",
+    "google sign-in",
+    "apple sign-in",
+    "phone auth"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
