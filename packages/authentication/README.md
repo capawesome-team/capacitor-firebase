@@ -199,7 +199,7 @@ Create a new user account with email and password and sign the user in with thos
 ```typescript
 const createUserWithEmailAndPassword = async () => {
   const result = await FirebaseAuthentication.createUserWithEmailAndPassword({
-    email: 'mail@exmaple.com',
+    email: 'mail@example.com',
     password: '1234',
   });
   return result.user;

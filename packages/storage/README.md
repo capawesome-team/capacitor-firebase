@@ -112,7 +112,7 @@ Upload a file to Cloud Storage. On Android and iOS, provide the `uri` to the fil
 ```typescript
 const uploadFile = async () => {
   return new Promise((resolve, reject) => {
-    await FirebaseStorage.uploadFile(
+    FirebaseStorage.uploadFile(
       {
         path: 'images/mountains.png',
         uri: 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/092F8464-DE60-40B3-8A23-EB83160D9F9F/mountains.png',
@@ -136,7 +136,7 @@ Download a file from Cloud Storage. On Android and iOS, the file is downloaded t
 ```typescript
 const downloadFileWithFirebaseStorage = async () => {
   return new Promise((resolve, reject) => {
-    await FirebaseStorage.downloadFile(
+    FirebaseStorage.downloadFile(
       {
         path: 'images/mountains.png',
         uri: 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/mountains.png', // Only available for Android and iOS
@@ -609,7 +609,7 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 
 ### How do I track the progress of an upload or download?
 
-The `uploadFile(...)` and `downloadFile(...)` methods accept a callback that is invoked with events containing the `progress` as a percentage between 0 and 1 and a `completed` flag. The `bytesTransferred` and `totalBytes` properties are only available on Android and Web.
+The `uploadFile(...)` and `downloadFile(...)` methods accept a callback that is invoked with events containing the `progress` as a fraction between 0 and 1 and a `completed` flag. The `bytesTransferred` and `totalBytes` properties are only available on Android and Web.
 
 ### How does downloading a file differ between the platforms?
 

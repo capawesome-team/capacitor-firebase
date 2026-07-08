@@ -137,7 +137,7 @@ Retrieve the current App Check token, for example to send it to your own backend
 
 ```typescript
 const getToken = async () => {
-  const { token } = FirebaseAppCheck.getToken({
+  const { token } = await FirebaseAppCheck.getToken({
     forceRefresh: false,
   });
   return token;
