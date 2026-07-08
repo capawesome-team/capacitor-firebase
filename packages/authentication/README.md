@@ -186,17 +186,15 @@ The following starter templates are available:
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
-```
+The following examples show how to sign in with email and password, social providers, a phone number, an email link, anonymously, and custom tokens, as well as how to manage the current user, reset passwords, verify and update email addresses, set the language, sign out, delete the user, and use the Firebase Emulator.
 
 ### Sign up and sign in with email and password
 
 Create a new user account with email and password and sign the user in with those credentials:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const createUserWithEmailAndPassword = async () => {
   const result = await FirebaseAuthentication.createUserWithEmailAndPassword({
     email: 'mail@example.com',
@@ -219,6 +217,8 @@ const signInWithEmailAndPassword = async () => {
 Sign in users natively with providers such as Apple, Google, Facebook, GitHub, Microsoft, Twitter or Yahoo. Each provider requires the setup steps linked in the [Installation](#installation) section. Game Center sign-in is only available on iOS and Play Games sign-in is only available on Android:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const signInWithApple = async () => {
   const result = await FirebaseAuthentication.signInWithApple();
   return result.user;
@@ -270,6 +270,8 @@ const signInWithYahoo = async () => {
 Start the phone number sign-in flow, which sends an SMS code to the user, and confirm the code with `confirmVerificationCode(...)`. Only available on Android and iOS:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const signInWithPhoneNumber = async () => {
   return new Promise(async resolve => {
     // Attach `phoneCodeSent` listener to be notified as soon as the SMS is sent
@@ -305,6 +307,8 @@ const signInWithPhoneNumber = async () => {
 Send a passwordless sign-in link to the user's email address and complete the sign-in once the link is opened:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const sendSignInLinkToEmail = async () => {
   const email = 'mail@example.com';
   await FirebaseAuthentication.sendSignInLinkToEmail({
@@ -366,6 +370,8 @@ const signInWithEmailLink = async () => {
 Sign in a user anonymously, for example to let users try your app before creating an account:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const signInAnonymously = async () => {
   const result = await FirebaseAuthentication.signInAnonymously();
   return result.user;
@@ -377,6 +383,8 @@ const signInAnonymously = async () => {
 Authenticate against your own backend with a custom token or use any OpenID Connect provider:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const signInWithCustomToken = async () => {
   const result = await FirebaseAuthentication.signInWithCustomToken({
     token: '1234',
@@ -397,6 +405,8 @@ const signInWithOpenIdConnect = async () => {
 Retrieve the currently signed-in user, their ID token, or the result of a pending authentication operation. The `getPendingAuthResult()` method is only available on Android:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const getCurrentUser = async () => {
   const result = await FirebaseAuthentication.getCurrentUser();
   return result.user;
@@ -422,6 +432,8 @@ const getPendingAuthResult = async () => {
 Send a password reset email to the user and confirm the password reset with the received out-of-band code:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const sendPasswordResetEmail = async () => {
   await FirebaseAuthentication.sendPasswordResetEmail({
     email: 'mail@example.com',
@@ -441,6 +453,8 @@ const confirmPasswordReset = async () => {
 Send a verification email to the currently signed-in user and apply the received out-of-band code:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const sendEmailVerification = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
@@ -459,6 +473,8 @@ const applyActionCode = async () => {
 Update the email address or password of the currently signed-in user. With `verifyBeforeUpdateEmail(...)`, the new email address is verified before it is updated:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const updateEmail = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
@@ -507,6 +523,8 @@ const updatePassword = async () => {
 Fetch the sign-in methods that are available for an email address:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const fetchSignInMethodsForEmail = async () => {
   const result = await FirebaseAuthentication.fetchSignInMethodsForEmail({
     email: 'mail@example.tld',
@@ -520,6 +538,8 @@ const fetchSignInMethodsForEmail = async () => {
 Set the language code to use, or apply the current app language:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const setLanguageCode = async () => {
   await FirebaseAuthentication.setLanguageCode({ languageCode: 'en-US' });
 };
@@ -534,6 +554,8 @@ const useAppLanguage = async () => {
 Sign out the current user or permanently delete the user account:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const signOut = async () => {
   await FirebaseAuthentication.signOut();
 };
@@ -548,6 +570,8 @@ const deleteUser = async () => {
 Connect the plugin to a local [Firebase Emulator](https://firebase.google.com/docs/emulator-suite) instance during development:
 
 ```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const useEmulator = async () => {
   await FirebaseAuthentication.useEmulator({
     host: '10.0.2.2',

@@ -152,17 +152,15 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
-```
+The following examples show how to log events, track screens, identify users, manage data collection, configure the session timeout, and initiate on-device conversion measurement.
 
 ### Log events
 
 Log an app event with a name and optional parameters:
 
 ```typescript
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+
 const logEvent = async () => {
   await FirebaseAnalytics.logEvent({
     name: 'sign_up',
@@ -176,6 +174,8 @@ const logEvent = async () => {
 Set the current screen name to record which screens users visit. The `screenClassOverride` option is only available on Android and iOS:
 
 ```typescript
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+
 const setCurrentScreen = async () => {
   await FirebaseAnalytics.setCurrentScreen({
     screenName: 'Login',
@@ -189,6 +189,8 @@ const setCurrentScreen = async () => {
 Set the user ID property and custom user properties to segment your users:
 
 ```typescript
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+
 const setUserId = async () => {
   await FirebaseAnalytics.setUserId({
     userId: '123',
@@ -208,6 +210,8 @@ const setUserProperty = async () => {
 Enable or disable automatic data collection (the value does not apply until the next run of the app), check whether it is enabled (only available on Web), or clear all analytics data from the device (only available on Android and iOS):
 
 ```typescript
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+
 const setEnabled = async () => {
   await FirebaseAnalytics.setEnabled({
     enabled: true,
@@ -229,6 +233,8 @@ const resetAnalyticsData = async () => {
 Set the duration of inactivity that terminates the current session. Only available on Android and iOS:
 
 ```typescript
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+
 const setSessionTimeoutDuration = async () => {
   await FirebaseAnalytics.setSessionTimeoutDuration({
     duration: '120',
@@ -241,6 +247,8 @@ const setSessionTimeoutDuration = async () => {
 Initiate on-device conversion measurement with a plain or hashed email address or phone number. Only available on iOS:
 
 ```typescript
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
+
 const initiateOnDeviceConversionMeasurementWithEmailAddress = async () => {
   await FirebaseAnalytics.initiateOnDeviceConversionMeasurementWithEmailAddress({
     emailAddress: 'mail@example.com',

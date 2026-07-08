@@ -145,17 +145,15 @@ The following starter templates are available:
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FieldValue, FirebaseFirestore } from '@capacitor-firebase/firestore';
-```
+The following examples show how to create, read, update, and delete documents, update documents with field values, perform batched writes, query collections, control network access, use the Firebase Emulator, and listen for and remove real-time updates.
 
 ### Create a document
 
 Add a new document to a collection with an auto-generated ID, or write a document at a known reference with `setDocument(...)`. Set `merge` to `true` to merge the data with an existing document:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({
     reference: 'users',
@@ -185,6 +183,8 @@ const setDocument = async () => {
 Read a single document by its reference:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const getDocument = async () => {
   const { snapshot } = await FirebaseFirestore.getDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
@@ -198,6 +198,8 @@ const getDocument = async () => {
 Update fields of an existing document or delete it entirely:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const updateDocument = async () => {
   await FirebaseFirestore.updateDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
@@ -221,6 +223,8 @@ const deleteDocument = async () => {
 Use `FieldValue` helpers to increment numbers, set server timestamps, modify arrays, or delete fields:
 
 ```typescript
+import { FieldValue, FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const updateDocumentWithFieldValue = async () => {
   await FirebaseFirestore.updateDocument({
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
@@ -240,6 +244,8 @@ const updateDocumentWithFieldValue = async () => {
 Execute multiple set, update, and delete operations as a single atomic batch:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const writeBatch = async () => {
   await FirebaseFirestore.writeBatch({
     operations: [
@@ -276,6 +282,8 @@ const writeBatch = async () => {
 Read multiple documents from a collection or a collection group. You can filter the results with a composite filter and apply query constraints such as `orderBy` and `limit`:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const getCollection = async () => {
   const { snapshots } = await FirebaseFirestore.getCollection({
     reference: 'users',
@@ -340,6 +348,8 @@ const getCollectionGroup = async () => {
 Disable and re-enable the use of the network, for example to force the plugin to work with locally cached data:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const enableNetwork = async () => {
   await FirebaseFirestore.enableNetwork();
 };
@@ -354,6 +364,8 @@ const disableNetwork = async () => {
 Connect the plugin to a local [Firebase Emulator](https://firebase.google.com/docs/emulator-suite) instance during development:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const useEmulator = async () => {
   await FirebaseFirestore.useEmulator({
     host: '10.0.2.2',
@@ -367,6 +379,8 @@ const useEmulator = async () => {
 Attach snapshot listeners to a document, a collection, or a collection group to get notified whenever the data changes:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const addDocumentSnapshotListener = async () => {
   const callbackId = await FirebaseFirestore.addDocumentSnapshotListener(
     {
@@ -465,6 +479,8 @@ const addCollectionGroupSnapshotListener = async () => {
 Remove a single snapshot listener by its callback ID or remove all listeners at once:
 
 ```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
 const removeSnapshotListener = async (callbackId: string) => {
   await FirebaseFirestore.removeSnapshotListener({
     callbackId,

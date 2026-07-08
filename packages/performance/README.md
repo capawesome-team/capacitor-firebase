@@ -97,17 +97,15 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebasePerformance } from '@capacitor-firebase/performance';
-```
+The following examples show how to start and stop traces, record custom metrics, add custom attributes, toggle performance monitoring, and record a trace manually.
 
 ### Start and stop a trace
 
 Start a custom code trace to measure how long a specific task in your app takes and stop it as soon as the task is completed:
 
 ```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
 const startTrace = async () => {
   await FirebasePerformance.startTrace({ traceName: 'test_trace' });
 };
@@ -122,6 +120,8 @@ const stopTrace = async () => {
 Set the value of a custom metric for a trace, increment it atomically, or read its current value. Note that metric values are floored down to the nearest integer:
 
 ```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
 const putMetric = async () => {
   await FirebasePerformance.putMetric({
     traceName: 'test_trace',
@@ -152,6 +152,8 @@ const getMetric = async () => {
 Set custom attributes on a trace, for example a user id, to segment your performance data. You can also read or remove them again:
 
 ```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
 const putAttribute = async () => {
   await FirebasePerformance.putAttribute({
     traceName: 'test_trace',
@@ -186,6 +188,8 @@ const removeAttribute = async () => {
 Enable or disable performance monitoring at runtime, for example based on the user's consent. The setting is applied with the next start of the app:
 
 ```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
 const setEnabled = async () => {
   await FirebasePerformance.setEnabled({ enabled: true });
 };
@@ -201,6 +205,8 @@ const isEnabled = async () => {
 Record a trace for a task that has already been completed by providing its start time and duration. Only available on Web:
 
 ```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
 const record = async () => {
   await FirebasePerformance.record({
     traceName: 'test_trace',

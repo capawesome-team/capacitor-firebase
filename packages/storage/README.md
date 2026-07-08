@@ -99,17 +99,15 @@ The following starter templates are available:
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseStorage } from '@capacitor-firebase/storage';
-```
+The following examples show how to upload and download files, get a download URL, list files, read and update file metadata, delete files, and connect to the Cloud Storage emulator.
 
 ### Upload a file
 
 Upload a file to Cloud Storage. On Android and iOS, provide the `uri` to the file to upload. On the Web, provide the data to upload as a `Blob` using the `blob` option instead. The callback is invoked with the upload progress and with `completed` set to `true` once the upload is finished:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const uploadFile = async () => {
   return new Promise((resolve, reject) => {
     FirebaseStorage.uploadFile(
@@ -134,6 +132,8 @@ const uploadFile = async () => {
 Download a file from Cloud Storage. On Android and iOS, the file is downloaded to the local file system using the `uri` option. On the Web, the downloaded file is returned as a `Blob` in the callback event:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const downloadFileWithFirebaseStorage = async () => {
   return new Promise((resolve, reject) => {
     FirebaseStorage.downloadFile(
@@ -159,6 +159,7 @@ const downloadFileWithFirebaseStorage = async () => {
 Alternatively, you can retrieve the download URL of the file and download it using the official [Capacitor Filesystem](https://capacitorjs.com/docs/apis/filesystem) plugin:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
 const downloadFileWithFilesystem = async () => {
@@ -179,6 +180,8 @@ const downloadFileWithFilesystem = async () => {
 Retrieve the download URL of a file, for example to display or share it:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const getDownloadUrl = async () => {
   const { downloadUrl } = await FirebaseStorage.getDownloadUrl({
     path: 'images/mountains.png',
@@ -192,6 +195,8 @@ const getDownloadUrl = async () => {
 List the files in a directory. Use the `maxResults` and `pageToken` options to paginate through large directories:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const listFiles = async () => {
   const { items } = await FirebaseStorage.listFiles({
     path: 'images',
@@ -205,6 +210,8 @@ const listFiles = async () => {
 Read the metadata of a file, such as its size, content type, and timestamps, or update it, including user-defined custom metadata:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const getMetadata = async () => {
   const result = await FirebaseStorage.getMetadata({
     path: 'images/mountains.png',
@@ -230,6 +237,8 @@ const updateMetadata = async () => {
 Delete a file from Cloud Storage:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const deleteFile = async () => {
   await FirebaseStorage.deleteFile({
     path: 'images/mountains.png',
@@ -242,6 +251,8 @@ const deleteFile = async () => {
 During development, you can instrument your app to talk to the local Cloud Storage emulator. When using an Android emulator device, `10.0.2.2` is the special IP address to connect to the `localhost` of the host computer. Note that on Android, the cleartext traffic must be allowed, which is not intended for use in production:
 
 ```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
 const useEmulator = async () => {
   await FirebaseStorage.useEmulator({
     host: '10.0.2.2',

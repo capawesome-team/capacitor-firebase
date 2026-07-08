@@ -94,17 +94,15 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseApp } from '@capacitor-firebase/app';
-```
+The following examples show how to get the Firebase app name and its configuration options.
 
 ### Get the app name
 
 Retrieve the unique name of the Firebase app:
 
 ```typescript
+import { FirebaseApp } from '@capacitor-firebase/app';
+
 const getName = async () => {
   const result = await FirebaseApp.getName();
 };
@@ -115,6 +113,8 @@ const getName = async () => {
 Retrieve the configuration options of the Firebase app, such as the API key, application ID, and project ID:
 
 ```typescript
+import { FirebaseApp } from '@capacitor-firebase/app';
+
 const getOptions = async () => {
   const result = await FirebaseApp.getOptions();
 };

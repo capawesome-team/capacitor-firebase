@@ -103,17 +103,15 @@ The following starter templates are available:
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
-```
+The following examples show how to fetch and activate the configuration, read configuration values, configure the fetch behavior, and listen for configuration updates in real time.
 
 ### Fetch and activate the configuration
 
 Fetch the latest configuration from the Remote Config service and activate it to make it available to the getters. Use `fetchAndActivate()` to perform both operations at once. On Android and iOS, you can pass a minimum fetch interval to `fetchConfig(...)`:
 
 ```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
 const fetchConfig = async () => {
   await FirebaseRemoteConfig.fetchConfig({
     minimumFetchIntervalInSeconds: 1200,
@@ -134,6 +132,8 @@ const fetchAndActivate = async () => {
 Read the value for a given key as a boolean, number, or string:
 
 ```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
 const getBoolean = async () => {
   const { value } = await FirebaseRemoteConfig.getBoolean({
     key: 'is_sale',
@@ -161,6 +161,8 @@ const getString = async () => {
 Set the fetch timeout and the minimum fetch interval. During development, it's recommended to set a relatively low minimum fetch interval:
 
 ```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
 const setSettings = async () => {
   await FirebaseRemoteConfig.setSettings({
     fetchTimeoutInSeconds: 10,
@@ -174,6 +176,8 @@ const setSettings = async () => {
 Add a listener for the config update event to be notified as soon as parameter values change. Only available on Android and iOS:
 
 ```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
 const addConfigUpdateListener = async () => {
   const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
     (event, error) => {
@@ -199,6 +203,8 @@ const removeConfigUpdateListener = async (callbackId: string) => {
 Remove all listeners that have been added for this plugin:
 
 ```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
 const removeAllListeners = async () => {
   await FirebaseRemoteConfig.removeAllListeners();
 };

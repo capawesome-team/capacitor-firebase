@@ -92,17 +92,15 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseFunctions } from '@capacitor-firebase/functions';
-```
+The following examples show how to call Cloud Functions by name or by URL and how to connect to the Cloud Functions emulator.
 
 ### Call a function by name
 
 Call a callable Cloud Function by its name. You can pass strings, numbers, booleans, arrays, and objects as data and receive the result of the function in the `data` property. Use the `region` option if your function is not deployed in the default region:
 
 ```typescript
+import { FirebaseFunctions } from '@capacitor-firebase/functions';
+
 const callByName = async () => {
     const { data } = await FirebaseFunctions.callByName({
         name: 'helloWorld',
@@ -125,6 +123,8 @@ const callByName = async () => {
 If your callable function is hosted on a custom domain or you prefer to address it directly, call it by its URL:
 
 ```typescript
+import { FirebaseFunctions } from '@capacitor-firebase/functions';
+
 const callByUrl = async () => {
     const { data } = await FirebaseFunctions.callByUrl({
         url: 'https://us-central1-YOUR_PROJECT_ID.cloudfunctions.net/helloWorld',
@@ -147,6 +147,8 @@ const callByUrl = async () => {
 During development, you can instrument your app to talk to the local Cloud Functions emulator. When using an Android emulator device, `10.0.2.2` is the special IP address to connect to the `localhost` of the host computer. Note that on Android, the cleartext traffic must be allowed, which is not intended for use in production:
 
 ```typescript
+import { FirebaseFunctions } from '@capacitor-firebase/functions';
+
 const useEmulator = async () => {
   await FirebaseFunctions.useEmulator({
     host: '10.0.2.2',

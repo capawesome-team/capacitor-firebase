@@ -221,17 +221,15 @@ The following starter templates are available:
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseMessaging } from '@capacitor-firebase/messaging';
-```
+The following examples show how to check and request notification permissions, manage the FCM token, listen for incoming notifications and their actions, subscribe to topics, and manage delivered notifications.
 
 ### Check and request permissions
 
 Check and request the permission to receive push notifications. On Android, these methods only need to be called on Android 13+:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const checkPermissions = async () => {
   const result = await FirebaseMessaging.checkPermissions();
   return result.receive;
@@ -248,6 +246,8 @@ const requestPermissions = async () => {
 Register the app to receive push notifications and retrieve the FCM token that can be used to send push messages to the device. Delete the token, for example when a user signs out, to stop receiving push notifications. You can also be notified when a new token is received using the `tokenReceived` event, which is only available on Android and iOS:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const getToken = async () => {
   const result = await FirebaseMessaging.getToken();
   return result.token;
@@ -269,6 +269,8 @@ const addTokenReceivedListener = async () => {
 Be notified when a push notification is received. If the app is in the background, this listener is only called for data push notifications on Android and for silent push notifications on iOS:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const addNotificationReceivedListener = async () => {
   await FirebaseMessaging.addListener('notificationReceived', event => {
     console.log('notificationReceived', { event });
@@ -281,6 +283,8 @@ const addNotificationReceivedListener = async () => {
 Be notified when an action is performed on a push notification, for example when the user taps on it. Only available on Android and iOS:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const addNotificationActionPerformedListener = async () => {
   await FirebaseMessaging.addListener('notificationActionPerformed', event => {
     console.log('notificationActionPerformed', { event });
@@ -293,6 +297,8 @@ const addNotificationActionPerformedListener = async () => {
 Subscribe to or unsubscribe from a topic to receive push messages that are sent to that topic. Only available on Android and iOS:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const subscribeToTopic = async () => {
   await FirebaseMessaging.subscribeToTopic({ topic: 'news' });
 };
@@ -307,6 +313,8 @@ const unsubscribeFromTopic = async () => {
 Get, remove, or clear the notifications that are currently visible on the notifications screen:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const getDeliveredNotifications = async () => {
   const result = await FirebaseMessaging.getDeliveredNotifications();
   return result.notifications;
@@ -332,6 +340,8 @@ const removeAllDeliveredNotifications = async () => {
 Remove all listeners that have been added for this plugin:
 
 ```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
 const removeAllListeners = async () => {
   await FirebaseMessaging.removeAllListeners();
 };

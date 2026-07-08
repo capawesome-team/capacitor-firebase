@@ -111,19 +111,17 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
-Import the plugin and call its methods:
-
-```typescript
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { ReCaptchaV3Provider } from '@capacitor-firebase/app-check';
-import { Capacitor } from '@capacitor/core';
-```
+The following examples show how to initialize App Check, get the current token, enable automatic token refresh, and listen for token changes.
 
 ### Initialize App Check
 
 Activate App Check for your app. This can be called only once per app. On the Web, pass a provider such as `ReCaptchaV3Provider`; on Android and iOS, the native attestation providers are used:
 
 ```typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { ReCaptchaV3Provider } from '@capacitor-firebase/app-check';
+import { Capacitor } from '@capacitor/core';
+
 const initialize = async () => {
   await FirebaseAppCheck.initialize({
     provider: Capacitor.getPlatform() === 'web' ? new ReCaptchaV3Provider('myKey') : undefined,
@@ -136,6 +134,8 @@ const initialize = async () => {
 Retrieve the current App Check token, for example to send it to your own backend. Set `forceRefresh` to `true` if you always want to fetch a fresh token instead of a cached one:
 
 ```typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+
 const getToken = async () => {
   const { token } = await FirebaseAppCheck.getToken({
     forceRefresh: false,
@@ -149,6 +149,8 @@ const getToken = async () => {
 Set whether the App Check token should be refreshed automatically as needed:
 
 ```typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+
 const setTokenAutoRefreshEnabled = async () => {
   await FirebaseAppCheck.setTokenAutoRefreshEnabled({ enabled: true });
 };
@@ -159,6 +161,8 @@ const setTokenAutoRefreshEnabled = async () => {
 Get notified whenever the App Check token changes:
 
 ```typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+
 const addTokenChangedListener = async () => {
   await FirebaseAppCheck.addListener('tokenChanged', event => {
     console.log('tokenChanged', { event });
@@ -171,6 +175,8 @@ const addTokenChangedListener = async () => {
 Remove all listeners for this plugin. Only available on Web:
 
 ```typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+
 const removeAllListeners = async () => {
   await FirebaseAppCheck.removeAllListeners();
 };
