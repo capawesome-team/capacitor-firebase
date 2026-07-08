@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/remote-config",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase Remote Config.",
+  "description": "Capacitor plugin for Firebase Remote Config on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,14 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firebase remote config",
+    "remote config",
+    "feature flags",
+    "feature toggle",
+    "app configuration"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

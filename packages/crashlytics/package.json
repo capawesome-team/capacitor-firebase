@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/crashlytics",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase Crashlytics.",
+  "description": "Capacitor plugin for Firebase Crashlytics on Android and iOS.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,15 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "crashlytics",
+    "crash reporting",
+    "error reporting",
+    "error tracking",
+    "non-fatal errors",
+    "stack trace"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

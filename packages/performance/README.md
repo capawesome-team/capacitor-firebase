@@ -8,9 +8,14 @@ Unofficial Capacitor plugin for [Firebase Performance Monitoring](https://fireba
   </a>
 </div>
 
-## Newsletter
+## Use Cases
 
-Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
+The Firebase Performance Monitoring plugin is typically used to gain insight into the performance characteristics of your app, for example:
+
+- **Custom code traces**: Measure how long specific tasks in your app take, such as loading data or processing an image.
+- **Custom metrics**: Count performance-related events within a trace, such as cache hits or retries.
+- **Performance segmentation**: Add custom attributes to your traces, such as a user id, to segment your performance data.
+- **Privacy compliance**: Enable or disable performance monitoring at runtime, for example based on the user's consent.
 
 ## Compatibility
 
@@ -92,6 +97,12 @@ A working example can be found here: [robingenz/capacitor-firebase-plugin-demo](
 
 ## Usage
 
+The following examples show how to start and stop traces, record custom metrics, add custom attributes, toggle performance monitoring, and record a trace manually.
+
+### Start and stop a trace
+
+Start a custom code trace to measure how long a specific task in your app takes and stop it as soon as the task is completed:
+
 ```typescript
 import { FirebasePerformance } from '@capacitor-firebase/performance';
 
@@ -102,6 +113,22 @@ const startTrace = async () => {
 const stopTrace = async () => {
   await FirebasePerformance.stopTrace({ traceName: 'test_trace' });
 };
+```
+
+### Record custom metrics
+
+Set the value of a custom metric for a trace, increment it atomically, or read its current value. Note that metric values are floored down to the nearest integer:
+
+```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
+const putMetric = async () => {
+  await FirebasePerformance.putMetric({
+    traceName: 'test_trace',
+    metricName: 'item_cache_hit',
+    num: 1,
+  });
+};
 
 const incrementMetric = async () => {
   await FirebasePerformance.incrementMetric({
@@ -111,14 +138,21 @@ const incrementMetric = async () => {
   });
 };
 
-const setEnabled = async () => {
-  await FirebasePerformance.setEnabled({ enabled: true });
+const getMetric = async () => {
+  const result = await FirebasePerformance.getMetric({
+    traceName: 'test_trace',
+    metricName: 'item_cache_hit',
+  });
+  return result.value;
 };
+```
 
-const isEnabled = async () => {
-  const result = await FirebasePerformance.isEnabled();
-  return result.enabled;
-};
+### Add custom attributes to a trace
+
+Set custom attributes on a trace, for example a user id, to segment your performance data. You can also read or remove them again:
+
+```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
 
 const putAttribute = async () => {
   await FirebasePerformance.putAttribute({
@@ -147,22 +181,31 @@ const removeAttribute = async () => {
     attribute: 'user_id',
   });
 };
+```
 
-const putMetric = async () => {
-  await FirebasePerformance.putMetric({
-    traceName: 'test_trace',
-    metricName: 'item_cache_hit',
-    num: 1,
-  });
+### Enable or disable performance monitoring
+
+Enable or disable performance monitoring at runtime, for example based on the user's consent. The setting is applied with the next start of the app:
+
+```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
+
+const setEnabled = async () => {
+  await FirebasePerformance.setEnabled({ enabled: true });
 };
 
-const getMetric = async () => {
-  const result = await FirebasePerformance.getMetric({
-    traceName: 'test_trace',
-    metricName: 'item_cache_hit',
-  });
-  return result.value;
+const isEnabled = async () => {
+  const result = await FirebasePerformance.isEnabled();
+  return result.enabled;
 };
+```
+
+### Record a trace manually
+
+Record a trace for a task that has already been completed by providing its start time and duration. Only available on Web:
+
+```typescript
+import { FirebasePerformance } from '@capacitor-firebase/performance';
 
 const record = async () => {
   await FirebasePerformance.record({
@@ -536,6 +579,37 @@ Only available on web.
 <code><a href="#getattributeoptions">GetAttributeOptions</a></code>
 
 </docgen-api>
+
+## FAQ
+
+### How do I measure the duration of a specific task in my app?
+
+Start a custom code trace with `startTrace(...)` before the task begins and stop it with `stopTrace(...)` as soon as the task is completed, as shown in the [usage example](#start-and-stop-a-trace) above. You can enrich the trace with custom metrics and attributes before stopping it.
+
+### What are the requirements for custom trace names?
+
+Names for custom code traces must not contain leading or trailing whitespace, must not start with an underscore (`_`), and may have a maximum length of 100 characters.
+
+### What is the difference between a metric and an attribute?
+
+A metric is a numeric value of a trace, for example a counter for cache hits, which is set with `putMetric(...)` or incremented with `incrementMetric(...)`. Note that metric values are floored down to the nearest integer. An attribute is a string value of a trace, for example a user id, which is set with `putAttribute(...)` and can be used to segment your performance data.
+
+### Can users disable performance monitoring at runtime?
+
+Yes, call `setEnabled(...)` to enable or disable performance monitoring, for example based on the user's consent. The setting is applied with the next start of the app. Use `isEnabled()` to determine whether performance monitoring is currently enabled or disabled.
+
+### Why does the `record` method not work on Android and iOS?
+
+The `record(...)` method is only available on Web. On Android and iOS, use `startTrace(...)` and `stopTrace(...)` to measure the duration of a task instead.
+
+## Related Plugins
+
+- [Firebase Analytics](https://capawesome.io/docs/sdks/capacitor/firebase/analytics/): Log events and user properties with Firebase Analytics.
+- [Firebase Crashlytics](https://capawesome.io/docs/sdks/capacitor/firebase/crashlytics/): Track and analyze app crashes with Firebase Crashlytics.
+
+## Newsletter
+
+Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Changelog
 

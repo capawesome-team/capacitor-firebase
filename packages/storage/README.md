@@ -8,9 +8,14 @@ Unofficial Capacitor plugin for [Firebase Cloud Storage](https://firebase.google
   </a>
 </div>
 
-## Newsletter
+## Use Cases
 
-Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
+The Firebase Cloud Storage plugin is typically used to store and serve user-generated content, for example:
+
+- **User-generated content**: Upload photos or other files created by your users to Cloud Storage.
+- **File downloads**: Download files to the local file system on Android and iOS or as a `Blob` on the Web.
+- **Content delivery**: Retrieve the download URL of a file to display or share it.
+- **File management**: List the files in a directory, read and update their metadata, or delete them.
 
 ## Compatibility
 
@@ -94,13 +99,18 @@ The following starter templates are available:
 
 ## Usage
 
+The following examples show how to upload and download files, get a download URL, list files, read and update file metadata, delete files, and connect to the Cloud Storage emulator.
+
+### Upload a file
+
+Upload a file to Cloud Storage. On Android and iOS, provide the `uri` to the file to upload. On the Web, provide the data to upload as a `Blob` using the `blob` option instead. The callback is invoked with the upload progress and with `completed` set to `true` once the upload is finished:
+
 ```typescript
 import { FirebaseStorage } from '@capacitor-firebase/storage';
-import { Filesystem, Directory } from '@capacitor/filesystem';
 
 const uploadFile = async () => {
   return new Promise((resolve, reject) => {
-    await FirebaseStorage.uploadFile(
+    FirebaseStorage.uploadFile(
       {
         path: 'images/mountains.png',
         uri: 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/092F8464-DE60-40B3-8A23-EB83160D9F9F/mountains.png',
@@ -115,10 +125,18 @@ const uploadFile = async () => {
     );
   });
 };
+```
+
+### Download a file
+
+Download a file from Cloud Storage. On Android and iOS, the file is downloaded to the local file system using the `uri` option. On the Web, the downloaded file is returned as a `Blob` in the callback event:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
 
 const downloadFileWithFirebaseStorage = async () => {
   return new Promise((resolve, reject) => {
-    await FirebaseStorage.downloadFile(
+    FirebaseStorage.downloadFile(
       {
         path: 'images/mountains.png',
         uri: 'file:///var/mobile/Containers/Data/Application/E397A70D-67E4-4258-236E-W1D9E12111D4/Library/Caches/mountains.png', // Only available for Android and iOS
@@ -134,6 +152,15 @@ const downloadFileWithFirebaseStorage = async () => {
     );
   });
 };
+```
+
+### Download a file with the Filesystem plugin
+
+Alternatively, you can retrieve the download URL of the file and download it using the official [Capacitor Filesystem](https://capacitorjs.com/docs/apis/filesystem) plugin:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 const downloadFileWithFilesystem = async () => {
   const { downloadUrl } = await FirebaseStorage.getDownloadUrl({
@@ -146,6 +173,14 @@ const downloadFileWithFilesystem = async () => {
   });
   return path;
 };
+```
+
+### Get a download URL
+
+Retrieve the download URL of a file, for example to display or share it:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
 
 const getDownloadUrl = async () => {
   const { downloadUrl } = await FirebaseStorage.getDownloadUrl({
@@ -153,12 +188,14 @@ const getDownloadUrl = async () => {
   });
   return downloadUrl;
 };
+```
 
-const deleteFile = async () => {
-  await FirebaseStorage.deleteFile({
-    path: 'images/mountains.png',
-  });
-};
+### List files in a directory
+
+List the files in a directory. Use the `maxResults` and `pageToken` options to paginate through large directories:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
 
 const listFiles = async () => {
   const { items } = await FirebaseStorage.listFiles({
@@ -166,6 +203,14 @@ const listFiles = async () => {
   });
   return items;
 };
+```
+
+### Read and update file metadata
+
+Read the metadata of a file, such as its size, content type, and timestamps, or update it, including user-defined custom metadata:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
 
 const getMetadata = async () => {
   const result = await FirebaseStorage.getMetadata({
@@ -185,6 +230,28 @@ const updateMetadata = async () => {
     },
   });
 };
+```
+
+### Delete a file
+
+Delete a file from Cloud Storage:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
+
+const deleteFile = async () => {
+  await FirebaseStorage.deleteFile({
+    path: 'images/mountains.png',
+  });
+};
+```
+
+### Use the Cloud Storage emulator
+
+During development, you can instrument your app to talk to the local Cloud Storage emulator. When using an Android emulator device, `10.0.2.2` is the special IP address to connect to the `localhost` of the host computer. Note that on Android, the cleartext traffic must be allowed, which is not intended for use in production:
+
+```typescript
+import { FirebaseStorage } from '@capacitor-firebase/storage';
 
 const useEmulator = async () => {
   await FirebaseStorage.useEmulator({
@@ -548,6 +615,38 @@ On Android, the cleartext traffic must be allowed. On the Capacitor configuratio
 <code>(event: <a href="#uploadfilecallbackevent">UploadFileCallbackEvent</a> | null, error: any): void</code>
 
 </docgen-api>
+
+## FAQ
+
+### How do I track the progress of an upload or download?
+
+The `uploadFile(...)` and `downloadFile(...)` methods accept a callback that is invoked with events containing the `progress` as a fraction between 0 and 1 and a `completed` flag. The `bytesTransferred` and `totalBytes` properties are only available on Android and Web.
+
+### How does downloading a file differ between the platforms?
+
+On Android and iOS, the file is downloaded to the local file system using the `uri` option. On the Web, the downloaded file is returned as a `Blob` in the callback event. Alternatively, you can retrieve the download URL with `getDownloadUrl(...)` and download the file with the official Capacitor Filesystem plugin, as shown in the [usage example](#download-a-file-with-the-filesystem-plugin) above.
+
+### How do I upload a file selected by the user?
+
+On Android and iOS, pass the `uri` of the file to the `uploadFile(...)` method. On the Web, pass the data as a `Blob` using the `blob` option instead. You can use the [File Picker](https://capawesome.io/docs/sdks/capacitor/file-picker/) plugin to let the user select a file on the device.
+
+### How can I store additional information about a file?
+
+You can set metadata for a file when uploading it using the `metadata` option or update it later with `updateMetadata(...)`, including user-defined key-value pairs via `customMetadata`. Use `getMetadata(...)` to read the metadata of a file, such as its size, content type, and timestamps.
+
+### Can I test against the Cloud Storage emulator?
+
+Yes, use the `useEmulator(...)` method to instrument your app to talk to the local Cloud Storage emulator, as shown in the [usage example](#use-the-cloud-storage-emulator) above. When testing on an Android emulator device, use `10.0.2.2` as the host to reach the `localhost` of the host computer. Keep in mind that on Android, the cleartext traffic must be allowed for this, which is not intended for use in production.
+
+## Related Plugins
+
+- [File Picker](https://capawesome.io/docs/sdks/capacitor/file-picker/): Let the user select a file, directory, image, or video from the device.
+- [File Compressor](https://capawesome.io/docs/sdks/capacitor/file-compressor/): Compress files such as PNG, JPEG, and WebP images before uploading them.
+- [Firebase Cloud Firestore](https://capawesome.io/docs/sdks/capacitor/firebase/cloud-firestore/): Store and sync app data in Cloud Firestore.
+
+## Newsletter
+
+Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Changelog
 

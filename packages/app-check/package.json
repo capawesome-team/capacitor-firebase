@@ -1,7 +1,7 @@
 {
   "name": "@capacitor-firebase/app-check",
   "version": "8.3.0",
-  "description": "Capacitor plugin for Firebase App Check.",
+  "description": "Capacitor plugin for Firebase App Check on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -37,7 +37,15 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "capacitor-plugin",
+    "firebase",
+    "firebase app check",
+    "app attestation",
+    "play integrity",
+    "app attest",
+    "recaptcha v3",
+    "api abuse protection"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

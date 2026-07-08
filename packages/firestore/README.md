@@ -8,13 +8,19 @@ Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.goog
   </a>
 </div>
 
+## Use Cases
+
+The Cloud Firestore plugin is typically used to store and sync app data in the cloud, for example:
+
+- **Real-time updates**: Keep your UI up to date by listening to document and collection changes with snapshot listeners.
+- **User-generated content**: Create, read, update, and delete documents for user profiles, posts, or other app data.
+- **Complex queries**: Filter and sort collections with composite filters and query constraints such as `where`, `orderBy`, and `limit`.
+- **Offline support**: Enable offline persistence and control network access to work with locally cached data.
+- **Atomic writes**: Perform multiple write operations as a single atomic batch with `writeBatch(...)`.
+
 ## Guides
 
 - [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
-
-## Newsletter
-
-Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Compatibility
 
@@ -139,8 +145,14 @@ The following starter templates are available:
 
 ## Usage
 
+The following examples show how to create, read, update, and delete documents, update documents with field values, perform batched writes, query collections, control network access, use the Firebase Emulator, and listen for and remove real-time updates.
+
+### Create a document
+
+Add a new document to a collection with an auto-generated ID, or write a document at a known reference with `setDocument(...)`. Set `merge` to `true` to merge the data with an existing document:
+
 ```typescript
-import { FieldValue, FirebaseFirestore } from '@capacitor-firebase/firestore';
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const addDocument = async () => {
   await FirebaseFirestore.addDocument({
@@ -164,6 +176,14 @@ const setDocument = async () => {
     merge: true,
   });
 };
+```
+
+### Read a document
+
+Read a single document by its reference:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const getDocument = async () => {
   const { snapshot } = await FirebaseFirestore.getDocument({
@@ -171,6 +191,14 @@ const getDocument = async () => {
   });
   return snapshot;
 };
+```
+
+### Update or delete a document
+
+Update fields of an existing document or delete it entirely:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const updateDocument = async () => {
   await FirebaseFirestore.updateDocument({
@@ -188,6 +216,14 @@ const deleteDocument = async () => {
     reference: 'users/Aorq09lkt1ynbR7xhTUx',
   });
 };
+```
+
+### Update a document with field values
+
+Use `FieldValue` helpers to increment numbers, set server timestamps, modify arrays, or delete fields:
+
+```typescript
+import { FieldValue, FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const updateDocumentWithFieldValue = async () => {
   await FirebaseFirestore.updateDocument({
@@ -201,6 +237,14 @@ const updateDocumentWithFieldValue = async () => {
     },
   });
 };
+```
+
+### Perform a batched write
+
+Execute multiple set, update, and delete operations as a single atomic batch:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const writeBatch = async () => {
   await FirebaseFirestore.writeBatch({
@@ -231,6 +275,14 @@ const writeBatch = async () => {
     ],
   });
 };
+```
+
+### Query a collection
+
+Read multiple documents from a collection or a collection group. You can filter the results with a composite filter and apply query constraints such as `orderBy` and `limit`:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const getCollection = async () => {
   const { snapshots } = await FirebaseFirestore.getCollection({
@@ -289,6 +341,14 @@ const getCollectionGroup = async () => {
   });
   return snapshots;
 };
+```
+
+### Control network access
+
+Disable and re-enable the use of the network, for example to force the plugin to work with locally cached data:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const enableNetwork = async () => {
   await FirebaseFirestore.enableNetwork();
@@ -297,6 +357,14 @@ const enableNetwork = async () => {
 const disableNetwork = async () => {
   await FirebaseFirestore.disableNetwork();
 };
+```
+
+### Use the Firebase Emulator
+
+Connect the plugin to a local [Firebase Emulator](https://firebase.google.com/docs/emulator-suite) instance during development:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const useEmulator = async () => {
   await FirebaseFirestore.useEmulator({
@@ -304,6 +372,14 @@ const useEmulator = async () => {
     port: 9001,
   });
 };
+```
+
+### Listen for real-time updates
+
+Attach snapshot listeners to a document, a collection, or a collection group to get notified whenever the data changes:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const addDocumentSnapshotListener = async () => {
   const callbackId = await FirebaseFirestore.addDocumentSnapshotListener(
@@ -396,6 +472,14 @@ const addCollectionGroupSnapshotListener = async () => {
   );
   return callbackId;
 };
+```
+
+### Remove listeners
+
+Remove a single snapshot listener by its callback ID or remove all listeners at once:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
 
 const removeSnapshotListener = async (callbackId: string) => {
   await FirebaseFirestore.removeSnapshotListener({
@@ -1090,6 +1174,42 @@ Execute multiple write operations as a single batch.
 <code><a href="#getdocumentresult">GetDocumentResult</a>&lt;T&gt;</code>
 
 </docgen-api>
+
+## FAQ
+
+### How do I get notified about data changes in real time?
+
+Attach a snapshot listener with `addDocumentSnapshotListener(...)`, `addCollectionSnapshotListener(...)`, or `addCollectionGroupSnapshotListener(...)`. The callback is invoked whenever the observed data changes. Each listener returns a callback ID that you can later pass to `removeSnapshotListener(...)`, or you can remove all listeners at once with `removeAllListeners()`. See [Listen for real-time updates](#listen-for-real-time-updates) for an example.
+
+### What is the difference between `getCollection` and `getCollectionGroup`?
+
+The `getCollection(...)` method reads the documents of a single collection at the given reference. The `getCollectionGroup(...)` method reads the documents of a collection group, which consists of all collections with the same ID. Both methods support composite filters and query constraints.
+
+### Does the plugin work offline?
+
+Yes, you can enable offline persistence with the `enablePersistence(...)` method, which must be called before any other Firestore method. You can also disable and re-enable the use of the network with `disableNetwork()` and `enableNetwork()`. The persistent storage, including pending writes and cached documents, can be cleared with `clearPersistence()`, which must be called after the app is shut down or when it is first initialized.
+
+### Can I use a Firestore database other than the default one?
+
+Yes, you can set the `databaseId` configuration option in your Capacitor configuration to select the Firestore database to use (see [Configuration](#configuration)). This option is only available on Android and iOS.
+
+### How do I test my app against a local Firestore instance?
+
+Use the `useEmulator(...)` method to connect the plugin to a local Firebase Emulator instance by providing its host and port. This allows you to develop and test without touching your production data.
+
+### Can I use this plugin with Ionic, React, Vue or Angular?
+
+Yes, the plugin is framework-agnostic. It works in any Capacitor app regardless of the web framework, including Ionic with Angular, React, or Vue, as well as plain JavaScript projects.
+
+## Related Plugins
+
+- [Firebase Authentication](https://capawesome.io/docs/sdks/capacitor/firebase/authentication/): Unofficial Capacitor plugin for Firebase Authentication.
+- [Firebase Cloud Functions](https://capawesome.io/docs/sdks/capacitor/firebase/cloud-functions/): Unofficial Capacitor plugin for Firebase Cloud Functions.
+- [Firebase Cloud Storage](https://capawesome.io/docs/sdks/capacitor/firebase/cloud-storage/): Unofficial Capacitor plugin for Firebase Cloud Storage.
+
+## Newsletter
+
+Stay up to date with the latest news and updates about the Capawesome, Capacitor, and Ionic ecosystem by subscribing to our [Capawesome Newsletter](https://cloud.capawesome.io/newsletter/).
 
 ## Changelog
 
