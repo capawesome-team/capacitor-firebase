@@ -1,4 +1,4 @@
-# @capacitor-firebase/firestore
+# Capacitor Firebase Cloud Firestore Plugin
 
 Unofficial Capacitor plugin for [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore/).[^1]
 

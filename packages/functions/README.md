@@ -1,4 +1,4 @@
-# @capacitor-firebase/functions
+# Capacitor Firebase Cloud Functions Plugin
 
 Unofficial Capacitor plugin for [Firebase Cloud Functions](https://firebase.google.com/docs/functions/).[^1]
 

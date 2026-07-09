@@ -1,4 +1,4 @@
-# @capacitor-firebase/analytics
+# Capacitor Firebase Analytics Plugin
 
 Unofficial Capacitor plugin for [Firebase Analytics](https://firebase.google.com/docs/analytics).[^1]
 
