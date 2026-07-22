@@ -44,6 +44,27 @@ declare module '@capacitor/cli' {
        * @since 0.1.0
        */
       providers?: string[];
+      /**
+       * Configure the OAuth 2.0 web client ID to use as `serverClientID` for
+       * Google Sign-In on iOS.
+       *
+       * When set, the iOS native sign-in sheet still uses the iOS client for
+       * bundle-ID authorization, but Google issues the offline-access auth
+       * code (`serverAuthCode`) to this web client — which is exchangeable
+       * server-side using the web client's `client_secret`. Without this,
+       * Google issues the auth code to the iOS client, which has no
+       * `client_secret` and uses PKCE the SDK does not expose, making the
+       * code unexchangeable.
+       *
+       * On Android, the equivalent web client ID is already read from
+       * `R.string.default_web_client_id` (defined in `google-services.json`).
+       *
+       * Only available for iOS.
+       *
+       * @example "1234567890-abcdef.apps.googleusercontent.com"
+       * @since 8.3.0
+       */
+      googleServerClientId?: string;
     };
   }
 }
