@@ -1,4 +1,4 @@
-# @capacitor-firebase/app
+# Capacitor Firebase App Plugin
 
 Unofficial Capacitor plugin for [Firebase App](https://firebase.google.com/docs).[^1]
 

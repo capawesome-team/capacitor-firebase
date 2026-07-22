@@ -1,4 +1,4 @@
-# @capacitor-firebase/performance
+# Capacitor Firebase Performance Monitoring Plugin
 
 Unofficial Capacitor plugin for [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon).[^1]
 
