@@ -41,8 +41,8 @@
     "patch-package": "8.0.1",
     "pkg-pr-new": "0.0.20",
     "prettier": "3.4.2",
-    "prettier-plugin-java": "2.6.7",
-    "turbo": "2.6.3"
+    "prettier-plugin-java": "2.9.7",
+    "turbo": "2.10.7"
   },
   "lint-staged": {
     "**/*.{css,html,ts,js,java}": "prettier --write"
