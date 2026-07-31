@@ -104,12 +104,10 @@ public class FirebaseStorage {
         } else {
             task = storageReference.list(maxResults, pageToken);
         }
-        task
-            .addOnSuccessListener(listResult -> {
-                ListFilesResult result = new ListFilesResult(listResult);
-                callback.success(result);
-            })
-            .addOnFailureListener(exception -> callback.error(exception));
+        task.addOnSuccessListener(listResult -> {
+            ListFilesResult result = new ListFilesResult(listResult);
+            callback.success(result);
+        }).addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void updateMetadata(@NonNull UpdateMetadataOptions options, @NonNull EmptyResultCallback callback) {

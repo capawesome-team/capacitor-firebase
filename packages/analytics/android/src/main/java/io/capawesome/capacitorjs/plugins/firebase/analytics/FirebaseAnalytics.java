@@ -62,16 +62,14 @@ public class FirebaseAnalytics {
         bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME, screenName);
         bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS, screenClass);
 
-        bridge
-            .getActivity()
-            .runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        getFirebaseAnalyticsInstance().logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
-                    }
+        bridge.getActivity().runOnUiThread(
+            new Runnable() {
+                @Override
+                public void run() {
+                    getFirebaseAnalyticsInstance().logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
                 }
-            );
+            }
+        );
     }
 
     public void logEvent(@NonNull String key, @Nullable JSONObject json) {

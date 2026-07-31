@@ -155,11 +155,9 @@ public class FirebaseAuthentication {
     }
 
     public void deleteUser(FirebaseUser user, @NonNull Runnable callback) {
-        user
-            .delete()
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+        user.delete().addOnCompleteListener(task -> {
+            callback.run();
+        });
     }
 
     public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final NonEmptyResultCallback callback) {
@@ -260,19 +258,17 @@ public class FirebaseAuthentication {
 
         AuthCredential credential = EmailAuthProvider.getCredential(email, password);
 
-        user
-            .linkWithCredential(credential)
-            .addOnCompleteListener(plugin.getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
-                    call.resolve(linkResult);
-                } else {
-                    Exception exception = task.getException();
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            });
+        user.linkWithCredential(credential).addOnCompleteListener(plugin.getActivity(), task -> {
+            if (task.isSuccessful()) {
+                JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
+                call.resolve(linkResult);
+            } else {
+                Exception exception = task.getException();
+                Logger.error(TAG, exception.getMessage(), exception);
+                String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                call.reject(exception.getMessage(), code);
+            }
+        });
     }
 
     public void linkWithEmailLink(final PluginCall call) {
@@ -292,19 +288,17 @@ public class FirebaseAuthentication {
 
         AuthCredential credential = EmailAuthProvider.getCredentialWithLink(email, emailLink);
 
-        user
-            .linkWithCredential(credential)
-            .addOnCompleteListener(plugin.getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
-                    call.resolve(linkResult);
-                } else {
-                    Exception exception = task.getException();
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            });
+        user.linkWithCredential(credential).addOnCompleteListener(plugin.getActivity(), task -> {
+            if (task.isSuccessful()) {
+                JSObject linkResult = FirebaseAuthenticationHelper.createSignInResult(user, null, null, null, null, null);
+                call.resolve(linkResult);
+            } else {
+                Exception exception = task.getException();
+                Logger.error(TAG, exception.getMessage(), exception);
+                String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                call.reject(exception.getMessage(), code);
+            }
+        });
     }
 
     public void linkWithFacebook(final PluginCall call) {
@@ -359,11 +353,9 @@ public class FirebaseAuthentication {
     }
 
     public void reload(FirebaseUser user, @NonNull Runnable callback) {
-        user
-            .reload()
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+        user.reload().addOnCompleteListener(task -> {
+            callback.run();
+        });
     }
 
     public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyResultCallback callback) {
@@ -607,30 +599,26 @@ public class FirebaseAuthentication {
     }
 
     public void unlink(final PluginCall call, FirebaseUser user, @NonNull String providerId) {
-        user
-            .unlink(providerId)
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    AuthResult authResult = task.getResult();
-                    JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
-                    JSObject result = new JSObject();
-                    result.put("user", (userResult == null ? JSONObject.NULL : userResult));
-                    call.resolve(result);
-                } else {
-                    Exception exception = task.getException();
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            });
+        user.unlink(providerId).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                AuthResult authResult = task.getResult();
+                JSObject userResult = FirebaseAuthenticationHelper.createUserResult(authResult.getUser());
+                JSObject result = new JSObject();
+                result.put("user", (userResult == null ? JSONObject.NULL : userResult));
+                call.resolve(result);
+            } else {
+                Exception exception = task.getException();
+                Logger.error(TAG, exception.getMessage(), exception);
+                String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                call.reject(exception.getMessage(), code);
+            }
+        });
     }
 
     public void updateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull Runnable callback) {
-        user
-            .updateEmail(newEmail)
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+        user.updateEmail(newEmail).addOnCompleteListener(task -> {
+            callback.run();
+        });
     }
 
     public void verifyBeforeUpdateEmail(
@@ -649,11 +637,9 @@ public class FirebaseAuthentication {
     }
 
     public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {
-        user
-            .updatePassword(newPassword)
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+        user.updatePassword(newPassword).addOnCompleteListener(task -> {
+            callback.run();
+        });
     }
 
     public void updateProfile(FirebaseUser user, String displayName, String photoUrl, @NonNull Runnable callback) {
@@ -666,11 +652,9 @@ public class FirebaseAuthentication {
             profileUpdates.setPhotoUri(Uri.parse(photoUrl));
         }
 
-        user
-            .updateProfile(profileUpdates.build())
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+        user.updateProfile(profileUpdates.build()).addOnCompleteListener(task -> {
+            callback.run();
+        });
     }
 
     public void useAppLanguage() {
@@ -755,19 +739,17 @@ public class FirebaseAuthentication {
             callback.error(new Exception(ERROR_NO_USER_SIGNED_IN));
             return;
         }
-        user
-            .linkWithCredential(credential)
-            .addOnCompleteListener(plugin.getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    Logger.debug(TAG, "linkWithCredential succeeded.");
-                    final AuthResult authResult = task.getResult();
-                    SignInResult result = new SignInResult(authResult);
-                    callback.success(result);
-                } else {
-                    Logger.error(TAG, "linkWithCredential failed.", task.getException());
-                    callback.error(task.getException());
-                }
-            });
+        user.linkWithCredential(credential).addOnCompleteListener(plugin.getActivity(), task -> {
+            if (task.isSuccessful()) {
+                Logger.debug(TAG, "linkWithCredential succeeded.");
+                final AuthResult authResult = task.getResult();
+                SignInResult result = new SignInResult(authResult);
+                callback.success(result);
+            } else {
+                Logger.error(TAG, "linkWithCredential failed.", task.getException());
+                callback.error(task.getException());
+            }
+        });
     }
 
     public void handleSuccessfulSignIn(
@@ -888,19 +870,17 @@ public class FirebaseAuthentication {
         if (credential == null) {
             handleSuccessfulLink(call);
         } else {
-            user
-                .linkWithCredential(credential)
-                .addOnCompleteListener(plugin.getActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        final AuthResult authResult = task.getResult();
-                        handleSuccessfulLink(call, authResult, idToken, nonce, accessToken, serverAuthCode);
-                    } else {
-                        Exception exception = task.getException();
-                        Logger.error(TAG, exception.getMessage(), exception);
-                        String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                        call.reject(exception.getMessage(), code);
-                    }
-                });
+            user.linkWithCredential(credential).addOnCompleteListener(plugin.getActivity(), task -> {
+                if (task.isSuccessful()) {
+                    final AuthResult authResult = task.getResult();
+                    handleSuccessfulLink(call, authResult, idToken, nonce, accessToken, serverAuthCode);
+                } else {
+                    Exception exception = task.getException();
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                    call.reject(exception.getMessage(), code);
+                }
+            });
         }
     }
 

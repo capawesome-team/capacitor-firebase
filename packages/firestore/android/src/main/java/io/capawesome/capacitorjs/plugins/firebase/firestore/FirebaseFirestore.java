@@ -142,7 +142,10 @@ public class FirebaseFirestore {
                     break;
             }
         }
-        batch.commit().addOnSuccessListener(unused -> callback.success()).addOnFailureListener(exception -> callback.error(exception));
+        batch
+            .commit()
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void getCollection(@NonNull GetCollectionOptions options, @NonNull NonEmptyResultCallback callback) throws Exception {
@@ -268,17 +271,15 @@ public class FirebaseFirestore {
         }
         AggregateQuery countQuery = query.count();
 
-        countQuery
-            .get(AggregateSource.SERVER)
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    AggregateQuerySnapshot snapshot = task.getResult();
-                    GetCountFromServerResult result = new GetCountFromServerResult(snapshot.getCount());
-                    callback.success(result);
-                } else {
-                    callback.error(task.getException());
-                }
-            });
+        countQuery.get(AggregateSource.SERVER).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                AggregateQuerySnapshot snapshot = task.getResult();
+                GetCountFromServerResult result = new GetCountFromServerResult(snapshot.getCount());
+                callback.success(result);
+            } else {
+                callback.error(task.getException());
+            }
+        });
     }
 
     public void addDocumentSnapshotListener(@NonNull AddDocumentSnapshotListenerOptions options, @NonNull NonEmptyResultCallback callback) {

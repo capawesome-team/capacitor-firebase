@@ -886,9 +886,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
 
             JSObject settings = call.getObject("actionCodeSettings");
-            ActionCodeSettings actionCodeSettings = settings == null
-                ? null
-                : FirebaseAuthenticationHelper.createActionCodeSettings(settings);
+            ActionCodeSettings actionCodeSettings =
+                settings == null ? null : FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
