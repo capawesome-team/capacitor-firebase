@@ -83,6 +83,29 @@ import Capacitor
         completion(lastFetchTimeMillis, statusInt, nil)
     }
 
+    @objc public func setCustomSignals(_ customSignals: [String: Any], completion: @escaping (Error?) -> Void) {
+        var signals = [String: CustomSignalValue?]()
+        for (key, value) in customSignals {
+            if let stringValue = value as? String {
+                signals[key] = .string(stringValue)
+            } else if let intValue = value as? Int {
+                signals[key] = .integer(intValue)
+            } else if let doubleValue = value as? Double {
+                signals[key] = .double(doubleValue)
+            } else {
+                signals.updateValue(nil, forKey: key)
+            }
+        }
+        Task {
+            do {
+                try await RemoteConfig.remoteConfig().setCustomSignals(signals)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+
     @objc public func setDefaults(_ defaults: [String: NSObject]) {
         RemoteConfig.remoteConfig().setDefaults(defaults)
     }

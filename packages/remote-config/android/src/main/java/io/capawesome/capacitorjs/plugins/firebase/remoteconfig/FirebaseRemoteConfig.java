@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.ConfigUpdate;
 import com.google.firebase.remoteconfig.ConfigUpdateListener;
 import com.google.firebase.remoteconfig.ConfigUpdateListenerRegistration;
+import com.google.firebase.remoteconfig.CustomSignals;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
@@ -20,6 +21,7 @@ import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.interfaces.NonEmp
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.json.JSONObject;
 
 public class FirebaseRemoteConfig {
 
@@ -91,6 +93,26 @@ public class FirebaseRemoteConfig {
         int lastFetchStatus = info.getLastFetchStatus();
 
         return new GetInfoResult(lastFetchTime, lastFetchStatus);
+    }
+
+    public Task<Void> setCustomSignals(@NonNull Map<String, Object> customSignals) {
+        CustomSignals.Builder builder = new CustomSignals.Builder();
+        for (Map.Entry<String, Object> entry : customSignals.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (value == null || value == JSONObject.NULL) {
+                builder.put(key, (String) null);
+            } else if (value instanceof String) {
+                builder.put(key, (String) value);
+            } else if (value instanceof Integer || value instanceof Long) {
+                builder.put(key, ((Number) value).longValue());
+            } else if (value instanceof Number) {
+                builder.put(key, ((Number) value).doubleValue());
+            } else {
+                throw new IllegalArgumentException("Unsupported value type for key: " + key);
+            }
+        }
+        return getFirebaseRemoteConfigInstance().setCustomSignals(builder.build());
     }
 
     public Task<Void> setDefaults(@NonNull Map<String, Object> defaults) {
