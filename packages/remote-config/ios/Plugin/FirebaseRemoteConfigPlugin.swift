@@ -19,6 +19,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getString", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getAll", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setMinimumFetchInterval", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setCustomSignals", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setDefaults", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setSettings", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "addConfigUpdateListener", returnType: CAPPluginReturnCallback),
@@ -28,6 +29,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorKeyMissing = "key must be provided."
     public let errorFetchAndActivatefailed = "fetchAndActivate failed."
     public let errorCallbackIdMissing = "callbackId must be provided."
+    public let errorCustomSignalsMissing = "customSignals must be provided."
     public let errorDefaultsMissing = "defaults must be provided."
 
     private let defaultMinimumFetchIntervalInSeconds: Double = 43200
@@ -122,6 +124,22 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func setMinimumFetchInterval(_ call: CAPPluginCall) {
         call.reject("Not available on iOS.")
+    }
+
+    @objc func setCustomSignals(_ call: CAPPluginCall) {
+        guard let customSignals = call.getObject("customSignals") else {
+            call.reject(errorCustomSignalsMissing)
+            return
+        }
+
+        implementation?.setCustomSignals(customSignals, completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
     }
 
     @objc func setDefaults(_ call: CAPPluginCall) {

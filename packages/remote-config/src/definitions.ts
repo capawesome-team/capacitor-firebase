@@ -59,6 +59,12 @@ export interface FirebaseRemoteConfigPlugin {
     options: SetMinimumFetchIntervalOptions,
   ): Promise<void>;
   /**
+   * Set custom signals for the app instance that can be used for targeting in Remote Config conditions.
+   *
+   * @since 8.4.0
+   */
+  setCustomSignals(options: SetCustomSignalsOptions): Promise<void>;
+  /**
    * Sets config defaults for parameter keys and values in the default namespace config.
    *
    * @since 8.3.0
@@ -241,6 +247,20 @@ export interface SetMinimumFetchIntervalOptions {
    * @see https://firebase.google.com/docs/reference/js/remote-config.remoteconfigsettings#remoteconfigsettingsminimumfetchintervalmillis
    */
   minimumFetchIntervalInSeconds: number;
+}
+
+/**
+ * @since 8.4.0
+ */
+export interface SetCustomSignalsOptions {
+  /**
+   * The custom signals to set for the app instance.
+   *
+   * Signals with a `null` value will be removed.
+   *
+   * @since 8.4.0
+   */
+  customSignals: Record<string, string | number | null>;
 }
 
 /**

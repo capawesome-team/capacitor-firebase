@@ -21,6 +21,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     public static final String TAG = "FirebaseRemoteConfig";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
+    public static final String ERROR_CUSTOM_SIGNALS_MISSING = "customSignals must be provided.";
     public static final String ERROR_DEFAULTS_MISSING = "defaults must be provided.";
 
     private static final int DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = 43200;
@@ -197,6 +198,37 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void setMinimumFetchInterval(PluginCall call) {
         call.reject("Not available on Android.");
+    }
+
+    @PluginMethod
+    public void setCustomSignals(PluginCall call) {
+        try {
+            JSObject customSignals = call.getObject("customSignals");
+            if (customSignals == null) {
+                call.reject(ERROR_CUSTOM_SIGNALS_MISSING);
+                return;
+            }
+
+            Map<String, Object> parsedCustomSignals = new HashMap<>();
+            Iterator<String> keys = customSignals.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                parsedCustomSignals.put(key, customSignals.get(key));
+            }
+
+            implementation.setCustomSignals(parsedCustomSignals).addOnCompleteListener(t -> {
+                if (t.isSuccessful()) {
+                    call.resolve();
+                } else {
+                    Exception exception = t.getException();
+                    String errorMessage = exception != null ? exception.getMessage() : "Failed to set custom signals.";
+                    call.reject(errorMessage);
+                }
+            });
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
     }
 
     @PluginMethod

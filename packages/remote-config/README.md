@@ -103,7 +103,7 @@ The following starter templates are available:
 
 ## Usage
 
-The following examples show how to fetch and activate the configuration, read configuration values, configure the fetch behavior, and listen for configuration updates in real time.
+The following examples show how to fetch and activate the configuration, read configuration values, configure the fetch behavior, set custom signals, and listen for configuration updates in real time.
 
 ### Fetch and activate the configuration
 
@@ -171,6 +171,23 @@ const setSettings = async () => {
 };
 ```
 
+### Set custom signals
+
+Set custom signals for the app instance that can be used for targeting in Remote Config conditions. Signals with a `null` value will be removed:
+
+```typescript
+import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
+
+const setCustomSignals = async () => {
+  await FirebaseRemoteConfig.setCustomSignals({
+    customSignals: {
+      city: 'Berlin',
+      preferred_event_category: 'concerts',
+    },
+  });
+};
+```
+
 ### Listen for configuration updates in real time
 
 Add a listener for the config update event to be notified as soon as parameter values change. Only available on Android and iOS:
@@ -223,6 +240,7 @@ const removeAllListeners = async () => {
 * [`getAll()`](#getall)
 * [`getInfo()`](#getinfo)
 * [`setMinimumFetchInterval(...)`](#setminimumfetchinterval)
+* [`setCustomSignals(...)`](#setcustomsignals)
 * [`setDefaults(...)`](#setdefaults)
 * [`setSettings(...)`](#setsettings)
 * [`addConfigUpdateListener(...)`](#addconfigupdatelistener)
@@ -386,6 +404,23 @@ Only available for Web.
 --------------------
 
 
+### setCustomSignals(...)
+
+```typescript
+setCustomSignals(options: SetCustomSignalsOptions) => Promise<void>
+```
+
+Set custom signals for the app instance that can be used for targeting in Remote Config conditions.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#setcustomsignalsoptions">SetCustomSignalsOptions</a></code> |
+
+**Since:** 8.4.0
+
+--------------------
+
+
 ### setDefaults(...)
 
 ```typescript
@@ -544,6 +579,13 @@ Remove all listeners for this plugin.
 | Prop                                | Type                | Description                                                                                                                                                                           | Default            | Since |
 | ----------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`minimumFetchIntervalInSeconds`** | <code>number</code> | Define the maximum age in seconds of an entry in the config cache before it is considered stale. During development, it's recommended to set a relatively low minimum fetch interval. | <code>43200</code> | 1.3.0 |
+
+
+#### SetCustomSignalsOptions
+
+| Prop                | Type                                                        | Description                                                                                  | Since |
+| ------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----- |
+| **`customSignals`** | <code>Record&lt;string, string \| number \| null&gt;</code> | The custom signals to set for the app instance. Signals with a `null` value will be removed. | 8.4.0 |
 
 
 #### SetDefaultsOptions
