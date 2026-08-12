@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.4.0
+
+### Minor Changes
+
+- [`4e8378890c73c8b1e60f24c3f6ead55741983565`](https://github.com/capawesome-team/capacitor-firebase/commit/4e8378890c73c8b1e60f24c3f6ead55741983565) ([#1010](https://github.com/capawesome-team/capacitor-firebase/pull/1010)): feat: add `setCustomSignals(...)` method
+
+### Patch Changes
+
+- [`3e70b6569ffa36c00b3b75cb1490e3efbab35f23`](https://github.com/capawesome-team/capacitor-firebase/commit/3e70b6569ffa36c00b3b75cb1490e3efbab35f23) ([#1006](https://github.com/capawesome-team/capacitor-firebase/pull/1006)): fix: update CocoaPods dependency constraints in the podspec files to allow minor updates
+
 ## 8.3.0
 
 ### Minor Changes

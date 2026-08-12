@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.4.0
+
+### Patch Changes
+
+- [`3e70b6569ffa36c00b3b75cb1490e3efbab35f23`](https://github.com/capawesome-team/capacitor-firebase/commit/3e70b6569ffa36c00b3b75cb1490e3efbab35f23) ([#1006](https://github.com/capawesome-team/capacitor-firebase/pull/1006)): fix: update CocoaPods dependency constraints in the podspec files to allow minor updates
+
 ## 8.3.0
 
 ## 8.2.0
