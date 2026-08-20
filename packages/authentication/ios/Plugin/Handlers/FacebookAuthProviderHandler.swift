@@ -9,6 +9,7 @@ import FBSDKLoginKit
 class FacebookAuthProviderHandler: NSObject {
     let errorSignInCanceled = "Sign in canceled."
     let errorLinkCanceled = "Link canceled."
+    let errorSdkNotIncluded = "The Facebook SDK is not included in this build. Add the required CocoaPods subspec or Swift package trait."
     private var pluginImplementation: FirebaseAuthentication
     #if RGCFA_INCLUDE_FACEBOOK
     private var loginManager: LoginManager
@@ -117,6 +118,12 @@ class FacebookAuthProviderHandler: NSObject {
                     }
                 }
             }
+        }
+        #else
+        if isLink == true {
+            pluginImplementation.handleFailedLink(message: errorSdkNotIncluded, error: nil)
+        } else {
+            pluginImplementation.handleFailedSignIn(message: errorSdkNotIncluded, error: nil)
         }
         #endif
     }
