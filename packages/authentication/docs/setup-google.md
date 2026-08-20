@@ -34,7 +34,7 @@
 
    Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
 
-1. If you are using **Swift Package Manager** for your iOS project, the GoogleSignIn dependencies are already included by default. No additional configuration is needed for the package dependencies.
+1. If you are using **Swift Package Manager** for your iOS project, no additional configuration is needed for the package dependencies. The `Google` package trait is enabled by default and includes the GoogleSignIn dependencies. See [Package traits](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#package-traits) if you want to exclude them.
 1. If you are using **CocoaPods** for your iOS project, add the following post install script to your `Podfile` (usually `ios/App/Podfile`) to disable code signing for bundles:
    ```ruby
    post_install do |installer|

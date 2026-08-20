@@ -119,6 +119,46 @@ Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to 
 
 **Attention**: SPM `packageOptions` support requires Capacitor CLI **8.4.0+**.
 
+##### Package traits
+
+The GoogleSignIn and Facebook SDKs are optional and are included by default via the `Google` and `Facebook` package traits. If you do not use these providers, disable the corresponding trait so that the SDK is not linked into your app:
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "swiftToolsVersion": "6.1",
+        "packageTraits": {
+          "@capacitor-firebase/authentication": ["Google"]
+        }
+      }
+    }
+  }
+}
+```
+
+Listing traits explicitly replaces the defaults, so only the traits you list are enabled. The example above keeps GoogleSignIn and excludes the Facebook SDK. Use the `Lite` trait to exclude both:
+
+```json
+{
+  "experimental": {
+    "ios": {
+      "spm": {
+        "swiftToolsVersion": "6.1",
+        "packageTraits": {
+          "@capacitor-firebase/authentication": ["Lite"]
+        }
+      }
+    }
+  }
+}
+```
+
+These traits are the Swift Package Manager equivalent of the `CapacitorFirebaseAuthentication/Google`, `CapacitorFirebaseAuthentication/Facebook` and `CapacitorFirebaseAuthentication/Lite` CocoaPods subspecs. Calling a sign-in method of a provider whose SDK is excluded rejects with an error.
+
+**Attention**: SPM trait support requires Capacitor CLI **8.3.0+** and Xcode **16.3+** (Swift 6.1+).
+
 ## Configuration
 
 <docgen-config>
