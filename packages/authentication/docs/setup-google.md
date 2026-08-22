@@ -13,6 +13,10 @@
    Run [`npx cap update`](https://capacitorjs.com/docs/cli/update) to update the native plugins and dependencies.
 1. Specify your app's SHA-1 fingerprint from the [Settings page](https://console.firebase.google.com/project/_/settings/general/) of the Firebase console.
    Refer to [Authenticating Your Client](https://developers.google.com/android/guides/client-auth) for details on how to get your app's SHA-1 fingerprint.
+
+   **Attention**: If you distribute your app via Google Play, [Play App Signing](https://developer.android.com/studio/publish/app-signing#app-signing-google-play) re-signs your app with a different certificate than your upload key.
+   You must therefore also add the SHA-1 fingerprint of the **app signing key certificate**, which you find on the **App signing** page of the [Play Console](https://play.google.com/console), and download the updated `google-services.json` file afterwards.
+   Otherwise, sign-in only works for locally signed builds and fails for builds installed from Google Play.
 1. Enable Google Sign-In in the Firebase console:
    1. Open the **Auth** section in the [Firebase console](https://console.firebase.google.com/).
    1. Open the **Sign-in method** tab and enable **Google** Sign In.
