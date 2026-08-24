@@ -28,6 +28,10 @@ The Firebase Authentication plugin is typically used to handle the entire sign-i
 | 5.x.x          | 5.x.x             | Deprecated     |
 | 1.x.x          | 4.x.x             | Deprecated     |
 
+## Guides
+
+- [Firebase Authentication in Capacitor: Setup & Best Practices](https://capawesome.io/blog/capacitor-firebase-authentication-guide/): Setup and best practices for sign-in flows with this plugin.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.
