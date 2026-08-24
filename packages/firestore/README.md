@@ -18,10 +18,6 @@ The Cloud Firestore plugin is typically used to store and sync app data in the c
 - **Offline support**: Enable offline persistence and control network access to work with locally cached data.
 - **Atomic writes**: Perform multiple write operations as a single atomic batch with `writeBatch(...)`.
 
-## Guides
-
-- [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
-
 ## Compatibility
 
 | Plugin Version | Capacitor Version | Status         |
@@ -29,6 +25,12 @@ The Cloud Firestore plugin is typically used to store and sync app data in the c
 | 8.x.x          | >=8.x.x           | Active support |
 | 7.x.x          | 7.x.x             | Deprecated     |
 | 6.x.x          | 6.x.x             | Deprecated     |
+
+## Guides
+
+- [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
+- [Capacitor Firestore: Real-Time Data & Offline Sync](https://capawesome.io/blog/capacitor-firebase-cloud-firestore-guide/): Real-time listeners, offline persistence, and atomic writes with this plugin.
+- [How to Wrap an Angular App with Capacitor and Firebase](https://capawesome.io/blog/how-to-wrap-an-angular-app-with-capacitor-and-firebase/): Uses this plugin alongside Cloud Storage to store and sync user data.
 
 ## Installation
 

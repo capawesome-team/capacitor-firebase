@@ -18,10 +18,6 @@ The Firebase Cloud Messaging plugin is typically used to engage and re-engage us
 - **Background data sync**: Receive data push notifications in the background to keep the content of your app up to date.
 - **Notification management**: List, remove, or clear the notifications that are visible on the notifications screen.
 
-## Guides
-
-- [The Push Notifications Guide for Capacitor](https://capawesome.io/blog/capacitor-push-notifications-guide/)
-
 ## Compatibility
 
 | Plugin Version | Capacitor Version | Status         |
@@ -31,6 +27,10 @@ The Firebase Cloud Messaging plugin is typically used to engage and re-engage us
 | 6.x.x          | 6.x.x             | Deprecated     |
 | 5.x.x          | 5.x.x             | Deprecated     |
 | 1.x.x          | 4.x.x             | Deprecated     |
+
+## Guides
+
+- [The Push Notifications Guide for Capacitor](https://capawesome.io/blog/capacitor-push-notifications-guide/)
 
 ## Installation
 

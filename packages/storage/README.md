@@ -25,6 +25,11 @@ The Firebase Cloud Storage plugin is typically used to store and serve user-gene
 | 7.x.x          | 7.x.x             | Deprecated     |
 | 6.x.x          | 6.x.x             | Deprecated     |
 
+## Guides
+
+- [Upload & Manage Files with Firebase Storage in Capacitor](https://capawesome.io/blog/capacitor-firebase-cloud-storage-guide/): Upload, download, and manage user-generated files with this plugin.
+- [How to Wrap an Angular App with Capacitor and Firebase](https://capawesome.io/blog/how-to-wrap-an-angular-app-with-capacitor-and-firebase/): Uses this plugin alongside Cloud Firestore to store and serve user-uploaded files.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.
