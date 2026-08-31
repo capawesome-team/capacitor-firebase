@@ -97,7 +97,7 @@ public class FirebaseMessagingHelper {
         int importance = call.getInt("importance", NotificationManager.IMPORTANCE_DEFAULT);
         String description = call.getString("description", "");
         int visibility = call.getInt("visibility", NotificationCompat.VISIBILITY_PUBLIC);
-        boolean vibrate = call.getBoolean("vibrate", false);
+        boolean vibrate = call.getBoolean("vibration", false);
         boolean lights = call.getBoolean("lights", false);
         String lightColor = call.getString("lightColor", null);
         String sound = call.getString("sound", null);
