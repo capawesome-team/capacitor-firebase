@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/authentication",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "description": "Capacitor plugin for Firebase Authentication on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

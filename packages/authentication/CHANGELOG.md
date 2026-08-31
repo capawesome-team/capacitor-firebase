@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.5.0
+
+### Minor Changes
+
+- [`cf087eea2eff30e8f7ded8ed22b4fdaee0ea6e72`](https://github.com/capawesome-team/capacitor-firebase/commit/cf087eea2eff30e8f7ded8ed22b4fdaee0ea6e72) ([#1013](https://github.com/capawesome-team/capacitor-firebase/pull/1013)): feat(ios): add `Google`, `Facebook` and `Lite` Swift Package Manager traits to make the GoogleSignIn and Facebook SDKs optional
+
+### Patch Changes
+
+- [`cf087eea2eff30e8f7ded8ed22b4fdaee0ea6e72`](https://github.com/capawesome-team/capacitor-firebase/commit/cf087eea2eff30e8f7ded8ed22b4fdaee0ea6e72) ([#1013](https://github.com/capawesome-team/capacitor-firebase/pull/1013)): fix(ios): reject instead of never resolving when signing in with or linking a provider whose SDK is not included in the build
+
 ## 8.4.0
 
 ### Patch Changes

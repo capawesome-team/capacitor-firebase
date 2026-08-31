@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.5.0
+
+### Patch Changes
+
+- [`ef386a1ca5e002d5acea18104ef1d0c11fbdc4e8`](https://github.com/capawesome-team/capacitor-firebase/commit/ef386a1ca5e002d5acea18104ef1d0c11fbdc4e8) ([#1019](https://github.com/capawesome-team/capacitor-firebase/pull/1019)): fix(android): respect the `vibration` option when creating notification channels
+
 ## 8.4.0
 
 ### Patch Changes
