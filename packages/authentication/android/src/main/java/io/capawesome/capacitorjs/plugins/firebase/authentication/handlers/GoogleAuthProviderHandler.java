@@ -33,7 +33,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -294,19 +294,24 @@ public class GoogleAuthProviderHandler {
         }
     }
 
+    static GetSignInWithGoogleOption.Builder createSignInWithGoogleOptionBuilder(@NonNull String serverClientId) {
+        return new GetSignInWithGoogleOption.Builder(serverClientId);
+    }
+
     private void signInOrLink(final PluginCall call, final boolean isLink) {
         Boolean useCredentialManagerRaw = call.getBoolean("useCredentialManager");
         boolean useCredentialManager = (useCredentialManagerRaw != null) ? useCredentialManagerRaw : true;
 
         if (useCredentialManager) {
             Executor executor = Executors.newSingleThreadExecutor();
-            GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
+            GetSignInWithGoogleOption googleSignInOption = createSignInWithGoogleOptionBuilder(
                 // Your server's client ID, not your Android client ID
-                .setServerClientId(pluginImplementation.getPlugin().getContext().getString(R.string.default_web_client_id))
-                // Show all accounts on the device (not just the accounts that have been used previously)
-                .setFilterByAuthorizedAccounts(false)
-                .build();
-            GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build();
+                pluginImplementation
+                    .getPlugin()
+                    .getContext()
+                    .getString(R.string.default_web_client_id)
+            ).build();
+            GetCredentialRequest request = new GetCredentialRequest.Builder().addCredentialOption(googleSignInOption).build();
             CredentialManager credentialManager = CredentialManager.create(pluginImplementation.getPlugin().getActivity());
             credentialManager.getCredentialAsync(
                 pluginImplementation.getPlugin().getContext(),

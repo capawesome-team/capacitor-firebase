@@ -78,6 +78,7 @@ dependencies {
       compileOnly "com.facebook.android:facebook-login:$facebookLoginVersion"
     }
     testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.google.android.libraries.identity.googleid:googleid:$librariesIdentityGoogleidVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
 }
