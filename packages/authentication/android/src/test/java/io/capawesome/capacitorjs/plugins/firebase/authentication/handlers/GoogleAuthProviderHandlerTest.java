@@ -9,8 +9,10 @@ public class GoogleAuthProviderHandlerTest {
 
     @Test
     public void createSignInWithGoogleOptionBuilderUsesButtonFlow() {
-        GetSignInWithGoogleOption.Builder builder = GoogleAuthProviderHandler.createSignInWithGoogleOptionBuilder("server-client-id");
+        String serverClientId = "1234567890-abcdefg.apps.googleusercontent.com";
 
-        assertEquals(GetSignInWithGoogleOption.Builder.class, builder.getClass());
+        GetSignInWithGoogleOption option = GoogleAuthProviderHandler.createSignInWithGoogleOptionBuilder(serverClientId).build();
+
+        assertEquals(serverClientId, option.getServerClientId());
     }
 }
