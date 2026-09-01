@@ -44,6 +44,9 @@ android {
     lintOptions {
         abortOnError = false
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
@@ -78,6 +81,7 @@ dependencies {
       compileOnly "com.facebook.android:facebook-login:$facebookLoginVersion"
     }
     testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.google.android.libraries.identity.googleid:googleid:$librariesIdentityGoogleidVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
 }
