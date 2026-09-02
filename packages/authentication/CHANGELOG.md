@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.5.1
+
+### Patch Changes
+
+- [`a613e7b41c3c7a8cecf82c3cffc7573f290fae15`](https://github.com/capawesome-team/capacitor-firebase/commit/a613e7b41c3c7a8cecf82c3cffc7573f290fae15) ([#1021](https://github.com/capawesome-team/capacitor-firebase/pull/1021)): fix(android): use the Google button flow with Credential Manager
+
+- [`bbfd3b8b3d96963fc30f5bb9dc288c63279a04b1`](https://github.com/capawesome-team/capacitor-firebase/commit/bbfd3b8b3d96963fc30f5bb9dc288c63279a04b1) ([#1023](https://github.com/capawesome-team/capacitor-firebase/pull/1023)): fix(ios): remove the SPM test target that made the published package unresolvable by SwiftPM
+
 ## 8.5.0
 
 ### Minor Changes
