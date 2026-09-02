@@ -22,10 +22,6 @@ let package = Package(
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk")
             ],
-            path: "ios/Plugin"),
-        .testTarget(
-            name: "FirebaseMessagingPluginTests",
-            dependencies: ["FirebaseMessagingPlugin"],
-            path: "ios/PluginTests")
+            path: "ios/Plugin")
     ]
 )

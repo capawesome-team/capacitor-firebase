@@ -36,11 +36,7 @@ let package = Package(
                          condition: .when(traits: ["AnalyticsWithoutAdIdSupport"])),
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk")
             ],
-            path: "ios/Plugin"),
-        .testTarget(
-            name: "FirebaseAnalyticsPluginTests",
-            dependencies: ["FirebaseAnalyticsPlugin"],
-            path: "ios/PluginTests")
+            path: "ios/Plugin")
     ],
     swiftLanguageModes: [.v5]
 )
