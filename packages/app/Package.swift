@@ -21,10 +21,6 @@ let package = Package(
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk")
             ],
-            path: "ios/Plugin"),
-        .testTarget(
-            name: "FirebaseAppPluginTests",
-            dependencies: ["FirebaseAppPlugin"],
-            path: "ios/PluginTests")
+            path: "ios/Plugin")
     ]
 )

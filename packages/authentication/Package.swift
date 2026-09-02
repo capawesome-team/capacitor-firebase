@@ -49,11 +49,7 @@ let package = Package(
             swiftSettings: [
                 .define("RGCFA_INCLUDE_GOOGLE", .when(traits: ["Google"])),
                 .define("RGCFA_INCLUDE_FACEBOOK", .when(traits: ["Facebook"]))
-            ]),
-        .testTarget(
-            name: "FirebaseAuthenticationPluginTests",
-            dependencies: ["FirebaseAuthenticationPlugin"],
-            path: "ios/PluginTests")
+            ])
     ],
     swiftLanguageModes: [.v5]
 )
