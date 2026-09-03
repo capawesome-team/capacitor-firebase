@@ -64,8 +64,12 @@ public class FirebaseAuthentication {
     @Nullable
     private AppleAuthProviderHandler appleAuthProviderHandler;
 
+    // Written on the thread that makes the first Facebook call and read on the main thread in
+    // `handleOnActivityResult`, so the lazily created handler has to be published safely.
     @Nullable
-    private FacebookAuthProviderHandler facebookAuthProviderHandler;
+    private volatile FacebookAuthProviderHandler facebookAuthProviderHandler;
+
+    private boolean isFacebookProviderEnabled;
 
     @Nullable
     private GoogleAuthProviderHandler googleAuthProviderHandler;
@@ -302,11 +306,12 @@ public class FirebaseAuthentication {
     }
 
     public void linkWithFacebook(final PluginCall call) {
-        if (facebookAuthProviderHandler == null) {
+        FacebookAuthProviderHandler handler = getFacebookAuthProviderHandler();
+        if (handler == null) {
             call.reject(createProviderNotEnabledErrorMessage("Facebook"));
             return;
         }
-        facebookAuthProviderHandler.link(call);
+        handler.link(call);
     }
 
     public void linkWithGithub(final PluginCall call) {
@@ -509,11 +514,12 @@ public class FirebaseAuthentication {
     }
 
     public void signInWithFacebook(final PluginCall call) {
-        if (facebookAuthProviderHandler == null) {
+        FacebookAuthProviderHandler handler = getFacebookAuthProviderHandler();
+        if (handler == null) {
             call.reject(createProviderNotEnabledErrorMessage("Facebook"));
             return;
         }
-        facebookAuthProviderHandler.signIn(call);
+        handler.signIn(call);
     }
 
     public void signInWithGithub(final PluginCall call) {
@@ -589,8 +595,9 @@ public class FirebaseAuthentication {
         if (googleAuthProviderHandler != null) {
             googleAuthProviderHandler.signOut();
         }
-        if (facebookAuthProviderHandler != null) {
-            facebookAuthProviderHandler.signOut();
+        FacebookAuthProviderHandler facebookHandler = getFacebookAuthProviderHandler();
+        if (facebookHandler != null) {
+            facebookHandler.signOut();
         }
         if (playGamesAuthProviderHandler != null) {
             playGamesAuthProviderHandler.signOut();
@@ -954,14 +961,25 @@ public class FirebaseAuthentication {
         );
     }
 
+    @Nullable
+    private FacebookAuthProviderHandler getFacebookAuthProviderHandler() {
+        if (!isFacebookProviderEnabled) {
+            return null;
+        }
+        if (facebookAuthProviderHandler == null) {
+            facebookAuthProviderHandler = new FacebookAuthProviderHandler(this);
+        }
+        return facebookAuthProviderHandler;
+    }
+
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {
         List<String> providerList = Arrays.asList(config.getProviders());
         if (providerList.contains(ProviderId.APPLE)) {
             appleAuthProviderHandler = new AppleAuthProviderHandler(this);
         }
-        if (providerList.contains(ProviderId.FACEBOOK)) {
-            facebookAuthProviderHandler = new FacebookAuthProviderHandler(this);
-        }
+        // Creating the handler reads the Facebook SDK's shared preferences and queries the package
+        // manager, so it is deferred until the first Facebook call instead of blocking plugin load.
+        isFacebookProviderEnabled = providerList.contains(ProviderId.FACEBOOK);
         if (providerList.contains(ProviderId.GOOGLE)) {
             googleAuthProviderHandler = new GoogleAuthProviderHandler(this);
             googleAuthorizationResultLauncher = getPlugin()

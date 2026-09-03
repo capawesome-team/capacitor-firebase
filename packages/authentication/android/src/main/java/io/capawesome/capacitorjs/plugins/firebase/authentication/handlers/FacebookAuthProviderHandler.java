@@ -9,14 +9,14 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.getcapacitor.JSArray;
-import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.json.JSONException;
 
@@ -25,9 +25,9 @@ public class FacebookAuthProviderHandler {
     public static final int RC_FACEBOOK_AUTH = 0xface;
     public static final String ERROR_SIGN_IN_CANCELED = "Sign in canceled.";
     public static final String ERROR_LINK_CANCELED = "Link canceled.";
+    private static final List<String> DEFAULT_PERMISSIONS = Arrays.asList("email", "public_profile");
     private FirebaseAuthentication pluginImplementation;
     private CallbackManager mCallbackManager;
-    private LoginButton loginButton;
 
     @Nullable
     private PluginCall savedCall;
@@ -39,10 +39,7 @@ public class FacebookAuthProviderHandler {
         this.pluginImplementation = pluginImplementation;
         try {
             mCallbackManager = CallbackManager.Factory.create();
-            loginButton = new LoginButton(pluginImplementation.getPlugin().getContext());
-
-            loginButton.setPermissions("email", "public_profile");
-            loginButton.registerCallback(
+            LoginManager.getInstance().registerCallback(
                 mCallbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -69,15 +66,13 @@ public class FacebookAuthProviderHandler {
     public void signIn(PluginCall call) {
         this.savedCall = call;
         this.isLink = false;
-        this.applySignInOptions(call, this.loginButton);
-        this.loginButton.performClick();
+        this.logIn(call);
     }
 
     public void link(PluginCall call) {
         this.savedCall = call;
         this.isLink = true;
-        this.applySignInOptions(call, this.loginButton);
-        this.loginButton.performClick();
+        this.logIn(call);
     }
 
     public void signOut() {
@@ -88,18 +83,29 @@ public class FacebookAuthProviderHandler {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void applySignInOptions(final PluginCall call, LoginButton button) {
+    private void logIn(final PluginCall call) {
+        // The `loggerID` overload skips the warning that the two-argument one logs for activities
+        // with the AndroidX result APIs, which every Capacitor `BridgeActivity` is.
+        LoginManager.getInstance().logIn(pluginImplementation.getPlugin().getActivity(), getPermissions(call), null);
+    }
+
+    private List<String> getPermissions(final PluginCall call) {
+        List<String> permissions = new ArrayList<>(DEFAULT_PERMISSIONS);
         JSArray scopes = call.getArray("scopes");
-        if (scopes != null) {
-            try {
-                List<String> scopeList = scopes.toList();
-                scopeList.add("email");
-                scopeList.add("public_profile");
-                button.setPermissions(scopeList);
-            } catch (JSONException exception) {
-                Log.e(FirebaseAuthenticationPlugin.TAG, "applySignInOptions failed.", exception);
-            }
+        if (scopes == null) {
+            return permissions;
         }
+        try {
+            List<String> scopeList = scopes.toList();
+            for (String scope : scopeList) {
+                if (!permissions.contains(scope)) {
+                    permissions.add(scope);
+                }
+            }
+        } catch (JSONException exception) {
+            Log.e(FirebaseAuthenticationPlugin.TAG, "getPermissions failed.", exception);
+        }
+        return permissions;
     }
 
     private void handleSuccessCallback(LoginResult loginResult) {
