@@ -1,7 +1,7 @@
 {
   "name": "capacitor-firebase",
   "private": true,
-  "packageManager": "npm@8.3.0",
+  "packageManager": "npm@11.17.0",
   "workspaces": [
     "packages/*"
   ],
@@ -33,7 +33,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@changesets/cli": "2.29.8",
+    "@changesets/cli": "3.0.1",
     "@ionic/swiftlint-config": "2.0.0",
     "@robingenz/changelog-github": "0.0.1",
     "husky": "9.1.7",
