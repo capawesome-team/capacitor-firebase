@@ -1,5 +1,7 @@
 # @capacitor-firebase/firestore
 
+## 8.5.2
+
 ## 8.5.1
 
 ### Patch Changes

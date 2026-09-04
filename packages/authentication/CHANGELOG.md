@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.5.2
+
+### Patch Changes
+
+- [`96e907b0e49a078fdfe5b5947dd9caf2b66117ba`](https://github.com/capawesome-team/capacitor-firebase/commit/96e907b0e49a078fdfe5b5947dd9caf2b66117ba) ([#1027](https://github.com/capawesome-team/capacitor-firebase/pull/1027)): fix(android): start Facebook sign-in via `LoginManager` so it no longer hangs once an access token is cached and no longer blocks the main thread at plugin load
+
 ## 8.5.1
 
 ### Patch Changes
