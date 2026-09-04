@@ -1,6 +1,6 @@
 {
   "name": "@capacitor-firebase/app-check",
-  "version": "8.5.1",
+  "version": "8.5.2",
   "description": "Capacitor plugin for Firebase App Check on Android, iOS, and Web.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
