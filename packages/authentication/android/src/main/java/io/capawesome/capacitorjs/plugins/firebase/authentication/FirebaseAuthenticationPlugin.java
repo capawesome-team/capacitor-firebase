@@ -21,13 +21,12 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.RevokeAccessTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendEmailVerificationOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendPasswordResetEmailOptions;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.handlers.FacebookAuthProviderHandler;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.Result;
 import org.json.JSONObject;
 
-@CapacitorPlugin(name = "FirebaseAuthentication", requestCodes = { FacebookAuthProviderHandler.RC_FACEBOOK_AUTH })
+@CapacitorPlugin(name = "FirebaseAuthentication")
 public class FirebaseAuthenticationPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAuthentication";
@@ -1034,15 +1033,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
         };
         implementation.getIdToken(false, callback);
-    }
-
-    @Override
-    protected void handleOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.handleOnActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            return;
-        }
-        implementation.handleOnActivityResult(requestCode, resultCode, data);
     }
 
     @ActivityCallback

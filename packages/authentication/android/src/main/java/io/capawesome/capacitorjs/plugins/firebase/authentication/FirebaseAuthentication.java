@@ -701,12 +701,6 @@ public class FirebaseAuthentication {
         playGamesAuthProviderHandler.handleOnActivityResult(call, result, true);
     }
 
-    public void handleOnActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
-        if (requestCode == FacebookAuthProviderHandler.RC_FACEBOOK_AUTH && facebookAuthProviderHandler != null) {
-            facebookAuthProviderHandler.handleOnActivityResult(requestCode, resultCode, data);
-        }
-    }
-
     public void signInWithCredential(
         @NonNull SignInOptions options,
         @NonNull AuthCredential credential,
