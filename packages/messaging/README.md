@@ -158,6 +158,10 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 When a registration token is generated, the library uploads the identifier and configuration data to Firebase.
 If you prefer to prevent token autogeneration, disable FCM auto initialization by editing your `ios/App/App/Info.plist` and set `FirebaseMessagingAutoInitEnabled` key to `NO`.
 
+#### Suppress foreground presentation
+
+On iOS, set the FCM data key `suppressForegroundPresentation` to the string `"true"` to suppress the native foreground presentation for an individual notification. The `notificationReceived` listener is still called. This key only affects notifications received while the iOS app is in the foreground and does not affect background or lock-screen presentation.
+
 ### Web
 
 1. See [Configure Web Credentials with FCM](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with) and follow the instructions to configure your web credentials correctly.

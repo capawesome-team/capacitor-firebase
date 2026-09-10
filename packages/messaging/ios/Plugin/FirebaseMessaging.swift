@@ -133,6 +133,10 @@ extension FirebaseMessaging: MessagingDelegate {
     public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
         self.handleNotificationReceived(notification: notification)
 
+        if notification.request.content.userInfo["suppressForegroundPresentation"] as? String == "true" {
+            return []
+        }
+
         var presentationOptions = UNNotificationPresentationOptions.init()
         self.config.presentationOptions.forEach { option in
             switch option {
