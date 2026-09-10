@@ -119,7 +119,7 @@ public class FirebaseMessagingPlugin extends Plugin {
     @PluginMethod
     public void isSupported(PluginCall call) {
         JSObject result = new JSObject();
-        result.put("isSupported", true);
+        result.put("isSupported", implementation.isSupported());
         call.resolve(result);
     }
 

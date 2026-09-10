@@ -420,7 +420,7 @@ isSupported() => Promise<IsSupportedResult>
 
 Checks if all required APIs exist.
 
-Always returns `true` on Android and iOS.
+Returns `false` on Android and iOS when the native Firebase configuration is missing.
 
 **Returns:** <code>Promise&lt;<a href="#issupportedresult">IsSupportedResult</a>&gt;</code>
 

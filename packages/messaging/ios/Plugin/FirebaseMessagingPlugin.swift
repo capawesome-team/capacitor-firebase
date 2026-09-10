@@ -70,7 +70,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func isSupported(_ call: CAPPluginCall) {
         var result = JSObject()
-        result["isSupported"] = true
+        result["isSupported"] = implementation?.isSupported() == true
         call.resolve(result)
     }
 
@@ -218,6 +218,9 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc private func didRegisterForRemoteNotifications(notification: NSNotification) {
+        guard implementation?.isSupported() == true else {
+            return
+        }
         guard let deviceToken = notification.object as? Data else {
             return
         }
@@ -229,6 +232,9 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc private func didReceiveRemoteNotification(notification: NSNotification) {
+        guard implementation?.isSupported() == true else {
+            return
+        }
         implementation?.handleRemoteNotificationReceived(notification: notification)
     }
 

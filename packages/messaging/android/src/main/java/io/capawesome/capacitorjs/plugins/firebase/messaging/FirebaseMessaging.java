@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.google.firebase.FirebaseApp;
 import java.util.List;
 
 public class FirebaseMessaging {
@@ -39,6 +40,15 @@ public class FirebaseMessaging {
                 String token = task.getResult();
                 resultCallback.success(token);
             });
+    }
+
+    public boolean isSupported() {
+        try {
+            FirebaseApp.getInstance();
+            return true;
+        } catch (IllegalStateException exception) {
+            return false;
+        }
     }
 
     public void deleteToken() {

@@ -8,17 +8,40 @@ import FirebaseCore
 @objc public class FirebaseMessaging: NSObject, NotificationHandlerProtocol {
     private let plugin: FirebaseMessagingPlugin
     private let config: FirebaseMessagingConfig
+    private var isFirebaseConfigured = false
 
     init(plugin: FirebaseMessagingPlugin, config: FirebaseMessagingConfig) {
         self.plugin = plugin
         self.config = config
         super.init()
-        if FirebaseApp.app() == nil {
+        if FirebaseApp.app() == nil && FirebaseMessaging.hasDefaultFirebaseConfig() {
             FirebaseApp.configure()
+        }
+        isFirebaseConfigured = FirebaseApp.app() != nil
+        guard isFirebaseConfigured else {
+            return
         }
         UIApplication.shared.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         self.plugin.bridge?.notificationRouter.pushNotificationHandler = self
+    }
+
+    public func isSupported() -> Bool {
+        return isFirebaseConfigured
+    }
+
+    private static func hasDefaultFirebaseConfig() -> Bool {
+        return Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil
+    }
+
+    private func missingFirebaseConfigurationError() -> NSError {
+        return NSError(
+            domain: "FirebaseMessaging",
+            code: 0,
+            userInfo: [
+                NSLocalizedDescriptionKey: "Firebase Messaging requires a GoogleService-Info.plist in the app bundle."
+            ]
+        )
     }
 
     public func requestPermissions(completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) {
@@ -54,6 +77,10 @@ import FirebaseCore
     }
 
     public func getToken(completion: @escaping (String?, Error?) -> Void) {
+        guard isFirebaseConfigured else {
+            completion(nil, missingFirebaseConfigurationError())
+            return
+        }
         Messaging.messaging().isAutoInitEnabled = true
         Messaging.messaging().token(completion: { result, error in
             if let error = error {
@@ -65,6 +92,10 @@ import FirebaseCore
     }
 
     public func deleteToken(completion: @escaping (Error?) -> Void) {
+        guard isFirebaseConfigured else {
+            completion(missingFirebaseConfigurationError())
+            return
+        }
         Messaging.messaging().deleteToken(completion: { error in
             if let error = error {
                 completion(error)
@@ -89,6 +120,10 @@ import FirebaseCore
     }
 
     public func subscribeToTopic(topic: String, completion: @escaping (Error?) -> Void) {
+        guard isFirebaseConfigured else {
+            completion(missingFirebaseConfigurationError())
+            return
+        }
         Messaging.messaging().subscribe(toTopic: topic) { error in
             if let error = error {
                 completion(error)
@@ -99,6 +134,10 @@ import FirebaseCore
     }
 
     public func unsubscribeFromTopic(topic: String, completion: @escaping (Error?) -> Void) {
+        guard isFirebaseConfigured else {
+            completion(missingFirebaseConfigurationError())
+            return
+        }
         Messaging.messaging().unsubscribe(fromTopic: topic, completion: { error in
             if let error = error {
                 completion(error)
@@ -109,6 +148,9 @@ import FirebaseCore
     }
 
     public func handleRemoteNotificationReceived(notification: NSNotification) {
+        guard isFirebaseConfigured else {
+            return
+        }
         if let userInfo = notification.userInfo {
             Messaging.messaging().appDidReceiveMessage(userInfo)
         }
@@ -116,12 +158,18 @@ import FirebaseCore
     }
 
     private func handleNotificationReceived(notification: UNNotification) {
+        guard isFirebaseConfigured else {
+            return
+        }
         let userInfo = notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
         self.plugin.handleNotificationReceived(notification: notification)
     }
 
     private func handleNotificationActionPerformed(response: UNNotificationResponse) {
+        guard isFirebaseConfigured else {
+            return
+        }
         let userInfo = response.notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
         self.plugin.handleNotificationActionPerformed(response: response)

@@ -50,7 +50,7 @@ export interface FirebaseMessagingPlugin {
   /**
    * Checks if all required APIs exist.
    *
-   * Always returns `true` on Android and iOS.
+   * Returns `false` on Android and iOS when the native Firebase configuration is missing.
    *
    * @since 0.3.1
    */
