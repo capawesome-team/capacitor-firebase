@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.5.2
+
+### Patch Changes
+
+- [`96e907b0e49a078fdfe5b5947dd9caf2b66117ba`](https://github.com/capawesome-team/capacitor-firebase/commit/96e907b0e49a078fdfe5b5947dd9caf2b66117ba) ([#1027](https://github.com/capawesome-team/capacitor-firebase/pull/1027)): fix(android): start Facebook sign-in via `LoginManager` so it no longer hangs once an access token is cached and no longer blocks the main thread at plugin load
+
+- [`6f90cd36cd27d793d4e74f17416e0cc82200a9d8`](https://github.com/capawesome-team/capacitor-firebase/commit/6f90cd36cd27d793d4e74f17416e0cc82200a9d8) ([#1031](https://github.com/capawesome-team/capacitor-firebase/pull/1031)): fix(ios): no longer crash at launch when `GoogleService-Info.plist` is missing
+
 ## 8.5.1
 
 ### Patch Changes
