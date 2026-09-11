@@ -14,11 +14,19 @@ import FirebaseCore
         self.config = config
         super.init()
         if FirebaseApp.app() == nil {
+            guard FirebaseOptions.defaultOptions() != nil else {
+                CAPLog.print("[FirebaseMessaging] Firebase was not configured: GoogleService-Info.plist is missing from the app bundle.")
+                return
+            }
             FirebaseApp.configure()
         }
         UIApplication.shared.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         self.plugin.bridge?.notificationRouter.pushNotificationHandler = self
+    }
+
+    public var isFirebaseConfigured: Bool {
+        return FirebaseApp.app() != nil
     }
 
     public func requestPermissions(completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) {
@@ -108,7 +116,17 @@ import FirebaseCore
         })
     }
 
+    public func setApnsToken(_ token: Data) {
+        guard isFirebaseConfigured else {
+            return
+        }
+        Messaging.messaging().apnsToken = token
+    }
+
     public func handleRemoteNotificationReceived(notification: NSNotification) {
+        guard isFirebaseConfigured else {
+            return
+        }
         if let userInfo = notification.userInfo {
             Messaging.messaging().appDidReceiveMessage(userInfo)
         }

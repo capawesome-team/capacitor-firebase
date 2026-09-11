@@ -6,6 +6,10 @@ import FirebaseCrashlytics
 @objc public class FirebaseCrashlytics: NSObject {
     override init() {
         if FirebaseApp.app() == nil {
+            guard FirebaseOptions.defaultOptions() != nil else {
+                CAPLog.print("[FirebaseCrashlytics] Firebase was not configured: GoogleService-Info.plist is missing from the app bundle.")
+                return
+            }
             FirebaseApp.configure()
         }
     }

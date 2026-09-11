@@ -1,4 +1,5 @@
 import Foundation
+import Capacitor
 import FirebaseCore
 import FirebaseFunctions
 
@@ -9,6 +10,10 @@ import FirebaseFunctions
         self.plugin = plugin
         super.init()
         if FirebaseApp.app() == nil {
+            guard FirebaseOptions.defaultOptions() != nil else {
+                CAPLog.print("[FirebaseFunctions] Firebase was not configured: GoogleService-Info.plist is missing from the app bundle.")
+                return
+            }
             FirebaseApp.configure()
         }
     }

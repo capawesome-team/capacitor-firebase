@@ -35,6 +35,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
     public let apnsTokenReceivedEvent = "apnsTokenReceived"
+    public let errorFirebaseNotConfigured = "Firebase is not configured: GoogleService-Info.plist is missing from the app bundle."
     public let errorTopicMissing = "topic must be provided."
     public let errorNotificationsMissing = "notifications must be provided."
     public let errorNotificationsInvalid = "The provided notifications are invalid."
@@ -75,6 +76,11 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func getToken(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
         implementation?.getToken(completion: { token, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
@@ -88,6 +94,11 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func deleteToken(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
         implementation?.deleteToken(completion: { error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
@@ -134,6 +145,11 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func subscribeToTopic(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
         guard let topic = call.getString("topic") else {
             call.reject(errorTopicMissing)
             return
@@ -150,6 +166,11 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func unsubscribeFromTopic(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
         guard let topic = call.getString("topic") else {
             call.reject(errorTopicMissing)
             return
@@ -221,7 +242,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         guard let deviceToken = notification.object as? Data else {
             return
         }
-        Messaging.messaging().apnsToken = deviceToken
+        implementation?.setApnsToken(deviceToken)
         let token = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         var result = JSObject()
         result["token"] = token
@@ -230,6 +251,14 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc private func didReceiveRemoteNotification(notification: NSNotification) {
         implementation?.handleRemoteNotificationReceived(notification: notification)
+    }
+
+    private var isFirebaseConfigured: Bool {
+        return implementation?.isFirebaseConfigured == true
+    }
+
+    private func rejectCallAsUnavailable(_ call: CAPPluginCall) {
+        call.unavailable(errorFirebaseNotConfigured)
     }
 
     private func firebaseMessagingConfig() -> FirebaseMessagingConfig {
