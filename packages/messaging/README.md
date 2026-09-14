@@ -31,6 +31,7 @@ The Firebase Cloud Messaging plugin is typically used to engage and re-engage us
 ## Guides
 
 - [The Push Notifications Guide for Capacitor](https://capawesome.io/blog/capacitor-push-notifications-guide/)
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): From push notifications to analytics and crash reporting — every Firebase plugin in one guide.
 
 ## Installation
 

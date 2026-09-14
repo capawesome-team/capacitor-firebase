@@ -31,6 +31,7 @@ The Firebase Authentication plugin is typically used to handle the entire sign-i
 ## Guides
 
 - [Firebase Authentication in Capacitor: Setup & Best Practices](https://capawesome.io/blog/capacitor-firebase-authentication-guide/): Setup and best practices for sign-in flows with this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): Why sign-in is usually the first Firebase piece to wire up, and what builds on the user ID it produces.
 
 ## Installation
 
