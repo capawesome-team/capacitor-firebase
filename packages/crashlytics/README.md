@@ -27,6 +27,11 @@ The Firebase Crashlytics plugin is typically used to monitor the stability of an
 | 5.x.x          | 5.x.x             | Deprecated     |
 | 1.x.x          | 4.x.x             | Deprecated     |
 
+## Guides
+
+- [Crash Reporting in a Capacitor App with Crashlytics](https://capawesome.io/blog/capacitor-firebase-crashlytics-guide/): Crash and non-fatal error reporting with custom keys, logs, and user IDs using this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): Where crash reporting fits in a production Firebase app, next to analytics and performance.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.

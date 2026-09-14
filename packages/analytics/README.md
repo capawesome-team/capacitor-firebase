@@ -31,6 +31,7 @@ The Firebase Analytics plugin is typically used to understand how users interact
 ## Guides
 
 - [Track App Events with Firebase Analytics in Capacitor](https://capawesome.io/blog/capacitor-firebase-analytics-guide/): Log events, track screens, and set up audience segmentation with this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): Where Analytics sits among the other Firebase plugins, and what teams usually add alongside it.
 
 ## Installation
 

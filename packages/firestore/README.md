@@ -31,6 +31,7 @@ The Cloud Firestore plugin is typically used to store and sync app data in the c
 - [Announcing the Capacitor Firebase Cloud Firestore Plugin](https://capawesome.io/blog/announcing-the-capacitor-firebase-cloud-firestore-plugin/)
 - [Capacitor Firestore: Real-Time Data & Offline Sync](https://capawesome.io/blog/capacitor-firebase-cloud-firestore-guide/): Real-time listeners, offline persistence, and atomic writes with this plugin.
 - [How to Wrap an Angular App with Capacitor and Firebase](https://capawesome.io/blog/how-to-wrap-an-angular-app-with-capacitor-and-firebase/): Uses this plugin alongside Cloud Storage to store and sync user data.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): How the database combines with Authentication, Storage, and the rest of the family in a real app.
 
 ## Installation
 

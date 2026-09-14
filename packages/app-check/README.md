@@ -26,6 +26,11 @@ The Firebase App Check plugin is typically used to verify that requests to your 
 | 6.x.x          | 6.x.x             | Deprecated     |
 | 5.x.x          | 5.x.x             | Deprecated     |
 
+## Guides
+
+- [Firebase App Check in a Capacitor App](https://capawesome.io/blog/capacitor-firebase-app-check-guide/): Set up the Play Integrity, App Attest, and reCAPTCHA providers and verify tokens server-side with this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): A tour of the Firebase services App Check ends up protecting once enforcement is on.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.

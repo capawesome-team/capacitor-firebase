@@ -27,6 +27,11 @@ The Firebase Performance Monitoring plugin is typically used to gain insight int
 | 5.x.x          | 5.x.x             | Deprecated     |
 | 1.x.x          | 4.x.x             | Deprecated     |
 
+## Guides
+
+- [Monitor App Performance in Capacitor with Firebase](https://capawesome.io/blog/capacitor-firebase-performance-monitoring-guide/): Automatic and custom traces for app start, rendering, and network calls with this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): The whole plugin family in one guide, with performance monitoring as one half of app health.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.

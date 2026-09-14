@@ -24,6 +24,11 @@ The Firebase Cloud Functions plugin is typically used to run backend logic from 
 | 8.x.x          | >=8.x.x           | Active support |
 | 7.x.x          | 7.x.x             | Deprecated     |
 
+## Guides
+
+- [Call Firebase Cloud Functions from a Capacitor App](https://capawesome.io/blog/capacitor-firebase-cloud-functions-guide/): Call serverless backend logic by name or URL, including local emulator testing, with this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): Which plugins pair naturally with your backend logic, from sign-in to the database it reads.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.

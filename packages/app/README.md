@@ -26,6 +26,10 @@ The Firebase App plugin is typically used to access the core Firebase configurat
 | 5.x.x          | 5.x.x             | Deprecated     |
 | 1.x.x          | 4.x.x             | Deprecated     |
 
+## Guides
+
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): The starting point for the whole plugin family and the setup every Firebase plugin shares.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.

@@ -27,6 +27,11 @@ The Firebase Remote Config plugin is typically used to change the behavior and a
 | 6.x.x          | 6.x.x             | Deprecated     |
 | 5.x.x          | 5.x.x             | Deprecated     |
 
+## Guides
+
+- [Feature Flags in a Capacitor App with Remote Config](https://capawesome.io/blog/capacitor-firebase-remote-config-guide/): Feature flags, staged rollouts, and real-time config updates with this plugin.
+- [How to Use Firebase in a Capacitor App](https://capawesome.io/blog/how-to-use-firebase-in-a-capacitor-app/): How feature flags plug into the rest of the family, including the Analytics audiences they target.
+
 ## Installation
 
 You can use our **AI-Assisted Setup** to install the plugin.
