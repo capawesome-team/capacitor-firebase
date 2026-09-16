@@ -51,6 +51,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     public static final String ERROR_PHONE_RESEND_TOKEN_MISSING =
         "signInWithPhoneNumber must be called once before using the resendCode option.";
     public static final String ERROR_HOST_MISSING = "host must be provided.";
+    public static final String ERROR_NO_BROWSER_AVAILABLE = "No browser is available to complete the sign-in flow.";
+    public static final String ERROR_NO_BROWSER_AVAILABLE_CODE = "auth/no-browser-available";
     public static final String ERROR_CUSTOM_TOKEN_SKIP_NATIVE_AUTH =
         "signInWithCustomToken cannot be used in combination with skipNativeAuth.";
     public static final String ERROR_EMAIL_LINK_SKIP_NATIVE_AUTH =

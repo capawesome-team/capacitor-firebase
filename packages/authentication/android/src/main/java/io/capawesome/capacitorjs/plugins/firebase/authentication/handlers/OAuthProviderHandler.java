@@ -58,6 +58,9 @@ public class OAuthProviderHandler {
     }
 
     private void startActivityForSignIn(final PluginCall call, OAuthProvider.Builder provider) {
+        if (pluginImplementation.rejectIfNoBrowserAvailable(call)) {
+            return;
+        }
         pluginImplementation
             .getFirebaseAuthInstance()
             .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
@@ -72,6 +75,9 @@ public class OAuthProviderHandler {
     }
 
     private void startActivityForLink(final PluginCall call, OAuthProvider.Builder provider) {
+        if (pluginImplementation.rejectIfNoBrowserAvailable(call)) {
+            return;
+        }
         pluginImplementation
             .getCurrentUser()
             .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
