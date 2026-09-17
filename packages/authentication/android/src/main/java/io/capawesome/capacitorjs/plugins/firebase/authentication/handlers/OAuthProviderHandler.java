@@ -58,6 +58,10 @@ public class OAuthProviderHandler {
     }
 
     private void startActivityForSignIn(final PluginCall call, OAuthProvider.Builder provider) {
+        if (!pluginImplementation.isBrowserAvailable()) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE);
+            return;
+        }
         pluginImplementation
             .getFirebaseAuthInstance()
             .startActivityForSignInWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
@@ -72,6 +76,10 @@ public class OAuthProviderHandler {
     }
 
     private void startActivityForLink(final PluginCall call, OAuthProvider.Builder provider) {
+        if (!pluginImplementation.isBrowserAvailable()) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE);
+            return;
+        }
         pluginImplementation
             .getCurrentUser()
             .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())

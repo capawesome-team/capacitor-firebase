@@ -229,6 +229,14 @@ public class FirebaseAuthentication {
         return getFirebaseAuthInstance().getTenantId();
     }
 
+    // Firebase's GenericIdpActivity crashes with an ActivityNotFoundException instead of failing the task when no browser is installed.
+    public boolean isBrowserAvailable() {
+        // A scheme-only URI is resolved by general-purpose browsers only, not by apps registered for specific hosts.
+        Uri probeUri = Uri.fromParts("https", "", null);
+        Intent intent = new Intent(Intent.ACTION_VIEW, probeUri).addCategory(Intent.CATEGORY_BROWSABLE);
+        return intent.resolveActivity(plugin.getContext().getPackageManager()) != null;
+    }
+
     public boolean isSignInWithEmailLink(@NonNull String emailLink) {
         return getFirebaseAuthInstance().isSignInWithEmailLink(emailLink);
     }
