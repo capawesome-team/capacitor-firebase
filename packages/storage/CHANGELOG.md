@@ -1,5 +1,11 @@
 # @capacitor-firebase/storage
 
+## 8.5.2
+
+### Patch Changes
+
+- [`6f90cd36cd27d793d4e74f17416e0cc82200a9d8`](https://github.com/capawesome-team/capacitor-firebase/commit/6f90cd36cd27d793d4e74f17416e0cc82200a9d8) ([#1031](https://github.com/capawesome-team/capacitor-firebase/pull/1031)): fix(ios): no longer crash at launch when `GoogleService-Info.plist` is missing
+
 ## 8.5.1
 
 ### Patch Changes
