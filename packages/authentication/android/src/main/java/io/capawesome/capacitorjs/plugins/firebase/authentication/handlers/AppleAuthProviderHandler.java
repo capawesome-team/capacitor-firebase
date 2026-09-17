@@ -69,7 +69,8 @@ public class AppleAuthProviderHandler {
     }
 
     private void startActivityForSignIn(final PluginCall call, OAuthProvider.Builder provider) {
-        if (pluginImplementation.rejectIfNoBrowserAvailable(call)) {
+        if (!pluginImplementation.isBrowserAvailable()) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE);
             return;
         }
         pluginImplementation
@@ -86,7 +87,8 @@ public class AppleAuthProviderHandler {
     }
 
     private void startActivityForLink(final PluginCall call, OAuthProvider.Builder provider) {
-        if (pluginImplementation.rejectIfNoBrowserAvailable(call)) {
+        if (!pluginImplementation.isBrowserAvailable()) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE);
             return;
         }
         pluginImplementation

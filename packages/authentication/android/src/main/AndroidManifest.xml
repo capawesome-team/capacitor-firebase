@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Without this, the check for a browser to run the generic IDP flow in is filtered out by
-         package visibility on Android 11 and up, and reports that none exists on every device. -->
+    <!-- Required to detect installed browsers on Android 11 and up, where package visibility filtering hides them otherwise. -->
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />

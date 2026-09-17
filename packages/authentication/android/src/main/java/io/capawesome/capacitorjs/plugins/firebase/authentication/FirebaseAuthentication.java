@@ -1,13 +1,10 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
-import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE;
-import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE_CODE;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN;
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.TAG;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
@@ -58,12 +55,6 @@ import java.util.List;
 import org.json.JSONObject;
 
 public class FirebaseAuthentication {
-
-    /**
-     * Scheme only, no host: an app that registers a host-specific https filter does not match this,
-     * so only a general-purpose browser resolves it.
-     */
-    private static final Uri BROWSER_PROBE_URI = Uri.fromParts("https", "", null);
 
     private FirebaseAuthenticationPlugin plugin;
     private FirebaseAuthenticationConfig config;
@@ -236,6 +227,14 @@ public class FirebaseAuthentication {
     @Nullable
     public String getTenantId() {
         return getFirebaseAuthInstance().getTenantId();
+    }
+
+    // Firebase's GenericIdpActivity crashes with an ActivityNotFoundException instead of failing the task when no browser is installed.
+    public boolean isBrowserAvailable() {
+        // A scheme-only URI is resolved by general-purpose browsers only, not by apps registered for specific hosts.
+        Uri probeUri = Uri.fromParts("https", "", null);
+        Intent intent = new Intent(Intent.ACTION_VIEW, probeUri).addCategory(Intent.CATEGORY_BROWSABLE);
+        return intent.resolveActivity(plugin.getContext().getPackageManager()) != null;
     }
 
     public boolean isSignInWithEmailLink(@NonNull String emailLink) {
@@ -527,23 +526,6 @@ public class FirebaseAuthentication {
 
     public void signInWithGithub(final PluginCall call) {
         oAuthProviderHandler.signIn(call, ProviderId.GITHUB);
-    }
-
-    /**
-     * The generic IDP flow opens the sign-in page in a browser. {@code GenericIdpActivity} only checks
-     * that a dataless {@code ACTION_VIEW} resolves before starting an https intent anyway, which throws
-     * {@code ActivityNotFoundException} inside that activity - crashing the app - when the device has no
-     * browser. Callers reject the call up front instead.
-     */
-    public boolean rejectIfNoBrowserAvailable(@NonNull final PluginCall call) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, BROWSER_PROBE_URI).addCategory(Intent.CATEGORY_BROWSABLE);
-        PackageManager packageManager = plugin.getContext().getPackageManager();
-        if (packageManager.resolveActivity(intent, 0) != null) {
-            return false;
-        }
-        Logger.error(TAG, ERROR_NO_BROWSER_AVAILABLE, null);
-        call.reject(ERROR_NO_BROWSER_AVAILABLE, ERROR_NO_BROWSER_AVAILABLE_CODE);
-        return true;
     }
 
     public void signInWithGoogle(final PluginCall call) {
