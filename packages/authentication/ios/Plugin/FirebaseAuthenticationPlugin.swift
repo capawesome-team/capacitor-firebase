@@ -712,6 +712,9 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPLog.print("[", self.tag, "] ", error)
         var result = JSObject()
         result["message"] = error.localizedDescription
+        if let code = FirebaseAuthenticationHelper.createErrorCode(error: error) {
+            result["code"] = code
+        }
         notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)
     }
 

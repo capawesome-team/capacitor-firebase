@@ -1624,6 +1624,12 @@ export type PhoneVerificationFailedListener = (
  */
 export interface PhoneVerificationFailedEvent {
   /**
+   * The Firebase Authentication error code.
+   *
+   * @since 8.6.0
+   */
+  code?: string;
+  /**
    * The error message.
    *
    * @since 1.3.0

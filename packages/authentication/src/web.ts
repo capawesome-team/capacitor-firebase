@@ -414,6 +414,10 @@ export class FirebaseAuthenticationWeb
       const event: PhoneVerificationFailedEvent = {
         message: this.getErrorMessage(error),
       };
+      const code = this.getErrorCode(error);
+      if (code) {
+        event.code = code;
+      }
       this.notifyListeners(
         FirebaseAuthenticationWeb.PHONE_VERIFICATION_FAILED_EVENT,
         event,
@@ -682,6 +686,10 @@ export class FirebaseAuthenticationWeb
       const event: PhoneVerificationFailedEvent = {
         message: this.getErrorMessage(error),
       };
+      const code = this.getErrorCode(error);
+      if (code) {
+        event.code = code;
+      }
       this.notifyListeners(
         FirebaseAuthenticationWeb.PHONE_VERIFICATION_FAILED_EVENT,
         event,
@@ -1007,5 +1015,16 @@ export class FirebaseAuthenticationWeb
       return error['message'];
     }
     return JSON.stringify(error);
+  }
+
+  private getErrorCode(error: unknown): string | undefined {
+    if (
+      error instanceof Object &&
+      'code' in error &&
+      typeof error['code'] === 'string'
+    ) {
+      return error['code'];
+    }
+    return undefined;
   }
 }

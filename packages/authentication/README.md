@@ -2361,9 +2361,10 @@ bundle identifiers.
 
 #### PhoneVerificationFailedEvent
 
-| Prop          | Type                | Description        | Since |
-| ------------- | ------------------- | ------------------ | ----- |
-| **`message`** | <code>string</code> | The error message. | 1.3.0 |
+| Prop          | Type                | Description                             | Since |
+| ------------- | ------------------- | --------------------------------------- | ----- |
+| **`code`**    | <code>string</code> | The Firebase Authentication error code. | 8.6.0 |
+| **`message`** | <code>string</code> | The error message.                      | 1.3.0 |
 
 
 #### PhoneCodeSentEvent
