@@ -999,6 +999,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         Logger.error(TAG, exception.getMessage(), exception);
         JSObject result = new JSObject();
         result.put("message", exception.getMessage());
+        result.put("code", FirebaseAuthenticationHelper.createErrorCode(exception));
         notifyListeners(PHONE_VERIFICATION_FAILED_EVENT, result, true);
     }
 
