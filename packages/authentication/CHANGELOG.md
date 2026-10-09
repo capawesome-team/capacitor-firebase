@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.6.0
+
+### Minor Changes
+
+- [`25f9dbe2d69b51cd936b9b131dfb2b865ca1e769`](https://github.com/capawesome-team/capacitor-firebase/commit/25f9dbe2d69b51cd936b9b131dfb2b865ca1e769) ([#1037](https://github.com/capawesome-team/capacitor-firebase/pull/1037)): feat: add `code` property to `PhoneVerificationFailedEvent`
+
+### Patch Changes
+
+- [`86883ffef26b034f27c9970c048ace10540f1c5c`](https://github.com/capawesome-team/capacitor-firebase/commit/86883ffef26b034f27c9970c048ace10540f1c5c) ([#1049](https://github.com/capawesome-team/capacitor-firebase/pull/1049)): fix(android): reject failed `applyActionCode`, `confirmPasswordReset`, `deleteUser`, `reload`, `sendSignInLinkToEmail`, `updateEmail`, `updatePassword` and `updateProfile` calls
+
 ## 8.5.2
 
 ### Patch Changes

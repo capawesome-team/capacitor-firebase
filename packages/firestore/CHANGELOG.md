@@ -1,5 +1,11 @@
 # @capacitor-firebase/firestore
 
+## 8.6.0
+
+### Patch Changes
+
+- [`d1238f61c5595708e58f7f626130c896e70f0d82`](https://github.com/capawesome-team/capacitor-firebase/commit/d1238f61c5595708e58f7f626130c896e70f0d82) ([#1048](https://github.com/capawesome-team/capacitor-firebase/pull/1048)): fix(android): handle missing data in write batch delete operation
+
 ## 8.5.2
 
 ### Patch Changes
