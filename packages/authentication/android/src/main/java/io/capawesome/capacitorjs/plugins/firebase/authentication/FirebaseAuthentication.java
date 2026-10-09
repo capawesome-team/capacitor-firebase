@@ -96,12 +96,11 @@ public class FirebaseAuthentication {
         }
     }
 
-    public void applyActionCode(@NonNull String oobCode, @NonNull Runnable callback) {
+    public void applyActionCode(@NonNull String oobCode, @NonNull EmptyResultCallback callback) {
         getFirebaseAuthInstance()
             .applyActionCode(oobCode)
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void createUserWithEmailAndPassword(PluginCall call) {
@@ -138,12 +137,11 @@ public class FirebaseAuthentication {
             });
     }
 
-    public void confirmPasswordReset(@NonNull String oobCode, @NonNull String newPassword, @NonNull Runnable callback) {
+    public void confirmPasswordReset(@NonNull String oobCode, @NonNull String newPassword, @NonNull EmptyResultCallback callback) {
         getFirebaseAuthInstance()
             .confirmPasswordReset(oobCode, newPassword)
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void confirmVerificationCode(@NonNull ConfirmVerificationCodeOptions options, @NonNull NonEmptyResultCallback callback) {
@@ -154,10 +152,10 @@ public class FirebaseAuthentication {
         phoneAuthProviderHandler.confirmVerificationCode(options, callback);
     }
 
-    public void deleteUser(FirebaseUser user, @NonNull Runnable callback) {
-        user.delete().addOnCompleteListener(task -> {
-            callback.run();
-        });
+    public void deleteUser(FirebaseUser user, @NonNull EmptyResultCallback callback) {
+        user.delete()
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void fetchSignInMethodsForEmail(FetchSignInMethodsForEmailOptions options, @NonNull final NonEmptyResultCallback callback) {
@@ -360,10 +358,10 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.link(call, ProviderId.YAHOO);
     }
 
-    public void reload(FirebaseUser user, @NonNull Runnable callback) {
-        user.reload().addOnCompleteListener(task -> {
-            callback.run();
-        });
+    public void reload(FirebaseUser user, @NonNull EmptyResultCallback callback) {
+        user.reload()
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyResultCallback callback) {
@@ -404,12 +402,15 @@ public class FirebaseAuthentication {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void sendSignInLinkToEmail(@NonNull String email, @NonNull ActionCodeSettings actionCodeSettings, @NonNull Runnable callback) {
+    public void sendSignInLinkToEmail(
+        @NonNull String email,
+        @NonNull ActionCodeSettings actionCodeSettings,
+        @NonNull EmptyResultCallback callback
+    ) {
         getFirebaseAuthInstance()
             .sendSignInLinkToEmail(email, actionCodeSettings)
-            .addOnCompleteListener(task -> {
-                callback.run();
-            });
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void setLanguageCode(String languageCode) {
@@ -623,10 +624,10 @@ public class FirebaseAuthentication {
         });
     }
 
-    public void updateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull Runnable callback) {
-        user.updateEmail(newEmail).addOnCompleteListener(task -> {
-            callback.run();
-        });
+    public void updateEmail(FirebaseUser user, @NonNull String newEmail, @NonNull EmptyResultCallback callback) {
+        user.updateEmail(newEmail)
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void verifyBeforeUpdateEmail(
@@ -644,13 +645,13 @@ public class FirebaseAuthentication {
         task.addOnSuccessListener(unused -> callback.success()).addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull Runnable callback) {
-        user.updatePassword(newPassword).addOnCompleteListener(task -> {
-            callback.run();
-        });
+    public void updatePassword(FirebaseUser user, @NonNull String newPassword, @NonNull EmptyResultCallback callback) {
+        user.updatePassword(newPassword)
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void updateProfile(FirebaseUser user, String displayName, String photoUrl, @NonNull Runnable callback) {
+    public void updateProfile(FirebaseUser user, String displayName, String photoUrl, @NonNull EmptyResultCallback callback) {
         UserProfileChangeRequest.Builder profileUpdates = new UserProfileChangeRequest.Builder();
 
         if (displayName != null) {
@@ -660,9 +661,9 @@ public class FirebaseAuthentication {
             profileUpdates.setPhotoUri(Uri.parse(photoUrl));
         }
 
-        user.updateProfile(profileUpdates.build()).addOnCompleteListener(task -> {
-            callback.run();
-        });
+        user.updateProfile(profileUpdates.build())
+            .addOnSuccessListener(unused -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
     public void useAppLanguage() {

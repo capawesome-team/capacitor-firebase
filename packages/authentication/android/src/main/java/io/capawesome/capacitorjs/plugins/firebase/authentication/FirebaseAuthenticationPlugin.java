@@ -81,7 +81,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_OOB_CODE_MISSING);
                 return;
             }
-            implementation.applyActionCode(oobCode, () -> call.resolve());
+            implementation.applyActionCode(oobCode, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -102,7 +102,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_NEW_PASSWORD_MISSING);
                 return;
             }
-            implementation.confirmPasswordReset(oobCode, newPassword, () -> call.resolve());
+            implementation.confirmPasswordReset(oobCode, newPassword, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -165,7 +165,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_NO_USER_SIGNED_IN);
                 return;
             }
-            implementation.deleteUser(user, () -> call.resolve());
+            implementation.deleteUser(user, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -479,7 +479,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_NO_USER_SIGNED_IN);
                 return;
             }
-            implementation.reload(user, () -> call.resolve());
+            implementation.reload(user, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -497,21 +497,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             }
 
             RevokeAccessTokenOptions options = new RevokeAccessTokenOptions(token);
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            };
-
-            implementation.revokeAccessToken(options, callback);
+            implementation.revokeAccessToken(options, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -525,21 +511,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject actionCodeSettings = call.getObject("actionCodeSettings");
 
             SendEmailVerificationOptions options = new SendEmailVerificationOptions(actionCodeSettings);
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            };
-
-            implementation.sendEmailVerification(options, callback);
+            implementation.sendEmailVerification(options, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -558,21 +530,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             JSObject actionCodeSettings = call.getObject("actionCodeSettings");
 
             SendPasswordResetEmailOptions options = new SendPasswordResetEmailOptions(email, actionCodeSettings);
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            };
-
-            implementation.sendPasswordResetEmail(options, callback);
+            implementation.sendPasswordResetEmail(options, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -596,7 +554,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
 
             ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
-            implementation.sendSignInLinkToEmail(email, actionCodeSettings, () -> call.resolve());
+            implementation.sendSignInLinkToEmail(email, actionCodeSettings, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -862,7 +820,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_NO_USER_SIGNED_IN);
                 return;
             }
-            implementation.updateEmail(user, newEmail, () -> call.resolve());
+            implementation.updateEmail(user, newEmail, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -889,21 +847,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             ActionCodeSettings actionCodeSettings =
                 settings == null ? null : FirebaseAuthenticationHelper.createActionCodeSettings(settings);
 
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    String code = FirebaseAuthenticationHelper.createErrorCode(exception);
-                    call.reject(exception.getMessage(), code);
-                }
-            };
-
-            implementation.verifyBeforeUpdateEmail(user, newEmail, actionCodeSettings, callback);
+            implementation.verifyBeforeUpdateEmail(user, newEmail, actionCodeSettings, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -924,7 +868,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_NO_USER_SIGNED_IN);
                 return;
             }
-            implementation.updatePassword(user, newPassword, () -> call.resolve());
+            implementation.updatePassword(user, newPassword, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -942,7 +886,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 call.reject(ERROR_NO_USER_SIGNED_IN);
                 return;
             }
-            implementation.updateProfile(user, displayName, photoUrl, () -> call.resolve());
+            implementation.updateProfile(user, displayName, photoUrl, createEmptyResultCallback(call));
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             String code = FirebaseAuthenticationHelper.createErrorCode(exception);
@@ -1067,6 +1011,22 @@ public class FirebaseAuthenticationPlugin extends Plugin {
             return;
         }
         implementation.handlePlayGamesAuthProviderLinkActivityResult(call, result);
+    }
+
+    private EmptyResultCallback createEmptyResultCallback(@NonNull PluginCall call) {
+        return new EmptyResultCallback() {
+            @Override
+            public void success() {
+                call.resolve();
+            }
+
+            @Override
+            public void error(Exception exception) {
+                Logger.error(TAG, exception.getMessage(), exception);
+                String code = FirebaseAuthenticationHelper.createErrorCode(exception);
+                call.reject(exception.getMessage(), code);
+            }
+        };
     }
 
     private void rejectCallAsUnavailable(@NonNull PluginCall call) {
