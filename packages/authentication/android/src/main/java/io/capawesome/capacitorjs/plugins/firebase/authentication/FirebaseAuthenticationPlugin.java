@@ -73,6 +73,14 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         implementation = new FirebaseAuthentication(this, config);
     }
 
+    @Override
+    protected void handleOnDestroy() {
+        if (implementation != null) {
+            implementation.destroy();
+        }
+        super.handleOnDestroy();
+    }
+
     @PluginMethod
     public void applyActionCode(PluginCall call) {
         try {

@@ -96,6 +96,17 @@ public class FirebaseAuthentication {
         }
     }
 
+    public void destroy() {
+        if (this.firebaseAuthStateListener != null) {
+            getFirebaseAuthInstance().removeAuthStateListener(this.firebaseAuthStateListener);
+            this.firebaseAuthStateListener = null;
+        }
+        if (this.firebaseIdTokenChangeListener != null) {
+            getFirebaseAuthInstance().removeIdTokenListener(this.firebaseIdTokenChangeListener);
+            this.firebaseIdTokenChangeListener = null;
+        }
+    }
+
     public void applyActionCode(@NonNull String oobCode, @NonNull EmptyResultCallback callback) {
         getFirebaseAuthInstance()
             .applyActionCode(oobCode)
