@@ -46,7 +46,7 @@ jobs:
         run: npm run verify:android
   build-ios:
     name: Build iOS platform
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.4'
+          xcode-version: '26.6'
       - name: Install Node.js dependencies
         run: npm ci
       - name: Install CocoaPods dependencies of packages affected by changes
@@ -107,7 +107,7 @@ jobs:
         run: npm run verify:web
   lint:
     name: Lint
-    runs-on: macos-15
+    runs-on: macos-26
     needs: [build-android, build-ios, build-web]
     steps:
       - name: Checkout
