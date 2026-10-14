@@ -20,6 +20,10 @@ public class FirebaseAppCheck {
         getFirebaseAppCheckInstance().addAppCheckListener(appCheckListener);
     }
 
+    public void destroy() {
+        getFirebaseAppCheckInstance().removeAppCheckListener(appCheckListener);
+    }
+
     public void getToken(boolean forceRefresh, final GetTokenResultCallback resultCallback) {
         getFirebaseAppCheckInstance()
             .getAppCheckToken(forceRefresh)

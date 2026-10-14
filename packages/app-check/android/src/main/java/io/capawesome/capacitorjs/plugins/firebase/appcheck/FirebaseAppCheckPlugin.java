@@ -92,4 +92,10 @@ public class FirebaseAppCheckPlugin extends Plugin {
         result.put("token", token.getToken());
         notifyListeners(TOKEN_CHANGED_EVENT, result, true);
     }
+
+    @Override
+    protected void handleOnDestroy() {
+        implementation.destroy();
+        super.handleOnDestroy();
+    }
 }
