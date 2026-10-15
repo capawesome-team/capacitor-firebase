@@ -37,7 +37,7 @@ class GoogleAuthProviderHandler: NSObject {
         guard let controller = self.pluginImplementation.getPlugin().bridge?.viewController else { return }
         let scopes = call.getArray("scopes", String.self) ?? []
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             GIDSignIn.sharedInstance.signIn(withPresenting: controller, hint: nil, additionalScopes: scopes) { [unowned self] result, error in
                 if let error = error {
                     if isLink == true {
