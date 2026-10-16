@@ -155,7 +155,8 @@ extension FirebaseMessaging: MessagingDelegate {
         self.config.presentationOptions.forEach { option in
             switch option {
             case "alert":
-                presentationOptions.insert(.alert)
+                presentationOptions.insert(.banner)
+                presentationOptions.insert(.list)
             case "badge":
                 presentationOptions.insert(.badge)
             case "sound":

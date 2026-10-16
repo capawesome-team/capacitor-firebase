@@ -14,7 +14,7 @@ declare module '@capacitor/cli' {
        * This is an array of strings you can combine. Possible values in the array are:
        *   - `badge`: badge count on the app icon is updated (default value)
        *   - `sound`: the device will ring/vibrate when the push notification is received
-       *   - `alert`: the push notification is displayed in a native dialog
+       *   - `alert`: the push notification is displayed as a banner and in the notification list
        *   - `criticalAlert`: the push notification is displayed in a native dialog and bypasses the mute switch
        *
        * An empty array can be provided if none of the options are desired.
