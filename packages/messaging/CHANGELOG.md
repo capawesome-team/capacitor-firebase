@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.6.0
+
+### Patch Changes
+
+- [`b6f7a48d18ba358f57b1cba52131ba7b60bc7ce0`](https://github.com/capawesome-team/capacitor-firebase/commit/b6f7a48d18ba358f57b1cba52131ba7b60bc7ce0) ([#1056](https://github.com/capawesome-team/capacitor-firebase/pull/1056)): fix(ios): replace the deprecated `alert` presentation option with `banner` and `list`
+
 ## 8.5.2
 
 ### Patch Changes
