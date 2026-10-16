@@ -390,21 +390,16 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
             firestore: firestore
         )
 
-        do {
-            implementation?.addCollectionSnapshotListener(options, completion: { result, error in
-                if let error = error {
-                    CAPLog.print("[", self.tag, "] ", error)
-                    call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                    return
-                }
-                if let result = result?.toJSObject() as? JSObject {
-                    call.resolve(result)
-                }
-            })
-        } catch {
-            CAPLog.print("[", self.tag, "] ", error)
-            call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-        }
+        implementation?.addCollectionSnapshotListener(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
     }
 
     @objc func addCollectionGroupSnapshotListener(_ call: CAPPluginCall) {
@@ -439,21 +434,16 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
             firestore: firestore
         )
 
-        do {
-            implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in
-                if let error = error {
-                    CAPLog.print("[", self.tag, "] ", error)
-                    call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                    return
-                }
-                if let result = result?.toJSObject() as? JSObject {
-                    call.resolve(result)
-                }
-            })
-        } catch {
-            CAPLog.print("[", self.tag, "] ", error)
-            call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-        }
+        implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
+                return
+            }
+            if let result = result?.toJSObject() as? JSObject {
+                call.resolve(result)
+            }
+        })
     }
 
     @objc func removeSnapshotListener(_ call: CAPPluginCall) {
