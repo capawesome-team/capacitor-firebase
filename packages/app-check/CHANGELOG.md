@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.6.0
+
+### Patch Changes
+
+- [`4ff42fd85508cf06701a5516afb622a0718dabc7`](https://github.com/capawesome-team/capacitor-firebase/commit/4ff42fd85508cf06701a5516afb622a0718dabc7) ([#1051](https://github.com/capawesome-team/capacitor-firebase/pull/1051)): fix(android): remove Firebase listeners when the bridge is destroyed so recreated activities no longer leak the previous Activity and WebView
+
 ## 8.5.2
 
 ### Patch Changes

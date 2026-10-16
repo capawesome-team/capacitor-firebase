@@ -1,5 +1,21 @@
 # Changelog
 
+## 8.6.0
+
+### Minor Changes
+
+- [`25f9dbe2d69b51cd936b9b131dfb2b865ca1e769`](https://github.com/capawesome-team/capacitor-firebase/commit/25f9dbe2d69b51cd936b9b131dfb2b865ca1e769) ([#1037](https://github.com/capawesome-team/capacitor-firebase/pull/1037)): feat: add `code` property to `PhoneVerificationFailedEvent`
+
+### Patch Changes
+
+- [`b8f32c5d52ee8cb467aecfd68428fafd930a23a7`](https://github.com/capawesome-team/capacitor-firebase/commit/b8f32c5d52ee8cb467aecfd68428fafd930a23a7) ([#1055](https://github.com/capawesome-team/capacitor-firebase/pull/1055)): fix(ios): reject with `Sign in canceled.` or `Link canceled.` when the Facebook Limited Login flow is cancelled
+
+- [`86883ffef26b034f27c9970c048ace10540f1c5c`](https://github.com/capawesome-team/capacitor-firebase/commit/86883ffef26b034f27c9970c048ace10540f1c5c) ([#1049](https://github.com/capawesome-team/capacitor-firebase/pull/1049)): fix(android): reject failed `applyActionCode`, `confirmPasswordReset`, `deleteUser`, `reload`, `sendSignInLinkToEmail`, `updateEmail`, `updatePassword` and `updateProfile` calls
+
+- [`b6f7a48d18ba358f57b1cba52131ba7b60bc7ce0`](https://github.com/capawesome-team/capacitor-firebase/commit/b6f7a48d18ba358f57b1cba52131ba7b60bc7ce0) ([#1056](https://github.com/capawesome-team/capacitor-firebase/pull/1056)): fix(ios): resolve Swift compiler warnings for the unused `addStateDidChangeListener` result and the `unowned self` capture in the Google sign-in flow
+
+- [`4ff42fd85508cf06701a5516afb622a0718dabc7`](https://github.com/capawesome-team/capacitor-firebase/commit/4ff42fd85508cf06701a5516afb622a0718dabc7) ([#1051](https://github.com/capawesome-team/capacitor-firebase/pull/1051)): fix(android): remove Firebase listeners when the bridge is destroyed so recreated activities no longer leak the previous Activity and WebView
+
 ## 8.5.2
 
 ### Patch Changes
