@@ -49,17 +49,17 @@ public class FirebaseMessagingPlugin extends Plugin {
 
     public void load() {
         implementation = new FirebaseMessaging(this);
-        staticBridge = this.bridge;
-
-        if (lastToken != null) {
-            handleTokenReceived(lastToken);
-            lastToken = null;
-        }
         synchronized (pendingRemoteMessages) {
+            staticBridge = this.bridge;
             for (RemoteMessage remoteMessage : pendingRemoteMessages) {
                 handleNotificationReceived(remoteMessage);
             }
             pendingRemoteMessages.clear();
+        }
+
+        if (lastToken != null) {
+            handleTokenReceived(lastToken);
+            lastToken = null;
         }
     }
 
@@ -82,11 +82,11 @@ public class FirebaseMessagingPlugin extends Plugin {
     }
 
     public static void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
-        if (plugin != null) {
-            plugin.handleNotificationReceived(remoteMessage);
-        } else {
-            synchronized (pendingRemoteMessages) {
+        synchronized (pendingRemoteMessages) {
+            FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
+            if (plugin != null) {
+                plugin.handleNotificationReceived(remoteMessage);
+            } else {
                 pendingRemoteMessages.add(remoteMessage);
             }
         }
