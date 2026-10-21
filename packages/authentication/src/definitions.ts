@@ -50,6 +50,7 @@ declare module '@capacitor/cli' {
        * If `true`, the plugin configures the Google Sign-In SDK for App Check on startup
        * so that an App Check token is sent with every Google Sign-In request.
        * This is required if App Check enforcement is enabled for **Google Identity for iOS** in the Firebase console.
+       * Requires the `GIDClientID` key in the `Info.plist` file.
        *
        * On the iOS simulator, the App Check debug provider is used instead of App Attest.
        * The debug token is logged to the Xcode console and must be registered in the Firebase console.

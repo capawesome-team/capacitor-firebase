@@ -34,22 +34,19 @@ class GoogleAuthProviderHandler: NSObject {
 
     private func configureAppCheck() {
         #if RGCFA_INCLUDE_GOOGLE
+        if Bundle.main.object(forInfoDictionaryKey: "GIDClientID") == nil {
+            CAPLog.print("[FirebaseAuthentication] App Check for Google Sign-In requires the `GIDClientID` key in the Info.plist.")
+        }
         #if targetEnvironment(simulator)
-        guard let apiKey = FirebaseApp.app()?.options.apiKey else { return }
-        GIDSignIn.sharedInstance.configureDebugProvider(withAPIKey: apiKey) { error in
-            self.logAppCheckConfigurationError(error)
+        if let apiKey = FirebaseApp.app()?.options.apiKey {
+            GIDSignIn.sharedInstance.configureDebugProvider(withAPIKey: apiKey, completion: nil)
         }
-        #else
+        #endif
         GIDSignIn.sharedInstance.configure { error in
-            self.logAppCheckConfigurationError(error)
+            guard let error = error else { return }
+            CAPLog.print("[FirebaseAuthentication] Failed to configure App Check for Google Sign-In: \(error.localizedDescription)")
         }
         #endif
-        #endif
-    }
-
-    private func logAppCheckConfigurationError(_ error: Error?) {
-        guard let error = error else { return }
-        CAPLog.print("[FirebaseAuthentication] Failed to configure App Check for Google Sign-In: \(error.localizedDescription)")
     }
 
     private func startSignInWithGoogleFlow(_ call: CAPPluginCall, isLink: Bool) {

@@ -64,6 +64,7 @@
 1. (Optional) If App Check enforcement is enabled for **Google Identity for iOS** in the [App Check](https://console.firebase.google.com/project/_/appcheck) section of the Firebase console, the Google Sign-In SDK must send an App Check token with every sign-in request. Otherwise, sign-in fails with `Error 400: invalid_request`. To set this up:
    1. Register your iOS app with the **App Attest** provider in the [App Check](https://console.firebase.google.com/project/_/appcheck/apps) section of the Firebase console.
    1. In Xcode, add the **App Attest** capability to your app and set the App Attest environment in your `.entitlements` file to `production`.
+   1. Add the `GIDClientID` key to your `Info.plist` file (usually `ios/App/App/Info.plist`) with the value of the `CLIENT_ID` key from your `GoogleService-Info.plist` file.
    1. Set the `useAppCheckForGoogleSignIn` [configuration](https://github.com/capawesome-team/capacitor-firebase/tree/main/packages/authentication#configuration) option to `true`.
 
    On the iOS simulator, the plugin uses the App Check debug provider instead of App Attest. The debug token is logged to the Xcode console and must be registered in the Firebase console (**Manage debug tokens**). See [Use App Check with the debug provider](https://developers.google.com/identity/sign-in/ios/appcheck/debug-provider) for more information.
