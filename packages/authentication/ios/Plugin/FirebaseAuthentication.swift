@@ -737,7 +737,7 @@ public typealias AuthStateChangedObserver = () -> Void
             self.facebookAuthProviderHandler = FacebookAuthProviderHandler(self)
         }
         if config.providers.contains(ProviderId.google) {
-            self.googleAuthProviderHandler = GoogleAuthProviderHandler(self)
+            self.googleAuthProviderHandler = GoogleAuthProviderHandler(self, useAppCheck: config.useAppCheckForGoogleSignIn)
         }
         if config.providers.contains(ProviderId.phone) {
             self.phoneAuthProviderHandler = PhoneAuthProviderHandler(self)

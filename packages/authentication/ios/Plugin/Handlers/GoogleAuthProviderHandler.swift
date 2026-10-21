@@ -10,9 +10,12 @@ class GoogleAuthProviderHandler: NSObject {
     let errorSdkNotIncluded = "The Google Sign-In SDK is not included in this build. Add the required CocoaPods subspec or Swift package trait."
     var pluginImplementation: FirebaseAuthentication
 
-    init(_ pluginImplementation: FirebaseAuthentication) {
+    init(_ pluginImplementation: FirebaseAuthentication, useAppCheck: Bool) {
         self.pluginImplementation = pluginImplementation
         super.init()
+        if useAppCheck {
+            configureAppCheck()
+        }
     }
 
     func signIn(call: CAPPluginCall) {
@@ -27,6 +30,26 @@ class GoogleAuthProviderHandler: NSObject {
         #if RGCFA_INCLUDE_GOOGLE
         GIDSignIn.sharedInstance.signOut()
         #endif
+    }
+
+    private func configureAppCheck() {
+        #if RGCFA_INCLUDE_GOOGLE
+        #if targetEnvironment(simulator)
+        guard let apiKey = FirebaseApp.app()?.options.apiKey else { return }
+        GIDSignIn.sharedInstance.configureDebugProvider(withAPIKey: apiKey) { error in
+            self.logAppCheckConfigurationError(error)
+        }
+        #else
+        GIDSignIn.sharedInstance.configure { error in
+            self.logAppCheckConfigurationError(error)
+        }
+        #endif
+        #endif
+    }
+
+    private func logAppCheckConfigurationError(_ error: Error?) {
+        guard let error = error else { return }
+        CAPLog.print("[FirebaseAuthentication] Failed to configure App Check for Google Sign-In: \(error.localizedDescription)")
     }
 
     private func startSignInWithGoogleFlow(_ call: CAPPluginCall, isLink: Bool) {

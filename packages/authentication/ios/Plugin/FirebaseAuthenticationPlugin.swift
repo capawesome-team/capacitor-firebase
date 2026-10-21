@@ -737,6 +737,7 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         if let providers = getConfig().getArray("providers") as? [String] {
             config.providers = providers
         }
+        config.useAppCheckForGoogleSignIn = getConfig().getBoolean("useAppCheckForGoogleSignIn", config.useAppCheckForGoogleSignIn)
 
         return config
     }
