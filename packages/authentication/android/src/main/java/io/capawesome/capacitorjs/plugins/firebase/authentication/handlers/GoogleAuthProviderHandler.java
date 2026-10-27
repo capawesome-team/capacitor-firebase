@@ -17,6 +17,7 @@ import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.ClearCredentialException;
+import androidx.credentials.exceptions.GetCredentialCancellationException;
 import androidx.credentials.exceptions.GetCredentialException;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.Logger;
@@ -40,6 +41,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.UserCanceledException;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyCallback;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +83,7 @@ public class GoogleAuthProviderHandler {
                 handleAuthorizationResultError(exception);
             }
         } else {
-            handleAuthorizationResultError(new Exception("Authorization canceled."));
+            handleAuthorizationResultError(new UserCanceledException("Authorization canceled."));
         }
     }
 
@@ -242,10 +244,14 @@ public class GoogleAuthProviderHandler {
     }
 
     private void handleGetCredentialError(final PluginCall call, final boolean isLink, final GetCredentialException exception) {
+        // Not mapped in FirebaseAuthenticationHelper: Credential Manager classes only exist if the Google SDK is included
+        Exception mappedException = exception instanceof GetCredentialCancellationException
+            ? new UserCanceledException(exception.getMessage() == null ? "Canceled by user." : exception.getMessage())
+            : exception;
         if (isLink) {
-            pluginImplementation.handleFailedLink(call, null, exception);
+            pluginImplementation.handleFailedLink(call, null, mappedException);
         } else {
-            pluginImplementation.handleFailedSignIn(call, null, exception);
+            pluginImplementation.handleFailedSignIn(call, null, mappedException);
         }
     }
 

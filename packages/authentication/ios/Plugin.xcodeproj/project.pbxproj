@@ -16,6 +16,7 @@
 		50E1A94820377CB70090CE1A /* FirebaseAuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseAuthenticationPlugin.swift */; };
 		7C0C050B2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */; };
 		7C0C050D2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */; };
+		7C1060012ED0000000A1B2C3 /* UserCanceledError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1060002ED0000000A1B2C3 /* UserCanceledError.swift */; };
 		7C1F76152D83359D00386F35 /* CheckAppTrackingTransparencyPermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F76142D83359100386F35 /* CheckAppTrackingTransparencyPermissionResult.swift */; };
 		7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */; };
 		7C2094302C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */; };
@@ -63,6 +64,7 @@
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7C0C050A2BAD80E2004252BE /* FetchSignInMethodsForEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailOptions.swift; sourceTree = "<group>"; };
 		7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchSignInMethodsForEmailResult.swift; sourceTree = "<group>"; };
+		7C1060002ED0000000A1B2C3 /* UserCanceledError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCanceledError.swift; sourceTree = "<group>"; };
 		7C1F76142D83359100386F35 /* CheckAppTrackingTransparencyPermissionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAppTrackingTransparencyPermissionResult.swift; sourceTree = "<group>"; };
 		7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailVerificationOptions.swift; sourceTree = "<group>"; };
 		7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPasswordResetEmailOptions.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				7C579FFC29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift */,
 				7C579FFE29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift */,
 				7C57A00029F4023E00B7778B /* RuntimeError.swift */,
+				7C1060002ED0000000A1B2C3 /* UserCanceledError.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				"${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework",
 				"${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework",
 				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/AppCheckCore/AppCheckCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseAuth/FirebaseAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseAuthInterop/FirebaseAuthInterop.framework",
@@ -386,6 +390,8 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleSignIn/GoogleSignIn.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
 				"${BUILT_PRODUCTS_DIR}/RecaptchaInterop/RecaptchaInterop.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBAEMKit/FBAEMKit.framework/FBAEMKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework/FBSDKCoreKit",
@@ -397,6 +403,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Capacitor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cordova.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppCheckCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheckInterop.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuthInterop.framework",
@@ -407,6 +414,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleSignIn.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RecaptchaInterop.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBAEMKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -468,6 +477,7 @@
 				7C2094302C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift in Sources */,
 				7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */,
 				7C57A00129F4023E00B7778B /* RuntimeError.swift in Sources */,
+				7C1060012ED0000000A1B2C3 /* UserCanceledError.swift in Sources */,
 				7C1F76152D83359D00386F35 /* CheckAppTrackingTransparencyPermissionResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

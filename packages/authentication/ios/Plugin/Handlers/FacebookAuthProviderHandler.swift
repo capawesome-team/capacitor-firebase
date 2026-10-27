@@ -57,9 +57,9 @@ class FacebookAuthProviderHandler: NSObject {
                     switch result {
                     case .cancelled:
                         if isLink == true {
-                            self.pluginImplementation.handleFailedLink(message: self.errorLinkCanceled, error: nil)
+                            self.pluginImplementation.handleFailedLink(message: nil, error: UserCanceledError(self.errorLinkCanceled))
                         } else {
-                            self.pluginImplementation.handleFailedSignIn(message: self.errorSignInCanceled, error: nil)
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: UserCanceledError(self.errorSignInCanceled))
                         }
                         return
                     case .failed(let error):
@@ -100,9 +100,9 @@ class FacebookAuthProviderHandler: NSObject {
 
                     guard let accessToken = result?.token else {
                         if isLink == true {
-                            self.pluginImplementation.handleFailedLink(message: self.errorLinkCanceled, error: nil)
+                            self.pluginImplementation.handleFailedLink(message: nil, error: UserCanceledError(self.errorLinkCanceled))
                         } else {
-                            self.pluginImplementation.handleFailedSignIn(message: self.errorSignInCanceled, error: nil)
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: UserCanceledError(self.errorSignInCanceled))
                         }
                         return
                     }

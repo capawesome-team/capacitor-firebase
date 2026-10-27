@@ -2,6 +2,11 @@ import Foundation
 import Capacitor
 import FirebaseCore
 import FirebaseAuth
+import AuthenticationServices
+import GameKit
+#if RGCFA_INCLUDE_GOOGLE
+import GoogleSignIn
+#endif
 
 public struct ProviderId {
     static let apple = "apple.com"
@@ -50,6 +55,9 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createErrorCode(error: Error?) -> String? {
+        if let error = error, isUserCancellation(error: error) {
+            return "auth/popup-closed-by-user"
+        }
         if let error = error as NSError? {
             if let errorCode = convertErrorCodeToString(errorCode: error.code) {
                 let prefixedErrorCode = "auth/" + errorCode
@@ -260,5 +268,24 @@ public class FirebaseAuthenticationHelper {
         ]
 
         return errorCodes[errorCode]
+    }
+
+    private static func isUserCancellation(error: Error) -> Bool {
+        if error is UserCanceledError {
+            return true
+        }
+        let error = error as NSError
+        switch error.domain {
+        case ASAuthorizationError.errorDomain:
+            return error.code == ASAuthorizationError.canceled.rawValue
+        case GKError.errorDomain:
+            return error.code == GKError.cancelled.rawValue
+        #if RGCFA_INCLUDE_GOOGLE
+        case GIDSignInError.errorDomain:
+            return error.code == GIDSignInError.canceled.rawValue
+        #endif
+        default:
+            return false
+        }
     }
 }
