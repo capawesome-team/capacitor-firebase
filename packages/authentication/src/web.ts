@@ -1,4 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
+import { FirebaseError } from 'firebase/app';
 import type {
   ConfirmationResult,
   AuthCredential as FirebaseAuthCredential,
@@ -109,7 +110,7 @@ import type {
   UserMetadata,
   VerifyBeforeUpdateEmailOptions,
 } from './definitions';
-import { Persistence, ProviderId } from './definitions';
+import { ErrorCode, Persistence, ProviderId } from './definitions';
 
 export class FirebaseAuthenticationWeb
   extends WebPlugin
@@ -858,7 +859,9 @@ export class FirebaseAuthenticationWeb
     if (mode === 'redirect') {
       return signInWithRedirect(auth, provider);
     } else {
-      return signInWithPopup(auth, provider);
+      return signInWithPopup(auth, provider).catch(error => {
+        throw this.convertPopupClosedError(error);
+      });
     }
   }
 
@@ -873,7 +876,9 @@ export class FirebaseAuthenticationWeb
     if (mode === 'redirect') {
       return linkWithRedirect(auth.currentUser, provider);
     } else {
-      return linkWithPopup(auth.currentUser, provider);
+      return linkWithPopup(auth.currentUser, provider).catch(error => {
+        throw this.convertPopupClosedError(error);
+      });
     }
   }
 
@@ -893,6 +898,16 @@ export class FirebaseAuthenticationWeb
 
   public checkAppTrackingTransparencyPermission(): Promise<CheckAppTrackingTransparencyPermissionResult> {
     throw this.unimplemented('Not implemented on web.');
+  }
+
+  private convertPopupClosedError(error: unknown): unknown {
+    if (this.getErrorCode(error) !== 'auth/popup-closed-by-user') {
+      return error;
+    }
+    return new FirebaseError(
+      ErrorCode.SignInCanceled,
+      this.getErrorMessage(error),
+    );
   }
 
   private createSignInResult(

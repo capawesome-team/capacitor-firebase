@@ -2506,6 +2506,28 @@ See [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packa
 
 The plugin supports native sign-in with Apple, Facebook, Game Center, GitHub, Google, Microsoft, OpenID Connect, Play Games, Twitter, and Yahoo, as well as anonymous sign-in, email link sign-in, email and password authentication, phone number sign-in, and custom token sign-in. The required setup steps for each sign-in method are linked in the [Installation](#installation) section.
 
+### How can I detect that the user canceled the sign-in?
+
+If the user closes the sign-in dialog, the promise rejects with the error code `SIGN_IN_CANCELED` on every platform and for every provider. This applies to both sign-in and link methods.
+
+```typescript
+import {
+  ErrorCode,
+  FirebaseAuthentication,
+} from '@capacitor-firebase/authentication';
+
+const signInWithGoogle = async () => {
+  try {
+    await FirebaseAuthentication.signInWithGoogle();
+  } catch (error) {
+    if (error.code === ErrorCode.SignInCanceled) {
+      return;
+    }
+    throw error;
+  }
+};
+```
+
 ### Can I use this plugin with Ionic, React, Vue or Angular?
 
 Yes, the plugin is framework-agnostic. It works in any Capacitor app regardless of the web framework, including Ionic with Angular, React, or Vue, as well as plain JavaScript projects.
