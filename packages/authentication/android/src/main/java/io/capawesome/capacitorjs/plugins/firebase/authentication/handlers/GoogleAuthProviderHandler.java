@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.IntentCompat;
 import androidx.credentials.ClearCredentialStateRequest;
 import androidx.credentials.Credential;
 import androidx.credentials.CredentialManager;
@@ -85,7 +87,7 @@ public class GoogleAuthProviderHandler {
                 handleAuthorizationResultError(exception);
             }
         } else {
-            handleAuthorizationResultError(new SignInCanceledException("Authorization canceled."));
+            handleAuthorizationResultError(createCanceledResultException(result.getData()));
         }
     }
 
@@ -298,6 +300,21 @@ public class GoogleAuthProviderHandler {
                 );
             }
         }
+    }
+
+    // The activity result is also RESULT_CANCELED if the consent screen could not be launched
+    private Exception createCanceledResultException(@Nullable Intent data) {
+        if (data != null) {
+            IntentSender.SendIntentException sendIntentException = IntentCompat.getSerializableExtra(
+                data,
+                ActivityResultContracts.StartIntentSenderForResult.EXTRA_SEND_INTENT_EXCEPTION,
+                IntentSender.SendIntentException.class
+            );
+            if (sendIntentException != null) {
+                return sendIntentException;
+            }
+        }
+        return new SignInCanceledException("Authorization canceled.");
     }
 
     // Credential Manager also reports failures such as "[16] Account reauth failed." (e.g. wrong SHA-1) as a cancellation
