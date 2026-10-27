@@ -837,6 +837,20 @@ export interface SetPersistenceOptions {
 }
 
 /**
+ * @since 9.0.0
+ */
+export enum ErrorCode {
+  /**
+   * The user canceled the sign-in or link flow.
+   *
+   * Returned on all platforms and for all providers.
+   *
+   * @since 9.0.0
+   */
+  SignInCanceled = 'SIGN_IN_CANCELED',
+}
+
+/**
  * @since 5.2.0
  */
 export enum Persistence {

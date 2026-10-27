@@ -14,7 +14,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.UserCanceledException;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInCanceledException;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
@@ -100,9 +100,9 @@ public class FacebookAuthProviderHandler {
             return;
         }
         if (isLink) {
-            pluginImplementation.handleFailedLink(call, null, new UserCanceledException(ERROR_LINK_CANCELED));
+            pluginImplementation.handleFailedLink(call, null, new SignInCanceledException(ERROR_LINK_CANCELED));
         } else {
-            pluginImplementation.handleFailedSignIn(call, null, new UserCanceledException(ERROR_SIGN_IN_CANCELED));
+            pluginImplementation.handleFailedSignIn(call, null, new SignInCanceledException(ERROR_SIGN_IN_CANCELED));
         }
     }
 

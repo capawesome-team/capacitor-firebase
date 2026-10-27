@@ -9,6 +9,7 @@ import FBSDKLoginKit
 class FacebookAuthProviderHandler: NSObject {
     let errorSignInCanceled = "Sign in canceled."
     let errorLinkCanceled = "Link canceled."
+    let errorTokenMissing = "Facebook did not return a token."
     let errorSdkNotIncluded = "The Facebook SDK is not included in this build. Add the required CocoaPods subspec or Swift package trait."
     private var pluginImplementation: FirebaseAuthentication
     #if RGCFA_INCLUDE_FACEBOOK
@@ -57,9 +58,9 @@ class FacebookAuthProviderHandler: NSObject {
                     switch result {
                     case .cancelled:
                         if isLink == true {
-                            self.pluginImplementation.handleFailedLink(message: nil, error: UserCanceledError(self.errorLinkCanceled))
+                            self.pluginImplementation.handleFailedLink(message: nil, error: SignInCanceledError(self.errorLinkCanceled))
                         } else {
-                            self.pluginImplementation.handleFailedSignIn(message: nil, error: UserCanceledError(self.errorSignInCanceled))
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: SignInCanceledError(self.errorSignInCanceled))
                         }
                         return
                     case .failed(let error):
@@ -72,9 +73,9 @@ class FacebookAuthProviderHandler: NSObject {
                     case .success:
                         guard let idTokenString = AuthenticationToken.current?.tokenString else {
                             if isLink == true {
-                                self.pluginImplementation.handleFailedLink(message: self.errorLinkCanceled, error: nil)
+                                self.pluginImplementation.handleFailedLink(message: self.errorTokenMissing, error: nil)
                             } else {
-                                self.pluginImplementation.handleFailedSignIn(message: self.errorSignInCanceled, error: nil)
+                                self.pluginImplementation.handleFailedSignIn(message: self.errorTokenMissing, error: nil)
                             }
                             return
                         }
@@ -98,11 +99,19 @@ class FacebookAuthProviderHandler: NSObject {
                         return
                     }
 
+                    if result?.isCancelled == true {
+                        if isLink == true {
+                            self.pluginImplementation.handleFailedLink(message: nil, error: SignInCanceledError(self.errorLinkCanceled))
+                        } else {
+                            self.pluginImplementation.handleFailedSignIn(message: nil, error: SignInCanceledError(self.errorSignInCanceled))
+                        }
+                        return
+                    }
                     guard let accessToken = result?.token else {
                         if isLink == true {
-                            self.pluginImplementation.handleFailedLink(message: nil, error: UserCanceledError(self.errorLinkCanceled))
+                            self.pluginImplementation.handleFailedLink(message: self.errorTokenMissing, error: nil)
                         } else {
-                            self.pluginImplementation.handleFailedSignIn(message: nil, error: UserCanceledError(self.errorSignInCanceled))
+                            self.pluginImplementation.handleFailedSignIn(message: self.errorTokenMissing, error: nil)
                         }
                         return
                     }

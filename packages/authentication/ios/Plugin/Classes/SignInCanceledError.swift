@@ -1,6 +1,6 @@
 import Foundation
 
-struct UserCanceledError: LocalizedError {
+struct SignInCanceledError: LocalizedError {
     let errorDescription: String?
 
     init(_ message: String) {

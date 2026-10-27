@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.UserInfo;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.UserCanceledException;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInCanceledException;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONException;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class FirebaseAuthenticationHelper {
 
-    public static final String ERROR_CODE_USER_CANCELED = ERROR_CODE_PREFIX + "/popup-closed-by-user";
+    public static final String ERROR_CODE_SIGN_IN_CANCELED = "SIGN_IN_CANCELED";
 
     public static class ProviderId {
 
@@ -73,8 +73,8 @@ public class FirebaseAuthenticationHelper {
     public static String createErrorCode(@Nullable Exception exception) {
         if (exception == null) {
             return null;
-        } else if (isUserCancellation(exception)) {
-            return ERROR_CODE_USER_CANCELED;
+        } else if (isSignInCancellation(exception)) {
+            return ERROR_CODE_SIGN_IN_CANCELED;
         } else if (exception instanceof FirebaseAuthException) {
             String errorCode = ((FirebaseAuthException) exception).getErrorCode();
             errorCode = errorCode.replaceFirst("ERROR_", "");
@@ -232,8 +232,8 @@ public class FirebaseAuthenticationHelper {
         return result;
     }
 
-    private static boolean isUserCancellation(@NonNull Exception exception) {
-        if (exception instanceof UserCanceledException) {
+    private static boolean isSignInCancellation(@NonNull Exception exception) {
+        if (exception instanceof SignInCanceledException) {
             return true;
         } else if (exception instanceof ApiException) {
             return ((ApiException) exception).getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_CANCELLED;

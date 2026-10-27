@@ -41,7 +41,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.UserCanceledException;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInCanceledException;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyCallback;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +51,8 @@ import java.util.concurrent.Executors;
 import org.json.JSONException;
 
 public class GoogleAuthProviderHandler {
+
+    private static final String[] CREDENTIAL_MANAGER_CANCELLATION_MESSAGES = { "Cancelled by user", "activity is cancelled by the user" };
 
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
@@ -83,7 +85,7 @@ public class GoogleAuthProviderHandler {
                 handleAuthorizationResultError(exception);
             }
         } else {
-            handleAuthorizationResultError(new UserCanceledException("Authorization canceled."));
+            handleAuthorizationResultError(new SignInCanceledException("Authorization canceled."));
         }
     }
 
@@ -245,9 +247,7 @@ public class GoogleAuthProviderHandler {
 
     private void handleGetCredentialError(final PluginCall call, final boolean isLink, final GetCredentialException exception) {
         // Not mapped in FirebaseAuthenticationHelper: Credential Manager classes only exist if the Google SDK is included
-        Exception mappedException = exception instanceof GetCredentialCancellationException
-            ? new UserCanceledException(exception.getMessage() == null ? "Canceled by user." : exception.getMessage())
-            : exception;
+        Exception mappedException = isCanceledByUser(exception) ? new SignInCanceledException(exception.getMessage()) : exception;
         if (isLink) {
             pluginImplementation.handleFailedLink(call, null, mappedException);
         } else {
@@ -298,6 +298,20 @@ public class GoogleAuthProviderHandler {
                 );
             }
         }
+    }
+
+    // Credential Manager also reports failures such as "[16] Account reauth failed." (e.g. wrong SHA-1) as a cancellation
+    private boolean isCanceledByUser(@NonNull GetCredentialException exception) {
+        String message = exception.getMessage();
+        if (!(exception instanceof GetCredentialCancellationException) || message == null) {
+            return false;
+        }
+        for (String cancellationMessage : CREDENTIAL_MANAGER_CANCELLATION_MESSAGES) {
+            if (message.contains(cancellationMessage)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static GetSignInWithGoogleOption.Builder createSignInWithGoogleOptionBuilder(@NonNull String serverClientId) {

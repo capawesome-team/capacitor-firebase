@@ -55,18 +55,16 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static func createErrorCode(error: Error?) -> String? {
-        if let error = error, isUserCancellation(error: error) {
-            return "auth/popup-closed-by-user"
+        guard let error = error else {
+            return nil
         }
-        if let error = error as NSError? {
-            if let errorCode = convertErrorCodeToString(errorCode: error.code) {
-                let prefixedErrorCode = "auth/" + errorCode
-                return prefixedErrorCode
-            } else {
-                return nil
-            }
+        if isSignInCancellation(error: error) {
+            return "SIGN_IN_CANCELED"
         }
-        return nil
+        guard let errorCode = convertErrorCodeToString(errorCode: (error as NSError).code) else {
+            return nil
+        }
+        return "auth/" + errorCode
     }
 
     public static func createSignInResult(credential: AuthCredential?, user: User?, idToken: String?, nonce: String?, accessToken: String?, additionalUserInfo: AdditionalUserInfo?) -> JSObject {
@@ -256,7 +254,6 @@ public class FirebaseAuthenticationHelper {
             AuthErrorCode.appNotVerified.rawValue: "app-not-verified",
             AuthErrorCode.captchaCheckFailed.rawValue: "captcha-check-failed",
             AuthErrorCode.webContextAlreadyPresented.rawValue: "cancelled-popup-request",
-            AuthErrorCode.webContextCancelled.rawValue: "popup-closed-by-user",
             AuthErrorCode.appVerificationUserInteractionFailure.rawValue: "app-verification-user-interaction-failure",
             AuthErrorCode.invalidClientID.rawValue: "invalid-oauth-client-id",
             AuthErrorCode.webNetworkRequestFailed.rawValue: "network-request-failed",
@@ -270,12 +267,14 @@ public class FirebaseAuthenticationHelper {
         return errorCodes[errorCode]
     }
 
-    private static func isUserCancellation(error: Error) -> Bool {
-        if error is UserCanceledError {
+    private static func isSignInCancellation(error: Error) -> Bool {
+        if error is SignInCanceledError {
             return true
         }
         let error = error as NSError
         switch error.domain {
+        case AuthErrors.domain:
+            return error.code == AuthErrorCode.webContextCancelled.rawValue
         case ASAuthorizationError.errorDomain:
             return error.code == ASAuthorizationError.canceled.rawValue
         case GKError.errorDomain:

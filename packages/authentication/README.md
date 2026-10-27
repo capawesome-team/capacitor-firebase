@@ -2508,24 +2508,25 @@ The plugin supports native sign-in with Apple, Facebook, Game Center, GitHub, Go
 
 ### How can I detect that the user canceled the sign-in?
 
-If the user closes the sign-in dialog, the promise rejects with the error code `auth/popup-closed-by-user` on every platform and for every provider. This applies to both sign-in and link methods.
+If the user closes the sign-in dialog, the promise rejects with the error code `SIGN_IN_CANCELED` on every platform and for every provider. This applies to both sign-in and link methods.
 
 ```typescript
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import {
+  ErrorCode,
+  FirebaseAuthentication,
+} from '@capacitor-firebase/authentication';
 
 const signInWithGoogle = async () => {
   try {
     await FirebaseAuthentication.signInWithGoogle();
   } catch (error) {
-    if (error.code === 'auth/popup-closed-by-user') {
+    if (error.code === ErrorCode.SignInCanceled) {
       return;
     }
     throw error;
   }
 };
 ```
-
-On Android, the Apple, GitHub, Microsoft, Twitter and Yahoo providers previously used the code `auth/web-context-canceled` instead.
 
 ### Can I use this plugin with Ionic, React, Vue or Angular?
 

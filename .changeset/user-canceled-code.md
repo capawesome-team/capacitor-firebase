@@ -1,5 +1,5 @@
 ---
-'@capacitor-firebase/authentication': minor
+'@capacitor-firebase/authentication': major
 ---
 
-feat: reject canceled sign-ins with the `auth/popup-closed-by-user` error code on every platform
+feat!: reject canceled sign-ins with the new `SIGN_IN_CANCELED` error code on every platform
