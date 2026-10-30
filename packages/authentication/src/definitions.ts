@@ -1362,7 +1362,7 @@ export interface UseEmulatorOptions {
    *
    * Only available for Web.
    *
-   * @since 8.5.3
+   * @since 8.6.0
    * @see https://firebase.google.com/docs/reference/js/auth.md#connectauthemulator
    */
   disableWarnings?: boolean;

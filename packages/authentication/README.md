@@ -2321,7 +2321,7 @@ bundle identifiers.
 | **`host`**            | <code>string</code>  | The emulator host without any port or scheme.                                         |                     | 0.2.0 |
 | **`port`**            | <code>number</code>  | The emulator port.                                                                    | <code>9099</code>   | 0.2.0 |
 | **`scheme`**          | <code>string</code>  | The emulator scheme. Only available for Web.                                          | <code>"http"</code> | 5.2.0 |
-| **`disableWarnings`** | <code>boolean</code> | Whether to disable the Firebase Auth emulator warning banner. Only available for Web. |                     | 8.5.3 |
+| **`disableWarnings`** | <code>boolean</code> | Whether to disable the Firebase Auth emulator warning banner. Only available for Web. |                     | 8.6.0 |
 
 
 #### VerifyBeforeUpdateEmailOptions
