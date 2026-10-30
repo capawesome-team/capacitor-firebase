@@ -1357,6 +1357,15 @@ export interface UseEmulatorOptions {
    * @example "https"
    */
   scheme?: string;
+  /**
+   * Whether to disable the Firebase Auth emulator warning banner.
+   *
+   * Only available for Web.
+   *
+   * @since 8.5.3
+   * @see https://firebase.google.com/docs/reference/js/auth.md#connectauthemulator
+   */
+  disableWarnings?: boolean;
 }
 
 /**
