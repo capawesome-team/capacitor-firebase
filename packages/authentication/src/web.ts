@@ -783,10 +783,18 @@ export class FirebaseAuthenticationWeb
     const auth = getAuth();
     const port = options.port || 9099;
     const scheme = options.scheme || 'http';
+    const connectOptions =
+      options.disableWarnings === undefined
+        ? undefined
+        : { disableWarnings: options.disableWarnings };
     if (options.host.includes('://')) {
-      connectAuthEmulator(auth, `${options.host}:${port}`);
+      connectAuthEmulator(auth, `${options.host}:${port}`, connectOptions);
     } else {
-      connectAuthEmulator(auth, `${scheme}://${options.host}:${port}`);
+      connectAuthEmulator(
+        auth,
+        `${scheme}://${options.host}:${port}`,
+        connectOptions,
+      );
     }
   }
 
