@@ -7,6 +7,7 @@ export default {
       name: 'capacitorFirebaseAuthentication',
       globals: {
         '@capacitor/core': 'capacitorExports',
+        'firebase/app': 'firebaseAppExports',
         'firebase/auth': 'firebaseAuthExports',
       },
       sourcemap: true,
@@ -19,5 +20,5 @@ export default {
       inlineDynamicImports: true,
     },
   ],
-  external: ['@capacitor/core', 'firebase/auth'],
+  external: ['@capacitor/core', 'firebase/app', 'firebase/auth'],
 };

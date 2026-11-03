@@ -2,9 +2,12 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication;
 
 import static io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin.ERROR_CODE_PREFIX;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
+import com.google.android.gms.common.api.ApiException;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
@@ -13,12 +16,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.OAuthCredential;
 import com.google.firebase.auth.UserInfo;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInCanceledException;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseAuthenticationHelper {
+
+    public static final String ERROR_CODE_SIGN_IN_CANCELED = "SIGN_IN_CANCELED";
 
     public static class ProviderId {
 
@@ -67,6 +73,8 @@ public class FirebaseAuthenticationHelper {
     public static String createErrorCode(@Nullable Exception exception) {
         if (exception == null) {
             return null;
+        } else if (isSignInCancellation(exception)) {
+            return ERROR_CODE_SIGN_IN_CANCELED;
         } else if (exception instanceof FirebaseAuthException) {
             String errorCode = ((FirebaseAuthException) exception).getErrorCode();
             errorCode = errorCode.replaceFirst("ERROR_", "");
@@ -222,6 +230,17 @@ public class FirebaseAuthenticationHelper {
             result.put(userInfoResult);
         }
         return result;
+    }
+
+    private static boolean isSignInCancellation(@NonNull Exception exception) {
+        if (exception instanceof SignInCanceledException) {
+            return true;
+        } else if (exception instanceof ApiException) {
+            return ((ApiException) exception).getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_CANCELLED;
+        } else if (exception instanceof FirebaseAuthException) {
+            return "ERROR_WEB_CONTEXT_CANCELED".equals(((FirebaseAuthException) exception).getErrorCode());
+        }
+        return false;
     }
 
     private static String snakeToKebabCase(String snakeCase) {
