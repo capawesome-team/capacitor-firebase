@@ -1,3 +1,23 @@
+diff --git a/node_modules/@capacitor/docgen/dist/formatting.js b/node_modules/@capacitor/docgen/dist/formatting.js
+--- a/node_modules/@capacitor/docgen/dist/formatting.js
++++ b/node_modules/@capacitor/docgen/dist/formatting.js
+@@ -5,8 +5,15 @@
+     if (typeof c !== 'string') {
+         return '';
+     }
+-    return formatTokens(data, tokenize(c));
++    return c
++        .split(/(`[^`]*`)/)
++        .map((part, index) => (index % 2 === 1 ? formatCodeSpan(data, part) : formatTokens(data, tokenize(part))))
++        .join('');
+ }
++// Link a code span only if it names a plugin type as a whole, so that native names like `BillingClient.ProductType.INAPP` stay plain.
++function formatCodeSpan(data, codeSpan) {
++    return linkToken(data, codeSpan) || codeSpan;
++}
+ exports.formatDescription = formatDescription;
+ function formatType(data, c) {
+     c = cleanWhitespace(String(c));
 diff --git a/node_modules/@capacitor/docgen/dist/parse.js b/node_modules/@capacitor/docgen/dist/parse.js
 index 8e863fb..38d9d99 100644
 --- a/node_modules/@capacitor/docgen/dist/parse.js
