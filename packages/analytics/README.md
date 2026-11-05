@@ -578,9 +578,9 @@ Only available for iOS.
 
 #### GetAppInstanceIdResult
 
-| Prop                | Type                | Description                                                                                                                                                                                             | Since |
-| ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.<a href="#consenttype">ConsentType</a>.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.<a href="#consentstatus">ConsentStatus</a>.DENIED`. | 1.4.0 |
+| Prop                | Type                | Description                                                                                                                                     | Since |
+| ------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appInstanceId`** | <code>string</code> | The app instance id. Not defined if `FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE` has been set to `FirebaseAnalytics.ConsentStatus.DENIED`. | 1.4.0 |
 
 
 #### SetConsentOptions
