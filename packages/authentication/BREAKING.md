@@ -4,12 +4,25 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
+
+## Version 9.x.x
+
+### Error codes
+
+If the user cancels a sign-in or link flow, the promise now rejects with the new `ErrorCode.SignInCanceled` (`SIGN_IN_CANCELED`) error code on every platform and for every provider. This replaces the following error codes:
+
+- On **Android**: `auth/web-context-canceled` (Apple, GitHub, Microsoft, Twitter, Yahoo and phone reCAPTCHA) and no error code (Facebook, Google, Play Games).
+- On **iOS**: `auth/popup-closed-by-user` (GitHub, Microsoft, Twitter, Yahoo and phone reCAPTCHA) and no error code (Apple, Facebook, Game Center, Google).
+- On **Web**: `auth/popup-closed-by-user`.
+
+On **iOS**, a Facebook sign-in that returns no token is no longer reported as canceled and now rejects with the error message `Facebook did not return a token.`
 
 ## Version 8.x.x
 
