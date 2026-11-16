@@ -19,6 +19,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getCollection", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getCollectionGroup", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getCountFromServer", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "clearPersistence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "disableNetwork", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "disablePersistence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "enableNetwork", returnType: CAPPluginReturnPromise),
