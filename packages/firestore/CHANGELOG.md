@@ -1,5 +1,11 @@
 # @capacitor-firebase/firestore
 
+## 8.6.1
+
+### Patch Changes
+
+- [`599906dded8327acd5995a909edb35c444b5bc0e`](https://github.com/capawesome-team/capacitor-firebase/commit/599906dded8327acd5995a909edb35c444b5bc0e) ([#1068](https://github.com/capawesome-team/capacitor-firebase/pull/1068)): fix(ios): `clearPersistence` no longer rejects with `UNIMPLEMENTED`
+
 ## 8.6.0
 
 ### Patch Changes
