@@ -171,11 +171,12 @@ These traits are the Swift Package Manager equivalent of the `CapacitorFirebaseA
 
 These configuration values are available:
 
-| Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                                    | Default            | Since |
-| -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`authDomain`**     | <code>string</code>   | Configure the custom auth domain you want to use. Only available for Android and iOS.                                                                                                                                                                                                                          |                    | 7.3.0 |
-| **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
-| **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
+| Prop                             | Type                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Default            | Since |
+| -------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ----- |
+| **`authDomain`**                 | <code>string</code>   | Configure the custom auth domain you want to use. Only available for Android and iOS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |                    | 7.3.0 |
+| **`skipNativeAuth`**             | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS.                                                                                                                                                                                                                                                                                               | <code>false</code> | 0.1.0 |
+| **`providers`**                  | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                                                                                                                                                                                                                                                                                                                  | <code>[]</code>    | 0.1.0 |
+| **`useAppCheckForGoogleSignIn`** | <code>boolean</code>  | Configure whether the plugin should use App Check for Google Sign-In. If `true`, the plugin configures the Google Sign-In SDK for App Check on startup so that an App Check token is sent with every Google Sign-In request. This is required if App Check enforcement is enabled for **Google Identity for iOS** in the Firebase console. Requires the `GIDClientID` key in the `Info.plist` file. On the iOS simulator, the App Check debug provider is used instead of App Attest. The debug token is logged to the Xcode console and must be registered in the Firebase console. Only available for iOS. | <code>false</code> | 8.6.0 |
 
 ### Examples
 
@@ -187,7 +188,8 @@ In `capacitor.config.json`:
     "FirebaseAuthentication": {
       "authDomain": undefined,
       "skipNativeAuth": false,
-      "providers": ["apple.com", "facebook.com"]
+      "providers": ["apple.com", "facebook.com"],
+      "useAppCheckForGoogleSignIn": true
     }
   }
 }
@@ -206,6 +208,7 @@ const config: CapacitorConfig = {
       authDomain: undefined,
       skipNativeAuth: false,
       providers: ["apple.com", "facebook.com"],
+      useAppCheckForGoogleSignIn: true,
     },
   },
 };
