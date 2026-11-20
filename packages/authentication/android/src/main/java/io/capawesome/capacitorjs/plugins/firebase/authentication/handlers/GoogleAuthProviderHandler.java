@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.IntentCompat;
 import androidx.credentials.ClearCredentialStateRequest;
 import androidx.credentials.Credential;
 import androidx.credentials.CredentialManager;
@@ -17,6 +19,7 @@ import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.ClearCredentialException;
+import androidx.credentials.exceptions.GetCredentialCancellationException;
 import androidx.credentials.exceptions.GetCredentialException;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.Logger;
@@ -40,6 +43,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.R;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInCanceledException;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.interfaces.NonEmptyCallback;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +53,8 @@ import java.util.concurrent.Executors;
 import org.json.JSONException;
 
 public class GoogleAuthProviderHandler {
+
+    private static final String[] CREDENTIAL_MANAGER_CANCELLATION_MESSAGES = { "Cancelled by user", "activity is cancelled by the user" };
 
     private FirebaseAuthentication pluginImplementation;
     private GoogleSignInClient mGoogleSignInClient;
@@ -81,7 +87,7 @@ public class GoogleAuthProviderHandler {
                 handleAuthorizationResultError(exception);
             }
         } else {
-            handleAuthorizationResultError(new Exception("Authorization canceled."));
+            handleAuthorizationResultError(createCanceledResultException(result.getData()));
         }
     }
 
@@ -242,10 +248,12 @@ public class GoogleAuthProviderHandler {
     }
 
     private void handleGetCredentialError(final PluginCall call, final boolean isLink, final GetCredentialException exception) {
+        // Not mapped in FirebaseAuthenticationHelper: Credential Manager classes only exist if the Google SDK is included
+        Exception mappedException = isCanceledByUser(exception) ? new SignInCanceledException(exception.getMessage()) : exception;
         if (isLink) {
-            pluginImplementation.handleFailedLink(call, null, exception);
+            pluginImplementation.handleFailedLink(call, null, mappedException);
         } else {
-            pluginImplementation.handleFailedSignIn(call, null, exception);
+            pluginImplementation.handleFailedSignIn(call, null, mappedException);
         }
     }
 
@@ -292,6 +300,35 @@ public class GoogleAuthProviderHandler {
                 );
             }
         }
+    }
+
+    // The activity result is also RESULT_CANCELED if the consent screen could not be launched
+    private Exception createCanceledResultException(@Nullable Intent data) {
+        if (data != null) {
+            IntentSender.SendIntentException sendIntentException = IntentCompat.getSerializableExtra(
+                data,
+                ActivityResultContracts.StartIntentSenderForResult.EXTRA_SEND_INTENT_EXCEPTION,
+                IntentSender.SendIntentException.class
+            );
+            if (sendIntentException != null) {
+                return sendIntentException;
+            }
+        }
+        return new SignInCanceledException("Authorization canceled.");
+    }
+
+    // Credential Manager also reports failures such as "[16] Account reauth failed." (e.g. wrong SHA-1) as a cancellation
+    private boolean isCanceledByUser(@NonNull GetCredentialException exception) {
+        String message = exception.getMessage();
+        if (!(exception instanceof GetCredentialCancellationException) || message == null) {
+            return false;
+        }
+        for (String cancellationMessage : CREDENTIAL_MANAGER_CANCELLATION_MESSAGES) {
+            if (message.contains(cancellationMessage)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static GetSignInWithGoogleOption.Builder createSignInWithGoogleOptionBuilder(@NonNull String serverClientId) {
