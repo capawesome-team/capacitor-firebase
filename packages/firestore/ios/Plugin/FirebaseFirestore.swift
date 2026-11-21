@@ -243,6 +243,17 @@ private actor ListenerRegistrationMap {
         }
     }
 
+    @objc public func terminate(completion: @escaping (Error?) -> Void) {
+        let firestore = getFirestoreInstance()
+        firestore.terminate { error in
+            // The SDK drops its own reference on terminate. Keep the instance alive, or it can be
+            // deallocated before the completion handler runs and the handler is never called.
+            withExtendedLifetime(firestore) {
+                completion(error)
+            }
+        }
+    }
+
     @objc func useEmulator(_ host: String, _ port: Int) {
         let firestore = getFirestoreInstance()
         let settings = firestore.settings

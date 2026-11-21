@@ -49,6 +49,7 @@ import {
   setDoc,
   startAfter,
   startAt,
+  terminate,
   updateDoc,
   where,
   writeBatch,
@@ -395,6 +396,11 @@ export class FirebaseFirestoreWeb
         merge,
       },
     );
+  }
+
+  public async terminate(): Promise<void> {
+    const firestore = getFirestore();
+    await terminate(firestore);
   }
 
   public async updateDocument(options: UpdateDocumentOptions): Promise<void> {

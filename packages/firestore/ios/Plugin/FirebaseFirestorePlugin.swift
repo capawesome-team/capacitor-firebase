@@ -24,6 +24,7 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "disablePersistence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "enableNetwork", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "enablePersistence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "terminate", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "addDocumentSnapshotListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "addCollectionSnapshotListener", returnType: CAPPluginReturnCallback),
@@ -290,6 +291,17 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
 
         implementation?.enablePersistence(cacheSizeBytes)
         call.resolve()
+    }
+
+    @objc func terminate(_ call: CAPPluginCall) {
+        implementation?.terminate(completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
+                return
+            }
+            call.resolve()
+        })
     }
 
     @objc func useEmulator(_ call: CAPPluginCall) {
