@@ -46,8 +46,7 @@ public class FirebaseCrashlyticsPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(errorKeyMissing)
             return
         }
-        let hasValue = call.hasOption("value")
-        if hasValue == false {
+        guard let value = call.options["value"], !(value is NSNull) else {
             call.reject(errorValueMissing)
             return
         }
