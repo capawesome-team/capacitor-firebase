@@ -2,4 +2,4 @@
 "@capacitor-firebase/crashlytics": patch
 ---
 
-fix: Preserve custom key validation with the Capacitor 9 native APIs.
+fix: no longer use the `hasOption` method that Capacitor 9 removes
