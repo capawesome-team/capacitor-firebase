@@ -248,6 +248,17 @@ public class FirebaseFirestore {
             });
     }
 
+    public void terminate(@NonNull EmptyResultCallback callback) {
+        getFirebaseFirestoreInstance()
+            .terminate()
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
+    }
+
     public void useEmulator(@NonNull String host, int port) {
         getFirebaseFirestoreInstance().useEmulator(host, port);
     }

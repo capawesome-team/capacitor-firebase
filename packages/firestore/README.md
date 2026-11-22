@@ -516,6 +516,7 @@ const removeAllListeners = async () => {
 * [`removeAllListeners()`](#removealllisteners)
 * [`removeSnapshotListener(...)`](#removesnapshotlistener)
 * [`setDocument(...)`](#setdocument)
+* [`terminate()`](#terminate)
 * [`updateDocument(...)`](#updatedocument)
 * [`useEmulator(...)`](#useemulator)
 * [`writeBatch(...)`](#writebatch)
@@ -614,7 +615,8 @@ clearPersistence() => Promise<void>
 
 Clears the persistent storage. This includes pending writes and cached documents.
 
-**Attention**: Must be called after the app is shutdown or when the app is first initialized.
+**Attention**: The Firestore instance must not be running.
+Call this method before the first read or write, or after `terminate()`.
 
 **Since:** 5.2.0
 
@@ -816,6 +818,28 @@ If the document does not yet exist, it will be created.
 | **`options`** | <code><a href="#setdocumentoptions">SetDocumentOptions</a></code> |
 
 **Since:** 5.2.0
+
+--------------------
+
+
+### terminate()
+
+```typescript
+terminate() => Promise<void>
+```
+
+Terminates the Firestore instance. The next call to any other method starts a new instance.
+
+To clear the persistent storage while the app is running, call `terminate()`,
+then `enablePersistence(...)` if the app uses it, then `clearPersistence()`.
+
+**Attention**: Snapshot listeners stop receiving updates and must be removed.
+On Web, each listener is called one last time with an error.
+Calls that are still running may fail or never resolve.
+The new instance starts with the default settings. An app that uses `enablePersistence(...)`,
+`disablePersistence()` or `useEmulator(...)` must call it again.
+
+**Since:** 8.7.0
 
 --------------------
 
@@ -1190,7 +1214,7 @@ The `getCollection(...)` method reads the documents of a single collection at th
 
 ### Does the plugin work offline?
 
-Yes, you can enable offline persistence with the `enablePersistence(...)` method, which must be called before any other Firestore method. You can also disable and re-enable the use of the network with `disableNetwork()` and `enableNetwork()`. The persistent storage, including pending writes and cached documents, can be cleared with `clearPersistence()`, which must be called after the app is shut down or when it is first initialized.
+Yes, you can enable offline persistence with the `enablePersistence(...)` method, which must be called before any other Firestore method. You can also disable and re-enable the use of the network with `disableNetwork()` and `enableNetwork()`. The persistent storage, including pending writes and cached documents, can be cleared with `clearPersistence()`, which must be called before the first read or write, or after `terminate()`.
 
 ### Can I use a Firestore database other than the default one?
 

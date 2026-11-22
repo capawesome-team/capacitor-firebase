@@ -415,6 +415,29 @@ public class FirebaseFirestorePlugin extends Plugin {
     }
 
     @PluginMethod
+    public void terminate(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    call.resolve();
+                }
+
+                @Override
+                public void error(Exception exception) {
+                    Logger.error(TAG, exception.getMessage(), exception);
+                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                }
+            };
+
+            implementation.terminate(callback);
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+        }
+    }
+
+    @PluginMethod
     public void useEmulator(PluginCall call) {
         try {
             String host = call.getString("host");

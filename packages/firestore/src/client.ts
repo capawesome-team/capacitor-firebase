@@ -186,6 +186,10 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
     });
   }
 
+  async terminate(): Promise<void> {
+    return this.plugin.terminate();
+  }
+
   async updateDocument(options: UpdateDocumentOptions): Promise<void> {
     return this.plugin.updateDocument({
       ...options,

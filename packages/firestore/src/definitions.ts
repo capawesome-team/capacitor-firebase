@@ -59,7 +59,8 @@ export interface FirebaseFirestorePlugin {
   /**
    * Clears the persistent storage. This includes pending writes and cached documents.
    *
-   * **Attention**: Must be called after the app is shutdown or when the app is first initialized.
+   * **Attention**: The Firestore instance must not be running.
+   * Call this method before the first read or write, or after `terminate()`.
    *
    * @since 5.2.0
    */
@@ -147,6 +148,21 @@ export interface FirebaseFirestorePlugin {
    * @since 5.2.0
    */
   setDocument(options: SetDocumentOptions): Promise<void>;
+  /**
+   * Terminates the Firestore instance. The next call to any other method starts a new instance.
+   *
+   * To clear the persistent storage while the app is running, call `terminate()`,
+   * then `enablePersistence(...)` if the app uses it, then `clearPersistence()`.
+   *
+   * **Attention**: Snapshot listeners stop receiving updates and must be removed.
+   * On Web, each listener is called one last time with an error.
+   * Calls that are still running may fail or never resolve.
+   * The new instance starts with the default settings. An app that uses `enablePersistence(...)`,
+   * `disablePersistence()` or `useEmulator(...)` must call it again.
+   *
+   * @since 8.7.0
+   */
+  terminate(): Promise<void>;
   /**
    * Updates fields in the document referred to by the specified reference.
    *
