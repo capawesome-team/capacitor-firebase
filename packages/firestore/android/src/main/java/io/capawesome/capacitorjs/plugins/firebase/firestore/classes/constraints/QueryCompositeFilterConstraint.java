@@ -12,10 +12,10 @@ import org.json.JSONException;
 public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
 
     @NonNull
-    private String type;
+    private QueryFilterConstraint[] queryConstraints;
 
     @NonNull
-    private QueryFilterConstraint[] queryConstraints;
+    private String type;
 
     public QueryCompositeFilterConstraint(JSObject compositeFilter, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)
         throws JSONException {
@@ -34,13 +34,13 @@ public class QueryCompositeFilterConstraint implements QueryFilterConstraint {
     }
 
     @NonNull
-    public String getType() {
-        return type;
+    public QueryFilterConstraint[] getConstraints() {
+        return queryConstraints;
     }
 
     @NonNull
-    public QueryFilterConstraint[] getConstraints() {
-        return queryConstraints;
+    public String getType() {
+        return type;
     }
 
     @Nullable

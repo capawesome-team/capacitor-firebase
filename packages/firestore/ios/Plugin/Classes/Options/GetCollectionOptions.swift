@@ -1,27 +1,29 @@
 import Foundation
 import Capacitor
-import FirebaseFirestore
 
 @objc public class GetCollectionOptions: NSObject {
-    private var reference: String
-    private var compositeFilter: QueryCompositeFilterConstraint?
-    private var queryConstraints: [QueryNonFilterConstraint]
+    let compositeFilter: JSObject?
+    let queryConstraints: [JSObject]?
+    let reference: String
 
-    init(reference: String, compositeFilter: JSObject?, queryConstraints: [JSObject]?, firestore: Firestore) {
-        self.reference = reference
-        self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter, firestore: firestore)
-        self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
+    init(_ call: CAPPluginCall) throws {
+        self.reference = try GetCollectionOptions.getReferenceFromCall(call)
+        self.compositeFilter = GetCollectionOptions.getCompositeFilterFromCall(call)
+        self.queryConstraints = GetCollectionOptions.getQueryConstraintsFromCall(call)
     }
 
-    func getReference() -> String {
+    private static func getCompositeFilterFromCall(_ call: CAPPluginCall) -> JSObject? {
+        return call.getObject("compositeFilter")
+    }
+
+    private static func getQueryConstraintsFromCall(_ call: CAPPluginCall) -> [JSObject]? {
+        return call.getArray("queryConstraints", JSObject.self)
+    }
+
+    private static func getReferenceFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let reference = call.getString("reference") else {
+            throw CustomError.referenceMissing
+        }
         return reference
-    }
-
-    func getCompositeFilter() -> QueryCompositeFilterConstraint? {
-        return compositeFilter
-    }
-
-    func getQueryConstraints() -> [QueryNonFilterConstraint] {
-        return queryConstraints
     }
 }

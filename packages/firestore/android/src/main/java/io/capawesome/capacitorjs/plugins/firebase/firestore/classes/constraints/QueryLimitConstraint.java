@@ -7,8 +7,8 @@ import org.json.JSONException;
 
 public class QueryLimitConstraint implements QueryNonFilterConstraint {
 
-    private String type;
     private int limit;
+    private String type;
 
     public QueryLimitConstraint(JSObject queryConstraint) throws JSONException {
         this.type = queryConstraint.getString("type");

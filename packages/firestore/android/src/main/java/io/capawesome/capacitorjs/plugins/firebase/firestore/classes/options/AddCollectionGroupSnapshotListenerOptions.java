@@ -4,62 +4,55 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
-import org.json.JSONException;
+import com.getcapacitor.PluginCall;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExceptions;
 
 public class AddCollectionGroupSnapshotListenerOptions {
 
     @NonNull
-    private String reference;
+    private final String callbackId;
 
     @Nullable
-    private QueryCompositeFilterConstraint compositeFilter;
+    private final JSObject compositeFilter;
+
+    private final boolean includeMetadataChanges;
+
+    @Nullable
+    private final JSArray queryConstraints;
 
     @NonNull
-    private QueryNonFilterConstraint[] queryConstraints;
-
-    private String callbackId;
-
-    private boolean includeMetadataChanges;
+    private final String reference;
 
     @Nullable
     private final String serverTimestampBehavior;
 
-    public AddCollectionGroupSnapshotListenerOptions(
-        String reference,
-        @Nullable JSObject compositeFilter,
-        @Nullable JSArray queryConstraints,
-        @Nullable Boolean includeMetadataChanges,
-        @Nullable String serverTimestampBehavior,
-        String callbackId,
-        @NonNull com.google.firebase.firestore.FirebaseFirestore firestore
-    ) throws JSONException {
-        this.reference = reference;
-        this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter, firestore);
-        this.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints);
-        this.includeMetadataChanges = includeMetadataChanges == null ? false : includeMetadataChanges;
-        this.serverTimestampBehavior = serverTimestampBehavior;
-        this.callbackId = callbackId;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    @Nullable
-    public QueryCompositeFilterConstraint getCompositeFilter() {
-        return compositeFilter;
+    public AddCollectionGroupSnapshotListenerOptions(@NonNull PluginCall call) throws Exception {
+        this.reference = AddCollectionGroupSnapshotListenerOptions.getReferenceFromCall(call);
+        this.compositeFilter = AddCollectionGroupSnapshotListenerOptions.getCompositeFilterFromCall(call);
+        this.queryConstraints = AddCollectionGroupSnapshotListenerOptions.getQueryConstraintsFromCall(call);
+        this.includeMetadataChanges = AddCollectionGroupSnapshotListenerOptions.getIncludeMetadataChangesFromCall(call);
+        this.serverTimestampBehavior = AddCollectionGroupSnapshotListenerOptions.getServerTimestampBehaviorFromCall(call);
+        this.callbackId = AddCollectionGroupSnapshotListenerOptions.getCallbackIdFromCall(call);
     }
 
     @NonNull
-    public QueryNonFilterConstraint[] getQueryConstraints() {
+    public String getCallbackId() {
+        return callbackId;
+    }
+
+    @Nullable
+    public JSObject getCompositeFilter() {
+        return compositeFilter;
+    }
+
+    @Nullable
+    public JSArray getQueryConstraints() {
         return queryConstraints;
     }
 
-    public boolean isIncludeMetadataChanges() {
-        return includeMetadataChanges;
+    @NonNull
+    public String getReference() {
+        return reference;
     }
 
     @Nullable
@@ -67,7 +60,41 @@ public class AddCollectionGroupSnapshotListenerOptions {
         return serverTimestampBehavior;
     }
 
-    public String getCallbackId() {
-        return callbackId;
+    public boolean isIncludeMetadataChanges() {
+        return includeMetadataChanges;
+    }
+
+    @NonNull
+    private static String getCallbackIdFromCall(@NonNull PluginCall call) {
+        return call.getCallbackId();
+    }
+
+    @Nullable
+    private static JSObject getCompositeFilterFromCall(@NonNull PluginCall call) {
+        return call.getObject("compositeFilter");
+    }
+
+    private static boolean getIncludeMetadataChangesFromCall(@NonNull PluginCall call) {
+        Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
+        return includeMetadataChanges == null ? false : includeMetadataChanges;
+    }
+
+    @Nullable
+    private static JSArray getQueryConstraintsFromCall(@NonNull PluginCall call) {
+        return call.getArray("queryConstraints");
+    }
+
+    @NonNull
+    private static String getReferenceFromCall(@NonNull PluginCall call) throws Exception {
+        String reference = call.getString("reference");
+        if (reference == null) {
+            throw CustomExceptions.REFERENCE_MISSING;
+        }
+        return reference;
+    }
+
+    @Nullable
+    private static String getServerTimestampBehaviorFromCall(@NonNull PluginCall call) {
+        return call.getString("serverTimestamps");
     }
 }

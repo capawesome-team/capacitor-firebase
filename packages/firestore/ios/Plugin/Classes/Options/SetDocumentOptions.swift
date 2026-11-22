@@ -1,27 +1,32 @@
 import Foundation
 import Capacitor
-import FirebaseFirestore
 
 @objc public class SetDocumentOptions: NSObject {
-    private var reference: String
-    private var data: [String: Any]
-    private var merge: Bool
+    let data: JSObject
+    let merge: Bool
+    let reference: String
 
-    init(reference: String, data: JSObject, merge: Bool, firestore: Firestore) {
-        self.reference = reference
-        self.data = FirebaseFirestoreHelper.createHashMapFromJSObject(data, firestore: firestore)
-        self.merge = merge
+    init(_ call: CAPPluginCall) throws {
+        self.reference = try SetDocumentOptions.getReferenceFromCall(call)
+        self.data = try SetDocumentOptions.getDataFromCall(call)
+        self.merge = SetDocumentOptions.getMergeFromCall(call)
     }
 
-    func getReference() -> String {
-        return reference
-    }
-
-    func getData() -> [String: Any] {
+    private static func getDataFromCall(_ call: CAPPluginCall) throws -> JSObject {
+        guard let data = call.getObject("data") else {
+            throw CustomError.dataMissing
+        }
         return data
     }
 
-    func getMerge() -> Bool {
-        return merge
+    private static func getMergeFromCall(_ call: CAPPluginCall) -> Bool {
+        return call.getBool("merge", false)
+    }
+
+    private static func getReferenceFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let reference = call.getString("reference") else {
+            throw CustomError.referenceMissing
+        }
+        return reference
     }
 }

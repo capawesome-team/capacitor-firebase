@@ -1,13 +1,17 @@
 import Foundation
+import Capacitor
 
 @objc public class DeleteDocumentOptions: NSObject {
-    private var reference: String
+    let reference: String
 
-    init(reference: String) {
-        self.reference = reference
+    init(_ call: CAPPluginCall) throws {
+        self.reference = try DeleteDocumentOptions.getReferenceFromCall(call)
     }
 
-    func getReference() -> String {
+    private static func getReferenceFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let reference = call.getString("reference") else {
+            throw CustomError.referenceMissing
+        }
         return reference
     }
 }

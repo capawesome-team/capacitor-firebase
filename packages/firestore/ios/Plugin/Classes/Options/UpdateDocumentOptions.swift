@@ -1,21 +1,26 @@
 import Foundation
 import Capacitor
-import FirebaseFirestore
 
 @objc public class UpdateDocumentOptions: NSObject {
-    private var reference: String
-    private var data: [String: Any]
+    let data: JSObject
+    let reference: String
 
-    init(reference: String, data: JSObject, firestore: Firestore) {
-        self.reference = reference
-        self.data = FirebaseFirestoreHelper.createHashMapFromJSObject(data, firestore: firestore)
+    init(_ call: CAPPluginCall) throws {
+        self.reference = try UpdateDocumentOptions.getReferenceFromCall(call)
+        self.data = try UpdateDocumentOptions.getDataFromCall(call)
     }
 
-    func getReference() -> String {
-        return reference
-    }
-
-    func getData() -> [String: Any] {
+    private static func getDataFromCall(_ call: CAPPluginCall) throws -> JSObject {
+        guard let data = call.getObject("data") else {
+            throw CustomError.dataMissing
+        }
         return data
+    }
+
+    private static func getReferenceFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let reference = call.getString("reference") else {
+            throw CustomError.referenceMissing
+        }
+        return reference
     }
 }

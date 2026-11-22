@@ -10,8 +10,8 @@ import java.util.concurrent.ExecutionException;
 
 public class QueryEndAtConstraint implements QueryNonFilterConstraint {
 
-    private String type;
     private String reference;
+    private String type;
 
     public QueryEndAtConstraint(JSObject queryConstraint) {
         this.type = queryConstraint.getString("type");

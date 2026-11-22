@@ -3,8 +3,8 @@ import FirebaseFirestore
 import Capacitor
 
 @objc public class QueryOrderByConstraint: NSObject, QueryNonFilterConstraint {
-    private var fieldPath: String
     private var directionStr: String
+    private var fieldPath: String
 
     public init(_ queryConstraint: JSObject) {
         self.fieldPath = queryConstraint["fieldPath"] as? String ?? ""

@@ -3,15 +3,16 @@ import FirebaseFirestore
 import Capacitor
 
 public class FirebaseFirestoreHelper {
-    public static func createServerTimestampBehavior(_ value: String?) -> ServerTimestampBehavior {
-        switch value {
-        case "estimate":
-            return .estimate
-        case "previous":
-            return .previous
-        default:
-            return .none
+    public static func createErrorCode(error: Error?) -> String? {
+        if let error = error as NSError? {
+            if let errorCode = convertErrorCodeToString(errorCode: error.code) {
+                let prefixedErrorCode = "firestore/" + errorCode
+                return prefixedErrorCode
+            } else {
+                return nil
+            }
         }
+        return nil
     }
 
     public static func createHashMapFromJSObject(_ object: JSObject, firestore: Firestore) -> [String: Any] {
@@ -33,6 +34,25 @@ public class FirebaseFirestoreHelper {
             object[key] = self.createJSValue(value: map[key])
         }
         return object
+    }
+
+    public static func createNativeValue(_ value: Any, firestore: Firestore) -> Any {
+        if let dict = value as? [String: Any], let type = dict["__type__"] as? String {
+            if let markerValue = createNativeValueFromMarker(type: type, dict: dict, firestore: firestore) {
+                return markerValue
+            }
+        }
+        if let dict = value as? [String: Any] {
+            var result: [String: Any] = [:]
+            for (key, val) in dict {
+                result[key] = createNativeValue(val, firestore: firestore)
+            }
+            return result
+        }
+        if let array = value as? [Any] {
+            return array.map { createNativeValue($0, firestore: firestore) }
+        }
+        return value
     }
 
     public static func createQueryCompositeFilterConstraintFromJSObject(
@@ -74,23 +94,122 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    public static func createNativeValue(_ value: Any, firestore: Firestore) -> Any {
-        if let dict = value as? [String: Any], let type = dict["__type__"] as? String {
-            if let markerValue = createNativeValueFromMarker(type: type, dict: dict, firestore: firestore) {
-                return markerValue
-            }
+    public static func createServerTimestampBehavior(_ value: String?) -> ServerTimestampBehavior {
+        switch value {
+        case "estimate":
+            return .estimate
+        case "previous":
+            return .previous
+        default:
+            return .none
         }
-        if let dict = value as? [String: Any] {
-            var result: [String: Any] = [:]
-            for (key, val) in dict {
-                result[key] = createNativeValue(val, firestore: firestore)
-            }
-            return result
+    }
+
+    private static func convertErrorCodeToString(errorCode: Int) -> String? {
+        let errorCodes: [Int: String] = [
+            FirestoreErrorCode.aborted.rawValue: "aborted",
+            FirestoreErrorCode.alreadyExists.rawValue: "already-exists",
+            FirestoreErrorCode.cancelled.rawValue: "cancelled",
+            FirestoreErrorCode.dataLoss.rawValue: "data-loss",
+            FirestoreErrorCode.deadlineExceeded.rawValue: "deadline-exceeded",
+            FirestoreErrorCode.failedPrecondition.rawValue: "failed-precondition",
+            FirestoreErrorCode.internal.rawValue: "internal",
+            FirestoreErrorCode.invalidArgument.rawValue: "invalid-argument",
+            FirestoreErrorCode.notFound.rawValue: "not-found",
+            FirestoreErrorCode.outOfRange.rawValue: "out-of-range",
+            FirestoreErrorCode.permissionDenied.rawValue: "permission-denied",
+            FirestoreErrorCode.resourceExhausted.rawValue: "resource-exhausted",
+            FirestoreErrorCode.unauthenticated.rawValue: "unauthenticated",
+            FirestoreErrorCode.unavailable.rawValue: "unavailable",
+            FirestoreErrorCode.unimplemented.rawValue: "unimplemented",
+            FirestoreErrorCode.unknown.rawValue: "unknown"
+        ]
+
+        return errorCodes[errorCode]
+    }
+
+    private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
+        return array.map { item -> Any in
+            return createJSValue(value: item) ?? NSNull()
+        }
+    }
+
+    private static func createJSObjectFromData(_ data: Data) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "bytes"
+        object["bytes"] = data.base64EncodedString()
+        return object
+    }
+
+    private static func createJSObjectFromDocumentReference(_ reference: DocumentReference) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "documentReference"
+        object["id"] = reference.documentID
+        object["path"] = reference.path
+        return object
+    }
+
+    private static func createJSObjectFromGeoPoint(_ geoPoint: GeoPoint) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "geopoint"
+        object["latitude"] = geoPoint.latitude
+        object["longitude"] = geoPoint.longitude
+        return object
+    }
+
+    private static func createJSObjectFromSpecialNumber(_ value: Double) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "number"
+        if value.isNaN {
+            object["value"] = "NaN"
+        } else if value > 0 {
+            object["value"] = "Infinity"
+        } else {
+            object["value"] = "-Infinity"
+        }
+        return object
+    }
+
+    private static func createJSObjectFromTimestamp(_ timestamp: Timestamp) -> JSObject {
+        var object: JSObject = [:]
+        object["__type__"] = "timestamp"
+        object["seconds"] = Int(timestamp.seconds)
+        object["nanoseconds"] = Int(timestamp.nanoseconds)
+        return object
+    }
+
+    private static func createJSValue(value: Any?) -> JSValue? {
+        guard let value = value else {
+            return nil
+        }
+        if let timestamp = value as? Timestamp {
+            return createJSObjectFromTimestamp(timestamp) as JSValue
+        }
+        if let geoPoint = value as? GeoPoint {
+            return createJSObjectFromGeoPoint(geoPoint) as JSValue
+        }
+        if let documentReference = value as? DocumentReference {
+            return createJSObjectFromDocumentReference(documentReference) as JSValue
+        }
+        if let data = value as? Data {
+            return createJSObjectFromData(data) as JSValue
+        }
+        if let number = value as? NSNumber, isSpecialNumber(number) {
+            return createJSObjectFromSpecialNumber(number.doubleValue) as JSValue
         }
         if let array = value as? [Any] {
-            return array.map { createNativeValue($0, firestore: firestore) }
+            return createJSArrayFromArray(array) as JSValue
         }
-        return value
+        if let dict = value as? [String: Any] {
+            if let jsObject = createJSObjectFromHashMap(dict) {
+                return jsObject as JSValue
+            }
+            return nil
+        }
+        guard let jsValue = JSTypes.coerceDictionaryToJSObject(["key": value]) as JSObject? else {
+            return nil
+        }
+        return jsValue["key"]
     }
 
     private static func createNativeValueFromMarker(type: String, dict: [String: Any], firestore: Firestore) -> Any? {
@@ -136,84 +255,6 @@ public class FirebaseFirestoreHelper {
         }
     }
 
-    private static func createJSValue(value: Any?) -> JSValue? {
-        guard let value = value else {
-            return nil
-        }
-        if let timestamp = value as? Timestamp {
-            return createJSObjectFromTimestamp(timestamp) as JSValue
-        }
-        if let geoPoint = value as? GeoPoint {
-            return createJSObjectFromGeoPoint(geoPoint) as JSValue
-        }
-        if let documentReference = value as? DocumentReference {
-            return createJSObjectFromDocumentReference(documentReference) as JSValue
-        }
-        if let data = value as? Data {
-            return createJSObjectFromData(data) as JSValue
-        }
-        if let number = value as? NSNumber, isSpecialNumber(number) {
-            return createJSObjectFromSpecialNumber(number.doubleValue) as JSValue
-        }
-        if let array = value as? [Any] {
-            return createJSArrayFromArray(array) as JSValue
-        }
-        if let dict = value as? [String: Any] {
-            if let jsObject = createJSObjectFromHashMap(dict) {
-                return jsObject as JSValue
-            }
-            return nil
-        }
-        guard let jsValue = JSTypes.coerceDictionaryToJSObject(["key": value]) as JSObject? else {
-            return nil
-        }
-        return jsValue["key"]
-    }
-
-    private static func createJSObjectFromTimestamp(_ timestamp: Timestamp) -> JSObject {
-        var object: JSObject = [:]
-        object["__type__"] = "timestamp"
-        object["seconds"] = Int(timestamp.seconds)
-        object["nanoseconds"] = Int(timestamp.nanoseconds)
-        return object
-    }
-
-    private static func createJSObjectFromGeoPoint(_ geoPoint: GeoPoint) -> JSObject {
-        var object: JSObject = [:]
-        object["__type__"] = "geopoint"
-        object["latitude"] = geoPoint.latitude
-        object["longitude"] = geoPoint.longitude
-        return object
-    }
-
-    private static func createJSObjectFromDocumentReference(_ reference: DocumentReference) -> JSObject {
-        var object: JSObject = [:]
-        object["__type__"] = "documentReference"
-        object["id"] = reference.documentID
-        object["path"] = reference.path
-        return object
-    }
-
-    private static func createJSObjectFromData(_ data: Data) -> JSObject {
-        var object: JSObject = [:]
-        object["__type__"] = "bytes"
-        object["bytes"] = data.base64EncodedString()
-        return object
-    }
-
-    private static func createJSObjectFromSpecialNumber(_ value: Double) -> JSObject {
-        var object: JSObject = [:]
-        object["__type__"] = "number"
-        if value.isNaN {
-            object["value"] = "NaN"
-        } else if value > 0 {
-            object["value"] = "Infinity"
-        } else {
-            object["value"] = "-Infinity"
-        }
-        return object
-    }
-
     private static func isSpecialNumber(_ number: NSNumber) -> Bool {
         let type = String(cString: number.objCType)
         guard type == "d" || type == "f" else {
@@ -234,46 +275,5 @@ public class FirebaseFirestoreHelper {
         default:
             return Double(value) ?? Double.nan
         }
-    }
-
-    private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
-        return array.map { item -> Any in
-            return createJSValue(value: item) ?? NSNull()
-        }
-    }
-
-    public static func createErrorCode(error: Error?) -> String? {
-        if let error = error as NSError? {
-            if let errorCode = convertErrorCodeToString(errorCode: error.code) {
-                let prefixedErrorCode = "firestore/" + errorCode
-                return prefixedErrorCode
-            } else {
-                return nil
-            }
-        }
-        return nil
-    }
-
-    private static func convertErrorCodeToString(errorCode: Int) -> String? {
-        let errorCodes: [Int: String] = [
-            FirestoreErrorCode.aborted.rawValue: "aborted",
-            FirestoreErrorCode.alreadyExists.rawValue: "already-exists",
-            FirestoreErrorCode.cancelled.rawValue: "cancelled",
-            FirestoreErrorCode.dataLoss.rawValue: "data-loss",
-            FirestoreErrorCode.deadlineExceeded.rawValue: "deadline-exceeded",
-            FirestoreErrorCode.failedPrecondition.rawValue: "failed-precondition",
-            FirestoreErrorCode.internal.rawValue: "internal",
-            FirestoreErrorCode.invalidArgument.rawValue: "invalid-argument",
-            FirestoreErrorCode.notFound.rawValue: "not-found",
-            FirestoreErrorCode.outOfRange.rawValue: "out-of-range",
-            FirestoreErrorCode.permissionDenied.rawValue: "permission-denied",
-            FirestoreErrorCode.resourceExhausted.rawValue: "resource-exhausted",
-            FirestoreErrorCode.unauthenticated.rawValue: "unauthenticated",
-            FirestoreErrorCode.unavailable.rawValue: "unavailable",
-            FirestoreErrorCode.unimplemented.rawValue: "unimplemented",
-            FirestoreErrorCode.unknown.rawValue: "unknown"
-        ]
-
-        return errorCodes[errorCode]
     }
 }

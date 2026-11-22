@@ -39,6 +39,9 @@
 		7C0070512ABC3000000C0F28 /* FirebaseFirestoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070502ABC3000000C0F28 /* FirebaseFirestoreConfig.swift */; };
 		7C0070422ABC97E5000C0F28 /* QueryNonFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070412ABC97E5000C0F28 /* QueryNonFilterConstraint.swift */; };
 		7C0070442ABC9AE9000C0F28 /* QueryFilterConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */; };
+		7C0070612ABC4000000C0F28 /* EnablePersistenceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070602ABC4000000C0F28 /* EnablePersistenceOptions.swift */; };
+		7C0070632ABC4000000C0F28 /* UseEmulatorOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070622ABC4000000C0F28 /* UseEmulatorOptions.swift */; };
+		7C0070652ABC4000000C0F28 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070642ABC4000000C0F28 /* CustomError.swift */; };
 		7C2AE7C92D2DBF7000F40418 /* GetCountFromServerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */; };
 		7C2AE7CB2D2DC2B400F40418 /* GetCountFromServerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */; };
 		7C90A58E2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */; };
@@ -92,6 +95,9 @@
 		7C0070502ABC3000000C0F28 /* FirebaseFirestoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreConfig.swift; sourceTree = "<group>"; };
 		7C0070412ABC97E5000C0F28 /* QueryNonFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryNonFilterConstraint.swift; sourceTree = "<group>"; };
 		7C0070432ABC9AE9000C0F28 /* QueryFilterConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryFilterConstraint.swift; sourceTree = "<group>"; };
+		7C0070602ABC4000000C0F28 /* EnablePersistenceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnablePersistenceOptions.swift; sourceTree = "<group>"; };
+		7C0070622ABC4000000C0F28 /* UseEmulatorOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseEmulatorOptions.swift; sourceTree = "<group>"; };
+		7C0070642ABC4000000C0F28 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCountFromServerOptions.swift; sourceTree = "<group>"; };
 		7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCountFromServerResult.swift; sourceTree = "<group>"; };
 		7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionGroupSnapshotListenerOptions.swift; sourceTree = "<group>"; };
@@ -149,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				7C00700B2ABC1E88000C0F28 /* Protocols */,
+				7C0070662ABC4000000C0F28 /* Enums */,
 				7C00700A2ABC1E7F000C0F28 /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseFirestorePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseFirestore.swift */,
@@ -188,6 +195,14 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		7C0070662ABC4000000C0F28 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7C0070642ABC4000000C0F28 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		7C0070302ABC1FB6000C0F28 /* Options */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +220,8 @@
 				7CF0EFE22C207844004D910D /* WriteBatchOptions.swift */,
 				7CF0EFE42C20784E004D910D /* WriteBatchOperation.swift */,
 				7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */,
+				7C0070602ABC4000000C0F28 /* EnablePersistenceOptions.swift */,
+				7C0070622ABC4000000C0F28 /* UseEmulatorOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -489,6 +506,9 @@
 				7C0070422ABC97E5000C0F28 /* QueryNonFilterConstraint.swift in Sources */,
 				7C0070342ABC1FCD000C0F28 /* SetDocumentOptions.swift in Sources */,
 				7C00701A2ABC1F29000C0F28 /* GetCollectionGroupResult.swift in Sources */,
+				7C0070612ABC4000000C0F28 /* EnablePersistenceOptions.swift in Sources */,
+				7C0070632ABC4000000C0F28 /* UseEmulatorOptions.swift in Sources */,
+				7C0070652ABC4000000C0F28 /* CustomError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,8 +3,8 @@ import FirebaseFirestore
 import Capacitor
 
 @objc public class QueryCompositeFilterConstraint: NSObject, QueryFilterConstraint {
-    private var type: String
     private var queryConstraints: [QueryFilterConstraint]
+    private var type: String
 
     public init(_ compositeFilter: JSObject, firestore: Firestore) {
         self.type = compositeFilter["type"] as? String ?? ""
@@ -24,12 +24,12 @@ import Capacitor
         }
     }
 
-    public func getType() -> String {
-        return type
-    }
-
     public func getConstraints() -> [QueryFilterConstraint] {
         return queryConstraints
+    }
+
+    public func getType() -> String {
+        return type
     }
 
     public func toFilter() -> Filter? {

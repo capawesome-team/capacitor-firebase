@@ -3,26 +3,26 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
-import java.util.HashMap;
-import java.util.Map;
-import org.json.JSONException;
 
 public class WriteBatchOperation {
 
-    private String type;
-    private String reference;
-    private Map<String, Object> data;
+    @NonNull
+    private final JSObject data;
 
     @Nullable
-    private SetOptions options;
+    private final SetOptions options;
 
-    public WriteBatchOperation(@NonNull JSObject operation, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)
-        throws JSONException {
+    @Nullable
+    private final String reference;
+
+    @Nullable
+    private final String type;
+
+    public WriteBatchOperation(@NonNull JSObject operation) {
         this.type = operation.getString("type");
         this.reference = operation.getString("reference");
         JSObject data = operation.getJSObject("data");
-        this.data = data == null ? new HashMap<>() : FirebaseFirestoreHelper.createHashMapFromJSONObject(data, firestore);
+        this.data = data == null ? new JSObject() : data;
 
         if (operation.has("options") && operation.getJSObject("options") != null) {
             JSObject optsObj = operation.getJSObject("options");
@@ -32,19 +32,23 @@ public class WriteBatchOperation {
         }
     }
 
-    public String getType() {
-        return type;
+    @NonNull
+    public JSObject getData() {
+        return data;
     }
 
+    @Nullable
+    public SetOptions getOptions() {
+        return options;
+    }
+
+    @Nullable
     public String getReference() {
         return reference;
     }
 
-    public Map<String, Object> getData() {
-        return data;
-    }
-
-    public SetOptions getOptions() {
-        return options;
+    @Nullable
+    public String getType() {
+        return type;
     }
 }
