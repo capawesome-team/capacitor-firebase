@@ -383,7 +383,6 @@ public class FirebaseFirestorePlugin extends Plugin {
             };
 
             implementation.enableNetwork(callback);
-            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
@@ -407,7 +406,6 @@ public class FirebaseFirestorePlugin extends Plugin {
             };
 
             implementation.disableNetwork(callback);
-            call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
             call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
@@ -638,7 +636,9 @@ public class FirebaseFirestorePlugin extends Plugin {
             }
 
             PluginCall savedCall = this.pluginCallMap.remove(callbackId);
-            savedCall.release(this.bridge);
+            if (savedCall != null) {
+                savedCall.release(this.bridge);
+            }
 
             RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(callbackId);
             implementation.removeSnapshotListener(options);
