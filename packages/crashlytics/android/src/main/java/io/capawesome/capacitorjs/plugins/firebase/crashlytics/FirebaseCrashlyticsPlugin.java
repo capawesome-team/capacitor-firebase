@@ -43,7 +43,7 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
                 call.reject(ERROR_KEY_MISSING);
                 return;
             }
-            boolean hasValue = call.hasOption("value");
+            boolean hasValue = call.getData().has("value");
             if (!hasValue) {
                 call.reject(ERROR_VALUE_MISSING);
                 return;
