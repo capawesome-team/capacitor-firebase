@@ -24,6 +24,35 @@ public class FirebaseMessaging {
         this.notificationManager = (NotificationManager) plugin.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
+    public void register(final EmptyResultCallback resultCallback) {
+        getFirebaseMessagingInstance().setAutoInitEnabled(true);
+        getFirebaseMessagingInstance()
+            .register()
+            .addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    Exception exception = task.getException();
+                    Log.w(FirebaseMessagingPlugin.TAG, "FCM registration failed", exception);
+                    resultCallback.error(exception.getMessage());
+                    return;
+                }
+                resultCallback.success();
+            });
+    }
+
+    public void unregister(final EmptyResultCallback resultCallback) {
+        getFirebaseMessagingInstance()
+            .unregister()
+            .addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    Exception exception = task.getException();
+                    Log.w(FirebaseMessagingPlugin.TAG, "FCM unregistration failed", exception);
+                    resultCallback.error(exception.getMessage());
+                    return;
+                }
+                resultCallback.success();
+            });
+    }
+
     public void getToken(final GetTokenResultCallback resultCallback) {
         getFirebaseMessagingInstance().setAutoInitEnabled(true);
         getFirebaseMessagingInstance()

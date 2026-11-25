@@ -56,19 +56,56 @@ export interface FirebaseMessagingPlugin {
    */
   isSupported(): Promise<IsSupportedResult>;
   /**
+   * Register the app instance with FCM using its Firebase Installation ID (FID).
+   *
+   * The FID is not returned by this method. It is delivered via the
+   * `registered` event instead. Once you receive an FID, upload it to
+   * your application server and remove any legacy FCM token previously
+   * associated with this app instance.
+   *
+   * This method also re-enables FCM auto-init.
+   *
+   * On Android and iOS, Firebase Installation IDs must be enabled first.
+   * Otherwise, this method rejects.
+   *
+   * On Web, this method requests the notification permission if it has not
+   * been granted or denied yet, and rejects if the permission is denied.
+   *
+   * @since 9.0.0
+   */
+  register(options?: RegisterOptions): Promise<void>;
+  /**
+   * Unregister the app instance from FCM by deleting its FID-based registration.
+   * Can be called, for example, when a user signs out.
+   *
+   * On success, the `unregistered` event is emitted with the unregistered FID.
+   *
+   * On Android and iOS, Firebase Installation IDs must be enabled first.
+   * Otherwise, this method rejects.
+   *
+   * @since 9.0.0
+   */
+  unregister(): Promise<void>;
+  /**
    * Register the app to receive push notifications.
    * Returns a FCM token that can be used to send push messages to that Messaging instance.
    *
    * This method also re-enables FCM auto-init.
    *
+   * On Android and iOS, this method rejects once Firebase Installation IDs are enabled.
+   *
    * @since 0.2.2
+   * @deprecated FCM registration tokens are superseded by Firebase Installation IDs (FIDs). Use `register()` and the `registered` event instead.
    */
   getToken(options?: GetTokenOptions): Promise<GetTokenResult>;
   /**
    * Delete the FCM token and unregister the app to stop receiving push notifications.
    * Can be called, for example, when a user signs out.
    *
+   * On Android and iOS, this method rejects once Firebase Installation IDs are enabled.
+   *
    * @since 0.2.2
+   * @deprecated Use `unregister()` instead.
    */
   deleteToken(): Promise<void>;
   /**
@@ -138,11 +175,40 @@ export interface FirebaseMessagingPlugin {
    */
   listChannels(): Promise<ListChannelsResult>;
   /**
+   * Called when the app instance is registered with FCM via its Firebase Installation ID (FID).
+   *
+   * Use the FID to target this app instance from your application server.
+   *
+   * On Android and iOS, this event is only emitted when Firebase Installation IDs are enabled.
+   *
+   * @since 9.0.0
+   */
+  addListener(
+    eventName: 'registered',
+    listenerFunc: RegisteredListener,
+  ): Promise<PluginListenerHandle>;
+  /**
+   * Called when the app instance is unregistered from FCM (the FID is no longer active).
+   *
+   * Use this to remove the FID from your application server.
+   *
+   * On Android and iOS, this event is only emitted when Firebase Installation IDs are enabled.
+   *
+   * @since 9.0.0
+   */
+  addListener(
+    eventName: 'unregistered',
+    listenerFunc: UnregisteredListener,
+  ): Promise<PluginListenerHandle>;
+  /**
    * Called when a new FCM token is received.
    *
    * Only available for Android and iOS.
    *
+   * This event is no longer emitted once Firebase Installation IDs are enabled.
+   *
    * @since 0.2.2
+   * @deprecated Use the `registered` event instead.
    */
   addListener(
     eventName: 'tokenReceived',
@@ -206,7 +272,31 @@ export interface PermissionStatus {
 }
 
 /**
+ * @since 9.0.0
+ */
+export interface RegisterOptions {
+  /**
+   * Your VAPID public key, which is required to register with FCM on the web.
+   *
+   * Only available for Web.
+   *
+   * @since 9.0.0
+   */
+  vapidKey?: string;
+  /**
+   * The service worker registration for receiving push messaging.
+   * If the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location.
+   *
+   * Only available for Web.
+   *
+   * @since 9.0.0
+   */
+  serviceWorkerRegistration?: ServiceWorkerRegistration;
+}
+
+/**
  * @since 0.2.2
+ * @deprecated Use `RegisterOptions` with `register()` instead.
  */
 export interface GetTokenOptions {
   /**
@@ -466,6 +556,20 @@ export type NotificationActionPerformedListener = (
 ) => void;
 
 /**
+ * Callback to receive the registered event.
+ *
+ * @since 9.0.0
+ */
+export type RegisteredListener = (event: RegisteredEvent) => void;
+
+/**
+ * Callback to receive the unregistered event.
+ *
+ * @since 9.0.0
+ */
+export type UnregisteredListener = (event: UnregisteredEvent) => void;
+
+/**
  * Callback to receive the APNs token received event.
  *
  * @since 8.2.0
@@ -502,6 +606,30 @@ export interface NotificationReceivedEvent {
    * @since 0.2.2
    */
   notification: Notification;
+}
+
+/**
+ * @since 9.0.0
+ */
+export interface RegisteredEvent {
+  /**
+   * The Firebase Installation ID (FID) of this app instance.
+   *
+   * @since 9.0.0
+   */
+  installationId: string;
+}
+
+/**
+ * @since 9.0.0
+ */
+export interface UnregisteredEvent {
+  /**
+   * The Firebase Installation ID (FID) that was unregistered.
+   *
+   * @since 9.0.0
+   */
+  installationId: string;
 }
 
 /**
