@@ -158,17 +158,15 @@ export class FirebaseMessagingWeb
 
   private convertNotificationPermissionToPermissionState(
     permission: NotificationPermission,
-  ) {
-    let state: PermissionState = 'prompt';
+  ): PermissionState {
     switch (permission) {
       case 'granted':
-        state = 'granted';
-        break;
       case 'denied':
-        state = 'denied';
-        break;
+        return permission;
+      case 'default':
+      default:
+        return 'prompt';
     }
-    return state;
   }
 
   private throwUnimplementedError(): never {
