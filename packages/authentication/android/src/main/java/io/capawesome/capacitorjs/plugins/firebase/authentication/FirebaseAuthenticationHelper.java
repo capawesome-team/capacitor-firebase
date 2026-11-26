@@ -52,7 +52,7 @@ public class FirebaseAuthenticationHelper {
         if (android != null) {
             builder.setAndroidPackageName(
                 android.getString("packageName"),
-                android.getBoolean("installApp"),
+                android.getBoolean("installApp", false),
                 android.getString("minimumVersion")
             );
         }

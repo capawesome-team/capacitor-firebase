@@ -1,9 +1,9 @@
 import Foundation
 
-@objc class RuntimeError: NSObject, Error {
-    let localizedDescription: String
+@objc class RuntimeError: NSObject, LocalizedError {
+    let errorDescription: String?
 
     init(_ description: String) {
-        self.localizedDescription = description
+        self.errorDescription = description
     }
 }

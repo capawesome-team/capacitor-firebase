@@ -434,7 +434,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            Long timeout = call.getLong("timeout", 60L);
+            Long timeout = call.getInt("timeout", 60).longValue();
             LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode, timeout);
 
             implementation.linkWithPhoneNumber(options);
@@ -1052,6 +1052,8 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         config.setSkipNativeAuth(skipNativeAuth);
         String[] providers = getConfig().getArray("providers", config.getProviders());
         config.setProviders(providers);
+        String authDomain = getConfig().getString("authDomain", config.getAuthDomain());
+        config.setAuthDomain(authDomain);
 
         return config;
     }
