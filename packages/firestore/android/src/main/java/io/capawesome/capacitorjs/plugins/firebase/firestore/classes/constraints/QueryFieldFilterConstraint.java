@@ -17,7 +17,7 @@ public class QueryFieldFilterConstraint implements QueryFilterConstraint {
     @NonNull
     private String opStr;
 
-    @NonNull
+    @Nullable
     private Object value;
 
     public QueryFieldFilterConstraint(JSObject queryConstraint, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)

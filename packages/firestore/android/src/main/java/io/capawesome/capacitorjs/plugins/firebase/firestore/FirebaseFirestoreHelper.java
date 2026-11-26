@@ -68,9 +68,10 @@ public class FirebaseFirestoreHelper {
         return object;
     }
 
+    @Nullable
     public static Object createObjectFromJSValue(Object value, @NonNull com.google.firebase.firestore.FirebaseFirestore firestore)
         throws JSONException {
-        if (value.toString().equals("null")) {
+        if (value == JSONObject.NULL) {
             return null;
         } else if (value instanceof JSONObject) {
             JSONObject jsonObject = (JSONObject) value;
@@ -158,19 +159,7 @@ public class FirebaseFirestoreHelper {
     ) throws JSONException {
         ArrayList<Object> arrayList = new ArrayList<>();
         for (int x = 0; x < array.length(); x++) {
-            Object value = array.get(x);
-            if (value instanceof JSONObject) {
-                JSONObject jsonObject = (JSONObject) value;
-                Object nativeValue = createNativeValueFromMarker(jsonObject, firestore);
-                if (nativeValue != null) {
-                    value = nativeValue;
-                } else {
-                    value = createHashMapFromJSONObject(jsonObject, firestore);
-                }
-            } else if (value instanceof JSONArray) {
-                value = createArrayListFromJSONArray((JSONArray) value, firestore);
-            }
-            arrayList.add(value);
+            arrayList.add(createObjectFromJSValue(array.get(x), firestore));
         }
         return arrayList;
     }
