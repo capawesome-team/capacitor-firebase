@@ -20,6 +20,8 @@
 		7C400FB22C22A3EB007AA725 /* CallByNameOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB12C22A3EB007AA725 /* CallByNameOptions.swift */; };
 		7C400FB42C22A3F6007AA725 /* CallByUrlOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB32C22A3F6007AA725 /* CallByUrlOptions.swift */; };
 		7C400FB62C22A401007AA725 /* FirebaseFunctionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB52C22A401007AA725 /* FirebaseFunctionsHelper.swift */; };
+		7C400FB72C22A410007AA725 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB82C22A410007AA725 /* CustomError.swift */; };
+		7C400FBA2C22A41A007AA725 /* UseEmulatorOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FBB2C22A41A007AA725 /* UseEmulatorOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		7C400FB12C22A3EB007AA725 /* CallByNameOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallByNameOptions.swift; sourceTree = "<group>"; };
 		7C400FB32C22A3F6007AA725 /* CallByUrlOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallByUrlOptions.swift; sourceTree = "<group>"; };
 		7C400FB52C22A401007AA725 /* FirebaseFunctionsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsHelper.swift; sourceTree = "<group>"; };
+		7C400FB82C22A410007AA725 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7C400FBB2C22A41A007AA725 /* UseEmulatorOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseEmulatorOptions.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				7C400FAA2C22A3A4007AA725 /* Protocols */,
+				7C400FB92C22A410007AA725 /* Enums */,
 				7C400FA72C22A391007AA725 /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseFunctionsPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseFunctions.swift */,
@@ -142,6 +147,7 @@
 				7C400FAF2C22A3E2007AA725 /* CallOptions.swift */,
 				7C400FB12C22A3EB007AA725 /* CallByNameOptions.swift */,
 				7C400FB32C22A3F6007AA725 /* CallByUrlOptions.swift */,
+				7C400FBB2C22A41A007AA725 /* UseEmulatorOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -152,6 +158,14 @@
 				7C400FAB2C22A3B4007AA725 /* Result.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7C400FB92C22A410007AA725 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7C400FB82C22A410007AA725 /* CustomError.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		8C8E7744173064A9F6D438E3 /* Pods */ = {
@@ -377,6 +391,8 @@
 				7C400FAE2C22A3CA007AA725 /* CallResult.swift in Sources */,
 				7C400FB42C22A3F6007AA725 /* CallByUrlOptions.swift in Sources */,
 				7C400FB62C22A401007AA725 /* FirebaseFunctionsHelper.swift in Sources */,
+				7C400FB72C22A410007AA725 /* CustomError.swift in Sources */,
+				7C400FBA2C22A41A007AA725 /* UseEmulatorOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

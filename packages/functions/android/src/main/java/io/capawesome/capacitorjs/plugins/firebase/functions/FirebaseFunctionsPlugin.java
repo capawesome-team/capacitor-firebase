@@ -1,13 +1,18 @@
 package io.capawesome.capacitorjs.plugins.firebase.functions;
 
-import com.getcapacitor.JSObject;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import io.capawesome.capacitorjs.plugins.firebase.functions.classes.CustomException;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByNameOptions;
 import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.CallByUrlOptions;
+import io.capawesome.capacitorjs.plugins.firebase.functions.classes.options.UseEmulatorOptions;
+import io.capawesome.capacitorjs.plugins.firebase.functions.classes.results.CallResult;
+import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.Result;
 
@@ -15,99 +20,101 @@ import io.capawesome.capacitorjs.plugins.firebase.functions.interfaces.Result;
 public class FirebaseFunctionsPlugin extends Plugin {
 
     public static final String TAG = "FirebaseFunctions";
-    public static final String ERROR_NAME_MISSING = "name must be provided.";
-    public static final String ERROR_URL_MISSING = "url must be provided.";
-    public static final String ERROR_HOST_MISSING = "host must be provided.";
 
     private FirebaseFunctions implementation;
-
-    public void load() {
-        implementation = new FirebaseFunctions(this);
-    }
 
     @PluginMethod
     public void callByName(PluginCall call) {
         try {
-            JSObject json = call.getData();
-            String name = json.getString("name", null);
-            if (name == null) {
-                call.reject(ERROR_NAME_MISSING);
-                return;
-            }
-            String region = json.getString("region", null);
-            Object data = json.opt("data");
-            Long timeout = json.has("timeout") ? json.getLong("timeout") : null;
-
-            CallByNameOptions options = new CallByNameOptions(name, region, data, timeout);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            CallByNameOptions options = new CallByNameOptions(call);
+            NonEmptyResultCallback<CallResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull CallResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFunctionsHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.callByName(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void callByUrl(PluginCall call) {
         try {
-            JSObject json = call.getData();
-            String url = json.getString("url");
-            if (url == null) {
-                call.reject(ERROR_URL_MISSING);
-                return;
-            }
-            Object data = json.opt("data");
-            Long timeout = json.has("timeout") ? json.getLong("timeout") : null;
-
-            CallByUrlOptions options = new CallByUrlOptions(url, data, timeout);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            CallByUrlOptions options = new CallByUrlOptions(call);
+            NonEmptyResultCallback<CallResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull CallResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFunctionsHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.callByUrl(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
+    }
+
+    public void load() {
+        implementation = new FirebaseFunctions(this);
     }
 
     @PluginMethod
     public void useEmulator(PluginCall call) {
         try {
-            String host = call.getString("host");
-            if (host == null) {
-                call.reject(ERROR_HOST_MISSING);
-                return;
-            }
-            int port = call.getInt("port", 5001);
-            String regionOrCustomDomain = call.getString("regionOrCustomDomain", null);
+            UseEmulatorOptions options = new UseEmulatorOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
 
-            implementation.useEmulator(host, port, regionOrCustomDomain);
-            call.resolve();
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.useEmulator(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
+        }
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException
+            ? ((CustomException) exception).getCode()
+            : FirebaseFunctionsHelper.createErrorCode(exception);
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
+    }
+
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
         }
     }
 }
