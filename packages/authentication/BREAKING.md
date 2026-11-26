@@ -4,12 +4,26 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
+
+## Version 9.x.x
+
+### `authDomain` configuration option
+
+The `authDomain` configuration option is now applied on Android and iOS. Before, the option was ignored and the default domain of the Firebase project was used.
+
+If your Capacitor configuration contains `authDomain`, the sign-in pages of the web based providers (for example GitHub, Microsoft, Twitter, Yahoo and OpenID Connect) now open on that domain. Check the value before you upgrade:
+
+- It must be the host name without a scheme, for example `auth.example.com`.
+- It must be an authorized domain of your Firebase project and be set up as a custom auth domain.
+
+Remove the option if you want to keep the default domain.
 
 ## Version 8.x.x
 
