@@ -17,6 +17,7 @@ public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
     public let tag = "FirebaseFunctions"
     public let errorNameMissing = "name must be provided."
     public let errorHostMissing = "host must be provided."
+    public let errorUrlInvalid = "url is invalid."
     private var implementation: FirebaseFunctions?
 
     override public func load() {
@@ -37,7 +38,7 @@ public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
         implementation?.callByName(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFunctionsHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
@@ -54,12 +55,15 @@ public class FirebaseFunctionsPlugin: CAPPlugin, CAPBridgedPlugin {
         let data = call.getValue("data")
         let timeout = call.getInt("timeout")
 
-        let options = CallByUrlOptions(url: url, data: data, timeout: timeout)
+        guard let options = CallByUrlOptions(url: url, data: data, timeout: timeout) else {
+            call.reject(errorUrlInvalid)
+            return
+        }
 
         implementation?.callByUrl(options, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
+                call.reject(error.localizedDescription, FirebaseFunctionsHelper.createErrorCode(error: error))
                 return
             }
             if let result = result?.toJSObject() as? JSObject {
