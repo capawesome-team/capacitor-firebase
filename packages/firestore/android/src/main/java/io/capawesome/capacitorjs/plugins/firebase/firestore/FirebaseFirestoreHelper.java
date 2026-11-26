@@ -63,9 +63,7 @@ public class FirebaseFirestoreHelper {
         }
         JSObject object = new JSObject();
         for (String key : map.keySet()) {
-            Object value = createJSValueFromNative(map.get(key));
-            // JSONObject.put removes the key when the value is null.
-            object.put(key, value == null ? JSONObject.NULL : value);
+            object.put(key, createJSValueFromNative(map.get(key)));
         }
         return object;
     }
