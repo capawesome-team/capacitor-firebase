@@ -81,7 +81,7 @@ public class OAuthProviderHandler {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE);
             return;
         }
-        FirebaseUser user = pluginImplementation.getCurrentUser();
+        FirebaseUser user = pluginImplementation.getFirebaseAuthInstance().getCurrentUser();
         if (user == null) {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
             return;

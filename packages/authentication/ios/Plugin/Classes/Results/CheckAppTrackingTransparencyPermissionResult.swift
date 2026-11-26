@@ -8,7 +8,7 @@ import AppTrackingTransparency
         self.status = status
     }
 
-    func toJSObject() -> AnyObject {
+    public func toJSObject() -> AnyObject {
         var result = JSObject()
         result["status"] = convertStatusToPermissionStatus(status)
         return result as AnyObject

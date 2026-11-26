@@ -23,7 +23,6 @@
 		7C461AFC29EC3B8E00DD31E9 /* SignInResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */; };
 		7C461AFE29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */; };
 		7C461B0529EC430D00DD31E9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461B0429EC430D00DD31E9 /* Result.swift */; };
-		7C461B0829EC43ED00DD31E9 /* ResultCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461B0729EC43ED00DD31E9 /* ResultCallback.swift */; };
 		7C461B0A29EC486000DD31E9 /* GetIdTokenResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C461B0929EC486000DD31E9 /* GetIdTokenResult.swift */; };
 		7C579FFB29F3FBD000B7778B /* SignInOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C579FFA29F3FBD000B7778B /* SignInOptions.swift */; };
 		7C579FFD29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C579FFC29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift */; };
@@ -38,6 +37,33 @@
 		7CE70B7526D1AA220025E915 /* FacebookAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE70B7426D1AA220025E915 /* FacebookAuthProviderHandler.swift */; };
 		82E4FEA02E78ACE100EC9C3E /* GetIdTokenResultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4FE9F2E78ACE100EC9C3E /* GetIdTokenResultResult.swift */; };
 		D8872AD52913A78800CF6CED /* GameCenterAuthProviderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */; };
+		7CA1000012EE0000000F1A01 /* ApplyActionCodeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000002EE0000000F1A01 /* ApplyActionCodeOptions.swift */; };
+		7CA1000032EE0000000F1A01 /* ConfirmPasswordResetOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000022EE0000000F1A01 /* ConfirmPasswordResetOptions.swift */; };
+		7CA1000052EE0000000F1A01 /* CreateUserWithEmailAndPasswordOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000042EE0000000F1A01 /* CreateUserWithEmailAndPasswordOptions.swift */; };
+		7CA1000072EE0000000F1A01 /* GetIdTokenOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000062EE0000000F1A01 /* GetIdTokenOptions.swift */; };
+		7CA1000092EE0000000F1A01 /* GetIdTokenResultOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000082EE0000000F1A01 /* GetIdTokenResultOptions.swift */; };
+		7CA10000B2EE0000000F1A01 /* IsSignInWithEmailLinkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10000A2EE0000000F1A01 /* IsSignInWithEmailLinkOptions.swift */; };
+		7CA10000D2EE0000000F1A01 /* LinkWithEmailAndPasswordOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10000C2EE0000000F1A01 /* LinkWithEmailAndPasswordOptions.swift */; };
+		7CA10000F2EE0000000F1A01 /* LinkWithEmailLinkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10000E2EE0000000F1A01 /* LinkWithEmailLinkOptions.swift */; };
+		7CA1000112EE0000000F1A01 /* SendSignInLinkToEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000102EE0000000F1A01 /* SendSignInLinkToEmailOptions.swift */; };
+		7CA1000132EE0000000F1A01 /* SetLanguageCodeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000122EE0000000F1A01 /* SetLanguageCodeOptions.swift */; };
+		7CA1000152EE0000000F1A01 /* SetTenantIdOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000142EE0000000F1A01 /* SetTenantIdOptions.swift */; };
+		7CA1000172EE0000000F1A01 /* SignInWithCustomTokenOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000162EE0000000F1A01 /* SignInWithCustomTokenOptions.swift */; };
+		7CA1000192EE0000000F1A01 /* SignInWithEmailAndPasswordOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000182EE0000000F1A01 /* SignInWithEmailAndPasswordOptions.swift */; };
+		7CA10001B2EE0000000F1A01 /* SignInWithEmailLinkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10001A2EE0000000F1A01 /* SignInWithEmailLinkOptions.swift */; };
+		7CA10001D2EE0000000F1A01 /* UnlinkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10001C2EE0000000F1A01 /* UnlinkOptions.swift */; };
+		7CA10001F2EE0000000F1A01 /* UpdateEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10001E2EE0000000F1A01 /* UpdateEmailOptions.swift */; };
+		7CA1000212EE0000000F1A01 /* UpdatePasswordOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000202EE0000000F1A01 /* UpdatePasswordOptions.swift */; };
+		7CA1000232EE0000000F1A01 /* UpdateProfileOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000222EE0000000F1A01 /* UpdateProfileOptions.swift */; };
+		7CA1000252EE0000000F1A01 /* UseEmulatorOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000242EE0000000F1A01 /* UseEmulatorOptions.swift */; };
+		7CA1000272EE0000000F1A01 /* VerifyBeforeUpdateEmailOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000262EE0000000F1A01 /* VerifyBeforeUpdateEmailOptions.swift */; };
+		7CA1000292EE0000000F1A01 /* GetCurrentUserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000282EE0000000F1A01 /* GetCurrentUserResult.swift */; };
+		7CA10002B2EE0000000F1A01 /* GetTenantIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10002A2EE0000000F1A01 /* GetTenantIdResult.swift */; };
+		7CA10002D2EE0000000F1A01 /* IsSignInWithEmailLinkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10002C2EE0000000F1A01 /* IsSignInWithEmailLinkResult.swift */; };
+		7CA10002F2EE0000000F1A01 /* UnlinkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA10002E2EE0000000F1A01 /* UnlinkResult.swift */; };
+		7CA1000312EE0000000F1A01 /* AuthStateChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000302EE0000000F1A01 /* AuthStateChangeEvent.swift */; };
+		7CA1000332EE0000000F1A01 /* IdTokenChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000322EE0000000F1A01 /* IdTokenChangeEvent.swift */; };
+		7CA1000352EE0000000F1A01 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000342EE0000000F1A01 /* CustomError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +96,6 @@
 		7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResult.swift; sourceTree = "<group>"; };
 		7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmVerificationCodeOptions.swift; sourceTree = "<group>"; };
 		7C461B0429EC430D00DD31E9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		7C461B0729EC43ED00DD31E9 /* ResultCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCallback.swift; sourceTree = "<group>"; };
 		7C461B0929EC486000DD31E9 /* GetIdTokenResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIdTokenResult.swift; sourceTree = "<group>"; };
 		7C579FFA29F3FBD000B7778B /* SignInOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOptions.swift; sourceTree = "<group>"; };
 		7C579FFC29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithPhoneNumberOptions.swift; sourceTree = "<group>"; };
@@ -89,6 +114,33 @@
 		D8872AD42913A78800CF6CED /* GameCenterAuthProviderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterAuthProviderHandler.swift; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CA1000002EE0000000F1A01 /* ApplyActionCodeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyActionCodeOptions.swift; sourceTree = "<group>"; };
+		7CA1000022EE0000000F1A01 /* ConfirmPasswordResetOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPasswordResetOptions.swift; sourceTree = "<group>"; };
+		7CA1000042EE0000000F1A01 /* CreateUserWithEmailAndPasswordOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserWithEmailAndPasswordOptions.swift; sourceTree = "<group>"; };
+		7CA1000062EE0000000F1A01 /* GetIdTokenOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIdTokenOptions.swift; sourceTree = "<group>"; };
+		7CA1000082EE0000000F1A01 /* GetIdTokenResultOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIdTokenResultOptions.swift; sourceTree = "<group>"; };
+		7CA10000A2EE0000000F1A01 /* IsSignInWithEmailLinkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsSignInWithEmailLinkOptions.swift; sourceTree = "<group>"; };
+		7CA10000C2EE0000000F1A01 /* LinkWithEmailAndPasswordOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkWithEmailAndPasswordOptions.swift; sourceTree = "<group>"; };
+		7CA10000E2EE0000000F1A01 /* LinkWithEmailLinkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkWithEmailLinkOptions.swift; sourceTree = "<group>"; };
+		7CA1000102EE0000000F1A01 /* SendSignInLinkToEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSignInLinkToEmailOptions.swift; sourceTree = "<group>"; };
+		7CA1000122EE0000000F1A01 /* SetLanguageCodeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLanguageCodeOptions.swift; sourceTree = "<group>"; };
+		7CA1000142EE0000000F1A01 /* SetTenantIdOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTenantIdOptions.swift; sourceTree = "<group>"; };
+		7CA1000162EE0000000F1A01 /* SignInWithCustomTokenOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithCustomTokenOptions.swift; sourceTree = "<group>"; };
+		7CA1000182EE0000000F1A01 /* SignInWithEmailAndPasswordOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithEmailAndPasswordOptions.swift; sourceTree = "<group>"; };
+		7CA10001A2EE0000000F1A01 /* SignInWithEmailLinkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithEmailLinkOptions.swift; sourceTree = "<group>"; };
+		7CA10001C2EE0000000F1A01 /* UnlinkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlinkOptions.swift; sourceTree = "<group>"; };
+		7CA10001E2EE0000000F1A01 /* UpdateEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailOptions.swift; sourceTree = "<group>"; };
+		7CA1000202EE0000000F1A01 /* UpdatePasswordOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordOptions.swift; sourceTree = "<group>"; };
+		7CA1000222EE0000000F1A01 /* UpdateProfileOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileOptions.swift; sourceTree = "<group>"; };
+		7CA1000242EE0000000F1A01 /* UseEmulatorOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseEmulatorOptions.swift; sourceTree = "<group>"; };
+		7CA1000262EE0000000F1A01 /* VerifyBeforeUpdateEmailOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyBeforeUpdateEmailOptions.swift; sourceTree = "<group>"; };
+		7CA1000282EE0000000F1A01 /* GetCurrentUserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentUserResult.swift; sourceTree = "<group>"; };
+		7CA10002A2EE0000000F1A01 /* GetTenantIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTenantIdResult.swift; sourceTree = "<group>"; };
+		7CA10002C2EE0000000F1A01 /* IsSignInWithEmailLinkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsSignInWithEmailLinkResult.swift; sourceTree = "<group>"; };
+		7CA10002E2EE0000000F1A01 /* UnlinkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlinkResult.swift; sourceTree = "<group>"; };
+		7CA1000302EE0000000F1A01 /* AuthStateChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateChangeEvent.swift; sourceTree = "<group>"; };
+		7CA1000322EE0000000F1A01 /* IdTokenChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenChangeEvent.swift; sourceTree = "<group>"; };
+		7CA1000342EE0000000F1A01 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +196,7 @@
 				7CC1EA4E26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift */,
 				7CD588EF2688B4EF002BDF65 /* FirebaseAuthenticationHelper.swift */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
+				7CA2000012EE0000000F1A01 /* Enums */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -164,6 +217,26 @@
 				7C939DAC2C208CD30059B145 /* RevokeAccessTokenOptions.swift */,
 				7C20942D2C2D8FC400C75248 /* SendEmailVerificationOptions.swift */,
 				7C20942F2C2D8FD100C75248 /* SendPasswordResetEmailOptions.swift */,
+				7CA1000002EE0000000F1A01 /* ApplyActionCodeOptions.swift */,
+				7CA1000022EE0000000F1A01 /* ConfirmPasswordResetOptions.swift */,
+				7CA1000042EE0000000F1A01 /* CreateUserWithEmailAndPasswordOptions.swift */,
+				7CA1000062EE0000000F1A01 /* GetIdTokenOptions.swift */,
+				7CA1000082EE0000000F1A01 /* GetIdTokenResultOptions.swift */,
+				7CA10000A2EE0000000F1A01 /* IsSignInWithEmailLinkOptions.swift */,
+				7CA10000C2EE0000000F1A01 /* LinkWithEmailAndPasswordOptions.swift */,
+				7CA10000E2EE0000000F1A01 /* LinkWithEmailLinkOptions.swift */,
+				7CA1000102EE0000000F1A01 /* SendSignInLinkToEmailOptions.swift */,
+				7CA1000122EE0000000F1A01 /* SetLanguageCodeOptions.swift */,
+				7CA1000142EE0000000F1A01 /* SetTenantIdOptions.swift */,
+				7CA1000162EE0000000F1A01 /* SignInWithCustomTokenOptions.swift */,
+				7CA1000182EE0000000F1A01 /* SignInWithEmailAndPasswordOptions.swift */,
+				7CA10001A2EE0000000F1A01 /* SignInWithEmailLinkOptions.swift */,
+				7CA10001C2EE0000000F1A01 /* UnlinkOptions.swift */,
+				7CA10001E2EE0000000F1A01 /* UpdateEmailOptions.swift */,
+				7CA1000202EE0000000F1A01 /* UpdatePasswordOptions.swift */,
+				7CA1000222EE0000000F1A01 /* UpdateProfileOptions.swift */,
+				7CA1000242EE0000000F1A01 /* UseEmulatorOptions.swift */,
+				7CA1000262EE0000000F1A01 /* VerifyBeforeUpdateEmailOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -173,6 +246,12 @@
 			children = (
 				7C1F76142D83359100386F35 /* CheckAppTrackingTransparencyPermissionResult.swift */,
 				7C0C050C2BAD80EC004252BE /* FetchSignInMethodsForEmailResult.swift */,
+				7C461B0929EC486000DD31E9 /* GetIdTokenResult.swift */,
+				82E4FE9F2E78ACE100EC9C3E /* GetIdTokenResultResult.swift */,
+				7CA1000282EE0000000F1A01 /* GetCurrentUserResult.swift */,
+				7CA10002A2EE0000000F1A01 /* GetTenantIdResult.swift */,
+				7CA10002C2EE0000000F1A01 /* IsSignInWithEmailLinkResult.swift */,
+				7CA10002E2EE0000000F1A01 /* UnlinkResult.swift */,
 			);
 			path = Results;
 			sourceTree = "<group>";
@@ -180,17 +259,15 @@
 		7C461AF829EC356000DD31E9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				82E4FE9F2E78ACE100EC9C3E /* GetIdTokenResultResult.swift */,
 				7C0C05092BAD80CF004252BE /* Results */,
 				7C0C05082BAD80BF004252BE /* Options */,
 				7C461AFB29EC3B8E00DD31E9 /* SignInResult.swift */,
 				7C461AFD29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift */,
-				7C461B0729EC43ED00DD31E9 /* ResultCallback.swift */,
-				7C461B0929EC486000DD31E9 /* GetIdTokenResult.swift */,
 				7C579FFA29F3FBD000B7778B /* SignInOptions.swift */,
 				7C579FFC29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift */,
 				7C579FFE29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift */,
 				7C57A00029F4023E00B7778B /* RuntimeError.swift */,
+				7CA2000022EE0000000F1A01 /* Events */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -235,6 +312,23 @@
 				F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7CA2000012EE0000000F1A01 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7CA1000342EE0000000F1A01 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7CA2000022EE0000000F1A01 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				7CA1000302EE0000000F1A01 /* AuthStateChangeEvent.swift */,
+				7CA1000322EE0000000F1A01 /* IdTokenChangeEvent.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -459,7 +553,6 @@
 				7CD588F42688B6A7002BDF65 /* AppleAuthProviderHandler.swift in Sources */,
 				7CC1EA4F26B41A370022F1B9 /* FirebaseAuthenticationConfig.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseAuthentication.swift in Sources */,
-				7C461B0829EC43ED00DD31E9 /* ResultCallback.swift in Sources */,
 				7C461AFE29EC3B9C00DD31E9 /* ConfirmVerificationCodeOptions.swift in Sources */,
 				7C579FFD29F3FC3F00B7778B /* SignInWithPhoneNumberOptions.swift in Sources */,
 				7C579FFF29F3FCF200B7778B /* LinkWithPhoneNumberOptions.swift in Sources */,
@@ -469,6 +562,33 @@
 				7C20942E2C2D8FC400C75248 /* SendEmailVerificationOptions.swift in Sources */,
 				7C57A00129F4023E00B7778B /* RuntimeError.swift in Sources */,
 				7C1F76152D83359D00386F35 /* CheckAppTrackingTransparencyPermissionResult.swift in Sources */,
+				7CA1000012EE0000000F1A01 /* ApplyActionCodeOptions.swift in Sources */,
+				7CA1000032EE0000000F1A01 /* ConfirmPasswordResetOptions.swift in Sources */,
+				7CA1000052EE0000000F1A01 /* CreateUserWithEmailAndPasswordOptions.swift in Sources */,
+				7CA1000072EE0000000F1A01 /* GetIdTokenOptions.swift in Sources */,
+				7CA1000092EE0000000F1A01 /* GetIdTokenResultOptions.swift in Sources */,
+				7CA10000B2EE0000000F1A01 /* IsSignInWithEmailLinkOptions.swift in Sources */,
+				7CA10000D2EE0000000F1A01 /* LinkWithEmailAndPasswordOptions.swift in Sources */,
+				7CA10000F2EE0000000F1A01 /* LinkWithEmailLinkOptions.swift in Sources */,
+				7CA1000112EE0000000F1A01 /* SendSignInLinkToEmailOptions.swift in Sources */,
+				7CA1000132EE0000000F1A01 /* SetLanguageCodeOptions.swift in Sources */,
+				7CA1000152EE0000000F1A01 /* SetTenantIdOptions.swift in Sources */,
+				7CA1000172EE0000000F1A01 /* SignInWithCustomTokenOptions.swift in Sources */,
+				7CA1000192EE0000000F1A01 /* SignInWithEmailAndPasswordOptions.swift in Sources */,
+				7CA10001B2EE0000000F1A01 /* SignInWithEmailLinkOptions.swift in Sources */,
+				7CA10001D2EE0000000F1A01 /* UnlinkOptions.swift in Sources */,
+				7CA10001F2EE0000000F1A01 /* UpdateEmailOptions.swift in Sources */,
+				7CA1000212EE0000000F1A01 /* UpdatePasswordOptions.swift in Sources */,
+				7CA1000232EE0000000F1A01 /* UpdateProfileOptions.swift in Sources */,
+				7CA1000252EE0000000F1A01 /* UseEmulatorOptions.swift in Sources */,
+				7CA1000272EE0000000F1A01 /* VerifyBeforeUpdateEmailOptions.swift in Sources */,
+				7CA1000292EE0000000F1A01 /* GetCurrentUserResult.swift in Sources */,
+				7CA10002B2EE0000000F1A01 /* GetTenantIdResult.swift in Sources */,
+				7CA10002D2EE0000000F1A01 /* IsSignInWithEmailLinkResult.swift in Sources */,
+				7CA10002F2EE0000000F1A01 /* UnlinkResult.swift in Sources */,
+				7CA1000312EE0000000F1A01 /* AuthStateChangeEvent.swift in Sources */,
+				7CA1000332EE0000000F1A01 /* IdTokenChangeEvent.swift in Sources */,
+				7CA1000352EE0000000F1A01 /* CustomError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
