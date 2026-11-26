@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthProvider;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthentication;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
@@ -91,9 +92,12 @@ public class AppleAuthProviderHandler {
             call.reject(FirebaseAuthenticationPlugin.ERROR_NO_BROWSER_AVAILABLE);
             return;
         }
-        pluginImplementation
-            .getCurrentUser()
-            .startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
+        FirebaseUser user = pluginImplementation.getCurrentUser();
+        if (user == null) {
+            call.reject(FirebaseAuthenticationPlugin.ERROR_NO_USER_SIGNED_IN);
+            return;
+        }
+        user.startActivityForLinkWithProvider(pluginImplementation.getPlugin().getActivity(), provider.build())
             .addOnSuccessListener(authResult -> pluginImplementation.handleSuccessfulLink(call, authResult, null, currentNonce, null, null))
             .addOnFailureListener(exception -> pluginImplementation.handleFailedLink(call, null, exception));
     }

@@ -434,7 +434,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 return;
             }
             boolean resendCode = call.getBoolean("resendCode", false);
-            Long timeout = call.getLong("timeout", 60L);
+            Long timeout = call.getInt("timeout", 60).longValue();
             LinkWithPhoneNumberOptions options = new LinkWithPhoneNumberOptions(phoneNumber, resendCode, timeout);
 
             implementation.linkWithPhoneNumber(options);
