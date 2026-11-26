@@ -4,9 +4,27 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
+
+## Version 9.x.x
+
+### Null values on Android
+
+On Android, a field with the value `null` is now part of the data when a document is read. Before, such a field was missing. iOS and Web have always returned it. This applies to `getDocument`, `getCollection`, `getCollectionGroup` and the snapshot listeners, and also to fields in nested maps.
+
+```typescript
+// Document in Firestore: { name: 'Alice', nickname: null }
+const { snapshot } = await FirebaseFirestore.getDocument({ reference: 'users/1' });
+// Before on Android: { name: 'Alice' }
+// Now on all platforms: { name: 'Alice', nickname: null }
+```
+
+The same applies to a server timestamp that the server has not confirmed yet. A snapshot listener event for such a pending write now contains the field with the value `null`. Before, the field was missing in that event.
+
+Check code that treats a missing field and a `null` field differently, for example `data.nickname === undefined`, `'nickname' in data` or `{ ...defaults, ...data }`.
 
 ## Version 8.x.x
 
