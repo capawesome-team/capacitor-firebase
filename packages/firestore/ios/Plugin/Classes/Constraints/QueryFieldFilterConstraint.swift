@@ -3,44 +3,59 @@ import Capacitor
 import FirebaseFirestore
 
 @objc public class QueryFieldFilterConstraint: NSObject, QueryFilterConstraint {
-    private var fieldPath: String
+    private var fieldPath: String?
     private var opStr: String
     private var value: Any
 
     public init(_ queryConstraint: JSObject, firestore: Firestore) {
-        self.fieldPath = queryConstraint["fieldPath"] as? String ?? ""
+        self.fieldPath = queryConstraint["fieldPath"] as? String
         self.opStr = queryConstraint["opStr"] as? String ?? ""
         let rawValue = queryConstraint["value"] as Any
         self.value = FirebaseFirestoreHelper.createNativeValue(rawValue, firestore: firestore)
     }
 
-    public func toFilter() -> Filter? {
+    public func toFilter() throws -> Filter? {
         switch self.opStr {
         case "<":
-            return Filter.whereField(self.fieldPath, isLessThan: self.value)
+            return try Filter.whereField(getFieldPath(), isLessThan: self.value)
         case "<=":
-            return Filter.whereField(self.fieldPath, isLessThanOrEqualTo: self.value)
+            return try Filter.whereField(getFieldPath(), isLessThanOrEqualTo: self.value)
         case "==":
-            return Filter.whereField(self.fieldPath, isEqualTo: self.value)
+            return try Filter.whereField(getFieldPath(), isEqualTo: self.value)
         case ">=":
-            return Filter.whereField(self.fieldPath, isGreaterOrEqualTo: self.value)
+            return try Filter.whereField(getFieldPath(), isGreaterOrEqualTo: self.value)
         case ">":
-            return Filter.whereField(self.fieldPath, isGreaterThan: self.value)
+            return try Filter.whereField(getFieldPath(), isGreaterThan: self.value)
         case "!=":
-            return Filter.whereField(self.fieldPath, isNotEqualTo: self.value)
+            return try Filter.whereField(getFieldPath(), isNotEqualTo: self.value)
         case "array-contains":
-            return Filter.whereField(self.fieldPath, arrayContains: self.value)
+            return try Filter.whereField(getFieldPath(), arrayContains: self.value)
         case "array-contains-any":
-            // swiftlint:disable force_cast
-            return Filter.whereField(self.fieldPath, arrayContainsAny: self.value as! [Any])
+            return try Filter.whereField(getFieldPath(), arrayContainsAny: getValueAsNonEmptyArray())
         case "in":
-            // swiftlint:disable force_cast
-            return Filter.whereField(self.fieldPath, in: self.value as! [Any])
+            return try Filter.whereField(getFieldPath(), in: getValueAsNonEmptyArray())
         case "not-in":
-            // swiftlint:disable force_cast
-            return Filter.whereField(self.fieldPath, notIn: self.value as! [Any])
+            return try Filter.whereField(getFieldPath(), notIn: getValueAsNonEmptyArray())
         default:
             return nil
         }
+    }
+
+    private func getFieldPath() throws -> String {
+        guard let fieldPath = self.fieldPath else {
+            throw CustomError.fieldPathMissing
+        }
+        guard FirebaseFirestoreHelper.isValidFieldPath(fieldPath) else {
+            throw CustomError.fieldPathInvalid
+        }
+        return fieldPath
+    }
+
+    private func getValueAsNonEmptyArray() throws -> [Any] {
+        // The SDK takes only a non-empty array for these operators.
+        guard let values = self.value as? [Any], !values.isEmpty else {
+            throw CustomError.valueInvalid
+        }
+        return values
     }
 }

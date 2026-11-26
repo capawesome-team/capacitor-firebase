@@ -8,10 +8,10 @@ import Capacitor
         self.operations = try WriteBatchOptions.getOperationsFromCall(call)
     }
 
-    private static func createWriteBatchOperationArrayFromJSArray(_ operations: [JSObject]) -> [WriteBatchOperation] {
+    private static func createWriteBatchOperationArrayFromJSArray(_ operations: [JSObject]) throws -> [WriteBatchOperation] {
         var writeBatchOperations: [WriteBatchOperation] = []
         for item in operations {
-            writeBatchOperations.append(WriteBatchOperation(item))
+            writeBatchOperations.append(try WriteBatchOperation(item))
         }
         return writeBatchOperations
     }
@@ -20,6 +20,6 @@ import Capacitor
         guard let operations = call.getArray("operations", JSObject.self) else {
             throw CustomError.operationsMissing
         }
-        return WriteBatchOptions.createWriteBatchOperationArrayFromJSArray(operations)
+        return try WriteBatchOptions.createWriteBatchOperationArrayFromJSArray(operations)
     }
 }
