@@ -2,12 +2,18 @@ import Foundation
 import Capacitor
 
 @objc public class AddDocumentOptions: NSObject {
+    let appName: String?
     let data: JSObject
     let reference: String
 
     init(_ call: CAPPluginCall) throws {
         self.reference = try AddDocumentOptions.getReferenceFromCall(call)
         self.data = try AddDocumentOptions.getDataFromCall(call)
+        self.appName = AddDocumentOptions.getAppNameFromCall(call)
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getDataFromCall(_ call: CAPPluginCall) throws -> JSObject {

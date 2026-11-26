@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 
 @objc public class AddDocumentSnapshotListenerOptions: NSObject {
+    let appName: String?
     let callbackId: String
     let includeMetadataChanges: Bool
     let reference: String
@@ -12,6 +13,11 @@ import Capacitor
         self.includeMetadataChanges = AddDocumentSnapshotListenerOptions.getIncludeMetadataChangesFromCall(call)
         self.serverTimestampBehavior = AddDocumentSnapshotListenerOptions.getServerTimestampBehaviorFromCall(call)
         self.callbackId = try AddDocumentSnapshotListenerOptions.getCallbackIdFromCall(call)
+        self.appName = AddDocumentSnapshotListenerOptions.getAppNameFromCall(call)
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {

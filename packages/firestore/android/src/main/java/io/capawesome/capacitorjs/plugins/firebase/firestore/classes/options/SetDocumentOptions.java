@@ -1,11 +1,15 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExceptions;
 
 public class SetDocumentOptions {
+
+    @Nullable
+    private final String appName;
 
     @NonNull
     private final JSObject data;
@@ -19,6 +23,12 @@ public class SetDocumentOptions {
         this.reference = SetDocumentOptions.getReferenceFromCall(call);
         this.data = SetDocumentOptions.getDataFromCall(call);
         this.merge = SetDocumentOptions.getMergeFromCall(call);
+        this.appName = SetDocumentOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -33,6 +43,11 @@ public class SetDocumentOptions {
     @NonNull
     public String getReference() {
         return reference;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

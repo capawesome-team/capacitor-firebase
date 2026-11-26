@@ -12,7 +12,11 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddC
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.ClearPersistenceOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.DeleteDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.DisableNetworkOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.DisablePersistenceOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.EnableNetworkOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.EnablePersistenceOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCollectionGroupOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCollectionOptions;
@@ -20,6 +24,7 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetC
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.RemoveSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.SetDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.TerminateOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UpdateDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UseEmulatorOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.WriteBatchOptions;
@@ -152,6 +157,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void clearPersistence(PluginCall call) {
         try {
+            ClearPersistenceOptions options = new ClearPersistenceOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -163,7 +169,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                     rejectCall(call, exception);
                 }
             };
-            implementation.clearPersistence(callback);
+            implementation.clearPersistence(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -194,6 +200,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void disableNetwork(PluginCall call) {
         try {
+            DisableNetworkOptions options = new DisableNetworkOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -206,7 +213,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 }
             };
 
-            implementation.disableNetwork(callback);
+            implementation.disableNetwork(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -215,7 +222,9 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void disablePersistence(PluginCall call) {
         try {
-            implementation.disablePersistence();
+            DisablePersistenceOptions options = new DisablePersistenceOptions(call);
+
+            implementation.disablePersistence(options);
             resolveCall(call);
         } catch (Exception exception) {
             rejectCall(call, exception);
@@ -225,6 +234,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void enableNetwork(PluginCall call) {
         try {
+            EnableNetworkOptions options = new EnableNetworkOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -237,7 +247,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 }
             };
 
-            implementation.enableNetwork(callback);
+            implementation.enableNetwork(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -408,6 +418,7 @@ public class FirebaseFirestorePlugin extends Plugin {
     @PluginMethod
     public void terminate(PluginCall call) {
         try {
+            TerminateOptions options = new TerminateOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -420,7 +431,7 @@ public class FirebaseFirestorePlugin extends Plugin {
                 }
             };
 
-            implementation.terminate(callback);
+            implementation.terminate(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }

@@ -43,8 +43,8 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func addCollectionGroupSnapshotListener(_ options: AddCollectionGroupSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func addCollectionGroupSnapshotListener(_ options: AddCollectionGroupSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(options.compositeFilter, firestore: firestore)
         let queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(options.queryConstraints)
@@ -82,8 +82,8 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func addCollectionSnapshotListener(_ options: AddCollectionSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func addCollectionSnapshotListener(_ options: AddCollectionSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(options.compositeFilter, firestore: firestore)
         let queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(options.queryConstraints)
@@ -121,8 +121,8 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func addDocument(_ options: AddDocumentOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func addDocument(_ options: AddDocumentOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let data = FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
 
@@ -137,13 +137,14 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func addDocumentSnapshotListener(_ options: AddDocumentSnapshotListenerOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let reference = options.reference
         let includeMetadataChanges = options.includeMetadataChanges
         let serverTimestampBehavior = FirebaseFirestoreHelper.createServerTimestampBehavior(options.serverTimestampBehavior)
         let callbackId = options.callbackId
 
-        let listenerRegistration = getFirestoreInstance().document(reference).addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { documentSnapshot, error in
+        let firestore = try getFirestoreInstance(appName: options.appName)
+        let listenerRegistration = firestore.document(reference).addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { documentSnapshot, error in
             if let error = error {
                 completion(nil, error)
             } else {
@@ -156,45 +157,41 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func clearPersistence(completion: @escaping (Error?) -> Void) {
-        getFirestoreInstance().clearPersistence { error in
+    @objc public func clearPersistence(_ options: ClearPersistenceOptions, completion: @escaping (Error?) -> Void) throws {
+        try getFirestoreInstance(appName: options.appName).clearPersistence { error in
             completion(error)
         }
     }
 
-    @objc public func deleteDocument(_ options: DeleteDocumentOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func deleteDocument(_ options: DeleteDocumentOptions, completion: @escaping (Error?) -> Void) throws {
         let reference = options.reference
 
-        getFirestoreInstance().document(reference).delete { error in
-            if let error = error {
-                completion(error)
-            } else {
-                completion(nil)
-            }
-        }
-    }
-
-    @objc public func disableNetwork(completion: @escaping (Error?) -> Void) {
-        getFirestoreInstance().disableNetwork { error in
+        try getFirestoreInstance(appName: options.appName).document(reference).delete { error in
             completion(error)
         }
     }
 
-    @objc public func disablePersistence() {
-        let firestore = getFirestoreInstance()
+    @objc public func disableNetwork(_ options: DisableNetworkOptions, completion: @escaping (Error?) -> Void) throws {
+        try getFirestoreInstance(appName: options.appName).disableNetwork { error in
+            completion(error)
+        }
+    }
+
+    @objc public func disablePersistence(_ options: DisablePersistenceOptions) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let settings = firestore.settings
         settings.cacheSettings = MemoryCacheSettings()
         firestore.settings = settings
     }
 
-    @objc public func enableNetwork(completion: @escaping (Error?) -> Void) {
-        getFirestoreInstance().enableNetwork { error in
+    @objc public func enableNetwork(_ options: EnableNetworkOptions, completion: @escaping (Error?) -> Void) throws {
+        try getFirestoreInstance(appName: options.appName).enableNetwork { error in
             completion(error)
         }
     }
 
-    @objc public func enablePersistence(_ options: EnablePersistenceOptions) {
-        let firestore = getFirestoreInstance()
+    @objc public func enablePersistence(_ options: EnablePersistenceOptions) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let settings = firestore.settings
         if let cacheSizeBytes = options.cacheSizeBytes {
             settings.cacheSettings = PersistentCacheSettings(sizeBytes: cacheSizeBytes)
@@ -204,8 +201,8 @@ private actor ListenerRegistrationMap {
         firestore.settings = settings
     }
 
-    @objc public func getCollection(_ options: GetCollectionOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func getCollection(_ options: GetCollectionOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(options.compositeFilter, firestore: firestore)
         let queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(options.queryConstraints)
@@ -234,8 +231,8 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func getCollectionGroup(_ options: GetCollectionGroupOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func getCollectionGroup(_ options: GetCollectionGroupOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(options.compositeFilter, firestore: firestore)
         let queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(options.queryConstraints)
@@ -264,8 +261,8 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func getCountFromServer(_ options: GetCountFromServerOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func getCountFromServer(_ options: GetCountFromServerOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(options.compositeFilter, firestore: firestore)
         let queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(options.queryConstraints)
@@ -294,10 +291,10 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func getDocument(_ options: GetDocumentOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func getDocument(_ options: GetDocumentOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let reference = options.reference
 
-        getFirestoreInstance().document(reference).getDocument { documentSnapshot, error in
+        try getFirestoreInstance(appName: options.appName).document(reference).getDocument { documentSnapshot, error in
             if let error = error {
                 completion(nil, error)
             } else {
@@ -322,23 +319,19 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func setDocument(_ options: SetDocumentOptions, completion: @escaping (Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func setDocument(_ options: SetDocumentOptions, completion: @escaping (Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let data = FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
         let merge = options.merge
 
         firestore.document(reference).setData(data, merge: merge) { error in
-            if let error = error {
-                completion(error)
-            } else {
-                completion(nil)
-            }
+            completion(error)
         }
     }
 
-    @objc public func terminate(completion: @escaping (Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func terminate(_ options: TerminateOptions, completion: @escaping (Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         firestore.terminate { error in
             // The SDK drops its own reference on terminate. Keep the instance alive, or it can be
             // deallocated before the completion handler runs and the handler is never called.
@@ -348,30 +341,26 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func updateDocument(_ options: UpdateDocumentOptions, completion: @escaping (Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func updateDocument(_ options: UpdateDocumentOptions, completion: @escaping (Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
         let data = FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
 
         firestore.document(reference).updateData(data) { error in
-            if let error = error {
-                completion(error)
-            } else {
-                completion(nil)
-            }
+            completion(error)
         }
     }
 
-    @objc public func useEmulator(_ options: UseEmulatorOptions) {
-        let firestore = getFirestoreInstance()
+    @objc public func useEmulator(_ options: UseEmulatorOptions) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let settings = firestore.settings
         settings.host = "\(options.host):\(options.port)"
         settings.isSSLEnabled = false
         firestore.settings = settings
     }
 
-    @objc public func writeBatch(_ options: WriteBatchOptions, completion: @escaping (Error?) -> Void) {
-        let firestore = getFirestoreInstance()
+    @objc public func writeBatch(_ options: WriteBatchOptions, completion: @escaping (Error?) -> Void) throws {
+        let firestore = try getFirestoreInstance(appName: options.appName)
         let operations = options.operations
 
         let batch = firestore.batch()
@@ -402,15 +391,17 @@ private actor ListenerRegistrationMap {
         }
 
         batch.commit { error in
-            if let error = error {
-                completion(error)
-            } else {
-                completion(nil)
-            }
+            completion(error)
         }
     }
 
-    private func getFirestoreInstance() -> Firestore {
+    private func getFirestoreInstance(appName: String?) throws -> Firestore {
+        if let appName = appName {
+            guard let app = FirebaseApp.app(name: appName) else {
+                throw CustomError.appNotFound
+            }
+            return Firestore.firestore(app: app)
+        }
         if let databaseId = config.databaseId {
             return Firestore.firestore(database: databaseId)
         }

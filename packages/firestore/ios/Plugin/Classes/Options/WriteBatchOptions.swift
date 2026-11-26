@@ -2,10 +2,12 @@ import Foundation
 import Capacitor
 
 @objc public class WriteBatchOptions: NSObject {
+    let appName: String?
     let operations: [WriteBatchOperation]
 
     init(_ call: CAPPluginCall) throws {
         self.operations = try WriteBatchOptions.getOperationsFromCall(call)
+        self.appName = WriteBatchOptions.getAppNameFromCall(call)
     }
 
     private static func createWriteBatchOperationArrayFromJSArray(_ operations: [JSObject]) throws -> [WriteBatchOperation] {
@@ -14,6 +16,10 @@ import Capacitor
             writeBatchOperations.append(try WriteBatchOperation(item))
         }
         return writeBatchOperations
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getOperationsFromCall(_ call: CAPPluginCall) throws -> [WriteBatchOperation] {

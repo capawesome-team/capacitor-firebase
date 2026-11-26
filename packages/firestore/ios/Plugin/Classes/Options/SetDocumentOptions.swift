@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 
 @objc public class SetDocumentOptions: NSObject {
+    let appName: String?
     let data: JSObject
     let merge: Bool
     let reference: String
@@ -10,6 +11,11 @@ import Capacitor
         self.reference = try SetDocumentOptions.getReferenceFromCall(call)
         self.data = try SetDocumentOptions.getDataFromCall(call)
         self.merge = SetDocumentOptions.getMergeFromCall(call)
+        self.appName = SetDocumentOptions.getAppNameFromCall(call)
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getDataFromCall(_ call: CAPPluginCall) throws -> JSObject {

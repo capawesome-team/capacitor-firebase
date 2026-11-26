@@ -10,6 +10,9 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExcept
 public class GetCountFromServerOptions {
 
     @Nullable
+    private final String appName;
+
+    @Nullable
     private final JSObject compositeFilter;
 
     @Nullable
@@ -22,6 +25,12 @@ public class GetCountFromServerOptions {
         this.reference = GetCountFromServerOptions.getReferenceFromCall(call);
         this.compositeFilter = GetCountFromServerOptions.getCompositeFilterFromCall(call);
         this.queryConstraints = GetCountFromServerOptions.getQueryConstraintsFromCall(call);
+        this.appName = GetCountFromServerOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @Nullable
@@ -37,6 +46,11 @@ public class GetCountFromServerOptions {
     @NonNull
     public String getReference() {
         return reference;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName", null);
     }
 
     @Nullable
