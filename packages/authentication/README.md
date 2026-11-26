@@ -173,7 +173,7 @@ These configuration values are available:
 
 | Prop                 | Type                  | Description                                                                                                                                                                                                                                                                                                    | Default            | Since |
 | -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`authDomain`**     | <code>string</code>   | Configure the custom auth domain you want to use. Only available for Android and iOS.                                                                                                                                                                                                                          |                    | 7.3.0 |
+| **`authDomain`**     | <code>string</code>   | Configure the custom auth domain you want to use. The value is the host name without a scheme. It must be an authorized domain of your Firebase project. Only available for Android and iOS.                                                                                                                   |                    | 7.3.0 |
 | **`skipNativeAuth`** | <code>boolean</code>  | Configure whether the plugin should skip the native authentication. Only needed if you want to use the Firebase JavaScript SDK. This configuration option has no effect on Firebase account linking. **Note that the plugin may behave differently across the platforms.** Only available for Android and iOS. | <code>false</code> | 0.1.0 |
 | **`providers`**      | <code>string[]</code> | Configure the providers that should be loaded by the plugin. Possible values: `["apple.com", "facebook.com", "gc.apple.com", "github.com", "google.com", "microsoft.com", "playgames.google.com", "twitter.com", "yahoo.com", "phone"]` Only available for Android and iOS.                                    | <code>[]</code>    | 0.1.0 |
 
@@ -185,7 +185,7 @@ In `capacitor.config.json`:
 {
   "plugins": {
     "FirebaseAuthentication": {
-      "authDomain": undefined,
+      "authDomain": "auth.example.com",
       "skipNativeAuth": false,
       "providers": ["apple.com", "facebook.com"]
     }
@@ -203,7 +203,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   plugins: {
     FirebaseAuthentication: {
-      authDomain: undefined,
+      authDomain: "auth.example.com",
       skipNativeAuth: false,
       providers: ["apple.com", "facebook.com"],
     },

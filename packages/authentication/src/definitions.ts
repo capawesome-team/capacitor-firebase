@@ -13,9 +13,13 @@ declare module '@capacitor/cli' {
       /**
        * Configure the custom auth domain you want to use.
        *
+       * The value is the host name without a scheme.
+       * It must be an authorized domain of your Firebase project.
+       *
        * Only available for Android and iOS.
        *
        * @since 7.3.0
+       * @example "auth.example.com"
        */
       authDomain?: string;
       /**
