@@ -52,6 +52,10 @@ public class FirebaseFirestoreHelper {
         if let array = value as? [Any] {
             return array.map { createNativeValue($0, firestore: firestore) }
         }
+        if let number = value as? NSNumber, isSafeInteger(number) {
+            // WebKit hands every JavaScript number over as a double, and the Firestore SDK would store it as a double.
+            return NSNumber(value: number.int64Value)
+        }
         return value
     }
 
@@ -253,6 +257,18 @@ public class FirebaseFirestoreHelper {
         default:
             return nil
         }
+    }
+
+    /// Follows `isSafeInteger` of the Firebase JS SDK, so iOS stores the same number type as Web.
+    private static func isSafeInteger(_ number: NSNumber) -> Bool {
+        // A JavaScript boolean also reaches native code as an NSNumber.
+        if CFGetTypeID(number) == CFBooleanGetTypeID() {
+            return false
+        }
+        let maxSafeInteger: Double = 9_007_199_254_740_991
+        let value = number.doubleValue
+        let isNegativeZero = value.isZero && value.sign == .minus
+        return floor(value) == value && abs(value) <= maxSafeInteger && !isNegativeZero
     }
 
     private static func isSpecialNumber(_ number: NSNumber) -> Bool {
