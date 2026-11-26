@@ -1,13 +1,17 @@
 import Foundation
+import Capacitor
 
 @objc public class RemoveSnapshotListenerOptions: NSObject {
-    private var callbackId: String
+    let callbackId: String
 
-    init(callbackId: String) {
-        self.callbackId = callbackId
+    init(_ call: CAPPluginCall) throws {
+        self.callbackId = try RemoveSnapshotListenerOptions.getCallbackIdFromCall(call)
     }
 
-    func getCallbackId() -> String {
-        return self.callbackId
+    private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let callbackId = call.getString("callbackId") else {
+            throw CustomError.callbackIdMissing
+        }
+        return callbackId
     }
 }

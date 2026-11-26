@@ -1,53 +1,50 @@
 import Foundation
 import Capacitor
-import FirebaseFirestore
 
 @objc public class AddCollectionGroupSnapshotListenerOptions: NSObject {
-    private var reference: String
-    private var compositeFilter: QueryCompositeFilterConstraint?
-    private var queryConstraints: [QueryNonFilterConstraint]
-    private var includeMetadataChanges: Bool
-    private var serverTimestampBehavior: String?
-    private var callbackId: String
+    let callbackId: String
+    let compositeFilter: JSObject?
+    let includeMetadataChanges: Bool
+    let queryConstraints: [JSObject]?
+    let reference: String
+    let serverTimestampBehavior: String?
 
-    init(
-        reference: String,
-        compositeFilter: JSObject?,
-        queryConstraints: [JSObject]?,
-        includeMetadataChanges: Bool,
-        serverTimestampBehavior: String?,
-        callbackId: String,
-        firestore: Firestore
-    ) {
-        self.reference = reference
-        self.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter, firestore: firestore)
-        self.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints)
-        self.includeMetadataChanges = includeMetadataChanges
-        self.serverTimestampBehavior = serverTimestampBehavior
-        self.callbackId = callbackId
+    init(_ call: CAPPluginCall) throws {
+        self.reference = try AddCollectionGroupSnapshotListenerOptions.getReferenceFromCall(call)
+        self.compositeFilter = AddCollectionGroupSnapshotListenerOptions.getCompositeFilterFromCall(call)
+        self.queryConstraints = AddCollectionGroupSnapshotListenerOptions.getQueryConstraintsFromCall(call)
+        self.includeMetadataChanges = AddCollectionGroupSnapshotListenerOptions.getIncludeMetadataChangesFromCall(call)
+        self.serverTimestampBehavior = AddCollectionGroupSnapshotListenerOptions.getServerTimestampBehaviorFromCall(call)
+        self.callbackId = try AddCollectionGroupSnapshotListenerOptions.getCallbackIdFromCall(call)
     }
 
-    func getReference() -> String {
+    private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let callbackId = call.callbackId else {
+            throw CustomError.callbackIdMissing
+        }
+        return callbackId
+    }
+
+    private static func getCompositeFilterFromCall(_ call: CAPPluginCall) -> JSObject? {
+        return call.getObject("compositeFilter")
+    }
+
+    private static func getIncludeMetadataChangesFromCall(_ call: CAPPluginCall) -> Bool {
+        return call.getBool("includeMetadataChanges", false)
+    }
+
+    private static func getQueryConstraintsFromCall(_ call: CAPPluginCall) -> [JSObject]? {
+        return call.getArray("queryConstraints", JSObject.self)
+    }
+
+    private static func getReferenceFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let reference = call.getString("reference") else {
+            throw CustomError.referenceMissing
+        }
         return reference
     }
 
-    func getCompositeFilter() -> QueryCompositeFilterConstraint? {
-        return compositeFilter
-    }
-
-    func getQueryConstraints() -> [QueryNonFilterConstraint] {
-        return queryConstraints
-    }
-
-    func getIncludeMetadataChanges() -> Bool {
-        return includeMetadataChanges
-    }
-
-    func getServerTimestampBehavior() -> String? {
-        return serverTimestampBehavior
-    }
-
-    func getCallbackId() -> String {
-        return callbackId
+    private static func getServerTimestampBehaviorFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("serverTimestamps")
     }
 }

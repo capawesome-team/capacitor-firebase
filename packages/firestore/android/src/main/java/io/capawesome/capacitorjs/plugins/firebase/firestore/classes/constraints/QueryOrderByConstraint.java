@@ -6,20 +6,20 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonF
 
 public class QueryOrderByConstraint implements QueryNonFilterConstraint {
 
-    private String fieldPath;
     private String directionStr;
+    private String fieldPath;
 
     public QueryOrderByConstraint(JSObject queryConstraint) {
         this.fieldPath = queryConstraint.getString("fieldPath");
         this.directionStr = queryConstraint.getString("directionStr");
     }
 
-    public String getFieldPath() {
-        return fieldPath;
-    }
-
     public String getDirectionStr() {
         return directionStr;
+    }
+
+    public String getFieldPath() {
+        return fieldPath;
     }
 
     public Query toQuery(Query query, com.google.firebase.firestore.FirebaseFirestore firestoreInstance) {

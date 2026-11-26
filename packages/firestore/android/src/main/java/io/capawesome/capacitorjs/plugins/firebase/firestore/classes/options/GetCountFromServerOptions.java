@@ -4,31 +4,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.constraints.QueryCompositeFilterConstraint;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.QueryNonFilterConstraint;
-import org.json.JSONException;
+import com.getcapacitor.PluginCall;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExceptions;
 
 public class GetCountFromServerOptions {
+
+    @Nullable
+    private final JSObject compositeFilter;
+
+    @Nullable
+    private final JSArray queryConstraints;
 
     @NonNull
     private final String reference;
 
+    public GetCountFromServerOptions(@NonNull PluginCall call) throws Exception {
+        this.reference = GetCountFromServerOptions.getReferenceFromCall(call);
+        this.compositeFilter = GetCountFromServerOptions.getCompositeFilterFromCall(call);
+        this.queryConstraints = GetCountFromServerOptions.getQueryConstraintsFromCall(call);
+    }
+
     @Nullable
-    private final QueryCompositeFilterConstraint compositeFilter;
+    public JSObject getCompositeFilter() {
+        return compositeFilter;
+    }
 
-    @NonNull
-    private final QueryNonFilterConstraint[] queryConstraints;
-
-    public GetCountFromServerOptions(
-        @NonNull String reference,
-        @Nullable JSObject compositeFilter,
-        @Nullable JSArray queryConstraints,
-        @NonNull com.google.firebase.firestore.FirebaseFirestore firestore
-    ) throws JSONException {
-        this.reference = reference;
-        this.compositeFilter = FirebaseFirestoreHelper.createQueryCompositeFilterConstraintFromJSObject(compositeFilter, firestore);
-        this.queryConstraints = FirebaseFirestoreHelper.createQueryNonFilterConstraintArrayFromJSArray(queryConstraints);
+    @Nullable
+    public JSArray getQueryConstraints() {
+        return queryConstraints;
     }
 
     @NonNull
@@ -37,12 +40,21 @@ public class GetCountFromServerOptions {
     }
 
     @Nullable
-    public QueryCompositeFilterConstraint getCompositeFilter() {
-        return compositeFilter;
+    private static JSObject getCompositeFilterFromCall(@NonNull PluginCall call) {
+        return call.getObject("compositeFilter", null);
+    }
+
+    @Nullable
+    private static JSArray getQueryConstraintsFromCall(@NonNull PluginCall call) {
+        return call.getArray("queryConstraints", null);
     }
 
     @NonNull
-    public QueryNonFilterConstraint[] getQueryConstraints() {
-        return queryConstraints;
+    private static String getReferenceFromCall(@NonNull PluginCall call) throws Exception {
+        String reference = call.getString("reference");
+        if (reference == null) {
+            throw CustomExceptions.REFERENCE_MISSING;
+        }
+        return reference;
     }
 }

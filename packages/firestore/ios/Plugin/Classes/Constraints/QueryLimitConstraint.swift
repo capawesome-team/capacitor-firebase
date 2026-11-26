@@ -3,8 +3,8 @@ import FirebaseFirestore
 import Capacitor
 
 @objc public class QueryLimitConstraint: NSObject, QueryNonFilterConstraint {
-    private var type: String
     private var limit: Int
+    private var type: String
 
     public init(_ queryConstraint: JSObject) {
         self.type = queryConstraint["type"] as? String ?? ""

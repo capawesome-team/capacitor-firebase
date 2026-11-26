@@ -10,472 +10,33 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "FirebaseFirestorePlugin"
     public let jsName = "FirebaseFirestore"
     public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "addCollectionGroupSnapshotListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "addCollectionSnapshotListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "addDocument", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setDocument", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getDocument", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "updateDocument", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "deleteDocument", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "writeBatch", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getCollection", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getCollectionGroup", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getCountFromServer", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "addDocumentSnapshotListener", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "clearPersistence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteDocument", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "disableNetwork", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "disablePersistence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "enableNetwork", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "enablePersistence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCollection", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCollectionGroup", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCountFromServer", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getDocument", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeSnapshotListener", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setDocument", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "terminate", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updateDocument", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "addDocumentSnapshotListener", returnType: CAPPluginReturnCallback),
-        CAPPluginMethod(name: "addCollectionSnapshotListener", returnType: CAPPluginReturnCallback),
-        CAPPluginMethod(name: "addCollectionGroupSnapshotListener", returnType: CAPPluginReturnCallback),
-        CAPPluginMethod(name: "removeSnapshotListener", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "writeBatch", returnType: CAPPluginReturnPromise)
     ]
     public let tag = "FirebaseFirestore"
-    public let errorReferenceMissing = "reference must be provided."
-    public let errorDataMissing = "data must be provided."
-    public let errorOperationsMissing = "operations must be provided."
-    public let errorHostMissing = "host must be provided."
-    public let errorCallbackIdMissing = "callbackId must be provided."
-    public let errorImplementationMissing = "implementation is not initialized."
     private var implementation: FirebaseFirestore?
     private var pluginCallMap: [String: CAPPluginCall] = [:]
 
     override public func load() {
         self.implementation = FirebaseFirestore(plugin: self, config: firebaseFirestoreConfig())
-    }
-
-    @objc func addDocument(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        guard let data = call.getObject("data") else {
-            call.reject(errorDataMissing)
-            return
-        }
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = AddDocumentOptions(reference: reference, data: data, firestore: firestore)
-
-        implementation?.addDocument(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func setDocument(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        guard let data = call.getObject("data") else {
-            call.reject(errorDataMissing)
-            return
-        }
-        let merge = call.getBool("merge", false)
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = SetDocumentOptions(reference: reference, data: data, merge: merge, firestore: firestore)
-
-        implementation?.setDocument(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func getDocument(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-
-        let options = GetDocumentOptions(reference: reference)
-
-        implementation?.getDocument(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func updateDocument(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        guard let data = call.getObject("data") else {
-            call.reject(errorDataMissing)
-            return
-        }
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = UpdateDocumentOptions(reference: reference, data: data, firestore: firestore)
-
-        implementation?.updateDocument(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func deleteDocument(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-
-        let options = DeleteDocumentOptions(reference: reference)
-
-        implementation?.deleteDocument(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func writeBatch(_ call: CAPPluginCall) {
-        guard let operations = call.getArray("operations", JSObject.self) else {
-            call.reject(errorOperationsMissing)
-            return
-        }
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = WriteBatchOptions(operations: operations, firestore: firestore)
-
-        implementation?.writeBatch(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func getCollection(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        let compositeFilter = call.getObject("compositeFilter")
-        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = GetCollectionOptions(
-            reference: reference,
-            compositeFilter: compositeFilter,
-            queryConstraints: queryConstraints,
-            firestore: firestore
-        )
-
-        implementation?.getCollection(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func getCollectionGroup(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        let compositeFilter = call.getObject("compositeFilter")
-        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = GetCollectionGroupOptions(
-            reference: reference,
-            compositeFilter: compositeFilter,
-            queryConstraints: queryConstraints,
-            firestore: firestore
-        )
-
-        implementation?.getCollectionGroup(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func clearPersistence(_ call: CAPPluginCall) {
-        implementation?.clearPersistence(completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func disableNetwork(_ call: CAPPluginCall) {
-        implementation?.disableNetwork(completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func disablePersistence(_ call: CAPPluginCall) {
-        implementation?.disablePersistence()
-        call.resolve()
-    }
-
-    @objc func enableNetwork(_ call: CAPPluginCall) {
-        implementation?.enableNetwork(completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func enablePersistence(_ call: CAPPluginCall) {
-        let cacheSizeBytes = call.getInt("cacheSizeBytes") as NSNumber?
-
-        implementation?.enablePersistence(cacheSizeBytes)
-        call.resolve()
-    }
-
-    @objc func terminate(_ call: CAPPluginCall) {
-        implementation?.terminate(completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func useEmulator(_ call: CAPPluginCall) {
-        guard let host = call.getString("host") else {
-            call.reject(errorHostMissing)
-            return
-        }
-        let port = call.getInt("port") ?? 8080
-
-        implementation?.useEmulator(host, port)
-        call.resolve()
-    }
-
-    @objc func getCountFromServer(_ call: CAPPluginCall) {
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        let compositeFilter = call.getObject("compositeFilter")
-        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = GetCountFromServerOptions(reference: reference, compositeFilter: compositeFilter, queryConstraints: queryConstraints, firestore: firestore)
-
-        implementation?.getCountFromServer(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func addDocumentSnapshotListener(_ call: CAPPluginCall) {
-        call.keepAlive = true
-
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
-        let serverTimestampBehavior = call.getString("serverTimestamps")
-        guard let callbackId = call.callbackId else {
-            call.reject(errorCallbackIdMissing)
-            return
-        }
-
-        self.pluginCallMap[callbackId] = call
-
-        let options = AddDocumentSnapshotListenerOptions(reference: reference, includeMetadataChanges: includeMetadataChanges, serverTimestampBehavior: serverTimestampBehavior, callbackId: callbackId)
-
-        implementation?.addDocumentSnapshotListener(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func addCollectionSnapshotListener(_ call: CAPPluginCall) {
-        call.keepAlive = true
-
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        let compositeFilter = call.getObject("compositeFilter")
-        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
-        let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
-        let serverTimestampBehavior = call.getString("serverTimestamps")
-        guard let callbackId = call.callbackId else {
-            call.reject(errorCallbackIdMissing)
-            return
-        }
-
-        self.pluginCallMap[callbackId] = call
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = AddCollectionSnapshotListenerOptions(
-            reference: reference,
-            compositeFilter: compositeFilter,
-            queryConstraints: queryConstraints,
-            includeMetadataChanges: includeMetadataChanges,
-            serverTimestampBehavior: serverTimestampBehavior,
-            callbackId: callbackId,
-            firestore: firestore
-        )
-
-        implementation?.addCollectionSnapshotListener(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func addCollectionGroupSnapshotListener(_ call: CAPPluginCall) {
-        call.keepAlive = true
-
-        guard let reference = call.getString("reference") else {
-            call.reject(errorReferenceMissing)
-            return
-        }
-        let compositeFilter = call.getObject("compositeFilter")
-        let queryConstraints = call.getArray("queryConstraints", JSObject.self)
-        let includeMetadataChanges = call.getBool("includeMetadataChanges", false)
-        let serverTimestampBehavior = call.getString("serverTimestamps")
-        guard let callbackId = call.callbackId else {
-            call.reject(errorCallbackIdMissing)
-            return
-        }
-
-        self.pluginCallMap[callbackId] = call
-
-        guard let firestore = implementation?.getFirestoreInstance() else {
-            call.reject(errorImplementationMissing)
-            return
-        }
-        let options = AddCollectionGroupSnapshotListenerOptions(
-            reference: reference,
-            compositeFilter: compositeFilter,
-            queryConstraints: queryConstraints,
-            includeMetadataChanges: includeMetadataChanges,
-            serverTimestampBehavior: serverTimestampBehavior,
-            callbackId: callbackId,
-            firestore: firestore
-        )
-
-        implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
-    }
-
-    @objc func removeSnapshotListener(_ call: CAPPluginCall) {
-        guard let callbackId = call.getString("callbackId") else {
-            call.reject(errorCallbackIdMissing)
-            return
-        }
-
-        let savedCall = self.pluginCallMap[callbackId]
-        if let savedCall = savedCall {
-            bridge?.releaseCall(savedCall)
-        }
-        self.pluginCallMap.removeValue(forKey: callbackId)
-
-        let options = RemoveSnapshotListenerOptions(callbackId: callbackId)
-
-        implementation?.removeSnapshotListener(options) {
-            call.resolve()
-        }
     }
 
     @objc override public func removeAllListeners(_ call: CAPPluginCall) {
@@ -486,7 +47,292 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         self.eventListeners?.removeAllObjects()
 
         implementation?.removeAllListeners {
-            call.resolve()
+            self.resolveCall(call)
+        }
+    }
+
+    @objc func addCollectionGroupSnapshotListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+
+        do {
+            let options = try AddCollectionGroupSnapshotListenerOptions(call)
+
+            self.pluginCallMap[options.callbackId] = call
+
+            implementation?.addCollectionGroupSnapshotListener(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func addCollectionSnapshotListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+
+        do {
+            let options = try AddCollectionSnapshotListenerOptions(call)
+
+            self.pluginCallMap[options.callbackId] = call
+
+            implementation?.addCollectionSnapshotListener(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func addDocument(_ call: CAPPluginCall) {
+        do {
+            let options = try AddDocumentOptions(call)
+
+            implementation?.addDocument(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func addDocumentSnapshotListener(_ call: CAPPluginCall) {
+        call.keepAlive = true
+
+        do {
+            let options = try AddDocumentSnapshotListenerOptions(call)
+
+            self.pluginCallMap[options.callbackId] = call
+
+            implementation?.addDocumentSnapshotListener(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func clearPersistence(_ call: CAPPluginCall) {
+        implementation?.clearPersistence(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
+    }
+
+    @objc func deleteDocument(_ call: CAPPluginCall) {
+        do {
+            let options = try DeleteDocumentOptions(call)
+
+            implementation?.deleteDocument(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func disableNetwork(_ call: CAPPluginCall) {
+        implementation?.disableNetwork(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
+    }
+
+    @objc func disablePersistence(_ call: CAPPluginCall) {
+        implementation?.disablePersistence()
+        resolveCall(call)
+    }
+
+    @objc func enableNetwork(_ call: CAPPluginCall) {
+        implementation?.enableNetwork(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
+    }
+
+    @objc func enablePersistence(_ call: CAPPluginCall) {
+        let options = EnablePersistenceOptions(call)
+
+        implementation?.enablePersistence(options)
+        resolveCall(call)
+    }
+
+    @objc func getCollection(_ call: CAPPluginCall) {
+        do {
+            let options = try GetCollectionOptions(call)
+
+            implementation?.getCollection(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func getCollectionGroup(_ call: CAPPluginCall) {
+        do {
+            let options = try GetCollectionGroupOptions(call)
+
+            implementation?.getCollectionGroup(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func getCountFromServer(_ call: CAPPluginCall) {
+        do {
+            let options = try GetCountFromServerOptions(call)
+
+            implementation?.getCountFromServer(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func getDocument(_ call: CAPPluginCall) {
+        do {
+            let options = try GetDocumentOptions(call)
+
+            implementation?.getDocument(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func removeSnapshotListener(_ call: CAPPluginCall) {
+        do {
+            let options = try RemoveSnapshotListenerOptions(call)
+
+            let savedCall = self.pluginCallMap[options.callbackId]
+            if let savedCall = savedCall {
+                bridge?.releaseCall(savedCall)
+            }
+            self.pluginCallMap.removeValue(forKey: options.callbackId)
+
+            implementation?.removeSnapshotListener(options) {
+                self.resolveCall(call)
+            }
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func setDocument(_ call: CAPPluginCall) {
+        do {
+            let options = try SetDocumentOptions(call)
+
+            implementation?.setDocument(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func terminate(_ call: CAPPluginCall) {
+        implementation?.terminate(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
+    }
+
+    @objc func updateDocument(_ call: CAPPluginCall) {
+        do {
+            let options = try UpdateDocumentOptions(call)
+
+            implementation?.updateDocument(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func useEmulator(_ call: CAPPluginCall) {
+        do {
+            let options = try UseEmulatorOptions(call)
+
+            implementation?.useEmulator(options)
+            resolveCall(call)
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func writeBatch(_ call: CAPPluginCall) {
+        do {
+            let options = try WriteBatchOptions(call)
+
+            implementation?.writeBatch(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
     }
 
@@ -496,5 +342,26 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         config.databaseId = getConfig().getString("databaseId")
 
         return config
+    }
+
+    private func rejectCall(_ call: CAPPluginCall, _ error: Error) {
+        CAPLog.print("[", self.tag, "] ", error)
+        if let error = error as? CustomError {
+            call.reject(error.localizedDescription, error.code)
+        } else {
+            call.reject(error.localizedDescription, FirebaseFirestoreHelper.createErrorCode(error: error))
+        }
+    }
+
+    private func resolveCall(_ call: CAPPluginCall) {
+        call.resolve()
+    }
+
+    private func resolveCall(_ call: CAPPluginCall, _ result: Result?) {
+        if let result = result?.toJSObject() as? JSObject {
+            call.resolve(result)
+        } else {
+            call.resolve()
+        }
     }
 }

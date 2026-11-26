@@ -2,36 +2,58 @@ package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.FirebaseFirestoreHelper;
-import java.util.Map;
-import org.json.JSONException;
+import com.getcapacitor.PluginCall;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExceptions;
 
 public class SetDocumentOptions {
 
-    private String reference;
-    private Map<String, Object> data;
-    private boolean merge;
+    @NonNull
+    private final JSObject data;
 
-    public SetDocumentOptions(
-        String reference,
-        JSObject data,
-        boolean merge,
-        @NonNull com.google.firebase.firestore.FirebaseFirestore firestore
-    ) throws JSONException {
-        this.reference = reference;
-        this.data = FirebaseFirestoreHelper.createHashMapFromJSONObject(data, firestore);
-        this.merge = merge;
+    private final boolean merge;
+
+    @NonNull
+    private final String reference;
+
+    public SetDocumentOptions(@NonNull PluginCall call) throws Exception {
+        this.reference = SetDocumentOptions.getReferenceFromCall(call);
+        this.data = SetDocumentOptions.getDataFromCall(call);
+        this.merge = SetDocumentOptions.getMergeFromCall(call);
     }
 
-    public String getReference() {
-        return reference;
-    }
-
-    public Map<String, Object> getData() {
+    @NonNull
+    public JSObject getData() {
         return data;
     }
 
     public boolean getMerge() {
         return merge;
+    }
+
+    @NonNull
+    public String getReference() {
+        return reference;
+    }
+
+    @NonNull
+    private static JSObject getDataFromCall(@NonNull PluginCall call) throws Exception {
+        JSObject data = call.getObject("data");
+        if (data == null) {
+            throw CustomExceptions.DATA_MISSING;
+        }
+        return data;
+    }
+
+    private static boolean getMergeFromCall(@NonNull PluginCall call) {
+        return call.getBoolean("merge", false);
+    }
+
+    @NonNull
+    private static String getReferenceFromCall(@NonNull PluginCall call) throws Exception {
+        String reference = call.getString("reference");
+        if (reference == null) {
+            throw CustomExceptions.REFERENCE_MISSING;
+        }
+        return reference;
     }
 }

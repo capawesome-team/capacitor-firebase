@@ -1,18 +1,19 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomException;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionGroupSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddCollectionSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.AddDocumentSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.DeleteDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.EnablePersistenceOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCollectionGroupOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCollectionOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetCountFromServerOptions;
@@ -20,11 +21,15 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.GetD
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.RemoveSnapshotListenerOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.SetDocumentOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UpdateDocumentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.UseEmulatorOptions;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options.WriteBatchOptions;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.AddDocumentResult;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetCollectionResult;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetCountFromServerResult;
+import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.results.GetDocumentResult;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.Result;
-import io.capawesome.capacitorjs.plugins.firebase.firestore.interfaces.ResultCallback;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,315 +37,115 @@ import java.util.Map;
 @CapacitorPlugin(name = "FirebaseFirestore")
 public class FirebaseFirestorePlugin extends Plugin {
 
-    public static final String TAG = "FirebaseFirestore";
     public static final String ERROR_CODE_PREFIX = "firestore";
-    public static final String ERROR_REFERENCE_MISSING = "reference must be provided.";
-    public static final String ERROR_HOST_MISSING = "host must be provided.";
-    public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
-    public static final String ERROR_DATA_MISSING = "data must be provided.";
-    public static final String ERROR_OPERATIONS_MISSING = "operations must be provided.";
-
-    private Map<String, PluginCall> pluginCallMap = new HashMap<>();
+    public static final String ERROR_UNKNOWN_ERROR = "An unknown error has occurred.";
+    public static final String TAG = "FirebaseFirestore";
 
     private FirebaseFirestoreConfig config;
     private FirebaseFirestore implementation;
 
-    public void load() {
-        config = getFirebaseFirestoreConfig();
-        implementation = new FirebaseFirestore(this, config);
+    private Map<String, PluginCall> pluginCallMap = new HashMap<>();
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void addCollectionGroupSnapshotListener(PluginCall call) {
+        try {
+            call.setKeepAlive(true);
+
+            AddCollectionGroupSnapshotListenerOptions options = new AddCollectionGroupSnapshotListenerOptions(call);
+
+            this.pluginCallMap.put(options.getCallbackId(), call);
+
+            NonEmptyResultCallback<GetCollectionResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetCollectionResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.addCollectionGroupSnapshotListener(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void addCollectionSnapshotListener(PluginCall call) {
+        try {
+            call.setKeepAlive(true);
+
+            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(call);
+
+            this.pluginCallMap.put(options.getCallbackId(), call);
+
+            NonEmptyResultCallback<GetCollectionResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetCollectionResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.addCollectionSnapshotListener(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
     }
 
     @PluginMethod
     public void addDocument(PluginCall call) {
         try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject data = call.getObject("data");
-            if (data == null) {
-                call.reject(ERROR_DATA_MISSING);
-                return;
-            }
-
-            AddDocumentOptions options = new AddDocumentOptions(reference, data, implementation.getFirebaseFirestoreInstance());
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            AddDocumentOptions options = new AddDocumentOptions(call);
+            NonEmptyResultCallback<AddDocumentResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull AddDocumentResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.addDocument(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
-    @PluginMethod
-    public void setDocument(PluginCall call) {
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void addDocumentSnapshotListener(PluginCall call) {
         try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject data = call.getObject("data");
-            if (data == null) {
-                call.reject(ERROR_DATA_MISSING);
-                return;
-            }
-            boolean merge = call.getBoolean("merge", false);
+            call.setKeepAlive(true);
 
-            SetDocumentOptions options = new SetDocumentOptions(reference, data, merge, implementation.getFirebaseFirestoreInstance());
-            EmptyResultCallback callback = new EmptyResultCallback() {
+            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(call);
+
+            this.pluginCallMap.put(options.getCallbackId(), call);
+
+            NonEmptyResultCallback<GetDocumentResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success() {
-                    call.resolve();
+                public void success(@NonNull GetDocumentResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
-            implementation.setDocument(options, callback);
+            implementation.addDocumentSnapshotListener(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void getDocument(PluginCall call) {
-        try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-
-            GetDocumentOptions options = new GetDocumentOptions(reference);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
-                @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.getDocument(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void updateDocument(PluginCall call) {
-        try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject data = call.getObject("data");
-            if (data == null) {
-                call.reject(ERROR_DATA_MISSING);
-                return;
-            }
-
-            UpdateDocumentOptions options = new UpdateDocumentOptions(reference, data, implementation.getFirebaseFirestoreInstance());
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.updateDocument(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void deleteDocument(PluginCall call) {
-        try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-
-            DeleteDocumentOptions options = new DeleteDocumentOptions(reference);
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.deleteDocument(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void writeBatch(PluginCall call) {
-        try {
-            JSArray operations = call.getArray("operations");
-            if (operations == null) {
-                call.reject(ERROR_OPERATIONS_MISSING);
-                return;
-            }
-
-            WriteBatchOptions options = new WriteBatchOptions(operations, implementation.getFirebaseFirestoreInstance());
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.writeBatch(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void getCollection(PluginCall call) {
-        try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject compositeFilter = call.getObject("compositeFilter", null);
-            JSArray queryConstraints = call.getArray("queryConstraints", null);
-
-            GetCollectionOptions options = new GetCollectionOptions(
-                reference,
-                compositeFilter,
-                queryConstraints,
-                implementation.getFirebaseFirestoreInstance()
-            );
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
-                @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.getCollection(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void getCollectionGroup(PluginCall call) {
-        try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject compositeFilter = call.getObject("compositeFilter");
-            JSArray queryConstraints = call.getArray("queryConstraints");
-
-            GetCollectionGroupOptions options = new GetCollectionGroupOptions(
-                reference,
-                compositeFilter,
-                queryConstraints,
-                implementation.getFirebaseFirestoreInstance()
-            );
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
-                @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.getCollectionGroup(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void disablePersistence(PluginCall call) {
-        try {
-            implementation.disablePersistence();
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void enablePersistence(PluginCall call) {
-        try {
-            Long cacheSizeBytes = call.getLong("cacheSizeBytes");
-
-            implementation.enablePersistence(cacheSizeBytes);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
@@ -350,42 +155,39 @@ public class FirebaseFirestorePlugin extends Plugin {
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
-                    call.resolve();
+                    resolveCall(call);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
             implementation.clearPersistence(callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
-    public void enableNetwork(PluginCall call) {
+    public void deleteDocument(PluginCall call) {
         try {
+            DeleteDocumentOptions options = new DeleteDocumentOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
-                    call.resolve();
+                    resolveCall(call);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
-            implementation.enableNetwork(callback);
+            implementation.deleteDocument(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
@@ -395,258 +197,155 @@ public class FirebaseFirestorePlugin extends Plugin {
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
-                    call.resolve();
+                    resolveCall(call);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.disableNetwork(callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
-    public void terminate(PluginCall call) {
+    public void disablePersistence(PluginCall call) {
+        try {
+            implementation.disablePersistence();
+            resolveCall(call);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void enableNetwork(PluginCall call) {
         try {
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
-                    call.resolve();
+                    resolveCall(call);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
-            implementation.terminate(callback);
+            implementation.enableNetwork(callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
-    public void useEmulator(PluginCall call) {
+    public void enablePersistence(PluginCall call) {
         try {
-            String host = call.getString("host");
-            if (host == null) {
-                call.reject(ERROR_HOST_MISSING);
-                return;
-            }
-            int port = call.getInt("port", 8080);
+            EnablePersistenceOptions options = new EnablePersistenceOptions(call);
 
-            implementation.useEmulator(host, port);
-            call.resolve();
+            implementation.enablePersistence(options);
+            resolveCall(call);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void getCollection(PluginCall call) {
+        try {
+            GetCollectionOptions options = new GetCollectionOptions(call);
+            NonEmptyResultCallback<GetCollectionResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetCollectionResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getCollection(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void getCollectionGroup(PluginCall call) {
+        try {
+            GetCollectionGroupOptions options = new GetCollectionGroupOptions(call);
+            NonEmptyResultCallback<GetCollectionResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetCollectionResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getCollectionGroup(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void getCountFromServer(PluginCall call) {
         try {
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject compositeFilter = call.getObject("compositeFilter", null);
-            JSArray queryConstraints = call.getArray("queryConstraints", null);
-
-            GetCountFromServerOptions options = new GetCountFromServerOptions(
-                reference,
-                compositeFilter,
-                queryConstraints,
-                implementation.getFirebaseFirestoreInstance()
-            );
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            GetCountFromServerOptions options = new GetCountFromServerOptions(call);
+            NonEmptyResultCallback<GetCountFromServerResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull GetCountFromServerResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.getCountFromServer(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
-    public void addDocumentSnapshotListener(PluginCall call) {
-        try {
-            call.setKeepAlive(true);
-
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
-            String serverTimestampBehavior = call.getString("serverTimestamps");
-            String callbackId = call.getCallbackId();
-
-            this.pluginCallMap.put(callbackId, call);
-
-            AddDocumentSnapshotListenerOptions options = new AddDocumentSnapshotListenerOptions(
-                reference,
-                includeMetadataChanges,
-                serverTimestampBehavior,
-                callbackId
-            );
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
-                @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.addDocumentSnapshotListener(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
-    public void addCollectionSnapshotListener(PluginCall call) {
-        try {
-            call.setKeepAlive(true);
-
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject compositeFilter = call.getObject("compositeFilter");
-            JSArray queryConstraints = call.getArray("queryConstraints");
-            Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
-            String serverTimestampBehavior = call.getString("serverTimestamps");
-            String callbackId = call.getCallbackId();
-
-            this.pluginCallMap.put(callbackId, call);
-
-            AddCollectionSnapshotListenerOptions options = new AddCollectionSnapshotListenerOptions(
-                reference,
-                compositeFilter,
-                queryConstraints,
-                includeMetadataChanges,
-                serverTimestampBehavior,
-                callbackId,
-                implementation.getFirebaseFirestoreInstance()
-            );
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
-                @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.addCollectionSnapshotListener(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
-    public void addCollectionGroupSnapshotListener(PluginCall call) {
-        try {
-            call.setKeepAlive(true);
-
-            String reference = call.getString("reference");
-            if (reference == null) {
-                call.reject(ERROR_REFERENCE_MISSING);
-                return;
-            }
-            JSObject compositeFilter = call.getObject("compositeFilter");
-            JSArray queryConstraints = call.getArray("queryConstraints");
-            Boolean includeMetadataChanges = call.getBoolean("includeMetadataChanges");
-            String serverTimestampBehavior = call.getString("serverTimestamps");
-            String callbackId = call.getCallbackId();
-
-            this.pluginCallMap.put(callbackId, call);
-
-            AddCollectionGroupSnapshotListenerOptions options = new AddCollectionGroupSnapshotListenerOptions(
-                reference,
-                compositeFilter,
-                queryConstraints,
-                includeMetadataChanges,
-                serverTimestampBehavior,
-                callbackId,
-                implementation.getFirebaseFirestoreInstance()
-            );
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
-                @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.addCollectionGroupSnapshotListener(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
-    public void removeSnapshotListener(PluginCall call) {
+    public void getDocument(PluginCall call) {
         try {
-            String callbackId = call.getString("callbackId");
-            if (callbackId == null) {
-                call.reject(ERROR_CALLBACK_ID_MISSING);
-                return;
-            }
+            GetDocumentOptions options = new GetDocumentOptions(call);
+            NonEmptyResultCallback<GetDocumentResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetDocumentResult result) {
+                    resolveCall(call, result);
+                }
 
-            PluginCall savedCall = this.pluginCallMap.remove(callbackId);
-            if (savedCall != null) {
-                savedCall.release(this.bridge);
-            }
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
 
-            RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(callbackId);
-            implementation.removeSnapshotListener(options);
-            call.resolve();
+            implementation.getDocument(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
+    }
+
+    public void load() {
+        config = getFirebaseFirestoreConfig();
+        implementation = new FirebaseFirestore(this, config);
     }
 
     @PluginMethod
@@ -663,8 +362,123 @@ public class FirebaseFirestorePlugin extends Plugin {
             implementation.removeAllListeners();
             super.removeAllListeners(call);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseFirestoreHelper.createErrorCode(exception));
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void removeSnapshotListener(PluginCall call) {
+        try {
+            RemoveSnapshotListenerOptions options = new RemoveSnapshotListenerOptions(call);
+
+            PluginCall savedCall = this.pluginCallMap.remove(options.getCallbackId());
+            if (savedCall != null) {
+                savedCall.release(this.bridge);
+            }
+
+            implementation.removeSnapshotListener(options);
+            resolveCall(call);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void setDocument(PluginCall call) {
+        try {
+            SetDocumentOptions options = new SetDocumentOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setDocument(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void terminate(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.terminate(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void updateDocument(PluginCall call) {
+        try {
+            UpdateDocumentOptions options = new UpdateDocumentOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.updateDocument(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void useEmulator(PluginCall call) {
+        try {
+            UseEmulatorOptions options = new UseEmulatorOptions(call);
+
+            implementation.useEmulator(options);
+            resolveCall(call);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void writeBatch(PluginCall call) {
+        try {
+            WriteBatchOptions options = new WriteBatchOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.writeBatch(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
         }
     }
 
@@ -675,5 +489,33 @@ public class FirebaseFirestorePlugin extends Plugin {
         config.setDatabaseId(databaseId);
 
         return config;
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        if (message == null) {
+            message = ERROR_UNKNOWN_ERROR;
+        }
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException
+            ? ((CustomException) exception).getCode()
+            : FirebaseFirestoreHelper.createErrorCode(exception);
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
+    }
+
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
+        }
     }
 }

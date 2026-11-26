@@ -1,31 +1,38 @@
 import Foundation
+import Capacitor
 
 @objc public class AddDocumentSnapshotListenerOptions: NSObject {
-    private var reference: String
-    private var includeMetadataChanges: Bool
-    private var serverTimestampBehavior: String?
-    private var callbackId: String
+    let callbackId: String
+    let includeMetadataChanges: Bool
+    let reference: String
+    let serverTimestampBehavior: String?
 
-    init(reference: String, includeMetadataChanges: Bool, serverTimestampBehavior: String?, callbackId: String) {
-        self.reference = reference
-        self.includeMetadataChanges = includeMetadataChanges
-        self.serverTimestampBehavior = serverTimestampBehavior
-        self.callbackId = callbackId
+    init(_ call: CAPPluginCall) throws {
+        self.reference = try AddDocumentSnapshotListenerOptions.getReferenceFromCall(call)
+        self.includeMetadataChanges = AddDocumentSnapshotListenerOptions.getIncludeMetadataChangesFromCall(call)
+        self.serverTimestampBehavior = AddDocumentSnapshotListenerOptions.getServerTimestampBehaviorFromCall(call)
+        self.callbackId = try AddDocumentSnapshotListenerOptions.getCallbackIdFromCall(call)
     }
 
-    func getReference() -> String {
+    private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let callbackId = call.callbackId else {
+            throw CustomError.callbackIdMissing
+        }
+        return callbackId
+    }
+
+    private static func getIncludeMetadataChangesFromCall(_ call: CAPPluginCall) -> Bool {
+        return call.getBool("includeMetadataChanges", false)
+    }
+
+    private static func getReferenceFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let reference = call.getString("reference") else {
+            throw CustomError.referenceMissing
+        }
         return reference
     }
 
-    func getIncludeMetadataChanges() -> Bool {
-        return includeMetadataChanges
-    }
-
-    func getServerTimestampBehavior() -> String? {
-        return serverTimestampBehavior
-    }
-
-    func getCallbackId() -> String {
-        return callbackId
+    private static func getServerTimestampBehaviorFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("serverTimestamps")
     }
 }

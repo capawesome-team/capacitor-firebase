@@ -1,23 +1,25 @@
 import Foundation
 import Capacitor
-import FirebaseFirestore
 
 @objc public class WriteBatchOptions: NSObject {
-    private var operations: [WriteBatchOperation]
+    let operations: [WriteBatchOperation]
 
-    init(operations: [JSObject], firestore: Firestore) {
-        self.operations = WriteBatchOptions.createWriteBatchOperationArrayFromJSArray(operations, firestore: firestore)
+    init(_ call: CAPPluginCall) throws {
+        self.operations = try WriteBatchOptions.getOperationsFromCall(call)
     }
 
-    public func getOperations() -> [WriteBatchOperation] {
-        return self.operations
-    }
-
-    private static func createWriteBatchOperationArrayFromJSArray(_ data: [JSObject], firestore: Firestore) -> [WriteBatchOperation] {
-        var operations: [WriteBatchOperation] = []
-        for item in data {
-            operations.append(WriteBatchOperation(item, firestore: firestore))
+    private static func createWriteBatchOperationArrayFromJSArray(_ operations: [JSObject]) -> [WriteBatchOperation] {
+        var writeBatchOperations: [WriteBatchOperation] = []
+        for item in operations {
+            writeBatchOperations.append(WriteBatchOperation(item))
         }
-        return operations
+        return writeBatchOperations
+    }
+
+    private static func getOperationsFromCall(_ call: CAPPluginCall) throws -> [WriteBatchOperation] {
+        guard let operations = call.getArray("operations", JSObject.self) else {
+            throw CustomError.operationsMissing
+        }
+        return WriteBatchOptions.createWriteBatchOperationArrayFromJSArray(operations)
     }
 }
