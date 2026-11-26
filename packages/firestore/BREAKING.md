@@ -22,6 +22,8 @@ const { snapshot } = await FirebaseFirestore.getDocument({ reference: 'users/1' 
 // Now on all platforms: { name: 'Alice', nickname: null }
 ```
 
+The same applies to a server timestamp that the server has not confirmed yet. A snapshot listener event for such a pending write now contains the field with the value `null`. Before, the field was missing in that event.
+
 Check code that treats a missing field and a `null` field differently, for example `data.nickname === undefined`, `'nickname' in data` or `{ ...defaults, ...data }`.
 
 ## Version 8.x.x
