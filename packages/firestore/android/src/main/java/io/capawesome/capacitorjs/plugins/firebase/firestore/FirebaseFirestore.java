@@ -221,12 +221,13 @@ public class FirebaseFirestore {
             });
     }
 
-    public void disablePersistence(@NonNull DisablePersistenceOptions options) {
+    public void disablePersistence(@NonNull DisablePersistenceOptions options, @NonNull EmptyResultCallback callback) {
         com.google.firebase.firestore.FirebaseFirestore firestore = getFirebaseFirestoreInstance(options.getAppName());
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(firestore.getFirestoreSettings())
             .setPersistenceEnabled(false)
             .build();
         firestore.setFirestoreSettings(settings);
+        callback.success();
     }
 
     public void enableNetwork(@NonNull EnableNetworkOptions options, @NonNull EmptyResultCallback callback) {
@@ -240,7 +241,7 @@ public class FirebaseFirestore {
             });
     }
 
-    public void enablePersistence(@NonNull EnablePersistenceOptions options) {
+    public void enablePersistence(@NonNull EnablePersistenceOptions options, @NonNull EmptyResultCallback callback) {
         Long cacheSizeBytes = options.getCacheSizeBytes();
 
         com.google.firebase.firestore.FirebaseFirestore firestore = getFirebaseFirestoreInstance(options.getAppName());
@@ -251,6 +252,7 @@ public class FirebaseFirestore {
             builder.setCacheSizeBytes(cacheSizeBytes);
         }
         firestore.setFirestoreSettings(builder.build());
+        callback.success();
     }
 
     public void getCollection(@NonNull GetCollectionOptions options, @NonNull NonEmptyResultCallback<GetCollectionResult> callback)
@@ -371,14 +373,15 @@ public class FirebaseFirestore {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void removeAllListeners() {
+    public void removeAllListeners(@NonNull EmptyResultCallback callback) {
         for (ListenerRegistration listenerRegistration : this.listenerRegistrationMap.values()) {
             listenerRegistration.remove();
         }
         this.listenerRegistrationMap.clear();
+        callback.success();
     }
 
-    public void removeSnapshotListener(@NonNull RemoveSnapshotListenerOptions options) {
+    public void removeSnapshotListener(@NonNull RemoveSnapshotListenerOptions options, @NonNull EmptyResultCallback callback) {
         String callbackId = options.getCallbackId();
 
         ListenerRegistration listenerRegistration = this.listenerRegistrationMap.get(callbackId);
@@ -386,6 +389,7 @@ public class FirebaseFirestore {
             listenerRegistration.remove();
         }
         this.listenerRegistrationMap.remove(callbackId);
+        callback.success();
     }
 
     public void setDocument(@NonNull SetDocumentOptions options, @NonNull EmptyResultCallback callback) throws Exception {
@@ -427,11 +431,12 @@ public class FirebaseFirestore {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void useEmulator(@NonNull UseEmulatorOptions options) {
+    public void useEmulator(@NonNull UseEmulatorOptions options, @NonNull EmptyResultCallback callback) {
         String host = options.getHost();
         int port = options.getPort();
 
         getFirebaseFirestoreInstance(options.getAppName()).useEmulator(host, port);
+        callback.success();
     }
 
     public void writeBatch(@NonNull WriteBatchOptions options, @NonNull EmptyResultCallback callback) throws Exception {

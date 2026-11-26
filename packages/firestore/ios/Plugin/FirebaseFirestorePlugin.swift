@@ -179,8 +179,13 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let options = DisablePersistenceOptions(call)
 
-            try implementation?.disablePersistence(options)
-            resolveCall(call)
+            try implementation?.disablePersistence(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
         } catch {
             rejectCall(call, error)
         }
@@ -206,8 +211,13 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let options = EnablePersistenceOptions(call)
 
-            try implementation?.enablePersistence(options)
-            resolveCall(call)
+            try implementation?.enablePersistence(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
         } catch {
             rejectCall(call, error)
         }
@@ -347,8 +357,13 @@ public class FirebaseFirestorePlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let options = try UseEmulatorOptions(call)
 
-            try implementation?.useEmulator(options)
-            resolveCall(call)
+            try implementation?.useEmulator(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
         } catch {
             rejectCall(call, error)
         }

@@ -177,11 +177,12 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func disablePersistence(_ options: DisablePersistenceOptions) throws {
+    @objc public func disablePersistence(_ options: DisablePersistenceOptions, completion: @escaping (Error?) -> Void) throws {
         let firestore = try getFirestoreInstance(appName: options.appName)
         let settings = firestore.settings
         settings.cacheSettings = MemoryCacheSettings()
         firestore.settings = settings
+        completion(nil)
     }
 
     @objc public func enableNetwork(_ options: EnableNetworkOptions, completion: @escaping (Error?) -> Void) throws {
@@ -190,7 +191,7 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func enablePersistence(_ options: EnablePersistenceOptions) throws {
+    @objc public func enablePersistence(_ options: EnablePersistenceOptions, completion: @escaping (Error?) -> Void) throws {
         let firestore = try getFirestoreInstance(appName: options.appName)
         let settings = firestore.settings
         if let cacheSizeBytes = options.cacheSizeBytes {
@@ -199,6 +200,7 @@ private actor ListenerRegistrationMap {
             settings.cacheSettings = PersistentCacheSettings()
         }
         firestore.settings = settings
+        completion(nil)
     }
 
     @objc public func getCollection(_ options: GetCollectionOptions, completion: @escaping (Result?, Error?) -> Void) throws {
@@ -351,12 +353,13 @@ private actor ListenerRegistrationMap {
         }
     }
 
-    @objc public func useEmulator(_ options: UseEmulatorOptions) throws {
+    @objc public func useEmulator(_ options: UseEmulatorOptions, completion: @escaping (Error?) -> Void) throws {
         let firestore = try getFirestoreInstance(appName: options.appName)
         let settings = firestore.settings
         settings.host = "\(options.host):\(options.port)"
         settings.isSSLEnabled = false
         firestore.settings = settings
+        completion(nil)
     }
 
     @objc public func writeBatch(_ options: WriteBatchOptions, completion: @escaping (Error?) -> Void) throws {
