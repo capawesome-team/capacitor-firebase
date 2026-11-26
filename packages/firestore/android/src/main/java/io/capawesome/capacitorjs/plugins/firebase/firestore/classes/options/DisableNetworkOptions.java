@@ -1,0 +1,25 @@
+package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.getcapacitor.PluginCall;
+
+public class DisableNetworkOptions {
+
+    @Nullable
+    private final String appName;
+
+    public DisableNetworkOptions(@NonNull PluginCall call) {
+        this.appName = DisableNetworkOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
+    }
+}

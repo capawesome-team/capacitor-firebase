@@ -1,10 +1,14 @@
 package io.capawesome.capacitorjs.plugins.firebase.firestore.classes.options;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExceptions;
 
 public class UseEmulatorOptions {
+
+    @Nullable
+    private final String appName;
 
     @NonNull
     private final String host;
@@ -14,6 +18,12 @@ public class UseEmulatorOptions {
     public UseEmulatorOptions(@NonNull PluginCall call) throws Exception {
         this.host = UseEmulatorOptions.getHostFromCall(call);
         this.port = UseEmulatorOptions.getPortFromCall(call);
+        this.appName = UseEmulatorOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -23,6 +33,11 @@ public class UseEmulatorOptions {
 
     public int getPort() {
         return port;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

@@ -42,6 +42,11 @@
 		7C0070612ABC4000000C0F28 /* EnablePersistenceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070602ABC4000000C0F28 /* EnablePersistenceOptions.swift */; };
 		7C0070632ABC4000000C0F28 /* UseEmulatorOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070622ABC4000000C0F28 /* UseEmulatorOptions.swift */; };
 		7C0070652ABC4000000C0F28 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070642ABC4000000C0F28 /* CustomError.swift */; };
+		7C0070682ABC4000000C0F28 /* ClearPersistenceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070672ABC4000000C0F28 /* ClearPersistenceOptions.swift */; };
+		7C00706A2ABC4000000C0F28 /* DisableNetworkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0070692ABC4000000C0F28 /* DisableNetworkOptions.swift */; };
+		7C00706C2ABC4000000C0F28 /* DisablePersistenceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00706B2ABC4000000C0F28 /* DisablePersistenceOptions.swift */; };
+		7C00706E2ABC4000000C0F28 /* EnableNetworkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00706D2ABC4000000C0F28 /* EnableNetworkOptions.swift */; };
+		7C0070702ABC4000000C0F28 /* TerminateOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C00706F2ABC4000000C0F28 /* TerminateOptions.swift */; };
 		7C2AE7C92D2DBF7000F40418 /* GetCountFromServerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */; };
 		7C2AE7CB2D2DC2B400F40418 /* GetCountFromServerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */; };
 		7C90A58E2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */; };
@@ -98,6 +103,11 @@
 		7C0070602ABC4000000C0F28 /* EnablePersistenceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnablePersistenceOptions.swift; sourceTree = "<group>"; };
 		7C0070622ABC4000000C0F28 /* UseEmulatorOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseEmulatorOptions.swift; sourceTree = "<group>"; };
 		7C0070642ABC4000000C0F28 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7C0070672ABC4000000C0F28 /* ClearPersistenceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearPersistenceOptions.swift; sourceTree = "<group>"; };
+		7C0070692ABC4000000C0F28 /* DisableNetworkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableNetworkOptions.swift; sourceTree = "<group>"; };
+		7C00706B2ABC4000000C0F28 /* DisablePersistenceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisablePersistenceOptions.swift; sourceTree = "<group>"; };
+		7C00706D2ABC4000000C0F28 /* EnableNetworkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNetworkOptions.swift; sourceTree = "<group>"; };
+		7C00706F2ABC4000000C0F28 /* TerminateOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminateOptions.swift; sourceTree = "<group>"; };
 		7C2AE7C82D2DBF6D00F40418 /* GetCountFromServerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCountFromServerOptions.swift; sourceTree = "<group>"; };
 		7C2AE7CA2D2DC2B100F40418 /* GetCountFromServerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCountFromServerResult.swift; sourceTree = "<group>"; };
 		7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionGroupSnapshotListenerOptions.swift; sourceTree = "<group>"; };
@@ -222,6 +232,11 @@
 				7C90A58D2C21519B00A71389 /* AddCollectionGroupSnapshotListenerOptions.swift */,
 				7C0070602ABC4000000C0F28 /* EnablePersistenceOptions.swift */,
 				7C0070622ABC4000000C0F28 /* UseEmulatorOptions.swift */,
+				7C0070672ABC4000000C0F28 /* ClearPersistenceOptions.swift */,
+				7C0070692ABC4000000C0F28 /* DisableNetworkOptions.swift */,
+				7C00706B2ABC4000000C0F28 /* DisablePersistenceOptions.swift */,
+				7C00706D2ABC4000000C0F28 /* EnableNetworkOptions.swift */,
+				7C00706F2ABC4000000C0F28 /* TerminateOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -509,6 +524,11 @@
 				7C0070612ABC4000000C0F28 /* EnablePersistenceOptions.swift in Sources */,
 				7C0070632ABC4000000C0F28 /* UseEmulatorOptions.swift in Sources */,
 				7C0070652ABC4000000C0F28 /* CustomError.swift in Sources */,
+				7C0070682ABC4000000C0F28 /* ClearPersistenceOptions.swift in Sources */,
+				7C00706A2ABC4000000C0F28 /* DisableNetworkOptions.swift in Sources */,
+				7C00706C2ABC4000000C0F28 /* DisablePersistenceOptions.swift in Sources */,
+				7C00706E2ABC4000000C0F28 /* EnableNetworkOptions.swift in Sources */,
+				7C0070702ABC4000000C0F28 /* TerminateOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

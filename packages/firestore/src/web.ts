@@ -6,6 +6,7 @@ import type {
   QueryFieldFilterConstraint as FirebaseQueryFieldFilterConstraint,
   QueryFilterConstraint as FirebaseQueryFilterConstraint,
   QueryNonFilterConstraint as FirebaseQueryNonFilterConstraint,
+  Firestore,
   Query,
   Unsubscribe,
 } from 'firebase/firestore';
@@ -67,8 +68,12 @@ import type {
   AddDocumentSnapshotListenerCallback,
   AddDocumentSnapshotListenerCallbackEvent,
   AddDocumentSnapshotListenerOptions,
+  ClearPersistenceOptions,
   DeleteDocumentOptions,
+  DisableNetworkOptions,
+  DisablePersistenceOptions,
   DocumentData,
+  EnableNetworkOptions,
   EnablePersistenceOptions,
   FirebaseFirestorePlugin,
   GetCollectionGroupOptions,
@@ -86,6 +91,7 @@ import type {
   QueryNonFilterConstraint,
   RemoveSnapshotListenerOptions,
   SetDocumentOptions,
+  TerminateOptions,
   UpdateDocumentOptions,
   UseEmulatorOptions,
   WriteBatchOptions,
@@ -201,11 +207,11 @@ export class FirebaseFirestoreWeb
   public async addDocument(
     options: AddDocumentOptions,
   ): Promise<AddDocumentResult> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const { reference, data } = options;
     const documentReference = await addDoc<DocumentData, DocumentData>(
       collection(firestore, reference),
-      this.serializeData(data),
+      this.serializeData(firestore, data),
     );
     return {
       reference: DocumentReference.fromPath(documentReference.path),
@@ -218,7 +224,7 @@ export class FirebaseFirestoreWeb
     options: AddDocumentSnapshotListenerOptions,
     callback: AddDocumentSnapshotListenerCallback<T>,
   ): Promise<string> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const unsubscribe = onSnapshot(
       doc(firestore, options.reference),
       {
@@ -251,30 +257,34 @@ export class FirebaseFirestoreWeb
     return id;
   }
 
-  public async clearPersistence(): Promise<void> {
-    const firestore = getFirestore();
+  public async clearPersistence(
+    options?: ClearPersistenceOptions,
+  ): Promise<void> {
+    const firestore = this.getFirestoreInstance(options?.appName);
     await clearIndexedDbPersistence(firestore);
   }
 
   public async deleteDocument(options: DeleteDocumentOptions): Promise<void> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const { reference } = options;
     await deleteDoc(doc(firestore, reference));
   }
 
-  public async disableNetwork(): Promise<void> {
-    const firestore = getFirestore();
+  public async disableNetwork(options?: DisableNetworkOptions): Promise<void> {
+    const firestore = this.getFirestoreInstance(options?.appName);
     await disableNetwork(firestore);
   }
 
-  public async disablePersistence(): Promise<void> {
-    initializeFirestore(getApp(), {
+  public async disablePersistence(
+    options?: DisablePersistenceOptions,
+  ): Promise<void> {
+    initializeFirestore(getApp(options?.appName), {
       localCache: memoryLocalCache(),
     });
   }
 
-  public async enableNetwork(): Promise<void> {
-    const firestore = getFirestore();
+  public async enableNetwork(options?: EnableNetworkOptions): Promise<void> {
+    const firestore = this.getFirestoreInstance(options?.appName);
     await enableNetwork(firestore);
   }
 
@@ -284,7 +294,7 @@ export class FirebaseFirestoreWeb
     const tabManager = options?.synchronizeTabs
       ? persistentMultipleTabManager()
       : persistentSingleTabManager(undefined);
-    initializeFirestore(getApp(), {
+    initializeFirestore(getApp(options?.appName), {
       localCache: persistentLocalCache({
         tabManager,
         cacheSizeBytes: options?.cacheSizeBytes,
@@ -348,7 +358,7 @@ export class FirebaseFirestoreWeb
   public async getDocument<T extends DocumentData>(
     options: GetDocumentOptions,
   ): Promise<GetDocumentResult<T>> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const { reference } = options;
     const documentSnapshot = await getDoc(doc(firestore, reference));
     const documentSnapshotData = documentSnapshot.data();
@@ -387,39 +397,39 @@ export class FirebaseFirestoreWeb
   }
 
   public async setDocument(options: SetDocumentOptions): Promise<void> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const { reference, data, merge } = options;
     await setDoc<DocumentData, DocumentData>(
       doc(firestore, reference),
-      this.serializeData(data),
+      this.serializeData(firestore, data),
       {
         merge,
       },
     );
   }
 
-  public async terminate(): Promise<void> {
-    const firestore = getFirestore();
+  public async terminate(options?: TerminateOptions): Promise<void> {
+    const firestore = this.getFirestoreInstance(options?.appName);
     await terminate(firestore);
   }
 
   public async updateDocument(options: UpdateDocumentOptions): Promise<void> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const { reference, data } = options;
     await updateDoc<DocumentData, DocumentData>(
       doc(firestore, reference),
-      this.serializeData(data),
+      this.serializeData(firestore, data),
     );
   }
 
   public async useEmulator(options: UseEmulatorOptions): Promise<void> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const port = options.port || 8080;
     connectFirestoreEmulator(firestore, options.host, port);
   }
 
   public async writeBatch(options: WriteBatchOptions): Promise<void> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     const { operations } = options;
     const batch = writeBatch(firestore);
     for (const operation of operations) {
@@ -429,12 +439,15 @@ export class FirebaseFirestoreWeb
         case 'set':
           batch.set(
             documentReference,
-            this.serializeData(data ?? {}),
+            this.serializeData(firestore, data ?? {}),
             options ?? {},
           );
           break;
         case 'update':
-          batch.update(documentReference, this.serializeData(data ?? {}));
+          batch.update(
+            documentReference,
+            this.serializeData(firestore, data ?? {}),
+          );
           break;
         case 'delete':
           batch.delete(documentReference);
@@ -452,14 +465,16 @@ export class FirebaseFirestoreWeb
       | AddCollectionSnapshotListenerOptions,
     type: 'collection' | 'collectionGroup',
   ): Promise<Query<DocumentData, DocumentData>> {
-    const firestore = getFirestore();
+    const firestore = this.getFirestoreInstance(options.appName);
     let collectionQuery: Query;
     if (options.compositeFilter) {
       const compositeFilter = this.buildFirebaseQueryCompositeFilterConstraint(
+        firestore,
         options.compositeFilter,
       );
       const queryConstraints =
         await this.buildFirebaseQueryNonFilterConstraints(
+          firestore,
           options.queryConstraints || [],
         );
       collectionQuery = query(
@@ -471,6 +486,7 @@ export class FirebaseFirestoreWeb
       );
     } else {
       const queryConstraints = await this.buildFirebaseQueryConstraints(
+        firestore,
         options.queryConstraints || [],
       );
       collectionQuery = query(
@@ -484,9 +500,11 @@ export class FirebaseFirestoreWeb
   }
 
   private buildFirebaseQueryCompositeFilterConstraint(
+    firestore: Firestore,
     compositeFilter: QueryCompositeFilterConstraint,
   ): FirebaseQueryCompositeFilterConstraint {
     const queryConstraints = this.buildFirebaseQueryFilterConstraints(
+      firestore,
       compositeFilter.queryConstraints,
     );
     if (compositeFilter.type === 'and') {
@@ -497,64 +515,83 @@ export class FirebaseFirestoreWeb
   }
 
   private async buildFirebaseQueryConstraint(
+    firestore: Firestore,
     queryConstraint: QueryConstraint,
   ): Promise<FirebaseQueryConstraint> {
     if (queryConstraint.type === 'where') {
-      return this.buildFirebaseQueryFieldFilterConstraint(queryConstraint);
+      return this.buildFirebaseQueryFieldFilterConstraint(
+        firestore,
+        queryConstraint,
+      );
     } else {
-      return await this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
+      return await this.buildFirebaseQueryNonFilterConstraint(
+        firestore,
+        queryConstraint,
+      );
     }
   }
 
   private async buildFirebaseQueryConstraints(
+    firestore: Firestore,
     queryConstraints: QueryConstraint[],
   ): Promise<FirebaseQueryConstraint[]> {
     const firebaseQueryConstraints: FirebaseQueryConstraint[] = [];
     for (const queryConstraint of queryConstraints) {
-      const firebaseQueryConstraint =
-        await this.buildFirebaseQueryConstraint(queryConstraint);
+      const firebaseQueryConstraint = await this.buildFirebaseQueryConstraint(
+        firestore,
+        queryConstraint,
+      );
       firebaseQueryConstraints.push(firebaseQueryConstraint);
     }
     return firebaseQueryConstraints;
   }
 
   private buildFirebaseQueryFieldFilterConstraint(
+    firestore: Firestore,
     queryfilterConstraints: QueryFieldFilterConstraint,
   ): FirebaseQueryFieldFilterConstraint {
     return where(
       queryfilterConstraints.fieldPath,
       queryfilterConstraints.opStr,
-      this.serializeFilterValue(queryfilterConstraints.value),
+      this.serializeFilterValue(firestore, queryfilterConstraints.value),
     );
   }
 
   private buildFirebaseQueryFilterConstraint(
+    firestore: Firestore,
     queryFilterConstraints: QueryFilterConstraint,
   ): FirebaseQueryFilterConstraint {
     if (queryFilterConstraints.type === 'where') {
       return this.buildFirebaseQueryFieldFilterConstraint(
+        firestore,
         queryFilterConstraints,
       );
     } else {
       return this.buildFirebaseQueryCompositeFilterConstraint(
+        firestore,
         queryFilterConstraints,
       );
     }
   }
 
   private buildFirebaseQueryFilterConstraints(
+    firestore: Firestore,
     queryfilterConstraints: QueryFilterConstraint[],
   ): FirebaseQueryFilterConstraint[] {
     const firebaseQueryFilterConstraints: FirebaseQueryFilterConstraint[] = [];
     for (const queryfilterConstraint of queryfilterConstraints) {
       const firebaseQueryFilterConstraint =
-        this.buildFirebaseQueryFilterConstraint(queryfilterConstraint);
+        this.buildFirebaseQueryFilterConstraint(
+          firestore,
+          queryfilterConstraint,
+        );
       firebaseQueryFilterConstraints.push(firebaseQueryFilterConstraint);
     }
     return firebaseQueryFilterConstraints;
   }
 
   private async buildFirebaseQueryNonFilterConstraint(
+    firestore: Firestore,
     queryConstraints: QueryNonFilterConstraint,
   ): Promise<FirebaseQueryNonFilterConstraint> {
     switch (queryConstraints.type) {
@@ -571,7 +608,6 @@ export class FirebaseFirestoreWeb
       case 'startAfter':
       case 'endAt':
       case 'endBefore': {
-        const firestore = getFirestore();
         const documentSnapshot = await getDoc(
           doc(firestore, queryConstraints.reference),
         );
@@ -590,13 +626,17 @@ export class FirebaseFirestoreWeb
   }
 
   private async buildFirebaseQueryNonFilterConstraints(
+    firestore: Firestore,
     queryConstraints: QueryNonFilterConstraint[],
   ): Promise<FirebaseQueryNonFilterConstraint[]> {
     const firebaseQueryNonFilterConstraints: FirebaseQueryNonFilterConstraint[] =
       [];
     for (const queryConstraint of queryConstraints) {
       const firebaseQueryNonFilterConstraint =
-        await this.buildFirebaseQueryNonFilterConstraint(queryConstraint);
+        await this.buildFirebaseQueryNonFilterConstraint(
+          firestore,
+          queryConstraint,
+        );
       firebaseQueryNonFilterConstraints.push(firebaseQueryNonFilterConstraint);
     }
     return firebaseQueryNonFilterConstraints;
@@ -649,7 +689,7 @@ export class FirebaseFirestoreWeb
     return data;
   }
 
-  private serializeData(data: any): any {
+  private serializeData(firestore: Firestore, data: any): any {
     if (data instanceof Timestamp) {
       return new FirebaseTimestamp(data.seconds, data.nanoseconds);
     }
@@ -660,43 +700,43 @@ export class FirebaseFirestoreWeb
       return FirebaseBytes.fromBase64String(data.toBase64());
     }
     if (data instanceof FieldValue) {
-      return this.serializeFieldValue(data.toJSON());
+      return this.serializeFieldValue(firestore, data.toJSON());
     }
     if (data === null || data === undefined) {
       return data;
     }
     if (Array.isArray(data)) {
-      return data.map(item => this.serializeData(item));
+      return data.map(item => this.serializeData(firestore, item));
     }
     if (typeof data === 'object') {
       if (data.__type__) {
-        return this.serializeMarker(data);
+        return this.serializeMarker(firestore, data);
       }
       const result: Record<string, any> = {};
       for (const key of Object.keys(data)) {
-        result[key] = this.serializeData(data[key]);
+        result[key] = this.serializeData(firestore, data[key]);
       }
       return result;
     }
     return data;
   }
 
-  private serializeFieldValue(marker: any): any {
-    return this.serializeMarker(marker);
+  private serializeFieldValue(firestore: Firestore, marker: any): any {
+    return this.serializeMarker(firestore, marker);
   }
 
-  private serializeFilterValue(value: any): any {
-    return this.serializeData(value);
+  private serializeFilterValue(firestore: Firestore, value: any): any {
+    return this.serializeData(firestore, value);
   }
 
-  private serializeMarker(marker: any): any {
+  private serializeMarker(firestore: Firestore, marker: any): any {
     switch (marker.__type__) {
       case 'timestamp':
         return new FirebaseTimestamp(marker.seconds, marker.nanoseconds);
       case 'geopoint':
         return new FirebaseGeoPoint(marker.latitude, marker.longitude);
       case 'documentReference':
-        return doc(getFirestore(), marker.path);
+        return doc(firestore, marker.path);
       case 'bytes':
         return FirebaseBytes.fromBase64String(marker.bytes);
       case 'number':
@@ -705,11 +745,15 @@ export class FirebaseFirestoreWeb
         return serverTimestamp();
       case 'arrayUnion':
         return arrayUnion(
-          ...(marker.elements || []).map((e: any) => this.serializeData(e)),
+          ...(marker.elements || []).map((e: any) =>
+            this.serializeData(firestore, e),
+          ),
         );
       case 'arrayRemove':
         return arrayRemove(
-          ...(marker.elements || []).map((e: any) => this.serializeData(e)),
+          ...(marker.elements || []).map((e: any) =>
+            this.serializeData(firestore, e),
+          ),
         );
       case 'delete':
         return deleteField();
@@ -722,5 +766,9 @@ export class FirebaseFirestoreWeb
 
   private generateListenerId(): string {
     return (++this.lastListenerId).toString();
+  }
+
+  private getFirestoreInstance(appName?: string): Firestore {
+    return getFirestore(getApp(appName));
   }
 }

@@ -17,6 +17,7 @@ The Cloud Firestore plugin is typically used to store and sync app data in the c
 - **Complex queries**: Filter and sort collections with composite filters and query constraints such as `where`, `orderBy`, and `limit`.
 - **Offline support**: Enable offline persistence and control network access to work with locally cached data.
 - **Atomic writes**: Perform multiple write operations as a single atomic batch with `writeBatch(...)`.
+- **Multiple Firebase projects**: Read and write data of another Firebase project with the `appName` option.
 
 ## Compatibility
 
@@ -98,9 +99,9 @@ Add the following to your `capacitor.config.json` (or `capacitor.config.ts`) to 
 
 These configuration values are available:
 
-| Prop             | Type                | Description                                                                           | Since |
-| ---------------- | ------------------- | ------------------------------------------------------------------------------------- | ----- |
-| **`databaseId`** | <code>string</code> | The database ID of the Firestore database to use. Only available for Android and iOS. | 8.2.0 |
+| Prop             | Type                | Description                                                                                                                                                                                                    | Since |
+| ---------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`databaseId`** | <code>string</code> | The database ID of the Firestore database to use. This option applies only to calls without `appName`. A call with `appName` always uses the default database of that app. Only available for Android and iOS. | 8.2.0 |
 
 ### Examples
 
@@ -495,6 +496,28 @@ const removeAllListeners = async () => {
 };
 ```
 
+### Use another Firebase project
+
+Pass the `appName` option to use a Firebase app other than the default app, for example to read data of a second Firebase project. Initialize the app with the `initializeApp(...)` method of the [Firebase App](https://capawesome.io/docs/sdks/capacitor/firebase/app/) plugin first. Then pass its name as `appName`:
+
+```typescript
+import { FirebaseFirestore } from '@capacitor-firebase/firestore';
+
+const getDocument = async () => {
+  const { snapshot } = await FirebaseFirestore.getDocument({
+    reference: 'users/Aorq09lkt1ynbR7xhTUx',
+    appName: 'secondary',
+  });
+  return snapshot;
+};
+```
+
+Every app has its own Firestore instance. Methods that change the instance, such as `useEmulator(...)`, `enablePersistence(...)`, `disablePersistence(...)` and `disableNetwork(...)`, apply only to the app of that call. Call them once for every `appName` that needs them.
+
+To use the default app, leave `appName` out.
+
+**Attention**: The Firebase Authentication plugin always uses the default app, so calls with `appName` are made without a signed-in user.
+
 ## API
 
 <docgen-index>
@@ -503,12 +526,12 @@ const removeAllListeners = async () => {
 * [`addCollectionGroupSnapshotListener(...)`](#addcollectiongroupsnapshotlistener)
 * [`addCollectionSnapshotListener(...)`](#addcollectionsnapshotlistener)
 * [`addDocumentSnapshotListener(...)`](#adddocumentsnapshotlistener)
-* [`clearPersistence()`](#clearpersistence)
+* [`clearPersistence(...)`](#clearpersistence)
 * [`deleteDocument(...)`](#deletedocument)
-* [`disableNetwork()`](#disablenetwork)
-* [`disablePersistence()`](#disablepersistence)
+* [`disableNetwork(...)`](#disablenetwork)
+* [`disablePersistence(...)`](#disablepersistence)
 * [`enablePersistence(...)`](#enablepersistence)
-* [`enableNetwork()`](#enablenetwork)
+* [`enableNetwork(...)`](#enablenetwork)
 * [`getCollection(...)`](#getcollection)
 * [`getCollectionGroup(...)`](#getcollectiongroup)
 * [`getCountFromServer(...)`](#getcountfromserver)
@@ -516,7 +539,7 @@ const removeAllListeners = async () => {
 * [`removeAllListeners()`](#removealllisteners)
 * [`removeSnapshotListener(...)`](#removesnapshotlistener)
 * [`setDocument(...)`](#setdocument)
-* [`terminate()`](#terminate)
+* [`terminate(...)`](#terminate)
 * [`updateDocument(...)`](#updatedocument)
 * [`useEmulator(...)`](#useemulator)
 * [`writeBatch(...)`](#writebatch)
@@ -607,16 +630,20 @@ Adds a listener for document snapshot events.
 --------------------
 
 
-### clearPersistence()
+### clearPersistence(...)
 
 ```typescript
-clearPersistence() => Promise<void>
+clearPersistence(options?: ClearPersistenceOptions | undefined) => Promise<void>
 ```
 
 Clears the persistent storage. This includes pending writes and cached documents.
 
 **Attention**: The Firestore instance must not be running.
 Call this method before the first read or write, or after `terminate()`.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#clearpersistenceoptions">ClearPersistenceOptions</a></code> |
 
 **Since:** 5.2.0
 
@@ -640,28 +667,36 @@ Deletes the document referred to by the specified reference.
 --------------------
 
 
-### disableNetwork()
+### disableNetwork(...)
 
 ```typescript
-disableNetwork() => Promise<void>
+disableNetwork(options?: DisableNetworkOptions | undefined) => Promise<void>
 ```
 
 Disables use of the network.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#disablenetworkoptions">DisableNetworkOptions</a></code> |
 
 **Since:** 5.2.0
 
 --------------------
 
 
-### disablePersistence()
+### disablePersistence(...)
 
 ```typescript
-disablePersistence() => Promise<void>
+disablePersistence(options?: DisablePersistenceOptions | undefined) => Promise<void>
 ```
 
 Disables offline persistence.
 
 **Attention**: Must be called before any other Firestore method.
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#disablepersistenceoptions">DisablePersistenceOptions</a></code> |
 
 **Since:** 8.2.0
 
@@ -687,13 +722,17 @@ Enables offline persistence.
 --------------------
 
 
-### enableNetwork()
+### enableNetwork(...)
 
 ```typescript
-enableNetwork() => Promise<void>
+enableNetwork(options?: EnableNetworkOptions | undefined) => Promise<void>
 ```
 
 Re-enables use of the network.
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#enablenetworkoptions">EnableNetworkOptions</a></code> |
 
 **Since:** 5.2.0
 
@@ -822,10 +861,10 @@ If the document does not yet exist, it will be created.
 --------------------
 
 
-### terminate()
+### terminate(...)
 
 ```typescript
-terminate() => Promise<void>
+terminate(options?: TerminateOptions | undefined) => Promise<void>
 ```
 
 Terminates the Firestore instance. The next call to any other method starts a new instance.
@@ -838,6 +877,10 @@ On Web, each listener is called one last time with an error.
 Calls that are still running may fail or never resolve.
 The new instance starts with the default settings. An app that uses `enablePersistence(...)`,
 `disablePersistence()` or `useEmulator(...)` must call it again.
+
+| Param         | Type                                                          |
+| ------------- | ------------------------------------------------------------- |
+| **`options`** | <code><a href="#terminateoptions">TerminateOptions</a></code> |
 
 **Since:** 8.7.0
 
@@ -907,10 +950,11 @@ Execute multiple write operations as a single batch.
 
 #### AddDocumentOptions
 
-| Prop            | Type                                                  | Description                                                                         | Since |
-| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
+| Prop            | Type                                                  | Description                                                                                                                                                         | Since |
+| --------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                                                                                                 | 5.2.0 |
+| **`appName`**   | <code>string</code>                                   | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### DocumentData
@@ -918,11 +962,12 @@ Execute multiple write operations as a single batch.
 
 #### AddCollectionGroupSnapshotListenerOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                         | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 6.1.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 6.1.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 6.1.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 6.1.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                                | 6.1.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.                                                                 | 6.1.0 |
+| **`appName`**          | <code>string</code>                                                                       | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### QueryCompositeFilterConstraint
@@ -1003,11 +1048,12 @@ Execute multiple write operations as a single batch.
 
 #### AddCollectionSnapshotListenerOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                         | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                                | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.                                                                 | 5.2.0 |
+| **`appName`**          | <code>string</code>                                                                       | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetCollectionResult
@@ -1019,9 +1065,10 @@ Execute multiple write operations as a single batch.
 
 #### AddDocumentSnapshotListenerOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+| Prop            | Type                | Description                                                                                                                                                         | Since |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`appName`**   | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetDocumentResult
@@ -1031,37 +1078,69 @@ Execute multiple write operations as a single batch.
 | **`snapshot`** | <code><a href="#documentsnapshot">DocumentSnapshot</a>&lt;T&gt;</code> | The current document contents. | 5.2.0 |
 
 
+#### ClearPersistenceOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
 #### DeleteDocumentOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+| Prop            | Type                | Description                                                                                                                                                         | Since |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`appName`**   | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
+#### DisableNetworkOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
+#### DisablePersistenceOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### EnablePersistenceOptions
 
-| Prop                  | Type                 | Description                                                                      | Default                         | Since |
-| --------------------- | -------------------- | -------------------------------------------------------------------------------- | ------------------------------- | ----- |
-| **`cacheSizeBytes`**  | <code>number</code>  | The cache size in bytes.                                                         | <code>104857600 (100 MB)</code> | 8.2.0 |
-| **`synchronizeTabs`** | <code>boolean</code> | Whether to synchronize persistence across multiple tabs. Only available for Web. | <code>false</code>              | 8.2.0 |
+| Prop                  | Type                 | Description                                                                                                                                                         | Default                         | Since |
+| --------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----- |
+| **`cacheSizeBytes`**  | <code>number</code>  | The cache size in bytes.                                                                                                                                            | <code>104857600 (100 MB)</code> | 8.2.0 |
+| **`synchronizeTabs`** | <code>boolean</code> | Whether to synchronize persistence across multiple tabs. Only available for Web.                                                                                    | <code>false</code>              | 8.2.0 |
+| **`appName`**         | <code>string</code>  | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. |                                 | 8.7.0 |
+
+
+#### EnableNetworkOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetCollectionOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                         | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                                | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.                                                                 | 5.2.0 |
+| **`appName`**          | <code>string</code>                                                                       | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetCollectionGroupOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                         | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                 | 5.2.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                | 5.2.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields. | 5.2.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                                | 5.2.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to retrieve, but do not explicitly filter for document fields.                                                                 | 5.2.0 |
+| **`appName`**          | <code>string</code>                                                                       | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetCountFromServerResult
@@ -1073,18 +1152,20 @@ Execute multiple write operations as a single batch.
 
 #### GetCountFromServerOptions
 
-| Prop                   | Type                                                                                      | Description                                                                                      | Since |
-| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----- |
-| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).              | 6.4.0 |
-| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                             | 8.3.0 |
-| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to count, but do not explicitly filter for document fields. | 8.3.0 |
+| Prop                   | Type                                                                                      | Description                                                                                                                                                         | Since |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`**        | <code>string</code>                                                                       | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 6.4.0 |
+| **`compositeFilter`**  | <code><a href="#querycompositefilterconstraint">QueryCompositeFilterConstraint</a></code> | The filter to apply.                                                                                                                                                | 8.3.0 |
+| **`queryConstraints`** | <code>QueryNonFilterConstraint[]</code>                                                   | Narrow or order the set of documents to count, but do not explicitly filter for document fields.                                                                    | 8.3.0 |
+| **`appName`**          | <code>string</code>                                                                       | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetDocumentOptions
 
-| Prop            | Type                | Description                                                                         | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
+| Prop            | Type                | Description                                                                                                                                                         | Since |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code> | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`appName`**   | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### RemoveSnapshotListenerOptions
@@ -1096,34 +1177,45 @@ Execute multiple write operations as a single batch.
 
 #### SetDocumentOptions
 
-| Prop            | Type                                                  | Description                                                                         | Default            | Since |
-| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------ | ----- |
-| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). |                    | 5.2.0 |
-| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 |                    | 5.2.0 |
-| **`merge`**     | <code>boolean</code>                                  | Whether to merge the provided data with an existing document.                       | <code>false</code> | 5.2.0 |
+| Prop            | Type                                                  | Description                                                                                                                                                         | Default            | Since |
+| --------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 |                    | 5.2.0 |
+| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                                                                                                 |                    | 5.2.0 |
+| **`merge`**     | <code>boolean</code>                                  | Whether to merge the provided data with an existing document.                                                                                                       | <code>false</code> | 5.2.0 |
+| **`appName`**   | <code>string</code>                                   | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. |                    | 8.7.0 |
+
+
+#### TerminateOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### UpdateDocumentOptions
 
-| Prop            | Type                                                  | Description                                                                         | Since |
-| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- |
-| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`). | 5.2.0 |
-| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                 | 5.2.0 |
+| Prop            | Type                                                  | Description                                                                                                                                                         | Since |
+| --------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`reference`** | <code>string</code>                                   | The reference as a string, with path components separated by a forward slash (`/`).                                                                                 | 5.2.0 |
+| **`data`**      | <code><a href="#documentdata">DocumentData</a></code> | An object containing the data for the new document.                                                                                                                 | 5.2.0 |
+| **`appName`**   | <code>string</code>                                   | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### UseEmulatorOptions
 
-| Prop       | Type                | Description                                                                                                                                                                     | Default           | Since |
-| ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
-| **`host`** | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
-| **`port`** | <code>number</code> | The emulator port.                                                                                                                                                              | <code>8080</code> | 6.1.0 |
+| Prop          | Type                | Description                                                                                                                                                                     | Default           | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
+| **`host`**    | <code>string</code> | The emulator host without any port or scheme. Note when using a Android Emulator device: 10.0.2.2 is the special IP address to connect to the 'localhost' of the host computer. |                   | 6.1.0 |
+| **`port`**    | <code>number</code> | The emulator port.                                                                                                                                                              | <code>8080</code> | 6.1.0 |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used.             |                   | 8.7.0 |
 
 
 #### WriteBatchOptions
 
-| Prop             | Type                               | Description                             | Since |
-| ---------------- | ---------------------------------- | --------------------------------------- | ----- |
-| **`operations`** | <code>WriteBatchOperation[]</code> | The operations to execute in the batch. | 6.1.0 |
+| Prop             | Type                               | Description                                                                                                                                                         | Since |
+| ---------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`operations`** | <code>WriteBatchOperation[]</code> | The operations to execute in the batch.                                                                                                                             | 6.1.0 |
+| **`appName`**    | <code>string</code>                | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### WriteBatchOperation
@@ -1219,6 +1311,10 @@ Yes, you can enable offline persistence with the `enablePersistence(...)` method
 ### Can I use a Firestore database other than the default one?
 
 Yes, you can set the `databaseId` configuration option in your Capacitor configuration to select the Firestore database to use (see [Configuration](#configuration)). This option is only available on Android and iOS.
+
+### Can I use more than one Firebase project in my app?
+
+Yes. Initialize another app with the `initializeApp(...)` method of the Firebase App plugin and pass its name as `appName` to the Firestore methods. See [Use another Firebase project](#use-another-firebase-project) for an example. The `databaseId` configuration option applies only to calls without `appName`. A call with `appName` always uses the default database of that app.
 
 ### How do I test my app against a local Firestore instance?
 

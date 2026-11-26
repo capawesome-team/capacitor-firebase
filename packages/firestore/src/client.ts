@@ -8,8 +8,12 @@ import type {
   AddDocumentSnapshotListenerCallback,
   AddDocumentSnapshotListenerOptions,
   CallbackId,
+  ClearPersistenceOptions,
   DeleteDocumentOptions,
+  DisableNetworkOptions,
+  DisablePersistenceOptions,
   DocumentData,
+  EnableNetworkOptions,
   EnablePersistenceOptions,
   FirebaseFirestorePlugin,
   GetCollectionGroupOptions,
@@ -22,6 +26,7 @@ import type {
   GetDocumentResult,
   RemoveSnapshotListenerOptions,
   SetDocumentOptions,
+  TerminateOptions,
   UpdateDocumentOptions,
   UseEmulatorOptions,
   WriteBatchOptions,
@@ -103,24 +108,24 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
     );
   }
 
-  async clearPersistence(): Promise<void> {
-    return this.plugin.clearPersistence();
+  async clearPersistence(options?: ClearPersistenceOptions): Promise<void> {
+    return this.plugin.clearPersistence(options);
   }
 
   async deleteDocument(options: DeleteDocumentOptions): Promise<void> {
     return this.plugin.deleteDocument(options);
   }
 
-  async disableNetwork(): Promise<void> {
-    return this.plugin.disableNetwork();
+  async disableNetwork(options?: DisableNetworkOptions): Promise<void> {
+    return this.plugin.disableNetwork(options);
   }
 
-  async disablePersistence(): Promise<void> {
-    return this.plugin.disablePersistence();
+  async disablePersistence(options?: DisablePersistenceOptions): Promise<void> {
+    return this.plugin.disablePersistence(options);
   }
 
-  async enableNetwork(): Promise<void> {
-    return this.plugin.enableNetwork();
+  async enableNetwork(options?: EnableNetworkOptions): Promise<void> {
+    return this.plugin.enableNetwork(options);
   }
 
   async enablePersistence(options?: EnablePersistenceOptions): Promise<void> {
@@ -186,8 +191,8 @@ export class FirebaseFirestoreClient implements FirebaseFirestorePlugin {
     });
   }
 
-  async terminate(): Promise<void> {
-    return this.plugin.terminate();
+  async terminate(options?: TerminateOptions): Promise<void> {
+    return this.plugin.terminate(options);
   }
 
   async updateDocument(options: UpdateDocumentOptions): Promise<void> {

@@ -1,6 +1,7 @@
 import Foundation
 
 enum CustomError: Error {
+    case appNotFound
     case callbackIdMissing
     case dataMissing
     case hostMissing
@@ -9,7 +10,7 @@ enum CustomError: Error {
 
     var code: String? {
         switch self {
-        case .callbackIdMissing, .dataMissing, .hostMissing, .operationsMissing, .referenceMissing:
+        case .appNotFound, .callbackIdMissing, .dataMissing, .hostMissing, .operationsMissing, .referenceMissing:
             return nil
         }
     }
@@ -18,6 +19,8 @@ enum CustomError: Error {
 extension CustomError: LocalizedError {
     public var errorDescription: String? {
         switch self {
+        case .appNotFound:
+            return NSLocalizedString("No app with the given appName has been initialized.", comment: "appNotFound")
         case .callbackIdMissing:
             return NSLocalizedString("callbackId must be provided.", comment: "callbackIdMissing")
         case .dataMissing:
