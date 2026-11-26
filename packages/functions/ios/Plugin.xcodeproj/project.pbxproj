@@ -19,6 +19,7 @@
 		7C400FB02C22A3E2007AA725 /* CallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FAF2C22A3E2007AA725 /* CallOptions.swift */; };
 		7C400FB22C22A3EB007AA725 /* CallByNameOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB12C22A3EB007AA725 /* CallByNameOptions.swift */; };
 		7C400FB42C22A3F6007AA725 /* CallByUrlOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB32C22A3F6007AA725 /* CallByUrlOptions.swift */; };
+		7C400FB62C22A401007AA725 /* FirebaseFunctionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C400FB52C22A401007AA725 /* FirebaseFunctionsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		7C400FAF2C22A3E2007AA725 /* CallOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallOptions.swift; sourceTree = "<group>"; };
 		7C400FB12C22A3EB007AA725 /* CallByNameOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallByNameOptions.swift; sourceTree = "<group>"; };
 		7C400FB32C22A3F6007AA725 /* CallByUrlOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallByUrlOptions.swift; sourceTree = "<group>"; };
+		7C400FB52C22A401007AA725 /* FirebaseFunctionsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsHelper.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				7C400FA72C22A391007AA725 /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseFunctionsPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseFunctions.swift */,
+				7C400FB52C22A401007AA725 /* FirebaseFunctionsHelper.swift */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
@@ -373,6 +376,7 @@
 				7C400FAC2C22A3B4007AA725 /* Result.swift in Sources */,
 				7C400FAE2C22A3CA007AA725 /* CallResult.swift in Sources */,
 				7C400FB42C22A3F6007AA725 /* CallByUrlOptions.swift in Sources */,
+				7C400FB62C22A401007AA725 /* FirebaseFunctionsHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

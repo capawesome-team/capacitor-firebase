@@ -48,7 +48,7 @@ public class FirebaseFunctionsPlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFunctionsHelper.createErrorCode(exception));
                 }
             };
 
@@ -81,7 +81,7 @@ public class FirebaseFunctionsPlugin extends Plugin {
                 @Override
                 public void error(Exception exception) {
                     Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage());
+                    call.reject(exception.getMessage(), FirebaseFunctionsHelper.createErrorCode(exception));
                 }
             };
 
