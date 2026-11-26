@@ -1,9 +1,13 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 
 public class LinkWithEmailAndPasswordOptions {
+
+    @Nullable
+    private final String appName;
 
     @NonNull
     private final String email;
@@ -14,6 +18,12 @@ public class LinkWithEmailAndPasswordOptions {
     public LinkWithEmailAndPasswordOptions(@NonNull PluginCall call) {
         this.email = LinkWithEmailAndPasswordOptions.getEmailFromCall(call);
         this.password = LinkWithEmailAndPasswordOptions.getPasswordFromCall(call);
+        this.appName = LinkWithEmailAndPasswordOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -24,6 +34,11 @@ public class LinkWithEmailAndPasswordOptions {
     @NonNull
     public String getPassword() {
         return password;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

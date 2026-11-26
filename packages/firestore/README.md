@@ -516,7 +516,7 @@ Every app has its own Firestore instance. Methods that change the instance, such
 
 To use the default app, leave `appName` out.
 
-**Attention**: The Firebase Authentication plugin always uses the default app, so calls with `appName` are made without a signed-in user.
+**Attention**: A call with `appName` is made as the user of that app. To sign in a user to it, pass the same `appName` to the methods of the [Firebase Authentication](https://capawesome.io/docs/sdks/capacitor/firebase/authentication/) plugin.
 
 ## API
 

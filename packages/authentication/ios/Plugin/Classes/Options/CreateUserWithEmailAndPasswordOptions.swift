@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 
 @objc public class CreateUserWithEmailAndPasswordOptions: NSObject {
+    let appName: String?
     let email: String
     let password: String
 
@@ -10,6 +11,7 @@ import Capacitor
         try CreateUserWithEmailAndPasswordOptions.checkSkipNativeAuthFromCall(call, config: config)
         self.email = try CreateUserWithEmailAndPasswordOptions.getEmailFromCall(call)
         self.password = try CreateUserWithEmailAndPasswordOptions.getPasswordFromCall(call)
+        self.appName = CreateUserWithEmailAndPasswordOptions.getAppNameFromCall(call)
     }
 
     private static func checkSkipNativeAuthFromCall(_ call: CAPPluginCall, config: FirebaseAuthenticationConfig) throws {
@@ -17,6 +19,10 @@ import Capacitor
         if skipNativeAuth == true {
             throw CustomError.emailSignInSkipNativeAuth
         }
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getEmailFromCall(_ call: CAPPluginCall) throws -> String {

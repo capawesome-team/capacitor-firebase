@@ -15,7 +15,6 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.Confirm
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.CustomException;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.LinkWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.PhoneVerificationCompletedEvent;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInResult;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInWithPhoneNumberOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.events.AuthStateChangeEvent;
@@ -23,25 +22,32 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.events.
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.ApplyActionCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.ConfirmPasswordResetOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.CreateUserWithEmailAndPasswordOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.DeleteUserOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.FetchSignInMethodsForEmailOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetCurrentUserOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetIdTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetIdTokenResultOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetTenantIdOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.IsSignInWithEmailLinkOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.LinkWithEmailAndPasswordOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.LinkWithEmailLinkOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.ReloadOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.RevokeAccessTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendEmailVerificationOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendPasswordResetEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendSignInLinkToEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SetLanguageCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SetTenantIdOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInAnonymouslyOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInWithCustomTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInWithEmailAndPasswordOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInWithEmailLinkOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignOutOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UnlinkOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UpdateEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UpdatePasswordOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UpdateProfileOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UseAppLanguageOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UseEmulatorOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.VerifyBeforeUpdateEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.results.FetchSignInMethodsForEmailResult;
@@ -187,6 +193,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void deleteUser(PluginCall call) {
         try {
+            DeleteUserOptions options = new DeleteUserOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -199,7 +206,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 }
             };
 
-            implementation.deleteUser(callback);
+            implementation.deleteUser(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -230,6 +237,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void getCurrentUser(PluginCall call) {
         try {
+            GetCurrentUserOptions options = new GetCurrentUserOptions(call);
             NonEmptyResultCallback<GetCurrentUserResult> callback = new NonEmptyResultCallback<>() {
                 @Override
                 public void success(@NonNull GetCurrentUserResult result) {
@@ -242,7 +250,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 }
             };
 
-            implementation.getCurrentUser(callback);
+            implementation.getCurrentUser(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -311,6 +319,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void getTenantId(PluginCall call) {
         try {
+            GetTenantIdOptions options = new GetTenantIdOptions(call);
             NonEmptyResultCallback<GetTenantIdResult> callback = new NonEmptyResultCallback<>() {
                 @Override
                 public void success(@NonNull GetTenantIdResult result) {
@@ -323,7 +332,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 }
             };
 
-            implementation.getTenantId(callback);
+            implementation.getTenantId(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -555,6 +564,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void reload(PluginCall call) {
         try {
+            ReloadOptions options = new ReloadOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -567,7 +577,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 }
             };
 
-            implementation.reload(callback);
+            implementation.reload(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -718,7 +728,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void signInAnonymously(PluginCall call) {
         try {
-            SignInOptions options = new SignInOptions(call, config);
+            SignInAnonymouslyOptions options = new SignInAnonymouslyOptions(call, config);
             NonEmptyResultCallback<SignInResult> callback = new NonEmptyResultCallback<>() {
                 @Override
                 public void success(@NonNull SignInResult result) {
@@ -938,6 +948,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void signOut(PluginCall call) {
         try {
+            SignOutOptions options = new SignOutOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -950,7 +961,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 }
             };
 
-            implementation.signOut(callback);
+            implementation.signOut(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
@@ -1052,6 +1063,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
     @PluginMethod
     public void useAppLanguage(PluginCall call) {
         try {
+            UseAppLanguageOptions options = new UseAppLanguageOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
@@ -1064,7 +1076,7 @@ public class FirebaseAuthenticationPlugin extends Plugin {
                 }
             };
 
-            implementation.useAppLanguage(callback);
+            implementation.useAppLanguage(options, callback);
         } catch (Exception exception) {
             rejectCall(call, exception);
         }

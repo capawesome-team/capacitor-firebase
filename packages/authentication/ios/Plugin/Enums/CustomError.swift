@@ -2,6 +2,7 @@ import Foundation
 
 enum CustomError: Error {
     case actionCodeSettingsMissing
+    case appNotFound
     case customTokenSkipNativeAuth
     case emailLinkMissing
     case emailLinkSignInSkipNativeAuth
@@ -20,7 +21,7 @@ enum CustomError: Error {
 
     var code: String? {
         switch self {
-        case .actionCodeSettingsMissing, .customTokenSkipNativeAuth, .emailLinkMissing, .emailLinkSignInSkipNativeAuth, .emailMissing,
+        case .actionCodeSettingsMissing, .appNotFound, .customTokenSkipNativeAuth, .emailLinkMissing, .emailLinkSignInSkipNativeAuth, .emailMissing,
              .emailSignInSkipNativeAuth, .hostMissing, .newEmailMissing, .newPasswordMissing, .noUserSignedIn, .oobCodeMissing,
              .passwordMissing, .providerIdMissing, .signInAnonymouslySkipNativeAuth, .tenantIdMissing, .tokenMissing:
             return nil
@@ -33,6 +34,8 @@ extension CustomError: LocalizedError {
         switch self {
         case .actionCodeSettingsMissing:
             return NSLocalizedString("actionCodeSettings must be provided.", comment: "actionCodeSettingsMissing")
+        case .appNotFound:
+            return NSLocalizedString("No app with the given appName has been initialized.", comment: "appNotFound")
         case .customTokenSkipNativeAuth:
             return NSLocalizedString(
                 "signInWithCustomToken cannot be used in combination with skipNativeAuth.",
