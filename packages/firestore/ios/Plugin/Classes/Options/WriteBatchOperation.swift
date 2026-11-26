@@ -15,9 +15,15 @@ import Capacitor
     let reference: String
     let type: String
 
-    init(_ operation: JSObject) {
+    init(_ operation: JSObject) throws {
         self.type = operation["type"] as? String ?? ""
-        self.reference = operation["reference"] as? String ?? ""
+        guard let reference = operation["reference"] as? String else {
+            throw CustomError.referenceMissing
+        }
+        guard FirebaseFirestoreHelper.isValidDocumentPath(reference) else {
+            throw CustomError.referenceInvalid
+        }
+        self.reference = reference
         self.data = operation["data"] as? JSObject ?? [:]
         if let optsObj = operation["options"] as? JSObject {
             self.options = SetOptions(optsObj)

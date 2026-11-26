@@ -32,10 +32,10 @@ import Capacitor
         return type
     }
 
-    public func toFilter() -> Filter? {
+    public func toFilter() throws -> Filter? {
         var filters: [Filter] = []
         for constraint in queryConstraints {
-            if let filter = constraint.toFilter() {
+            if let filter = try constraint.toFilter() {
                 filters.append(filter)
             }
         }

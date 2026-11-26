@@ -57,7 +57,7 @@ private actor ListenerRegistrationMap {
                 let collectionReference = firestore.collectionGroup(reference)
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
-                    if let filter = compositeFilter.toFilter() {
+                    if let filter = try compositeFilter.toFilter() {
                         query = query.whereFilter(filter)
                     }
                 }
@@ -96,7 +96,7 @@ private actor ListenerRegistrationMap {
                 let collectionReference = firestore.collection(reference)
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
-                    if let filter = compositeFilter.toFilter() {
+                    if let filter = try compositeFilter.toFilter() {
                         query = query.whereFilter(filter)
                     }
                 }
@@ -212,7 +212,7 @@ private actor ListenerRegistrationMap {
                 let collectionReference = firestore.collection(reference)
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
-                    if let filter = compositeFilter.toFilter() {
+                    if let filter = try compositeFilter.toFilter() {
                         query = query.whereFilter(filter)
                     }
                 }
@@ -242,7 +242,7 @@ private actor ListenerRegistrationMap {
                 let collectionReference = firestore.collectionGroup(reference)
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
-                    if let filter = compositeFilter.toFilter() {
+                    if let filter = try compositeFilter.toFilter() {
                         query = query.whereFilter(filter)
                     }
                 }
@@ -272,7 +272,7 @@ private actor ListenerRegistrationMap {
                 let collectionReference = firestore.collection(reference)
                 var query = collectionReference as Query
                 if let compositeFilter = compositeFilter {
-                    if let filter = compositeFilter.toFilter() {
+                    if let filter = try compositeFilter.toFilter() {
                         query = query.whereFilter(filter)
                     }
                 }

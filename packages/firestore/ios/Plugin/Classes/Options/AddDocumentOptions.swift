@@ -27,6 +27,9 @@ import Capacitor
         guard let reference = call.getString("reference") else {
             throw CustomError.referenceMissing
         }
+        guard FirebaseFirestoreHelper.isValidCollectionPath(reference) else {
+            throw CustomError.referenceInvalid
+        }
         return reference
     }
 }

@@ -105,6 +105,30 @@ public class FirebaseFirestoreHelper {
         }
     }
 
+    /// Mirrors the checks of `Firestore.collectionGroup(_:)`, which ends the app for any other id.
+    public static func isValidCollectionId(_ collectionId: String) -> Bool {
+        return !collectionId.isEmpty && !collectionId.contains("/")
+    }
+
+    /// Mirrors the checks of `Firestore.collection(_:)`, which ends the app for any other path.
+    public static func isValidCollectionPath(_ path: String) -> Bool {
+        return path.range(of: "//", options: .literal) == nil && !countPathSegments(path).isMultiple(of: 2)
+    }
+
+    /// Mirrors the checks of `Firestore.document(_:)`, which ends the app for any other path.
+    public static func isValidDocumentPath(_ path: String) -> Bool {
+        let segmentCount = countPathSegments(path)
+        // The SDK takes a path without segments such as "/", but a write to it ends the app.
+        return path.range(of: "//", options: .literal) == nil && segmentCount > 0 && segmentCount.isMultiple(of: 2)
+    }
+
+    /// Mirrors the checks of `Filter.whereField(_:isEqualTo:)` and `Query.order(by:)`, which end the app for any other field path.
+    public static func isValidFieldPath(_ fieldPath: String) -> Bool {
+        let hasReservedCharacter = fieldPath.rangeOfCharacter(from: CharacterSet(charactersIn: "~*/[]")) != nil
+        let hasEmptySegment = fieldPath.unicodeScalars.split(separator: ".", omittingEmptySubsequences: false).contains { $0.isEmpty }
+        return !hasReservedCharacter && !hasEmptySegment
+    }
+
     private static func convertErrorCodeToString(errorCode: Int) -> String? {
         let errorCodes: [Int: String] = [
             FirestoreErrorCode.aborted.rawValue: "aborted",
@@ -126,6 +150,11 @@ public class FirebaseFirestoreHelper {
         ]
 
         return errorCodes[errorCode]
+    }
+
+    private static func countPathSegments(_ path: String) -> Int {
+        // Like the SDK, split by scalar and skip the empty segments of a leading or trailing slash.
+        return path.unicodeScalars.split(separator: "/").count
     }
 
     private static func createJSArrayFromArray(_ array: [Any]) -> [Any] {
