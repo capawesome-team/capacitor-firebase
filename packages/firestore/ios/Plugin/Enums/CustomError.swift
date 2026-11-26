@@ -3,8 +3,12 @@ import Foundation
 enum CustomError: Error {
     case appNotFound
     case callbackIdMissing
+    case cursorDocumentFieldMissing
     case cursorDocumentNotFound
+    case dataFieldPathInvalid
     case dataMissing
+    case documentReferencePathInvalid
+    case fieldNameEmpty
     case fieldPathInvalid
     case fieldPathMissing
     case hostMissing
@@ -19,8 +23,12 @@ enum CustomError: Error {
         switch self {
         case .appNotFound,
              .callbackIdMissing,
+             .cursorDocumentFieldMissing,
              .cursorDocumentNotFound,
+             .dataFieldPathInvalid,
              .dataMissing,
+             .documentReferencePathInvalid,
+             .fieldNameEmpty,
              .fieldPathInvalid,
              .fieldPathMissing,
              .hostMissing,
@@ -42,10 +50,18 @@ extension CustomError: LocalizedError {
             return NSLocalizedString("No app with the given appName has been initialized.", comment: "appNotFound")
         case .callbackIdMissing:
             return NSLocalizedString("callbackId must be provided.", comment: "callbackIdMissing")
+        case .cursorDocumentFieldMissing:
+            return NSLocalizedString("The document of the query cursor has no value for an orderBy field.", comment: "cursorDocumentFieldMissing")
         case .cursorDocumentNotFound:
             return NSLocalizedString("The document of the query cursor does not exist.", comment: "cursorDocumentNotFound")
+        case .dataFieldPathInvalid:
+            return NSLocalizedString("A field path in data is invalid.", comment: "dataFieldPathInvalid")
         case .dataMissing:
             return NSLocalizedString("data must be provided.", comment: "dataMissing")
+        case .documentReferencePathInvalid:
+            return NSLocalizedString("The path of a document reference is invalid.", comment: "documentReferencePathInvalid")
+        case .fieldNameEmpty:
+            return NSLocalizedString("A field name must not be empty.", comment: "fieldNameEmpty")
         case .fieldPathInvalid:
             return NSLocalizedString("fieldPath is invalid.", comment: "fieldPathInvalid")
         case .fieldPathMissing:

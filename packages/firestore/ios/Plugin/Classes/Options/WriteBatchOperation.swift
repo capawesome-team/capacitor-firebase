@@ -25,6 +25,9 @@ import Capacitor
         }
         self.reference = reference
         self.data = operation["data"] as? JSObject ?? [:]
+        if self.type == "update" && !self.data.keys.allSatisfy(FirebaseFirestoreHelper.isValidFieldPath) {
+            throw CustomError.dataFieldPathInvalid
+        }
         if let optsObj = operation["options"] as? JSObject {
             self.options = SetOptions(optsObj)
         } else {

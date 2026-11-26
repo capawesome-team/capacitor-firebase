@@ -124,7 +124,7 @@ private actor ListenerRegistrationMap {
     @objc public func addDocument(_ options: AddDocumentOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
-        let data = FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
+        let data = try FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
 
         var documentReference: DocumentReference?
         documentReference = firestore.collection(reference).addDocument(data: data) { error in
@@ -322,7 +322,7 @@ private actor ListenerRegistrationMap {
     @objc public func setDocument(_ options: SetDocumentOptions, completion: @escaping (Error?) -> Void) throws {
         let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
-        let data = FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
+        let data = try FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
         let merge = options.merge
 
         firestore.document(reference).setData(data, merge: merge) { error in
@@ -344,7 +344,7 @@ private actor ListenerRegistrationMap {
     @objc public func updateDocument(_ options: UpdateDocumentOptions, completion: @escaping (Error?) -> Void) throws {
         let firestore = try getFirestoreInstance(appName: options.appName)
         let reference = options.reference
-        let data = FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
+        let data = try FirebaseFirestoreHelper.createHashMapFromJSObject(options.data, firestore: firestore)
 
         firestore.document(reference).updateData(data) { error in
             completion(error)
@@ -367,11 +367,11 @@ private actor ListenerRegistrationMap {
         for operation in operations {
             let type = operation.type
             let reference = operation.reference
-            let data = FirebaseFirestoreHelper.createHashMapFromJSObject(operation.data, firestore: firestore)
 
             let documentReference = firestore.document(reference)
             switch type {
             case "set":
+                let data = try FirebaseFirestoreHelper.createHashMapFromJSObject(operation.data, firestore: firestore)
                 if let setOpts = operation.options, setOpts.merge {
                     batch.setData(
                         data,
@@ -382,6 +382,7 @@ private actor ListenerRegistrationMap {
                     batch.setData(data, forDocument: documentReference)
                 }
             case "update":
+                let data = try FirebaseFirestoreHelper.createHashMapFromJSObject(operation.data, firestore: firestore)
                 batch.updateData(data, forDocument: documentReference)
             case "delete":
                 batch.deleteDocument(documentReference)

@@ -15,11 +15,14 @@ public class FirebaseFirestoreHelper {
         return nil
     }
 
-    public static func createHashMapFromJSObject(_ object: JSObject, firestore: Firestore) -> [String: Any] {
+    public static func createHashMapFromJSObject(_ object: JSObject, firestore: Firestore) throws -> [String: Any] {
         var map: [String: Any] = [:]
         for key in object.keys {
+            guard !key.isEmpty else {
+                throw CustomError.fieldNameEmpty
+            }
             if let value = object[key] {
-                map[key] = createNativeValue(value, firestore: firestore)
+                map[key] = try createNativeValue(value, firestore: firestore)
             }
         }
         return map
@@ -36,21 +39,24 @@ public class FirebaseFirestoreHelper {
         return object
     }
 
-    public static func createNativeValue(_ value: Any, firestore: Firestore) -> Any {
+    public static func createNativeValue(_ value: Any, firestore: Firestore) throws -> Any {
         if let dict = value as? [String: Any], let type = dict["__type__"] as? String {
-            if let markerValue = createNativeValueFromMarker(type: type, dict: dict, firestore: firestore) {
+            if let markerValue = try createNativeValueFromMarker(type: type, dict: dict, firestore: firestore) {
                 return markerValue
             }
         }
         if let dict = value as? [String: Any] {
             var result: [String: Any] = [:]
             for (key, val) in dict {
-                result[key] = createNativeValue(val, firestore: firestore)
+                guard !key.isEmpty else {
+                    throw CustomError.fieldNameEmpty
+                }
+                result[key] = try createNativeValue(val, firestore: firestore)
             }
             return result
         }
         if let array = value as? [Any] {
-            return array.map { createNativeValue($0, firestore: firestore) }
+            return try array.map { try createNativeValue($0, firestore: firestore) }
         }
         return value
     }
@@ -69,20 +75,24 @@ public class FirebaseFirestoreHelper {
     public static func createQueryNonFilterConstraintArrayFromJSArray(_ queryConstraints: [JSObject]?) -> [QueryNonFilterConstraint] {
         if let queryConstraints = queryConstraints {
             var queryNonFilterConstraint: [QueryNonFilterConstraint] = []
+            var orderByFieldPaths: [String] = []
             for queryConstraint in queryConstraints {
                 let queryConstraintType = queryConstraint["type"] as? String
                 switch queryConstraintType {
                 case "orderBy":
                     let queryOrderByConstraint = QueryOrderByConstraint(queryConstraint)
                     queryNonFilterConstraint.append(queryOrderByConstraint)
+                    if let fieldPath = queryConstraint["fieldPath"] as? String {
+                        orderByFieldPaths.append(fieldPath)
+                    }
                 case "limit", "limitToLast":
                     let queryLimitConstraint = QueryLimitConstraint(queryConstraint)
                     queryNonFilterConstraint.append(queryLimitConstraint)
                 case "startAt", "startAfter":
-                    let queryStartAtConstraint = QueryStartAtConstraint(queryConstraint)
+                    let queryStartAtConstraint = QueryStartAtConstraint(queryConstraint, orderByFieldPaths: orderByFieldPaths)
                     queryNonFilterConstraint.append(queryStartAtConstraint)
                 case "endAt", "endBefore":
-                    let queryEndAtConstraint = QueryEndAtConstraint(queryConstraint)
+                    let queryEndAtConstraint = QueryEndAtConstraint(queryConstraint, orderByFieldPaths: orderByFieldPaths)
                     queryNonFilterConstraint.append(queryEndAtConstraint)
                 default:
                     break
@@ -122,7 +132,8 @@ public class FirebaseFirestoreHelper {
         return path.range(of: "//", options: .literal) == nil && segmentCount > 0 && segmentCount.isMultiple(of: 2)
     }
 
-    /// Mirrors the checks of `Filter.whereField(_:isEqualTo:)` and `Query.order(by:)`, which end the app for any other field path.
+    /// Mirrors the checks of `Filter.whereField(_:isEqualTo:)`, `Query.order(by:)` and the keys of `updateData(_:)`.
+    /// They end the app for any other field path.
     public static func isValidFieldPath(_ fieldPath: String) -> Bool {
         let hasReservedCharacter = fieldPath.rangeOfCharacter(from: CharacterSet(charactersIn: "~*/[]")) != nil
         let hasEmptySegment = fieldPath.unicodeScalars.split(separator: ".", omittingEmptySubsequences: false).contains { $0.isEmpty }
@@ -241,7 +252,7 @@ public class FirebaseFirestoreHelper {
         return jsValue["key"]
     }
 
-    private static func createNativeValueFromMarker(type: String, dict: [String: Any], firestore: Firestore) -> Any? {
+    private static func createNativeValueFromMarker(type: String, dict: [String: Any], firestore: Firestore) throws -> Any? {
         switch type {
         case "timestamp":
             guard let seconds = (dict["seconds"] as? NSNumber)?.int64Value,
@@ -253,6 +264,9 @@ public class FirebaseFirestoreHelper {
             return GeoPoint(latitude: latitude, longitude: longitude)
         case "documentReference":
             guard let path = dict["path"] as? String else { return nil }
+            guard isValidDocumentPath(path) else {
+                throw CustomError.documentReferencePathInvalid
+            }
             return firestore.document(path)
         case "bytes":
             guard let base64 = dict["bytes"] as? String,
@@ -264,10 +278,10 @@ public class FirebaseFirestoreHelper {
         case "serverTimestamp":
             return FieldValue.serverTimestamp()
         case "arrayUnion":
-            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0, firestore: firestore) }
+            let elements = try (dict["elements"] as? [Any] ?? []).map { try createNativeValue($0, firestore: firestore) }
             return FieldValue.arrayUnion(elements)
         case "arrayRemove":
-            let elements = (dict["elements"] as? [Any] ?? []).map { createNativeValue($0, firestore: firestore) }
+            let elements = try (dict["elements"] as? [Any] ?? []).map { try createNativeValue($0, firestore: firestore) }
             return FieldValue.arrayRemove(elements)
         case "delete":
             return FieldValue.delete()
