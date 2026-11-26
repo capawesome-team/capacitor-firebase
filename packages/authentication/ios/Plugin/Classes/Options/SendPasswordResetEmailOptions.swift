@@ -1,21 +1,23 @@
 import Foundation
 import Capacitor
-import FirebaseAuth
 
 @objc public class SendPasswordResetEmailOptions: NSObject {
-    private var email: String
-    private var actionCodeSettings: ActionCodeSettings?
+    let actionCodeSettings: JSObject?
+    let email: String
 
-    init(email: String, actionCodeSettings: JSObject?) {
-        self.email = email
-        self.actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettings)
+    init(_ call: CAPPluginCall) throws {
+        self.email = try SendPasswordResetEmailOptions.getEmailFromCall(call)
+        self.actionCodeSettings = SendPasswordResetEmailOptions.getActionCodeSettingsFromCall(call)
     }
 
-    func getEmail() -> String {
+    private static func getActionCodeSettingsFromCall(_ call: CAPPluginCall) -> JSObject? {
+        return call.getObject("actionCodeSettings")
+    }
+
+    private static func getEmailFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let email = call.getString("email") else {
+            throw CustomError.emailMissing
+        }
         return email
-    }
-
-    func getActionCodeSettings() -> ActionCodeSettings? {
-        return actionCodeSettings
     }
 }

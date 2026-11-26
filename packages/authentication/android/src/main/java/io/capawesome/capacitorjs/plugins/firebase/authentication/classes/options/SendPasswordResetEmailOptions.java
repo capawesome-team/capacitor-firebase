@@ -3,21 +3,25 @@ package io.capawesome.capacitorjs.plugins.firebase.authentication.classes.option
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
-import com.google.firebase.auth.ActionCodeSettings;
-import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationHelper;
-import org.json.JSONException;
+import com.getcapacitor.PluginCall;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.CustomExceptions;
 
 public class SendPasswordResetEmailOptions {
 
+    @Nullable
+    private final JSObject actionCodeSettings;
+
     @NonNull
-    private String email;
+    private final String email;
+
+    public SendPasswordResetEmailOptions(@NonNull PluginCall call) throws Exception {
+        this.email = SendPasswordResetEmailOptions.getEmailFromCall(call);
+        this.actionCodeSettings = SendPasswordResetEmailOptions.getActionCodeSettingsFromCall(call);
+    }
 
     @Nullable
-    private ActionCodeSettings actionCodeSettings;
-
-    public SendPasswordResetEmailOptions(@NonNull String email, @Nullable JSObject actionCodeSettings) throws JSONException {
-        this.email = email;
-        this.actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettings);
+    public JSObject getActionCodeSettings() {
+        return actionCodeSettings;
     }
 
     @NonNull
@@ -26,7 +30,16 @@ public class SendPasswordResetEmailOptions {
     }
 
     @Nullable
-    public ActionCodeSettings getActionCodeSettings() {
-        return actionCodeSettings;
+    private static JSObject getActionCodeSettingsFromCall(@NonNull PluginCall call) {
+        return call.getObject("actionCodeSettings");
+    }
+
+    @NonNull
+    private static String getEmailFromCall(@NonNull PluginCall call) throws Exception {
+        String email = call.getString("email");
+        if (email == null) {
+            throw CustomExceptions.EMAIL_MISSING;
+        }
+        return email;
     }
 }

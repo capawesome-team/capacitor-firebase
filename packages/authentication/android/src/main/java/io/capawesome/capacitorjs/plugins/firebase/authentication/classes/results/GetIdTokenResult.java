@@ -1,4 +1,4 @@
-package io.capawesome.capacitorjs.plugins.firebase.authentication.classes;
+package io.capawesome.capacitorjs.plugins.firebase.authentication.classes.results;
 
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;

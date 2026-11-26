@@ -10,8 +10,16 @@ import FirebaseAuth
 // swiftlint:disable type_body_length
 @objc(FirebaseAuthenticationPlugin)
 public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
+    public let errorNoUserSignedIn = "No user is signed in."
+    public let errorPhoneNumberMissing = "phoneNumber must be provided."
+    public let errorProviderIdMissing = "providerId must be provided."
+    public let errorVerificationCodeMissing = "verificationCode must be provided."
+    public let errorVerificationIdMissing = "verificationId must be provided."
     public let identifier = "FirebaseAuthenticationPlugin"
     public let jsName = "FirebaseAuthentication"
+    public let phoneCodeSentEvent = "phoneCodeSent"
+    public let phoneVerificationFailedEvent = "phoneVerificationFailed"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "applyActionCode", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "confirmPasswordReset", returnType: CAPPluginReturnPromise),
@@ -74,76 +82,64 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "checkAppTrackingTransparencyPermission", returnType: CAPPluginReturnPromise)
     ]
     public let tag = "FirebaseAuthentication"
-    public let errorProviderIdMissing = "providerId must be provided."
-    public let errorNoUserSignedIn = "No user is signed in."
-    public let errorOobCodeMissing = "oobCode must be provided."
-    public let errorTenantIdMissing = "tenantId must be provided."
-    public let errorEmailMissing = "email must be provided."
-    public let errorNewEmailMissing = "newEmail must be provided."
-    public let errorEmailLinkMissing = "emailLink must be provided."
-    public let errorActionCodeSettingsMissing = "actionCodeSettings must be provided."
-    public let errorPasswordMissing = "password must be provided."
-    public let errorNewPasswordMissing = "newPassword must be provided."
-    public let errorPhoneNumberMissing = "phoneNumber must be provided."
-    public let errorVerificationIdMissing = "verificationId must be provided."
-    public let errorVerificationCodeMissing = "verificationCode must be provided."
-    public let errorHostMissing = "host must be provided."
-    public let errorTokenMissing = "token must be provided."
-    public let errorCustomTokenSkipNativeAuth =
-        "signInWithCustomToken cannot be used in combination with skipNativeAuth."
-    public let errorEmailLinkSignInSkipNativeAuth =
-        "signInWithEmailLink cannot be used in combination with skipNativeAuth."
-    public let errorEmailSignInSkipNativeAuth =
-        "createUserWithEmailAndPassword and signInWithEmailAndPassword cannot be used in combination with skipNativeAuth."
-    public let errorSignInAnonymouslySkipNativeAuth =
-        "signInAnonymously cannot be used in combination with skipNativeAuth."
-    public let errorDeviceUnsupported = "Device is not supported. At least iOS 13 is required."
-    public let authStateChangeEvent = "authStateChange"
-    public let idTokenChangeEvent = "idTokenChange"
-    public let phoneVerificationFailedEvent = "phoneVerificationFailed"
-    public let phoneCodeSentEvent = "phoneCodeSent"
+    static let eventAuthStateChange = "authStateChange"
+    static let eventIdTokenChange = "idTokenChange"
+    private var config = FirebaseAuthenticationConfig()
     private var implementation: FirebaseAuthentication?
 
     override public func load() {
-        self.implementation = FirebaseAuthentication(plugin: self, config: firebaseAuthenticationConfig())
+        self.config = firebaseAuthenticationConfig()
+        self.implementation = FirebaseAuthentication(plugin: self, config: config)
+    }
+
+    @objc public func notifyAuthStateChangeListeners(_ event: AuthStateChangeEvent) {
+        self.notifyListeners(Self.eventAuthStateChange, data: event.toJSObject() as? [String: Any], retainUntilConsumed: true)
+    }
+
+    @objc public func notifyIdTokenChangeListeners(_ event: IdTokenChangeEvent) {
+        self.notifyListeners(Self.eventIdTokenChange, data: event.toJSObject() as? [String: Any], retainUntilConsumed: true)
     }
 
     @objc func applyActionCode(_ call: CAPPluginCall) {
-        guard let oobCode = call.getString("oobCode") else {
-            call.reject(errorOobCodeMissing)
-            return
-        }
+        do {
+            let options = try ApplyActionCodeOptions(call)
 
-        implementation?.applyActionCode(oobCode: oobCode, completion: { error in
+            implementation?.applyActionCode(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func checkAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
+        implementation?.checkAppTrackingTransparencyPermission(completion: { result, error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
             }
-            call.resolve()
         })
     }
 
     @objc func confirmPasswordReset(_ call: CAPPluginCall) {
-        guard let oobCode = call.getString("oobCode") else {
-            call.reject(errorOobCodeMissing)
-            return
-        }
-        guard let newPassword = call.getString("newPassword") else {
-            call.reject(errorNewPasswordMissing)
-            return
-        }
+        do {
+            let options = try ConfirmPasswordResetOptions(call)
 
-        implementation?.confirmPasswordReset(oobCode: oobCode, newPassword: newPassword, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
+            implementation?.confirmPasswordReset(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func confirmVerificationCode(_ call: CAPPluginCall) {
@@ -171,83 +167,77 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func createUserWithEmailAndPassword(_ call: CAPPluginCall) {
-        implementation?.createUserWithEmailAndPassword(call)
+        do {
+            let options = try CreateUserWithEmailAndPasswordOptions(call, config: config)
+
+            implementation?.createUserWithEmailAndPassword(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func deleteUser(_ call: CAPPluginCall) {
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
-
-        implementation?.deleteUser(user: user, completion: { error in
+        implementation?.deleteUser(completion: { error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
             }
-            call.resolve()
         })
     }
 
     @objc func fetchSignInMethodsForEmail(_ call: CAPPluginCall) {
-        guard let email = call.getString("email") else {
-            call.reject(errorEmailMissing)
-            return
+        do {
+            let options = try FetchSignInMethodsForEmailOptions(call)
+
+            implementation?.fetchSignInMethodsForEmail(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
+    }
 
-        let options = FetchSignInMethodsForEmailOptions(email: email)
-
-        implementation?.fetchSignInMethodsForEmail(options, completion: { result, error in
+    @objc func getCurrentUser(_ call: CAPPluginCall) {
+        implementation?.getCurrentUser(completion: { result, error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
             }
         })
     }
 
-    @objc func getCurrentUser(_ call: CAPPluginCall) {
-        let user = implementation?.getCurrentUser()
-        let userResult = FirebaseAuthenticationHelper.createUserResult(user)
-        var result = JSObject()
-        result["user"] = userResult ?? NSNull()
-        call.resolve(result)
-    }
-
     @objc func getIdToken(_ call: CAPPluginCall) {
-        let forceRefresh = call.getBool("forceRefresh", false)
+        let options = GetIdTokenOptions(call)
 
-        implementation?.getIdToken(forceRefresh, completion: { result, error in
+        implementation?.getIdToken(options, completion: { result, error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            if let result = result {
-                call.resolve(result.toJSObject())
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
             }
         })
     }
 
     @objc func getIdTokenResult(_ call: CAPPluginCall) {
-        let forceRefresh = call.getBool("forceRefresh", false)
+        let options = GetIdTokenResultOptions(call)
 
-        implementation?.getIdTokenResult(forceRefresh, completion: { result, error in
+        implementation?.getIdTokenResult(options, completion: { result, error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            if let result = result {
-                call.resolve(result.toJSObject())
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
             }
         })
     }
@@ -261,22 +251,43 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func getTenantId(_ call: CAPPluginCall) {
-        let tenantId = implementation?.getTenantId()
+        implementation?.getTenantId(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
+    }
 
+    @objc func handlePhoneCodeSent(_ verificationId: String) {
         var result = JSObject()
-        result["tenantId"] = tenantId ?? NSNull()
-        call.resolve(result)
+        result["verificationId"] = verificationId
+        notifyListeners(phoneCodeSentEvent, data: result, retainUntilConsumed: true)
+    }
+
+    @objc func handlePhoneVerificationFailed(_ error: Error) {
+        CAPLog.print("[", self.tag, "] ", error)
+        var result = JSObject()
+        result["message"] = error.localizedDescription
+        result["code"] = FirebaseAuthenticationHelper.createErrorCode(error: error)
+        notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)
     }
 
     @objc func isSignInWithEmailLink(_ call: CAPPluginCall) {
-        guard let emailLink = call.getString("emailLink") else {
-            call.reject(errorEmailLinkMissing)
-            return
-        }
+        do {
+            let options = try IsSignInWithEmailLinkOptions(call)
 
-        var result = JSObject()
-        result["isSignInWithEmailLink"] = implementation?.isSignInWithEmailLink(link: emailLink)
-        call.resolve(result)
+            implementation?.isSignInWithEmailLink(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func linkWithApple(_ call: CAPPluginCall) {
@@ -284,11 +295,27 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func linkWithEmailAndPassword(_ call: CAPPluginCall) {
-        implementation?.linkWithEmailAndPassword(call)
+        let options = LinkWithEmailAndPasswordOptions(call, config: config)
+
+        implementation?.linkWithEmailAndPassword(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
     }
 
     @objc func linkWithEmailLink(_ call: CAPPluginCall) {
-        implementation?.linkWithEmailLink(call)
+        let options = LinkWithEmailLinkOptions(call)
+
+        implementation?.linkWithEmailLink(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
     }
 
     @objc func linkWithFacebook(_ call: CAPPluginCall) {
@@ -349,107 +376,95 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func reload(_ call: CAPPluginCall) {
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
-
-        implementation?.reload(user: user, completion: { error in
+        implementation?.reload(completion: { error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
             }
-            call.resolve()
+        })
+    }
+
+    @objc func requestAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
+        implementation?.requestAppTrackingTransparencyPermission(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
         })
     }
 
     @objc func revokeAccessToken(_ call: CAPPluginCall) {
-        guard let token = call.getString("token") else {
-            call.reject(errorTokenMissing)
-            return
+        do {
+            let options = try RevokeAccessTokenOptions(call)
+
+            implementation?.revokeAccessToken(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-
-        let options = RevokeAccessTokenOptions(token: token)
-
-        implementation?.revokeAccessToken(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
     }
 
     @objc func sendEmailVerification(_ call: CAPPluginCall) {
-        let actionCodeSettings = call.getObject("actionCodeSettings")
-
-        let options = SendEmailVerificationOptions(actionCodeSettings: actionCodeSettings)
+        let options = SendEmailVerificationOptions(call)
 
         implementation?.sendEmailVerification(options, completion: { error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
             }
-            call.resolve()
         })
     }
 
     @objc func sendPasswordResetEmail(_ call: CAPPluginCall) {
-        guard let email = call.getString("email") else {
-            call.reject(errorEmailMissing)
-            return
+        do {
+            let options = try SendPasswordResetEmailOptions(call)
+
+            implementation?.sendPasswordResetEmail(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        let actionCodeSettings = call.getObject("actionCodeSettings")
-
-        let options = SendPasswordResetEmailOptions(email: email, actionCodeSettings: actionCodeSettings)
-
-        implementation?.sendPasswordResetEmail(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
     }
 
     @objc func sendSignInLinkToEmail(_ call: CAPPluginCall) {
-        guard let email = call.getString("email") else {
-            call.reject(errorEmailMissing)
-            return
-        }
-        guard let settings = call.getObject("actionCodeSettings") else {
-            call.reject(errorActionCodeSettingsMissing)
-            return
-        }
-        guard let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(settings) else {
-            call.reject(errorActionCodeSettingsMissing)
-            return
-        }
+        do {
+            let options = try SendSignInLinkToEmailOptions(call)
 
-        implementation?.sendSignInLinkToEmail(email: email, actionCodeSettings: actionCodeSettings, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
+            implementation?.sendSignInLinkToEmail(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func setLanguageCode(_ call: CAPPluginCall) {
-        let languageCode = call.getString("languageCode", "")
+        let options = SetLanguageCodeOptions(call)
 
-        implementation?.setLanguageCode(languageCode)
-        call.resolve()
+        implementation?.setLanguageCode(options, completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
     }
 
     @objc func setPersistence(_ call: CAPPluginCall) {
@@ -457,17 +472,29 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func setTenantId(_ call: CAPPluginCall) {
-        guard let tenantId = call.getString("tenantId") else {
-            call.reject(errorTenantIdMissing)
-            return
-        }
+        do {
+            let options = try SetTenantIdOptions(call)
 
-        implementation?.setTenantId(tenantId: tenantId)
-        call.resolve()
+            implementation?.setTenantId(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func signInAnonymously(_ call: CAPPluginCall) {
-        implementation?.signInAnonymously(call)
+        implementation?.signInAnonymously(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
     }
 
     @objc func signInWithApple(_ call: CAPPluginCall) {
@@ -475,15 +502,39 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func signInWithCustomToken(_ call: CAPPluginCall) {
-        implementation?.signInWithCustomToken(call)
+        let options = SignInWithCustomTokenOptions(call, config: config)
+
+        implementation?.signInWithCustomToken(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
     }
 
     @objc func signInWithEmailAndPassword(_ call: CAPPluginCall) {
-        implementation?.signInWithEmailAndPassword(call)
+        let options = SignInWithEmailAndPasswordOptions(call)
+
+        implementation?.signInWithEmailAndPassword(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
     }
 
     @objc func signInWithEmailLink(_ call: CAPPluginCall) {
-        implementation?.signInWithEmailLink(call)
+        let options = SignInWithEmailLinkOptions(call)
+
+        implementation?.signInWithEmailLink(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
     }
 
     @objc func signInWithFacebook(_ call: CAPPluginCall) {
@@ -545,189 +596,115 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func signOut(_ call: CAPPluginCall) {
-        implementation?.signOut(call)
+        implementation?.signOut(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
     }
 
     @objc func unlink(_ call: CAPPluginCall) {
-        guard let providerId = call.getString("providerId") else {
-            call.reject(errorProviderIdMissing)
-            return
-        }
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
+        do {
+            let options = try UnlinkOptions(call)
 
-        implementation?.unlink(user: user, providerId: providerId, completion: { user, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            let userResult = FirebaseAuthenticationHelper.createUserResult(user)
-            var result = JSObject()
-            result["user"] = userResult ?? NSNull()
-            call.resolve(result)
-        })
+            implementation?.unlink(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func updateEmail(_ call: CAPPluginCall) {
-        guard let newEmail = call.getString("newEmail") else {
-            call.reject(errorNewEmailMissing)
-            return
+        do {
+            let options = try UpdateEmailOptions(call)
+
+            implementation?.updateEmail(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
-
-        implementation?.updateEmail(user: user, newEmail: newEmail, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
-    }
-
-    @objc func verifyBeforeUpdateEmail(_ call: CAPPluginCall) {
-        guard let newEmail = call.getString("newEmail") else {
-            call.reject(errorNewEmailMissing)
-            return
-        }
-
-        let actionCodeSettingsDict = call.getObject("actionCodeSettings")
-        let actionCodeSettings: ActionCodeSettings? = actionCodeSettingsDict != nil
-            ? FirebaseAuthenticationHelper.createActionCodeSettings(actionCodeSettingsDict!)
-            : nil
-
-        implementation?.verifyBeforeUpdateEmail(newEmail, actionCodeSettings: actionCodeSettings, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
     }
 
     @objc func updatePassword(_ call: CAPPluginCall) {
-        guard let newPassword = call.getString("newPassword") else {
-            call.reject(errorNewPasswordMissing)
-            return
-        }
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
+        do {
+            let options = try UpdatePasswordOptions(call)
 
-        implementation?.updatePassword(user: user, newPassword: newPassword, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
-            }
-            call.resolve()
-        })
+            implementation?.updatePassword(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func updateProfile(_ call: CAPPluginCall) {
-        let displayName = call.getString("displayName")
-        let photoUrl = call.getString("photoUrl")
+        let options = UpdateProfileOptions(call)
 
-        guard let user = implementation?.getCurrentUser() else {
-            call.reject(errorNoUserSignedIn)
-            return
-        }
-
-        implementation?.updateProfile(user: user, displayName: displayName, photoUrl: photoUrl, completion: { error in
+        implementation?.updateProfile(options, completion: { error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                let code = FirebaseAuthenticationHelper.createErrorCode(error: error)
-                call.reject(error.localizedDescription, code)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
             }
-            call.resolve()
         })
     }
 
     @objc func useAppLanguage(_ call: CAPPluginCall) {
-        implementation?.useAppLanguage()
-        call.resolve()
-    }
-
-    @objc func useEmulator(_ call: CAPPluginCall) {
-        guard let host = call.getString("host") else {
-            call.reject(errorHostMissing)
-            return
-        }
-        let port = call.getInt("port") ?? 9099
-
-        implementation?.useEmulator(host, port)
-        call.resolve()
-    }
-
-    @objc func requestAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
-        implementation?.requestAppTrackingTransparencyPermission { status in
-            if let result = status.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        }
-    }
-
-    @objc func checkAppTrackingTransparencyPermission(_ call: CAPPluginCall) {
-        implementation?.checkAppTrackingTransparencyPermission { status in
-            if let result = status.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        }
-    }
-
-    @objc func handleAuthStateChange() {
-        let user = implementation?.getCurrentUser()
-        let userResult = FirebaseAuthenticationHelper.createUserResult(user)
-        var result = JSObject()
-        result["user"] = userResult ?? NSNull()
-        notifyListeners(authStateChangeEvent, data: result, retainUntilConsumed: true)
-    }
-
-    @objc func handleIdTokenChange() {
-        implementation?.getIdToken(false, completion: { result, error in
+        implementation?.useAppLanguage(completion: { error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                return
-            }
-            if let result = result {
-                self.notifyListeners(self.idTokenChangeEvent, data: result.toJSObject(), retainUntilConsumed: true)
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
             }
         })
     }
 
-    @objc func handlePhoneVerificationFailed(_ error: Error) {
-        CAPLog.print("[", self.tag, "] ", error)
-        var result = JSObject()
-        result["message"] = error.localizedDescription
-        result["code"] = FirebaseAuthenticationHelper.createErrorCode(error: error)
-        notifyListeners(phoneVerificationFailedEvent, data: result, retainUntilConsumed: true)
+    @objc func useEmulator(_ call: CAPPluginCall) {
+        do {
+            let options = try UseEmulatorOptions(call)
+
+            implementation?.useEmulator(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
-    @objc func handlePhoneCodeSent(_ verificationId: String) {
-        var result = JSObject()
-        result["verificationId"] = verificationId
-        notifyListeners(phoneCodeSentEvent, data: result, retainUntilConsumed: true)
-    }
+    @objc func verifyBeforeUpdateEmail(_ call: CAPPluginCall) {
+        do {
+            let options = try VerifyBeforeUpdateEmailOptions(call)
 
-    private func rejectCallAsUnavailable(_ call: CAPPluginCall) {
-        call.unavailable("This method is not available on this platform.")
-    }
-
-    private func rejectCallAsUnimplemented(_ call: CAPPluginCall) {
-        call.unimplemented("This method is not implemented on this platform.")
+            implementation?.verifyBeforeUpdateEmail(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     private func firebaseAuthenticationConfig() -> FirebaseAuthenticationConfig {
@@ -739,5 +716,30 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         }
 
         return config
+    }
+
+    private func rejectCall(_ call: CAPPluginCall, _ error: Error) {
+        CAPLog.print("[", self.tag, "] ", error)
+        if let error = error as? CustomError {
+            call.reject(error.localizedDescription, error.code)
+        } else {
+            call.reject(error.localizedDescription, FirebaseAuthenticationHelper.createErrorCode(error: error))
+        }
+    }
+
+    private func rejectCallAsUnimplemented(_ call: CAPPluginCall) {
+        call.unimplemented("This method is not implemented on this platform.")
+    }
+
+    private func resolveCall(_ call: CAPPluginCall) {
+        call.resolve()
+    }
+
+    private func resolveCall(_ call: CAPPluginCall, _ result: Result?) {
+        if let result = result?.toJSObject() as? JSObject {
+            call.resolve(result)
+        } else {
+            call.resolve()
+        }
     }
 }

@@ -2,14 +2,14 @@ import Foundation
 import FirebaseAuth
 import Capacitor
 
-@objc class GetIdTokenResultResult: NSObject {
+@objc class GetIdTokenResultResult: NSObject, Result {
     let tokenResult: AuthTokenResult?
 
     init(tokenResult: AuthTokenResult?) {
         self.tokenResult = tokenResult
     }
 
-    func toJSObject() -> JSObject {
+    func toJSObject() -> AnyObject {
         var result = JSObject()
 
         if let tokenResult = tokenResult {
@@ -29,6 +29,6 @@ import Capacitor
             result["claims"] = claims
         }
 
-        return result
+        return result as AnyObject
     }
 }

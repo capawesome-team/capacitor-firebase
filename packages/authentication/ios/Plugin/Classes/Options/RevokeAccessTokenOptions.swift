@@ -1,13 +1,17 @@
 import Foundation
+import Capacitor
 
 @objc public class RevokeAccessTokenOptions: NSObject {
-    private var token: String
+    let token: String
 
-    init(token: String) {
-        self.token = token
+    init(_ call: CAPPluginCall) throws {
+        self.token = try RevokeAccessTokenOptions.getTokenFromCall(call)
     }
 
-    func getToken() -> String {
+    private static func getTokenFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let token = call.getString("token") else {
+            throw CustomError.tokenMissing
+        }
         return token
     }
 }
