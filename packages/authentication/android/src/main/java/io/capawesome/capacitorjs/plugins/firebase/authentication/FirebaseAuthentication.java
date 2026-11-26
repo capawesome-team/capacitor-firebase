@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.identity.AuthorizationResult;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
@@ -41,25 +42,32 @@ import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.events.
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.ApplyActionCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.ConfirmPasswordResetOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.CreateUserWithEmailAndPasswordOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.DeleteUserOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.FetchSignInMethodsForEmailOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetCurrentUserOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetIdTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetIdTokenResultOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.GetTenantIdOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.IsSignInWithEmailLinkOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.LinkWithEmailAndPasswordOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.LinkWithEmailLinkOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.ReloadOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.RevokeAccessTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendEmailVerificationOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendPasswordResetEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SendSignInLinkToEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SetLanguageCodeOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SetTenantIdOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInAnonymouslyOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInWithCustomTokenOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInWithEmailAndPasswordOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignInWithEmailLinkOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.SignOutOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UnlinkOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UpdateEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UpdatePasswordOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UpdateProfileOptions;
+import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UseAppLanguageOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.UseEmulatorOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options.VerifyBeforeUpdateEmailOptions;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.results.FetchSignInMethodsForEmailResult;
@@ -128,7 +136,7 @@ public class FirebaseAuthentication {
     public void applyActionCode(@NonNull ApplyActionCodeOptions options, @NonNull EmptyResultCallback callback) {
         String oobCode = options.getOobCode();
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .applyActionCode(oobCode)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -138,7 +146,7 @@ public class FirebaseAuthentication {
         String oobCode = options.getOobCode();
         String newPassword = options.getNewPassword();
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .confirmPasswordReset(oobCode, newPassword)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -159,22 +167,21 @@ public class FirebaseAuthentication {
         String email = options.getEmail();
         String password = options.getPassword();
 
-        getFirebaseAuthInstance()
-            .createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(plugin.getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
-                    SignInResult result = new SignInResult(user, null, null);
-                    callback.success(result);
-                } else {
-                    Exception exception = task.getException();
-                    callback.error(exception);
-                }
-            });
+        FirebaseAuth auth = getFirebaseAuthInstance(options.getAppName());
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(plugin.getActivity(), task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = auth.getCurrentUser();
+                SignInResult result = new SignInResult(user, null, null);
+                callback.success(result);
+            } else {
+                Exception exception = task.getException();
+                callback.error(exception);
+            }
+        });
     }
 
-    public void deleteUser(@NonNull EmptyResultCallback callback) {
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+    public void deleteUser(@NonNull DeleteUserOptions options, @NonNull EmptyResultCallback callback) {
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -201,7 +208,7 @@ public class FirebaseAuthentication {
     ) {
         String email = options.getEmail();
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .fetchSignInMethodsForEmail(email)
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -219,8 +226,8 @@ public class FirebaseAuthentication {
         return config;
     }
 
-    public void getCurrentUser(@NonNull NonEmptyResultCallback<GetCurrentUserResult> callback) {
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+    public void getCurrentUser(@NonNull GetCurrentUserOptions options, @NonNull NonEmptyResultCallback<GetCurrentUserResult> callback) {
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         GetCurrentUserResult result = new GetCurrentUserResult(user);
         callback.success(result);
     }
@@ -230,7 +237,7 @@ public class FirebaseAuthentication {
     }
 
     public void getIdToken(@NonNull GetIdTokenOptions options, @NonNull NonEmptyResultCallback<GetIdTokenResult> callback) {
-        getIdToken(options.getForceRefresh(), callback);
+        getIdToken(getFirebaseAuthInstance(options.getAppName()), options.getForceRefresh(), callback);
     }
 
     public void getIdTokenResult(
@@ -239,7 +246,7 @@ public class FirebaseAuthentication {
     ) {
         boolean forceRefresh = options.getForceRefresh();
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -265,8 +272,8 @@ public class FirebaseAuthentication {
         return plugin;
     }
 
-    public void getTenantId(@NonNull NonEmptyResultCallback<GetTenantIdResult> callback) {
-        String tenantId = getFirebaseAuthInstance().getTenantId();
+    public void getTenantId(@NonNull GetTenantIdOptions options, @NonNull NonEmptyResultCallback<GetTenantIdResult> callback) {
+        String tenantId = getFirebaseAuthInstance(options.getAppName()).getTenantId();
         GetTenantIdResult result = new GetTenantIdResult(tenantId);
         callback.success(result);
     }
@@ -540,7 +547,7 @@ public class FirebaseAuthentication {
             callback.error(CustomExceptions.EMAIL_LINK_SKIP_NATIVE_AUTH);
             return;
         }
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -568,7 +575,7 @@ public class FirebaseAuthentication {
             callback.error(CustomExceptions.EMAIL_LINK_SKIP_NATIVE_AUTH);
             return;
         }
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -641,8 +648,8 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.link(call, ProviderId.YAHOO);
     }
 
-    public void reload(@NonNull EmptyResultCallback callback) {
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+    public void reload(@NonNull ReloadOptions options, @NonNull EmptyResultCallback callback) {
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -655,7 +662,7 @@ public class FirebaseAuthentication {
     public void revokeAccessToken(@NonNull RevokeAccessTokenOptions options, @NonNull EmptyResultCallback callback) {
         String token = options.getToken();
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .revokeAccessToken(token)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -665,7 +672,7 @@ public class FirebaseAuthentication {
         throws Exception {
         ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.getActionCodeSettings());
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -685,7 +692,7 @@ public class FirebaseAuthentication {
         String email = options.getEmail();
         ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.getActionCodeSettings());
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .sendPasswordResetEmail(email, actionCodeSettings)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -696,7 +703,7 @@ public class FirebaseAuthentication {
         String email = options.getEmail();
         ActionCodeSettings actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.getActionCodeSettings());
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .sendSignInLinkToEmail(email, actionCodeSettings)
             .addOnSuccessListener(unused -> callback.success())
             .addOnFailureListener(exception -> callback.error(exception));
@@ -705,24 +712,24 @@ public class FirebaseAuthentication {
     public void setLanguageCode(@NonNull SetLanguageCodeOptions options, @NonNull EmptyResultCallback callback) {
         String languageCode = options.getLanguageCode();
 
-        getFirebaseAuthInstance().setLanguageCode(languageCode);
+        getFirebaseAuthInstance(options.getAppName()).setLanguageCode(languageCode);
         callback.success();
     }
 
     public void setTenantId(@NonNull SetTenantIdOptions options, @NonNull EmptyResultCallback callback) {
         String tenantId = options.getTenantId();
 
-        getFirebaseAuthInstance().setTenantId(tenantId);
+        getFirebaseAuthInstance(options.getAppName()).setTenantId(tenantId);
         callback.success();
     }
 
-    public void signInAnonymously(@NonNull SignInOptions options, @NonNull NonEmptyResultCallback<SignInResult> callback) {
+    public void signInAnonymously(@NonNull SignInAnonymouslyOptions options, @NonNull NonEmptyResultCallback<SignInResult> callback) {
         boolean skipNativeAuth = options.getSkipNativeAuth();
         if (skipNativeAuth) {
             callback.error(CustomExceptions.SIGN_IN_ANONYMOUSLY_SKIP_NATIVE_AUTH);
             return;
         }
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .signInAnonymously()
             .addOnCompleteListener(plugin.getActivity(), task -> {
                 if (task.isSuccessful()) {
@@ -782,18 +789,17 @@ public class FirebaseAuthentication {
 
         String token = options.getToken();
 
-        getFirebaseAuthInstance()
-            .signInWithCustomToken(token)
-            .addOnCompleteListener(plugin.getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
-                    SignInResult result = new SignInResult(user, null, null);
-                    callback.success(result);
-                } else {
-                    Exception exception = task.getException();
-                    callback.error(exception);
-                }
-            });
+        FirebaseAuth auth = getFirebaseAuthInstance(options.getAppName());
+        auth.signInWithCustomToken(token).addOnCompleteListener(plugin.getActivity(), task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = auth.getCurrentUser();
+                SignInResult result = new SignInResult(user, null, null);
+                callback.success(result);
+            } else {
+                Exception exception = task.getException();
+                callback.error(exception);
+            }
+        });
     }
 
     public void signInWithEmailAndPassword(
@@ -809,18 +815,17 @@ public class FirebaseAuthentication {
         String email = options.getEmail();
         String password = options.getPassword();
 
-        getFirebaseAuthInstance()
-            .signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(plugin.getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
-                    SignInResult result = new SignInResult(user, null, null);
-                    callback.success(result);
-                } else {
-                    Exception exception = task.getException();
-                    callback.error(exception);
-                }
-            });
+        FirebaseAuth auth = getFirebaseAuthInstance(options.getAppName());
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(plugin.getActivity(), task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = auth.getCurrentUser();
+                SignInResult result = new SignInResult(user, null, null);
+                callback.success(result);
+            } else {
+                Exception exception = task.getException();
+                callback.error(exception);
+            }
+        });
     }
 
     public void signInWithEmailLink(@NonNull SignInWithEmailLinkOptions options, @NonNull NonEmptyResultCallback<SignInResult> callback) {
@@ -833,7 +838,7 @@ public class FirebaseAuthentication {
         String email = options.getEmail();
         String emailLink = options.getEmailLink();
 
-        getFirebaseAuthInstance()
+        getFirebaseAuthInstance(options.getAppName())
             .signInWithEmailLink(email, emailLink)
             .addOnCompleteListener(plugin.getActivity(), task -> {
                 if (task.isSuccessful()) {
@@ -898,16 +903,19 @@ public class FirebaseAuthentication {
         oAuthProviderHandler.signIn(call, ProviderId.YAHOO);
     }
 
-    public void signOut(@NonNull EmptyResultCallback callback) {
-        FirebaseAuth.getInstance().signOut();
-        if (googleAuthProviderHandler != null) {
-            googleAuthProviderHandler.signOut();
-        }
-        if (facebookAuthProviderHandler != null) {
-            facebookAuthProviderHandler.signOut();
-        }
-        if (playGamesAuthProviderHandler != null) {
-            playGamesAuthProviderHandler.signOut();
+    public void signOut(@NonNull SignOutOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseAuthInstance(options.getAppName()).signOut();
+        // The provider handlers only sign in to the default app.
+        if (options.getAppName() == null) {
+            if (googleAuthProviderHandler != null) {
+                googleAuthProviderHandler.signOut();
+            }
+            if (facebookAuthProviderHandler != null) {
+                facebookAuthProviderHandler.signOut();
+            }
+            if (playGamesAuthProviderHandler != null) {
+                playGamesAuthProviderHandler.signOut();
+            }
         }
         callback.success();
     }
@@ -919,7 +927,7 @@ public class FirebaseAuthentication {
     public void unlink(@NonNull UnlinkOptions options, @NonNull NonEmptyResultCallback<UnlinkResult> callback) {
         String providerId = options.getProviderId();
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -939,7 +947,7 @@ public class FirebaseAuthentication {
     public void updateEmail(@NonNull UpdateEmailOptions options, @NonNull EmptyResultCallback callback) {
         String newEmail = options.getNewEmail();
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -952,7 +960,7 @@ public class FirebaseAuthentication {
     public void updatePassword(@NonNull UpdatePasswordOptions options, @NonNull EmptyResultCallback callback) {
         String newPassword = options.getNewPassword();
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -966,7 +974,7 @@ public class FirebaseAuthentication {
         String displayName = options.getDisplayName();
         String photoUrl = options.getPhotoUrl();
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -985,8 +993,8 @@ public class FirebaseAuthentication {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void useAppLanguage(@NonNull EmptyResultCallback callback) {
-        getFirebaseAuthInstance().useAppLanguage();
+    public void useAppLanguage(@NonNull UseAppLanguageOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseAuthInstance(options.getAppName()).useAppLanguage();
         callback.success();
     }
 
@@ -994,7 +1002,7 @@ public class FirebaseAuthentication {
         String host = options.getHost();
         int port = options.getPort();
 
-        getFirebaseAuthInstance().useEmulator(host, port);
+        getFirebaseAuthInstance(options.getAppName()).useEmulator(host, port);
         callback.success();
     }
 
@@ -1002,7 +1010,7 @@ public class FirebaseAuthentication {
         throws Exception {
         String newEmail = options.getNewEmail();
 
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+        FirebaseUser user = getFirebaseAuthInstance(options.getAppName()).getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -1027,8 +1035,20 @@ public class FirebaseAuthentication {
         );
     }
 
-    private void getIdToken(boolean forceRefresh, @NonNull final NonEmptyResultCallback<GetIdTokenResult> callback) {
-        FirebaseUser user = getFirebaseAuthInstance().getCurrentUser();
+    @NonNull
+    private FirebaseAuth getFirebaseAuthInstance(@Nullable String appName) {
+        if (appName != null) {
+            return FirebaseAuth.getInstance(FirebaseApp.getInstance(appName));
+        }
+        return getFirebaseAuthInstance();
+    }
+
+    private void getIdToken(
+        @NonNull FirebaseAuth auth,
+        boolean forceRefresh,
+        @NonNull final NonEmptyResultCallback<GetIdTokenResult> callback
+    ) {
+        FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
             callback.error(CustomExceptions.NO_USER_SIGNED_IN);
             return;
@@ -1065,7 +1085,7 @@ public class FirebaseAuthentication {
                 Logger.error(TAG, exception.getMessage(), exception);
             }
         };
-        getIdToken(false, callback);
+        getIdToken(getFirebaseAuthInstance(), false, callback);
     }
 
     private void initAuthProviderHandlers(FirebaseAuthenticationConfig config) {

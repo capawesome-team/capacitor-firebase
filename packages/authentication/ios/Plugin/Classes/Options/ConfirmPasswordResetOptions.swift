@@ -2,12 +2,18 @@ import Foundation
 import Capacitor
 
 @objc public class ConfirmPasswordResetOptions: NSObject {
+    let appName: String?
     let newPassword: String
     let oobCode: String
 
     init(_ call: CAPPluginCall) throws {
         self.oobCode = try ConfirmPasswordResetOptions.getOobCodeFromCall(call)
         self.newPassword = try ConfirmPasswordResetOptions.getNewPasswordFromCall(call)
+        self.appName = ConfirmPasswordResetOptions.getAppNameFromCall(call)
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getNewPasswordFromCall(_ call: CAPPluginCall) throws -> String {

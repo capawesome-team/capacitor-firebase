@@ -1,11 +1,15 @@
 package io.capawesome.capacitorjs.plugins.firebase.authentication.classes.options;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationConfig;
 import io.capawesome.capacitorjs.plugins.firebase.authentication.classes.SignInOptions;
 
 public class SignInWithEmailAndPasswordOptions extends SignInOptions {
+
+    @Nullable
+    private final String appName;
 
     @NonNull
     private final String email;
@@ -17,6 +21,12 @@ public class SignInWithEmailAndPasswordOptions extends SignInOptions {
         super(call, config);
         this.email = SignInWithEmailAndPasswordOptions.getEmailFromCall(call);
         this.password = SignInWithEmailAndPasswordOptions.getPasswordFromCall(call);
+        this.appName = SignInWithEmailAndPasswordOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -27,6 +37,11 @@ public class SignInWithEmailAndPasswordOptions extends SignInOptions {
     @NonNull
     public String getPassword() {
         return password;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

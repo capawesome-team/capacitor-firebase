@@ -11,17 +11,26 @@ public class VerifyBeforeUpdateEmailOptions {
     @Nullable
     private final JSObject actionCodeSettings;
 
+    @Nullable
+    private final String appName;
+
     @NonNull
     private final String newEmail;
 
     public VerifyBeforeUpdateEmailOptions(@NonNull PluginCall call) throws Exception {
         this.newEmail = VerifyBeforeUpdateEmailOptions.getNewEmailFromCall(call);
         this.actionCodeSettings = VerifyBeforeUpdateEmailOptions.getActionCodeSettingsFromCall(call);
+        this.appName = VerifyBeforeUpdateEmailOptions.getAppNameFromCall(call);
     }
 
     @Nullable
     public JSObject getActionCodeSettings() {
         return actionCodeSettings;
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -32,6 +41,11 @@ public class VerifyBeforeUpdateEmailOptions {
     @Nullable
     private static JSObject getActionCodeSettingsFromCall(@NonNull PluginCall call) {
         return call.getObject("actionCodeSettings");
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

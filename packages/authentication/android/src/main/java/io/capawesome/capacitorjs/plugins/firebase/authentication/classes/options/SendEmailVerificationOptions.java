@@ -10,8 +10,12 @@ public class SendEmailVerificationOptions {
     @Nullable
     private final JSObject actionCodeSettings;
 
+    @Nullable
+    private final String appName;
+
     public SendEmailVerificationOptions(@NonNull PluginCall call) {
         this.actionCodeSettings = SendEmailVerificationOptions.getActionCodeSettingsFromCall(call);
+        this.appName = SendEmailVerificationOptions.getAppNameFromCall(call);
     }
 
     @Nullable
@@ -20,7 +24,17 @@ public class SendEmailVerificationOptions {
     }
 
     @Nullable
+    public String getAppName() {
+        return appName;
+    }
+
+    @Nullable
     private static JSObject getActionCodeSettingsFromCall(@NonNull PluginCall call) {
         return call.getObject("actionCodeSettings");
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 }

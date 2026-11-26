@@ -41,10 +41,11 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func applyActionCode(_ options: ApplyActionCodeOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func applyActionCode(_ options: ApplyActionCodeOptions, completion: @escaping (Error?) -> Void) throws {
         let oobCode = options.oobCode
 
-        return Auth.auth().applyActionCode(oobCode, completion: { error in
+        let auth = try getAuthInstance(appName: options.appName)
+        return auth.applyActionCode(oobCode, completion: { error in
             completion(error)
         })
     }
@@ -53,32 +54,35 @@ public typealias AuthStateChangedObserver = () -> Void
         completion(CheckAppTrackingTransparencyPermissionResult(ATTrackingManager.trackingAuthorizationStatus), nil)
     }
 
-    @objc public func confirmPasswordReset(_ options: ConfirmPasswordResetOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func confirmPasswordReset(_ options: ConfirmPasswordResetOptions, completion: @escaping (Error?) -> Void) throws {
         let oobCode = options.oobCode
         let newPassword = options.newPassword
 
-        return Auth.auth().confirmPasswordReset(withCode: oobCode, newPassword: newPassword, completion: { error in
+        let auth = try getAuthInstance(appName: options.appName)
+        return auth.confirmPasswordReset(withCode: oobCode, newPassword: newPassword, completion: { error in
             completion(error)
         })
     }
 
-    @objc public func createUserWithEmailAndPassword(_ options: CreateUserWithEmailAndPasswordOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func createUserWithEmailAndPassword(_ options: CreateUserWithEmailAndPasswordOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let email = options.email
         let password = options.password
 
-        return Auth.auth().createUser(withEmail: email, password: password) { _, error in
+        let auth = try getAuthInstance(appName: options.appName)
+        return auth.createUser(withEmail: email, password: password) { _, error in
             if let error = error {
                 completion(nil, error)
                 return
             }
-            let user = Auth.auth().currentUser
+            let user = auth.currentUser
             let result = SignInResult(user: user, credential: nil, additionalUserInfo: nil)
             completion(result, nil)
         }
     }
 
-    @objc public func deleteUser(completion: @escaping (Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else {
+    @objc public func deleteUser(_ options: DeleteUserOptions, completion: @escaping (Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -87,10 +91,11 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func fetchSignInMethodsForEmail(_ options: FetchSignInMethodsForEmailOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func fetchSignInMethodsForEmail(_ options: FetchSignInMethodsForEmailOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let email = options.email
 
-        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.fetchSignInMethods(forEmail: email) { signInMethods, error in
             if let error = error {
                 completion(nil, error)
                 return
@@ -100,22 +105,25 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func getCurrentUser(completion: @escaping (Result?, Error?) -> Void) {
-        let user = Auth.auth().currentUser
+    @objc public func getCurrentUser(_ options: GetCurrentUserOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
+        let user = auth.currentUser
         let result = GetCurrentUserResult(user: user)
         completion(result, nil)
     }
 
-    @objc public func getIdToken(_ options: GetIdTokenOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func getIdToken(_ options: GetIdTokenOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let forceRefresh = options.forceRefresh
 
-        getIdToken(forceRefresh, completion: completion)
+        let auth = try getAuthInstance(appName: options.appName)
+        getIdToken(auth, forceRefresh: forceRefresh, completion: completion)
     }
 
-    @objc public func getIdTokenResult(_ options: GetIdTokenResultOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func getIdTokenResult(_ options: GetIdTokenResultOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let forceRefresh = options.forceRefresh
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             let error = CustomError.noUserSignedIn
             completion(nil, error)
             return
@@ -131,8 +139,9 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func getTenantId(completion: @escaping (Result?, Error?) -> Void) {
-        let tenantId = Auth.auth().tenantID
+    @objc public func getTenantId(_ options: GetTenantIdOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
+        let tenantId = auth.tenantID
         let result = GetTenantIdResult(tenantId: tenantId)
         completion(result, nil)
     }
@@ -145,13 +154,14 @@ public typealias AuthStateChangedObserver = () -> Void
         completion(result, nil)
     }
 
-    @objc public func linkWithEmailAndPassword(_ options: LinkWithEmailAndPasswordOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func linkWithEmailAndPassword(_ options: LinkWithEmailAndPasswordOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let skipNativeAuth = options.getSkipNativeAuth()
         if skipNativeAuth == true {
             completion(nil, CustomError.emailSignInSkipNativeAuth)
             return
         }
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(nil, CustomError.noUserSignedIn)
             return
         }
@@ -171,8 +181,9 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func linkWithEmailLink(_ options: LinkWithEmailLinkOptions, completion: @escaping (Result?, Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else {
+    @objc public func linkWithEmailLink(_ options: LinkWithEmailLinkOptions, completion: @escaping (Result?, Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(nil, CustomError.noUserSignedIn)
             return
         }
@@ -192,8 +203,9 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func reload(completion: @escaping (Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else {
+    @objc public func reload(_ options: ReloadOptions, completion: @escaping (Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -208,18 +220,20 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func revokeAccessToken(_ options: RevokeAccessTokenOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func revokeAccessToken(_ options: RevokeAccessTokenOptions, completion: @escaping (Error?) -> Void) throws {
         let token = options.token
 
-        Auth.auth().revokeToken(withAuthorizationCode: token) { error in
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.revokeToken(withAuthorizationCode: token) { error in
             completion(error)
         }
     }
 
-    @objc public func sendEmailVerification(_ options: SendEmailVerificationOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func sendEmailVerification(_ options: SendEmailVerificationOptions, completion: @escaping (Error?) -> Void) throws {
         let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.actionCodeSettings)
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -234,53 +248,58 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func sendPasswordResetEmail(_ options: SendPasswordResetEmailOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func sendPasswordResetEmail(_ options: SendPasswordResetEmailOptions, completion: @escaping (Error?) -> Void) throws {
         let email = options.email
         let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.actionCodeSettings)
 
         let completion: (Error?) -> Void = { error in
             completion(error)
         }
+        let auth = try getAuthInstance(appName: options.appName)
         if let actionCodeSettings = actionCodeSettings {
-            Auth.auth().sendPasswordReset(withEmail: email, actionCodeSettings: actionCodeSettings, completion: completion)
+            auth.sendPasswordReset(withEmail: email, actionCodeSettings: actionCodeSettings, completion: completion)
         } else {
-            Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
+            auth.sendPasswordReset(withEmail: email, completion: completion)
         }
     }
 
-    @objc public func sendSignInLinkToEmail(_ options: SendSignInLinkToEmailOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func sendSignInLinkToEmail(_ options: SendSignInLinkToEmailOptions, completion: @escaping (Error?) -> Void) throws {
         let email = options.email
         guard let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.actionCodeSettings) else {
             completion(CustomError.actionCodeSettingsMissing)
             return
         }
 
-        return Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { error in
+        let auth = try getAuthInstance(appName: options.appName)
+        return auth.sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { error in
             completion(error)
         }
     }
 
-    @objc public func setLanguageCode(_ options: SetLanguageCodeOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func setLanguageCode(_ options: SetLanguageCodeOptions, completion: @escaping (Error?) -> Void) throws {
         let languageCode = options.languageCode
 
-        Auth.auth().languageCode = languageCode
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.languageCode = languageCode
         completion(nil)
     }
 
-    @objc public func setTenantId(_ options: SetTenantIdOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func setTenantId(_ options: SetTenantIdOptions, completion: @escaping (Error?) -> Void) throws {
         let tenantId = options.tenantId
 
-        Auth.auth().tenantID = tenantId
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.tenantID = tenantId
         completion(nil)
     }
 
-    @objc public func signInAnonymously(completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func signInAnonymously(_ options: SignInAnonymouslyOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let skipNativeAuth = config.skipNativeAuth
         if skipNativeAuth == true {
             completion(nil, CustomError.signInAnonymouslySkipNativeAuth)
             return
         }
-        Auth.auth().signInAnonymously { authResult, error in
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.signInAnonymously { authResult, error in
             if let error = error {
                 completion(nil, error)
                 return
@@ -290,7 +309,7 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func signInWithCustomToken(_ options: SignInWithCustomTokenOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func signInWithCustomToken(_ options: SignInWithCustomTokenOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let skipNativeAuth = options.getSkipNativeAuth()
         if skipNativeAuth == true {
             completion(nil, CustomError.customTokenSkipNativeAuth)
@@ -299,18 +318,19 @@ public typealias AuthStateChangedObserver = () -> Void
 
         let token = options.token
 
-        Auth.auth().signIn(withCustomToken: token) { _, error in
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.signIn(withCustomToken: token) { _, error in
             if let error = error {
                 completion(nil, error)
                 return
             }
-            let user = Auth.auth().currentUser
+            let user = auth.currentUser
             let result = SignInResult(user: user, credential: nil, additionalUserInfo: nil)
             completion(result, nil)
         }
     }
 
-    @objc public func signInWithEmailAndPassword(_ options: SignInWithEmailAndPasswordOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func signInWithEmailAndPassword(_ options: SignInWithEmailAndPasswordOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let skipNativeAuth = config.skipNativeAuth
         if skipNativeAuth == true {
             completion(nil, CustomError.emailSignInSkipNativeAuth)
@@ -320,18 +340,19 @@ public typealias AuthStateChangedObserver = () -> Void
         let email = options.email
         let password = options.password
 
-        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.signIn(withEmail: email, password: password) { _, error in
             if let error = error {
                 completion(nil, error)
                 return
             }
-            let user = Auth.auth().currentUser
+            let user = auth.currentUser
             let result = SignInResult(user: user, credential: nil, additionalUserInfo: nil)
             completion(result, nil)
         }
     }
 
-    @objc public func signInWithEmailLink(_ options: SignInWithEmailLinkOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func signInWithEmailLink(_ options: SignInWithEmailLinkOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let skipNativeAuth = config.skipNativeAuth
         if skipNativeAuth == true {
             completion(nil, CustomError.emailLinkSignInSkipNativeAuth)
@@ -341,7 +362,8 @@ public typealias AuthStateChangedObserver = () -> Void
         let email = options.email
         let emailLink = options.emailLink
 
-        Auth.auth().signIn(withEmail: email, link: emailLink) { authResult, error in
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.signIn(withEmail: email, link: emailLink) { authResult, error in
             if let error = error {
                 completion(nil, error)
                 return
@@ -351,21 +373,26 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func signOut(completion: @escaping (Error?) -> Void) {
+    @objc public func signOut(_ options: SignOutOptions, completion: @escaping (Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
         do {
-            try Auth.auth().signOut()
-            googleAuthProviderHandler?.signOut()
-            facebookAuthProviderHandler?.signOut()
+            try auth.signOut()
+            // The providers only ever sign in to the default app.
+            if options.appName == nil {
+                googleAuthProviderHandler?.signOut()
+                facebookAuthProviderHandler?.signOut()
+            }
             completion(nil)
         } catch {
             completion(error)
         }
     }
 
-    @objc public func unlink(_ options: UnlinkOptions, completion: @escaping (Result?, Error?) -> Void) {
+    @objc public func unlink(_ options: UnlinkOptions, completion: @escaping (Result?, Error?) -> Void) throws {
         let providerId = options.providerId
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(nil, CustomError.noUserSignedIn)
             return
         }
@@ -379,10 +406,11 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func updateEmail(_ options: UpdateEmailOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func updateEmail(_ options: UpdateEmailOptions, completion: @escaping (Error?) -> Void) throws {
         let newEmail = options.newEmail
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -391,10 +419,11 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func updatePassword(_ options: UpdatePasswordOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func updatePassword(_ options: UpdatePasswordOptions, completion: @escaping (Error?) -> Void) throws {
         let newPassword = options.newPassword
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -403,11 +432,12 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func updateProfile(_ options: UpdateProfileOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func updateProfile(_ options: UpdateProfileOptions, completion: @escaping (Error?) -> Void) throws {
         let displayName = options.displayName
         let photoUrl = options.photoUrl
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -425,24 +455,27 @@ public typealias AuthStateChangedObserver = () -> Void
         }
     }
 
-    @objc public func useAppLanguage(completion: @escaping (Error?) -> Void) {
-        Auth.auth().useAppLanguage()
+    @objc public func useAppLanguage(_ options: UseAppLanguageOptions, completion: @escaping (Error?) -> Void) throws {
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.useAppLanguage()
         completion(nil)
     }
 
-    @objc public func useEmulator(_ options: UseEmulatorOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func useEmulator(_ options: UseEmulatorOptions, completion: @escaping (Error?) -> Void) throws {
         let host = options.host
         let port = options.port
 
-        Auth.auth().useEmulator(withHost: host, port: port)
+        let auth = try getAuthInstance(appName: options.appName)
+        auth.useEmulator(withHost: host, port: port)
         completion(nil)
     }
 
-    @objc public func verifyBeforeUpdateEmail(_ options: VerifyBeforeUpdateEmailOptions, completion: @escaping (Error?) -> Void) {
+    @objc public func verifyBeforeUpdateEmail(_ options: VerifyBeforeUpdateEmailOptions, completion: @escaping (Error?) -> Void) throws {
         let newEmail = options.newEmail
         let actionCodeSettings = FirebaseAuthenticationHelper.createActionCodeSettings(options.actionCodeSettings)
 
-        guard let user = Auth.auth().currentUser else {
+        let auth = try getAuthInstance(appName: options.appName)
+        guard let user = auth.currentUser else {
             completion(CustomError.noUserSignedIn)
             return
         }
@@ -729,8 +762,18 @@ public typealias AuthStateChangedObserver = () -> Void
         return "\(providerName) sign-in provider is not enabled. Make sure to add the provider to the 'providers' list in the Capacitor configuration."
     }
 
-    private func getIdToken(_ forceRefresh: Bool, completion: @escaping (GetIdTokenResult?, Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else {
+    private func getAuthInstance(appName: String?) throws -> Auth {
+        if let appName = appName {
+            guard let app = FirebaseApp.app(name: appName) else {
+                throw CustomError.appNotFound
+            }
+            return Auth.auth(app: app)
+        }
+        return Auth.auth()
+    }
+
+    private func getIdToken(_ auth: Auth, forceRefresh: Bool, completion: @escaping (GetIdTokenResult?, Error?) -> Void) {
+        guard let user = auth.currentUser else {
             let error = CustomError.noUserSignedIn
             completion(nil, error)
             return
@@ -752,7 +795,7 @@ public typealias AuthStateChangedObserver = () -> Void
     }
 
     private func handleIdTokenChange() {
-        getIdToken(false, completion: { result, error in
+        getIdToken(Auth.auth(), forceRefresh: false, completion: { result, error in
             if let error = error {
                 CAPLog.print("[", self.plugin.tag, "] ", error)
                 return

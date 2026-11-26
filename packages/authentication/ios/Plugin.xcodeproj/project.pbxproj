@@ -64,6 +64,13 @@
 		7CA1000312EE0000000F1A01 /* AuthStateChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000302EE0000000F1A01 /* AuthStateChangeEvent.swift */; };
 		7CA1000332EE0000000F1A01 /* IdTokenChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000322EE0000000F1A01 /* IdTokenChangeEvent.swift */; };
 		7CA1000352EE0000000F1A01 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1000342EE0000000F1A01 /* CustomError.swift */; };
+		7CA3000012EE0000000F1A01 /* DeleteUserOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA3000002EE0000000F1A01 /* DeleteUserOptions.swift */; };
+		7CA3000032EE0000000F1A01 /* GetCurrentUserOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA3000022EE0000000F1A01 /* GetCurrentUserOptions.swift */; };
+		7CA3000052EE0000000F1A01 /* GetTenantIdOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA3000042EE0000000F1A01 /* GetTenantIdOptions.swift */; };
+		7CA3000072EE0000000F1A01 /* ReloadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA3000062EE0000000F1A01 /* ReloadOptions.swift */; };
+		7CA3000092EE0000000F1A01 /* SignInAnonymouslyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA3000082EE0000000F1A01 /* SignInAnonymouslyOptions.swift */; };
+		7CA30000B2EE0000000F1A01 /* SignOutOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA30000A2EE0000000F1A01 /* SignOutOptions.swift */; };
+		7CA30000D2EE0000000F1A01 /* UseAppLanguageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA30000C2EE0000000F1A01 /* UseAppLanguageOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +148,13 @@
 		7CA1000302EE0000000F1A01 /* AuthStateChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateChangeEvent.swift; sourceTree = "<group>"; };
 		7CA1000322EE0000000F1A01 /* IdTokenChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenChangeEvent.swift; sourceTree = "<group>"; };
 		7CA1000342EE0000000F1A01 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7CA3000002EE0000000F1A01 /* DeleteUserOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserOptions.swift; sourceTree = "<group>"; };
+		7CA3000022EE0000000F1A01 /* GetCurrentUserOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentUserOptions.swift; sourceTree = "<group>"; };
+		7CA3000042EE0000000F1A01 /* GetTenantIdOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTenantIdOptions.swift; sourceTree = "<group>"; };
+		7CA3000062EE0000000F1A01 /* ReloadOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadOptions.swift; sourceTree = "<group>"; };
+		7CA3000082EE0000000F1A01 /* SignInAnonymouslyOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAnonymouslyOptions.swift; sourceTree = "<group>"; };
+		7CA30000A2EE0000000F1A01 /* SignOutOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutOptions.swift; sourceTree = "<group>"; };
+		7CA30000C2EE0000000F1A01 /* UseAppLanguageOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseAppLanguageOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +251,13 @@
 				7CA1000222EE0000000F1A01 /* UpdateProfileOptions.swift */,
 				7CA1000242EE0000000F1A01 /* UseEmulatorOptions.swift */,
 				7CA1000262EE0000000F1A01 /* VerifyBeforeUpdateEmailOptions.swift */,
+				7CA3000002EE0000000F1A01 /* DeleteUserOptions.swift */,
+				7CA3000022EE0000000F1A01 /* GetCurrentUserOptions.swift */,
+				7CA3000042EE0000000F1A01 /* GetTenantIdOptions.swift */,
+				7CA3000062EE0000000F1A01 /* ReloadOptions.swift */,
+				7CA3000082EE0000000F1A01 /* SignInAnonymouslyOptions.swift */,
+				7CA30000A2EE0000000F1A01 /* SignOutOptions.swift */,
+				7CA30000C2EE0000000F1A01 /* UseAppLanguageOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -589,6 +610,13 @@
 				7CA1000312EE0000000F1A01 /* AuthStateChangeEvent.swift in Sources */,
 				7CA1000332EE0000000F1A01 /* IdTokenChangeEvent.swift in Sources */,
 				7CA1000352EE0000000F1A01 /* CustomError.swift in Sources */,
+				7CA3000012EE0000000F1A01 /* DeleteUserOptions.swift in Sources */,
+				7CA3000032EE0000000F1A01 /* GetCurrentUserOptions.swift in Sources */,
+				7CA3000052EE0000000F1A01 /* GetTenantIdOptions.swift in Sources */,
+				7CA3000072EE0000000F1A01 /* ReloadOptions.swift in Sources */,
+				7CA3000092EE0000000F1A01 /* SignInAnonymouslyOptions.swift in Sources */,
+				7CA30000B2EE0000000F1A01 /* SignOutOptions.swift in Sources */,
+				7CA30000D2EE0000000F1A01 /* UseAppLanguageOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

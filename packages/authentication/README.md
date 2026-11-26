@@ -17,6 +17,7 @@ The Firebase Authentication plugin is typically used to handle the entire sign-i
 - **Phone number sign-in**: Verify users with an SMS code sent to their phone number.
 - **Guest access**: Let users try your app with anonymous sign-in and link a permanent account later.
 - **Custom backends**: Sign in with custom tokens or OpenID Connect and retrieve ID tokens to authenticate requests to your own backend.
+- **Multiple Firebase projects**: Sign in users to another Firebase project with the `appName` option.
 
 ## Compatibility
 
@@ -625,6 +626,37 @@ const useEmulator = async () => {
 };
 ```
 
+### Use another Firebase project
+
+Pass the `appName` option to use a Firebase app other than the default app, for example to sign in a user to a second Firebase project. Initialize the app with the `initializeApp(...)` method of the [Firebase App](https://capawesome.io/docs/sdks/capacitor/firebase/app/) plugin first. Then pass its name as `appName`:
+
+```typescript
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
+const signInWithCustomToken = async () => {
+  const result = await FirebaseAuthentication.signInWithCustomToken({
+    token: '1234',
+    appName: 'secondary',
+  });
+  return result.user;
+};
+
+const getCurrentUser = async () => {
+  const result = await FirebaseAuthentication.getCurrentUser({
+    appName: 'secondary',
+  });
+  return result.user;
+};
+```
+
+Every app has its own user. Methods that change the Auth instance, such as `useEmulator(...)`, `setLanguageCode(...)`, `useAppLanguage(...)` and `setTenantId(...)`, apply only to the app of that call. Call them once for every `appName` that needs them, and call `useEmulator(...)` before any other method for that app.
+
+The user of an app stays signed in when the app is restarted. Initialize the app again with the same name and options, and `getCurrentUser(...)` returns the user.
+
+To use the default app, leave `appName` out.
+
+**Attention**: The sign-in and link methods of the providers (such as Apple or Google) and of phone numbers always use the default app. The `authStateChange` and `idTokenChange` listeners are only triggered for the default app.
+
 ## API
 
 <docgen-index>
@@ -633,14 +665,14 @@ const useEmulator = async () => {
 * [`confirmPasswordReset(...)`](#confirmpasswordreset)
 * [`confirmVerificationCode(...)`](#confirmverificationcode)
 * [`createUserWithEmailAndPassword(...)`](#createuserwithemailandpassword)
-* [`deleteUser()`](#deleteuser)
+* [`deleteUser(...)`](#deleteuser)
 * [`fetchSignInMethodsForEmail(...)`](#fetchsigninmethodsforemail)
-* [`getCurrentUser()`](#getcurrentuser)
+* [`getCurrentUser(...)`](#getcurrentuser)
 * [`getPendingAuthResult()`](#getpendingauthresult)
 * [`getIdToken(...)`](#getidtoken)
 * [`getIdTokenResult(...)`](#getidtokenresult)
 * [`getRedirectResult()`](#getredirectresult)
-* [`getTenantId()`](#gettenantid)
+* [`getTenantId(...)`](#gettenantid)
 * [`isSignInWithEmailLink(...)`](#issigninwithemaillink)
 * [`linkWithApple(...)`](#linkwithapple)
 * [`linkWithEmailAndPassword(...)`](#linkwithemailandpassword)
@@ -655,7 +687,7 @@ const useEmulator = async () => {
 * [`linkWithPlayGames(...)`](#linkwithplaygames)
 * [`linkWithTwitter(...)`](#linkwithtwitter)
 * [`linkWithYahoo(...)`](#linkwithyahoo)
-* [`reload()`](#reload)
+* [`reload(...)`](#reload)
 * [`revokeAccessToken(...)`](#revokeaccesstoken)
 * [`sendEmailVerification(...)`](#sendemailverification)
 * [`sendPasswordResetEmail(...)`](#sendpasswordresetemail)
@@ -663,7 +695,7 @@ const useEmulator = async () => {
 * [`setLanguageCode(...)`](#setlanguagecode)
 * [`setPersistence(...)`](#setpersistence)
 * [`setTenantId(...)`](#settenantid)
-* [`signInAnonymously()`](#signinanonymously)
+* [`signInAnonymously(...)`](#signinanonymously)
 * [`signInWithApple(...)`](#signinwithapple)
 * [`signInWithCustomToken(...)`](#signinwithcustomtoken)
 * [`signInWithEmailAndPassword(...)`](#signinwithemailandpassword)
@@ -678,12 +710,12 @@ const useEmulator = async () => {
 * [`signInWithPlayGames(...)`](#signinwithplaygames)
 * [`signInWithTwitter(...)`](#signinwithtwitter)
 * [`signInWithYahoo(...)`](#signinwithyahoo)
-* [`signOut()`](#signout)
+* [`signOut(...)`](#signout)
 * [`unlink(...)`](#unlink)
 * [`updateEmail(...)`](#updateemail)
 * [`updatePassword(...)`](#updatepassword)
 * [`updateProfile(...)`](#updateprofile)
-* [`useAppLanguage()`](#useapplanguage)
+* [`useAppLanguage(...)`](#useapplanguage)
 * [`useEmulator(...)`](#useemulator)
 * [`verifyBeforeUpdateEmail(...)`](#verifybeforeupdateemail)
 * [`checkAppTrackingTransparencyPermission()`](#checkapptrackingtransparencypermission)
@@ -776,13 +808,17 @@ If the new account was created, the user is signed in automatically.
 --------------------
 
 
-### deleteUser()
+### deleteUser(...)
 
 ```typescript
-deleteUser() => Promise<void>
+deleteUser(options?: DeleteUserOptions | undefined) => Promise<void>
 ```
 
 Deletes and signs out the user.
+
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteuseroptions">DeleteUserOptions</a></code> |
 
 **Since:** 1.3.0
 
@@ -808,13 +844,17 @@ Fetches the sign-in methods for an email address.
 --------------------
 
 
-### getCurrentUser()
+### getCurrentUser(...)
 
 ```typescript
-getCurrentUser() => Promise<GetCurrentUserResult>
+getCurrentUser(options?: GetCurrentUserOptions | undefined) => Promise<GetCurrentUserResult>
 ```
 
 Fetches the currently signed-in user.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getcurrentuseroptions">GetCurrentUserOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#getcurrentuserresult">GetCurrentUserResult</a>&gt;</code>
 
@@ -898,13 +938,17 @@ Only available for Web.
 --------------------
 
 
-### getTenantId()
+### getTenantId(...)
 
 ```typescript
-getTenantId() => Promise<GetTenantIdResult>
+getTenantId(options?: GetTenantIdOptions | undefined) => Promise<GetTenantIdResult>
 ```
 
 Get the tenant id.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#gettenantidoptions">GetTenantIdOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#gettenantidresult">GetTenantIdResult</a>&gt;</code>
 
@@ -1221,13 +1265,17 @@ The `skipNativeAuth` configuration option has no effect here.
 --------------------
 
 
-### reload()
+### reload(...)
 
 ```typescript
-reload() => Promise<void>
+reload(options?: ReloadOptions | undefined) => Promise<void>
 ```
 
 Reloads user account data, if signed in.
+
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#reloadoptions">ReloadOptions</a></code> |
 
 **Since:** 1.3.0
 
@@ -1357,13 +1405,17 @@ Sets the tenant id.
 --------------------
 
 
-### signInAnonymously()
+### signInAnonymously(...)
 
 ```typescript
-signInAnonymously() => Promise<SignInResult>
+signInAnonymously(options?: SignInAnonymouslyOptions | undefined) => Promise<SignInResult>
 ```
 
 Signs in as an anonymous user.
+
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#signinanonymouslyoptions">SignInAnonymouslyOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#signinresult">SignInResult</a>&gt;</code>
 
@@ -1649,13 +1701,17 @@ Starts the Yahoo sign-in flow.
 --------------------
 
 
-### signOut()
+### signOut(...)
 
 ```typescript
-signOut() => Promise<void>
+signOut(options?: SignOutOptions | undefined) => Promise<void>
 ```
 
 Starts the sign-out flow.
+
+| Param         | Type                                                      |
+| ------------- | --------------------------------------------------------- |
+| **`options`** | <code><a href="#signoutoptions">SignOutOptions</a></code> |
 
 **Since:** 0.1.0
 
@@ -1732,13 +1788,17 @@ Updates a user's profile data.
 --------------------
 
 
-### useAppLanguage()
+### useAppLanguage(...)
 
 ```typescript
-useAppLanguage() => Promise<void>
+useAppLanguage(options?: UseAppLanguageOptions | undefined) => Promise<void>
 ```
 
 Sets the user-facing language code to be the default app language.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#useapplanguageoptions">UseAppLanguageOptions</a></code> |
 
 **Since:** 0.1.0
 
@@ -1822,6 +1882,7 @@ addListener(eventName: 'authStateChange', listenerFunc: AuthStateChangeListener)
 ```
 
 Listen for the user's sign-in state changes.
+This listener is only triggered for the default app.
 
 **Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
 
@@ -1844,6 +1905,7 @@ addListener(eventName: 'idTokenChange', listenerFunc: IdTokenChangeListener) => 
 ```
 
 Listen to ID token changes for the currently signed-in user.
+This listener is only triggered for the default app.
 
 **Attention:** This listener is not triggered when the `skipNativeAuth` is used. Use the Firebase JavaScript SDK instead.
 
@@ -1946,17 +2008,19 @@ Remove all listeners for this plugin.
 
 #### ApplyActionCodeOptions
 
-| Prop          | Type                | Description                           | Since |
-| ------------- | ------------------- | ------------------------------------- | ----- |
-| **`oobCode`** | <code>string</code> | A verification code sent to the user. | 0.2.2 |
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`oobCode`** | <code>string</code> | A verification code sent to the user.                                                                                                                               | 0.2.2 |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### ConfirmPasswordResetOptions
 
-| Prop              | Type                | Description                           | Since |
-| ----------------- | ------------------- | ------------------------------------- | ----- |
-| **`oobCode`**     | <code>string</code> | A verification code sent to the user. | 0.2.2 |
-| **`newPassword`** | <code>string</code> | The new password.                     | 0.2.2 |
+| Prop              | Type                | Description                                                                                                                                                         | Since |
+| ----------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`oobCode`**     | <code>string</code> | A verification code sent to the user.                                                                                                                               | 0.2.2 |
+| **`newPassword`** | <code>string</code> | The new password.                                                                                                                                                   | 0.2.2 |
+| **`appName`**     | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SignInResult
@@ -2038,10 +2102,18 @@ Remove all listeners for this plugin.
 
 #### CreateUserWithEmailAndPasswordOptions
 
-| Prop           | Type                | Since |
-| -------------- | ------------------- | ----- |
-| **`email`**    | <code>string</code> | 0.2.2 |
-| **`password`** | <code>string</code> | 0.2.2 |
+| Prop           | Type                | Description                                                                                                                                                         | Since |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**    | <code>string</code> |                                                                                                                                                                     | 0.2.2 |
+| **`password`** | <code>string</code> |                                                                                                                                                                     | 0.2.2 |
+| **`appName`**  | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
+#### DeleteUserOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### FetchSignInMethodsForEmailResult
@@ -2053,9 +2125,10 @@ Remove all listeners for this plugin.
 
 #### FetchSignInMethodsForEmailOptions
 
-| Prop        | Type                | Description               | Since |
-| ----------- | ------------------- | ------------------------- | ----- |
-| **`email`** | <code>string</code> | The user's email address. | 6.0.0 |
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**   | <code>string</code> | The user's email address.                                                                                                                                           | 6.0.0 |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetCurrentUserResult
@@ -2063,6 +2136,13 @@ Remove all listeners for this plugin.
 | Prop       | Type                                          | Description                                               | Since |
 | ---------- | --------------------------------------------- | --------------------------------------------------------- | ----- |
 | **`user`** | <code><a href="#user">User</a> \| null</code> | The currently signed-in user, or null if there isn't any. | 0.1.0 |
+
+
+#### GetCurrentUserOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### GetIdTokenResult
@@ -2074,9 +2154,10 @@ Remove all listeners for this plugin.
 
 #### GetIdTokenOptions
 
-| Prop               | Type                 | Description                                   | Since |
-| ------------------ | -------------------- | --------------------------------------------- | ----- |
-| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 0.1.0 |
+| Prop               | Type                 | Description                                                                                                                                                         | Default            | Since |
+| ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration.                                                                                                                       | <code>false</code> | 0.1.0 |
+| **`appName`**      | <code>string</code>  | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. |                    | 8.7.0 |
 
 
 #### GetIdTokenResultResult
@@ -2093,9 +2174,10 @@ Remove all listeners for this plugin.
 
 #### GetIdTokenResultOptions
 
-| Prop               | Type                 | Description                                   | Since |
-| ------------------ | -------------------- | --------------------------------------------- | ----- |
-| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration. | 7.4.0 |
+| Prop               | Type                 | Description                                                                                                                                                         | Default            | Since |
+| ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
+| **`forceRefresh`** | <code>boolean</code> | Force refresh regardless of token expiration.                                                                                                                       | <code>false</code> | 7.4.0 |
+| **`appName`**      | <code>string</code>  | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. |                    | 8.7.0 |
 
 
 #### GetTenantIdResult
@@ -2103,6 +2185,13 @@ Remove all listeners for this plugin.
 | Prop           | Type                        | Description                                     | Since |
 | -------------- | --------------------------- | ----------------------------------------------- | ----- |
 | **`tenantId`** | <code>string \| null</code> | The tenant id. `null` if it has never been set. | 1.1.0 |
+
+
+#### GetTenantIdOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### IsSignInWithEmailLinkResult
@@ -2138,18 +2227,20 @@ Remove all listeners for this plugin.
 
 #### LinkWithEmailAndPasswordOptions
 
-| Prop           | Type                | Description               | Since |
-| -------------- | ------------------- | ------------------------- | ----- |
-| **`email`**    | <code>string</code> | The user's email address. | 1.1.0 |
-| **`password`** | <code>string</code> | The user's password.      | 1.1.0 |
+| Prop           | Type                | Description                                                                                                                                                         | Since |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**    | <code>string</code> | The user's email address.                                                                                                                                           | 1.1.0 |
+| **`password`** | <code>string</code> | The user's password.                                                                                                                                                | 1.1.0 |
+| **`appName`**  | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### LinkWithEmailLinkOptions
 
-| Prop            | Type                | Description                                | Since |
-| --------------- | ------------------- | ------------------------------------------ | ----- |
-| **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
-| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+| Prop            | Type                | Description                                                                                                                                                         | Since |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**     | <code>string</code> | The user's email address.                                                                                                                                           | 1.1.0 |
+| **`emailLink`** | <code>string</code> | The link sent to the user's email address.                                                                                                                          | 1.1.0 |
+| **`appName`**   | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SignInWithOpenIdConnectOptions
@@ -2169,18 +2260,27 @@ Remove all listeners for this plugin.
 | **`timeout`**           | <code>number</code>  | The maximum amount of time in seconds to wait for the SMS auto-retrieval. Use 0 to disable SMS-auto-retrieval. Only available for Android.                    | <code>60</code>    | 5.4.0 |
 
 
+#### ReloadOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
 #### RevokeAccessTokenOptions
 
-| Prop        | Type                | Description                 | Since |
-| ----------- | ------------------- | --------------------------- | ----- |
-| **`token`** | <code>string</code> | The access token to revoke. | 6.1.0 |
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`token`**   | <code>string</code> | The access token to revoke.                                                                                                                                         | 6.1.0 |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SendEmailVerificationOptions
 
-| Prop                     | Type                                                              | Description                                                                                               | Since |
-| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 6.1.0 |
+| Prop                     | Type                                                              | Description                                                                                                                                                         | Since |
+| ------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.                                                           | 6.1.0 |
+| **`appName`**            | <code>string</code>                                               | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### ActionCodeSettings
@@ -2199,62 +2299,77 @@ bundle identifiers.
 
 #### SendPasswordResetEmailOptions
 
-| Prop                     | Type                                                              | Description                                                                                               | Since |
-| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
-| **`email`**              | <code>string</code>                                               |                                                                                                           | 0.2.2 |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 6.1.0 |
+| Prop                     | Type                                                              | Description                                                                                                                                                         | Since |
+| ------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**              | <code>string</code>                                               |                                                                                                                                                                     | 0.2.2 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.                                                           | 6.1.0 |
+| **`appName`**            | <code>string</code>                                               | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SendSignInLinkToEmailOptions
 
-| Prop                     | Type                                                              | Description                                                                                               | Since |
-| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----- |
-| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                 | 1.1.0 |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers. | 1.1.0 |
+| Prop                     | Type                                                              | Description                                                                                                                                                         | Since |
+| ------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**              | <code>string</code>                                               | The user's email address.                                                                                                                                           | 1.1.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | Structure that contains the required continue/state URL with optional Android and iOS bundle identifiers.                                                           | 1.1.0 |
+| **`appName`**            | <code>string</code>                                               | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SetLanguageCodeOptions
 
-| Prop               | Type                | Description           | Since |
-| ------------------ | ------------------- | --------------------- | ----- |
-| **`languageCode`** | <code>string</code> | BCP 47 language code. | 0.1.0 |
+| Prop               | Type                | Description                                                                                                                                                         | Since |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`languageCode`** | <code>string</code> | BCP 47 language code.                                                                                                                                               | 0.1.0 |
+| **`appName`**      | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SetPersistenceOptions
 
-| Prop              | Type                                                | Description            | Since |
-| ----------------- | --------------------------------------------------- | ---------------------- | ----- |
-| **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types. | 5.2.0 |
+| Prop              | Type                                                | Description                                                                                                                                                         | Since |
+| ----------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`persistence`** | <code><a href="#persistence">Persistence</a></code> | The persistence types.                                                                                                                                              | 5.2.0 |
+| **`appName`**     | <code>string</code>                                 | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SetTenantIdOptions
 
-| Prop           | Type                | Description    | Since |
-| -------------- | ------------------- | -------------- | ----- |
-| **`tenantId`** | <code>string</code> | The tenant id. | 1.1.0 |
+| Prop           | Type                | Description                                                                                                                                                         | Since |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`tenantId`** | <code>string</code> | The tenant id.                                                                                                                                                      | 1.1.0 |
+| **`appName`**  | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
+#### SignInAnonymouslyOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SignInWithCustomTokenOptions
 
-| Prop        | Type                | Description                       | Since |
-| ----------- | ------------------- | --------------------------------- | ----- |
-| **`token`** | <code>string</code> | The custom token to sign in with. | 0.1.0 |
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`token`**   | <code>string</code> | The custom token to sign in with.                                                                                                                                   | 0.1.0 |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SignInWithEmailAndPasswordOptions
 
-| Prop           | Type                | Description               | Since |
-| -------------- | ------------------- | ------------------------- | ----- |
-| **`email`**    | <code>string</code> | The user's email address. | 0.2.2 |
-| **`password`** | <code>string</code> | The user's password.      | 0.2.2 |
+| Prop           | Type                | Description                                                                                                                                                         | Since |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**    | <code>string</code> | The user's email address.                                                                                                                                           | 0.2.2 |
+| **`password`** | <code>string</code> | The user's password.                                                                                                                                                | 0.2.2 |
+| **`appName`**  | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SignInWithEmailLinkOptions
 
-| Prop            | Type                | Description                                | Since |
-| --------------- | ------------------- | ------------------------------------------ | ----- |
-| **`email`**     | <code>string</code> | The user's email address.                  | 1.1.0 |
-| **`emailLink`** | <code>string</code> | The link sent to the user's email address. | 1.1.0 |
+| Prop            | Type                | Description                                                                                                                                                         | Since |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`email`**     | <code>string</code> | The user's email address.                                                                                                                                           | 1.1.0 |
+| **`emailLink`** | <code>string</code> | The link sent to the user's email address.                                                                                                                          | 1.1.0 |
+| **`appName`**   | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### SignInWithFacebookOptions
@@ -2278,6 +2393,13 @@ bundle identifiers.
 | **`useCredentialManager`** | <code>boolean</code> | Whether to use the Credential Manager API to sign in. Only available for Android. | <code>true</code> | 7.2.0 |
 
 
+#### SignOutOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
 #### UnlinkResult
 
 | Prop       | Type                                          | Description                                               | Since |
@@ -2287,49 +2409,62 @@ bundle identifiers.
 
 #### UnlinkOptions
 
-| Prop             | Type                                              | Description             | Since |
-| ---------------- | ------------------------------------------------- | ----------------------- | ----- |
-| **`providerId`** | <code><a href="#providerid">ProviderId</a></code> | The provider to unlink. | 1.1.0 |
+| Prop             | Type                                              | Description                                                                                                                                                         | Since |
+| ---------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`providerId`** | <code><a href="#providerid">ProviderId</a></code> | The provider to unlink.                                                                                                                                             | 1.1.0 |
+| **`appName`**    | <code>string</code>                               | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### UpdateEmailOptions
 
-| Prop           | Type                | Description            | Since |
-| -------------- | ------------------- | ---------------------- | ----- |
-| **`newEmail`** | <code>string</code> | The new email address. | 0.2.2 |
+| Prop           | Type                | Description                                                                                                                                                         | Since |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`newEmail`** | <code>string</code> | The new email address.                                                                                                                                              | 0.2.2 |
+| **`appName`**  | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### UpdatePasswordOptions
 
-| Prop              | Type                | Description       | Since |
-| ----------------- | ------------------- | ----------------- | ----- |
-| **`newPassword`** | <code>string</code> | The new password. | 0.2.2 |
+| Prop              | Type                | Description                                                                                                                                                         | Since |
+| ----------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`newPassword`** | <code>string</code> | The new password.                                                                                                                                                   | 0.2.2 |
+| **`appName`**     | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### UpdateProfileOptions
 
-| Prop              | Type                        | Description              | Since |
-| ----------------- | --------------------------- | ------------------------ | ----- |
-| **`displayName`** | <code>string \| null</code> | The user's display name. | 1.3.0 |
-| **`photoUrl`**    | <code>string \| null</code> | The user's photo URL.    | 1.3.0 |
+| Prop              | Type                        | Description                                                                                                                                                         | Since |
+| ----------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`displayName`** | <code>string \| null</code> | The user's display name.                                                                                                                                            | 1.3.0 |
+| **`photoUrl`**    | <code>string \| null</code> | The user's photo URL.                                                                                                                                               | 1.3.0 |
+| **`appName`**     | <code>string</code>         | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
+
+
+#### UseAppLanguageOptions
+
+| Prop          | Type                | Description                                                                                                                                                         | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`appName`** | <code>string</code> | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### UseEmulatorOptions
 
-| Prop                  | Type                 | Description                                                                           | Default             | Since |
-| --------------------- | -------------------- | ------------------------------------------------------------------------------------- | ------------------- | ----- |
-| **`host`**            | <code>string</code>  | The emulator host without any port or scheme.                                         |                     | 0.2.0 |
-| **`port`**            | <code>number</code>  | The emulator port.                                                                    | <code>9099</code>   | 0.2.0 |
-| **`scheme`**          | <code>string</code>  | The emulator scheme. Only available for Web.                                          | <code>"http"</code> | 5.2.0 |
-| **`disableWarnings`** | <code>boolean</code> | Whether to disable the Firebase Auth emulator warning banner. Only available for Web. |                     | 8.6.0 |
+| Prop                  | Type                 | Description                                                                                                                                                         | Default             | Since |
+| --------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- |
+| **`host`**            | <code>string</code>  | The emulator host without any port or scheme.                                                                                                                       |                     | 0.2.0 |
+| **`port`**            | <code>number</code>  | The emulator port.                                                                                                                                                  | <code>9099</code>   | 0.2.0 |
+| **`scheme`**          | <code>string</code>  | The emulator scheme. Only available for Web.                                                                                                                        | <code>"http"</code> | 5.2.0 |
+| **`disableWarnings`** | <code>boolean</code> | Whether to disable the Firebase Auth emulator warning banner. Only available for Web.                                                                               |                     | 8.6.0 |
+| **`appName`**         | <code>string</code>  | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. |                     | 8.7.0 |
 
 
 #### VerifyBeforeUpdateEmailOptions
 
-| Prop                     | Type                                                              | Description                                         | Since |
-| ------------------------ | ----------------------------------------------------------------- | --------------------------------------------------- | ----- |
-| **`newEmail`**           | <code>string</code>                                               | The new email address to be verified before update. | 6.3.0 |
-| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | The action code settings                            | 6.3.0 |
+| Prop                     | Type                                                              | Description                                                                                                                                                         | Since |
+| ------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`newEmail`**           | <code>string</code>                                               | The new email address to be verified before update.                                                                                                                 | 6.3.0 |
+| **`actionCodeSettings`** | <code><a href="#actioncodesettings">ActionCodeSettings</a></code> | The action code settings                                                                                                                                            | 6.3.0 |
+| **`appName`**            | <code>string</code>                                               | The name of the Firebase app to use. Initialize the app with the `initializeApp(...)` method of the Firebase App plugin first. If not set, the default app is used. | 8.7.0 |
 
 
 #### CheckAppTrackingTransparencyPermissionResult
@@ -2506,6 +2641,10 @@ See [here](https://github.com/capawesome-team/capacitor-firebase/blob/main/packa
 ### Which sign-in methods are supported?
 
 The plugin supports native sign-in with Apple, Facebook, Game Center, GitHub, Google, Microsoft, OpenID Connect, Play Games, Twitter, and Yahoo, as well as anonymous sign-in, email link sign-in, email and password authentication, phone number sign-in, and custom token sign-in. The required setup steps for each sign-in method are linked in the [Installation](#installation) section.
+
+### Can I use more than one Firebase project in my app?
+
+Yes. Initialize another app with the `initializeApp(...)` method of the Firebase App plugin and pass its name as `appName` to the methods that support it. See [Use another Firebase project](#use-another-firebase-project) for an example. The sign-in and link methods of the providers and of phone numbers always use the default app.
 
 ### Can I use this plugin with Ionic, React, Vue or Angular?
 
