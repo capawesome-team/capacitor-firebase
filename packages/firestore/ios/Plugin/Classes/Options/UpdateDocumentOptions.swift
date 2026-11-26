@@ -20,6 +20,9 @@ import Capacitor
         guard let data = call.getObject("data") else {
             throw CustomError.dataMissing
         }
+        guard data.keys.allSatisfy(FirebaseFirestoreHelper.isValidFieldPath) else {
+            throw CustomError.dataFieldPathInvalid
+        }
         return data
     }
 
