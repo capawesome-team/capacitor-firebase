@@ -10,11 +10,20 @@ import org.json.JSONException;
 
 public class WriteBatchOptions {
 
+    @Nullable
+    private final String appName;
+
     @NonNull
     private final WriteBatchOperation[] operations;
 
     public WriteBatchOptions(@NonNull PluginCall call) throws Exception {
         this.operations = WriteBatchOptions.getOperationsFromCall(call);
+        this.appName = WriteBatchOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -34,6 +43,11 @@ public class WriteBatchOptions {
             }
             return writeBatchOperations;
         }
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

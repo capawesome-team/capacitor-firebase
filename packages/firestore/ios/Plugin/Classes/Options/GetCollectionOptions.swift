@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 
 @objc public class GetCollectionOptions: NSObject {
+    let appName: String?
     let compositeFilter: JSObject?
     let queryConstraints: [JSObject]?
     let reference: String
@@ -10,6 +11,11 @@ import Capacitor
         self.reference = try GetCollectionOptions.getReferenceFromCall(call)
         self.compositeFilter = GetCollectionOptions.getCompositeFilterFromCall(call)
         self.queryConstraints = GetCollectionOptions.getQueryConstraintsFromCall(call)
+        self.appName = GetCollectionOptions.getAppNameFromCall(call)
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getCompositeFilterFromCall(_ call: CAPPluginCall) -> JSObject? {

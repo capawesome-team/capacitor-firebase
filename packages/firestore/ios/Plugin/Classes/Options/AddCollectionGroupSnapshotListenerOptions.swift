@@ -2,6 +2,7 @@ import Foundation
 import Capacitor
 
 @objc public class AddCollectionGroupSnapshotListenerOptions: NSObject {
+    let appName: String?
     let callbackId: String
     let compositeFilter: JSObject?
     let includeMetadataChanges: Bool
@@ -16,6 +17,11 @@ import Capacitor
         self.includeMetadataChanges = AddCollectionGroupSnapshotListenerOptions.getIncludeMetadataChangesFromCall(call)
         self.serverTimestampBehavior = AddCollectionGroupSnapshotListenerOptions.getServerTimestampBehaviorFromCall(call)
         self.callbackId = try AddCollectionGroupSnapshotListenerOptions.getCallbackIdFromCall(call)
+        self.appName = AddCollectionGroupSnapshotListenerOptions.getAppNameFromCall(call)
+    }
+
+    private static func getAppNameFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("appName")
     }
 
     private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {

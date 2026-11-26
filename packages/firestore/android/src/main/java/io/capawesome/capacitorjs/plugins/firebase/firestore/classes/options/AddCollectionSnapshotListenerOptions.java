@@ -9,6 +9,9 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExcept
 
 public class AddCollectionSnapshotListenerOptions {
 
+    @Nullable
+    private final String appName;
+
     @NonNull
     private final String callbackId;
 
@@ -33,6 +36,12 @@ public class AddCollectionSnapshotListenerOptions {
         this.includeMetadataChanges = AddCollectionSnapshotListenerOptions.getIncludeMetadataChangesFromCall(call);
         this.serverTimestampBehavior = AddCollectionSnapshotListenerOptions.getServerTimestampBehaviorFromCall(call);
         this.callbackId = AddCollectionSnapshotListenerOptions.getCallbackIdFromCall(call);
+        this.appName = AddCollectionSnapshotListenerOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @NonNull
@@ -62,6 +71,11 @@ public class AddCollectionSnapshotListenerOptions {
 
     public boolean isIncludeMetadataChanges() {
         return includeMetadataChanges;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName");
     }
 
     @NonNull

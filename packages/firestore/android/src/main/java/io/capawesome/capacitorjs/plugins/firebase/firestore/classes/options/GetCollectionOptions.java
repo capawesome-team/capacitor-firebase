@@ -10,6 +10,9 @@ import io.capawesome.capacitorjs.plugins.firebase.firestore.classes.CustomExcept
 public class GetCollectionOptions {
 
     @Nullable
+    private final String appName;
+
+    @Nullable
     private final JSObject compositeFilter;
 
     @Nullable
@@ -22,6 +25,12 @@ public class GetCollectionOptions {
         this.reference = GetCollectionOptions.getReferenceFromCall(call);
         this.compositeFilter = GetCollectionOptions.getCompositeFilterFromCall(call);
         this.queryConstraints = GetCollectionOptions.getQueryConstraintsFromCall(call);
+        this.appName = GetCollectionOptions.getAppNameFromCall(call);
+    }
+
+    @Nullable
+    public String getAppName() {
+        return appName;
     }
 
     @Nullable
@@ -37,6 +46,11 @@ public class GetCollectionOptions {
     @NonNull
     public String getReference() {
         return reference;
+    }
+
+    @Nullable
+    private static String getAppNameFromCall(@NonNull PluginCall call) {
+        return call.getString("appName", null);
     }
 
     @Nullable
