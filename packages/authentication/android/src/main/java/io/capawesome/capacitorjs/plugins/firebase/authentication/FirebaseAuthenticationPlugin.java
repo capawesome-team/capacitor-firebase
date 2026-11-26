@@ -1052,8 +1052,6 @@ public class FirebaseAuthenticationPlugin extends Plugin {
         config.setSkipNativeAuth(skipNativeAuth);
         String[] providers = getConfig().getArray("providers", config.getProviders());
         config.setProviders(providers);
-        String authDomain = getConfig().getString("authDomain", config.getAuthDomain());
-        config.setAuthDomain(authDomain);
 
         return config;
     }

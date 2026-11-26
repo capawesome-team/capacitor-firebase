@@ -737,7 +737,6 @@ public class FirebaseAuthenticationPlugin: CAPPlugin, CAPBridgedPlugin {
         if let providers = getConfig().getArray("providers") as? [String] {
             config.providers = providers
         }
-        config.authDomain = getConfig().getString("authDomain")
 
         return config
     }
