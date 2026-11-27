@@ -79,14 +79,10 @@ import FirebasePerformance
 
     @objc public func startTrace(_ options: StartTraceOptions, completion: @escaping (Error?) -> Void) throws {
         let traceName = options.traceName
-        guard FirebasePerformance.isValidTraceName(traceName) else {
-            // The SDK starts no trace for such a name. NEVER call it here, it ends the app in a build with assertions.
-            completion(nil)
-            return
-        }
         guard self.traces[traceName] == nil else {
             throw CustomError.traceNameAlreadyAssigned
         }
+        // NEVER pass a name that StartTraceOptions did not check. In a build with assertions the SDK ends the app for an invalid name.
         let trace = Performance.startTrace(name: traceName)
         self.traces[traceName] = trace
         completion(nil)
@@ -105,12 +101,5 @@ import FirebasePerformance
             throw CustomError.traceNotFound
         }
         return trace
-    }
-
-    /// Refuses exactly what `FPRReservableName` of the Firebase SDK refuses. In a build with assertions the SDK ends the app for such a name.
-    /// It uses `NSString` like the SDK, so the length counts UTF-16 code units.
-    private static func isValidTraceName(_ traceName: String) -> Bool {
-        let trimmedTraceName = (traceName as NSString).trimmingCharacters(in: .whitespaces) as NSString
-        return trimmedTraceName.length > 0 && trimmedTraceName.length <= 100 && !trimmedTraceName.hasPrefix("_")
     }
 }

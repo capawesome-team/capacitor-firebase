@@ -4,11 +4,31 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 9.x.x
+
+### Invalid trace names
+
+On Android and iOS, `startTrace` now rejects a trace name that is empty, longer than 100 characters or starts with an underscore. Whitespace at both ends does not count. The error message is `traceName is invalid.`
+
+Before, `startTrace` resolved for such a name and no trace was recorded.
+
+```typescript
+await FirebasePerformance.startTrace({ traceName: '_my_trace' });
+// Before: resolves, but no trace is recorded
+// Now: rejects with "traceName is invalid."
+```
+
+Two more things change on Android:
+
+- Later calls for such a trace, for example `putAttribute` or `stopTrace`, resolved as well. They now reject with `No trace was found with the provided traceName.`, as on iOS.
+- The names that the Android SDK uses for its own traces, for example names that start with `_st_`, were started and recorded before. They are now rejected like every other name with a leading underscore.
 
 ## Version 8.x.x
 
