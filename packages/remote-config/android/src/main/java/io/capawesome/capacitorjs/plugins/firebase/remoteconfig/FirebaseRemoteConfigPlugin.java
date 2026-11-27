@@ -20,7 +20,7 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
 
     public static final String TAG = "FirebaseRemoteConfig";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
-    public static final String ERROR_CALLBACK_ID_MISSING = "callbackId must be provided.";
+    public static final String ERROR_ID_MISSING = "id must be provided.";
     public static final String ERROR_CUSTOM_SIGNALS_MISSING = "customSignals must be provided.";
     public static final String ERROR_DEFAULTS_MISSING = "defaults must be provided.";
 
@@ -310,14 +310,17 @@ public class FirebaseRemoteConfigPlugin extends Plugin {
     @PluginMethod
     public void removeConfigUpdateListener(PluginCall call) {
         try {
-            String callbackId = call.getString("callbackId");
+            // The option is named `id`. The README called it `callbackId` before, so apps may still send that name.
+            String callbackId = call.getString("id", call.getString("callbackId"));
             if (callbackId == null) {
-                call.reject(ERROR_CALLBACK_ID_MISSING);
+                call.reject(ERROR_ID_MISSING);
                 return;
             }
 
             PluginCall savedCall = this.pluginCallMap.remove(callbackId);
-            savedCall.release(this.bridge);
+            if (savedCall != null) {
+                savedCall.release(this.bridge);
+            }
 
             RemoveConfigUpdateListenerOptions options = new RemoveConfigUpdateListenerOptions(callbackId);
             implementation.removeConfigUpdateListener(options);

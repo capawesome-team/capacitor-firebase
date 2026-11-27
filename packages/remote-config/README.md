@@ -201,7 +201,7 @@ Add a listener for the config update event to be notified as soon as parameter v
 import { FirebaseRemoteConfig } from '@capacitor-firebase/remote-config';
 
 const addConfigUpdateListener = async () => {
-  const callbackId = await FirebaseRemoteConfig.addConfigUpdateListener(
+  const id = await FirebaseRemoteConfig.addConfigUpdateListener(
     (event, error) => {
       if (error) {
         console.error(error);
@@ -210,12 +210,12 @@ const addConfigUpdateListener = async () => {
       }
     }
   );
-  return callbackId;
+  return id;
 };
 
-const removeConfigUpdateListener = async (callbackId: string) => {
+const removeConfigUpdateListener = async (id: string) => {
   await FirebaseRemoteConfig.removeConfigUpdateListener({
-    callbackId,
+    id,
   });
 };
 ```
