@@ -65,11 +65,18 @@ import FirebasePerformance
         trace.removeAttribute(attribute)
     }
 
-    @objc public static func putMetric(_ trace: Trace, _ metricName: String, _ num: Double) {
-        trace.setValue(Int64(floor(num)), forMetric: metricName)
+    @objc public static func putMetric(_ trace: Trace, _ metricName: String, _ num: Int64) {
+        trace.setValue(num, forMetric: metricName)
     }
 
     @objc public static func getMetric(_ trace: Trace, _ metricName: String) -> Int64 {
         return trace.valueForMetric(metricName)
+    }
+
+    /// Refuses exactly what `FPRReservableName` of the Firebase SDK refuses. In a build with assertions the SDK ends the app for such a name.
+    /// It uses `NSString` like the SDK, so the length counts UTF-16 code units.
+    @objc public static func isValidTraceName(_ traceName: String) -> Bool {
+        let trimmedTraceName = (traceName as NSString).trimmingCharacters(in: .whitespaces) as NSString
+        return trimmedTraceName.length > 0 && trimmedTraceName.length <= 100 && !trimmedTraceName.hasPrefix("_")
     }
 }
