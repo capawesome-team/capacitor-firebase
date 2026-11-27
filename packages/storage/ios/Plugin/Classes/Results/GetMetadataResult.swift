@@ -15,9 +15,9 @@ import Capacitor
         if let timeCreated = metadata.timeCreated {
             result["createdAt"] = (timeCreated.timeIntervalSince1970 * 1000.0).rounded()
         }
-        result["generation"] = metadata.generation as any JSValue
+        result["generation"] = String(metadata.generation)
         result["md5Hash"] = metadata.md5Hash
-        result["metadataGeneration"] = metadata.metageneration as any JSValue
+        result["metadataGeneration"] = String(metadata.metageneration)
         result["name"] = metadata.name
         result["path"] = metadata.path
         result["size"] = metadata.size as any JSValue
