@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.Bridge;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.json.JSONObject;
 
 public class FirebaseAnalytics {
@@ -77,8 +78,12 @@ public class FirebaseAnalytics {
         getFirebaseAnalyticsInstance().logEvent(key, bundle);
     }
 
-    public void setSessionTimeoutDuration(long duration) {
-        getFirebaseAnalyticsInstance().setSessionTimeoutDuration(duration);
+    public void setSessionTimeoutDuration(int duration) {
+        if (duration < 0) {
+            // The Android SDK accepts a negative duration. The iOS SDK ignores it, so do the same here.
+            return;
+        }
+        getFirebaseAnalyticsInstance().setSessionTimeoutDuration(TimeUnit.SECONDS.toMillis(duration));
     }
 
     public void setEnabled(boolean enabled) {

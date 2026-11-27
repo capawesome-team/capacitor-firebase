@@ -1,6 +1,7 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -16,10 +17,10 @@ public class FirebaseAnalyticsHelper {
         if (json == null) {
             return bundle;
         }
-        try {
-            Iterator<String> iterator = json.keys();
-            while (iterator.hasNext()) {
-                String key = (String) iterator.next();
+        Iterator<String> iterator = json.keys();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            try {
                 Object value = json.get(key);
                 switch (value.getClass().getSimpleName()) {
                     case "Boolean":
@@ -108,15 +109,18 @@ public class FirebaseAnalyticsHelper {
                     default:
                         bundle.putString(key, (String) value);
                 }
+            } catch (Exception exception) {
+                Log.w(FirebaseAnalyticsPlugin.TAG, "Parameter " + key + " is left out because its value cannot be converted.", exception);
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
         }
         return bundle;
     }
 
     @Nullable
     public static com.google.firebase.analytics.FirebaseAnalytics.ConsentType mapStringToConsentType(@Nullable String consentType) {
+        if (consentType == null) {
+            return null;
+        }
         switch (consentType) {
             case "AD_PERSONALIZATION":
                 return com.google.firebase.analytics.FirebaseAnalytics.ConsentType.AD_PERSONALIZATION;
@@ -133,6 +137,9 @@ public class FirebaseAnalyticsHelper {
 
     @Nullable
     public static com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus mapStringToConsentStatus(@Nullable String consentStatus) {
+        if (consentStatus == null) {
+            return null;
+        }
         switch (consentStatus) {
             case "GRANTED":
                 return com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus.GRANTED;
