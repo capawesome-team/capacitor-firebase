@@ -14,6 +14,21 @@
 		53EE56AA2776D9AC371BFCC7 /* Pods_Plugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7FD685DEF5EDF81FDB15B6 /* Pods_Plugin.framework */; };
 		7C7B6D8B27E1291F00CB649E /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B6D8A27E1291F00CB649E /* FirebaseAnalytics.swift */; };
 		7CA39F852BAD8E7A001D9491 /* FirebaseAnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA39F842BAD8E7A001D9491 /* FirebaseAnalyticsHelper.swift */; };
+		7CF1A0012EC0000000000101 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000001 /* CustomError.swift */; };
+		7CF1A0012EC0000000000102 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000002 /* Result.swift */; };
+		7CF1A0012EC0000000000103 /* GetAppInstanceIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000003 /* GetAppInstanceIdResult.swift */; };
+		7CF1A0012EC0000000000104 /* InitiateOnDeviceConversionMeasurementWithEmailAddressOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000004 /* InitiateOnDeviceConversionMeasurementWithEmailAddressOptions.swift */; };
+		7CF1A0012EC0000000000105 /* InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000005 /* InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions.swift */; };
+		7CF1A0012EC0000000000106 /* InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000006 /* InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions.swift */; };
+		7CF1A0012EC0000000000107 /* InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000007 /* InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions.swift */; };
+		7CF1A0012EC0000000000108 /* LogEventOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000008 /* LogEventOptions.swift */; };
+		7CF1A0012EC0000000000109 /* LogTransactionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC0000000000009 /* LogTransactionOptions.swift */; };
+		7CF1A0012EC000000000010A /* SetConsentOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC000000000000A /* SetConsentOptions.swift */; };
+		7CF1A0012EC000000000010B /* SetCurrentScreenOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC000000000000B /* SetCurrentScreenOptions.swift */; };
+		7CF1A0012EC000000000010C /* SetEnabledOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC000000000000C /* SetEnabledOptions.swift */; };
+		7CF1A0012EC000000000010D /* SetSessionTimeoutDurationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC000000000000D /* SetSessionTimeoutDurationOptions.swift */; };
+		7CF1A0012EC000000000010E /* SetUserIdOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC000000000000E /* SetUserIdOptions.swift */; };
+		7CF1A0012EC000000000010F /* SetUserPropertyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A0012EC000000000000F /* SetUserPropertyOptions.swift */; };
 		B5C17BA806244C984179D293 /* Pods_PluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BB8E29378BE344FBB163D08 /* Pods_PluginTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +57,21 @@
 		6BB8E29378BE344FBB163D08 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7B6D8A27E1291F00CB649E /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalytics.swift; sourceTree = "<group>"; };
 		7CA39F842BAD8E7A001D9491 /* FirebaseAnalyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsHelper.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000002 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000003 /* GetAppInstanceIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAppInstanceIdResult.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000004 /* InitiateOnDeviceConversionMeasurementWithEmailAddressOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitiateOnDeviceConversionMeasurementWithEmailAddressOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000005 /* InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000006 /* InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000007 /* InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000008 /* LogEventOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEventOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC0000000000009 /* LogTransactionOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTransactionOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC000000000000A /* SetConsentOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetConsentOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC000000000000B /* SetCurrentScreenOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCurrentScreenOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC000000000000C /* SetEnabledOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetEnabledOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC000000000000D /* SetSessionTimeoutDurationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSessionTimeoutDurationOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC000000000000E /* SetUserIdOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserIdOptions.swift; sourceTree = "<group>"; };
+		7CF1A0012EC000000000000F /* SetUserPropertyOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserPropertyOptions.swift; sourceTree = "<group>"; };
 		E3DAFD11AC7DF9993DBFB462 /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,12 +120,67 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7CF1A0012EC0000000000201 /* Classes */,
+				7CF1A0012EC0000000000204 /* Enums */,
+				7CF1A0012EC0000000000205 /* Protocols */,
 				50E1A94720377CB70090CE1A /* FirebaseAnalyticsPlugin.swift */,
 				7C7B6D8A27E1291F00CB649E /* FirebaseAnalytics.swift */,
 				7CA39F842BAD8E7A001D9491 /* FirebaseAnalyticsHelper.swift */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
+			sourceTree = "<group>";
+		};
+		7CF1A0012EC0000000000201 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1A0012EC0000000000202 /* Options */,
+				7CF1A0012EC0000000000203 /* Results */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7CF1A0012EC0000000000202 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1A0012EC0000000000004 /* InitiateOnDeviceConversionMeasurementWithEmailAddressOptions.swift */,
+				7CF1A0012EC0000000000005 /* InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions.swift */,
+				7CF1A0012EC0000000000006 /* InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions.swift */,
+				7CF1A0012EC0000000000007 /* InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions.swift */,
+				7CF1A0012EC0000000000008 /* LogEventOptions.swift */,
+				7CF1A0012EC0000000000009 /* LogTransactionOptions.swift */,
+				7CF1A0012EC000000000000A /* SetConsentOptions.swift */,
+				7CF1A0012EC000000000000B /* SetCurrentScreenOptions.swift */,
+				7CF1A0012EC000000000000C /* SetEnabledOptions.swift */,
+				7CF1A0012EC000000000000D /* SetSessionTimeoutDurationOptions.swift */,
+				7CF1A0012EC000000000000E /* SetUserIdOptions.swift */,
+				7CF1A0012EC000000000000F /* SetUserPropertyOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7CF1A0012EC0000000000203 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1A0012EC0000000000003 /* GetAppInstanceIdResult.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		7CF1A0012EC0000000000204 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1A0012EC0000000000001 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7CF1A0012EC0000000000205 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1A0012EC0000000000002 /* Result.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		50ADFF95201F53D600D50D53 /* PluginTests */ = {
@@ -325,6 +410,21 @@
 				7C7B6D8B27E1291F00CB649E /* FirebaseAnalytics.swift in Sources */,
 				7CA39F852BAD8E7A001D9491 /* FirebaseAnalyticsHelper.swift in Sources */,
 				50E1A94820377CB70090CE1A /* FirebaseAnalyticsPlugin.swift in Sources */,
+				7CF1A0012EC0000000000101 /* CustomError.swift in Sources */,
+				7CF1A0012EC0000000000102 /* Result.swift in Sources */,
+				7CF1A0012EC0000000000103 /* GetAppInstanceIdResult.swift in Sources */,
+				7CF1A0012EC0000000000104 /* InitiateOnDeviceConversionMeasurementWithEmailAddressOptions.swift in Sources */,
+				7CF1A0012EC0000000000105 /* InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions.swift in Sources */,
+				7CF1A0012EC0000000000106 /* InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions.swift in Sources */,
+				7CF1A0012EC0000000000107 /* InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions.swift in Sources */,
+				7CF1A0012EC0000000000108 /* LogEventOptions.swift in Sources */,
+				7CF1A0012EC0000000000109 /* LogTransactionOptions.swift in Sources */,
+				7CF1A0012EC000000000010A /* SetConsentOptions.swift in Sources */,
+				7CF1A0012EC000000000010B /* SetCurrentScreenOptions.swift in Sources */,
+				7CF1A0012EC000000000010C /* SetEnabledOptions.swift in Sources */,
+				7CF1A0012EC000000000010D /* SetSessionTimeoutDurationOptions.swift in Sources */,
+				7CF1A0012EC000000000010E /* SetUserIdOptions.swift in Sources */,
+				7CF1A0012EC000000000010F /* SetUserPropertyOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

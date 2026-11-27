@@ -4,12 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import com.getcapacitor.Bridge;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.LogEventOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetConsentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetCurrentScreenOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetEnabledOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetSessionTimeoutDurationOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetUserIdOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetUserPropertyOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.results.GetAppInstanceIdResult;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.interfaces.NonEmptyResultCallback;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.json.JSONObject;
 
 public class FirebaseAnalytics {
 
@@ -21,47 +29,47 @@ public class FirebaseAnalytics {
         this.bridge = bridge;
     }
 
-    @Nullable
-    public void getAppInstanceId(@NonNull final GetAppInstanceIdCallback resultCallback) {
+    public void getAppInstanceId(@NonNull NonEmptyResultCallback<GetAppInstanceIdResult> callback) {
         getFirebaseAnalyticsInstance()
             .getAppInstanceId()
             .addOnCompleteListener(task -> {
                 if (!task.isSuccessful()) {
                     Exception exception = task.getException();
                     Log.w(FirebaseAnalyticsPlugin.TAG, "Get AppInstanceId failed.", exception);
-                    resultCallback.error(exception.getMessage());
+                    callback.error(exception);
                     return;
                 }
 
-                String appInstanceId = task.getResult();
-                resultCallback.success(appInstanceId);
+                GetAppInstanceIdResult result = new GetAppInstanceIdResult(task.getResult());
+                callback.success(result);
             });
     }
 
-    public void setConsent(
-        @NonNull com.google.firebase.analytics.FirebaseAnalytics.ConsentType consentType,
-        @NonNull com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus consentStatus
-    ) {
+    public void logEvent(@NonNull LogEventOptions options, @NonNull EmptyResultCallback callback) {
+        Bundle bundle = FirebaseAnalyticsHelper.createBundleFromJson(options.getParams());
+        getFirebaseAnalyticsInstance().logEvent(options.getName(), bundle);
+        callback.success();
+    }
+
+    public void resetAnalyticsData(@NonNull EmptyResultCallback callback) {
+        getFirebaseAnalyticsInstance().resetAnalyticsData();
+        callback.success();
+    }
+
+    public void setConsent(@NonNull SetConsentOptions options, @NonNull EmptyResultCallback callback) {
         Map<
             com.google.firebase.analytics.FirebaseAnalytics.ConsentType,
             com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus
         > map = new HashMap<>();
-        map.put(consentType, consentStatus);
+        map.put(options.getType(), options.getStatus());
         getFirebaseAnalyticsInstance().setConsent(map);
+        callback.success();
     }
 
-    public void setUserId(@Nullable String userId) {
-        getFirebaseAnalyticsInstance().setUserId(userId);
-    }
-
-    public void setUserProperty(@NonNull String key, @Nullable String value) {
-        getFirebaseAnalyticsInstance().setUserProperty(key, value);
-    }
-
-    public void setCurrentScreen(String screenName, String screenClass) {
+    public void setCurrentScreen(@NonNull SetCurrentScreenOptions options, @NonNull EmptyResultCallback callback) {
         Bundle bundle = new Bundle();
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME, screenName);
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS, screenClass);
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME, options.getScreenName());
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS, options.getScreenClassOverride());
 
         bridge.getActivity().runOnUiThread(
             new Runnable() {
@@ -71,27 +79,31 @@ public class FirebaseAnalytics {
                 }
             }
         );
+        callback.success();
     }
 
-    public void logEvent(@NonNull String key, @Nullable JSONObject json) {
-        Bundle bundle = FirebaseAnalyticsHelper.createBundleFromJson(json);
-        getFirebaseAnalyticsInstance().logEvent(key, bundle);
+    public void setEnabled(@NonNull SetEnabledOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseAnalyticsInstance().setAnalyticsCollectionEnabled(options.getEnabled());
+        callback.success();
     }
 
-    public void setSessionTimeoutDuration(int duration) {
-        if (duration < 0) {
-            // The Android SDK accepts a negative duration. The iOS SDK ignores it, so do the same here.
-            return;
+    public void setSessionTimeoutDuration(@NonNull SetSessionTimeoutDurationOptions options, @NonNull EmptyResultCallback callback) {
+        int duration = options.getDuration();
+        // The Android SDK accepts a negative duration. The iOS SDK ignores it, so do the same here.
+        if (duration >= 0) {
+            getFirebaseAnalyticsInstance().setSessionTimeoutDuration(TimeUnit.SECONDS.toMillis(duration));
         }
-        getFirebaseAnalyticsInstance().setSessionTimeoutDuration(TimeUnit.SECONDS.toMillis(duration));
+        callback.success();
     }
 
-    public void setEnabled(boolean enabled) {
-        getFirebaseAnalyticsInstance().setAnalyticsCollectionEnabled(enabled);
+    public void setUserId(@NonNull SetUserIdOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseAnalyticsInstance().setUserId(options.getUserId());
+        callback.success();
     }
 
-    public void resetAnalyticsData() {
-        getFirebaseAnalyticsInstance().resetAnalyticsData();
+    public void setUserProperty(@NonNull SetUserPropertyOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseAnalyticsInstance().setUserProperty(options.getKey(), options.getValue());
+        callback.success();
     }
 
     private com.google.firebase.analytics.FirebaseAnalytics getFirebaseAnalyticsInstance() {
