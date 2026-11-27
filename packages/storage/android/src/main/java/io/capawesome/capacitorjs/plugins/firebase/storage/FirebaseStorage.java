@@ -17,6 +17,7 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.GetMet
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.ListFilesOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UpdateMetadataOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UploadFileOptions;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UseEmulatorOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.GetDownloadUrlResult;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.GetMetadataResult;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.ListFilesResult;
@@ -25,6 +26,7 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.enums.UploadFileState;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyEventCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyResultCallback;
+import org.json.JSONException;
 
 public class FirebaseStorage {
 
@@ -34,7 +36,17 @@ public class FirebaseStorage {
         this.plugin = plugin;
     }
 
-    public void downloadFile(@NonNull DownloadFileOptions options, @NonNull NonEmptyEventCallback callback) {
+    public void deleteFile(@NonNull DeleteFileOptions options, @NonNull EmptyResultCallback callback) {
+        String path = options.getPath();
+
+        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
+        storageReference
+            .delete()
+            .addOnSuccessListener(aVoid -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
+    }
+
+    public void downloadFile(@NonNull DownloadFileOptions options, @NonNull NonEmptyEventCallback<DownloadFileCallbackEvent> callback) {
         String path = options.getPath();
         Uri uri = options.getUri();
 
@@ -56,17 +68,7 @@ public class FirebaseStorage {
             });
     }
 
-    public void deleteFile(@NonNull DeleteFileOptions options, @NonNull EmptyResultCallback callback) {
-        String path = options.getPath();
-
-        StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
-        storageReference
-            .delete()
-            .addOnSuccessListener(aVoid -> callback.success())
-            .addOnFailureListener(exception -> callback.error(exception));
-    }
-
-    public void getDownloadUrl(@NonNull GetDownloadUrlOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void getDownloadUrl(@NonNull GetDownloadUrlOptions options, @NonNull NonEmptyResultCallback<GetDownloadUrlResult> callback) {
         String path = options.getPath();
 
         StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
@@ -79,7 +81,7 @@ public class FirebaseStorage {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void getMetadata(@NonNull GetMetadataOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void getMetadata(@NonNull GetMetadataOptions options, @NonNull NonEmptyResultCallback<GetMetadataResult> callback) {
         String path = options.getPath();
 
         StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
@@ -92,7 +94,7 @@ public class FirebaseStorage {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void listFiles(@NonNull ListFilesOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void listFiles(@NonNull ListFilesOptions options, @NonNull NonEmptyResultCallback<ListFilesResult> callback) {
         String path = options.getPath();
         int maxResults = options.getMaxResults();
         String pageToken = options.getPageToken();
@@ -110,9 +112,9 @@ public class FirebaseStorage {
         }).addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void updateMetadata(@NonNull UpdateMetadataOptions options, @NonNull EmptyResultCallback callback) {
+    public void updateMetadata(@NonNull UpdateMetadataOptions options, @NonNull EmptyResultCallback callback) throws JSONException {
+        StorageMetadata metadata = FirebaseStorageHelper.buildStorageMetadata(options.getMetadata());
         String path = options.getPath();
-        StorageMetadata metadata = options.getMetadata();
 
         StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         storageReference
@@ -121,11 +123,12 @@ public class FirebaseStorage {
             .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void uploadFile(@NonNull UploadFileOptions options, @NonNull NonEmptyEventCallback callback) {
+    public void uploadFile(@NonNull UploadFileOptions options, @NonNull NonEmptyEventCallback<UploadFileCallbackEvent> callback)
+        throws JSONException {
+        @Nullable
+        StorageMetadata metadata = FirebaseStorageHelper.buildStorageMetadata(options.getMetadata());
         String path = options.getPath();
         Uri uri = options.getUri();
-        @Nullable
-        StorageMetadata metadata = options.getMetadata();
 
         StorageReference storageReference = getFirebaseStorageInstance().getReference(path);
         UploadTask uploadTask;
@@ -150,8 +153,12 @@ public class FirebaseStorage {
             });
     }
 
-    public void useEmulator(@NonNull String host, int port) {
+    public void useEmulator(@NonNull UseEmulatorOptions options, @NonNull EmptyResultCallback callback) {
+        String host = options.getHost();
+        int port = options.getPort();
+
         getFirebaseStorageInstance().useEmulator(host, port);
+        callback.success();
     }
 
     private com.google.firebase.storage.FirebaseStorage getFirebaseStorageInstance() {
