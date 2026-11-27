@@ -242,7 +242,7 @@ import { FirebaseAnalytics } from '@capacitor-firebase/analytics';
 
 const setSessionTimeoutDuration = async () => {
   await FirebaseAnalytics.setSessionTimeoutDuration({
-    duration: '120',
+    duration: 120,
   });
 };
 ```

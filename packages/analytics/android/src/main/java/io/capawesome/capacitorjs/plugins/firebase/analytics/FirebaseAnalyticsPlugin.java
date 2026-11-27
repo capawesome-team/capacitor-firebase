@@ -137,7 +137,7 @@ public class FirebaseAnalyticsPlugin extends Plugin {
     @PluginMethod
     public void setSessionTimeoutDuration(PluginCall call) {
         try {
-            Long duration = call.getLong("duration", 1800000L);
+            int duration = call.getInt("duration", 1800);
             implementation.setSessionTimeoutDuration(duration);
             call.resolve();
         } catch (Exception exception) {
