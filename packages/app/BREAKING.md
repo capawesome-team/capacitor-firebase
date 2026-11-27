@@ -4,11 +4,27 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 9.x.x
+
+### No default app on iOS
+
+On iOS, `getName` and `getOptions` now reject when there is no default app. The error message is `The default app has not been initialized.` Before, `getName` returned an empty name and `getOptions` returned empty strings. Android and Web have always rejected in this case.
+
+```typescript
+// Without a default app
+const result = await FirebaseApp.getName();
+// Before on iOS: { name: '' }
+// Now on all platforms: the call rejects
+```
+
+Check code that tests for an empty name or for empty option values to find out whether a default app exists.
 
 ## Version 8.x.x
 
