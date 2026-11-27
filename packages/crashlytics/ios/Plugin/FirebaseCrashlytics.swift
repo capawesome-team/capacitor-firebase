@@ -72,10 +72,10 @@ import FirebaseCrashlytics
 
         var additionalInformation: [String: Any] = [:]
         for keyAndValue in keysAndValues {
-            guard let key = keyAndValue[keyPath: "key"], let value = keyAndValue[keyPath: "value"] else {
-                return
+            guard let key = keyAndValue[keyPath: "key"] as? String, let value = keyAndValue[keyPath: "value"] else {
+                continue
             }
-            additionalInformation[key as! String] = value
+            additionalInformation[key] = value
         }
 
         Crashlytics.crashlytics().record(error: error, userInfo: additionalInformation)

@@ -14,22 +14,39 @@ public class FirebaseCrashlytics {
         throw new RuntimeException(message);
     }
 
-    public void setCustomKey(String key, String type, PluginCall call) {
+    public void setCustomKey(String key, String type, PluginCall call) throws Exception {
+        // NEVER use call.getInt, call.getFloat or call.getDouble here. They drop a whole number above the int range.
+        Object value = call.getData().opt("value");
         switch (type) {
             case "long":
-                getFirebaseCrashlyticsInstance().setCustomKey(key, Long.valueOf(call.getInt("value")));
+                if (!(value instanceof Integer || value instanceof Long)) {
+                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
+                }
+                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).longValue());
                 break;
             case "int":
-                getFirebaseCrashlyticsInstance().setCustomKey(key, call.getInt("value"));
+                if (!(value instanceof Integer)) {
+                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
+                }
+                getFirebaseCrashlyticsInstance().setCustomKey(key, (Integer) value);
                 break;
             case "boolean":
-                getFirebaseCrashlyticsInstance().setCustomKey(key, call.getBoolean("value"));
+                if (!(value instanceof Boolean)) {
+                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
+                }
+                getFirebaseCrashlyticsInstance().setCustomKey(key, (Boolean) value);
                 break;
             case "float":
-                getFirebaseCrashlyticsInstance().setCustomKey(key, call.getFloat("value"));
+                if (!(value instanceof Number)) {
+                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
+                }
+                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).floatValue());
                 break;
             case "double":
-                getFirebaseCrashlyticsInstance().setCustomKey(key, call.getDouble("value"));
+                if (!(value instanceof Number)) {
+                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
+                }
+                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).doubleValue());
                 break;
             default:
                 getFirebaseCrashlyticsInstance().setCustomKey(key, call.getString("value"));
@@ -73,8 +90,8 @@ public class FirebaseCrashlytics {
     @NonNull
     private CustomKeysAndValues getCustomKeysAndValues(@NonNull JSArray keysAndValues) {
         CustomKeysAndValues.Builder builder = new CustomKeysAndValues.Builder();
-        try {
-            for (int i = 0; i < keysAndValues.length(); i++) {
+        for (int i = 0; i < keysAndValues.length(); i++) {
+            try {
                 JSONObject object = keysAndValues.getJSONObject(i);
                 String type = object.getString("type");
                 String key = object.getString("key");
@@ -83,9 +100,9 @@ public class FirebaseCrashlytics {
                 if (value != null) {
                     addCustomKeyToBuilder(builder, key, type, value);
                 }
+            } catch (JSONException error) {
+                System.err.println("An entry of keysAndValues was skipped: " + error.getMessage());
             }
-        } catch (JSONException error) {
-            System.err.println("keysAndValues cannot be converted to CustomKeysAndValues! " + error.getMessage());
         }
 
         return builder.build();
@@ -94,7 +111,7 @@ public class FirebaseCrashlytics {
     private Object getValueForType(String type, JSONObject object) throws JSONException {
         switch (type) {
             case "long":
-                return Long.valueOf(object.getInt("value"));
+                return object.getLong("value");
             case "int":
                 return object.getInt("value");
             case "boolean":
