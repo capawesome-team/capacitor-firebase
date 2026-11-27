@@ -4,11 +4,26 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 9.x.x
+
+### Missing option values on Android
+
+On Android, `getOptions` now returns an empty string for a value that the configuration does not hold. Before, the key was missing in the result. iOS and Web have always returned an empty string.
+
+```typescript
+const result = await FirebaseApp.getOptions();
+// Before on Android, without a database URL: no `databaseUrl` key
+// Now on all platforms: { databaseUrl: '', ... }
+```
+
+Check code that tests for a missing value, for example `result.databaseUrl === undefined`, `'databaseUrl' in result` or a fallback such as `result.databaseUrl ?? 'none'`. An empty string does not trigger `??`.
 
 ## Version 8.x.x
 
