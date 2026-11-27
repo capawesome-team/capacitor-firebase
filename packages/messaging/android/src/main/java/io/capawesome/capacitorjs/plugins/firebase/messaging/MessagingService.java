@@ -7,6 +7,18 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MessagingService extends FirebaseMessagingService {
 
     @Override
+    public void onRegistered(@NonNull String installationId) {
+        super.onRegistered(installationId);
+        FirebaseMessagingPlugin.onRegistered(installationId);
+    }
+
+    @Override
+    public void onUnregistered(@NonNull String installationId) {
+        super.onUnregistered(installationId);
+        FirebaseMessagingPlugin.onUnregistered(installationId);
+    }
+
+    @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         FirebaseMessagingPlugin.onNewToken(token);

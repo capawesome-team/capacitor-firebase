@@ -61,6 +61,27 @@ import FirebaseCore
         }
     }
 
+    public func register(completion: @escaping (Error?) -> Void) {
+        Messaging.messaging().isAutoInitEnabled = true
+        Messaging.messaging().register(completion: { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        })
+    }
+
+    public func unregister(completion: @escaping (Error?) -> Void) {
+        Messaging.messaging().unregister(completion: { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        })
+    }
+
     public func getToken(completion: @escaping (String?, Error?) -> Void) {
         Messaging.messaging().isAutoInitEnabled = true
         Messaging.messaging().token(completion: { result, error in
@@ -171,6 +192,14 @@ extension FirebaseMessaging: MessagingDelegate {
 
     public func didReceive(response: UNNotificationResponse) {
         self.handleNotificationActionPerformed(response: response)
+    }
+
+    public func messaging(_ messaging: Messaging, didReceiveRegistration installationId: String?) {
+        self.plugin.handleRegistered(installationId: installationId)
+    }
+
+    public func messaging(_ messaging: Messaging, didUnregister installationId: String) {
+        self.plugin.handleUnregistered(installationId: installationId)
     }
 
     public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {

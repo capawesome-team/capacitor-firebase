@@ -63,7 +63,7 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `25.0.1`)
+- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `25.1.0`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
@@ -77,10 +77,23 @@ The Push Notification icon with the appropriate name should be added to the `and
 
 If no icon is specified, Android uses the application icon, but the push icon should be white pixels on a transparent background. Since the application icon does not usually look like this, it shows a white square or circle. Therefore, it is recommended to provide a separate icon for push notifications.
 
+#### Enable Firebase Installation IDs
+
+To use `register()`, `unregister()` and the `registered`/`unregistered` events, enable Firebase Installation IDs by adding this metadata value to the `android/app/src/main/AndroidManifest.xml` file:
+
+```xml
+<meta-data
+    android:name="firebase_messaging_installation_id_enabled"
+    android:value="true" />
+```
+
+> [!IMPORTANT]
+> This switches the app from FCM registration tokens to Firebase Installation IDs. Once enabled, `getToken()` and `deleteToken()` reject and the `tokenReceived` event is no longer emitted. Without it, `register()` and `unregister()` reject.
+
 #### Prevent auto initialization
 
-When a registration token is generated, the library uploads the identifier and configuration data to Firebase.
-If you prefer to prevent token autogeneration, disable Analytics collection and FCM auto initialization by adding these metadata values to the `android/app/src/main/AndroidManifest.xml` file:
+When the app instance is registered, the library uploads the identifier and configuration data to Firebase.
+If you prefer to prevent automatic registration, disable Analytics collection and FCM auto initialization by adding these metadata values to the `android/app/src/main/AndroidManifest.xml` file:
 
 ```xml
 <meta-data
@@ -154,10 +167,22 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
+#### Enable Firebase Installation IDs
+
+To use `register()`, `unregister()` and the `registered`/`unregistered` events, enable Firebase Installation IDs by editing your `ios/App/App/Info.plist` and setting the `FirebaseMessagingInstallationIdEnabled` key to `YES`:
+
+```xml
+<key>FirebaseMessagingInstallationIdEnabled</key>
+<true/>
+```
+
+> [!IMPORTANT]
+> This switches the app from FCM registration tokens to Firebase Installation IDs. Once enabled, `getToken()` and `deleteToken()` reject and the `tokenReceived` event is no longer emitted. Without it, `register()` and `unregister()` reject.
+
 #### Prevent auto initialization
 
-When a registration token is generated, the library uploads the identifier and configuration data to Firebase.
-If you prefer to prevent token autogeneration, disable FCM auto initialization by editing your `ios/App/App/Info.plist` and set `FirebaseMessagingAutoInitEnabled` key to `NO`.
+When the app instance is registered, the library uploads the identifier and configuration data to Firebase.
+If you prefer to prevent automatic registration, disable FCM auto initialization by editing your `ios/App/App/Info.plist` and set `FirebaseMessagingAutoInitEnabled` key to `NO`.
 
 ### Web
 
@@ -242,7 +267,34 @@ const requestPermissions = async () => {
 };
 ```
 
-### Retrieve or delete the FCM token
+### Register with a Firebase Installation ID
+
+Register the app instance with FCM using its Firebase Installation ID (FID). On Android and iOS, [enable Firebase Installation IDs](#enable-firebase-installation-ids) first.
+
+The FID is not returned by `register()`. It is delivered via the `registered` event. Upload it to your application server so it can be used as the target for push messages, and remove any legacy FCM token previously stored for this app instance. Unregister, for example when a user signs out, to stop receiving push notifications. The `unregistered` event is emitted with the FID that is no longer active:
+
+```typescript
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+
+const register = async () => {
+  await FirebaseMessaging.addListener('registered', event => {
+    console.log('registered', { event });
+  });
+  await FirebaseMessaging.addListener('unregistered', event => {
+    console.log('unregistered', { event });
+  });
+  await FirebaseMessaging.register();
+};
+
+const unregister = async () => {
+  await FirebaseMessaging.unregister();
+};
+```
+
+### Retrieve or delete the FCM token (deprecated)
+
+> [!WARNING]
+> FCM registration tokens are superseded by Firebase Installation IDs. Use `register()`, `unregister()` and the `registered`/`unregistered` events instead (see above).
 
 Register the app to receive push notifications and retrieve the FCM token that can be used to send push messages to the device. Delete the token, for example when a user signs out, to stop receiving push notifications. You can also be notified when a new token is received using the `tokenReceived` event, which is only available on Android and iOS:
 
@@ -355,6 +407,8 @@ const removeAllListeners = async () => {
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions()`](#requestpermissions)
 * [`isSupported()`](#issupported)
+* [`register(...)`](#register)
+* [`unregister()`](#unregister)
 * [`getToken(...)`](#gettoken)
 * [`deleteToken()`](#deletetoken)
 * [`getDeliveredNotifications()`](#getdeliverednotifications)
@@ -365,6 +419,8 @@ const removeAllListeners = async () => {
 * [`createChannel(...)`](#createchannel)
 * [`deleteChannel(...)`](#deletechannel)
 * [`listChannels()`](#listchannels)
+* [`addListener('registered', ...)`](#addlistenerregistered-)
+* [`addListener('unregistered', ...)`](#addlistenerunregistered-)
 * [`addListener('tokenReceived', ...)`](#addlistenertokenreceived-)
 * [`addListener('notificationReceived', ...)`](#addlistenernotificationreceived-)
 * [`addListener('notificationActionPerformed', ...)`](#addlistenernotificationactionperformed-)
@@ -430,6 +486,55 @@ Always returns `true` on Android and iOS.
 --------------------
 
 
+### register(...)
+
+```typescript
+register(options?: RegisterOptions | undefined) => Promise<void>
+```
+
+Register the app instance with FCM using its Firebase Installation ID (FID).
+
+The FID is not returned by this method. It is delivered via the
+`registered` event instead. Once you receive an FID, upload it to
+your application server and remove any legacy FCM token previously
+associated with this app instance.
+
+This method also re-enables FCM auto-init.
+
+On Android and iOS, Firebase Installation IDs must be enabled first.
+Otherwise, this method rejects.
+
+On Web, this method requests the notification permission if it has not
+been granted or denied yet, and rejects if the permission is denied.
+
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#registeroptions">RegisterOptions</a></code> |
+
+**Since:** 9.0.0
+
+--------------------
+
+
+### unregister()
+
+```typescript
+unregister() => Promise<void>
+```
+
+Unregister the app instance from FCM by deleting its FID-based registration.
+Can be called, for example, when a user signs out.
+
+On success, the `unregistered` event is emitted with the unregistered FID.
+
+On Android and iOS, Firebase Installation IDs must be enabled first.
+Otherwise, this method rejects.
+
+**Since:** 9.0.0
+
+--------------------
+
+
 ### getToken(...)
 
 ```typescript
@@ -440,6 +545,8 @@ Register the app to receive push notifications.
 Returns a FCM token that can be used to send push messages to that Messaging instance.
 
 This method also re-enables FCM auto-init.
+
+On Android and iOS, this method rejects once Firebase Installation IDs are enabled.
 
 | Param         | Type                                                        |
 | ------------- | ----------------------------------------------------------- |
@@ -460,6 +567,8 @@ deleteToken() => Promise<void>
 
 Delete the FCM token and unregister the app to stop receiving push notifications.
 Can be called, for example, when a user signs out.
+
+On Android and iOS, this method rejects once Firebase Installation IDs are enabled.
 
 **Since:** 0.2.2
 
@@ -610,6 +719,54 @@ Only available for Android (SDK 26+).
 --------------------
 
 
+### addListener('registered', ...)
+
+```typescript
+addListener(eventName: 'registered', listenerFunc: RegisteredListener) => Promise<PluginListenerHandle>
+```
+
+Called when the app instance is registered with FCM via its Firebase Installation ID (FID).
+
+Use the FID to target this app instance from your application server.
+
+On Android and iOS, this event is only emitted when Firebase Installation IDs are enabled.
+
+| Param              | Type                                                              |
+| ------------------ | ----------------------------------------------------------------- |
+| **`eventName`**    | <code>'registered'</code>                                         |
+| **`listenerFunc`** | <code><a href="#registeredlistener">RegisteredListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 9.0.0
+
+--------------------
+
+
+### addListener('unregistered', ...)
+
+```typescript
+addListener(eventName: 'unregistered', listenerFunc: UnregisteredListener) => Promise<PluginListenerHandle>
+```
+
+Called when the app instance is unregistered from FCM (the FID is no longer active).
+
+Use this to remove the FID from your application server.
+
+On Android and iOS, this event is only emitted when Firebase Installation IDs are enabled.
+
+| Param              | Type                                                                  |
+| ------------------ | --------------------------------------------------------------------- |
+| **`eventName`**    | <code>'unregistered'</code>                                           |
+| **`listenerFunc`** | <code><a href="#unregisteredlistener">UnregisteredListener</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 9.0.0
+
+--------------------
+
+
 ### addListener('tokenReceived', ...)
 
 ```typescript
@@ -619,6 +776,8 @@ addListener(eventName: 'tokenReceived', listenerFunc: TokenReceivedListener) => 
 Called when a new FCM token is received.
 
 Only available for Android and iOS.
+
+This event is no longer emitted once Firebase Installation IDs are enabled.
 
 | Param              | Type                                                                    |
 | ------------------ | ----------------------------------------------------------------------- |
@@ -734,6 +893,14 @@ Remove all listeners for this plugin.
 | **`isSupported`** | <code>boolean</code> | 0.3.1 |
 
 
+#### RegisterOptions
+
+| Prop                            | Type                                   | Description                                                                                                                                                                                                | Since |
+| ------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`vapidKey`**                  | <code>string</code>                    | Your VAPID public key, which is required to register with FCM on the web. Only available for Web.                                                                                                          | 9.0.0 |
+| **`serviceWorkerRegistration`** | <code>ServiceWorkerRegistration</code> | The service worker registration for receiving push messaging. If the registration is not provided explicitly, you need to have a `firebase-messaging-sw.js` at your root location. Only available for Web. | 9.0.0 |
+
+
 #### GetTokenResult
 
 | Prop        | Type                | Since |
@@ -828,6 +995,20 @@ Remove all listeners for this plugin.
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
+#### RegisteredEvent
+
+| Prop                 | Type                | Description                                              | Since |
+| -------------------- | ------------------- | -------------------------------------------------------- | ----- |
+| **`installationId`** | <code>string</code> | The Firebase Installation ID (FID) of this app instance. | 9.0.0 |
+
+
+#### UnregisteredEvent
+
+| Prop                 | Type                | Description                                               | Since |
+| -------------------- | ------------------- | --------------------------------------------------------- | ----- |
+| **`installationId`** | <code>string</code> | The Firebase Installation ID (FID) that was unregistered. | 9.0.0 |
+
+
 #### TokenReceivedEvent
 
 | Prop        | Type                | Since |
@@ -869,6 +1050,20 @@ Remove all listeners for this plugin.
 #### CreateChannelOptions
 
 <code><a href="#channel">Channel</a></code>
+
+
+#### RegisteredListener
+
+Callback to receive the registered event.
+
+<code>(event: <a href="#registeredevent">RegisteredEvent</a>): void</code>
+
+
+#### UnregisteredListener
+
+Callback to receive the unregistered event.
+
+<code>(event: <a href="#unregisteredevent">UnregisteredEvent</a>): void</code>
 
 
 #### TokenReceivedListener

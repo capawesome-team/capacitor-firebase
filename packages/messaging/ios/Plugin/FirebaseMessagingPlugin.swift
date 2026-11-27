@@ -17,6 +17,8 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isSupported", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "register", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "unregister", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getToken", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteToken", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getDeliveredNotifications", returnType: CAPPluginReturnPromise),
@@ -31,6 +33,8 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     private var implementation: FirebaseMessaging?
 
     public let tag = "FirebaseMessaging"
+    public let registeredEvent = "registered"
+    public let unregisteredEvent = "unregistered"
     public let tokenReceivedEvent = "tokenReceived"
     public let notificationReceivedEvent = "notificationReceived"
     public let notificationActionPerformedEvent = "notificationActionPerformed"
@@ -73,6 +77,38 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         var result = JSObject()
         result["isSupported"] = true
         call.resolve(result)
+    }
+
+    @objc func register(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
+        implementation?.register(completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
+    }
+
+    @objc func unregister(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
+        implementation?.unregister(completion: { error in
+            if let error = error {
+                CAPLog.print("[", self.tag, "] ", error)
+                call.reject(error.localizedDescription)
+                return
+            }
+            call.resolve()
+        })
     }
 
     @objc func getToken(_ call: CAPPluginCall) {
@@ -196,6 +232,21 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func listChannels(_ call: CAPPluginCall) {
         call.unimplemented("Not implemented on iOS.")
+    }
+
+    func handleRegistered(installationId: String?) {
+        guard let installationId = installationId else {
+            return
+        }
+        var result = JSObject()
+        result["installationId"] = installationId
+        notifyListeners(registeredEvent, data: result, retainUntilConsumed: true)
+    }
+
+    func handleUnregistered(installationId: String) {
+        var result = JSObject()
+        result["installationId"] = installationId
+        notifyListeners(unregisteredEvent, data: result, retainUntilConsumed: true)
     }
 
     func handleTokenReceived(token: String?) {

@@ -73,7 +73,7 @@
     "@capacitor/ios": "8.0.0",
     "@ionic/eslint-config": "0.4.0",
     "eslint": "8.57.0",
-    "firebase": "11.2.0",
+    "firebase": "12.14.0",
     "prettier-plugin-java": "2.9.7",
     "rimraf": "6.1.2",
     "rollup": "4.62.3",
@@ -82,7 +82,7 @@
   },
   "peerDependencies": {
     "@capacitor/core": ">=8.0.0",
-    "firebase": "^12.6.0"
+    "firebase": "^12.14.0"
   },
   "peerDependenciesMeta": {
     "firebase": {

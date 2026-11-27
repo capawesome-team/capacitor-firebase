@@ -34,6 +34,8 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String PUSH_NOTIFICATIONS = "receive";
 
     public static final String TAG = "FirebaseMessaging";
+    public static final String REGISTERED_EVENT = "registered";
+    public static final String UNREGISTERED_EVENT = "unregistered";
     public static final String TOKEN_RECEIVED_EVENT = "tokenReceived";
     public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
     public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
@@ -43,6 +45,7 @@ public class FirebaseMessagingPlugin extends Plugin {
     public static final String ERROR_ID_MISSING = "id must be provided.";
     public static final String ERROR_ID_OR_NAME_MISSING = "id and name must be provided.";
     public static Bridge staticBridge = null;
+    public static String lastInstallationId = null;
     public static String lastToken = null;
     private static final List<RemoteMessage> pendingRemoteMessages = new ArrayList<>();
     private FirebaseMessaging implementation;
@@ -57,6 +60,11 @@ public class FirebaseMessagingPlugin extends Plugin {
             pendingRemoteMessages.clear();
         }
 
+        if (lastInstallationId != null) {
+            handleRegistered(lastInstallationId);
+            lastInstallationId = null;
+        }
+
         if (lastToken != null) {
             handleTokenReceived(lastToken);
             lastToken = null;
@@ -69,6 +77,24 @@ public class FirebaseMessagingPlugin extends Plugin {
         Bundle bundle = data.getExtras();
         if (bundle != null && bundle.containsKey("google.message_id")) {
             this.handleNotificationActionPerformed(bundle);
+        }
+    }
+
+    public static void onRegistered(@NonNull String installationId) {
+        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
+        if (plugin != null) {
+            plugin.handleRegistered(installationId);
+        } else {
+            lastInstallationId = installationId;
+        }
+    }
+
+    public static void onUnregistered(@NonNull String installationId) {
+        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
+        if (plugin != null) {
+            plugin.handleUnregistered(installationId);
+        } else if (installationId.equals(lastInstallationId)) {
+            lastInstallationId = null;
         }
     }
 
@@ -125,6 +151,50 @@ public class FirebaseMessagingPlugin extends Plugin {
         JSObject result = new JSObject();
         result.put("isSupported", true);
         call.resolve(result);
+    }
+
+    @PluginMethod
+    public void register(PluginCall call) {
+        try {
+            implementation.register(
+                new EmptyResultCallback() {
+                    @Override
+                    public void success() {
+                        call.resolve();
+                    }
+
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
+                }
+            );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void unregister(PluginCall call) {
+        try {
+            implementation.unregister(
+                new EmptyResultCallback() {
+                    @Override
+                    public void success() {
+                        call.resolve();
+                    }
+
+                    @Override
+                    public void error(String message) {
+                        call.reject(message);
+                    }
+                }
+            );
+        } catch (Exception exception) {
+            Logger.error(TAG, exception.getMessage(), exception);
+            call.reject(exception.getMessage());
+        }
     }
 
     @PluginMethod
@@ -330,6 +400,18 @@ public class FirebaseMessagingPlugin extends Plugin {
     @PermissionCallback
     private void permissionsCallback(PluginCall call) {
         this.checkPermissions(call);
+    }
+
+    private void handleRegistered(@NonNull String installationId) {
+        JSObject result = new JSObject();
+        result.put("installationId", installationId);
+        notifyListeners(REGISTERED_EVENT, result, true);
+    }
+
+    private void handleUnregistered(@NonNull String installationId) {
+        JSObject result = new JSObject();
+        result.put("installationId", installationId);
+        notifyListeners(UNREGISTERED_EVENT, result, true);
     }
 
     private void handleTokenReceived(@NonNull String token) {

@@ -7,6 +7,10 @@ import {
   getToken,
   isSupported as isSupportedInWeb,
   onMessage,
+  onRegistered,
+  onUnregistered,
+  register,
+  unregister,
 } from 'firebase/messaging';
 
 import type {
@@ -20,8 +24,11 @@ import type {
   ListChannelsResult,
   NotificationReceivedEvent,
   PermissionStatus,
+  RegisteredEvent,
+  RegisterOptions,
   RemoveDeliveredNotificationsOptions,
   SubscribeToTopicOptions,
+  UnregisteredEvent,
   UnsubscribeFromTopicOptions,
 } from './definitions';
 import { Notification } from './definitions';
@@ -30,16 +37,26 @@ export class FirebaseMessagingWeb
   extends WebPlugin
   implements FirebaseMessagingPlugin
 {
+  public static readonly registeredEvent = 'registered';
+  public static readonly unregisteredEvent = 'unregistered';
   public static readonly notificationReceivedEvent = 'notificationReceived';
+
+  /**
+   * Resolves once the Firebase Messaging handlers are attached.
+   * Note: `register()` fails if no `onRegistered` handler is set.
+   */
+  private readonly ready: Promise<void>;
 
   constructor() {
     super();
-    isSupportedInWeb().then(supported => {
+    this.ready = isSupportedInWeb().then(supported => {
       if (!supported) {
         return;
       }
       const messaging = getMessaging();
       onMessage(messaging, payload => this.handleNotificationReceived(payload));
+      onRegistered(messaging, payload => this.handleRegistered(payload));
+      onUnregistered(messaging, payload => this.handleUnregistered(payload));
     });
   }
 
@@ -79,6 +96,21 @@ export class FirebaseMessagingWeb
     return {
       isSupported,
     };
+  }
+
+  public async register(options?: RegisterOptions): Promise<void> {
+    await this.ready;
+    const messaging = getMessaging();
+    await register(messaging, {
+      vapidKey: options?.vapidKey,
+      serviceWorkerRegistration: options?.serviceWorkerRegistration,
+    });
+  }
+
+  public async unregister(): Promise<void> {
+    await this.ready;
+    const messaging = getMessaging();
+    await unregister(messaging);
   }
 
   public async getToken(options: GetTokenOptions): Promise<GetTokenResult> {
@@ -133,6 +165,20 @@ export class FirebaseMessagingWeb
 
   public async listChannels(): Promise<ListChannelsResult> {
     this.throwUnimplementedError();
+  }
+
+  private handleRegistered(installationId: string): void {
+    const event: RegisteredEvent = {
+      installationId,
+    };
+    this.notifyListeners(FirebaseMessagingWeb.registeredEvent, event, true);
+  }
+
+  private handleUnregistered(installationId: string): void {
+    const event: UnregisteredEvent = {
+      installationId,
+    };
+    this.notifyListeners(FirebaseMessagingWeb.unregisteredEvent, event, true);
   }
 
   private handleNotificationReceived(messagePayload: MessagePayload): void {

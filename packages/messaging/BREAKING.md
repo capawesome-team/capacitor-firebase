@@ -4,6 +4,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
@@ -11,6 +12,42 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
 - [Version 0.3.x](#version-03x)
+
+## Version 9.x.x
+
+### Firebase Installation IDs
+
+FCM now identifies app instances by their Firebase Installation ID (FID) instead of an FCM registration token. The following APIs were added:
+
+- `register(...)` registers the app instance with FCM. The FID is delivered via the new `registered` event.
+- `unregister()` deletes the FID-based registration and emits the new `unregistered` event.
+
+The token-based APIs (`getToken(...)`, `deleteToken()` and the `tokenReceived` event) are deprecated. They keep working until you enable Firebase Installation IDs.
+
+On Android and iOS, the two APIs are mutually exclusive. The new APIs only work after you enable Firebase Installation IDs, and once enabled, the token-based APIs reject and `tokenReceived` is no longer emitted. On Web, both APIs work side by side.
+
+To migrate:
+
+1. Enable Firebase Installation IDs:
+   - Android: add `<meta-data android:name="firebase_messaging_installation_id_enabled" android:value="true" />` to `android/app/src/main/AndroidManifest.xml`.
+   - iOS: set the `FirebaseMessagingInstallationIdEnabled` key to `YES` in `ios/App/App/Info.plist`.
+2. Replace `getToken(...)` with `register(...)`, and `deleteToken()` with `unregister()`.
+3. Replace the `tokenReceived` listener with a `registered` listener, and store the `installationId` on your server instead of the token.
+4. Remove the legacy token for that app instance from your server.
+
+### Dependencies
+
+- The Firebase JavaScript SDK has been updated to `12.14.0`.
+- The Firebase iOS SDK has been updated to `12.18.0`.
+- The Firebase Android SDK (`firebase-messaging`) has been updated to `25.1.0`.
+
+### Peer Dependencies
+
+The `firebase` peer dependency has been updated to version `^12.14.0`. Ensure your project uses a compatible version of `firebase` before upgrading.
+
+### Variables
+
+- On Android, the `firebaseMessagingVersion` variable has been updated to `25.1.0`.
 
 ## Version 8.x.x
 
