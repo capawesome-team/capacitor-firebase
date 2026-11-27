@@ -19,13 +19,13 @@ import FirebaseCore
         completion(GetAppsResult(apps: apps), nil)
     }
 
-    @objc public func getName(completion: @escaping (_ result: GetNameResult?, _ error: Error?) -> Void) {
-        let name = FirebaseCore.FirebaseApp.app()?.name ?? ""
+    @objc public func getName(completion: @escaping (_ result: GetNameResult?, _ error: Error?) -> Void) throws {
+        let name = try getFirebaseAppInstance().name
         completion(GetNameResult(name: name), nil)
     }
 
-    @objc public func getOptions(completion: @escaping (_ result: GetOptionsResult?, _ error: Error?) -> Void) {
-        let options = FirebaseCore.FirebaseApp.app()?.options
+    @objc public func getOptions(completion: @escaping (_ result: GetOptionsResult?, _ error: Error?) -> Void) throws {
+        let options = try getFirebaseAppInstance().options
         completion(GetOptionsResult(options: options), nil)
     }
 
@@ -37,5 +37,12 @@ import FirebaseCore
         }
         FirebaseCore.FirebaseApp.configure(name: options.name, options: options.options)
         completion(nil)
+    }
+
+    private func getFirebaseAppInstance() throws -> FirebaseCore.FirebaseApp {
+        guard let app = FirebaseCore.FirebaseApp.app() else {
+            throw CustomError.defaultAppNotFound
+        }
+        return app
     }
 }

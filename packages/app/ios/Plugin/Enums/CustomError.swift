@@ -6,6 +6,7 @@ enum CustomError: Error {
     case appAlreadyExists
     case applicationIdInvalid
     case applicationIdMissing
+    case defaultAppNotFound
     case gcmSenderIdMissing
     case nameInvalid
     case nameMissing
@@ -30,6 +31,8 @@ extension CustomError: LocalizedError {
             return NSLocalizedString("options.applicationId must be an iOS app ID.", comment: "applicationIdInvalid")
         case .applicationIdMissing:
             return NSLocalizedString("options.applicationId must be provided.", comment: "applicationIdMissing")
+        case .defaultAppNotFound:
+            return NSLocalizedString("The default app has not been initialized.", comment: "defaultAppNotFound")
         case .gcmSenderIdMissing:
             return NSLocalizedString("options.gcmSenderId must be provided.", comment: "gcmSenderIdMissing")
         case .nameInvalid:

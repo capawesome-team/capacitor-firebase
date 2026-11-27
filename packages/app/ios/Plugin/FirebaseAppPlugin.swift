@@ -34,23 +34,31 @@ public class FirebaseAppPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func getName(_ call: CAPPluginCall) {
-        implementation?.getName(completion: { result, error in
-            if let error = error {
-                self.rejectCall(call, error)
-            } else {
-                self.resolveCall(call, result)
-            }
-        })
+        do {
+            try implementation?.getName(completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            self.rejectCall(call, error)
+        }
     }
 
     @objc func getOptions(_ call: CAPPluginCall) {
-        implementation?.getOptions(completion: { result, error in
-            if let error = error {
-                self.rejectCall(call, error)
-            } else {
-                self.resolveCall(call, result)
-            }
-        })
+        do {
+            try implementation?.getOptions(completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            self.rejectCall(call, error)
+        }
     }
 
     @objc func initializeApp(_ call: CAPPluginCall) {
