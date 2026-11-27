@@ -469,9 +469,9 @@ Only available on web.
 
 #### StartTraceOptions
 
-| Prop            | Type                | Description                                                                                                                                                                                     | Since |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`traceName`** | <code>string</code> | Custom trace name. Names for custom code traces must meet the following requirements: no leading or trailing whitespace, no leading underscore (_) character, and max length is 100 characters. | 0.1.0 |
+| Prop            | Type                | Description                                                                                                                                                                                                                                                                                                             | Since |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`traceName`** | <code>string</code> | Custom trace name. Names for custom code traces must meet the following requirements: no leading or trailing whitespace, no leading underscore (_) character, and max length is 100 characters. On Android and iOS, the call is rejected if the name is empty, longer than 100 characters or starts with an underscore. | 0.1.0 |
 
 
 #### StopTraceOptions

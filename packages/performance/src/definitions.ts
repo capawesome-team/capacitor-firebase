@@ -87,6 +87,9 @@ export interface StartTraceOptions {
    * no leading or trailing whitespace, no leading underscore (_) character,
    * and max length is 100 characters.
    *
+   * On Android and iOS, the call is rejected if the name is empty,
+   * longer than 100 characters or starts with an underscore.
+   *
    * @since 0.1.0
    */
   traceName: string;

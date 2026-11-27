@@ -7,6 +7,7 @@ enum CustomError: Error {
     case numInvalid
     case numMissing
     case traceNameAlreadyAssigned
+    case traceNameInvalid
     case traceNameMissing
     case traceNotFound
     case valueMissing
@@ -19,6 +20,7 @@ enum CustomError: Error {
              .numInvalid,
              .numMissing,
              .traceNameAlreadyAssigned,
+             .traceNameInvalid,
              .traceNameMissing,
              .traceNotFound,
              .valueMissing:
@@ -42,6 +44,8 @@ extension CustomError: LocalizedError {
             return NSLocalizedString("num must be provided.", comment: "numMissing")
         case .traceNameAlreadyAssigned:
             return NSLocalizedString("traceName already assigned.", comment: "traceNameAlreadyAssigned")
+        case .traceNameInvalid:
+            return NSLocalizedString("traceName is invalid.", comment: "traceNameInvalid")
         case .traceNameMissing:
             return NSLocalizedString("traceName must be provided.", comment: "traceNameMissing")
         case .traceNotFound:
