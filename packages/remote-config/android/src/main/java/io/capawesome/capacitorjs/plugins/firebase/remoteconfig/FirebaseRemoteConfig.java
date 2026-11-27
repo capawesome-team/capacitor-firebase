@@ -1,11 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.remoteconfig;
 
-import static io.capawesome.capacitorjs.plugins.firebase.remoteconfig.FirebaseRemoteConfigPlugin.TAG;
-
-import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.ConfigUpdate;
 import com.google.firebase.remoteconfig.ConfigUpdateListener;
 import com.google.firebase.remoteconfig.ConfigUpdateListenerRegistration;
@@ -14,123 +9,46 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigException;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.CustomExceptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.events.AddConfigUpdateListenerOptionsCallbackEvent;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.AddConfigUpdateListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.FetchConfigOptions;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.GetOptions;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.RemoveConfigUpdateListenerOptions;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.SetCustomSignalsOptions;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.SetDefaultsOptions;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.options.SetSettingsOptions;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.results.GetAllResult;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.results.GetBooleanResult;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.results.GetInfoResult;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.results.GetNumberResult;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.classes.results.GetStringResult;
+import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.remoteconfig.interfaces.NonEmptyResultCallback;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import org.json.JSONObject;
 
 public class FirebaseRemoteConfig {
 
-    private final FirebaseRemoteConfigPlugin plugin;
     private final Map<String, ConfigUpdateListenerRegistration> listenerRegistrationMap = new HashMap<>();
+    private final FirebaseRemoteConfigPlugin plugin;
 
     public FirebaseRemoteConfig(FirebaseRemoteConfigPlugin plugin) {
         this.plugin = plugin;
     }
 
-    public void activate(final ActivateResultCallback resultCallback) {
+    public void activate(@NonNull EmptyResultCallback callback) {
         getFirebaseRemoteConfigInstance()
             .activate()
-            .addOnSuccessListener(result -> {
-                resultCallback.success(result.booleanValue());
-            })
-            .addOnFailureListener(exception -> {
-                Log.w(TAG, "Activate config failed.", exception);
-                resultCallback.error(exception.getMessage());
-            });
+            .addOnSuccessListener(result -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void fetchAndActivate(final ActivateResultCallback resultCallback) {
-        getFirebaseRemoteConfigInstance()
-            .fetchAndActivate()
-            .addOnSuccessListener(result -> {
-                resultCallback.success(result.booleanValue());
-            })
-            .addOnFailureListener(exception -> {
-                Log.w(TAG, "Fetch and activate config failed.", exception);
-                resultCallback.error(exception.getMessage());
-            });
-    }
-
-    public void fetchConfig(long minimumFetchIntervalInSeconds, final FetchConfigResultCallback resultCallback) {
-        getFirebaseRemoteConfigInstance()
-            .fetch(minimumFetchIntervalInSeconds)
-            .addOnSuccessListener(result -> {
-                resultCallback.success();
-            })
-            .addOnFailureListener(exception -> {
-                Log.w(TAG, "Fetch config failed.", exception);
-                resultCallback.error(exception.getMessage());
-            });
-    }
-
-    public GetValueResult<Boolean> getBoolean(String key) {
-        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
-        return new GetValueResult<Boolean>(value.asBoolean(), value.getSource());
-    }
-
-    public GetValueResult<Double> getNumber(String key) {
-        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
-        return new GetValueResult<Double>(value.asDouble(), value.getSource());
-    }
-
-    public GetValueResult<String> getString(String key) {
-        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(key);
-        return new GetValueResult<String>(value.asString(), value.getSource());
-    }
-
-    public Map<String, FirebaseRemoteConfigValue> getAll() {
-        return getFirebaseRemoteConfigInstance().getAll();
-    }
-
-    public GetInfoResult getInfo() {
-        FirebaseRemoteConfigInfo info = getFirebaseRemoteConfigInstance().getInfo();
-        long lastFetchTime = info.getFetchTimeMillis();
-        int lastFetchStatus = info.getLastFetchStatus();
-
-        return new GetInfoResult(lastFetchTime, lastFetchStatus);
-    }
-
-    public Task<Void> setCustomSignals(@NonNull Map<String, Object> customSignals) {
-        CustomSignals.Builder builder = new CustomSignals.Builder();
-        for (Map.Entry<String, Object> entry : customSignals.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            if (value == null || value == JSONObject.NULL) {
-                builder.put(key, (String) null);
-            } else if (value instanceof String) {
-                builder.put(key, (String) value);
-            } else if (value instanceof Integer || value instanceof Long) {
-                builder.put(key, ((Number) value).longValue());
-            } else if (value instanceof Number) {
-                builder.put(key, ((Number) value).doubleValue());
-            } else {
-                throw new IllegalArgumentException("Unsupported value type for key: " + key);
-            }
-        }
-        return getFirebaseRemoteConfigInstance().setCustomSignals(builder.build());
-    }
-
-    public Task<Void> setDefaults(@NonNull Map<String, Object> defaults) {
-        return getFirebaseRemoteConfigInstance().setDefaultsAsync(defaults);
-    }
-
-    public Task<Void> setSettings(@Nullable Integer fetchTimeoutInSeconds, @Nullable Integer minimumFetchIntervalInSeconds) {
-        FirebaseRemoteConfigSettings.Builder builder = new FirebaseRemoteConfigSettings.Builder();
-        if (fetchTimeoutInSeconds != null) {
-            builder.setFetchTimeoutInSeconds(fetchTimeoutInSeconds);
-        }
-        if (minimumFetchIntervalInSeconds != null) {
-            builder.setMinimumFetchIntervalInSeconds(minimumFetchIntervalInSeconds);
-        }
-        return getFirebaseRemoteConfigInstance().setConfigSettingsAsync(builder.build());
-    }
-
-    public void addConfigUpdateListener(@NonNull AddConfigUpdateListenerOptions options, @NonNull NonEmptyResultCallback callback) {
+    public void addConfigUpdateListener(
+        @NonNull AddConfigUpdateListenerOptions options,
+        @NonNull NonEmptyResultCallback<AddConfigUpdateListenerOptionsCallbackEvent> callback
+    ) {
         String callbackId = options.getCallbackId();
 
         ConfigUpdateListenerRegistration listenerRegistration = getFirebaseRemoteConfigInstance().addOnConfigUpdateListener(
@@ -150,7 +68,62 @@ public class FirebaseRemoteConfig {
         this.listenerRegistrationMap.put(callbackId, listenerRegistration);
     }
 
-    public void removeConfigUpdateListener(@NonNull RemoveConfigUpdateListenerOptions options) {
+    public void fetchAndActivate(@NonNull EmptyResultCallback callback) {
+        getFirebaseRemoteConfigInstance()
+            .fetchAndActivate()
+            .addOnSuccessListener(result -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
+    }
+
+    public void fetchConfig(@NonNull FetchConfigOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseRemoteConfigInstance()
+            .fetch(options.getMinimumFetchIntervalInSeconds())
+            .addOnSuccessListener(result -> callback.success())
+            .addOnFailureListener(exception -> callback.error(exception));
+    }
+
+    public void getAll(@NonNull NonEmptyResultCallback<GetAllResult> callback) {
+        Map<String, FirebaseRemoteConfigValue> values = getFirebaseRemoteConfigInstance().getAll();
+        GetAllResult result = new GetAllResult(values);
+        callback.success(result);
+    }
+
+    public void getBoolean(@NonNull GetOptions options, @NonNull NonEmptyResultCallback<GetBooleanResult> callback) {
+        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(options.getKey());
+        GetBooleanResult result = new GetBooleanResult(value.asBoolean(), value.getSource());
+        callback.success(result);
+    }
+
+    public void getInfo(@NonNull NonEmptyResultCallback<GetInfoResult> callback) {
+        FirebaseRemoteConfigInfo info = getFirebaseRemoteConfigInstance().getInfo();
+        long lastFetchTime = info.getFetchTimeMillis();
+        int lastFetchStatus = info.getLastFetchStatus();
+
+        GetInfoResult result = new GetInfoResult(lastFetchTime, lastFetchStatus);
+        callback.success(result);
+    }
+
+    public void getNumber(@NonNull GetOptions options, @NonNull NonEmptyResultCallback<GetNumberResult> callback) {
+        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(options.getKey());
+        GetNumberResult result = new GetNumberResult(value.asDouble(), value.getSource());
+        callback.success(result);
+    }
+
+    public void getString(@NonNull GetOptions options, @NonNull NonEmptyResultCallback<GetStringResult> callback) {
+        FirebaseRemoteConfigValue value = getFirebaseRemoteConfigInstance().getValue(options.getKey());
+        GetStringResult result = new GetStringResult(value.asString(), value.getSource());
+        callback.success(result);
+    }
+
+    public void removeAllListeners(@NonNull EmptyResultCallback callback) {
+        for (ConfigUpdateListenerRegistration listenerRegistration : this.listenerRegistrationMap.values()) {
+            listenerRegistration.remove();
+        }
+        this.listenerRegistrationMap.clear();
+        callback.success();
+    }
+
+    public void removeConfigUpdateListener(@NonNull RemoveConfigUpdateListenerOptions options, @NonNull EmptyResultCallback callback) {
         String callbackId = options.getCallbackId();
 
         ConfigUpdateListenerRegistration listenerRegistration = this.listenerRegistrationMap.get(callbackId);
@@ -158,13 +131,58 @@ public class FirebaseRemoteConfig {
             listenerRegistration.remove();
         }
         this.listenerRegistrationMap.remove(callbackId);
+        callback.success();
     }
 
-    public void removeAllListeners() {
-        for (ConfigUpdateListenerRegistration listenerRegistration : this.listenerRegistrationMap.values()) {
-            listenerRegistration.remove();
+    public void setCustomSignals(@NonNull SetCustomSignalsOptions options, @NonNull EmptyResultCallback callback) {
+        CustomSignals.Builder builder = new CustomSignals.Builder();
+        for (Map.Entry<String, Object> entry : options.getCustomSignals().entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (value == null || value == JSONObject.NULL) {
+                builder.put(key, (String) null);
+            } else if (value instanceof String) {
+                builder.put(key, (String) value);
+            } else if (value instanceof Integer || value instanceof Long) {
+                builder.put(key, ((Number) value).longValue());
+            } else if (value instanceof Number) {
+                builder.put(key, ((Number) value).doubleValue());
+            } else {
+                throw new IllegalArgumentException("Unsupported value type for key: " + key);
+            }
         }
-        this.listenerRegistrationMap.clear();
+        getFirebaseRemoteConfigInstance()
+            .setCustomSignals(builder.build())
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    callback.success();
+                } else {
+                    Exception exception = task.getException();
+                    callback.error(exception == null ? CustomExceptions.SET_CUSTOM_SIGNALS_FAILED : exception);
+                }
+            });
+    }
+
+    public void setDefaults(@NonNull SetDefaultsOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseRemoteConfigInstance()
+            .setDefaultsAsync(options.getDefaults())
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    callback.success();
+                } else {
+                    Exception exception = task.getException();
+                    callback.error(exception == null ? CustomExceptions.SET_DEFAULTS_FAILED : exception);
+                }
+            });
+    }
+
+    public void setSettings(@NonNull SetSettingsOptions options, @NonNull EmptyResultCallback callback) {
+        FirebaseRemoteConfigSettings.Builder builder = new FirebaseRemoteConfigSettings.Builder();
+        builder.setFetchTimeoutInSeconds(options.getFetchTimeoutInSeconds());
+        builder.setMinimumFetchIntervalInSeconds(options.getMinimumFetchIntervalInSeconds());
+        getFirebaseRemoteConfigInstance()
+            .setConfigSettingsAsync(builder.build())
+            .addOnCompleteListener(task -> callback.success());
     }
 
     private com.google.firebase.remoteconfig.FirebaseRemoteConfig getFirebaseRemoteConfigInstance() {
