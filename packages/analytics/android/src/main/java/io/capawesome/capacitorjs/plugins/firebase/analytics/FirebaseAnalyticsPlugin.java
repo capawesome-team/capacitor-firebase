@@ -1,205 +1,286 @@
 package io.capawesome.capacitorjs.plugins.firebase.analytics;
 
-import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.CustomException;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.LogEventOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetConsentOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetCurrentScreenOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetEnabledOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetSessionTimeoutDurationOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetUserIdOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.options.SetUserPropertyOptions;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.classes.results.GetAppInstanceIdResult;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.interfaces.NonEmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.analytics.interfaces.Result;
 
 @CapacitorPlugin(name = "FirebaseAnalytics")
 public class FirebaseAnalyticsPlugin extends Plugin {
 
     public static final String TAG = "FirebaseAnalytics";
-    public static final String ERROR_KEY_MISSING = "key must be provided.";
-    public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
-    public static final String ERROR_NAME_MISSING = "name must be provided.";
-    public static final String ERROR_CONSENT_TYPE_MISSING = "consentType must be provided.";
-    public static final String ERROR_CONSENT_STATUS_MISSING = "consentStatus must be provided.";
+
     private FirebaseAnalytics implementation;
+
+    @PluginMethod
+    public void getAppInstanceId(PluginCall call) {
+        try {
+            NonEmptyResultCallback<GetAppInstanceIdResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetAppInstanceIdResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getAppInstanceId(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithEmailAddress(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithHashedEmailAddress(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
+
+    @PluginMethod
+    public void initiateOnDeviceConversionMeasurementWithPhoneNumber(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
+
+    @PluginMethod
+    public void isEnabled(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
 
     public void load() {
         implementation = new FirebaseAnalytics(this.getContext(), this.getBridge());
     }
 
     @PluginMethod
-    public void getAppInstanceId(PluginCall call) {
+    public void logEvent(PluginCall call) {
         try {
-            implementation.getAppInstanceId(
-                new GetAppInstanceIdCallback() {
-                    @Override
-                    public void success(@Nullable String appInstanceId) {
-                        JSObject result = new JSObject();
-                        if (appInstanceId != null) {
-                            result.put("appInstanceId", appInstanceId);
-                        }
-                        call.resolve(result);
-                    }
-
-                    @Override
-                    public void error(String message) {
-                        call.reject(message);
-                    }
+            LogEventOptions options = new LogEventOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
                 }
-            );
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.logEvent(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void logTransaction(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
+
+    @PluginMethod
+    public void resetAnalyticsData(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.resetAnalyticsData(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void setConsent(PluginCall call) {
         try {
-            com.google.firebase.analytics.FirebaseAnalytics.ConsentType consentType = FirebaseAnalyticsHelper.mapStringToConsentType(
-                call.getString("type", null)
-            );
-            if (consentType == null) {
-                call.reject(ERROR_CONSENT_TYPE_MISSING);
-                return;
-            }
-            com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus consentStatus = FirebaseAnalyticsHelper.mapStringToConsentStatus(
-                call.getString("status", null)
-            );
-            if (consentStatus == null) {
-                call.reject(ERROR_CONSENT_STATUS_MISSING);
-                return;
-            }
-            implementation.setConsent(consentType, consentStatus);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+            SetConsentOptions options = new SetConsentOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
 
-    @PluginMethod
-    public void setUserId(PluginCall call) {
-        try {
-            String userId = call.getString("userId", null);
-            implementation.setUserId(userId);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
 
-    @PluginMethod
-    public void setUserProperty(PluginCall call) {
-        try {
-            String key = call.getString("key");
-            if (key == null) {
-                call.reject(ERROR_KEY_MISSING);
-                return;
-            }
-            String value = call.getString("value", null);
-            implementation.setUserProperty(key, value);
-            call.resolve();
+            implementation.setConsent(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void setCurrentScreen(PluginCall call) {
         try {
-            String screenName = call.getString("screenName", null);
-            String screenClassOverride = call.getString("screenClassOverride", null);
-            implementation.setCurrentScreen(screenName, screenClassOverride);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+            SetCurrentScreenOptions options = new SetCurrentScreenOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
 
-    @PluginMethod
-    public void logEvent(PluginCall call) {
-        try {
-            String name = call.getString("name");
-            if (name == null) {
-                call.reject(ERROR_NAME_MISSING);
-                return;
-            }
-            JSObject params = call.getObject("params");
-            implementation.logEvent(name, params);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
 
-    @PluginMethod
-    public void setSessionTimeoutDuration(PluginCall call) {
-        try {
-            int duration = call.getInt("duration", 1800);
-            implementation.setSessionTimeoutDuration(duration);
-            call.resolve();
+            implementation.setCurrentScreen(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void setEnabled(PluginCall call) {
         try {
-            Boolean enabled = call.getBoolean("enabled");
-            if (enabled == null) {
-                call.reject(ERROR_ENABLED_MISSING);
-                return;
-            }
-            implementation.setEnabled(enabled);
-            call.resolve();
+            SetEnabledOptions options = new SetEnabledOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setEnabled(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
-    public void isEnabled(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
-    }
-
-    @PluginMethod
-    public void resetAnalyticsData(PluginCall call) {
+    public void setSessionTimeoutDuration(PluginCall call) {
         try {
-            implementation.resetAnalyticsData();
-            call.resolve();
+            SetSessionTimeoutDurationOptions options = new SetSessionTimeoutDurationOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setSessionTimeoutDuration(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
-    public void logTransaction(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
+    public void setUserId(PluginCall call) {
+        try {
+            SetUserIdOptions options = new SetUserIdOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setUserId(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
     }
 
     @PluginMethod
-    public void initiateOnDeviceConversionMeasurementWithEmailAddress(PluginCall call) {
+    public void setUserProperty(PluginCall call) {
+        try {
+            SetUserPropertyOptions options = new SetUserPropertyOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setUserProperty(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException ? ((CustomException) exception).getCode() : null;
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void rejectCallAsUnimplemented(@NonNull PluginCall call) {
         call.unimplemented("Not implemented on Android.");
     }
 
-    @PluginMethod
-    public void initiateOnDeviceConversionMeasurementWithPhoneNumber(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
     }
 
-    @PluginMethod
-    public void initiateOnDeviceConversionMeasurementWithHashedEmailAddress(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
-    }
-
-    @PluginMethod
-    public void initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
+        }
     }
 }

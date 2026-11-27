@@ -172,7 +172,7 @@ const getAttribute = async () => {
     traceName: 'test_trace',
     attribute: 'user_id',
   });
-  return result.attributes;
+  return result.value;
 };
 
 const getAttributes = async () => {

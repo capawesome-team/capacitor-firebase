@@ -1,303 +1,308 @@
 package io.capawesome.capacitorjs.plugins.firebase.performance;
 
-import com.getcapacitor.JSObject;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.firebase.perf.metrics.Trace;
-import java.util.Map;
-import org.json.JSONObject;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.CustomException;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.GetAttributeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.GetAttributesOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.GetMetricOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.IncrementMetricOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.PutAttributeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.PutMetricOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.RemoveAttributeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.SetEnabledOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.StartTraceOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.options.StopTraceOptions;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributeResult;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetAttributesResult;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.GetMetricResult;
+import io.capawesome.capacitorjs.plugins.firebase.performance.classes.results.IsEnabledResult;
+import io.capawesome.capacitorjs.plugins.firebase.performance.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.performance.interfaces.NonEmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.performance.interfaces.Result;
 
 @CapacitorPlugin(name = "FirebasePerformance")
 public class FirebasePerformancePlugin extends Plugin {
 
     public static final String TAG = "FirebasePerformance";
-    public static final String ERROR_TRACE_NAME_MISSING = "traceName must be provided.";
-    public static final String ERROR_METRIC_NAME_MISSING = "metricName must be provided.";
-    public static final String ERROR_TRACE_NAME_ALREADY_ASSIGNED = "traceName already assigned.";
-    public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
-    public static final String ERROR_TRACE_NOT_FOUND = "No trace was found with the provided traceName.";
-    public static final String ERROR_ATTRIBUTE_MISSING = "attribute must be provided.";
-    public static final String ERROR_VALUE_MISSING = "value must be provided.";
-    public static final String ERROR_NUM_MISSING = "num must be provided.";
-    public static final String ERROR_START_TIME_MISSING = "startTime must be provided.";
-    public static final String ERROR_DURATION_MISSING = "duration must be provided.";
-    public static final String ERROR_INVALID_METRIC_VALUE = "provided metric value is not a number.";
+
     private FirebasePerformance implementation = new FirebasePerformance();
-
-    @PluginMethod
-    public void startTrace(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace != null) {
-                call.reject(ERROR_TRACE_NAME_ALREADY_ASSIGNED);
-                return;
-            }
-            implementation.startTrace(traceName);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void stopTrace(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            implementation.stopTrace(traceName);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void incrementMetric(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            String metricName = call.getString("metricName");
-            Integer incrementBy = call.getInt("incrementBy", 1);
-            if (traceName == null) {
-                call.reject(ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            if (metricName == null) {
-                call.reject(ERROR_METRIC_NAME_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            implementation.incrementMetric(traceName, metricName, incrementBy);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void setEnabled(PluginCall call) {
-        try {
-            Boolean enabled = call.getBoolean("enabled");
-            if (enabled == null) {
-                call.reject(ERROR_ENABLED_MISSING);
-                return;
-            }
-            implementation.setEnabled(enabled);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void isEnabled(PluginCall call) {
-        try {
-            Boolean enabled = implementation.isEnabled();
-            JSObject result = new JSObject();
-            result.put("enabled", enabled);
-            call.resolve(result);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void putAttribute(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            String attribute = call.getString("attribute");
-            if (attribute == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_ATTRIBUTE_MISSING);
-                return;
-            }
-            String value = call.getString("value");
-            if (value == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_VALUE_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            FirebasePerformance.putAttribute(trace, attribute, value);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
 
     @PluginMethod
     public void getAttribute(PluginCall call) {
         try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            String attribute = call.getString("attribute");
-            if (attribute == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_ATTRIBUTE_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            String value = FirebasePerformance.getAttribute(trace, attribute);
-            JSObject result = new JSObject();
-            result.put("value", value == null ? JSONObject.NULL : value);
-            call.resolve(result);
+            GetAttributeOptions options = new GetAttributeOptions(call);
+            NonEmptyResultCallback<GetAttributeResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetAttributeResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getAttribute(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void getAttributes(PluginCall call) {
         try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            Map<String, String> attributesMap = FirebasePerformance.getAttributes(trace);
-            JSObject result = new JSObject();
-            JSObject resultMap = new JSObject();
-            for (String attribute : attributesMap.keySet()) {
-                resultMap.put(attribute, attributesMap.get(attribute));
-            }
-            result.put("result", resultMap);
-            call.resolve(result);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+            GetAttributesOptions options = new GetAttributesOptions(call);
+            NonEmptyResultCallback<GetAttributesResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetAttributesResult result) {
+                    resolveCall(call, result);
+                }
 
-    @PluginMethod
-    public void removeAttribute(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            String attribute = call.getString("attribute");
-            if (attribute == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_ATTRIBUTE_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            FirebasePerformance.removeAttribute(trace, attribute);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
 
-    @PluginMethod
-    public void putMetric(PluginCall call) {
-        try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            String metricName = call.getString("metricName");
-            if (metricName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_METRIC_NAME_MISSING);
-                return;
-            }
-            Double num = call.getDouble("num");
-            if (num == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_NUM_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            FirebasePerformance.putMetric(trace, metricName, (long) Math.floor(num));
-            call.resolve();
+            implementation.getAttributes(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void getMetric(PluginCall call) {
         try {
-            String traceName = call.getString("traceName");
-            if (traceName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_TRACE_NAME_MISSING);
-                return;
-            }
-            String metricName = call.getString("metricName");
-            if (metricName == null) {
-                call.reject(FirebasePerformancePlugin.ERROR_METRIC_NAME_MISSING);
-                return;
-            }
-            Trace trace = implementation.getTraceByName(traceName);
-            if (trace == null) {
-                call.reject(ERROR_TRACE_NOT_FOUND);
-                return;
-            }
-            long value = FirebasePerformance.getMetric(trace, metricName);
-            JSObject result = new JSObject();
-            result.put("value", value);
-            call.resolve(result);
+            GetMetricOptions options = new GetMetricOptions(call);
+            NonEmptyResultCallback<GetMetricResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetMetricResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getMetric(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void incrementMetric(PluginCall call) {
+        try {
+            IncrementMetricOptions options = new IncrementMetricOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.incrementMetric(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void isEnabled(PluginCall call) {
+        try {
+            NonEmptyResultCallback<IsEnabledResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull IsEnabledResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.isEnabled(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void putAttribute(PluginCall call) {
+        try {
+            PutAttributeOptions options = new PutAttributeOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.putAttribute(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void putMetric(PluginCall call) {
+        try {
+            PutMetricOptions options = new PutMetricOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.putMetric(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void record(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
+
+    @PluginMethod
+    public void removeAttribute(PluginCall call) {
+        try {
+            RemoveAttributeOptions options = new RemoveAttributeOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.removeAttribute(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void setEnabled(PluginCall call) {
+        try {
+            SetEnabledOptions options = new SetEnabledOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setEnabled(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void startTrace(PluginCall call) {
+        try {
+            StartTraceOptions options = new StartTraceOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.startTrace(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void stopTrace(PluginCall call) {
+        try {
+            StopTraceOptions options = new StopTraceOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.stopTrace(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException ? ((CustomException) exception).getCode() : null;
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void rejectCallAsUnimplemented(@NonNull PluginCall call) {
         call.unimplemented("Not implemented on Android.");
+    }
+
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
+    }
+
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
+        }
     }
 }
