@@ -1,20 +1,24 @@
 import Foundation
+import Capacitor
 
 @objc public class CallByNameOptions: CallOptions {
-    private var name: String
-    private var region: String?
+    let name: String
+    let region: String?
 
-    init(name: String, region: String?, data: Any?, timeout: Int?) {
-        self.name = name
-        self.region = region
-        super.init(data: data, timeout: timeout)
+    override init(_ call: CAPPluginCall) throws {
+        self.name = try CallByNameOptions.getNameFromCall(call)
+        self.region = CallByNameOptions.getRegionFromCall(call)
+        try super.init(call)
     }
 
-    func getName() -> String {
+    private static func getNameFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let name = call.getString("name") else {
+            throw CustomError.nameMissing
+        }
         return name
     }
 
-    func getRegion() -> String? {
-        return region
+    private static func getRegionFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("region")
     }
 }
