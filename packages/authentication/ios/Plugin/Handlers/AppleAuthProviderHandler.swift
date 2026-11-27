@@ -6,9 +6,12 @@ import AuthenticationServices
 import CryptoKit
 
 class AppleAuthProviderHandler: NSObject {
+    let errorCredentialInvalid = "The authorization credential is not an Apple ID credential."
+    let errorIdentityTokenInvalid = "Unable to serialize the identity token."
+    let errorIdentityTokenMissing = "Unable to fetch the identity token."
     var pluginImplementation: FirebaseAuthentication
     fileprivate var currentNonce: String?
-    fileprivate var isLink: Bool?
+    fileprivate var isLink = false
 
     init(_ pluginImplementation: FirebaseAuthentication) {
         self.pluginImplementation = pluginImplementation
@@ -101,13 +104,14 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            handleFailed(message: errorCredentialInvalid, error: nil)
             return
         }
         guard let nonce = currentNonce else {
             fatalError("Invalid state: A login callback was received, but no login request was sent.")
         }
         guard let appleIDToken = appleIDCredential.identityToken else {
-            print("Unable to fetch identity token")
+            handleFailed(message: errorIdentityTokenMissing, error: nil)
             return
         }
         var authorizationCode: String?
@@ -115,7 +119,7 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
             authorizationCode = String(data: authorizationCodeData, encoding: .utf8)
         }
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            handleFailed(message: errorIdentityTokenInvalid, error: nil)
             return
         }
         var displayName: String?
@@ -127,10 +131,7 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
         let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
                                                        rawNonce: nonce,
                                                        fullName: appleIDCredential.fullName)
-        guard let isLink = self.isLink else {
-            return
-        }
-        if isLink == true {
+        if isLink {
             self.pluginImplementation.handleSuccessfulLink(credential: credential, idToken: idTokenString, nonce: nonce,
                                                            accessToken: nil, serverAuthCode: nil, displayName: displayName, authorizationCode: authorizationCode)
         } else {
@@ -140,13 +141,14 @@ extension AppleAuthProviderHandler: ASAuthorizationControllerDelegate, ASAuthori
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        guard let isLink = self.isLink else {
-            return
-        }
-        if isLink == true {
-            self.pluginImplementation.handleFailedLink(message: nil, error: error)
+        handleFailed(message: nil, error: error)
+    }
+
+    private func handleFailed(message: String?, error: Error?) {
+        if isLink {
+            pluginImplementation.handleFailedLink(message: message, error: error)
         } else {
-            self.pluginImplementation.handleFailedSignIn(message: nil, error: error)
+            pluginImplementation.handleFailedSignIn(message: message, error: error)
         }
     }
 }
