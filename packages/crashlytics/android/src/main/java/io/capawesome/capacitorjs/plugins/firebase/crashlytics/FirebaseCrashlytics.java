@@ -1,89 +1,107 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
-import com.getcapacitor.PluginCall;
 import com.google.firebase.crashlytics.CustomKeysAndValues;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.CrashOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.LogOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.RecordExceptionOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.SetCustomKeyOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.SetEnabledOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.SetUserIdOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.results.DidCrashOnPreviousExecutionResult;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.interfaces.NonEmptyResultCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseCrashlytics {
 
-    public void crash(String message) {
-        throw new RuntimeException(message);
+    public void crash(@NonNull CrashOptions options) {
+        throw new RuntimeException(options.getMessage());
     }
 
-    public void setCustomKey(String key, String type, PluginCall call) throws Exception {
-        // NEVER use call.getInt, call.getFloat or call.getDouble here. They drop a whole number above the int range.
-        Object value = call.getData().opt("value");
-        switch (type) {
-            case "long":
-                if (!(value instanceof Integer || value instanceof Long)) {
-                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
-                }
-                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).longValue());
-                break;
-            case "int":
-                if (!(value instanceof Integer)) {
-                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
-                }
-                getFirebaseCrashlyticsInstance().setCustomKey(key, (Integer) value);
-                break;
-            case "boolean":
-                if (!(value instanceof Boolean)) {
-                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
-                }
-                getFirebaseCrashlyticsInstance().setCustomKey(key, (Boolean) value);
-                break;
-            case "float":
-                if (!(value instanceof Number)) {
-                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
-                }
-                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).floatValue());
-                break;
-            case "double":
-                if (!(value instanceof Number)) {
-                    throw new Exception(FirebaseCrashlyticsPlugin.ERROR_VALUE_INVALID);
-                }
-                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).doubleValue());
-                break;
-            default:
-                getFirebaseCrashlyticsInstance().setCustomKey(key, call.getString("value"));
-        }
-    }
-
-    public void setUserId(String userId) {
-        getFirebaseCrashlyticsInstance().setUserId(userId);
-    }
-
-    public void log(String message) {
-        getFirebaseCrashlyticsInstance().log(message);
-    }
-
-    public void setEnabled(Boolean enabled) {
-        getFirebaseCrashlyticsInstance().setCrashlyticsCollectionEnabled(enabled);
-    }
-
-    public boolean didCrashOnPreviousExecution() {
-        return getFirebaseCrashlyticsInstance().didCrashOnPreviousExecution();
-    }
-
-    public void sendUnsentReports() {
-        getFirebaseCrashlyticsInstance().sendUnsentReports();
-    }
-
-    public void deleteUnsentReports() {
+    public void deleteUnsentReports(@NonNull EmptyResultCallback callback) {
         getFirebaseCrashlyticsInstance().deleteUnsentReports();
+        callback.success();
     }
 
-    public void recordException(String message, JSArray stacktrace, @Nullable JSArray keysAndValues) {
-        Throwable throwable = getJavaScriptException(message, stacktrace);
+    public void didCrashOnPreviousExecution(@NonNull NonEmptyResultCallback<DidCrashOnPreviousExecutionResult> callback) {
+        boolean crashed = getFirebaseCrashlyticsInstance().didCrashOnPreviousExecution();
+        DidCrashOnPreviousExecutionResult result = new DidCrashOnPreviousExecutionResult(crashed);
+        callback.success(result);
+    }
+
+    public void log(@NonNull LogOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseCrashlyticsInstance().log(options.getMessage());
+        callback.success();
+    }
+
+    public void recordException(@NonNull RecordExceptionOptions options, @NonNull EmptyResultCallback callback) {
+        Throwable throwable = getJavaScriptException(options.getMessage(), options.getStacktrace());
+        JSArray keysAndValues = options.getKeysAndValues();
         if (keysAndValues == null) {
             getFirebaseCrashlyticsInstance().recordException(throwable);
         } else {
             CustomKeysAndValues customKeysAndValues = getCustomKeysAndValues(keysAndValues);
             getFirebaseCrashlyticsInstance().recordException(throwable, customKeysAndValues);
+        }
+        callback.success();
+    }
+
+    public void sendUnsentReports(@NonNull EmptyResultCallback callback) {
+        getFirebaseCrashlyticsInstance().sendUnsentReports();
+        callback.success();
+    }
+
+    public void setCustomKey(@NonNull SetCustomKeyOptions options, @NonNull EmptyResultCallback callback) {
+        String key = options.getKey();
+        Object value = options.getValue();
+        switch (options.getType()) {
+            case "long":
+                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).longValue());
+                break;
+            case "int":
+                getFirebaseCrashlyticsInstance().setCustomKey(key, (Integer) value);
+                break;
+            case "boolean":
+                getFirebaseCrashlyticsInstance().setCustomKey(key, (Boolean) value);
+                break;
+            case "float":
+                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).floatValue());
+                break;
+            case "double":
+                getFirebaseCrashlyticsInstance().setCustomKey(key, ((Number) value).doubleValue());
+                break;
+            default:
+                getFirebaseCrashlyticsInstance().setCustomKey(key, (String) value);
+        }
+        callback.success();
+    }
+
+    public void setEnabled(@NonNull SetEnabledOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseCrashlyticsInstance().setCrashlyticsCollectionEnabled(options.getEnabled());
+        callback.success();
+    }
+
+    public void setUserId(@NonNull SetUserIdOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseCrashlyticsInstance().setUserId(options.getUserId());
+        callback.success();
+    }
+
+    private void addCustomKeyToBuilder(CustomKeysAndValues.Builder builder, String key, String type, Object value) {
+        if (value instanceof Long) {
+            builder.putLong(key, (Long) value);
+        } else if (value instanceof Integer) {
+            builder.putInt(key, (Integer) value);
+        } else if (value instanceof Boolean) {
+            builder.putBoolean(key, (Boolean) value);
+        } else if (value instanceof Float) {
+            builder.putFloat(key, (Float) value);
+        } else if (value instanceof Double) {
+            builder.putDouble(key, (Double) value);
+        } else if (value instanceof String) {
+            builder.putString(key, (String) value);
         }
     }
 
@@ -108,39 +126,6 @@ public class FirebaseCrashlytics {
         return builder.build();
     }
 
-    private Object getValueForType(String type, JSONObject object) throws JSONException {
-        switch (type) {
-            case "long":
-                return object.getLong("value");
-            case "int":
-                return object.getInt("value");
-            case "boolean":
-                return object.getBoolean("value");
-            case "float":
-                return (float) object.getDouble("value");
-            case "double":
-                return object.getDouble("value");
-            default:
-                return object.getString("value");
-        }
-    }
-
-    private void addCustomKeyToBuilder(CustomKeysAndValues.Builder builder, String key, String type, Object value) {
-        if (value instanceof Long) {
-            builder.putLong(key, (Long) value);
-        } else if (value instanceof Integer) {
-            builder.putInt(key, (Integer) value);
-        } else if (value instanceof Boolean) {
-            builder.putBoolean(key, (Boolean) value);
-        } else if (value instanceof Float) {
-            builder.putFloat(key, (Float) value);
-        } else if (value instanceof Double) {
-            builder.putDouble(key, (Double) value);
-        } else if (value instanceof String) {
-            builder.putString(key, (String) value);
-        }
-    }
-
     private com.google.firebase.crashlytics.FirebaseCrashlytics getFirebaseCrashlyticsInstance() {
         return com.google.firebase.crashlytics.FirebaseCrashlytics.getInstance();
     }
@@ -155,6 +140,23 @@ public class FirebaseCrashlytics {
         } catch (JSONException error) {
             System.err.println("Stacktrace is not parsable! " + error.getMessage());
             return new JavaScriptException(message);
+        }
+    }
+
+    private Object getValueForType(String type, JSONObject object) throws JSONException {
+        switch (type) {
+            case "long":
+                return object.getLong("value");
+            case "int":
+                return object.getInt("value");
+            case "boolean":
+                return object.getBoolean("value");
+            case "float":
+                return (float) object.getDouble("value");
+            case "double":
+                return object.getDouble("value");
+            default:
+                return object.getString("value");
         }
     }
 }

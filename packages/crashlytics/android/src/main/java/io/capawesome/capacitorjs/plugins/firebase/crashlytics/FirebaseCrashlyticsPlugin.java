@@ -1,24 +1,90 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics;
 
-import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.CustomException;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.CrashOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.LogOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.RecordExceptionOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.SetCustomKeyOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.SetEnabledOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options.SetUserIdOptions;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.results.DidCrashOnPreviousExecutionResult;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.interfaces.NonEmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.crashlytics.interfaces.Result;
 
 @CapacitorPlugin(name = "FirebaseCrashlytics")
 public class FirebaseCrashlyticsPlugin extends Plugin {
 
     public static final String TAG = "FirebaseCrashlytics";
-    public static final String ERROR_MESSAGE_MISSING = "message must be provided.";
-    public static final String ERROR_KEY_MISSING = "key must be provided.";
-    public static final String ERROR_VALUE_MISSING = "value must be provided.";
-    public static final String ERROR_VALUE_INVALID = "value is invalid.";
-    public static final String ERROR_USERID_MISSING = "userId must be provided.";
-    public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
     private FirebaseCrashlytics implementation;
+
+    @PluginMethod
+    public void crash(PluginCall call) {
+        CrashOptions options;
+        try {
+            options = new CrashOptions(call);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+            return;
+        }
+        resolveCall(call);
+        // NEVER wrap this line in a try. The exception must reach Capacitor so that the app crashes.
+        implementation.crash(options);
+    }
+
+    @PluginMethod
+    public void deleteUnsentReports(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.deleteUnsentReports(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void didCrashOnPreviousExecution(PluginCall call) {
+        try {
+            NonEmptyResultCallback<DidCrashOnPreviousExecutionResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull DidCrashOnPreviousExecutionResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.didCrashOnPreviousExecution(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void isEnabled(PluginCall call) {
+        rejectCallAsUnimplemented(call);
+    }
 
     @Override
     public void load() {
@@ -26,142 +92,160 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void crash(PluginCall call) {
-        String message = call.getString("message");
-        if (message == null) {
-            call.reject(ERROR_MESSAGE_MISSING);
-            return;
-        }
-        call.resolve();
-        implementation.crash(message);
-    }
-
-    @PluginMethod
-    public void setCustomKey(PluginCall call) {
-        try {
-            String key = call.getString("key");
-            if (key == null) {
-                call.reject(ERROR_KEY_MISSING);
-                return;
-            }
-            boolean hasValue = call.getData().has("value");
-            if (!hasValue) {
-                call.reject(ERROR_VALUE_MISSING);
-                return;
-            }
-            String type = call.getString("type", "string");
-            implementation.setCustomKey(key, type, call);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void setUserId(PluginCall call) {
-        try {
-            String userId = call.getString("userId");
-            if (userId == null) {
-                call.reject(ERROR_USERID_MISSING);
-                return;
-            }
-            implementation.setUserId(userId);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
     public void log(PluginCall call) {
         try {
-            String message = call.getString("message");
-            if (message == null) {
-                call.reject(ERROR_MESSAGE_MISSING);
-                return;
-            }
-            implementation.log(message);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+            LogOptions options = new LogOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
 
-    @PluginMethod
-    public void setEnabled(PluginCall call) {
-        try {
-            Boolean enabled = call.getBoolean("enabled");
-            if (enabled == null) {
-                call.reject(ERROR_ENABLED_MISSING);
-                return;
-            }
-            implementation.setEnabled(enabled);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
 
-    @PluginMethod
-    public void isEnabled(PluginCall call) {
-        call.unimplemented("Not implemented on Android.");
-    }
-
-    @PluginMethod
-    public void didCrashOnPreviousExecution(PluginCall call) {
-        try {
-            boolean crashed = implementation.didCrashOnPreviousExecution();
-            JSObject ret = new JSObject();
-            ret.put("crashed", crashed);
-            call.resolve(ret);
+            implementation.log(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void sendUnsentReports(PluginCall call) {
-        try {
-            implementation.sendUnsentReports();
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void deleteUnsentReports(PluginCall call) {
-        try {
-            implementation.deleteUnsentReports();
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void recordException(PluginCall call) {
         try {
-            String message = call.getString("message");
-            if (message == null) {
-                call.reject(ERROR_MESSAGE_MISSING);
-                return;
-            }
+            RecordExceptionOptions options = new RecordExceptionOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
 
-            JSArray stacktrace = call.getArray("stacktrace", null);
-            JSArray keysAndValues = call.getArray("keysAndValues", null);
-            implementation.recordException(message, stacktrace, keysAndValues);
-            call.resolve();
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.recordException(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void sendUnsentReports(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.sendUnsentReports(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void setCustomKey(PluginCall call) {
+        try {
+            SetCustomKeyOptions options = new SetCustomKeyOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setCustomKey(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void setEnabled(PluginCall call) {
+        try {
+            SetEnabledOptions options = new SetEnabledOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setEnabled(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void setUserId(PluginCall call) {
+        try {
+            SetUserIdOptions options = new SetUserIdOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.setUserId(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException ? ((CustomException) exception).getCode() : null;
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void rejectCallAsUnimplemented(@NonNull PluginCall call) {
+        call.unimplemented("Not implemented on Android.");
+    }
+
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
+    }
+
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
         }
     }
 }
