@@ -1,9 +1,12 @@
 package io.capawesome.capacitorjs.plugins.firebase.app;
 
 import androidx.annotation.NonNull;
+import com.google.firebase.FirebaseOptions;
 import io.capawesome.capacitorjs.plugins.firebase.app.classes.CustomExceptions;
 import io.capawesome.capacitorjs.plugins.firebase.app.classes.options.InitializeAppOptions;
 import io.capawesome.capacitorjs.plugins.firebase.app.classes.results.GetAppsResult;
+import io.capawesome.capacitorjs.plugins.firebase.app.classes.results.GetNameResult;
+import io.capawesome.capacitorjs.plugins.firebase.app.classes.results.GetOptionsResult;
 import io.capawesome.capacitorjs.plugins.firebase.app.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.app.interfaces.NonEmptyResultCallback;
 import java.util.List;
@@ -22,6 +25,16 @@ public class FirebaseApp {
         callback.success(new GetAppsResult(apps));
     }
 
+    public void getName(@NonNull NonEmptyResultCallback<GetNameResult> callback) {
+        String name = getFirebaseAppInstance().getName();
+        callback.success(new GetNameResult(name));
+    }
+
+    public void getOptions(@NonNull NonEmptyResultCallback<GetOptionsResult> callback) {
+        FirebaseOptions options = getFirebaseAppInstance().getOptions();
+        callback.success(new GetOptionsResult(options));
+    }
+
     public void initializeApp(@NonNull InitializeAppOptions options, @NonNull EmptyResultCallback callback) {
         String name = options.getName();
         if (isAppInitialized(name)) {
@@ -30,6 +43,10 @@ public class FirebaseApp {
         }
         com.google.firebase.FirebaseApp.initializeApp(plugin.getContext(), options.getOptions(), name);
         callback.success();
+    }
+
+    private com.google.firebase.FirebaseApp getFirebaseAppInstance() {
+        return com.google.firebase.FirebaseApp.getInstance();
     }
 
     private boolean isAppInitialized(@NonNull String name) {

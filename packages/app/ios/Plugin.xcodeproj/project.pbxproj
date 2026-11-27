@@ -18,6 +18,8 @@
 		7C1A00132EF0000000A1B2C3 /* GetAppsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1A00032EF0000000A1B2C3 /* GetAppsResult.swift */; };
 		7C1A00142EF0000000A1B2C3 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1A00042EF0000000A1B2C3 /* CustomError.swift */; };
 		7C1A00152EF0000000A1B2C3 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1A00052EF0000000A1B2C3 /* Result.swift */; };
+		7C1A00162EF0000000A1B2C3 /* GetNameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1A00062EF0000000A1B2C3 /* GetNameResult.swift */; };
+		7C1A00172EF0000000A1B2C3 /* GetOptionsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1A00072EF0000000A1B2C3 /* GetOptionsResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		7C1A00032EF0000000A1B2C3 /* GetAppsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAppsResult.swift; sourceTree = "<group>"; };
 		7C1A00042EF0000000A1B2C3 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		7C1A00052EF0000000A1B2C3 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7C1A00062EF0000000A1B2C3 /* GetNameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNameResult.swift; sourceTree = "<group>"; };
+		7C1A00072EF0000000A1B2C3 /* GetOptionsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOptionsResult.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				7C1A00032EF0000000A1B2C3 /* GetAppsResult.swift */,
+				7C1A00062EF0000000A1B2C3 /* GetNameResult.swift */,
+				7C1A00072EF0000000A1B2C3 /* GetOptionsResult.swift */,
 			);
 			path = Results;
 			sourceTree = "<group>";
@@ -361,6 +367,8 @@
 				7C1A00112EF0000000A1B2C3 /* FirebaseApp.swift in Sources */,
 				7C1A00122EF0000000A1B2C3 /* InitializeAppOptions.swift in Sources */,
 				7C1A00132EF0000000A1B2C3 /* GetAppsResult.swift in Sources */,
+				7C1A00162EF0000000A1B2C3 /* GetNameResult.swift in Sources */,
+				7C1A00172EF0000000A1B2C3 /* GetOptionsResult.swift in Sources */,
 				7C1A00142EF0000000A1B2C3 /* CustomError.swift in Sources */,
 				7C1A00152EF0000000A1B2C3 /* Result.swift in Sources */,
 			);
