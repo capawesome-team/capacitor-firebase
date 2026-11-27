@@ -10,223 +10,222 @@ public class FirebasePerformancePlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "FirebasePerformancePlugin"
     public let jsName = "FirebasePerformance"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "startTrace", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "stopTrace", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "incrementMetric", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "putAttribute", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getAttribute", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getAttributes", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "removeAttribute", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "putMetric", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getMetric", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "record", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "incrementMetric", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "putAttribute", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "putMetric", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "record", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeAttribute", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "startTrace", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopTrace", returnType: CAPPluginReturnPromise)
     ]
-    public let errorTraceNameMissing = "traceName must be provided."
-    public let errorMetricNameMissing = "metricName must be provided."
-    public let errorEnabledMissing = "enabled must be provided."
-    public let errorTraceNameAlreadyAssigned = "traceName already assigned."
-    public let errorTraceNotFound = "No trace was found with the provided traceName."
-    public let errorAttributeMissing = "attribute must be provided."
-    public let errorValueMissing = "value must be provided."
-    public let errorNumMissing = "num must be provided."
-    public let errorNumInvalid = "num is invalid."
-    public let errorStartTimeMissing = "startTime must be provided."
-    public let errorDurationMissing = "duration must be provided."
+    public let tag = "FirebasePerformance"
     private var implementation: FirebasePerformance?
 
     override public func load() {
         implementation = FirebasePerformance()
     }
 
-    @objc func startTrace(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        guard FirebasePerformance.isValidTraceName(traceName) else {
-            // The SDK starts no trace for such a name. NEVER call it here, it ends the app in a build with assertions.
-            call.resolve()
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace == nil else {
-            call.reject(errorTraceNameAlreadyAssigned)
-            return
-        }
-        implementation?.startTrace(traceName)
-        call.resolve()
-    }
-
-    @objc func stopTrace(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        implementation?.stopTrace(traceName)
-        call.resolve()
-    }
-
-    @objc func incrementMetric(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        guard let metricName = call.getString("metricName") else {
-            call.reject(errorMetricNameMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        let incrementBy = call.getInt("incrementBy") ?? 1
-        implementation?.incrementMetric(traceName, metricName, incrementBy)
-        call.resolve()
-    }
-
-    @objc func setEnabled(_ call: CAPPluginCall) {
-        guard let enabled = call.getBool("enabled") else {
-            call.reject(errorEnabledMissing)
-            return
-        }
-        implementation?.setEnabled(enabled)
-        call.resolve()
-    }
-
-    @objc func isEnabled(_ call: CAPPluginCall) {
-        let enabled = implementation?.isEnabled()
-        var result = JSObject()
-        result["enabled"] = enabled
-        call.resolve(result)
-    }
-
-    @objc func putAttribute(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        guard let attribute = call.getString("attribute") else {
-            call.reject(errorAttributeMissing)
-            return
-        }
-        guard let value = call.getString("value") else {
-            call.reject(errorValueMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        FirebasePerformance.putAttribute(trace!, attribute, value)
-        call.resolve()
-    }
-
     @objc func getAttribute(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
+        do {
+            let options = try GetAttributeOptions(call)
+
+            try implementation?.getAttribute(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        guard let attribute = call.getString("attribute") else {
-            call.reject(errorAttributeMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        var result = JSObject()
-        result["value"] = FirebasePerformance.getAttribute(trace!, attribute) ?? NSNull()
-        call.resolve(result)
     }
 
     @objc func getAttributes(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        let attributes = FirebasePerformance.getAttributes(trace!)
-        // The old key `result` stays until the next major version, so apps that read it keep working.
-        call.resolve(["attributes": attributes, "result": attributes])
-    }
+        do {
+            let options = try GetAttributesOptions(call)
 
-    @objc func removeAttribute(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
+            try implementation?.getAttributes(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        guard let attribute = call.getString("attribute") else {
-            call.reject(errorAttributeMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        FirebasePerformance.removeAttribute(trace!, attribute)
-        call.resolve()
-    }
-
-    @objc func putMetric(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
-        }
-        guard let metricName = call.getString("metricName") else {
-            call.reject(errorMetricNameMissing)
-            return
-        }
-        guard let num = call.getDouble("num") else {
-            call.reject(errorNumMissing)
-            return
-        }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
-        }
-        guard let metricValue = Int64(exactly: floor(num)) else {
-            call.reject(errorNumInvalid)
-            return
-        }
-        FirebasePerformance.putMetric(trace!, metricName, metricValue)
-        call.resolve()
     }
 
     @objc func getMetric(_ call: CAPPluginCall) {
-        guard let traceName = call.getString("traceName") else {
-            call.reject(errorTraceNameMissing)
-            return
+        do {
+            let options = try GetMetricOptions(call)
+
+            try implementation?.getMetric(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        guard let metricName = call.getString("metricName") else {
-            call.reject(errorMetricNameMissing)
-            return
+    }
+
+    @objc func incrementMetric(_ call: CAPPluginCall) {
+        do {
+            let options = try IncrementMetricOptions(call)
+
+            try implementation?.incrementMetric(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        let trace = implementation?.getTraceByName(traceName)
-        guard trace != nil else {
-            call.reject(errorTraceNotFound)
-            return
+    }
+
+    @objc func isEnabled(_ call: CAPPluginCall) {
+        implementation?.isEnabled(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    @objc func putAttribute(_ call: CAPPluginCall) {
+        do {
+            let options = try PutAttributeOptions(call)
+
+            try implementation?.putAttribute(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        let value = FirebasePerformance.getMetric(trace!, metricName)
-        call.resolve(["value": value])
+    }
+
+    @objc func putMetric(_ call: CAPPluginCall) {
+        do {
+            let options = try PutMetricOptions(call)
+
+            try implementation?.putMetric(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func record(_ call: CAPPluginCall) {
+        rejectCallAsUnimplemented(call)
+    }
+
+    @objc func removeAttribute(_ call: CAPPluginCall) {
+        do {
+            let options = try RemoveAttributeOptions(call)
+
+            try implementation?.removeAttribute(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func setEnabled(_ call: CAPPluginCall) {
+        do {
+            let options = try SetEnabledOptions(call)
+
+            implementation?.setEnabled(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func startTrace(_ call: CAPPluginCall) {
+        do {
+            let options = try StartTraceOptions(call)
+
+            try implementation?.startTrace(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc func stopTrace(_ call: CAPPluginCall) {
+        do {
+            let options = try StopTraceOptions(call)
+
+            try implementation?.stopTrace(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    private func rejectCall(_ call: CAPPluginCall, _ error: Error) {
+        CAPLog.print("[", self.tag, "] ", error)
+        if let error = error as? CustomError {
+            call.reject(error.localizedDescription, error.code)
+        } else {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    private func rejectCallAsUnimplemented(_ call: CAPPluginCall) {
         call.unimplemented("Not implemented on iOS.")
+    }
+
+    private func resolveCall(_ call: CAPPluginCall) {
+        call.resolve()
+    }
+
+    private func resolveCall(_ call: CAPPluginCall, _ result: Result?) {
+        if let result = result?.toJSObject() as? JSObject {
+            call.resolve(result)
+        } else {
+            call.resolve()
+        }
     }
 }
