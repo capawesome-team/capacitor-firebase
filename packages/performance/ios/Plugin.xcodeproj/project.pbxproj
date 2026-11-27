@@ -14,6 +14,22 @@
 		50ADFF97201F53D600D50D53 /* FirebasePerformancePluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebasePerformancePluginTests.swift */; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50E1A94820377CB70090CE1A /* FirebasePerformancePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebasePerformancePlugin.swift */; };
+		7CF2B0022EC0000000000101 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000001 /* CustomError.swift */; };
+		7CF2B0022EC0000000000102 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000002 /* Result.swift */; };
+		7CF2B0022EC0000000000103 /* GetAttributeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000003 /* GetAttributeResult.swift */; };
+		7CF2B0022EC0000000000104 /* GetAttributesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000004 /* GetAttributesResult.swift */; };
+		7CF2B0022EC0000000000105 /* GetMetricResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000005 /* GetMetricResult.swift */; };
+		7CF2B0022EC0000000000106 /* IsEnabledResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000006 /* IsEnabledResult.swift */; };
+		7CF2B0022EC0000000000107 /* GetAttributeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000007 /* GetAttributeOptions.swift */; };
+		7CF2B0022EC0000000000108 /* GetAttributesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000008 /* GetAttributesOptions.swift */; };
+		7CF2B0022EC0000000000109 /* GetMetricOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000009 /* GetMetricOptions.swift */; };
+		7CF2B0022EC000000000010A /* IncrementMetricOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC000000000000A /* IncrementMetricOptions.swift */; };
+		7CF2B0022EC000000000010B /* PutAttributeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC000000000000B /* PutAttributeOptions.swift */; };
+		7CF2B0022EC000000000010C /* PutMetricOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC000000000000C /* PutMetricOptions.swift */; };
+		7CF2B0022EC000000000010D /* RemoveAttributeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC000000000000D /* RemoveAttributeOptions.swift */; };
+		7CF2B0022EC000000000010E /* SetEnabledOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC000000000000E /* SetEnabledOptions.swift */; };
+		7CF2B0022EC000000000010F /* StartTraceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC000000000000F /* StartTraceOptions.swift */; };
+		7CF2B0022EC0000000000110 /* StopTraceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0022EC0000000000010 /* StopTraceOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +53,22 @@
 		50ADFFA52020D75100D50D53 /* Capacitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Capacitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50E1A94720377CB70090CE1A /* FirebasePerformancePlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebasePerformancePlugin.swift; sourceTree = "<group>"; };
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000002 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000003 /* GetAttributeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAttributeResult.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000004 /* GetAttributesResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAttributesResult.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000005 /* GetMetricResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMetricResult.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000006 /* IsEnabledResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsEnabledResult.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000007 /* GetAttributeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAttributeOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000008 /* GetAttributesOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAttributesOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000009 /* GetMetricOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMetricOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC000000000000A /* IncrementMetricOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncrementMetricOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC000000000000B /* PutAttributeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PutAttributeOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC000000000000C /* PutMetricOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PutMetricOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC000000000000D /* RemoveAttributeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAttributeOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC000000000000E /* SetEnabledOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetEnabledOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC000000000000F /* StartTraceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTraceOptions.swift; sourceTree = "<group>"; };
+		7CF2B0022EC0000000000010 /* StopTraceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopTraceOptions.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,11 +120,67 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7CF2B0022EC0000000000201 /* Classes */,
+				7CF2B0022EC0000000000204 /* Enums */,
+				7CF2B0022EC0000000000205 /* Protocols */,
 				50E1A94720377CB70090CE1A /* FirebasePerformancePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebasePerformance.swift */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
+			sourceTree = "<group>";
+		};
+		7CF2B0022EC0000000000201 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0022EC0000000000202 /* Options */,
+				7CF2B0022EC0000000000203 /* Results */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7CF2B0022EC0000000000202 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0022EC0000000000007 /* GetAttributeOptions.swift */,
+				7CF2B0022EC0000000000008 /* GetAttributesOptions.swift */,
+				7CF2B0022EC0000000000009 /* GetMetricOptions.swift */,
+				7CF2B0022EC000000000000A /* IncrementMetricOptions.swift */,
+				7CF2B0022EC000000000000B /* PutAttributeOptions.swift */,
+				7CF2B0022EC000000000000C /* PutMetricOptions.swift */,
+				7CF2B0022EC000000000000D /* RemoveAttributeOptions.swift */,
+				7CF2B0022EC000000000000E /* SetEnabledOptions.swift */,
+				7CF2B0022EC000000000000F /* StartTraceOptions.swift */,
+				7CF2B0022EC0000000000010 /* StopTraceOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7CF2B0022EC0000000000203 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0022EC0000000000003 /* GetAttributeResult.swift */,
+				7CF2B0022EC0000000000004 /* GetAttributesResult.swift */,
+				7CF2B0022EC0000000000005 /* GetMetricResult.swift */,
+				7CF2B0022EC0000000000006 /* IsEnabledResult.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		7CF2B0022EC0000000000204 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0022EC0000000000001 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7CF2B0022EC0000000000205 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0022EC0000000000002 /* Result.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		50ADFF95201F53D600D50D53 /* PluginTests */ = {
@@ -331,6 +419,22 @@
 			files = (
 				50E1A94820377CB70090CE1A /* FirebasePerformancePlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebasePerformance.swift in Sources */,
+				7CF2B0022EC0000000000101 /* CustomError.swift in Sources */,
+				7CF2B0022EC0000000000102 /* Result.swift in Sources */,
+				7CF2B0022EC0000000000103 /* GetAttributeResult.swift in Sources */,
+				7CF2B0022EC0000000000104 /* GetAttributesResult.swift in Sources */,
+				7CF2B0022EC0000000000105 /* GetMetricResult.swift in Sources */,
+				7CF2B0022EC0000000000106 /* IsEnabledResult.swift in Sources */,
+				7CF2B0022EC0000000000107 /* GetAttributeOptions.swift in Sources */,
+				7CF2B0022EC0000000000108 /* GetAttributesOptions.swift in Sources */,
+				7CF2B0022EC0000000000109 /* GetMetricOptions.swift in Sources */,
+				7CF2B0022EC000000000010A /* IncrementMetricOptions.swift in Sources */,
+				7CF2B0022EC000000000010B /* PutAttributeOptions.swift in Sources */,
+				7CF2B0022EC000000000010C /* PutMetricOptions.swift in Sources */,
+				7CF2B0022EC000000000010D /* RemoveAttributeOptions.swift in Sources */,
+				7CF2B0022EC000000000010E /* SetEnabledOptions.swift in Sources */,
+				7CF2B0022EC000000000010F /* StartTraceOptions.swift in Sources */,
+				7CF2B0022EC0000000000110 /* StopTraceOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
