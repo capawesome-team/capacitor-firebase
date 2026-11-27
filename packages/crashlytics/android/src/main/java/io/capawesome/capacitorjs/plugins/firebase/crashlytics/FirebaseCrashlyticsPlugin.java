@@ -15,6 +15,7 @@ public class FirebaseCrashlyticsPlugin extends Plugin {
     public static final String ERROR_MESSAGE_MISSING = "message must be provided.";
     public static final String ERROR_KEY_MISSING = "key must be provided.";
     public static final String ERROR_VALUE_MISSING = "value must be provided.";
+    public static final String ERROR_VALUE_INVALID = "value is invalid.";
     public static final String ERROR_USERID_MISSING = "userId must be provided.";
     public static final String ERROR_ENABLED_MISSING = "enabled must be provided.";
     private FirebaseCrashlytics implementation;
