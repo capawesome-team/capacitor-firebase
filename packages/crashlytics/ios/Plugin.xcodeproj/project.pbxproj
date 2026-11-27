@@ -14,6 +14,16 @@
 		50ADFF97201F53D600D50D53 /* FirebaseCrashlyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFF96201F53D600D50D53 /* FirebaseCrashlyticsTests.swift */; };
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50E1A94820377CB70090CE1A /* FirebaseCrashlyticsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseCrashlyticsPlugin.swift */; };
+		7CF2B0052EC0000000000101 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000001 /* CustomError.swift */; };
+		7CF2B0052EC0000000000102 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000002 /* Result.swift */; };
+		7CF2B0052EC0000000000103 /* DidCrashOnPreviousExecutionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000003 /* DidCrashOnPreviousExecutionResult.swift */; };
+		7CF2B0052EC0000000000104 /* IsEnabledResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000004 /* IsEnabledResult.swift */; };
+		7CF2B0052EC0000000000105 /* CrashOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000005 /* CrashOptions.swift */; };
+		7CF2B0052EC0000000000106 /* LogOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000006 /* LogOptions.swift */; };
+		7CF2B0052EC0000000000107 /* RecordExceptionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000007 /* RecordExceptionOptions.swift */; };
+		7CF2B0052EC0000000000108 /* SetCustomKeyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000008 /* SetCustomKeyOptions.swift */; };
+		7CF2B0052EC0000000000109 /* SetEnabledOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000009 /* SetEnabledOptions.swift */; };
+		7CF2B0052EC000000000010A /* SetUserIdOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC000000000000A /* SetUserIdOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +51,16 @@
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CF2B0052EC0000000000001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000002 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000003 /* DidCrashOnPreviousExecutionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidCrashOnPreviousExecutionResult.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000004 /* IsEnabledResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsEnabledResult.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000005 /* CrashOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000006 /* LogOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000007 /* RecordExceptionOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordExceptionOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000008 /* SetCustomKeyOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCustomKeyOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000009 /* SetEnabledOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetEnabledOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC000000000000A /* SetUserIdOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUserIdOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,11 +108,61 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7CF2B0052EC0000000000201 /* Classes */,
+				7CF2B0052EC0000000000204 /* Enums */,
+				7CF2B0052EC0000000000205 /* Protocols */,
 				50E1A94720377CB70090CE1A /* FirebaseCrashlyticsPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseCrashlytics.swift */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
 			);
 			path = Plugin;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000201 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000202 /* Options */,
+				7CF2B0052EC0000000000203 /* Results */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000202 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000005 /* CrashOptions.swift */,
+				7CF2B0052EC0000000000006 /* LogOptions.swift */,
+				7CF2B0052EC0000000000007 /* RecordExceptionOptions.swift */,
+				7CF2B0052EC0000000000008 /* SetCustomKeyOptions.swift */,
+				7CF2B0052EC0000000000009 /* SetEnabledOptions.swift */,
+				7CF2B0052EC000000000000A /* SetUserIdOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000203 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000003 /* DidCrashOnPreviousExecutionResult.swift */,
+				7CF2B0052EC0000000000004 /* IsEnabledResult.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000204 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000001 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000205 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000002 /* Result.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		50ADFF95201F53D600D50D53 /* PluginTests */ = {
@@ -325,6 +395,16 @@
 			files = (
 				50E1A94820377CB70090CE1A /* FirebaseCrashlyticsPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseCrashlytics.swift in Sources */,
+				7CF2B0052EC0000000000101 /* CustomError.swift in Sources */,
+				7CF2B0052EC0000000000102 /* Result.swift in Sources */,
+				7CF2B0052EC0000000000103 /* DidCrashOnPreviousExecutionResult.swift in Sources */,
+				7CF2B0052EC0000000000104 /* IsEnabledResult.swift in Sources */,
+				7CF2B0052EC0000000000105 /* CrashOptions.swift in Sources */,
+				7CF2B0052EC0000000000106 /* LogOptions.swift in Sources */,
+				7CF2B0052EC0000000000107 /* RecordExceptionOptions.swift in Sources */,
+				7CF2B0052EC0000000000108 /* SetCustomKeyOptions.swift in Sources */,
+				7CF2B0052EC0000000000109 /* SetEnabledOptions.swift in Sources */,
+				7CF2B0052EC000000000010A /* SetUserIdOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
