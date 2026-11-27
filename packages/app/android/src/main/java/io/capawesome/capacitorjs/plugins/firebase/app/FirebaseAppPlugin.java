@@ -2,16 +2,16 @@ package io.capawesome.capacitorjs.plugins.firebase.app;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.google.firebase.FirebaseOptions;
 import io.capawesome.capacitorjs.plugins.firebase.app.classes.CustomException;
 import io.capawesome.capacitorjs.plugins.firebase.app.classes.options.InitializeAppOptions;
 import io.capawesome.capacitorjs.plugins.firebase.app.classes.results.GetAppsResult;
+import io.capawesome.capacitorjs.plugins.firebase.app.classes.results.GetNameResult;
+import io.capawesome.capacitorjs.plugins.firebase.app.classes.results.GetOptionsResult;
 import io.capawesome.capacitorjs.plugins.firebase.app.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.app.interfaces.NonEmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.app.interfaces.Result;
@@ -55,33 +55,44 @@ public class FirebaseAppPlugin extends Plugin {
     @PluginMethod
     public void getName(PluginCall call) {
         try {
-            String name = getFirebaseAppInstance().getName();
+            NonEmptyResultCallback<GetNameResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetNameResult result) {
+                    resolveCall(call, result);
+                }
 
-            JSObject result = new JSObject();
-            result.put("name", name);
-            call.resolve(result);
+                @Override
+                public void error(Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            assert implementation != null;
+            implementation.getName(callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void getOptions(PluginCall call) {
         try {
-            FirebaseOptions options = getFirebaseAppInstance().getOptions();
+            NonEmptyResultCallback<GetOptionsResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetOptionsResult result) {
+                    resolveCall(call, result);
+                }
 
-            JSObject result = new JSObject();
-            result.put("apiKey", options.getApiKey());
-            result.put("applicationId", options.getApplicationId());
-            result.put("databaseUrl", options.getDatabaseUrl());
-            result.put("gcmSenderId", options.getGcmSenderId());
-            result.put("projectId", options.getProjectId());
-            result.put("storageBucket", options.getStorageBucket());
-            call.resolve(result);
+                @Override
+                public void error(Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            assert implementation != null;
+            implementation.getOptions(callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
+            rejectCall(call, exception);
         }
     }
 
@@ -106,10 +117,6 @@ public class FirebaseAppPlugin extends Plugin {
         } catch (Exception exception) {
             rejectCall(call, exception);
         }
-    }
-
-    private com.google.firebase.FirebaseApp getFirebaseAppInstance() {
-        return com.google.firebase.FirebaseApp.getInstance();
     }
 
     private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
