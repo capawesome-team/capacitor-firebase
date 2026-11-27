@@ -4,11 +4,26 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 9.x.x
+
+### Null values on Android
+
+On Android, `getAttribute` now returns `value: null` for an attribute that is not set. Before, `value` was missing in the result. iOS and Web have always returned `null`.
+
+```typescript
+const result = await FirebasePerformance.getAttribute({ traceName: 'my_trace', attribute: 'never_set' });
+// Before on Android: {}
+// Now on all platforms: { value: null }
+```
+
+Check code that treats a missing value and a `null` value differently, for example `result.value === undefined`, `'value' in result` or a default value such as `const { value = 'none' } = result`.
 
 ## Version 8.x.x
 
