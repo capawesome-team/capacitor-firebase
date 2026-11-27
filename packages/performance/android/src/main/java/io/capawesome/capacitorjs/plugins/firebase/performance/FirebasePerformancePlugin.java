@@ -8,6 +8,7 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.google.firebase.perf.metrics.Trace;
 import java.util.Map;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "FirebasePerformance")
 public class FirebasePerformancePlugin extends Plugin {
@@ -175,7 +176,7 @@ public class FirebasePerformancePlugin extends Plugin {
             }
             String value = FirebasePerformance.getAttribute(trace, attribute);
             JSObject result = new JSObject();
-            result.put("value", value);
+            result.put("value", value == null ? JSONObject.NULL : value);
             call.resolve(result);
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
