@@ -7,10 +7,7 @@ import FirebaseAnalytics
 
 @objc public class FirebaseAnalytics: NSObject {
 
-    private let plugin: FirebaseAnalyticsPlugin
-
-    init(plugin: FirebaseAnalyticsPlugin) {
-        self.plugin = plugin
+    override init() {
         super.init()
         if FirebaseApp.app() == nil {
             guard FirebaseOptions.defaultOptions() != nil else {
@@ -21,56 +18,55 @@ import FirebaseAnalytics
         }
     }
 
-    @objc public func getAppInstanceId() -> String? {
-        return Analytics.appInstanceID()
+    @objc public func getAppInstanceId(completion: @escaping (GetAppInstanceIdResult?, Error?) -> Void) {
+        let result = GetAppInstanceIdResult(appInstanceId: Analytics.appInstanceID())
+        completion(result, nil)
     }
 
-    @objc public func setConsent(consentType: ConsentType, consentStatus: ConsentStatus) {
-        var map = [ConsentType: ConsentStatus]()
-        map[consentType] = consentStatus
-        Analytics.setConsent(map)
+    @objc public func initiateOnDeviceConversionMeasurementWithEmailAddress(
+        _ options: InitiateOnDeviceConversionMeasurementWithEmailAddressOptions,
+        completion: @escaping (Error?) -> Void
+    ) {
+        Analytics.initiateOnDeviceConversionMeasurement(emailAddress: options.emailAddress)
+        completion(nil)
     }
 
-    @objc public func setUserId(_ userId: String?) {
-        Analytics.setUserID(userId)
+    @objc public func initiateOnDeviceConversionMeasurementWithHashedEmailAddress(
+        _ options: InitiateOnDeviceConversionMeasurementWithHashedEmailAddressOptions,
+        completion: @escaping (Error?) -> Void
+    ) {
+        let normalizedEmailAddress = FirebaseAnalyticsHelper.normalizeEmail(options.emailAddressToHash)
+        let hashedEmailAddress = FirebaseAnalyticsHelper.sha256(normalizedEmailAddress)
+        Analytics.initiateOnDeviceConversionMeasurement(hashedEmailAddress: hashedEmailAddress)
+        completion(nil)
     }
 
-    @objc public func setUserProperty(_ key: String, _ value: String?) {
-        Analytics.setUserProperty(value, forName: key)
+    @objc public func initiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
+        _ options: InitiateOnDeviceConversionMeasurementWithHashedPhoneNumberOptions,
+        completion: @escaping (Error?) -> Void
+    ) {
+        let hashedPhoneNumber = FirebaseAnalyticsHelper.sha256(options.phoneNumberToHash)
+        Analytics.initiateOnDeviceConversionMeasurement(hashedPhoneNumber: hashedPhoneNumber)
+        completion(nil)
     }
 
-    @objc public func setCurrentScreen(_ screenName: String?, _ screenClass: String?) {
-        var params = [String: Any]()
-        if screenName != nil {
-            params[AnalyticsParameterScreenName] = screenName
-        }
-        if screenClass != nil {
-            params[AnalyticsParameterScreenClass] = screenClass
-        }
-        DispatchQueue.main.async {
-            Analytics.logEvent(AnalyticsEventScreenView,
-                               parameters: params)
-        }
+    @objc public func initiateOnDeviceConversionMeasurementWithPhoneNumber(
+        _ options: InitiateOnDeviceConversionMeasurementWithPhoneNumberOptions,
+        completion: @escaping (Error?) -> Void
+    ) {
+        Analytics.initiateOnDeviceConversionMeasurement(phoneNumber: options.phoneNumber)
+        completion(nil)
     }
 
-    @objc public func logEvent(_ name: String, _ params: [String: Any]?) {
-        Analytics.logEvent(name, parameters: params)
-    }
-
-    @objc public func setSessionTimeoutDuration(_ duration: Int) {
-        Analytics.setSessionTimeoutInterval(TimeInterval(duration))
-    }
-
-    @objc public func setEnabled(_ enabled: Bool) {
-        Analytics.setAnalyticsCollectionEnabled(enabled)
-    }
-
-    @objc public func resetAnalyticsData() {
-        Analytics.resetAnalyticsData()
+    @objc public func logEvent(_ options: LogEventOptions, completion: @escaping (Error?) -> Void) {
+        Analytics.logEvent(options.name, parameters: options.params)
+        completion(nil)
     }
 
     @available(iOS 15.0, *)
-    public func logTransaction(transactionId: UInt64, completion: @escaping (String?) -> Void) {
+    @objc public func logTransaction(_ options: LogTransactionOptions, completion: @escaping (Error?) -> Void) {
+        let transactionId = options.transactionId
+
         Task {
             var matchedTransaction: Transaction?
             for await result in Transaction.all {
@@ -81,7 +77,7 @@ import FirebaseAnalytics
                 }
             }
             guard let transaction = matchedTransaction else {
-                completion(self.plugin.errorTransactionNotFound)
+                completion(CustomError.transactionNotFound)
                 return
             }
             Analytics.logTransaction(transaction)
@@ -89,19 +85,53 @@ import FirebaseAnalytics
         }
     }
 
-    @objc public func initiateOnDeviceConversionMeasurement(email: String) {
-        Analytics.initiateOnDeviceConversionMeasurement(emailAddress: email)
+    @objc public func resetAnalyticsData(completion: @escaping (Error?) -> Void) {
+        Analytics.resetAnalyticsData()
+        completion(nil)
     }
 
-    @objc public func initiateOnDeviceConversionMeasurement(phone: String) {
-        Analytics.initiateOnDeviceConversionMeasurement(phoneNumber: phone)
+    @objc public func setConsent(_ options: SetConsentOptions, completion: @escaping (Error?) -> Void) {
+        var map = [ConsentType: ConsentStatus]()
+        map[options.type] = options.status
+        Analytics.setConsent(map)
+        completion(nil)
     }
 
-    @objc public func initiateOnDeviceConversionMeasurement(hashedEmail: Data) {
-        Analytics.initiateOnDeviceConversionMeasurement(hashedEmailAddress: hashedEmail)
+    @objc public func setCurrentScreen(_ options: SetCurrentScreenOptions, completion: @escaping (Error?) -> Void) {
+        let screenName = options.screenName
+        let screenClassOverride = options.screenClassOverride
+
+        var params = [String: Any]()
+        if screenName != nil {
+            params[AnalyticsParameterScreenName] = screenName
+        }
+        if screenClassOverride != nil {
+            params[AnalyticsParameterScreenClass] = screenClassOverride
+        }
+        DispatchQueue.main.async {
+            Analytics.logEvent(AnalyticsEventScreenView,
+                               parameters: params)
+        }
+        completion(nil)
     }
 
-    @objc public func initiateOnDeviceConversionMeasurement(hashedPhone: Data) {
-        Analytics.initiateOnDeviceConversionMeasurement(hashedPhoneNumber: hashedPhone)
+    @objc public func setEnabled(_ options: SetEnabledOptions, completion: @escaping (Error?) -> Void) {
+        Analytics.setAnalyticsCollectionEnabled(options.enabled)
+        completion(nil)
+    }
+
+    @objc public func setSessionTimeoutDuration(_ options: SetSessionTimeoutDurationOptions, completion: @escaping (Error?) -> Void) {
+        Analytics.setSessionTimeoutInterval(TimeInterval(options.duration))
+        completion(nil)
+    }
+
+    @objc public func setUserId(_ options: SetUserIdOptions, completion: @escaping (Error?) -> Void) {
+        Analytics.setUserID(options.userId)
+        completion(nil)
+    }
+
+    @objc public func setUserProperty(_ options: SetUserPropertyOptions, completion: @escaping (Error?) -> Void) {
+        Analytics.setUserProperty(options.value, forName: options.key)
+        completion(nil)
     }
 }
