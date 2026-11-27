@@ -31,6 +31,7 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
     public let errorCallbackIdMissing = "callbackId must be provided."
     public let errorCustomSignalsMissing = "customSignals must be provided."
     public let errorDefaultsMissing = "defaults must be provided."
+    public let errorIdMissing = "id must be provided."
 
     private let defaultMinimumFetchIntervalInSeconds: Double = 43200
     private let defaultFetchTimeoutInSeconds: Double = 60
@@ -202,8 +203,9 @@ public class FirebaseRemoteConfigPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func removeConfigUpdateListener(_ call: CAPPluginCall) {
-        guard let callbackId = call.getString("callbackId") else {
-            call.reject(errorCallbackIdMissing)
+        // The option is named `id`. The README called it `callbackId` before, so apps may still send that name.
+        guard let callbackId = call.getString("id") ?? call.getString("callbackId") else {
+            call.reject(errorIdMissing)
             return
         }
 
