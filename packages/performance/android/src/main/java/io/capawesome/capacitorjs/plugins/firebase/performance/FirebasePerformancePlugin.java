@@ -202,6 +202,8 @@ public class FirebasePerformancePlugin extends Plugin {
             for (String attribute : attributesMap.keySet()) {
                 resultMap.put(attribute, attributesMap.get(attribute));
             }
+            result.put("attributes", resultMap);
+            // The old key `result` stays until the next major version, so apps that read it keep working.
             result.put("result", resultMap);
             call.resolve(result);
         } catch (Exception exception) {
@@ -249,8 +251,9 @@ public class FirebasePerformancePlugin extends Plugin {
                 call.reject(FirebasePerformancePlugin.ERROR_METRIC_NAME_MISSING);
                 return;
             }
-            Double num = call.getDouble("num");
-            if (num == null) {
+            // NEVER use call.getDouble here. It drops a whole number above the int range, which arrives as a Long.
+            Object num = call.getData().opt("num");
+            if (!(num instanceof Number)) {
                 call.reject(FirebasePerformancePlugin.ERROR_NUM_MISSING);
                 return;
             }
@@ -259,7 +262,7 @@ public class FirebasePerformancePlugin extends Plugin {
                 call.reject(ERROR_TRACE_NOT_FOUND);
                 return;
             }
-            FirebasePerformance.putMetric(trace, metricName, (long) Math.floor(num));
+            FirebasePerformance.putMetric(trace, metricName, (long) Math.floor(((Number) num).doubleValue()));
             call.resolve();
         } catch (Exception exception) {
             Logger.error(TAG, exception.getMessage(), exception);
