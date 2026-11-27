@@ -20,10 +20,19 @@ public class UploadFileCallbackEvent implements Result {
 
     public JSObject toJSObject() {
         JSObject result = new JSObject();
-        result.put("progress", taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+        result.put("progress", getProgress());
         result.put("bytesTransferred", taskSnapshot.getBytesTransferred());
         result.put("totalBytes", taskSnapshot.getTotalByteCount());
         result.put("completed", state == UploadFileState.SUCCESS);
         return result;
+    }
+
+    private double getProgress() {
+        long totalByteCount = taskSnapshot.getTotalByteCount();
+        if (totalByteCount == 0) {
+            // An empty file has nothing to transfer, so it is done from the start. iOS reports 1 for it too.
+            return 1;
+        }
+        return (double) taskSnapshot.getBytesTransferred() / totalByteCount;
     }
 }

@@ -19,7 +19,7 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "uploadFile", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise)
     ]
-    public let tag = "FirebaseFirestore"
+    public let tag = "FirebaseStorage"
     public let errorPathMissing = "path must be provided."
     public let errorUriMissing = "uri must be provided."
     public let errorMetadataMissing = "metadata must be provided."
@@ -201,6 +201,9 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
             if let error = error {
                 CAPLog.print("[", self.tag, "] ", error)
                 call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
+                if releaseCall == true {
+                    self.bridge?.releaseCall(call)
+                }
                 return
             }
             if let result = result?.toJSObject() as? JSObject {

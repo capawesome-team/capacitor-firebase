@@ -194,7 +194,11 @@ export class FirebaseStorageWeb
     snapshot: UploadTaskSnapshot,
   ): UploadFileCallbackEvent {
     const result: UploadFileCallbackEvent = {
-      progress: snapshot.bytesTransferred / snapshot.totalBytes,
+      // An empty file has nothing to transfer, so it is done from the start. Android and iOS report 1 for it too.
+      progress:
+        snapshot.totalBytes === 0
+          ? 1
+          : snapshot.bytesTransferred / snapshot.totalBytes,
       bytesTransferred: snapshot.bytesTransferred,
       totalBytes: snapshot.totalBytes,
       completed: snapshot.state === 'success',
