@@ -4,11 +4,26 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 9.x.x
+
+### Result of `getAttributes`
+
+On Android and iOS, `getAttributes` no longer returns the attributes under the old key `result`. All platforms return them under `attributes`, as documented.
+
+```typescript
+const result = await FirebasePerformance.getAttributes({ traceName: 'my_trace' });
+// Before on Android and iOS: result.result
+// Now on all platforms: result.attributes
+```
+
+Replace `result.result` with `result.attributes`.
 
 ## Version 8.x.x
 

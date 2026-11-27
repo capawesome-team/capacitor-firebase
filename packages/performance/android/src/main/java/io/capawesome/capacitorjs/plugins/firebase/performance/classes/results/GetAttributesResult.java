@@ -23,8 +23,6 @@ public class GetAttributesResult implements Result {
         }
         JSObject result = new JSObject();
         result.put("attributes", attributesObject);
-        // The old key `result` stays until the next major version, so apps that read it keep working.
-        result.put("result", attributesObject);
         return result;
     }
 }
