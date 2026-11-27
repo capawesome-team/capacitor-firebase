@@ -92,24 +92,28 @@ export interface GetOptionsResult {
   applicationId: string;
   /**
    * The database root URL.
+   * An empty string if the configuration holds no value.
    *
    * @since 0.1.0
    */
   databaseUrl: string;
   /**
    * The Project Number.
+   * An empty string if the configuration holds no value.
    *
    * @since 0.1.0
    */
   gcmSenderId: string;
   /**
    * The Google Cloud project ID.
+   * An empty string if the configuration holds no value.
    *
    * @since 0.1.0
    */
   projectId: string;
   /**
    * The Google Cloud Storage bucket name.
+   * An empty string if the configuration holds no value.
    *
    * @since 0.1.0
    */

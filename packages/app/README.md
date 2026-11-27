@@ -265,14 +265,14 @@ so check `getApps()` first.
 
 #### GetOptionsResult
 
-| Prop                | Type                | Description                                                    | Since |
-| ------------------- | ------------------- | -------------------------------------------------------------- | ----- |
-| **`apiKey`**        | <code>string</code> | API key used for authenticating requests from your app.        | 0.1.0 |
-| **`applicationId`** | <code>string</code> | Google app ID used to uniquely identify an instance of an app. | 0.1.0 |
-| **`databaseUrl`**   | <code>string</code> | The database root URL.                                         | 0.1.0 |
-| **`gcmSenderId`**   | <code>string</code> | The Project Number.                                            | 0.1.0 |
-| **`projectId`**     | <code>string</code> | The Google Cloud project ID.                                   | 0.1.0 |
-| **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name.                          | 0.1.0 |
+| Prop                | Type                | Description                                                                                | Since |
+| ------------------- | ------------------- | ------------------------------------------------------------------------------------------ | ----- |
+| **`apiKey`**        | <code>string</code> | API key used for authenticating requests from your app.                                    | 0.1.0 |
+| **`applicationId`** | <code>string</code> | Google app ID used to uniquely identify an instance of an app.                             | 0.1.0 |
+| **`databaseUrl`**   | <code>string</code> | The database root URL. An empty string if the configuration holds no value.                | 0.1.0 |
+| **`gcmSenderId`**   | <code>string</code> | The Project Number. An empty string if the configuration holds no value.                   | 0.1.0 |
+| **`projectId`**     | <code>string</code> | The Google Cloud project ID. An empty string if the configuration holds no value.          | 0.1.0 |
+| **`storageBucket`** | <code>string</code> | The Google Cloud Storage bucket name. An empty string if the configuration holds no value. | 0.1.0 |
 
 
 #### InitializeAppOptions
