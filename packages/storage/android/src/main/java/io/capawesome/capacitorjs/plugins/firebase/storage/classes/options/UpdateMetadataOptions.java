@@ -1,25 +1,48 @@
 package io.capawesome.capacitorjs.plugins.firebase.storage.classes.options;
 
+import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
-import com.google.firebase.storage.StorageMetadata;
-import io.capawesome.capacitorjs.plugins.firebase.storage.FirebaseStorageHelper;
-import org.json.JSONException;
+import com.getcapacitor.PluginCall;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.CustomExceptions;
 
 public class UpdateMetadataOptions {
 
-    private String path;
-    private StorageMetadata metadata;
+    @NonNull
+    private final JSObject metadata;
 
-    public UpdateMetadataOptions(String path, JSObject metadata) throws JSONException {
-        this.path = path;
-        this.metadata = FirebaseStorageHelper.buildStorageMetadata(metadata);
+    @NonNull
+    private final String path;
+
+    public UpdateMetadataOptions(@NonNull PluginCall call) throws Exception {
+        this.path = UpdateMetadataOptions.getPathFromCall(call);
+        this.metadata = UpdateMetadataOptions.getMetadataFromCall(call);
     }
 
+    @NonNull
+    public JSObject getMetadata() {
+        return metadata;
+    }
+
+    @NonNull
     public String getPath() {
         return path;
     }
 
-    public StorageMetadata getMetadata() {
+    @NonNull
+    private static JSObject getMetadataFromCall(@NonNull PluginCall call) throws Exception {
+        JSObject metadata = call.getObject("metadata");
+        if (metadata == null) {
+            throw CustomExceptions.METADATA_MISSING;
+        }
         return metadata;
+    }
+
+    @NonNull
+    private static String getPathFromCall(@NonNull PluginCall call) throws Exception {
+        String path = call.getString("path");
+        if (path == null) {
+            throw CustomExceptions.PATH_MISSING;
+        }
+        return path;
     }
 }

@@ -1,43 +1,78 @@
 package io.capawesome.capacitorjs.plugins.firebase.storage.classes.options;
 
 import android.net.Uri;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
-import com.google.firebase.storage.StorageMetadata;
-import io.capawesome.capacitorjs.plugins.firebase.storage.FirebaseStorageHelper;
-import org.json.JSONException;
+import com.getcapacitor.PluginCall;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.CustomExceptions;
 
 public class UploadFileOptions {
 
-    private String path;
-    private Uri uri;
+    @NonNull
+    private final String callbackId;
 
     @Nullable
-    private StorageMetadata metadata;
+    private final JSObject metadata;
 
-    private String callbackId;
+    @NonNull
+    private final String path;
 
-    public UploadFileOptions(String path, String uri, @Nullable JSObject metadata, String callbackId) throws JSONException {
-        this.path = path;
-        this.uri = Uri.parse(uri);
-        this.metadata = FirebaseStorageHelper.buildStorageMetadata(metadata);
-        this.callbackId = callbackId;
+    @NonNull
+    private final Uri uri;
+
+    public UploadFileOptions(@NonNull PluginCall call) throws Exception {
+        this.path = UploadFileOptions.getPathFromCall(call);
+        this.uri = UploadFileOptions.getUriFromCall(call);
+        this.metadata = UploadFileOptions.getMetadataFromCall(call);
+        this.callbackId = UploadFileOptions.getCallbackIdFromCall(call);
     }
 
+    @NonNull
+    public String getCallbackId() {
+        return callbackId;
+    }
+
+    @Nullable
+    public JSObject getMetadata() {
+        return metadata;
+    }
+
+    @NonNull
     public String getPath() {
         return path;
     }
 
+    @NonNull
     public Uri getUri() {
         return uri;
     }
 
-    @Nullable
-    public StorageMetadata getMetadata() {
-        return metadata;
+    @NonNull
+    private static String getCallbackIdFromCall(@NonNull PluginCall call) {
+        return call.getCallbackId();
     }
 
-    public String getCallbackId() {
-        return callbackId;
+    @Nullable
+    private static JSObject getMetadataFromCall(@NonNull PluginCall call) {
+        return call.getObject("metadata");
+    }
+
+    @NonNull
+    private static String getPathFromCall(@NonNull PluginCall call) throws Exception {
+        String path = call.getString("path");
+        if (path == null) {
+            throw CustomExceptions.PATH_MISSING;
+        }
+        return path;
+    }
+
+    @NonNull
+    private static Uri getUriFromCall(@NonNull PluginCall call) throws Exception {
+        String uri = call.getString("uri");
+        if (uri == null) {
+            throw CustomExceptions.URI_MISSING;
+        }
+        return Uri.parse(uri);
     }
 }

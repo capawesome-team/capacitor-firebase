@@ -1,25 +1,29 @@
 import Foundation
+import Capacitor
 
 @objc public class ListFilesOptions: NSObject {
-    private var path: String
-    private var maxResults: Int64
-    private var pageToken: String?
+    let maxResults: Int64
+    let pageToken: String?
+    let path: String
 
-    init(path: String, maxResults: Int, pageToken: String?) {
-        self.path = path
-        self.maxResults = Int64(maxResults)
-        self.pageToken = pageToken
+    init(_ call: CAPPluginCall) throws {
+        self.path = try ListFilesOptions.getPathFromCall(call)
+        self.maxResults = ListFilesOptions.getMaxResultsFromCall(call)
+        self.pageToken = ListFilesOptions.getPageTokenFromCall(call)
     }
 
-    func getPath() -> String {
+    private static func getMaxResultsFromCall(_ call: CAPPluginCall) -> Int64 {
+        return Int64(call.getInt("maxResults") ?? 1000)
+    }
+
+    private static func getPageTokenFromCall(_ call: CAPPluginCall) -> String? {
+        return call.getString("pageToken")
+    }
+
+    private static func getPathFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let path = call.getString("path") else {
+            throw CustomError.pathMissing
+        }
         return path
-    }
-
-    func getMaxResults() -> Int64 {
-        return maxResults
-    }
-
-    func getPageToken() -> String? {
-        return pageToken
     }
 }

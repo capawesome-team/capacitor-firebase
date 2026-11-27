@@ -28,6 +28,8 @@
 		7C7A8D832ADBCD9C00C195CB /* UploadFileCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */; };
 		7C7A8D852ADCAE0100C195CB /* DownloadFileOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D842ADCAE0100C195CB /* DownloadFileOptions.swift */; };
 		7C7A8D872ADCAE0200C195CB /* DownloadFileCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D862ADCAE0200C195CB /* DownloadFileCallbackEvent.swift */; };
+		7C7A8D882ADCAE0300C195CB /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D892ADCAE0300C195CB /* CustomError.swift */; };
+		7C7A8D8B2ADCAE0400C195CB /* UseEmulatorOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A8D8C2ADCAE0400C195CB /* UseEmulatorOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileCallbackEvent.swift; sourceTree = "<group>"; };
 		7C7A8D842ADCAE0100C195CB /* DownloadFileOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFileOptions.swift; sourceTree = "<group>"; };
 		7C7A8D862ADCAE0200C195CB /* DownloadFileCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFileCallbackEvent.swift; sourceTree = "<group>"; };
+		7C7A8D892ADCAE0300C195CB /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7C7A8D8C2ADCAE0400C195CB /* UseEmulatorOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseEmulatorOptions.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				7C7A8D682ADBCCE700C195CB /* Protocols */,
+				7C7A8D8A2ADCAE0300C195CB /* Enums */,
 				7C7A8D672ADBCCD400C195CB /* Classes */,
 				50E1A94720377CB70090CE1A /* FirebaseStoragePlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseStorage.swift */,
@@ -163,6 +168,7 @@
 				7C7A8D7B2ADBCD7C00C195CB /* ListFilesOptions.swift */,
 				7C7A8D7D2ADBCD8400C195CB /* UpdateMetadataOptions.swift */,
 				7C7A8D7F2ADBCD8C00C195CB /* UploadFileOptions.swift */,
+				7C7A8D8C2ADCAE0400C195CB /* UseEmulatorOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -184,6 +190,14 @@
 				7C7A8D822ADBCD9C00C195CB /* UploadFileCallbackEvent.swift */,
 			);
 			path = Events;
+			sourceTree = "<group>";
+		};
+		7C7A8D8A2ADCAE0300C195CB /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A8D892ADCAE0300C195CB /* CustomError.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		8C8E7744173064A9F6D438E3 /* Pods */ = {
@@ -413,6 +427,8 @@
 				7C7A8D802ADBCD8C00C195CB /* UploadFileOptions.swift in Sources */,
 				7C7A8D6E2ADBCD2E00C195CB /* GetDownloadUrlResult.swift in Sources */,
 				7C7A8D722ADBCD4300C195CB /* ListFilesResult.swift in Sources */,
+				7C7A8D882ADCAE0300C195CB /* CustomError.swift in Sources */,
+				7C7A8D8B2ADCAE0400C195CB /* UseEmulatorOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

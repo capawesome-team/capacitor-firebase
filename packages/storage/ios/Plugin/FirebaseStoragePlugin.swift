@@ -10,8 +10,8 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "FirebaseStoragePlugin"
     public let jsName = "FirebaseStorage"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "downloadFile", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "deleteFile", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "downloadFile", returnType: CAPPluginReturnCallback),
         CAPPluginMethod(name: "getDownloadUrl", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getMetadata", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "listFiles", returnType: CAPPluginReturnPromise),
@@ -20,209 +20,168 @@ public class FirebaseStoragePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "useEmulator", returnType: CAPPluginReturnPromise)
     ]
     public let tag = "FirebaseStorage"
-    public let errorPathMissing = "path must be provided."
-    public let errorUriMissing = "uri must be provided."
-    public let errorMetadataMissing = "metadata must be provided."
-    public let errorCallbackIdMissing = "callbackId must be provided."
-    public let errorFileNotExist = "File does not exist."
-    public let errorHostMissing = "host must be provided."
     private var implementation: FirebaseStorage?
 
     override public func load() {
         self.implementation = FirebaseStorage(plugin: self)
     }
 
+    @objc func deleteFile(_ call: CAPPluginCall) {
+        do {
+            let options = try DeleteFileOptions(call)
+
+            implementation?.deleteFile(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
     @objc func downloadFile(_ call: CAPPluginCall) {
         call.keepAlive = true
 
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
-        }
-        guard let uri = call.getString("uri") else {
-            call.reject(errorUriMissing)
-            return
-        }
-        guard let url = URL(string: uri) else {
-            call.reject(errorFileNotExist)
-            return
-        }
-        guard let callbackId = call.callbackId else {
-            call.reject(errorCallbackIdMissing)
-            return
-        }
+        do {
+            let options = try DownloadFileOptions(call)
 
-        let options = DownloadFileOptions(path: path, uri: url, callbackId: callbackId)
-
-        implementation?.downloadFile(options, completion: { result, error, releaseCall in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                if releaseCall == true {
+            implementation?.downloadFile(options, completion: { result, error, releaseCall in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else if let result = result {
+                    self.resolveCall(call, result)
+                }
+                if releaseCall {
                     self.bridge?.releaseCall(call)
                 }
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-            if releaseCall == true {
-                self.bridge?.releaseCall(call)
-            }
-        })
-    }
-
-    @objc func deleteFile(_ call: CAPPluginCall) {
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
+            })
+        } catch {
+            rejectCall(call, error)
         }
-
-        let options = DeleteFileOptions(path: path)
-
-        implementation?.deleteFile(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
     }
 
     @objc func getDownloadUrl(_ call: CAPPluginCall) {
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
+        do {
+            let options = try GetDownloadUrlOptions(call)
+
+            implementation?.getDownloadUrl(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-
-        let options = GetDownloadUrlOptions(path: path)
-
-        implementation?.getDownloadUrl(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
     }
 
     @objc func getMetadata(_ call: CAPPluginCall) {
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
+        do {
+            let options = try GetMetadataOptions(call)
+
+            implementation?.getMetadata(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-
-        let options = GetMetadataOptions(path: path)
-
-        implementation?.getMetadata(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
     }
 
     @objc func listFiles(_ call: CAPPluginCall) {
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
+        do {
+            let options = try ListFilesOptions(call)
+
+            implementation?.listFiles(options, completion: { result, error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call, result)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-        let maxResults = call.getInt("maxResults") ?? 1000
-        let pageToken = call.getString("pageToken")
-
-        let options = ListFilesOptions(path: path, maxResults: maxResults, pageToken: pageToken)
-
-        implementation?.listFiles(options, completion: { result, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-        })
     }
 
     @objc func updateMetadata(_ call: CAPPluginCall) {
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
-        }
-        guard let metadata = call.getObject("metadata") else {
-            call.reject(errorMetadataMissing)
-            return
-        }
+        do {
+            let options = try UpdateMetadataOptions(call)
 
-        let options = UpdateMetadataOptions(path: path, metadata: metadata)
-
-        implementation?.updateMetadata(options, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                return
-            }
-            call.resolve()
-        })
+            implementation?.updateMetadata(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func uploadFile(_ call: CAPPluginCall) {
         call.keepAlive = true
 
-        guard let path = call.getString("path") else {
-            call.reject(errorPathMissing)
-            return
-        }
-        guard let uri = call.getString("uri") else {
-            call.reject(errorUriMissing)
-            return
-        }
-        guard let url = URL(string: uri) else {
-            call.reject(errorFileNotExist)
-            return
-        }
-        guard let callbackId = call.callbackId else {
-            call.reject(errorCallbackIdMissing)
-            return
-        }
-        let metadata = call.getObject("metadata")
+        do {
+            let options = try UploadFileOptions(call)
 
-        let options = UploadFileOptions(path: path, uri: url, metadata: metadata, callbackId: callbackId)
-
-        implementation?.uploadFile(options, completion: { result, error, releaseCall in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
-                if releaseCall == true {
+            implementation?.uploadFile(options, completion: { result, error, releaseCall in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else if let result = result {
+                    self.resolveCall(call, result)
+                }
+                if releaseCall {
                     self.bridge?.releaseCall(call)
                 }
-                return
-            }
-            if let result = result?.toJSObject() as? JSObject {
-                call.resolve(result)
-            }
-            if releaseCall == true {
-                self.bridge?.releaseCall(call)
-            }
-        })
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func useEmulator(_ call: CAPPluginCall) {
-        guard let host = call.getString("host") else {
-            call.reject(errorHostMissing)
-            return
-        }
-        let port = call.getInt("port") ?? 9199
+        do {
+            let options = try UseEmulatorOptions(call)
 
-        implementation?.useEmulator(host, port)
+            implementation?.useEmulator(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
+    }
+
+    private func rejectCall(_ call: CAPPluginCall, _ error: Error) {
+        CAPLog.print("[", self.tag, "] ", error)
+        if let error = error as? CustomError {
+            call.reject(error.localizedDescription, error.code)
+        } else {
+            call.reject(error.localizedDescription, FirebaseStorageHelper.createErrorCode(error: error))
+        }
+    }
+
+    private func resolveCall(_ call: CAPPluginCall) {
         call.resolve()
+    }
+
+    private func resolveCall(_ call: CAPPluginCall, _ result: Result?) {
+        if let result = result?.toJSObject() as? JSObject {
+            call.resolve(result)
+        } else {
+            call.resolve()
+        }
     }
 }

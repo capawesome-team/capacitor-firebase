@@ -18,9 +18,22 @@ import FirebaseStorage
         }
     }
 
-    @objc public func downloadFile(_ options: DownloadFileOptions, completion: @escaping (Result?, Error?, Bool) -> Void) {
-        let path = options.getPath()
-        let uri = options.getUri()
+    @objc public func deleteFile(_ options: DeleteFileOptions, completion: @escaping (Error?) -> Void) {
+        let path = options.path
+
+        let storageRef = Storage.storage().reference(withPath: path)
+        storageRef.delete { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
+    @objc public func downloadFile(_ options: DownloadFileOptions, completion: @escaping (_ result: Result?, _ error: Error?, _ releaseCall: Bool) -> Void) {
+        let path = options.path
+        let uri = options.uri
 
         let storageRef = Storage.storage().reference(withPath: path)
         let downloadTask = storageRef.write(toFile: uri)
@@ -37,21 +50,8 @@ import FirebaseStorage
         }
     }
 
-    @objc public func deleteFile(_ options: DeleteFileOptions, completion: @escaping (Error?) -> Void) {
-        let path = options.getPath()
-
-        let storageRef = Storage.storage().reference(withPath: path)
-        storageRef.delete { error in
-            if let error = error {
-                completion(error)
-            } else {
-                completion(nil)
-            }
-        }
-    }
-
     @objc public func getDownloadUrl(_ options: GetDownloadUrlOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let path = options.getPath()
+        let path = options.path
 
         let storageRef = Storage.storage().reference(withPath: path)
         storageRef.downloadURL { url, error in
@@ -65,7 +65,7 @@ import FirebaseStorage
     }
 
     @objc public func getMetadata(_ options: GetMetadataOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let path = options.getPath()
+        let path = options.path
 
         let storageRef = Storage.storage().reference(withPath: path)
         storageRef.getMetadata { metadata, error in
@@ -79,9 +79,9 @@ import FirebaseStorage
     }
 
     @objc public func listFiles(_ options: ListFilesOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let path = options.getPath()
-        let maxResults = options.getMaxResults()
-        let pageToken = options.getPageToken()
+        let path = options.path
+        let maxResults = options.maxResults
+        let pageToken = options.pageToken
 
         let storageRef = Storage.storage().reference(withPath: path)
         if let pageToken = pageToken {
@@ -106,8 +106,8 @@ import FirebaseStorage
     }
 
     @objc public func updateMetadata(_ options: UpdateMetadataOptions, completion: @escaping (Error?) -> Void) {
-        let path = options.getPath()
-        let metadata = options.getMetadata()
+        let metadata = FirebaseStorageHelper.buildStorageMetadata(options.metadata)
+        let path = options.path
 
         let storageRef = Storage.storage().reference(withPath: path)
         storageRef.updateMetadata(metadata) { _, error in
@@ -119,10 +119,10 @@ import FirebaseStorage
         }
     }
 
-    @objc public func uploadFile(_ options: UploadFileOptions, completion: @escaping (Result?, Error?, Bool) -> Void) {
-        let path = options.getPath()
-        let uri = options.getUri()
-        let metadata = options.getMetadata()
+    @objc public func uploadFile(_ options: UploadFileOptions, completion: @escaping (_ result: Result?, _ error: Error?, _ releaseCall: Bool) -> Void) {
+        let metadata = options.metadata.map(FirebaseStorageHelper.buildStorageMetadata)
+        let path = options.path
+        let uri = options.uri
 
         let storageRef = Storage.storage().reference(withPath: path)
         let uploadTask: StorageUploadTask
@@ -144,7 +144,11 @@ import FirebaseStorage
         }
     }
 
-    @objc func useEmulator(_ host: String, _ port: Int) {
+    @objc public func useEmulator(_ options: UseEmulatorOptions, completion: @escaping (Error?) -> Void) {
+        let host = options.host
+        let port = options.port
+
         Storage.storage().useEmulator(withHost: host, port: port)
+        completion(nil)
     }
 }

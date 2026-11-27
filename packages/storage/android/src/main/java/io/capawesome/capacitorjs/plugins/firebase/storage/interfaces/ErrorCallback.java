@@ -1,5 +1,5 @@
 package io.capawesome.capacitorjs.plugins.firebase.storage.interfaces;
 
-public interface ResultCallback {
+public interface ErrorCallback {
     void error(Exception exception);
 }

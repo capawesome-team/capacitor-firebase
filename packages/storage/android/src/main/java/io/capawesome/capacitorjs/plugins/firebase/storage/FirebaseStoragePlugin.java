@@ -1,11 +1,15 @@
 package io.capawesome.capacitorjs.plugins.firebase.storage;
 
-import com.getcapacitor.JSObject;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.CustomException;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.events.DownloadFileCallbackEvent;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.events.UploadFileCallbackEvent;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.DeleteFileOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.DownloadFileOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.GetDownloadUrlOptions;
@@ -13,6 +17,10 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.GetMet
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.ListFilesOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UpdateMetadataOptions;
 import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UploadFileOptions;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.options.UseEmulatorOptions;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.GetDownloadUrlResult;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.GetMetadataResult;
+import io.capawesome.capacitorjs.plugins.firebase.storage.classes.results.ListFilesResult;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.EmptyResultCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyEventCallback;
 import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.NonEmptyResultCallback;
@@ -22,15 +30,29 @@ import io.capawesome.capacitorjs.plugins.firebase.storage.interfaces.Result;
 public class FirebaseStoragePlugin extends Plugin {
 
     public static final String TAG = "FirebaseStorage";
-    public static final String ERROR_PATH_MISSING = "path must be provided.";
-    public static final String ERROR_URI_MISSING = "uri must be provided.";
-    public static final String ERROR_METADATA_MISSING = "metadata must be provided.";
-    public static final String ERROR_HOST_MISSING = "host must be provided.";
 
     private FirebaseStorage implementation;
 
-    public void load() {
-        implementation = new FirebaseStorage(this);
+    @PluginMethod
+    public void deleteFile(PluginCall call) {
+        try {
+            DeleteFileOptions options = new DeleteFileOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.deleteFile(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
@@ -38,29 +60,16 @@ public class FirebaseStoragePlugin extends Plugin {
         try {
             call.setKeepAlive(true);
 
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-            String uri = call.getString("uri");
-            if (uri == null) {
-                call.reject(ERROR_URI_MISSING);
-                return;
-            }
-            String callbackId = call.getCallbackId();
-
-            DownloadFileOptions options = new DownloadFileOptions(path, uri, callbackId);
-            NonEmptyEventCallback callback = new NonEmptyEventCallback() {
+            DownloadFileOptions options = new DownloadFileOptions(call);
+            NonEmptyEventCallback<DownloadFileCallbackEvent> callback = new NonEmptyEventCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull DownloadFileCallbackEvent result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
 
                 @Override
@@ -71,165 +80,99 @@ public class FirebaseStoragePlugin extends Plugin {
 
             implementation.downloadFile(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
-        }
-    }
-
-    @PluginMethod
-    public void deleteFile(PluginCall call) {
-        try {
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-
-            DeleteFileOptions options = new DeleteFileOptions(path);
-            EmptyResultCallback callback = new EmptyResultCallback() {
-                @Override
-                public void success() {
-                    call.resolve();
-                }
-
-                @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
-                }
-            };
-
-            implementation.deleteFile(options, callback);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void getDownloadUrl(PluginCall call) {
         try {
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-
-            GetDownloadUrlOptions options = new GetDownloadUrlOptions(path);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            GetDownloadUrlOptions options = new GetDownloadUrlOptions(call);
+            NonEmptyResultCallback<GetDownloadUrlResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull GetDownloadUrlResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.getDownloadUrl(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void getMetadata(PluginCall call) {
         try {
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-
-            GetMetadataOptions options = new GetMetadataOptions(path);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            GetMetadataOptions options = new GetMetadataOptions(call);
+            NonEmptyResultCallback<GetMetadataResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull GetMetadataResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.getMetadata(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void listFiles(PluginCall call) {
         try {
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-            int maxResults = call.getInt("maxResults", 1000);
-            String pageToken = call.getString("pageToken");
-
-            ListFilesOptions options = new ListFilesOptions(path, maxResults, pageToken);
-            NonEmptyResultCallback callback = new NonEmptyResultCallback() {
+            ListFilesOptions options = new ListFilesOptions(call);
+            NonEmptyResultCallback<ListFilesResult> callback = new NonEmptyResultCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull ListFilesResult result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.listFiles(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
+    }
+
+    public void load() {
+        implementation = new FirebaseStorage(this);
     }
 
     @PluginMethod
     public void updateMetadata(PluginCall call) {
         try {
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-            JSObject metadata = call.getObject("metadata");
-            if (metadata == null) {
-                call.reject(ERROR_METADATA_MISSING);
-                return;
-            }
-
-            UpdateMetadataOptions options = new UpdateMetadataOptions(path, metadata);
+            UpdateMetadataOptions options = new UpdateMetadataOptions(call);
             EmptyResultCallback callback = new EmptyResultCallback() {
                 @Override
                 public void success() {
-                    call.resolve();
+                    resolveCall(call);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
             };
 
             implementation.updateMetadata(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
@@ -238,30 +181,16 @@ public class FirebaseStoragePlugin extends Plugin {
         try {
             call.setKeepAlive(true);
 
-            String path = call.getString("path");
-            if (path == null) {
-                call.reject(ERROR_PATH_MISSING);
-                return;
-            }
-            String uri = call.getString("uri");
-            if (uri == null) {
-                call.reject(ERROR_URI_MISSING);
-                return;
-            }
-            JSObject metadata = call.getObject("metadata");
-            String callbackId = call.getCallbackId();
-
-            UploadFileOptions options = new UploadFileOptions(path, uri, metadata, callbackId);
-            NonEmptyEventCallback callback = new NonEmptyEventCallback() {
+            UploadFileOptions options = new UploadFileOptions(call);
+            NonEmptyEventCallback<UploadFileCallbackEvent> callback = new NonEmptyEventCallback<>() {
                 @Override
-                public void success(Result result) {
-                    call.resolve(result.toJSObject());
+                public void success(@NonNull UploadFileCallbackEvent result) {
+                    resolveCall(call, result);
                 }
 
                 @Override
-                public void error(Exception exception) {
-                    Logger.error(TAG, exception.getMessage(), exception);
-                    call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
                 }
 
                 @Override
@@ -272,26 +201,54 @@ public class FirebaseStoragePlugin extends Plugin {
 
             implementation.uploadFile(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
         }
     }
 
     @PluginMethod
     public void useEmulator(PluginCall call) {
         try {
-            String host = call.getString("host");
-            if (host == null) {
-                call.reject(ERROR_HOST_MISSING);
-                return;
-            }
-            int port = call.getInt("port", 9199);
+            UseEmulatorOptions options = new UseEmulatorOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
 
-            implementation.useEmulator(host, port);
-            call.resolve();
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.useEmulator(options, callback);
         } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage(), FirebaseStorageHelper.createErrorCode(exception));
+            rejectCall(call, exception);
+        }
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException
+            ? ((CustomException) exception).getCode()
+            : FirebaseStorageHelper.createErrorCode(exception);
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
+    }
+
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
         }
     }
 }

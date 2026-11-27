@@ -1,35 +1,44 @@
 import Foundation
 import Capacitor
-import FirebaseStorage
 
 @objc public class UploadFileOptions: NSObject {
-    private var path: String
-    private var uri: URL
-    private var metadata: StorageMetadata?
-    private var callbackId: String
+    let callbackId: String
+    let metadata: JSObject?
+    let path: String
+    let uri: URL
 
-    init(path: String, uri: URL, metadata: JSObject?, callbackId: String) {
-        self.path = path
-        self.uri = uri
-        if let metadata = metadata {
-            self.metadata = FirebaseStorageHelper.buildStorageMetadata(metadata)
-        }
-        self.callbackId = callbackId
+    init(_ call: CAPPluginCall) throws {
+        self.path = try UploadFileOptions.getPathFromCall(call)
+        self.uri = try UploadFileOptions.getUriFromCall(call)
+        self.callbackId = try UploadFileOptions.getCallbackIdFromCall(call)
+        self.metadata = UploadFileOptions.getMetadataFromCall(call)
     }
 
-    func getPath() -> String {
+    private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let callbackId = call.callbackId else {
+            throw CustomError.callbackIdMissing
+        }
+        return callbackId
+    }
+
+    private static func getMetadataFromCall(_ call: CAPPluginCall) -> JSObject? {
+        return call.getObject("metadata")
+    }
+
+    private static func getPathFromCall(_ call: CAPPluginCall) throws -> String {
+        guard let path = call.getString("path") else {
+            throw CustomError.pathMissing
+        }
         return path
     }
 
-    func getUri() -> URL {
-        return uri
-    }
-
-    func getMetadata() -> StorageMetadata? {
-        return metadata
-    }
-
-    func getCallbackId() -> String {
-        return callbackId
+    private static func getUriFromCall(_ call: CAPPluginCall) throws -> URL {
+        guard let uri = call.getString("uri") else {
+            throw CustomError.uriMissing
+        }
+        guard let url = URL(string: uri) else {
+            throw CustomError.fileNotExist
+        }
+        return url
     }
 }
