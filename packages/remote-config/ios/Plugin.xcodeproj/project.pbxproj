@@ -19,6 +19,17 @@
 		7CE12B152B2B373A0018854A /* AddConfigUpdateListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B142B2B373A0018854A /* AddConfigUpdateListenerOptions.swift */; };
 		7CE12B172B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B162B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift */; };
 		7CE12B192B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE12B182B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift */; };
+		7CF2B0032EC0000000000101 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000001 /* CustomError.swift */; };
+		7CF2B0032EC0000000000102 /* FetchConfigOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000002 /* FetchConfigOptions.swift */; };
+		7CF2B0032EC0000000000103 /* GetOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000003 /* GetOptions.swift */; };
+		7CF2B0032EC0000000000104 /* SetCustomSignalsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000004 /* SetCustomSignalsOptions.swift */; };
+		7CF2B0032EC0000000000105 /* SetDefaultsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000005 /* SetDefaultsOptions.swift */; };
+		7CF2B0032EC0000000000106 /* SetSettingsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000006 /* SetSettingsOptions.swift */; };
+		7CF2B0032EC0000000000107 /* GetAllResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000007 /* GetAllResult.swift */; };
+		7CF2B0032EC0000000000108 /* GetBooleanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000008 /* GetBooleanResult.swift */; };
+		7CF2B0032EC0000000000109 /* GetInfoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC0000000000009 /* GetInfoResult.swift */; };
+		7CF2B0032EC000000000010A /* GetNumberResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC000000000000A /* GetNumberResult.swift */; };
+		7CF2B0032EC000000000010B /* GetStringResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0032EC000000000000B /* GetStringResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +58,17 @@
 		7CE12B142B2B373A0018854A /* AddConfigUpdateListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConfigUpdateListenerOptions.swift; sourceTree = "<group>"; };
 		7CE12B162B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveConfigUpdateListenerOptions.swift; sourceTree = "<group>"; };
 		7CE12B182B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConfigUpdateListenerOptionsCallbackEvent.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000002 /* FetchConfigOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchConfigOptions.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000003 /* GetOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOptions.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000004 /* SetCustomSignalsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCustomSignalsOptions.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000005 /* SetDefaultsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetDefaultsOptions.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000006 /* SetSettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSettingsOptions.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000007 /* GetAllResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAllResult.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000008 /* GetBooleanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBooleanResult.swift; sourceTree = "<group>"; };
+		7CF2B0032EC0000000000009 /* GetInfoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInfoResult.swift; sourceTree = "<group>"; };
+		7CF2B0032EC000000000000A /* GetNumberResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNumberResult.swift; sourceTree = "<group>"; };
+		7CF2B0032EC000000000000B /* GetStringResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStringResult.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +122,7 @@
 			children = (
 				7CE12B102B2B370D0018854A /* Protocols */,
 				7CE12B0C2B2B36F30018854A /* Classes */,
+				7CF2B0032EC0000000000201 /* Enums */,
 				50E1A94720377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift */,
 				7C2425682925898B003FE3BB /* FirebaseRemoteConfigHelper.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseRemoteConfig.swift */,
@@ -122,6 +145,7 @@
 			children = (
 				7CE12B0E2B2B37000018854A /* Options */,
 				7CE12B0D2B2B36F90018854A /* Events */,
+				7CF2B0032EC0000000000202 /* Results */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -138,7 +162,12 @@
 			isa = PBXGroup;
 			children = (
 				7CE12B142B2B373A0018854A /* AddConfigUpdateListenerOptions.swift */,
+				7CF2B0032EC0000000000002 /* FetchConfigOptions.swift */,
+				7CF2B0032EC0000000000003 /* GetOptions.swift */,
 				7CE12B162B2B37420018854A /* RemoveConfigUpdateListenerOptions.swift */,
+				7CF2B0032EC0000000000004 /* SetCustomSignalsOptions.swift */,
+				7CF2B0032EC0000000000005 /* SetDefaultsOptions.swift */,
+				7CF2B0032EC0000000000006 /* SetSettingsOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -149,6 +178,26 @@
 				7CE12B122B2B37290018854A /* Result.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7CF2B0032EC0000000000201 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0032EC0000000000001 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7CF2B0032EC0000000000202 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0032EC0000000000007 /* GetAllResult.swift */,
+				7CF2B0032EC0000000000008 /* GetBooleanResult.swift */,
+				7CF2B0032EC0000000000009 /* GetInfoResult.swift */,
+				7CF2B0032EC000000000000A /* GetNumberResult.swift */,
+				7CF2B0032EC000000000000B /* GetStringResult.swift */,
+			);
+			path = Results;
 			sourceTree = "<group>";
 		};
 		8C8E7744173064A9F6D438E3 /* Pods */ = {
@@ -371,6 +420,17 @@
 				50E1A94820377CB70090CE1A /* FirebaseRemoteConfigPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseRemoteConfig.swift in Sources */,
 				7CE12B192B2B374C0018854A /* AddConfigUpdateListenerOptionsCallbackEvent.swift in Sources */,
+				7CF2B0032EC0000000000101 /* CustomError.swift in Sources */,
+				7CF2B0032EC0000000000102 /* FetchConfigOptions.swift in Sources */,
+				7CF2B0032EC0000000000103 /* GetOptions.swift in Sources */,
+				7CF2B0032EC0000000000104 /* SetCustomSignalsOptions.swift in Sources */,
+				7CF2B0032EC0000000000105 /* SetDefaultsOptions.swift in Sources */,
+				7CF2B0032EC0000000000106 /* SetSettingsOptions.swift in Sources */,
+				7CF2B0032EC0000000000107 /* GetAllResult.swift in Sources */,
+				7CF2B0032EC0000000000108 /* GetBooleanResult.swift in Sources */,
+				7CF2B0032EC0000000000109 /* GetInfoResult.swift in Sources */,
+				7CF2B0032EC000000000010A /* GetNumberResult.swift in Sources */,
+				7CF2B0032EC000000000010B /* GetStringResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,8 +5,8 @@ import FirebaseRemoteConfig
 import Capacitor
 
 @objc public class FirebaseRemoteConfig: NSObject {
-    private let plugin: FirebaseRemoteConfigPlugin
     private var listenerRegistrationMap: [String: ConfigUpdateListenerRegistration] = [:]
+    private let plugin: FirebaseRemoteConfigPlugin
 
     init(plugin: FirebaseRemoteConfigPlugin) {
         self.plugin = plugin
@@ -20,47 +20,45 @@ import Capacitor
         }
     }
 
-    @objc public func activate(completion: @escaping (Bool, String?) -> Void) {
-        RemoteConfig.remoteConfig().activate(completion: { result, error in
-            if let error = error {
-                completion(false, error.localizedDescription)
-                return
-            }
-            completion(result, nil)
+    @objc public func activate(completion: @escaping (_ error: Error?) -> Void) {
+        RemoteConfig.remoteConfig().activate(completion: { _, error in
+            completion(error)
         })
     }
 
-    @objc public func fetchAndActivate(completion: @escaping (Bool, String?) -> Void) {
+    @objc public func addConfigUpdateListener(_ options: AddConfigUpdateListenerOptions, completion: @escaping (_ result: Result?, _ error: Error?) -> Void) {
+        let callbackId = options.callbackId
+
+        let listenerRegistration = RemoteConfig.remoteConfig().addOnConfigUpdateListener { configUpdate, error in
+            if let error = error {
+                completion(nil, error)
+            } else if let configUpdate = configUpdate {
+                let result = AddConfigUpdateListenerOptionsCallbackEvent(configUpdate: configUpdate)
+                completion(result, nil)
+            }
+        }
+        self.listenerRegistrationMap[callbackId] = listenerRegistration
+    }
+
+    @objc public func fetchAndActivate(completion: @escaping (_ error: Error?) -> Void) {
         RemoteConfig.remoteConfig().fetchAndActivate(completionHandler: { result, error in
             if let error = error {
-                CAPLog.print("[", self.plugin.tag, "] ", error)
-                completion(false, error.localizedDescription)
-                return
-            }
-            if result == .error {
-                completion(false, self.plugin.errorFetchAndActivatefailed)
+                completion(error)
+            } else if result == .error {
+                completion(CustomError.fetchAndActivateFailed)
             } else {
-                completion(true, nil)
+                completion(nil)
             }
         })
     }
 
-    @objc public func fetchConfig(minimumFetchIntervalInSeconds: Double, completion: @escaping (String?) -> Void) {
-        RemoteConfig.remoteConfig().fetch(withExpirationDuration: minimumFetchIntervalInSeconds, completionHandler: { _, error in
-            if let error = error {
-                CAPLog.print("[", self.plugin.tag, "] ", error)
-                completion(error.localizedDescription)
-                return
-            }
-            completion(nil)
+    @objc public func fetchConfig(_ options: FetchConfigOptions, completion: @escaping (_ error: Error?) -> Void) {
+        RemoteConfig.remoteConfig().fetch(withExpirationDuration: options.minimumFetchIntervalInSeconds, completionHandler: { _, error in
+            completion(error)
         })
     }
 
-    @objc public func getValue(_ key: String) -> RemoteConfigValue {
-        return RemoteConfig.remoteConfig().configValue(forKey: key)
-    }
-
-    @objc public func getAll() -> [String: RemoteConfigValue] {
+    @objc public func getAll(completion: @escaping (_ result: GetAllResult?, _ error: Error?) -> Void) {
         let rc = RemoteConfig.remoteConfig()
         var keys = Set<String>()
         keys.formUnion(rc.allKeys(from: .remote))
@@ -69,10 +67,17 @@ import Capacitor
         for key in keys {
             values[key] = rc.configValue(forKey: key)
         }
-        return values
+        let result = GetAllResult(values: values)
+        completion(result, nil)
     }
 
-    @objc public func getInfo(completion: @escaping (Double, Int, String?) -> Void) {
+    @objc public func getBoolean(_ options: GetOptions, completion: @escaping (_ result: GetBooleanResult?, _ error: Error?) -> Void) {
+        let value = RemoteConfig.remoteConfig().configValue(forKey: options.key)
+        let result = GetBooleanResult(value: value.boolValue, source: FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value.source))
+        completion(result, nil)
+    }
+
+    @objc public func getInfo(completion: @escaping (_ result: GetInfoResult?, _ error: Error?) -> Void) {
         let rc = RemoteConfig.remoteConfig()
 
         let lastFetchTimeMillis: Double
@@ -84,12 +89,43 @@ import Capacitor
 
         let statusInt = Int(rc.lastFetchStatus.rawValue)
 
-        completion(lastFetchTimeMillis, statusInt, nil)
+        let result = GetInfoResult(lastFetchTime: lastFetchTimeMillis, lastFetchStatus: statusInt)
+        completion(result, nil)
     }
 
-    @objc public func setCustomSignals(_ customSignals: [String: Any], completion: @escaping (Error?) -> Void) {
+    @objc public func getNumber(_ options: GetOptions, completion: @escaping (_ result: GetNumberResult?, _ error: Error?) -> Void) {
+        let value = RemoteConfig.remoteConfig().configValue(forKey: options.key)
+        let result = GetNumberResult(value: value.numberValue, source: FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value.source))
+        completion(result, nil)
+    }
+
+    @objc public func getString(_ options: GetOptions, completion: @escaping (_ result: GetStringResult?, _ error: Error?) -> Void) {
+        let value = RemoteConfig.remoteConfig().configValue(forKey: options.key)
+        let result = GetStringResult(value: value.stringValue ?? "", source: FirebaseRemoteConfigHelper.mapRemoteConfigSourceToInt(value.source))
+        completion(result, nil)
+    }
+
+    @objc public func removeAllListeners(completion: @escaping (_ error: Error?) -> Void) {
+        for listenerRegistration in self.listenerRegistrationMap.values {
+            listenerRegistration.remove()
+        }
+        self.listenerRegistrationMap.removeAll()
+        completion(nil)
+    }
+
+    @objc public func removeConfigUpdateListener(_ options: RemoveConfigUpdateListenerOptions, completion: @escaping (_ error: Error?) -> Void) {
+        let callbackId = options.callbackId
+
+        if let listenerRegistration = self.listenerRegistrationMap[callbackId] {
+            listenerRegistration.remove()
+        }
+        self.listenerRegistrationMap.removeValue(forKey: callbackId)
+        completion(nil)
+    }
+
+    @objc public func setCustomSignals(_ options: SetCustomSignalsOptions, completion: @escaping (_ error: Error?) -> Void) {
         var signals = [String: CustomSignalValue?]()
-        for (key, value) in customSignals {
+        for (key, value) in options.customSignals {
             if let stringValue = value as? String {
                 signals[key] = .string(stringValue)
             } else if let intValue = value as? Int {
@@ -110,44 +146,16 @@ import Capacitor
         }
     }
 
-    @objc public func setDefaults(_ defaults: [String: NSObject]) {
-        RemoteConfig.remoteConfig().setDefaults(defaults)
+    @objc public func setDefaults(_ options: SetDefaultsOptions, completion: @escaping (_ error: Error?) -> Void) {
+        RemoteConfig.remoteConfig().setDefaults(options.defaults)
+        completion(nil)
     }
 
-    @objc public func setSettings(fetchTimeoutInSeconds: Double, minimumFetchIntervalInSeconds: Double) {
+    @objc public func setSettings(_ options: SetSettingsOptions, completion: @escaping (_ error: Error?) -> Void) {
         let settings = RemoteConfigSettings()
-        settings.fetchTimeout = fetchTimeoutInSeconds
-        settings.minimumFetchInterval = minimumFetchIntervalInSeconds
+        settings.fetchTimeout = options.fetchTimeoutInSeconds
+        settings.minimumFetchInterval = options.minimumFetchIntervalInSeconds
         RemoteConfig.remoteConfig().configSettings = settings
-    }
-
-    @objc public func addConfigUpdateListener(_ options: AddConfigUpdateListenerOptions, completion: @escaping (Result?, Error?) -> Void) {
-        let callbackId = options.getCallbackId()
-
-        let listenerRegistration = RemoteConfig.remoteConfig().addOnConfigUpdateListener { configUpdate, error in
-            if let error = error {
-                completion(nil, error)
-            } else if let configUpdate = configUpdate {
-                let result = AddConfigUpdateListenerOptionsCallbackEvent(configUpdate: configUpdate)
-                completion(result, nil)
-            }
-        }
-        self.listenerRegistrationMap[callbackId] = listenerRegistration
-    }
-
-    @objc public func removeConfigUpdateListener(_ options: RemoveConfigUpdateListenerOptions) {
-        let callbackId = options.getCallbackId()
-
-        if let listenerRegistration = self.listenerRegistrationMap[callbackId] {
-            listenerRegistration.remove()
-        }
-        self.listenerRegistrationMap.removeValue(forKey: callbackId)
-    }
-
-    @objc public func removeAllListeners() {
-        for listenerRegistration in self.listenerRegistrationMap.values {
-            listenerRegistration.remove()
-        }
-        self.listenerRegistrationMap.removeAll()
+        completion(nil)
     }
 }

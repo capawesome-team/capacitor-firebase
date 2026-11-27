@@ -1,13 +1,18 @@
 import Foundation
+import Capacitor
 
 @objc public class RemoveConfigUpdateListenerOptions: NSObject {
-    private var callbackId: String
+    let callbackId: String
 
-    init(callbackId: String) {
-        self.callbackId = callbackId
+    init(_ call: CAPPluginCall) throws {
+        self.callbackId = try RemoveConfigUpdateListenerOptions.getCallbackIdFromCall(call)
     }
 
-    func getCallbackId() -> String {
-        return self.callbackId
+    private static func getCallbackIdFromCall(_ call: CAPPluginCall) throws -> String {
+        // The option is named `id`. The README called it `callbackId` before, so apps may still send that name.
+        guard let callbackId = call.getString("id") ?? call.getString("callbackId") else {
+            throw CustomError.idMissing
+        }
+        return callbackId
     }
 }
