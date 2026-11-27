@@ -4,9 +4,24 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
+
+## Version 9.x.x
+
+### Paths of listed files on Android
+
+On Android, `listFiles` now returns the `path` of each file without a leading slash. iOS and Web have always returned it without one.
+
+```typescript
+const result = await FirebaseStorage.listFiles({ path: 'images' });
+// Before on Android: { items: [{ path: '/images/mountains.png', ... }], ... }
+// Now on all platforms: { items: [{ path: 'images/mountains.png', ... }], ... }
+```
+
+Check code that removes the leading slash itself or compares the `path` with a text that starts with a slash.
 
 ## Version 8.x.x
 

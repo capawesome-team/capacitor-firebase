@@ -18,7 +18,8 @@ public class ListFilesResult implements Result {
         for (int i = 0; i < listResult.getItems().size(); i++) {
             JSObject itemResult = new JSObject();
             itemResult.put("bucket", listResult.getItems().get(i).getBucket());
-            itemResult.put("path", listResult.getItems().get(i).getPath());
+            // The SDK returns the path of a reference with a leading slash. iOS and Web return it without one.
+            itemResult.put("path", listResult.getItems().get(i).getPath().substring(1));
             itemResult.put("name", listResult.getItems().get(i).getName());
             itemsResult.put(itemResult);
         }
