@@ -55,7 +55,7 @@ import FirebaseCrashlytics
     }
 
     @objc public func setCustomKey(_ options: SetCustomKeyOptions, completion: @escaping (_ error: Error?) -> Void) {
-        Crashlytics.crashlytics().setCustomValue(options.value as Any, forKey: options.key)
+        Crashlytics.crashlytics().setCustomValue(options.value, forKey: options.key)
         completion(nil)
     }
 
