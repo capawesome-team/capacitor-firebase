@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.7.0
+
+### Minor Changes
+
+- [`44cce102f7983b9e55b99af89359d7f7a89a7b42`](https://github.com/capawesome-team/capacitor-firebase/commit/44cce102f7983b9e55b99af89359d7f7a89a7b42) ([#1080](https://github.com/capawesome-team/capacitor-firebase/pull/1080)): feat: add `initializeApp` and `getApps` methods
+
 ## 8.6.0
 
 ## 8.5.2

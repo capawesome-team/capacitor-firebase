@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.7.0
+
+### Patch Changes
+
+- [`998948bf2eeeb8b8686d0e94f139e0233d4fcb96`](https://github.com/capawesome-team/capacitor-firebase/commit/998948bf2eeeb8b8686d0e94f139e0233d4fcb96) ([#1112](https://github.com/capawesome-team/capacitor-firebase/pull/1112)): fix(ios): use the tag `FirebaseAppCheck` in the logs
+
 ## 8.6.0
 
 ### Patch Changes

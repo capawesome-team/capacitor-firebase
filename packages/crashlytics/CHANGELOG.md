@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.7.0
+
+### Patch Changes
+
+- [`e118657c8cb771f8516830d6be8eb936fb812814`](https://github.com/capawesome-team/capacitor-firebase/commit/e118657c8cb771f8516830d6be8eb936fb812814) ([#1075](https://github.com/capawesome-team/capacitor-firebase/pull/1075)): fix: no longer use the `hasOption` method that Capacitor 9 removes
+
+- [`3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63`](https://github.com/capawesome-team/capacitor-firebase/commit/3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63) ([#1109](https://github.com/capawesome-team/capacitor-firebase/pull/1109)): fix(android): `setCustomKey` and `recordException` now handle a `long` value above the int range, and `setCustomKey` also a `float` or `double` value
+
+- [`3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63`](https://github.com/capawesome-team/capacitor-firebase/commit/3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63) ([#1109](https://github.com/capawesome-team/capacitor-firebase/pull/1109)): fix: `recordException` now skips an invalid `keysAndValues` entry and records the rest
+
+- [`3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63`](https://github.com/capawesome-team/capacitor-firebase/commit/3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63) ([#1109](https://github.com/capawesome-team/capacitor-firebase/pull/1109)): fix(ios): `recordException` no longer crashes for a `keysAndValues` entry whose `key` is not a string
+
+- [`3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63`](https://github.com/capawesome-team/capacitor-firebase/commit/3d8cbb6d574b38bd7caacdf115ecea7f9a82fa63) ([#1109](https://github.com/capawesome-team/capacitor-firebase/pull/1109)): fix(android): `setCustomKey` now rejects with `value is invalid.` when the value does not fit a number or boolean `type`
+
 ## 8.6.0
 
 ## 8.5.2

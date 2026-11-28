@@ -1,5 +1,31 @@
 # @capacitor-firebase/firestore
 
+## 8.7.0
+
+### Minor Changes
+
+- [`44cce102f7983b9e55b99af89359d7f7a89a7b42`](https://github.com/capawesome-team/capacitor-firebase/commit/44cce102f7983b9e55b99af89359d7f7a89a7b42) ([#1080](https://github.com/capawesome-team/capacitor-firebase/pull/1080)): feat: add `appName` option to use a named Firebase app
+
+- [`e28d2de277634474ee9c542d13ecce87d1c3c94f`](https://github.com/capawesome-team/capacitor-firebase/commit/e28d2de277634474ee9c542d13ecce87d1c3c94f) ([#1071](https://github.com/capawesome-team/capacitor-firebase/pull/1071)): feat(firestore): add `terminate` method
+
+### Patch Changes
+
+- [`599906dded8327acd5995a909edb35c444b5bc0e`](https://github.com/capawesome-team/capacitor-firebase/commit/599906dded8327acd5995a909edb35c444b5bc0e) ([#1068](https://github.com/capawesome-team/capacitor-firebase/pull/1068)): fix(ios): `clearPersistence` no longer rejects with `UNIMPLEMENTED`
+
+- [`ac4ee6c70dd5f9006422f772813d5a804e4a49e3`](https://github.com/capawesome-team/capacitor-firebase/commit/ac4ee6c70dd5f9006422f772813d5a804e4a49e3) ([#1076](https://github.com/capawesome-team/capacitor-firebase/pull/1076)): fix(ios): `getCollectionGroup` now rejects with `reference must be provided.` when `reference` is missing
+
+- [`a7bf80811cba4c35de897473553deb82634acec4`](https://github.com/capawesome-team/capacitor-firebase/commit/a7bf80811cba4c35de897473553deb82634acec4) ([#1084](https://github.com/capawesome-team/capacitor-firebase/pull/1084)): fix(ios): reject instead of crashing for an invalid `reference`, `fieldPath`, `limit`, array filter value or cursor document
+
+- [`7ca7110e1118eb6e1b42be5cf4a08fde0afabe7d`](https://github.com/capawesome-team/capacitor-firebase/commit/7ca7110e1118eb6e1b42be5cf4a08fde0afabe7d) ([#1090](https://github.com/capawesome-team/capacitor-firebase/pull/1090)): fix(ios): reject instead of crashing for an invalid document reference value, an invalid key in update data, an empty field name or a cursor document without the `orderBy` field
+
+- [`ac4ee6c70dd5f9006422f772813d5a804e4a49e3`](https://github.com/capawesome-team/capacitor-firebase/commit/ac4ee6c70dd5f9006422f772813d5a804e4a49e3) ([#1076](https://github.com/capawesome-team/capacitor-firebase/pull/1076)): fix(android): `enableNetwork` and `disableNetwork` now reject when the operation fails
+
+- [`bd147b19b6dd74afbbcccf2eecbb66c32e30c078`](https://github.com/capawesome-team/capacitor-firebase/commit/bd147b19b6dd74afbbcccf2eecbb66c32e30c078) ([#1081](https://github.com/capawesome-team/capacitor-firebase/pull/1081)): fix(android): a write no longer rejects when an array holds a `null` item
+
+- [`bd147b19b6dd74afbbcccf2eecbb66c32e30c078`](https://github.com/capawesome-team/capacitor-firebase/commit/bd147b19b6dd74afbbcccf2eecbb66c32e30c078) ([#1081](https://github.com/capawesome-team/capacitor-firebase/pull/1081)): fix(android): the string `'null'` is now stored as a string instead of `null`
+
+- [`ac4ee6c70dd5f9006422f772813d5a804e4a49e3`](https://github.com/capawesome-team/capacitor-firebase/commit/ac4ee6c70dd5f9006422f772813d5a804e4a49e3) ([#1076](https://github.com/capawesome-team/capacitor-firebase/pull/1076)): fix(android): `removeSnapshotListener` no longer rejects when no listener exists for the `callbackId`
+
 ## 8.6.0
 
 ### Patch Changes

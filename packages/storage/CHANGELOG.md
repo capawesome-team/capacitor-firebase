@@ -1,5 +1,23 @@
 # @capacitor-firebase/storage
 
+## 8.7.0
+
+### Patch Changes
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(android): `downloadFile` now reports `progress` 1 for an empty file
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(ios): `downloadFile` now completes for an empty file and no longer sends empty events
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(ios): use the tag `FirebaseStorage` in the logs
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(android): `uploadFile` no longer crashes for an empty file
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(web): `uploadFile` now reports `progress` 1 for an empty file
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(android): `uploadFile` now reports `progress` as a fraction between 0 and 1 during the upload
+
+- [`8ecf26f3d992a2ddfa42e8bc1e17faa77698e121`](https://github.com/capawesome-team/capacitor-firebase/commit/8ecf26f3d992a2ddfa42e8bc1e17faa77698e121) ([#1102](https://github.com/capawesome-team/capacitor-firebase/pull/1102)): fix(ios): `uploadFile` now releases the call after a failed upload
+
 ## 8.6.0
 
 ## 8.5.2

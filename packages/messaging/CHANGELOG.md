@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.7.0
+
+### Patch Changes
+
+- [`68e4d3d3e7fbf890c5139444ea15fd4b1effc4cb`](https://github.com/capawesome-team/capacitor-firebase/commit/68e4d3d3e7fbf890c5139444ea15fd4b1effc4cb) ([#1115](https://github.com/capawesome-team/capacitor-firebase/pull/1115)): fix(ios): no longer log `criticalAlert` as an unrecognized presentation option
+
+- [`271ccacc691f08d2a766650effb68cf6bed13ca8`](https://github.com/capawesome-team/capacitor-firebase/commit/271ccacc691f08d2a766650effb68cf6bed13ca8) ([#1078](https://github.com/capawesome-team/capacitor-firebase/pull/1078)): chore: simplify private `convertNotificationPermissionToPermissionState` method
+
 ## 8.6.0
 
 ### Patch Changes

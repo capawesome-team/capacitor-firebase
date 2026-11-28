@@ -1,5 +1,13 @@
 # @capacitor-firebase/functions
 
+## 8.7.0
+
+### Patch Changes
+
+- [`a436b9fe189b50cbc11582f20ad4a9e78e9b8c5d`](https://github.com/capawesome-team/capacitor-firebase/commit/a436b9fe189b50cbc11582f20ad4a9e78e9b8c5d) ([#1091](https://github.com/capawesome-team/capacitor-firebase/pull/1091)): fix: errors of a function call now have the Firebase error code such as `functions/not-found` on Android and iOS
+
+- [`a436b9fe189b50cbc11582f20ad4a9e78e9b8c5d`](https://github.com/capawesome-team/capacitor-firebase/commit/a436b9fe189b50cbc11582f20ad4a9e78e9b8c5d) ([#1091](https://github.com/capawesome-team/capacitor-firebase/pull/1091)): fix(ios): reject instead of crashing for an invalid `url` in `callByUrl`
+
 ## 8.6.0
 
 ## 8.5.2

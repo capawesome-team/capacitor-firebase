@@ -1,5 +1,23 @@
 # Changelog
 
+## 8.7.0
+
+### Minor Changes
+
+- [`44cce102f7983b9e55b99af89359d7f7a89a7b42`](https://github.com/capawesome-team/capacitor-firebase/commit/44cce102f7983b9e55b99af89359d7f7a89a7b42) ([#1080](https://github.com/capawesome-team/capacitor-firebase/pull/1080)): feat: add `appName` option to use a named Firebase app
+
+### Patch Changes
+
+- [`15c2107d5058edb7d5d53dfeb6b7b994566705c9`](https://github.com/capawesome-team/capacitor-firebase/commit/15c2107d5058edb7d5d53dfeb6b7b994566705c9) ([#1082](https://github.com/capawesome-team/capacitor-firebase/pull/1082)): fix(ios): errors such as `No user is signed in.` now reject with their message instead of a generic one
+
+- [`15c2107d5058edb7d5d53dfeb6b7b994566705c9`](https://github.com/capawesome-team/capacitor-firebase/commit/15c2107d5058edb7d5d53dfeb6b7b994566705c9) ([#1082](https://github.com/capawesome-team/capacitor-firebase/pull/1082)): fix(android): `actionCodeSettings.android` no longer rejects when `installApp` is missing
+
+- [`15c2107d5058edb7d5d53dfeb6b7b994566705c9`](https://github.com/capawesome-team/capacitor-firebase/commit/15c2107d5058edb7d5d53dfeb6b7b994566705c9) ([#1082](https://github.com/capawesome-team/capacitor-firebase/pull/1082)): fix(android): `linkWithPhoneNumber` no longer ignores the `timeout` option
+
+- [`15c2107d5058edb7d5d53dfeb6b7b994566705c9`](https://github.com/capawesome-team/capacitor-firebase/commit/15c2107d5058edb7d5d53dfeb6b7b994566705c9) ([#1082](https://github.com/capawesome-team/capacitor-firebase/pull/1082)): fix(android): linking with Apple or an OAuth provider while no user is signed in now rejects with `No user is signed in.`
+
+- [`15c2107d5058edb7d5d53dfeb6b7b994566705c9`](https://github.com/capawesome-team/capacitor-firebase/commit/15c2107d5058edb7d5d53dfeb6b7b994566705c9) ([#1082](https://github.com/capawesome-team/capacitor-firebase/pull/1082)): fix(ios): two overlapping email, anonymous or custom token calls no longer leave the first one pending
+
 ## 8.6.0
 
 ### Minor Changes
