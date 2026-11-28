@@ -5,6 +5,7 @@ enum CustomError: Error {
     case keyMissing
     case messageMissing
     case userIdMissing
+    case valueInvalid
     case valueMissing
 
     var code: String? {
@@ -13,6 +14,7 @@ enum CustomError: Error {
              .keyMissing,
              .messageMissing,
              .userIdMissing,
+             .valueInvalid,
              .valueMissing:
             return nil
         }
@@ -30,6 +32,8 @@ extension CustomError: LocalizedError {
             return NSLocalizedString("message must be provided.", comment: "messageMissing")
         case .userIdMissing:
             return NSLocalizedString("userId must be provided.", comment: "userIdMissing")
+        case .valueInvalid:
+            return NSLocalizedString("value is invalid.", comment: "valueInvalid")
         case .valueMissing:
             return NSLocalizedString("value must be provided.", comment: "valueMissing")
         }

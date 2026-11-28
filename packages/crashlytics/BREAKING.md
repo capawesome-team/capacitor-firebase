@@ -4,11 +4,41 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
 - [Version 5.x.x](#version-5xx)
 - [Version 1.x.x](#version-1xx)
+
+## Version 9.x.x
+
+### Values of custom keys
+
+On Android and iOS, `setCustomKey` now checks the `value` in the same way:
+
+- A `value` that is missing or `null` is rejected with `value must be provided.`
+- A `value` that does not match the `type` is rejected with `value is invalid.`
+
+Before, some of these calls resolved and the value was not stored.
+
+```typescript
+await FirebaseCrashlytics.setCustomKey({ key: 'count', type: 'int', value: 'ten' });
+// Before: resolves on iOS, but the value is not stored
+// Now: rejects with "value is invalid."
+
+await FirebaseCrashlytics.setCustomKey({ key: 'count', type: 'string', value: 10 });
+// Before: resolves, but the value is not stored
+// Now: rejects with "value is invalid."
+```
+
+On iOS, the check is now as strict as on Android. These values were stored before and are now rejected with `value is invalid.`:
+
+- a boolean for the `type` `long`, `int`, `float` or `double`
+- the numbers `0` and `1` for the `type` `boolean`
+- a whole number outside the 32 bit range for the `type` `int`
+
+On Android, a `value` of `null` is now always rejected with `value must be provided.`, as on iOS.
 
 ## Version 8.x.x
 

@@ -1,7 +1,6 @@
 package io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.options;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import io.capawesome.capacitorjs.plugins.firebase.crashlytics.classes.CustomExceptions;
 
@@ -13,7 +12,7 @@ public class SetCustomKeyOptions {
     @NonNull
     private final String type;
 
-    @Nullable
+    @NonNull
     private final Object value;
 
     public SetCustomKeyOptions(@NonNull PluginCall call) throws Exception {
@@ -32,7 +31,7 @@ public class SetCustomKeyOptions {
         return type;
     }
 
-    @Nullable
+    @NonNull
     public Object getValue() {
         return value;
     }
@@ -51,9 +50,9 @@ public class SetCustomKeyOptions {
         return call.getString("type", "string");
     }
 
-    @Nullable
+    @NonNull
     private static Object getValueFromCall(@NonNull PluginCall call, @NonNull String type) throws Exception {
-        if (!call.getData().has("value")) {
+        if (call.getData().isNull("value")) {
             throw CustomExceptions.VALUE_MISSING;
         }
         // NEVER use call.getInt, call.getFloat or call.getDouble here. They drop a whole number above the int range.
@@ -81,7 +80,10 @@ public class SetCustomKeyOptions {
                 }
                 return value;
             default:
-                return call.getString("value");
+                if (!(value instanceof String)) {
+                    throw CustomExceptions.VALUE_INVALID;
+                }
+                return value;
         }
     }
 }

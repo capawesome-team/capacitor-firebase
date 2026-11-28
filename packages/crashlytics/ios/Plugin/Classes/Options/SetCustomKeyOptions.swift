@@ -3,7 +3,7 @@ import Capacitor
 
 @objc public class SetCustomKeyOptions: NSObject {
     let key: String
-    let value: Any?
+    let value: Any
 
     init(_ call: CAPPluginCall) throws {
         self.key = try SetCustomKeyOptions.getKeyFromCall(call)
@@ -22,21 +22,33 @@ import Capacitor
         return call.getString("type") ?? "string"
     }
 
-    private static func getValueFromCall(_ call: CAPPluginCall, type: String) throws -> Any? {
+    private static func getValueFromCall(_ call: CAPPluginCall, type: String) throws -> Any {
         guard let value = call.options["value"], !(value is NSNull) else {
             throw CustomError.valueMissing
         }
+        let typedValue: Any?
         switch type {
-        case "long", "int":
-            return call.getInt("value")
+        case "long":
+            typedValue = call.getInt("value")
+        case "int":
+            typedValue = call.getInt("value").flatMap { Int32(exactly: $0) }.map { Int($0) }
         case "boolean":
-            return call.getBool("value")
+            typedValue = call.getBool("value")
         case "float":
-            return call.getFloat("value")
+            typedValue = call.getFloat("value")
         case "double":
-            return call.getDouble("value")
+            typedValue = call.getDouble("value")
         default:
-            return call.getString("value")
+            typedValue = call.getString("value")
         }
+        guard let typedValue = typedValue, isBoolean(value) == (type == "boolean") else {
+            throw CustomError.valueInvalid
+        }
+        return typedValue
+    }
+
+    private static func isBoolean(_ value: Any) -> Bool {
+        // NEVER use "value is Bool" here. It is also true for the numbers 0 and 1.
+        return CFGetTypeID(value as CFTypeRef) == CFBooleanGetTypeID()
     }
 }
