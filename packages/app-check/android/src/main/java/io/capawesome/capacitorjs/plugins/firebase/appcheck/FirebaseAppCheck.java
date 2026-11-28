@@ -1,22 +1,29 @@
 package io.capawesome.capacitorjs.plugins.firebase.appcheck;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
+import com.google.firebase.appcheck.AppCheckToken;
 import com.google.firebase.appcheck.FirebaseAppCheck.AppCheckListener;
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.classes.events.TokenChangedEvent;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.classes.options.GetTokenOptions;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.classes.options.InitializeOptions;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.classes.options.SetTokenAutoRefreshEnabledOptions;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.classes.results.GetTokenResult;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.appcheck.interfaces.NonEmptyResultCallback;
 
 public class FirebaseAppCheck {
 
     @NonNull
-    private final FirebaseAppCheckPlugin plugin;
+    private final AppCheckListener appCheckListener;
 
     @NonNull
-    private final AppCheckListener appCheckListener;
+    private final FirebaseAppCheckPlugin plugin;
 
     public FirebaseAppCheck(@NonNull FirebaseAppCheckPlugin plugin) {
         this.plugin = plugin;
-        this.appCheckListener = this.plugin::handleTokenChanged;
+        this.appCheckListener = this::handleTokenChanged;
         getFirebaseAppCheckInstance().addAppCheckListener(appCheckListener);
     }
 
@@ -24,37 +31,42 @@ public class FirebaseAppCheck {
         getFirebaseAppCheckInstance().removeAppCheckListener(appCheckListener);
     }
 
-    public void getToken(boolean forceRefresh, final GetTokenResultCallback resultCallback) {
+    public void getToken(@NonNull GetTokenOptions options, @NonNull NonEmptyResultCallback<GetTokenResult> callback) {
         getFirebaseAppCheckInstance()
-            .getAppCheckToken(forceRefresh)
+            .getAppCheckToken(options.getForceRefresh())
             .addOnSuccessListener(appCheckToken -> {
-                resultCallback.success(appCheckToken.getToken(), appCheckToken.getExpireTimeMillis());
+                GetTokenResult result = new GetTokenResult(appCheckToken.getToken(), appCheckToken.getExpireTimeMillis());
+                callback.success(result);
             })
-            .addOnFailureListener(exception -> {
-                Log.w(FirebaseAppCheckPlugin.TAG, "Get App Check token failed.", exception);
-                resultCallback.error(exception.getMessage());
-            });
+            .addOnFailureListener(exception -> callback.error(exception));
     }
 
-    public void initialize(boolean debug, boolean isTokenAutoRefreshEnabled) {
-        if (debug) {
+    public void initialize(@NonNull InitializeOptions options, @NonNull EmptyResultCallback callback) {
+        if (options.getDebug()) {
             getFirebaseAppCheckInstance().installAppCheckProviderFactory(
                 DebugAppCheckProviderFactory.getInstance(),
-                isTokenAutoRefreshEnabled
+                options.isTokenAutoRefreshEnabled()
             );
         } else {
             getFirebaseAppCheckInstance().installAppCheckProviderFactory(
                 PlayIntegrityAppCheckProviderFactory.getInstance(),
-                isTokenAutoRefreshEnabled
+                options.isTokenAutoRefreshEnabled()
             );
         }
+        callback.success();
     }
 
-    public void setTokenAutoRefreshEnabled(boolean enabled) {
-        getFirebaseAppCheckInstance().setTokenAutoRefreshEnabled(enabled);
+    public void setTokenAutoRefreshEnabled(@NonNull SetTokenAutoRefreshEnabledOptions options, @NonNull EmptyResultCallback callback) {
+        getFirebaseAppCheckInstance().setTokenAutoRefreshEnabled(options.getEnabled());
+        callback.success();
     }
 
     private com.google.firebase.appcheck.FirebaseAppCheck getFirebaseAppCheckInstance() {
         return com.google.firebase.appcheck.FirebaseAppCheck.getInstance();
+    }
+
+    private void handleTokenChanged(@NonNull AppCheckToken token) {
+        TokenChangedEvent event = new TokenChangedEvent(token.getToken());
+        plugin.notifyTokenChangedListeners(event);
     }
 }
