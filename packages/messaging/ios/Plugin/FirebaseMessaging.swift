@@ -186,8 +186,11 @@ extension FirebaseMessaging: MessagingDelegate {
                 presentationOptions.insert(.badge)
             case "sound":
                 presentationOptions.insert(.sound)
+            case "criticalAlert":
+                // Has no presentation option. Only requestPermissions reads it.
+                break
             default:
-                print("Unrecogizned presentation option: \(option)")
+                print("Unrecognized presentation option: \(option)")
             }
         }
 
