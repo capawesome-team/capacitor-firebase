@@ -1,15 +1,12 @@
 package io.capawesome.capacitorjs.plugins.firebase.messaging;
 
 import android.Manifest;
-import android.app.NotificationChannel;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.service.notification.StatusBarNotification;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.Bridge;
-import com.getcapacitor.JSArray;
-import com.getcapacitor.JSObject;
 import com.getcapacitor.Logger;
 import com.getcapacitor.PermissionState;
 import com.getcapacitor.Plugin;
@@ -20,10 +17,25 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
 import com.google.firebase.messaging.RemoteMessage;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.CustomException;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.events.NotificationActionPerformedEvent;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.events.NotificationReceivedEvent;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.events.TokenReceivedEvent;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.CreateChannelOptions;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.DeleteChannelOptions;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.RemoveDeliveredNotificationsOptions;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.SubscribeToTopicOptions;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.UnsubscribeFromTopicOptions;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.results.GetDeliveredNotificationsResult;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.results.GetTokenResult;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.results.IsSupportedResult;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.results.ListChannelsResult;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.results.PermissionStatusResult;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.interfaces.EmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.interfaces.NonEmptyResultCallback;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.interfaces.Result;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @CapacitorPlugin(
     name = "FirebaseMessaging",
@@ -31,35 +43,333 @@ import org.json.JSONObject;
 )
 public class FirebaseMessagingPlugin extends Plugin {
 
+    public static final String EVENT_NOTIFICATION_ACTION_PERFORMED = "notificationActionPerformed";
+    public static final String EVENT_NOTIFICATION_RECEIVED = "notificationReceived";
+    public static final String EVENT_TOKEN_RECEIVED = "tokenReceived";
     public static final String PUSH_NOTIFICATIONS = "receive";
-
     public static final String TAG = "FirebaseMessaging";
-    public static final String TOKEN_RECEIVED_EVENT = "tokenReceived";
-    public static final String NOTIFICATION_RECEIVED_EVENT = "notificationReceived";
-    public static final String NOTIFICATION_ACTION_PERFORMED_EVENT = "notificationActionPerformed";
-    public static final String ERROR_NOTIFICATIONS_INVALID = "The provided notifications are invalid.";
-    public static final String ERROR_TOPIC_MISSING = "topic must be provided.";
-    public static final String ERROR_NOTIFICATIONS_MISSING = "notifications must be provided.";
-    public static final String ERROR_ID_MISSING = "id must be provided.";
-    public static final String ERROR_ID_OR_NAME_MISSING = "id and name must be provided.";
-    public static Bridge staticBridge = null;
     public static String lastToken = null;
-    private static final List<RemoteMessage> pendingRemoteMessages = new ArrayList<>();
+    public static Bridge staticBridge = null;
     private FirebaseMessaging implementation;
+    private static final List<RemoteMessage> pendingRemoteMessages = new ArrayList<>();
+
+    @Override
+    @PluginMethod
+    public void checkPermissions(PluginCall call) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            resolveCall(call, new PermissionStatusResult("granted"));
+            return;
+        }
+        super.checkPermissions(call);
+    }
+
+    @PluginMethod
+    public void createChannel(PluginCall call) {
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                rejectCallAsUnavailable(call);
+                return;
+            }
+            CreateChannelOptions options = new CreateChannelOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.createChannel(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void deleteChannel(PluginCall call) {
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                rejectCallAsUnavailable(call);
+                return;
+            }
+            DeleteChannelOptions options = new DeleteChannelOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.deleteChannel(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void deleteToken(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.deleteToken(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void getDeliveredNotifications(PluginCall call) {
+        try {
+            NonEmptyResultCallback<GetDeliveredNotificationsResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetDeliveredNotificationsResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getDeliveredNotifications(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void getToken(PluginCall call) {
+        try {
+            NonEmptyResultCallback<GetTokenResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull GetTokenResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.getToken(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void isSupported(PluginCall call) {
+        try {
+            NonEmptyResultCallback<IsSupportedResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull IsSupportedResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.isSupported(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void listChannels(PluginCall call) {
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                rejectCallAsUnavailable(call);
+                return;
+            }
+            NonEmptyResultCallback<ListChannelsResult> callback = new NonEmptyResultCallback<>() {
+                @Override
+                public void success(@NonNull ListChannelsResult result) {
+                    resolveCall(call, result);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.listChannels(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
 
     public void load() {
         implementation = new FirebaseMessaging(this);
         synchronized (pendingRemoteMessages) {
             staticBridge = this.bridge;
             for (RemoteMessage remoteMessage : pendingRemoteMessages) {
-                handleNotificationReceived(remoteMessage);
+                notifyNotificationReceivedListeners(new NotificationReceivedEvent(remoteMessage));
             }
             pendingRemoteMessages.clear();
         }
 
         if (lastToken != null) {
-            handleTokenReceived(lastToken);
+            notifyTokenReceivedListeners(new TokenReceivedEvent(lastToken));
             lastToken = null;
+        }
+    }
+
+    public void notifyNotificationActionPerformedListeners(@NonNull NotificationActionPerformedEvent event) {
+        notifyListeners(EVENT_NOTIFICATION_ACTION_PERFORMED, event.toJSObject(), true);
+    }
+
+    public void notifyNotificationReceivedListeners(@NonNull NotificationReceivedEvent event) {
+        notifyListeners(EVENT_NOTIFICATION_RECEIVED, event.toJSObject(), true);
+    }
+
+    public void notifyTokenReceivedListeners(@NonNull TokenReceivedEvent event) {
+        notifyListeners(EVENT_TOKEN_RECEIVED, event.toJSObject(), true);
+    }
+
+    public static void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        synchronized (pendingRemoteMessages) {
+            FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
+            if (plugin != null) {
+                plugin.notifyNotificationReceivedListeners(new NotificationReceivedEvent(remoteMessage));
+            } else {
+                pendingRemoteMessages.add(remoteMessage);
+            }
+        }
+    }
+
+    public static void onNewToken(@NonNull String token) {
+        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
+        if (plugin != null) {
+            plugin.notifyTokenReceivedListeners(new TokenReceivedEvent(token));
+        } else {
+            lastToken = token;
+        }
+    }
+
+    @PluginMethod
+    public void removeAllDeliveredNotifications(PluginCall call) {
+        try {
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.removeAllDeliveredNotifications(callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void removeDeliveredNotifications(PluginCall call) {
+        try {
+            RemoveDeliveredNotificationsOptions options = new RemoveDeliveredNotificationsOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.removeDeliveredNotifications(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @Override
+    @PluginMethod
+    public void requestPermissions(PluginCall call) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            resolveCall(call, new PermissionStatusResult("granted"));
+            return;
+        }
+        if (getPermissionState(PUSH_NOTIFICATIONS) == PermissionState.GRANTED) {
+            this.checkPermissions(call);
+            return;
+        }
+        requestPermissionForAlias(PUSH_NOTIFICATIONS, call, "permissionsCallback");
+    }
+
+    @PluginMethod
+    public void subscribeToTopic(PluginCall call) {
+        try {
+            SubscribeToTopicOptions options = new SubscribeToTopicOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.subscribeToTopic(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
+        }
+    }
+
+    @PluginMethod
+    public void unsubscribeFromTopic(PluginCall call) {
+        try {
+            UnsubscribeFromTopicOptions options = new UnsubscribeFromTopicOptions(call);
+            EmptyResultCallback callback = new EmptyResultCallback() {
+                @Override
+                public void success() {
+                    resolveCall(call);
+                }
+
+                @Override
+                public void error(@NonNull Exception exception) {
+                    rejectCall(call, exception);
+                }
+            };
+
+            implementation.unsubscribeFromTopic(options, callback);
+        } catch (Exception exception) {
+            rejectCall(call, exception);
         }
     }
 
@@ -68,289 +378,8 @@ public class FirebaseMessagingPlugin extends Plugin {
         super.handleOnNewIntent(data);
         Bundle bundle = data.getExtras();
         if (bundle != null && bundle.containsKey("google.message_id")) {
-            this.handleNotificationActionPerformed(bundle);
+            notifyNotificationActionPerformedListeners(new NotificationActionPerformedEvent(bundle));
         }
-    }
-
-    public static void onNewToken(@NonNull String token) {
-        FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
-        if (plugin != null) {
-            plugin.handleTokenReceived(token);
-        } else {
-            lastToken = token;
-        }
-    }
-
-    public static void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        synchronized (pendingRemoteMessages) {
-            FirebaseMessagingPlugin plugin = FirebaseMessagingPlugin.getFirebaseMessagingPluginInstance();
-            if (plugin != null) {
-                plugin.handleNotificationReceived(remoteMessage);
-            } else {
-                pendingRemoteMessages.add(remoteMessage);
-            }
-        }
-    }
-
-    @Override
-    @PluginMethod
-    public void checkPermissions(PluginCall call) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            JSObject result = new JSObject();
-            result.put("receive", "granted");
-            call.resolve(result);
-        } else {
-            super.checkPermissions(call);
-        }
-    }
-
-    @Override
-    @PluginMethod
-    public void requestPermissions(PluginCall call) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            JSObject result = new JSObject();
-            result.put("receive", "granted");
-            call.resolve(result);
-        } else {
-            if (getPermissionState(PUSH_NOTIFICATIONS) == PermissionState.GRANTED) {
-                this.checkPermissions(call);
-            } else {
-                requestPermissionForAlias(PUSH_NOTIFICATIONS, call, "permissionsCallback");
-            }
-        }
-    }
-
-    @PluginMethod
-    public void isSupported(PluginCall call) {
-        JSObject result = new JSObject();
-        result.put("isSupported", true);
-        call.resolve(result);
-    }
-
-    @PluginMethod
-    public void getToken(PluginCall call) {
-        try {
-            implementation.getToken(
-                new GetTokenResultCallback() {
-                    @Override
-                    public void success(String token) {
-                        JSObject result = new JSObject();
-                        result.put("token", token);
-                        call.resolve(result);
-                    }
-
-                    @Override
-                    public void error(String message) {
-                        call.reject(message);
-                    }
-                }
-            );
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void deleteToken(PluginCall call) {
-        try {
-            implementation.deleteToken();
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void getDeliveredNotifications(PluginCall call) {
-        try {
-            JSArray notificationsResult = new JSArray();
-            StatusBarNotification[] activeNotifications = implementation.getDeliveredNotifications();
-            for (StatusBarNotification activeNotification : activeNotifications) {
-                JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(activeNotification);
-                notificationsResult.put(notificationResult);
-            }
-
-            JSObject result = new JSObject();
-            result.put("notifications", notificationsResult);
-            call.resolve(result);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void removeDeliveredNotifications(PluginCall call) {
-        try {
-            JSArray notifications = call.getArray("notifications");
-            if (notifications == null) {
-                call.reject(ERROR_NOTIFICATIONS_MISSING);
-                return;
-            }
-
-            List<String> tags = new ArrayList<>();
-            List<String> ids = new ArrayList<>();
-            try {
-                for (Object item : notifications.toList()) {
-                    if (item instanceof JSONObject) {
-                        JSObject notification = JSObject.fromJSONObject((JSONObject) item);
-                        String tag = notification.getString("tag", "");
-                        tags.add(tag);
-                        String id = notification.getString("id", "");
-                        ids.add(id);
-                    } else {
-                        call.reject(ERROR_NOTIFICATIONS_INVALID);
-                        return;
-                    }
-                }
-            } catch (JSONException e) {
-                call.reject(ERROR_NOTIFICATIONS_INVALID);
-                return;
-            }
-
-            implementation.removeDeliveredNotifications(tags, ids);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void removeAllDeliveredNotifications(PluginCall call) {
-        try {
-            implementation.removeAllDeliveredNotifications();
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void subscribeToTopic(PluginCall call) {
-        try {
-            String topic = call.getString("topic");
-            if (topic == null) {
-                call.reject(ERROR_TOPIC_MISSING);
-                return;
-            }
-            implementation.subscribeToTopic(topic);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void unsubscribeFromTopic(PluginCall call) {
-        try {
-            String topic = call.getString("topic");
-            if (topic == null) {
-                call.reject(ERROR_TOPIC_MISSING);
-                return;
-            }
-            implementation.unsubscribeFromTopic(topic);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void createChannel(PluginCall call) {
-        try {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-                call.unavailable();
-                return;
-            }
-            NotificationChannel notificationChannel = FirebaseMessagingHelper.createNotificationChannelFromPluginCall(
-                call,
-                getContext().getPackageName()
-            );
-            if (notificationChannel == null) {
-                call.reject(ERROR_ID_OR_NAME_MISSING);
-                return;
-            }
-            implementation.createChannel(notificationChannel);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void deleteChannel(PluginCall call) {
-        try {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-                call.unavailable();
-                return;
-            }
-            String id = call.getString("id");
-            if (id == null) {
-                call.reject(ERROR_ID_MISSING);
-                return;
-            }
-
-            implementation.deleteChannelById(id);
-            call.resolve();
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PluginMethod
-    public void listChannels(PluginCall call) {
-        try {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-                call.unavailable();
-                return;
-            }
-            List<NotificationChannel> notificationChannels = implementation.getNotificationChannels();
-            JSArray channelsResult = new JSArray();
-            for (NotificationChannel notificationChannel : notificationChannels) {
-                JSObject channelResult = FirebaseMessagingHelper.createChannelResult(notificationChannel);
-                channelsResult.put(channelResult);
-            }
-            JSObject result = new JSObject();
-            result.put("channels", channelsResult);
-            call.resolve(result);
-        } catch (Exception exception) {
-            Logger.error(TAG, exception.getMessage(), exception);
-            call.reject(exception.getMessage());
-        }
-    }
-
-    @PermissionCallback
-    private void permissionsCallback(PluginCall call) {
-        this.checkPermissions(call);
-    }
-
-    private void handleTokenReceived(@NonNull String token) {
-        JSObject result = new JSObject();
-        result.put("token", token);
-        notifyListeners(TOKEN_RECEIVED_EVENT, result, true);
-    }
-
-    private void handleNotificationReceived(@NonNull RemoteMessage remoteMessage) {
-        JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(remoteMessage);
-        JSObject result = new JSObject();
-        result.put("notification", notificationResult);
-        notifyListeners(NOTIFICATION_RECEIVED_EVENT, result, true);
-    }
-
-    private void handleNotificationActionPerformed(@NonNull Bundle bundle) {
-        JSObject notificationResult = FirebaseMessagingHelper.createNotificationResult(bundle);
-        JSObject result = new JSObject();
-        result.put("actionId", "tap");
-        result.put("notification", notificationResult);
-        notifyListeners(NOTIFICATION_ACTION_PERFORMED_EVENT, result, true);
     }
 
     private static FirebaseMessagingPlugin getFirebaseMessagingPluginInstance() {
@@ -362,5 +391,37 @@ public class FirebaseMessagingPlugin extends Plugin {
             return null;
         }
         return (FirebaseMessagingPlugin) handle.getInstance();
+    }
+
+    @PermissionCallback
+    private void permissionsCallback(PluginCall call) {
+        this.checkPermissions(call);
+    }
+
+    private void rejectCall(@NonNull PluginCall call, @NonNull Exception exception) {
+        String message = exception.getMessage();
+        Logger.error(TAG, message, exception);
+        String code = exception instanceof CustomException ? ((CustomException) exception).getCode() : null;
+        if (code == null) {
+            call.reject(message);
+        } else {
+            call.reject(message, code);
+        }
+    }
+
+    private void rejectCallAsUnavailable(@NonNull PluginCall call) {
+        call.unavailable();
+    }
+
+    private void resolveCall(@NonNull PluginCall call) {
+        call.resolve();
+    }
+
+    private void resolveCall(@NonNull PluginCall call, @Nullable Result result) {
+        if (result == null) {
+            call.resolve();
+        } else {
+            call.resolve(result.toJSObject());
+        }
     }
 }
