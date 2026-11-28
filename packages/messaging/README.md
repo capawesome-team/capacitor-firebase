@@ -63,7 +63,7 @@ Add Firebase to your project if you haven't already ([Android](https://github.co
 
 If needed, you can define the following project variable in your app’s `variables.gradle` file to change the default version of the dependency:
 
-- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `25.0.1`)
+- `$firebaseMessagingVersion` version of `com.google.firebase:firebase-messaging` (default: `26.0.2`)
 
 This can be useful if you encounter dependency conflicts with other plugins in your project.
 
@@ -523,7 +523,8 @@ Note: This will remove all delivered notifications, including local notification
 subscribeToTopic(options: SubscribeToTopicOptions) => Promise<void>
 ```
 
-Subscribes to topic in the background.
+Subscribes to a topic.
+The call resolves once the server has confirmed the subscription.
 
 Only available for Android and iOS.
 
@@ -542,7 +543,8 @@ Only available for Android and iOS.
 unsubscribeFromTopic(options: UnsubscribeFromTopicOptions) => Promise<void>
 ```
 
-Unsubscribes from topic in the background.
+Unsubscribes from a topic.
+The call resolves once the server has confirmed it.
 
 Only available for Android and iOS.
 

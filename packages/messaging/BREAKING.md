@@ -4,6 +4,7 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 
 ## Versions
 
+- [Version 9.x.x](#version-9xx)
 - [Version 8.x.x](#version-8xx)
 - [Version 7.x.x](#version-7xx)
 - [Version 6.x.x](#version-6xx)
@@ -11,6 +12,32 @@ This is a comprehensive list of the breaking changes introduced in the major ver
 - [Version 1.x.x](#version-1xx)
 - [Version 0.4.x](#version-04x)
 - [Version 0.3.x](#version-03x)
+
+## Version 9.x.x
+
+### Variables
+
+- On Android, the `firebaseMessagingVersion` variable has been updated to `26.0.2`.
+
+With this version, the Firebase SDK sends topic requests directly to the FCM Registration API. If the API key of your Android app has API restrictions, make sure that the FCM Registration API and the Firebase Installations API are on its allowlist.
+
+### Token and topic calls on Android
+
+On Android, `deleteToken`, `subscribeToTopic` and `unsubscribeFromTopic` now wait for the Firebase SDK, as on iOS. They resolve when the operation is done and reject when it fails.
+
+Before, these calls resolved at once, also when the operation failed later.
+
+```typescript
+await FirebaseMessaging.subscribeToTopic({ topic: 'invalid topic!' });
+// Before: resolves on Android
+// Now: rejects with the error of the Firebase SDK
+```
+
+Things to know about `subscribeToTopic` and `unsubscribeFromTopic`:
+
+- Without a network connection, or while the server cannot be reached, the call waits and the Firebase SDK tries again later. Do not let the start of your app wait for these calls.
+- On a device without Google Play services, the call rejects with `Google Play services are not available on this device.`
+- If your app sets the `firebaseMessagingVersion` variable itself, use `26.0.2` or later. With an older version, a topic call can stay open for good, for example when the server refuses it or when it starts without a network.
 
 ## Version 8.x.x
 

@@ -3,11 +3,13 @@ package io.capawesome.capacitorjs.plugins.firebase.messaging;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.CustomExceptions;
 import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.CreateChannelOptions;
 import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.DeleteChannelOptions;
 import io.capawesome.capacitorjs.plugins.firebase.messaging.classes.options.RemoveDeliveredNotificationsOptions;
@@ -48,8 +50,14 @@ public class FirebaseMessaging {
     }
 
     public void deleteToken(@NonNull EmptyResultCallback callback) {
-        getFirebaseMessagingInstance().deleteToken();
-        callback.success();
+        getFirebaseMessagingInstance()
+            .deleteToken()
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void getDeliveredNotifications(@NonNull NonEmptyResultCallback<GetDeliveredNotificationsResult> callback) {
@@ -112,16 +120,45 @@ public class FirebaseMessaging {
     }
 
     public void subscribeToTopic(@NonNull SubscribeToTopicOptions options, @NonNull EmptyResultCallback callback) {
-        getFirebaseMessagingInstance().subscribeToTopic(options.getTopic());
-        callback.success();
+        if (!isGooglePlayServicesInstalled()) {
+            callback.error(CustomExceptions.GOOGLE_PLAY_SERVICES_UNAVAILABLE);
+            return;
+        }
+        getFirebaseMessagingInstance()
+            .subscribeToTopic(options.getTopic())
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     public void unsubscribeFromTopic(@NonNull UnsubscribeFromTopicOptions options, @NonNull EmptyResultCallback callback) {
-        getFirebaseMessagingInstance().unsubscribeFromTopic(options.getTopic());
-        callback.success();
+        if (!isGooglePlayServicesInstalled()) {
+            callback.error(CustomExceptions.GOOGLE_PLAY_SERVICES_UNAVAILABLE);
+            return;
+        }
+        getFirebaseMessagingInstance()
+            .unsubscribeFromTopic(options.getTopic())
+            .addOnSuccessListener(unused -> {
+                callback.success();
+            })
+            .addOnFailureListener(exception -> {
+                callback.error(exception);
+            });
     }
 
     private com.google.firebase.messaging.FirebaseMessaging getFirebaseMessagingInstance() {
         return com.google.firebase.messaging.FirebaseMessaging.getInstance();
+    }
+
+    private boolean isGooglePlayServicesInstalled() {
+        // The Firebase SDK makes the same check and never completes a topic task when it fails.
+        int permissionState = plugin
+            .getContext()
+            .getPackageManager()
+            .checkPermission("com.google.android.c2dm.permission.SEND", "com.google.android.gms");
+        return permissionState != PackageManager.PERMISSION_DENIED;
     }
 }
