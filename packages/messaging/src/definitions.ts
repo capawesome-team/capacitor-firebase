@@ -98,7 +98,8 @@ export interface FirebaseMessagingPlugin {
    */
   removeAllDeliveredNotifications(): Promise<void>;
   /**
-   * Subscribes to topic in the background.
+   * Subscribes to a topic.
+   * The call resolves once the server has confirmed the subscription.
    *
    * Only available for Android and iOS.
    *
@@ -106,7 +107,8 @@ export interface FirebaseMessagingPlugin {
    */
   subscribeToTopic(options: SubscribeToTopicOptions): Promise<void>;
   /**
-   * Unsubscribes from topic in the background.
+   * Unsubscribes from a topic.
+   * The call resolves once the server has confirmed it.
    *
    * Only available for Android and iOS.
    *
