@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.7.0
+
+### Patch Changes
+
+- [`0cca68e24f437af9601b8ccef496795cc0586f7c`](https://github.com/capawesome-team/capacitor-firebase/commit/0cca68e24f437af9601b8ccef496795cc0586f7c) ([#1108](https://github.com/capawesome-team/capacitor-firebase/pull/1108)): fix(android): `removeConfigUpdateListener` no longer rejects for an id that is not registered
+
+- [`0cca68e24f437af9601b8ccef496795cc0586f7c`](https://github.com/capawesome-team/capacitor-firebase/commit/0cca68e24f437af9601b8ccef496795cc0586f7c) ([#1108](https://github.com/capawesome-team/capacitor-firebase/pull/1108)): fix: `removeConfigUpdateListener` now accepts the documented option `id`
+
 ## 8.6.0
 
 ## 8.5.2

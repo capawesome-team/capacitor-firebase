@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.7.0
+
+### Patch Changes
+
+- [`8414304db74237d57f27734bfc3ab1da9c45ab3e`](https://github.com/capawesome-team/capacitor-firebase/commit/8414304db74237d57f27734bfc3ab1da9c45ab3e) ([#1094](https://github.com/capawesome-team/capacitor-firebase/pull/1094)): fix(android): `setConsent` now rejects with `consentType must be provided.` or `consentStatus must be provided.` when `type` or `status` is missing
+
+- [`8414304db74237d57f27734bfc3ab1da9c45ab3e`](https://github.com/capawesome-team/capacitor-firebase/commit/8414304db74237d57f27734bfc3ab1da9c45ab3e) ([#1094](https://github.com/capawesome-team/capacitor-firebase/pull/1094)): fix(android): `logEvent` no longer drops the parameters after a value that cannot be converted
+
+- [`8414304db74237d57f27734bfc3ab1da9c45ab3e`](https://github.com/capawesome-team/capacitor-firebase/commit/8414304db74237d57f27734bfc3ab1da9c45ab3e) ([#1094](https://github.com/capawesome-team/capacitor-firebase/pull/1094)): fix(android): `setSessionTimeoutDuration` no longer ignores the `duration` option
+
 ## 8.6.0
 
 ## 8.5.2

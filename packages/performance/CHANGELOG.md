@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.7.0
+
+### Patch Changes
+
+- [`e8336a2b916c7d4a3f824850470bc26d47430869`](https://github.com/capawesome-team/capacitor-firebase/commit/e8336a2b916c7d4a3f824850470bc26d47430869) ([#1097](https://github.com/capawesome-team/capacitor-firebase/pull/1097)): fix: `getAttributes` now returns the map as `attributes` on Android and iOS
+
+- [`e8336a2b916c7d4a3f824850470bc26d47430869`](https://github.com/capawesome-team/capacitor-firebase/commit/e8336a2b916c7d4a3f824850470bc26d47430869) ([#1097](https://github.com/capawesome-team/capacitor-firebase/pull/1097)): fix(ios): `startTrace` no longer crashes for a trace name that the SDK refuses
+
+- [`e8336a2b916c7d4a3f824850470bc26d47430869`](https://github.com/capawesome-team/capacitor-firebase/commit/e8336a2b916c7d4a3f824850470bc26d47430869) ([#1097](https://github.com/capawesome-team/capacitor-firebase/pull/1097)): fix(android): `putMetric` now accepts a whole number above the int range
+
+- [`e8336a2b916c7d4a3f824850470bc26d47430869`](https://github.com/capawesome-team/capacitor-firebase/commit/e8336a2b916c7d4a3f824850470bc26d47430869) ([#1097](https://github.com/capawesome-team/capacitor-firebase/pull/1097)): fix(ios): reject instead of crashing for a `num` beyond the Int64 range in `putMetric`
+
 ## 8.6.0
 
 ## 8.5.2
