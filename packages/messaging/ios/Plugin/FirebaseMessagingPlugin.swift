@@ -15,30 +15,42 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "FirebaseMessaging"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "isSupported", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getToken", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "deleteToken", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getDeliveredNotifications", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "removeDeliveredNotifications", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "removeAllDeliveredNotifications", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "subscribeToTopic", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "unsubscribeFromTopic", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "createChannel", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteChannel", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "listChannels", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "deleteToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getDeliveredNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isSupported", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "listChannels", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeAllDeliveredNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeDeliveredNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "subscribeToTopic", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "unsubscribeFromTopic", returnType: CAPPluginReturnPromise)
     ]
-    private var implementation: FirebaseMessaging?
-
     public let tag = "FirebaseMessaging"
-    public let tokenReceivedEvent = "tokenReceived"
-    public let notificationReceivedEvent = "notificationReceived"
-    public let notificationActionPerformedEvent = "notificationActionPerformed"
-    public let apnsTokenReceivedEvent = "apnsTokenReceived"
-    public let errorFirebaseNotConfigured = "Firebase is not configured: GoogleService-Info.plist is missing from the app bundle."
-    public let errorTopicMissing = "topic must be provided."
-    public let errorNotificationsMissing = "notifications must be provided."
-    public let errorNotificationsInvalid = "The provided notifications are invalid."
+    static let eventApnsTokenReceived = "apnsTokenReceived"
+    static let eventNotificationActionPerformed = "notificationActionPerformed"
+    static let eventNotificationReceived = "notificationReceived"
+    static let eventTokenReceived = "tokenReceived"
+    private var implementation: FirebaseMessaging?
+    private var isFirebaseConfigured: Bool {
+        return implementation?.isFirebaseConfigured == true
+    }
+
+    @objc override public func checkPermissions(_ call: CAPPluginCall) {
+        implementation?.checkPermissions(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     override public func load() {
         implementation = FirebaseMessaging(plugin: self, config: firebaseMessagingConfig())
@@ -46,51 +58,38 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveRemoteNotification(notification:)), name: Notification.Name.init("didReceiveRemoteNotification"), object: nil)
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    @objc public func notifyApnsTokenReceivedListeners(_ event: ApnsTokenReceivedEvent) {
+        self.notifyListeners(Self.eventApnsTokenReceived, data: event.toJSObject() as? [String: Any], retainUntilConsumed: true)
     }
 
-    @objc override public func checkPermissions(_ call: CAPPluginCall) {
-        implementation?.checkPermissions(completion: { permission in
-            call.resolve([
-                "receive": permission
-            ])
-        })
+    @objc public func notifyNotificationActionPerformedListeners(_ event: NotificationActionPerformedEvent) {
+        self.notifyListeners(Self.eventNotificationActionPerformed, data: event.toJSObject() as? [String: Any], retainUntilConsumed: true)
+    }
+
+    @objc public func notifyNotificationReceivedListeners(_ event: NotificationReceivedEvent) {
+        self.notifyListeners(Self.eventNotificationReceived, data: event.toJSObject() as? [String: Any], retainUntilConsumed: true)
+    }
+
+    @objc public func notifyTokenReceivedListeners(_ event: TokenReceivedEvent) {
+        self.notifyListeners(Self.eventTokenReceived, data: event.toJSObject() as? [String: Any], retainUntilConsumed: true)
     }
 
     @objc override public func requestPermissions(_ call: CAPPluginCall) {
-        implementation?.requestPermissions(completion: { granted, error in
+        implementation?.requestPermissions(completion: { result, error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
             }
-            call.resolve(["receive": granted ? "granted" : "denied"])
         })
     }
 
-    @objc func isSupported(_ call: CAPPluginCall) {
-        var result = JSObject()
-        result["isSupported"] = true
-        call.resolve(result)
+    @objc func createChannel(_ call: CAPPluginCall) {
+        rejectCallAsUnimplemented(call)
     }
 
-    @objc func getToken(_ call: CAPPluginCall) {
-        guard isFirebaseConfigured else {
-            rejectCallAsUnavailable(call)
-            return
-        }
-
-        implementation?.getToken(completion: { token, error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-                return
-            }
-            var result = JSObject()
-            result["token"] = token
-            call.resolve(result)
-        })
+    @objc func deleteChannel(_ call: CAPPluginCall) {
+        rejectCallAsUnimplemented(call)
     }
 
     @objc func deleteToken(_ call: CAPPluginCall) {
@@ -101,47 +100,76 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
 
         implementation?.deleteToken(completion: { error in
             if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-                return
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
             }
-            call.resolve()
         })
     }
 
     @objc func getDeliveredNotifications(_ call: CAPPluginCall) {
-        implementation?.getDeliveredNotifications(completion: { notifications in
-            let notificationResults = notifications.map({ notification in
-                return FirebaseMessagingHelper.createNotificationResult(notification: notification)
-            })
-            call.resolve([
-                "notifications": notificationResults
-            ])
+        implementation?.getDeliveredNotifications(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    @objc func getToken(_ call: CAPPluginCall) {
+        guard isFirebaseConfigured else {
+            rejectCallAsUnavailable(call)
+            return
+        }
+
+        implementation?.getToken(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    @objc func isSupported(_ call: CAPPluginCall) {
+        implementation?.isSupported(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    @objc func listChannels(_ call: CAPPluginCall) {
+        rejectCallAsUnimplemented(call)
+    }
+
+    @objc func removeAllDeliveredNotifications(_ call: CAPPluginCall) {
+        implementation?.removeAllDeliveredNotifications(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
         })
     }
 
     @objc func removeDeliveredNotifications(_ call: CAPPluginCall) {
-        guard let notifications = call.getArray("notifications", JSObject.self) else {
-            call.reject(errorNotificationsMissing)
-            return
+        do {
+            let options = try RemoveDeliveredNotificationsOptions(call)
+
+            implementation?.removeDeliveredNotifications(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-
-        var ids = [String]()
-        for notification in notifications {
-            guard let id = notification["id"] as? String else {
-                call.reject(errorNotificationsInvalid)
-                return
-            }
-            ids.append(id)
-        }
-
-        implementation?.removeDeliveredNotifications(ids: ids)
-        call.resolve()
-    }
-
-    @objc func removeAllDeliveredNotifications(_ call: CAPPluginCall) {
-        implementation?.removeAllDeliveredNotifications()
-        call.resolve()
     }
 
     @objc func subscribeToTopic(_ call: CAPPluginCall) {
@@ -150,19 +178,19 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        guard let topic = call.getString("topic") else {
-            call.reject(errorTopicMissing)
-            return
-        }
+        do {
+            let options = try SubscribeToTopicOptions(call)
 
-        implementation?.subscribeToTopic(topic: topic, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-                return
-            }
-            call.resolve()
-        })
+            implementation?.subscribeToTopic(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
+        }
     }
 
     @objc func unsubscribeFromTopic(_ call: CAPPluginCall) {
@@ -171,71 +199,23 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
-        guard let topic = call.getString("topic") else {
-            call.reject(errorTopicMissing)
-            return
+        do {
+            let options = try UnsubscribeFromTopicOptions(call)
+
+            implementation?.unsubscribeFromTopic(options, completion: { error in
+                if let error = error {
+                    self.rejectCall(call, error)
+                } else {
+                    self.resolveCall(call)
+                }
+            })
+        } catch {
+            rejectCall(call, error)
         }
-
-        implementation?.unsubscribeFromTopic(topic: topic, completion: { error in
-            if let error = error {
-                CAPLog.print("[", self.tag, "] ", error)
-                call.reject(error.localizedDescription)
-                return
-            }
-            call.resolve()
-        })
     }
 
-    @objc func createChannel(_ call: CAPPluginCall) {
-        call.unimplemented("Not implemented on iOS.")
-    }
-
-    @objc func deleteChannel(_ call: CAPPluginCall) {
-        call.unimplemented("Not implemented on iOS.")
-    }
-
-    @objc func listChannels(_ call: CAPPluginCall) {
-        call.unimplemented("Not implemented on iOS.")
-    }
-
-    func handleTokenReceived(token: String?) {
-        guard let token = token else {
-            return
-        }
-        var result = JSObject()
-        result["token"] = token
-        notifyListeners(tokenReceivedEvent, data: result, retainUntilConsumed: true)
-    }
-
-    func handleNotificationReceived(notification: UNNotification) {
-        let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
-        var result = JSObject()
-        result["notification"] = notificationResult
-        notifyListeners(notificationReceivedEvent, data: result, retainUntilConsumed: true)
-    }
-
-    func handleRemoteNotificationReceived(notification: NSNotification) {
-        let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: notification)
-        var result = JSObject()
-        result["notification"] = notificationResult
-        notifyListeners(notificationReceivedEvent, data: result, retainUntilConsumed: true)
-    }
-
-    func handleNotificationActionPerformed(response: UNNotificationResponse) {
-        let notificationResult = FirebaseMessagingHelper.createNotificationResult(notification: response.notification)
-        var result = JSObject()
-        result["notification"] = notificationResult
-        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
-            result["actionId"] = "tap"
-        } else if response.actionIdentifier == UNNotificationDismissActionIdentifier {
-            result["actionId"] = "dismiss"
-        } else {
-            result["actionId"] = response.actionIdentifier
-        }
-        if let inputType = response as? UNTextInputNotificationResponse {
-            result["inputValue"] = inputType.userText
-        }
-        notifyListeners(notificationActionPerformedEvent, data: result, retainUntilConsumed: true)
+    @objc private func didReceiveRemoteNotification(notification: NSNotification) {
+        implementation?.handleRemoteNotificationReceived(notification: notification)
     }
 
     @objc private func didRegisterForRemoteNotifications(notification: NSNotification) {
@@ -243,22 +223,7 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
         implementation?.setApnsToken(deviceToken)
-        let token = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-        var result = JSObject()
-        result["token"] = token
-        notifyListeners(apnsTokenReceivedEvent, data: result, retainUntilConsumed: true)
-    }
-
-    @objc private func didReceiveRemoteNotification(notification: NSNotification) {
-        implementation?.handleRemoteNotificationReceived(notification: notification)
-    }
-
-    private var isFirebaseConfigured: Bool {
-        return implementation?.isFirebaseConfigured == true
-    }
-
-    private func rejectCallAsUnavailable(_ call: CAPPluginCall) {
-        call.unavailable(errorFirebaseNotConfigured)
+        notifyApnsTokenReceivedListeners(ApnsTokenReceivedEvent(deviceToken: deviceToken))
     }
 
     private func firebaseMessagingConfig() -> FirebaseMessagingConfig {
@@ -269,5 +234,34 @@ public class FirebaseMessagingPlugin: CAPPlugin, CAPBridgedPlugin {
         }
 
         return config
+    }
+
+    private func rejectCall(_ call: CAPPluginCall, _ error: Error) {
+        CAPLog.print("[", self.tag, "] ", error)
+        if let error = error as? CustomError {
+            call.reject(error.localizedDescription, error.code)
+        } else {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    private func rejectCallAsUnavailable(_ call: CAPPluginCall) {
+        call.unavailable("Firebase is not configured: GoogleService-Info.plist is missing from the app bundle.")
+    }
+
+    private func rejectCallAsUnimplemented(_ call: CAPPluginCall) {
+        call.unimplemented("Not implemented on iOS.")
+    }
+
+    private func resolveCall(_ call: CAPPluginCall) {
+        call.resolve()
+    }
+
+    private func resolveCall(_ call: CAPPluginCall, _ result: Result?) {
+        if let result = result?.toJSObject() as? JSObject {
+            call.resolve(result)
+        } else {
+            call.resolve()
+        }
     }
 }

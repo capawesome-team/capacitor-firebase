@@ -16,6 +16,19 @@
 		50E1A94820377CB70090CE1A /* FirebaseMessagingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* FirebaseMessagingPlugin.swift */; };
 		7CD616A52822BA3500F47014 /* FirebaseMessagingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD616A42822BA3500F47014 /* FirebaseMessagingConfig.swift */; };
 		7CD616A72822D3FA00F47014 /* FirebaseMessagingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD616A62822D3FA00F47014 /* FirebaseMessagingHelper.swift */; };
+		7CF2B0052EC0000000000101 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000001 /* CustomError.swift */; };
+		7CF2B0052EC0000000000102 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000002 /* Result.swift */; };
+		7CF2B0052EC0000000000103 /* RemoveDeliveredNotificationsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000003 /* RemoveDeliveredNotificationsOptions.swift */; };
+		7CF2B0052EC0000000000104 /* SubscribeToTopicOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000004 /* SubscribeToTopicOptions.swift */; };
+		7CF2B0052EC0000000000105 /* UnsubscribeFromTopicOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000005 /* UnsubscribeFromTopicOptions.swift */; };
+		7CF2B0052EC0000000000106 /* GetDeliveredNotificationsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000006 /* GetDeliveredNotificationsResult.swift */; };
+		7CF2B0052EC0000000000107 /* GetTokenResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000007 /* GetTokenResult.swift */; };
+		7CF2B0052EC0000000000108 /* IsSupportedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000008 /* IsSupportedResult.swift */; };
+		7CF2B0052EC0000000000109 /* PermissionStatusResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC0000000000009 /* PermissionStatusResult.swift */; };
+		7CF2B0052EC000000000010A /* ApnsTokenReceivedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC000000000000A /* ApnsTokenReceivedEvent.swift */; };
+		7CF2B0052EC000000000010B /* NotificationActionPerformedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC000000000000B /* NotificationActionPerformedEvent.swift */; };
+		7CF2B0052EC000000000010C /* NotificationReceivedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC000000000000C /* NotificationReceivedEvent.swift */; };
+		7CF2B0052EC000000000010D /* TokenReceivedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF2B0052EC000000000000D /* TokenReceivedEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +54,19 @@
 		5E23F77F099397094342571A /* Pods-Plugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.debug.xcconfig"; sourceTree = "<group>"; };
 		7CD616A42822BA3500F47014 /* FirebaseMessagingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMessagingConfig.swift; sourceTree = "<group>"; };
 		7CD616A62822D3FA00F47014 /* FirebaseMessagingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMessagingHelper.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000002 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000003 /* RemoveDeliveredNotificationsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveDeliveredNotificationsOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000004 /* SubscribeToTopicOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeToTopicOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000005 /* UnsubscribeFromTopicOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsubscribeFromTopicOptions.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000006 /* GetDeliveredNotificationsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeliveredNotificationsResult.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000007 /* GetTokenResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTokenResult.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000008 /* IsSupportedResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsSupportedResult.swift; sourceTree = "<group>"; };
+		7CF2B0052EC0000000000009 /* PermissionStatusResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionStatusResult.swift; sourceTree = "<group>"; };
+		7CF2B0052EC000000000000A /* ApnsTokenReceivedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApnsTokenReceivedEvent.swift; sourceTree = "<group>"; };
+		7CF2B0052EC000000000000B /* NotificationActionPerformedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationActionPerformedEvent.swift; sourceTree = "<group>"; };
+		7CF2B0052EC000000000000C /* NotificationReceivedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationReceivedEvent.swift; sourceTree = "<group>"; };
+		7CF2B0052EC000000000000D /* TokenReceivedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenReceivedEvent.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +118,9 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				7CF2B0052EC0000000000201 /* Classes */,
+				7CF2B0052EC0000000000205 /* Enums */,
+				7CF2B0052EC0000000000206 /* Protocols */,
 				50E1A94720377CB70090CE1A /* FirebaseMessagingPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* FirebaseMessaging.swift */,
 				50ADFF8C201F53D600D50D53 /* Info.plist */,
@@ -99,6 +128,64 @@
 				7CD616A62822D3FA00F47014 /* FirebaseMessagingHelper.swift */,
 			);
 			path = Plugin;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000201 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000202 /* Events */,
+				7CF2B0052EC0000000000203 /* Options */,
+				7CF2B0052EC0000000000204 /* Results */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000202 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC000000000000A /* ApnsTokenReceivedEvent.swift */,
+				7CF2B0052EC000000000000B /* NotificationActionPerformedEvent.swift */,
+				7CF2B0052EC000000000000C /* NotificationReceivedEvent.swift */,
+				7CF2B0052EC000000000000D /* TokenReceivedEvent.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000203 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000003 /* RemoveDeliveredNotificationsOptions.swift */,
+				7CF2B0052EC0000000000004 /* SubscribeToTopicOptions.swift */,
+				7CF2B0052EC0000000000005 /* UnsubscribeFromTopicOptions.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000204 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000006 /* GetDeliveredNotificationsResult.swift */,
+				7CF2B0052EC0000000000007 /* GetTokenResult.swift */,
+				7CF2B0052EC0000000000008 /* IsSupportedResult.swift */,
+				7CF2B0052EC0000000000009 /* PermissionStatusResult.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000205 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000001 /* CustomError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		7CF2B0052EC0000000000206 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7CF2B0052EC0000000000002 /* Result.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		50ADFF95201F53D600D50D53 /* PluginTests */ = {
@@ -325,6 +412,19 @@
 				7CD616A52822BA3500F47014 /* FirebaseMessagingConfig.swift in Sources */,
 				7CD616A72822D3FA00F47014 /* FirebaseMessagingHelper.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* FirebaseMessaging.swift in Sources */,
+				7CF2B0052EC0000000000101 /* CustomError.swift in Sources */,
+				7CF2B0052EC0000000000102 /* Result.swift in Sources */,
+				7CF2B0052EC0000000000103 /* RemoveDeliveredNotificationsOptions.swift in Sources */,
+				7CF2B0052EC0000000000104 /* SubscribeToTopicOptions.swift in Sources */,
+				7CF2B0052EC0000000000105 /* UnsubscribeFromTopicOptions.swift in Sources */,
+				7CF2B0052EC0000000000106 /* GetDeliveredNotificationsResult.swift in Sources */,
+				7CF2B0052EC0000000000107 /* GetTokenResult.swift in Sources */,
+				7CF2B0052EC0000000000108 /* IsSupportedResult.swift in Sources */,
+				7CF2B0052EC0000000000109 /* PermissionStatusResult.swift in Sources */,
+				7CF2B0052EC000000000010A /* ApnsTokenReceivedEvent.swift in Sources */,
+				7CF2B0052EC000000000010B /* NotificationActionPerformedEvent.swift in Sources */,
+				7CF2B0052EC000000000010C /* NotificationReceivedEvent.swift in Sources */,
+				7CF2B0052EC000000000010D /* TokenReceivedEvent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

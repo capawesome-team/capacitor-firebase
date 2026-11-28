@@ -6,8 +6,11 @@ import FirebaseMessaging
 import FirebaseCore
 
 @objc public class FirebaseMessaging: NSObject, NotificationHandlerProtocol {
-    private let plugin: FirebaseMessagingPlugin
+    public var isFirebaseConfigured: Bool {
+        return FirebaseApp.app() != nil
+    }
     private let config: FirebaseMessagingConfig
+    private let plugin: FirebaseMessagingPlugin
 
     init(plugin: FirebaseMessagingPlugin, config: FirebaseMessagingConfig) {
         self.plugin = plugin
@@ -25,54 +28,27 @@ import FirebaseCore
         self.plugin.bridge?.notificationRouter.pushNotificationHandler = self
     }
 
-    public var isFirebaseConfigured: Bool {
-        return FirebaseApp.app() != nil
-    }
-
-    public func requestPermissions(completion: @escaping (_ granted: Bool, _ error: Error?) -> Void) {
-        var options = UNAuthorizationOptions()
-        options.insert(.alert)
-        options.insert(.badge)
-        options.insert(.sound)
-        if self.config.presentationOptions.contains("criticalAlert") {
-            options.insert(.criticalAlert)
-        }
-        UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
-            completion(granted, error)
-        }
-    }
-
-    public func checkPermissions(completion: @escaping (_ status: String) -> Void) {
+    @objc public func checkPermissions(completion: @escaping (_ result: PermissionStatusResult?, _ error: Error?) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-            let permission: String
+            let receive: String
 
             switch settings.authorizationStatus {
             case .authorized, .ephemeral, .provisional:
-                permission = "granted"
+                receive = "granted"
             case .denied:
-                permission = "denied"
+                receive = "denied"
             case .notDetermined:
-                permission = "prompt"
+                receive = "prompt"
             @unknown default:
-                permission = "prompt"
+                receive = "prompt"
             }
 
-            completion(permission)
+            let result = PermissionStatusResult(receive: receive)
+            completion(result, nil)
         }
     }
 
-    public func getToken(completion: @escaping (String?, Error?) -> Void) {
-        Messaging.messaging().isAutoInitEnabled = true
-        Messaging.messaging().token(completion: { result, error in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            completion(result, nil)
-        })
-    }
-
-    public func deleteToken(completion: @escaping (Error?) -> Void) {
+    @objc public func deleteToken(completion: @escaping (_ error: Error?) -> Void) {
         Messaging.messaging().deleteToken(completion: { error in
             if let error = error {
                 completion(error)
@@ -82,45 +58,23 @@ import FirebaseCore
         })
     }
 
-    public func getDeliveredNotifications(completion: @escaping ([UNNotification]) -> Void) {
+    @objc public func getDeliveredNotifications(completion: @escaping (_ result: GetDeliveredNotificationsResult?, _ error: Error?) -> Void) {
         UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
-            completion(notifications)
+            let result = GetDeliveredNotificationsResult(notifications: notifications)
+            completion(result, nil)
         }
     }
 
-    public func removeDeliveredNotifications(ids: [String]) {
-        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ids)
-    }
-
-    public func removeAllDeliveredNotifications() {
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-    }
-
-    public func subscribeToTopic(topic: String, completion: @escaping (Error?) -> Void) {
-        Messaging.messaging().subscribe(toTopic: topic) { error in
+    @objc public func getToken(completion: @escaping (_ result: GetTokenResult?, _ error: Error?) -> Void) {
+        Messaging.messaging().isAutoInitEnabled = true
+        Messaging.messaging().token(completion: { token, error in
             if let error = error {
-                completion(error)
+                completion(nil, error)
                 return
             }
-            completion(nil)
-        }
-    }
-
-    public func unsubscribeFromTopic(topic: String, completion: @escaping (Error?) -> Void) {
-        Messaging.messaging().unsubscribe(fromTopic: topic, completion: { error in
-            if let error = error {
-                completion(error)
-                return
-            }
-            completion(nil)
+            let result = GetTokenResult(token: token)
+            completion(result, nil)
         })
-    }
-
-    public func setApnsToken(_ token: Data) {
-        guard isFirebaseConfigured else {
-            return
-        }
-        Messaging.messaging().apnsToken = token
     }
 
     public func handleRemoteNotificationReceived(notification: NSNotification) {
@@ -130,23 +84,94 @@ import FirebaseCore
         if let userInfo = notification.userInfo {
             Messaging.messaging().appDidReceiveMessage(userInfo)
         }
-        self.plugin.handleRemoteNotificationReceived(notification: notification)
+        self.plugin.notifyNotificationReceivedListeners(NotificationReceivedEvent(notification: notification))
     }
 
-    private func handleNotificationReceived(notification: UNNotification) {
-        let userInfo = notification.request.content.userInfo
-        Messaging.messaging().appDidReceiveMessage(userInfo)
-        self.plugin.handleNotificationReceived(notification: notification)
+    @objc public func isSupported(completion: @escaping (_ result: IsSupportedResult?, _ error: Error?) -> Void) {
+        let result = IsSupportedResult(isSupported: true)
+        completion(result, nil)
+    }
+
+    @objc public func removeAllDeliveredNotifications(completion: @escaping (_ error: Error?) -> Void) {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        completion(nil)
+    }
+
+    @objc public func removeDeliveredNotifications(_ options: RemoveDeliveredNotificationsOptions, completion: @escaping (_ error: Error?) -> Void) {
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: options.ids)
+        completion(nil)
+    }
+
+    @objc public func requestPermissions(completion: @escaping (_ result: PermissionStatusResult?, _ error: Error?) -> Void) {
+        var options = UNAuthorizationOptions()
+        options.insert(.alert)
+        options.insert(.badge)
+        options.insert(.sound)
+        if self.config.presentationOptions.contains("criticalAlert") {
+            options.insert(.criticalAlert)
+        }
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            let result = PermissionStatusResult(receive: granted ? "granted" : "denied")
+            completion(result, nil)
+        }
+    }
+
+    public func setApnsToken(_ token: Data) {
+        guard isFirebaseConfigured else {
+            return
+        }
+        Messaging.messaging().apnsToken = token
+    }
+
+    @objc public func subscribeToTopic(_ options: SubscribeToTopicOptions, completion: @escaping (_ error: Error?) -> Void) {
+        Messaging.messaging().subscribe(toTopic: options.topic) { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+    }
+
+    @objc public func unsubscribeFromTopic(_ options: UnsubscribeFromTopicOptions, completion: @escaping (_ error: Error?) -> Void) {
+        Messaging.messaging().unsubscribe(fromTopic: options.topic, completion: { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        })
     }
 
     private func handleNotificationActionPerformed(response: UNNotificationResponse) {
         let userInfo = response.notification.request.content.userInfo
         Messaging.messaging().appDidReceiveMessage(userInfo)
-        self.plugin.handleNotificationActionPerformed(response: response)
+        self.plugin.notifyNotificationActionPerformedListeners(NotificationActionPerformedEvent(response: response))
+    }
+
+    private func handleNotificationReceived(notification: UNNotification) {
+        let userInfo = notification.request.content.userInfo
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        self.plugin.notifyNotificationReceivedListeners(NotificationReceivedEvent(notification: notification))
     }
 }
 
 extension FirebaseMessaging: MessagingDelegate {
+
+    public func didReceive(response: UNNotificationResponse) {
+        self.handleNotificationActionPerformed(response: response)
+    }
+
+    public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        guard let fcmToken = fcmToken else {
+            return
+        }
+        self.plugin.notifyTokenReceivedListeners(TokenReceivedEvent(token: fcmToken))
+    }
 
     public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
         self.handleNotificationReceived(notification: notification)
@@ -167,13 +192,5 @@ extension FirebaseMessaging: MessagingDelegate {
         }
 
         return presentationOptions
-    }
-
-    public func didReceive(response: UNNotificationResponse) {
-        self.handleNotificationActionPerformed(response: response)
-    }
-
-    public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        self.plugin.handleTokenReceived(token: fcmToken)
     }
 }
